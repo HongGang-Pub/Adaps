@@ -1,0 +1,486 @@
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+from SelfDefinedPackge import PubMethod
+from Hawk.MSKU import MskuPubMethod
+
+
+def get_pcm_file(fp: str) -> dict:
+    """
+    从指定的文件夹中获取对应的灰度图，用于成图
+
+    Args:
+        fp (str): 文件路径
+
+    Returns:
+        dict: type(dict): {索引：文件路径}
+    """
+    f1 = PubMethod.get_fp(fd_path=fp, mode=0, match_filter='GrayImage', regression=1, f_type="PCM Imag")
+    f_dict = {}
+    for f in f1:
+        if os.path.splitext(f)[1] == ".raw":
+            index = float(os.path.split(f)[0].split("\\")[-1].split("_")[0])
+            f_dict[index] = f
+    return f_dict
+
+
+def Conv2(image: np.ndarray) -> np.ndarray:
+    """
+    对 image 进行 3*3 卷积，实现噪点去除功能
+
+    Args:
+        image (np.ndarray): image
+
+    Returns:
+        np.ndarray: 和输入图像尺寸大小相同的feature map
+    """
+
+    # 卷积大小固定为3*3卷积，这里因为固定了卷积大小，所以写代码前可以直接确定：卷积步长为1
+    H = image.shape[0]
+    W = image.shape[1]
+    # col = np.zeros(H)
+    # raw = np.zeros(W + 2)
+    # image = np.insert(image, W, values=col, axis=1)
+    # image = np.insert(image, 0, values=col, axis=1)
+    # image = np.insert(image, H, values=raw, axis=0)
+    # image = np.insert(image, 0, values=raw, axis=0)
+    image = np.insert(image, 0, values=image[:, 0, :], axis=1)
+    image = np.insert(image, W, values=image[:, W, :], axis=1)
+    image = np.insert(image, 0, values=image[0, :, :], axis=0)
+    image = np.insert(image, H, values=image[H, :, :], axis=0)
+
+    res = np.zeros([H, W, 1])  # 直接新建一个全零数组，省去了后边逐步填充数组的麻烦
+
+    kernel = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
+
+    for i in range(H):
+        for j in range(W):
+            temp = image[i:i + 3, j:j + 3]
+            temp = np.multiply(temp, kernel)
+            res[i][j] = round(temp.sum() / 9)
+
+    return res
+
+
+def SegAccumulation(array: np.ndarray, accum_seg: int = 1) -> np.ndarray:
+    """
+    将面阵按指定的段数进行累加(步径为1)
+
+    Args:
+        array (np.ndarray): image数组，shape:567 * 768 * 1
+        accum_seg (int): 累加的段数。eg: 1*48 spad 累加
+
+    Returns:
+        np.ndarray: 数组，shape:567 * 16 * 1
+    """
+    seg_sum_array = np.zeros((576, 16))
+
+    for i in range(0, 16):
+        if i + accum_seg - 1 < 16:
+            seg = array[:, i * 48:(i + accum_seg) * 48]
+            seg_sum_array[:, i:i + 1] = np.sum(seg, axis=1)
+        else:
+            break
+    return seg_sum_array
+
+
+def OpenWindows(hist_array: np.ndarray, ini_point: int, window_size: int) -> int:
+    """
+    按照配置值进行开窗
+
+    Args:
+        hist_array (np.ndarray): 需要开窗的一维数组
+        ini_point (int): 开窗的起始点
+        window_size (int): 开窗的大小
+
+    Returns:
+        int: 返回开窗后的起始点(左边界索引)
+    """
+    initial_point = 0
+    H = hist_array.shape[0]
+    for index in range(ini_point, H):
+        if (index + window_size < H) and (hist_array[index] < hist_array[index + window_size]):
+            continue
+        else:
+            initial_point = index
+            break
+    return initial_point
+
+
+def SCANMODE_1D(img, h_vld_seg, curvature) -> tuple:
+    """
+    1D Scan Mode下，根据配置标定ROI
+
+    Args:
+        img (np.ndarray): image
+        h_vld_seg (int): 寄存器配置
+        curvature (int): 曲率配置，若不需要曲率自动矫正，配置值 > 576 即可
+
+    Returns:
+        tuple: 返回多个值
+    """
+    per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
+    spad_array = np.zeros((576, 768))  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵会对应位置会被打开
+
+    # 1D scan_mode将 spad 按照 576*48 (共16段划分)，然后累和
+    seg_sum_array = SegAccumulation(array=img, accum_seg=1)
+    # 检索 seg_sum_array 矩阵中的最大值，返回 value 和 index
+    v_spad_value = np.max(seg_sum_array, axis=0)
+    v_spad_max_index = np.argmax(seg_sum_array, axis=0)
+
+    # 横向开窗，按照 h_vld_seg，找到亮度最高的段数
+    # print(np.argmax(v_spad_value))
+    # print(v_spad_value)
+    index = np.argmax(v_spad_value) - h_vld_seg
+    index = index if index > 0 else 0
+    # 增加 ini_point 是确保开窗位置包含最大值(开窗较小时有用)
+    seg_hs = OpenWindows(v_spad_value, index, h_vld_seg + 1)
+
+    # 按段纵向开窗，找到每段rolling开6行pixel的spad的起始点
+    start_index_list = []
+    for seg_num in range(seg_hs, seg_hs + h_vld_seg + 1):
+        ini_point = v_spad_max_index[seg_num] - 17
+        ini_point = ini_point if ini_point > 0 else 0
+        start_index = OpenWindows(seg_sum_array[:, seg_num], ini_point, 18)
+        start_index_list.append(start_index)
+
+    """校准：根据设置的曲率（spad步径）以最亮的段为基准，判断某段标定位置是否偏移过大，如果过大，则会进行校准"""
+    h_center = np.argmax(v_spad_value) - seg_hs
+    # 向前校准
+    for cnt in range(0, h_center):
+        pre_index = h_center - cnt - 1
+        index = h_center - cnt
+        pre_vcoor = start_index_list[pre_index]
+        vcoor = start_index_list[index]
+        pre_vcoor = vcoor if abs(vcoor - pre_vcoor) > curvature else pre_vcoor
+        start_index_list[pre_index] = pre_vcoor
+
+    for index in range(h_center, h_vld_seg):
+        post_index = index + 1
+        vcoor = start_index_list[index]
+        post_vcoor = start_index_list[post_index]
+        post_vcoor = vcoor if abs(vcoor - post_vcoor) > curvature else post_vcoor
+        start_index_list[post_index] = post_vcoor
+
+    # 通过 seg_hs 和 start_index进行组合产生横纵坐标，并根据标定位置修改spad_array，辅助成图check ROI是否正确
+    for seg_num in range(seg_hs, seg_hs + h_vld_seg + 1):
+        start_index = start_index_list[seg_num - seg_hs]
+        per_img_roi_data.append([seg_num, start_index])
+        spad_array[start_index: start_index + 17, seg_num * 48: (seg_num + 1) * 48] = 1
+
+    valid_spad_max_photon_count = v_spad_value.max() / 48
+
+    return per_img_roi_data, valid_spad_max_photon_count, spad_array
+
+
+def SCANMODE_2D(img: np.ndarray, h_vld_seg: int, mode: int = 0) -> tuple:
+    """
+    2D Scan Mode下，根据配置标定ROI
+
+    Args:
+        img (np.ndarray): image
+        h_vld_seg (int): 寄存器配置
+        mode (int): 2D Scan Mode标定模式：0：以光条能量优先；1：以能 Masking的最大光子数优先
+
+    Returns:
+        tuple: 返回多个值
+    """
+    per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
+    spad_array = np.zeros((576, 768))  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵会对应位置会被打开
+
+    # 2D scan_mode将 spad 按照 576*(48*h_vld_seg) 步径为 1 进行累和
+    seg_sum_array = SegAccumulation(array=img, accum_seg=h_vld_seg + 1)
+
+    # 检索 seg_sum_array 矩阵中的最大值，返回 value 和 index
+    v_spad_value = np.max(seg_sum_array, axis=0)
+    v_spad_max_index = np.argmax(seg_sum_array, axis=0)
+
+    seg_hs = np.argmax(v_spad_value)
+
+    if mode == 1:
+        photon_max_num = 0
+        for seg_num in range(0, 16 - h_vld_seg):
+            ini_point = v_spad_max_index[seg_num] - 17
+            ini_point = ini_point if ini_point > 0 else 0
+            start_index = OpenWindows(seg_sum_array[:, seg_num], ini_point, 18)
+            # 开窗，通过 ROI 框的光子数量，找最优解
+            photon_num = np.sum(seg_sum_array[start_index: start_index + 17, seg_num: seg_num + 1])
+            if photon_max_num < photon_num:
+                seg_hs = seg_num
+                photon_max_num = photon_num
+    # print(seg_hs, end="\t")
+
+    # 获取start_index
+    index = v_spad_max_index[seg_hs]
+    ini_point = index - 17 if index - 16 > 0 else 0
+    start_index = OpenWindows(seg_sum_array[:, seg_hs], ini_point, 18)
+
+    # 通过 seg_hs 和 spad_vs进行组合产生横纵坐标，并根据标定位置修改spad_array，辅助成图check ROI是否正确
+    per_img_roi_data.append([seg_hs, start_index])
+    spad_array[start_index: start_index + 17, seg_hs * 48: (seg_hs + h_vld_seg + 1) * 48] = 1
+
+    valid_spad_max_photon_count = v_spad_value.max() / ((h_vld_seg + 1) * 48)
+
+    return per_img_roi_data, valid_spad_max_photon_count, spad_array
+
+
+def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: int = 15, curvature: int = 30,
+                       noise_filter: int = 0, mode2D: int = 0, f_path: str = 'figs') -> tuple:
+    """
+    根据配置调用相应方法对单张图片进行识别，找出光条，并生成 ROI 标定效果图片
+
+    Args:
+        file (str): 读取的 raw 文件路径
+        img_name (str): 生成的 ROI 标定图像存储名称，且用于日志打印
+        scan_mode (int): 寄存器配置
+        h_vld_seg (int): 寄存器配置
+        curvature (int): 参看方法：SCANMODE_1D()
+        noise_filter (int): 是否进行噪点消除
+        mode2D (int):2D Scan mode标定方式
+        f_path (str): 图片的存储路径
+
+    Returns:
+        tuple: 返回多个值
+    """
+
+    # 利用numpy的fromfile函数读取raw文件，并指定数据格式
+    ini_img = np.fromfile(file, dtype='uint32')
+    # 利用numpy中array的reshape函数将读取到的数据进行重新排列
+    ini_img = ini_img.reshape(576, 768, 1)
+
+    # tmp_img = np.zeros((rows,cols,1))
+    # for i in range(rows):
+    #     for j in range(cols):
+    #         tmp_img[i, j, 0] = img[rows-1-i, cols-1-j, 0]
+
+    img = Conv2(image=ini_img) if noise_filter == 1 else ini_img
+
+    if scan_mode == 0:
+        per_img_roi_data, photon_count, spad_array = SCANMODE_1D(img, h_vld_seg, curvature)
+    else:
+        per_img_roi_data, photon_count, spad_array = SCANMODE_2D(img, h_vld_seg, mode=mode2D)
+
+    """融合ROI 标定数据和imag数据，成3D图像"""
+    spad_array_3D = np.zeros((576, 768, 3))
+    dsp_img = img[:, :, 0] / photon_count
+    dsp_img = np.where(dsp_img <= 1, dsp_img, 1)
+    spad_array_3D[:, :, 0] = dsp_img
+    spad_array_3D[:, :, 2] = spad_array * 0.8
+
+    f_path = "{}\\{}.png".format(f_path, img_name)
+    plt.imsave(f_path, spad_array_3D)
+    print("完成 {} 图像识别！！！".format(img_name))
+    return per_img_roi_data, img, spad_array, photon_count
+
+
+def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> list:
+    """
+    对文件按照给定的顺序调用标定方法标定，并成图展示整体标定效果
+
+    Args:
+        f_dict (dict): 标定数据 .raw 文件的集合，一个 .raw文件对应一次rolling。
+            {key: value}, key为文件索引，value为文件路径。
+            LIKE:
+                f_dict = {  0:"./roll0.raw",
+                            1:"./roll1.raw"}
+            标定顺序根据 key 进行排序标定，可正序 或 倒序
+        cfg (dict): 相关配置信息
+
+    Returns:
+        list: 按照顺序标定后返回的标定值
+    """
+    """根据config文件赋值"""
+    fp = cfg['fd_path']
+    msk_intensity = cfg['msk_intensity']
+    light_intensity = cfg['light_intensity']
+    reverse = True if cfg['is_reverse'] == 1 else False
+
+    """对获取的文件进行排序，按排序进行图像识别"""
+    file_index_list = list(f_dict.keys())
+    file_index_list.sort(reverse=reverse)
+
+    if not os.path.exists(fp):
+        # 目录不存在，进行创建操作
+        os.makedirs(fp)
+
+    """循环对所有图片进行识别，对图片进行融合"""
+    image_roi_datas = []
+    spad_array_3D = np.zeros((576, 768, 3))
+    fusion_image = np.zeros((576, 768))  # 融合所有图片的光条
+    fusion_spad_array = np.zeros((576, 768))  # 融合所有开启的SPAD
+    max_photon_cnt = 0  # 所有图片rolling的最大光子数，基于此数值调整光条显示亮度
+
+    # for index in file_index_list[0:2]:
+    for roll_cnt in range(len(file_index_list)):
+        file = f_dict[file_index_list[roll_cnt]]
+        f_name = "Roll{}_{}".format(roll_cnt, file_index_list[roll_cnt])
+        per_img_roi_data, img, spad_array, photon_cnt = GetRoiDataFromImag(file=file,
+                                                                           img_name=f_name,
+                                                                           scan_mode=cfg['SCAN_MODE'],
+                                                                           h_vld_seg=cfg['H_VLD_SEG'],
+                                                                           curvature=cfg['curvature'],
+                                                                           noise_filter=cfg['remove_noise'],
+                                                                           mode2D=cfg["mode2D"],
+                                                                           f_path=fp)
+
+        image_roi_datas.append(per_img_roi_data)
+        fusion_image += img[:, :, 0]
+        fusion_spad_array += spad_array
+        max_photon_cnt = photon_cnt if photon_cnt > max_photon_cnt else max_photon_cnt
+
+    """对整图数据进行处理，确保可以保存"""
+    fusion_spad_array = np.where(fusion_spad_array <= 1, fusion_spad_array, 1)
+    spad_array_3D[:, :, 2] = fusion_spad_array * msk_intensity / 100
+
+    # fusion_image_tmp = fusion_image / (max_photon_cnt * (1 - light_intensity / 100))
+    fusion_image_tmp = (fusion_image / max_photon_cnt) * light_intensity / 100
+    # fusion_image_tmp = fusion_image / max_photon_cnt
+    fusion_image_tmp = np.where(fusion_image_tmp <= 1, fusion_image_tmp, 1)
+    # fusion_image_tmp = fusion_image_tmp * light_intensity / 100
+    spad_array_3D[:, :, 0] = fusion_image_tmp
+
+    # 成图或者保存图片
+    # plt.figure()
+    # plt.title("Image")
+    # plt.imshow(fusion_image_tmp)
+    # plt.colorbar()
+    # plt.figure()
+    # plt.title("Masking")
+    # plt.imshow(spad_array_3D)
+    # plt.colorbar()
+    # plt.show()
+    """保存图像"""
+    f1 = "{}\\{}.png".format(fp, "fusion_imag")
+    f2 = "{}\\{}.png".format(fp, "fusion_msku")
+    # plt.imsave(f1, fusion_image, vmax=fusion_image.max() / 2)
+    plt.imsave(f1, fusion_image_tmp)
+    plt.imsave(f2, spad_array_3D)
+    return image_roi_datas
+
+
+def MskuRoiGenerate(cali_data: list, cfg: dict) -> list:
+    """
+    根据标定数据和相关配置生成 Masking 相关的 ROI Data
+    Args:
+        cali_data (list):
+        cfg (dict):
+
+    Returns:
+        list: msku_roi_mem
+    """
+    scan_mode = cfg['SCAN_MODE']
+    v_roll_num = cfg['V_ROLL_NUM']
+    h_roll_num = cfg['H_ROLL_NUM']
+    # h_vld_seg = cfg['H_VLD_SEG']
+
+    start_roll = cfg['start_roll']
+
+    roll_num = (v_roll_num + 1) if scan_mode == 0 else (h_roll_num + 1) * (v_roll_num + 1)
+    if len(cali_data) != roll_num:
+        raise ValueError("The calibration data does not match the data required to generate ROI.")
+
+    """ 按分区生成 MSKU ROI Data """
+    msku_roi_mem = []
+    per_rolling_roi_mem = []
+
+    if scan_mode == 0:
+        for vroll_cnt in range(v_roll_num + 1):
+            # per_rolling_roi_data = cali_data[vroll_cnt]
+            roll_cnt = vroll_cnt
+            index = (roll_cnt + start_roll) % roll_num
+            per_img_roi_data = cali_data[index]
+            for j in range(0, 6):
+                # for seg_light_vs in per_rolling_roi_data:
+                for seg_datas in per_img_roi_data:  # seg_datas = [seg_num, v_spad_index]
+                    seg_num = seg_datas[0]
+                    # v_spad_c = info[1] + j * 3 + int(vroll_cnt * 2.5)
+                    v_spad_c = seg_datas[1] + j * 3
+                    per_rolling_roi_mem.append((seg_num << 10) + v_spad_c)
+            msku_roi_mem.append(per_rolling_roi_mem)
+            per_rolling_roi_mem = []
+    else:
+        roll_cnt = 0
+        for vroll_cnt in range(v_roll_num + 1):
+            for hroll_cnt in range(h_roll_num + 1):
+                index = (roll_cnt + start_roll) % roll_num
+                per_img_roi_data = cali_data[index]
+                for j in range(0, 6):
+                    seg_num = per_img_roi_data[0][0]
+                    v_spad_c = per_img_roi_data[0][1] + j * 3
+                    per_rolling_roi_mem.append((seg_num << 10) + v_spad_c)
+                roll_cnt += 1
+            msku_roi_mem.append(per_rolling_roi_mem)
+            per_rolling_roi_mem = []
+
+    return msku_roi_mem
+
+
+def RoiMemGenerate(cali_data, cfg):
+    """
+    逐步调用 MskuRoiGenerate()、ZonesConfigGenerate()方法生成 ROI Data
+    Args:
+        cali_data (list): 标定数据
+        cfg (dict): 配置数据
+
+    Returns:
+        None: 无返回值
+    """
+    roi_mem = []
+    try:
+        msku_roi_mem = MskuRoiGenerate(cfg=cfg, cali_data=cali_data)
+    except BaseException as msg:
+        raise msg
+
+    try:
+        zones_config = MskuPubMethod.ZonesConfigGenerate(cfg=cfg)
+    except BaseException as msg:
+        raise msg
+
+    for vroll_cnt in range(len(msku_roi_mem)):
+        per_zone_mem = zones_config[vroll_cnt] + msku_roi_mem[vroll_cnt]
+        roi_mem = roi_mem + per_zone_mem
+
+    MskuPubMethod.roi_imag(msku_roi_mem, cfg, fd_path=cfg['fd_path'])  # 成图
+
+    file = "{}.txt".format(cfg['roi_name'])
+    MskuPubMethod.roi_data_save(f_name=file, data=roi_mem, fd_path=cfg["fd_path"])
+
+    print("ROI 生成完成！！！")
+    return
+
+
+def do_work(config_file):
+    cfg = PubMethod.ReadJsonFile(config_file)
+    scan_mode = cfg['SCAN_MODE']
+    v_roll_num = cfg['V_ROLL_NUM']
+    h_roll_num = cfg['H_ROLL_NUM']
+    h_vld_seg = cfg['H_VLD_SEG']
+
+    # Check配置数据是否正确
+    if v_roll_num > 31 or h_roll_num > 15 or h_vld_seg > 15:
+        raise ValueError(
+            "寄存器相关值配置错误：v_roll_num:{}, v_roll_num:{}, h_vld_seg:{}".format(v_roll_num, h_roll_num, h_vld_seg))
+
+    roll_num = (v_roll_num + 1) if scan_mode == 0 else (h_roll_num + 1) * (v_roll_num + 1)
+
+    """获取 .raw 标定文件，并按照给定要求返回字典"""
+    file_dict = get_pcm_file(cfg['fd_path'])
+
+    if len(file_dict) != roll_num:
+        raise ValueError("文件数据错误：ROI标定需要{}个文件，实际只有{}个文件".format(roll_num, len(file_dict)))
+
+    """标定，返回标定数据"""
+    img_roi_datas = GetRoiDataFromAllImags(file_dict, cfg)
+
+    """生成ROI Data"""
+    RoiMemGenerate(img_roi_datas, cfg)
+    return
+
+
+if __name__ == '__main__':
+    # try:
+    #     logs = do_work('MskuCalibration_cfg.json')
+    # except BaseException as msg:
+    #     logs = msg
+
+    do_work('MskuCalibrationConfig.json')

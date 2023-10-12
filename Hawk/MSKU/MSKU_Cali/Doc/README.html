@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="1-readme">1. README</h1>
+<ul>
+<li><a href="#1-readme">1. README</a></li>
+<li><a href="#2-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">2. 使用方法</a></li>
+<li><a href="#3-%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">3. 文件说明</a>
+<ul>
+<li><a href="#31-pubmethodpy">3.1. PubMethod.py</a></li>
+<li><a href="#32-roigeneratepy">3.2. ROIGenerate.py</a></li>
+<li><a href="#33-mskucalibrationconfigjson">3.3. MskuCalibrationConfig.json</a></li>
+<li><a href="#34-roicalibrationpy">3.4. ROICalibration.py</a></li>
+</ul>
+</li>
+<li><a href="#4-%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E">4. 详细说明</a>
+<ul>
+<li><a href="#41-%E6%A0%87%E5%AE%9A%E5%8A%9F%E8%83%BD%E6%A6%82%E8%BF%B0">4.1. 标定功能概述</a></li>
+</ul>
+</li>
+<li><a href="#5-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">5. 代码实现</a>
+<ul>
+<li><a href="#51-pcm%E7%81%B0%E5%BA%A6%E5%9B%BE%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96">5.1. PCM灰度图数据获取</a></li>
+<li><a href="#52-pcm%E5%99%AA%E7%82%B9%E5%8E%BB%E9%99%A4%E5%8A%9F%E8%83%BD">5.2. PCM噪点去除功能</a></li>
+<li><a href="#53-1d-scan-mode%E6%A0%87%E5%AE%9A%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91">5.3. 1D SCAN MODE标定实现逻辑</a></li>
+<li><a href="#54-2d-scan-mode%E6%A0%87%E5%AE%9A%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91">5.4. 2D SCAN MODE标定实现逻辑</a></li>
+</ul>
+</li>
+<li><a href="#6-%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">6. 生成文件说明</a>
+<ul>
+<li><a href="#61-%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%E6%A0%87%E5%AE%9A%E6%95%88%E6%9E%9C%E5%9B%BE">6.1. 单个文件标定效果图</a></li>
+<li><a href="#62-%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%89%E6%9D%A1%E8%9E%8D%E5%92%8C%E5%9B%BE">6.2. 所有文件的光条融和图</a></li>
+<li><a href="#63-%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E6%A0%87%E5%AE%9A%E6%95%88%E6%9E%9C%E5%9B%BE%E7%9A%84%E8%9E%8D%E5%90%88">6.3. 所有文件标定效果图的融合</a></li>
+<li><a href="#64-masking%E6%95%88%E6%9E%9C%E5%9B%BE">6.4. Masking效果图</a></li>
+<li><a href="#65-roi-data">6.5. ROI Data</a></li>
+</ul>
+</li>
+<li><a href="#7-%E5%85%B6%E4%BB%96">7. 其他</a></li>
+</ul>
+<h1 id="2-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">2. 使用方法</h1>
+<ol>
+<li>编辑MskuCalibrationConfig.json配置文件，配置相关信息：
+<ol>
+<li><code>fd_path</code>：PCM灰度图.raw格式文件路径，数据获取方式&amp;修改，请查看<a href="#51-pcm%E7%81%B0%E5%BA%A6%E5%9B%BE%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96"><strong>pcm灰度图数据获取</strong></a></li>
+<li><code>file_path</code>：生成的数据存储路径</li>
+<li><code>roi_name</code>：生成的ROI文件名</li>
+<li>寄存器相关配置：SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、zone_cfg_def</li>
+<li>标定方式相关配置：is_reverse、remove_noise、curvature、mode2D等（使用方法请参考配置文件相关注释）</li>
+</ol>
+</li>
+<li>配置文件编辑完成后，执行ROICalibration.py文件进行标定<br>
+<em>ps: Python第三方依赖包：numpy、matplotlib等</em></li>
+</ol>
+<h1 id="3-%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">3. 文件说明</h1>
+<h2 id="31-pubmethodpy">3.1. PubMethod.py</h2>
+<blockquote>
+<p>提供一些通用方法</p>
+</blockquote>
+<h2 id="32-roigeneratepy">3.2. ROIGenerate.py</h2>
+<blockquote>
+<p>提供ROI生成相关方法</p>
+</blockquote>
+<h2 id="33-mskucalibrationconfigjson">3.3. MskuCalibrationConfig.json</h2>
+<blockquote>
+<p>标定配置文件</p>
+</blockquote>
+<h2 id="34-roicalibrationpy">3.4. ROICalibration.py</h2>
+<blockquote>
+<p>标定程序主文件，主要包含标定功能，ROI Data生成</p>
+</blockquote>
+<h1 id="4-%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E">4. 详细说明</h1>
+<h2 id="41-%E6%A0%87%E5%AE%9A%E5%8A%9F%E8%83%BD%E6%A6%82%E8%BF%B0">4.1. 标定功能概述</h2>
+<ul>
+<li>文件标定顺序支持正序或倒叙(ROI按照文件标定顺序生成ROI)</li>
+<li>支持噪点消除功能，标定PCM图像质量较差时，建议开启</li>
+<li>关于1D SCAN_MODE：
+<ul>
+<li>支持任意H_VLD_SEG配置扫描</li>
+<li>支持标定矫正，相邻两段标定的ROI超过偏移配置值，可进行ROI标定矫正</li>
+</ul>
+</li>
+<li>关于2D SCAN_MODE：
+<ul>
+<li>支持任意H_VLD_SEG配置扫描</li>
+<li>支持两种标定方式：1) 按照光中心区域标定；2) 按照可获取最大光子数进行标定</li>
+</ul>
+</li>
+<li>支持将单次标定的ROI与光条融合为一张图，成图Check标定是否正确</li>
+<li>支持将所有标定的ROI与光条融合为一张图，成图Check标定是否正确</li>
+<li>支持ROI文件生成起始ROLL定义，支持类Lumotive使用SSYNC控制激光发射场景</li>
+<li>支持将生成的ROI标定文件成图，Check ROI文件生成是否正确</li>
+<li>支持32 Zone分区曝光时间、重频周期、Kernel等config配置不同</li>
+<li>使用方法请查阅：MskuCalibrationConfig.json相关注释</li>
+</ul>
+<h1 id="5-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">5. 代码实现</h1>
+<h2 id="51-pcm%E7%81%B0%E5%BA%A6%E5%9B%BE%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96">5.1. PCM灰度图数据获取</h2>
+<ol>
+<li>Lumotive 获取 .raw 标定文件的代码实现</li>
+</ol>
+<blockquote>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_pcm_file</span><span class="hljs-params">(fp: str)</span> -&gt; dict:</span> ...
+
+file_dict = get_pcm_file(cfg[<span class="hljs-string">'fd_path'</span>])
+</div></code></pre>
+</blockquote>
+<ol start="2">
+<li>用户自定义获取文件的数据格式要求
+<ul>
+<li>要求数据格式为dict格式，key最好是数字 or 字母，便于文件读取时排序</li>
+<li>将获取的文件替换Lumotive文件获取 .raw 的代码即可</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<pre class="hljs"><code><div><span class="hljs-string">"""{key: value}, key为文件索引，value为文件路径"""</span>
+f_dict = {  <span class="hljs-number">0</span>:<span class="hljs-string">"./roll0.raw"</span>,
+            <span class="hljs-number">1</span>:<span class="hljs-string">"./roll1.raw"</span>,
+            <span class="hljs-number">2</span>:<span class="hljs-string">"./roll2.raw"</span>
+        }
+<span class="hljs-comment"># 标定顺序根据 key 进行排序标定，可正序 或 倒序</span>
+</div></code></pre>
+</blockquote>
+<ol>
+<li>文件校验
+<ul>
+<li>增加PCM灰度图数据校验，文件数据应该与总的rolling次数保持一致</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<pre class="hljs"><code><div>roll_num = (v_roll_num + <span class="hljs-number">1</span>) <span class="hljs-keyword">if</span> scan_mode == <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> (h_roll_num + <span class="hljs-number">1</span>) * (v_roll_num + <span class="hljs-number">1</span>)
+<span class="hljs-keyword">if</span> len(file_dict) != roll_num:
+    <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"..."</span>)
+</div></code></pre>
+</blockquote>
+<h2 id="52-pcm%E5%99%AA%E7%82%B9%E5%8E%BB%E9%99%A4%E5%8A%9F%E8%83%BD">5.2. PCM噪点去除功能</h2>
+<ol>
+<li>ROI标定通过<code>Conv2()</code>实现了3*3卷积，去除PCM灰度图噪点，提高ROI标定正确率(可选)</li>
+</ol>
+<h2 id="53-1d-scan-mode%E6%A0%87%E5%AE%9A%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91">5.3. 1D SCAN MODE标定实现逻辑</h2>
+<ol>
+<li>将 SPAD 按照 576*48 划分(共16段)，然后累和，获得 576*16 矩阵<code>seg_sum_array</code>（按段累和后再标定，可以极大降部噪点导致标定误差的概率）</li>
+<li>对<code>seg_sum_array</code>按列找到最大值<code>v_spad_value</code> &amp; 最大位置索引<code>v_spad_max_index</code>（最大值视作光最强，索引视作段光条中心点）【1*16的矩阵】</li>
+<li>根据<code>H_VLD_SEG</code>配置对<code>v_spad_value</code>进行开窗，在16段中获取光条最亮的段</li>
+<li>对于获取的段，对<code>v_spad_max_index</code>进行开窗，获取每段光条的位置（开窗大小为18，固定开启18行spad）</li>
+<li>以最亮的段为基准，对其他标定的段，增加矫正功能：相邻两段标定的SPAD超过偏移配置值，强行矫正标定的ROI</li>
+</ol>
+<h2 id="54-2d-scan-mode%E6%A0%87%E5%AE%9A%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91">5.4. 2D SCAN MODE标定实现逻辑</h2>
+<ol>
+<li>步径为1，从第0段开始，将 SPAD 按照<code>576*48*(H_VLD_SEG+1)</code> 进行累和，获得 576*16 矩阵<code>seg_sum_array</code>（累和后标定，可以极大降低局部噪点导致标定误差的概率）</li>
+<li>对<code>seg_sum_array</code>按列找到最大值<code>v_spad_value</code> &amp; 最大位置索引<code>v_spad_max_index</code>（最大值视作光最强，索引视作应段光条中心点）【1*16的矩阵】</li>
+<li>mode_2D=0: 按照光中心区域标定，查找<code>v_spad_value</code>最大值所在索引，获取光条开启的段</li>
+<li>mode_2D=1: 按照可获取最大光子数进行标定，对<code>v_spad_max_index</code>进行开窗，通过比较光子数，获取光条开启的段</li>
+<li>对于获取的段，对<code>v_spad_max_index</code>进行开窗，获取光条开启的位置（开窗大小为18，固定开启18行spad）</li>
+</ol>
+<h1 id="6-%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">6. 生成文件说明</h1>
+<h2 id="61-%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%E6%A0%87%E5%AE%9A%E6%95%88%E6%9E%9C%E5%9B%BE">6.1. 单个文件标定效果图</h2>
+<ol>
+<li>文件名：Roll{0}_{1}.png，其中<code>{0}</code>为rolling计数，<code>{1}</code>为文件的key<br>
+<img src="./figs/Roll10_329.0.png" alt="单个文件标定效果图" title="Roll10_329.0.png"></li>
+</ol>
+<h2 id="62-%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%89%E6%9D%A1%E8%9E%8D%E5%92%8C%E5%9B%BE">6.2. 所有文件的光条融和图</h2>
+<ol>
+<li>文件名： fusion_imag.png<br>
+<img src="./figs/fusion_imag.png" alt="所有文件的光条融合" title="fusion_imag.png"></li>
+</ol>
+<h2 id="63-%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E6%A0%87%E5%AE%9A%E6%95%88%E6%9E%9C%E5%9B%BE%E7%9A%84%E8%9E%8D%E5%90%88">6.3. 所有文件标定效果图的融合</h2>
+<ol>
+<li>文件名： fusion_msku.png<br>
+<img src="./figs/fusion_msku.png" alt="所有文件的光条融合" title="fusion_msku.png"></li>
+</ol>
+<h2 id="64-masking%E6%95%88%E6%9E%9C%E5%9B%BE">6.4. Masking效果图</h2>
+<ol>
+<li>文件名：msku_imag.png，生成ROI文件的Masking效果图<br>
+<img src="./figs/msku_imag.png" alt="所有文件的光条融合" title="msku_imag.png"></li>
+</ol>
+<h2 id="65-roi-data">6.5. ROI Data</h2>
+<ol>
+<li>ROI SRAM数据 .txt文件</li>
+</ol>
+<h1 id="7-%E5%85%B6%E4%BB%96">7. 其他</h1>
+<ul>
+<li>ROI标定仅支持每次连续开启18行SPAD，即1个大光条6个子光条紧挨的标定方式</li>
+<li>ROI标定每次固定开启18行SPAD，未支持光条在垂直方向超边界场景</li>
+<li>2D Scan mode，ROI标定固定开启指定H_VLD_SEG段数，未支持光条水平方向超边界场景</li>
+<li>Python第三方依赖包：numpy、matplotlib等</li>
+</ul>
+
+</body>
+</html>
