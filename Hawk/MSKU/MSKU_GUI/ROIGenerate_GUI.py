@@ -117,7 +117,7 @@ def msku_gui(save_gif=0):
     # 窗口显示属性配置
     # ===============================================================================================
     window = tkinter.Tk()
-    window.title("Hawk ROI Generate")  # 标题
+    window.title("Hawk ROI Generate 1.0")  # 标题
     # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
     window.iconphoto(False, tkinter.PhotoImage(file=r".file\icon.png"))
     width = 1200
