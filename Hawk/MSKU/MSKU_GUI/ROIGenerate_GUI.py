@@ -1,18 +1,18 @@
+import re
+import tkinter
+from tkinter import filedialog
+from tkinter import ttk
+
+import matplotlib.pyplot as plt
 import numpy as np
 from PIL import ImageTk, Image
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
 from matplotlib.ticker import MultipleLocator
 
 from Hawk.MSKU import MskuPubMethod, Player
-from SelfDefinedPackge import PubMethod
 from Hawk.MSKU.MSKU_Cali import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
-
-import tkinter
-from tkinter import ttk
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
-import matplotlib.pyplot as plt
-import re
-from tkinter import filedialog
+from SelfDefinedPackge import PubMethod
 
 
 def DirectAccessCaliData(file, cfg):
@@ -112,7 +112,7 @@ def RoiMemGenerate(cfg, msku_roi_mem):
     return "ROI 生成完成！！！"
 
 
-def msku_gui(save_gif=0):
+def msku_gui():
     # ===============================================================================================
     # 窗口显示属性配置
     # ===============================================================================================
