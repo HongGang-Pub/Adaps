@@ -1,6 +1,7 @@
 {
 	"fd_path"		: "Output",				"?fd_path" 	: "文件存储路径",
 	"file_name"		: "roi_mem",			"?file_name" : "存储的文件名",
+	"data_format"	: 1,					"?data_format": "ROI存储格式：0：1byte为1行进行保存, 1:2byte为一行进行保存",
 
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
 	"SCAN_MODE"  	: 0	,

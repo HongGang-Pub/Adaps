@@ -108,7 +108,7 @@ def RoiMemGenerate(cfg, msku_roi_mem):
         roi_data = roi_data + per_zone_mem
 
     file = "{}.txt".format(cfg['file_name'])
-    MskuPubMethod.roi_data_save(f_name=file, data=roi_data, fd_path=cfg["fd_path"])
+    MskuPubMethod.roi_data_save(f_name=file, data=roi_data, fd_path=cfg["fd_path"], data_format=cfg['data_format'])
     return "ROI 生成完成！！！"
 
 
@@ -117,7 +117,7 @@ def msku_gui():
     # 窗口显示属性配置
     # ===============================================================================================
     window = tkinter.Tk()
-    window.title("Hawk ROI Generate 1.0")  # 标题
+    window.title("Hawk ROI Generate 1.1")  # 标题
     # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
     window.iconphoto(False, tkinter.PhotoImage(file=r".file\icon.png"))
     width = 1200

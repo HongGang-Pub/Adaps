@@ -100,7 +100,7 @@ def do_mark(info, fontsize=5):
     #              )
 
 
-def roi_data_save(f_name, data=None, fd_path="."):
+def roi_data_save(f_name, data=None, fd_path=".", data_format=1):
     """ 保存 ROI 数据 """
     if data is None:
         return
@@ -113,9 +113,17 @@ def roi_data_save(f_name, data=None, fd_path="."):
 
     with open(file=file, mode="w", encoding="utf-8") as f:
         for i in range(0, len(data)):
-            f.write('{:0>4X}'.format(data[i]))
-            if i < (len(data) - 1):
+            roi_string = '{:0>4X}'.format(data[i])
+            if data_format == 1:
+                f.write(roi_string)
+                if i < (len(data) - 1):
+                    f.write('\n')
+            else:
+                f.write(roi_string[2:4])
                 f.write('\n')
+                f.write(roi_string[0:2])
+                if i < (len(data) - 1):
+                    f.write('\n')
     return
 
 
