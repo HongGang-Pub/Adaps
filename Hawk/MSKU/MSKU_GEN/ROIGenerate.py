@@ -99,8 +99,8 @@ def RoiMemGenerate():
         roi_data = roi_data + per_zone_mem
 
     file = "{}.txt".format(cfg['file_name'])
-    MskuPubMethod.roi_data_save(f_name=file, data=roi_data, fd_path=cfg["fd_path"])
-    return "ROI 生成完成！！！"
+    MskuPubMethod.roi_data_save(f_name=file, data=roi_data, fd_path=cfg["fd_path"], data_format=cfg['data_format'])
+    return f"{file} 生成完成！"
 
 
 if __name__ == '__main__':

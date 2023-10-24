@@ -141,7 +141,7 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='msku_imag'):
     if scan_mode == 0:
         for vroll_cnt in range(v_roll_num + 1):
             per_rolling_data = msku_roi_data[vroll_cnt]
-            dsp = (vroll_cnt * 2) % 32 + 10
+            dsp = (vroll_cnt * 2) % 16 + 10
             # for per_coor in per_rolling_data:
             for seg_cnt in range(len(per_rolling_data)):
                 per_coor = per_rolling_data[seg_cnt]
@@ -157,7 +157,7 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='msku_imag'):
         for vroll_cnt in range(v_roll_num + 1):
             per_zone_data = msku_roi_data[vroll_cnt]
             for hroll_cnt in range(h_roll_num + 1):
-                dsp = (hroll_cnt * 2) % 32 + 10
+                dsp = ((vroll_cnt * h_roll_num + hroll_cnt) * 2) % 32 + 10
                 index = hroll_cnt * 6
                 per_rolling_data = per_zone_data[index: index + 6]
                 # for per_coor in per_rolling_data:
@@ -170,10 +170,14 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='msku_imag'):
                         coor_info.append([seg_num * 48, spad_coor, "2D ROll_{}_{}".format(vroll_cnt+1, hroll_cnt+1)])
                 roll_cnt += 1
 
-    spad_array = spad_array / spad_array.max()
-    plt.figure()
-    plt.imshow(spad_array, cmap="gray")
-    # plt.imshow(spad_array)
+    # spad_array = spad_array / spad_array.max()
+    fig = plt.figure()
+    ax = fig.gca()
+    ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+    ax.yaxis.set_major_locator(MultipleLocator(50))
+    ax.xaxis.set_major_locator(MultipleLocator(48))
+    ax.imshow(spad_array, cmap="gray")
+    # plt.show()
     for info in coor_info:
         do_mark(info)
     ArrayPubMethod.ArrayImageSave(fname=f_name, fd_path=fd_path)

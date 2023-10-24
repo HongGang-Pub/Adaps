@@ -10,7 +10,7 @@
 	"H_VLD_SEG"  	: 15,
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
-	"seg_hs"	 	: 0,
+	"seg_hs"	 	: 0 ,
 	"spad_vs"    	: 0 ,
 	"light_shift"	: 18,
 	"sublight_shift": 3	,
