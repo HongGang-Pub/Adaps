@@ -3,7 +3,7 @@
 """
 # work_mode = 0
 # tc_name = "1D_base"
-# script_file=get_script_path(work_mode, tc_name)
+# config_file=get_script_path(work_mode, tc_name)
 
 script_file = r"D:\OneDrive - 深圳市灵明光子科技有限公司\Program Files\DothinkTester\Script\TXU_Script\test_ptm_fhr\test_ptm_fhr_1D_base.txt"
 

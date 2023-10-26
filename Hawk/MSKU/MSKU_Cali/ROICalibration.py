@@ -371,7 +371,7 @@ def MskuRoiGenerate(cali_data: list, cfg: dict) -> list:
     scan_mode = cfg['SCAN_MODE']
     v_roll_num = cfg['V_ROLL_NUM']
     h_roll_num = cfg['H_ROLL_NUM']
-    # h_vld_seg = cfg['H_VLD_SEG']
+    # h_vld_seg = csru_cfg['H_VLD_SEG']
 
     start_roll = cfg['start_roll']
 
@@ -425,7 +425,7 @@ def RoiMemGenerate(cali_data, cfg):
     Returns:
         None: 无返回值
     """
-    roi_mem = []
+    roi_data = []
     try:
         msku_roi_mem = MskuRoiGenerate(cfg=cfg, cali_data=cali_data)
     except BaseException as msg:
@@ -438,12 +438,11 @@ def RoiMemGenerate(cali_data, cfg):
 
     for vroll_cnt in range(len(msku_roi_mem)):
         per_zone_mem = zones_config[vroll_cnt] + msku_roi_mem[vroll_cnt]
-        roi_mem = roi_mem + per_zone_mem
+        roi_data = roi_data + per_zone_mem
 
     MskuPubMethod.roi_imag(msku_roi_mem, cfg, fd_path=cfg['fd_path'])  # 成图
 
-    file = "{}.txt".format(cfg['roi_name'])
-    MskuPubMethod.roi_data_save(f_name=file, data=roi_mem, fd_path=cfg["fd_path"])
+    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"])
 
     print("ROI 生成完成！！！")
     return

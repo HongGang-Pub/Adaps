@@ -73,10 +73,10 @@ def data_save(fname: str,
     """
     fname = fname.strip()
     if fname == "":
-        raise ValueError("[Param] 文件名为空。")
+        raise ValueError("File name empty.")
 
     if not data_list:
-        raise ValueError("[Param] 写入的内容为空。")
+        raise ValueError("The content written is empty.")
 
     try:
         if not os.path.exists(fd_path):
@@ -96,9 +96,10 @@ def data_save(fname: str,
             f.write(str(data_list[i]))
             # if i < (len(data_list) - 1):
             f.write(split)
-        f.write("\n")
+        if split != "\n":
+            f.write("\n")
     if note:
-        print("{}，文件路径为： {}".format(note, file))
+        print("{}，The file path is: {}".format(note, file))
     return file
 
 

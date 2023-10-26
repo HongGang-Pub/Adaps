@@ -87,20 +87,19 @@ def RoiMemGenerate():
     except BaseException as msg:
         raise ValueError("The ROI configuration may be missing or incorrect! Log: {}".format(msg))
 
-    MskuPubMethod.roi_imag(msku_roi_mem, cfg, f_name=cfg['file_name'], fd_path=cfg["fd_path"])
-    # arr = MskuPubMethod.PerRollingArrayCollect(msku_roi_mem, cfg, f_name=cfg['file_name'], fd_path=cfg["fd_path"])
+    MskuPubMethod.roi_imag(msku_roi_mem, cfg, f_name=cfg['roi_name'], fd_path=cfg["fd_path"])
+    # arr = MskuPubMethod.PerRollingArrayCollect(msku_roi_mem, csru_cfg, f_name=csru_cfg['file_name'], fd_path=csru_cfg["fd_path"])
     # MskuPubMethod.animation_img(arr)
     # msku_gui(arr)
 
     for index in range(len(zone_mem)):
         per_zone_mem = zone_mem[index] + msku_roi_mem[index]
-        # if cfg['per_rolling_data_save'] == 1:
+        # if csru_cfg['per_rolling_data_save'] == 1:
         #     MskuPubMethod.roi_data_save(f_name="ROLL_{}_{}".format(index, file), data=per_zone_mem)
         roi_data = roi_data + per_zone_mem
 
-    file = "{}.txt".format(cfg['file_name'])
-    MskuPubMethod.roi_data_save(f_name=file, data=roi_data, fd_path=cfg["fd_path"], data_format=cfg['data_format'])
-    return f"{file} 生成完成！"
+    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"], data_format=cfg['data_format'])
+    return f"生成完成！"
 
 
 if __name__ == '__main__':

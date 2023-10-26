@@ -1,3 +1,4 @@
+import Hawk.Common.HawkPubMethod
 from SelfDefinedPackge import PubMethod
 from Hawk.Common import HawkPubMethod
 from Hawk.Common import MipiPubMethod
@@ -228,7 +229,7 @@ def do_chk(cfg, mipi_fd_path="", golden_fp_list=[], hist_testen=1, threshold=10,
                                scan_mode=scan_mode,
                                h_seg_shift=h_seg_shift)
 
-    pkg_num = MipiPubMethod.cal_pkg_num(cfg)
+    pkg_num = Hawk.Common.HawkPubMethod.cal_pkg_num(cfg)
     # print("PKG_num: {}; Subframe_num_in_onefile: {}".format(pkg_num, subframe_num_in_onefile))
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=mipi_fd_path)
@@ -336,7 +337,7 @@ def do_chk(cfg, mipi_fd_path="", golden_fp_list=[], hist_testen=1, threshold=10,
                 index = 0 if scan_mode == 0 else hroll_num
                 if len(info) == pkg_num:
                     subframe_data = info[:-2]
-                    word_cnt = MipiPubMethod.cal_wc(cfg)
+                    word_cnt, flnr = Hawk.Common.HawkPubMethod.CalMipiFlnrAndWC(cfg)
                     if hist_testen == 1:
                         """"精准匹配"""
                         cmp_answer = hist_testen_mipi_pkg_chk(cmp_data=subframe_data,

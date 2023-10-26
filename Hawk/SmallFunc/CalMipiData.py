@@ -1,4 +1,7 @@
 import numpy as np
+
+import Hawk.Common.HawkPubMethod
+import Hawk.Common.MipiPubMethod
 from SelfDefinedPackge import ArrayPubMethod
 from Hawk.Common import HawkPubMethod
 from Hawk.Common import MipiPubMethod
@@ -8,10 +11,10 @@ from Hawk.PCM import PcmPubMethod
 
 def do_work():
     # 获取寄存器配置
-    csru_cfg = HawkPubMethod.GetCsruConfig(script_file, sramdata_path)
+    csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
-    wc = MipiPubMethod.cal_wc(csru_cfg)
-    pkg_num = MipiPubMethod.cal_pkg_num(csru_cfg)
+    wc, flnr = Hawk.Common.HawkPubMethod.CalMipiFlnrAndWC(csru_cfg)
+    pkg_num = Hawk.Common.HawkPubMethod.cal_pkg_num(csru_cfg)
     print(wc, pkg_num)
 
 

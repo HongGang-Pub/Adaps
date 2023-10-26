@@ -4,7 +4,7 @@
 
 具体使用方法见 Function >>> pcm_decode()
 """
-
+import Hawk.Common.MipiPubMethod
 from Hawk.Common import HawkPubMethod
 from Hawk.TXU_Check import TxuPubMethod
 from Hawk.TXU_Check.Config import *
@@ -27,9 +27,9 @@ def do_work(script_file: str, mipidata_path: str, subframe_script_file: str, sub
     Returns:
         None: 无返回值
     """
-    image_csru_config = HawkPubMethod.GetCsruConfig(script_file=script_file,
-                                                    sramdata_path=sramdata_path,
-                                                    protocol=protocol)
+    image_csru_config = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file=script_file,
+                                                                      sramdata_path=sramdata_path,
+                                                                      protocol=protocol)
     # 获取image的frame信息，用于查找单次rolling时需要参考的数据
     image_info = TxuPubMethod.do_chk(cfg=image_csru_config, mipi_fd_path=mipidata_path, golden_fp_list=["NoCheck"],
                                      file_path=result_folder)
@@ -39,9 +39,9 @@ def do_work(script_file: str, mipidata_path: str, subframe_script_file: str, sub
         return
 
     # 获取当前rolling对应的v_rolling
-    subframe_csru_config = HawkPubMethod.GetCsruConfig(script_file=subframe_script_file,
-                                                       sramdata_path=sramdata_path,
-                                                       protocol=protocol)
+    subframe_csru_config = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file=subframe_script_file,
+                                                                         sramdata_path=sramdata_path,
+                                                                         protocol=protocol)
 
     roi_file = subframe_csru_config['roi_file']
     vroll_num = roi_file.split("_")[1]
@@ -87,7 +87,7 @@ def do_work(script_file: str, mipidata_path: str, subframe_script_file: str, sub
 if __name__ == '__main__':
     # work_mode = 0
     # tc_name = "1D_base"
-    # script_file=get_script_path(work_mode, tc_name)
+    # config_file=get_script_path(work_mode, tc_name)
 
     do_work(script_file=script_file,
             mipidata_path=mipi_file_path,

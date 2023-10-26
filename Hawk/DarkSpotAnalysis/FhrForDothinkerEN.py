@@ -1,3 +1,4 @@
+import Hawk.Common.MipiPubMethod
 from Hawk.MSKU import MskuPubMethod
 from SelfDefinedPackge import ArrayPubMethod
 from Hawk.Common import HawkPubMethod
@@ -14,7 +15,7 @@ def do_work():
         "coefficients": coeff_list,
     }
     # 获取寄存器配置
-    csru_cfg = HawkPubMethod.GetCsruConfig(script_file, sramdata_path)
+    csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     # 获取 msku roi 数据
 
@@ -60,7 +61,7 @@ if __name__ == '__main__':
     axis1 = [1.11]
     coeff_list = [0.9]
 
-    # script_file=r"D:\Software\DothinkTester\Script\PCM.txt",
+    # config_file=r"D:\Software\DothinkTester\Script\PCM.txt",
     script_file = r"D:\Software\DothinkTester\Script\FHR_15(35)_OUT_EN.txt"
     sramdata_path = r"D:\Software\DothinkTester\SramData"
 

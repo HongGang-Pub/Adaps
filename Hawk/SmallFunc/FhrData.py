@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+
+import Hawk.Common.MipiPubMethod
 from SelfDefinedPackge import PubMethod
 from Hawk.Common import MipiPubMethod
 from Hawk.Common import HawkPubMethod
@@ -65,7 +67,7 @@ def do_work2(file_path, script_file):
     """
     FHR MIPI 数据成直方图
     """
-    cfg = HawkPubMethod.GetCsruConfig(script_file)
+    cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file)
     h_vld_seg = cfg["h_vld_seg"]
     v_roll = 0  # 第几次v_roll
     h_roll = 0  # 第几次h_roll
@@ -75,7 +77,7 @@ def do_work2(file_path, script_file):
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.cal_pkg_num(cfg=cfg)
+    # pkg_num = MipiPubMethod.cal_pkg_num(csru_cfg=csru_cfg)
     # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 
@@ -105,7 +107,7 @@ def do_work3(file_path, script_file):
     """
     PHR MIPI 数据成直方图
     """
-    cfg = HawkPubMethod.GetCsruConfig(script_file)
+    cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file)
     v_roll = 0  # 第几次v_roll
     h_roll = 0  # 第几次h_roll
     seg_cnt = 0     # 第几段
@@ -113,7 +115,7 @@ def do_work3(file_path, script_file):
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.cal_pkg_num(cfg=cfg)
+    # pkg_num = MipiPubMethod.cal_pkg_num(csru_cfg=csru_cfg)
     # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 
@@ -161,5 +163,5 @@ def do_work3(file_path, script_file):
 
 if __name__ == '__main__':
     # do_work3(file_path=r"D:\Software\DothinkTester\MipiData\1PHR",
-    #          script_file=r"D:\Software\DothinkTester\Script\250mhz\test_ptm_phr_2d_scan.txt")
+    #          config_file=r"D:\Software\DothinkTester\Script\250mhz\test_ptm_phr_2d_scan.txt")
     do_work1()

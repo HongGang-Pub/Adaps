@@ -1,7 +1,8 @@
 {
-	"fd_path"		: "Output",				"?fd_path" 	: "文件存储路径",
-	"file_name"		: "roi_mem",			"?file_name" : "存储的文件名",
-	"data_format"	: 1,					"?data_format": "ROI存储格式：0：1byte为1行进行保存, 1:2byte为一行进行保存",
+	"fd_path"		: "Output",				"?fd_path" 		: "文件存储路径",
+	"config_name"	: "HawkRegCfg",			"?config_name"	: "寄存器配置脚本存储的文件名",
+	"roi_name"		: "roi_mem",			"?roi_name" 	: "ROI相关文件存储的文件名",
+	"data_format"	: 1,					"?data_format"	: "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
 
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
 	"SCAN_MODE"  	: 0	,
@@ -104,5 +105,10 @@
 		"Zone_29_MF_KN" 	: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		"Zone_30_MF_KN" 	: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		"Zone_31_MF_KN" 	: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-	}
+	},
+	"SYS_FREQ" 	: "330M",				"?SYS_FREQ"	: "200M or 250M or 330M",
+	"WORK_MODE"	: 2		,				"?WORK_MODE": "0: SPHR; 1: PHR; 2: FHR; 3: PCM",
+	"MIPI_RATE" : "0.8G",				"?MIPI_RATE": "0.8G or 1.0G or 1.2G or 1.5G",
+	"protocol"	: "i2c",					"?protocol": "i2c or spi",
+	"ref_cfg_file": "D:\\Git\\Adaps\\Hawk\\HawkGUI\\Output\\PTM_FHR_MIPI.txt"
 }

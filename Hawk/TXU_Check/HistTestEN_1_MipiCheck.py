@@ -2,7 +2,7 @@
 本文件主要用于hist_test_en=1情况下，对MIPI数据进行精准匹配
 具体使用方法见 Function >>> pcm_decode()
 """
-
+import Hawk.Common.MipiPubMethod
 from Hawk.Common import HawkPubMethod
 from Hawk.TXU_Check import TxuPubMethod
 from Hawk.TXU_Check.Config import *
@@ -59,9 +59,9 @@ def do_work(script_file: str, gld_data_path: str, sramdata_path: str, mipidata_p
         None: 无返回值
     """
 
-    csru_config = HawkPubMethod.GetCsruConfig(script_file=script_file,
-                                              sramdata_path=sramdata_path,
-                                              protocol=protocol)
+    csru_config = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file=script_file,
+                                                                sramdata_path=sramdata_path,
+                                                                protocol=protocol)
 
     if gld_data_path == "None":
         golden_fp = get_golden_data_file(work_mode=csru_config["work_mode"], out_bin_num=csru_config["out_bin_num"])

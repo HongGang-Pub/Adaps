@@ -1,3 +1,4 @@
+import Hawk.Common.MipiPubMethod
 from Hawk.MSKU import MskuPubMethod
 from SelfDefinedPackge import ArrayPubMethod
 from Hawk.Common import HawkPubMethod
@@ -19,7 +20,7 @@ def do_work():
         chip_number: []
     }
     # 获取寄存器配置
-    csru_cfg = HawkPubMethod.GetCsruConfig(script_file, sramdata_path)
+    csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     # 获取 msku roi 数据
     zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(csru_cfg, f_path=fd_path)
@@ -53,7 +54,7 @@ if __name__ == '__main__':
     coeff_list = [0.9]
 
     mipi_file = r"D:\Software\DothinkTester\MipiData_PCM_Shift18(7Seg)"
-    # script_file=r"D:\Software\DothinkTester\Script\PCM.txt",
+    # config_file=r"D:\Software\DothinkTester\Script\PCM.txt",
     script_file = r"D:\Software\DothinkTester\Script\PCM(7Seg).txt"
     sramdata_path = r"D:\Software\DothinkTester\SramData"
 
