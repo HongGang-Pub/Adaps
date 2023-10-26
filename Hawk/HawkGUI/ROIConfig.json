@@ -110,5 +110,5 @@
 	"WORK_MODE"	: 2		,				"?WORK_MODE": "0: SPHR; 1: PHR; 2: FHR; 3: PCM",
 	"MIPI_RATE" : "0.8G",				"?MIPI_RATE": "0.8G or 1.0G or 1.2G or 1.5G",
 	"protocol"	: "i2c",					"?protocol": "i2c or spi",
-	"ref_cfg_file": "D:\\Git\\Adaps\\Hawk\\HawkGUI\\Output\\PTM_FHR_MIPI.txt"
+	"ref_cfg_file": "D:\\Git\\Adaps\\Hawk\\HawkGUI\\Output\\echo_mode_2d_scan.txt"
 }

@@ -1,1 +1,1 @@
-pyinstaller -i .\.file\icon.ico -p ..\..\..\..\Adaps\ -F -w .\ROIGenerate_GUI.py
+ pyinstaller -i .\.file\icon.ico -p ..\..\..\Adaps\ -F -w .\ROIGenerate_GUI.py

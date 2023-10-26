@@ -15,7 +15,7 @@ from Hawk.MSKU.MSKU_Cali import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
 from SelfDefinedPackge import PubMethod
 from Hawk.Common import HawkPubMethod
-from HawkComponentStyle import *
+from Hawk.HawkGUI.HawkComponentStyle import *
 
 
 def DirectAccessCaliData(file, cfg):
@@ -119,7 +119,7 @@ def msku_gui():
     # 窗口显示属性配置
     # ===============================================================================================
     window = tkinter.Tk()
-    window.title("Hawk ROI Generate 1.1")  # 标题
+    window.title("Hawk ROI Generate 1.2")  # 标题
     # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
     window.iconphoto(False, tkinter.PhotoImage(file=r".file/icon.png"))
     width = 1200
