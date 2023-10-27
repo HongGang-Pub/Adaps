@@ -1,1 +1,3 @@
- pyinstaller -i .\.file\icon.ico -p ..\..\..\Adaps\ -F -w .\ROIGenerate_GUI.py
+pyinstaller -i .\.file\icon.ico -p ..\..\..\Adaps\ -F -w .\ROIGenerate_GUI.py
+
+nuitka --standalone --mingw64 --show-progress --show-memory --nofollow-import-to=urllib3,email,http --enable-plugin=numpy --windows-icon-from-ico=.file/icon.ico -output-dir=Hawkexe ROIGenerate_GUI.py
