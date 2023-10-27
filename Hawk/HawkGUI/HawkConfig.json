@@ -1,6 +1,6 @@
 {
 	"fd_path"		: "Output",				"?fd_path" 		: "文件存储路径",
-	"config_name"	: "HawkRegCfg",			"?config_name"	: "寄存器配置脚本存储的文件名",
+	"config_name"	: "reg_config",			"?config_name"	: "寄存器配置脚本存储的文件名",
 	"roi_name"		: "roi_mem",			"?roi_name" 	: "ROI相关文件存储的文件名",
 	"data_format"	: 1,					"?data_format"	: "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
 
@@ -9,6 +9,11 @@
 	"V_ROLL_NUM" 	: 31,
 	"H_ROLL_NUM" 	: 3 ,
 	"H_VLD_SEG"  	: 15,
+
+	"start_roll"	: 0,					"?start_roll"	: "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
+	"TDC_BIN_W"		: 1	,					"?TDC_BIN_W"	: "0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns",
+	"WORK_MODE"		: 2	,					"?WORK_MODE"	: "0~3: Histogram Mode / Echo Mode / Ranging Mode / Gray Scale Mode",
+	"MIPI_RATE" 	: 0.8,					"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,
@@ -19,7 +24,6 @@
 	"v_spad_shift"	: 0 ,
 	"h_seg_shift" 	: 4	,
 
-	"start_roll"	: 0,					"?start_roll": "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
 
 	"?zone_cfg_sel" : "zone_cfg_sel=-1:按顺序读取每一个Zone分区的配置生成ROI_DATA; zone_cfg_sel=0~31:所有分区的Zone配置都使用zone_cfg_sel的配置",
 	"zone_cfg_sel"	: 0,
@@ -44,7 +48,7 @@
 			"Zone16": 400,"Zone17": 400,"Zone18": 400,"Zone19": 400,"Zone20": 400,"Zone21": 400,"Zone22": 400,"Zone23": 400,
 			"Zone24": 400,"Zone25": 400,"Zone26": 400,"Zone27": 400,"Zone28": 400,"Zone29": 400,"Zone30": 400,"Zone31": 400
 		},
-		
+
 		"EXPO_PLSWC" 	: {
 			"Zone0" : 4,"Zone1" : 4,"Zone2" : 4,"Zone3" : 4,"Zone4" : 4,"Zone5" : 4,"Zone6" : 4,"Zone7" : 4,
 			"Zone8" : 4,"Zone9" : 4,"Zone10": 4,"Zone11": 4,"Zone12": 4,"Zone13": 4,"Zone14": 4,"Zone15": 4,
@@ -106,9 +110,6 @@
 		"Zone_30_MF_KN" 	: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		"Zone_31_MF_KN" 	: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 	},
-	"SYS_FREQ" 	: "330M",				"?SYS_FREQ"	: "200M or 250M or 330M",
-	"WORK_MODE"	: 2		,				"?WORK_MODE": "0: SPHR; 1: PHR; 2: FHR; 3: PCM",
-	"MIPI_RATE" : "0.8G",				"?MIPI_RATE": "0.8G or 1.0G or 1.2G or 1.5G",
-	"protocol"	: "i2c",					"?protocol": "i2c or spi",
-	"ref_cfg_file": "D:\\Git\\Adaps\\Hawk\\HawkGUI\\Output\\echo_mode_2d_scan.txt"
+	"protocol"	: "i2c"	,				"?protocol"	: "i2c or spi",
+	"ref_cfg_file": "./Input/Ref_RegCfg.txt"
 }

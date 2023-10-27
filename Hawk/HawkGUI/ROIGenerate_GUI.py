@@ -47,12 +47,15 @@ def DirectAccessCaliData(file, cfg):
     def _split_cali_data(index):
         [data, lines] = cali_datas[index]
         data = re.split(',|;|，|；|//', data)
-        if len(data) < 2:
+        # if len(data) < 2:
+        #     raise ValueError(f"Calibration data format error.\n"
+        #                      f"line{lines}: {data}")
+        try:
+            _start_index = int(data[1])
+            _seg_num = int(data[0]) // 48
+        except:
             raise ValueError(f"Calibration data format error.\n"
                              f"line{lines}: {data}")
-
-        _start_index = int(data[1])
-        _seg_num = int(data[0]) // 48
         if _seg_num > 15:
             raise ValueError(f"Calibration data error.\n"
                              f"line{lines}: {data}\n"
@@ -85,6 +88,18 @@ def DirectAccessCaliData(file, cfg):
     return img_roi_data, info
 
 
+def config_mapping(cfg: dict):
+    """
+    重映射寄存器配置，确保程序中的 key-value有值且正确
+    """
+    cfg['SYS_FREQ'] = "200M" if (cfg["TDC_BIN_W"] in [1.25, 2.50]) \
+        else "250M" if (cfg["TDC_BIN_W"] in [1.00, 2.00]) \
+        else "330M"
+    cfg['UPSMP_MODE'] = 0b11 if (cfg["TDC_BIN_W"] in [0.75, 1.00, 1.25]) \
+        else 0b00
+    return
+
+
 def MskuRoiGenerateForJsonConfig(cfg):
     """完全通过Json文件生成 MskuRoi"""
     msku_roi_mem = ROIGenerate.MskuRoiGenerate(cfg)
@@ -110,7 +125,8 @@ def RoiMemGenerate(cfg, msku_roi_mem):
         per_zone_mem = zone_mem[index] + msku_roi_mem[index]
         roi_data = roi_data + per_zone_mem
 
-    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"], data_format=cfg['data_format'])
+    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"],
+                                data_format=cfg['data_format'])
     return "ROI 生成完成！！！"
 
 
@@ -122,8 +138,8 @@ def msku_gui():
     window.title("Hawk ROI Generate 1.2")  # 标题
     # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
     window.iconphoto(False, tkinter.PhotoImage(file=r".file/icon.png"))
-    width = 1200
-    height = 800
+    width = 1300
+    height = 850
     window.minsize(width, height)
     screenwidth = window.winfo_screenwidth()
     screenheight = window.winfo_screenheight()
@@ -218,31 +234,34 @@ def msku_gui():
     output__frame = tkinter.LabelFrame(frame_roi_cfg, text="Output")  # 文件输出控件
     operate_frame = tkinter.LabelFrame(frame_roi_cfg, text="Operate")  # 按钮操作控件
     logsout_frame = tkinter.LabelFrame(frame_roi_cfg, text="Log")  # 操作日志打印控件
+
     # logsout_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 操作日志打印控件
 
-    # -------------------------- SYS_FREQ ----------------------------------
-    def _sys_freq_update(event):
-        mipi_rate = sysc_freq_cfg_cmp.get()
-        cfg['SYS_FREQ'] = mipi_rate
+    # -------------------------- TDC_BIN_W ----------------------------------
+    def _tdc_bin_width_update(event):
+        tdc_bin_width = tdc_bin_width_cmp.get()
+        cfg['SYS_FREQ'] = "200M" if (tdc_bin_width in ["1.25 ns", "2.50 ns"]) \
+            else "250M" if (tdc_bin_width in ["1.00 ns", "2.00 ns"]) \
+            else "330M"
+        cfg['UPSMP_MODE'] = 0b11 if (tdc_bin_width in ["0.75 ns", "1.00 ns", "1.25 ns"]) \
+            else 0b00  # No Upsampling
 
-    sysc_freq_value = ["200M", "250M", "330M"]
-    sysc_freq_cfg_cmp = ttk.Combobox(configs_frame, width=23)
-    sysc_freq_cfg_cmp['value'] = ("200M", "250M", "330M")  # 设置下拉菜单中的值
-    sysc_freq_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
-    sysc_freq_cfg_cmp.bind("<<ComboboxSelected>>", _sys_freq_update)
+    bin_width_value = [0.75, 1.00, 1.25, 1.50, 2.00, 2.50]
+    tdc_bin_width_cmp = ttk.Combobox(configs_frame, width=23)
+    tdc_bin_width_cmp['value'] = ("0.75 ns", "1.00 ns", "1.25 ns", "1.50 ns", "2.00 ns", "2.50 ns")  # 设置下拉菜单中的值
+    tdc_bin_width_cmp['state'] = "readonly"  # 设置下拉框只读
+    tdc_bin_width_cmp.bind("<<ComboboxSelected>>", _tdc_bin_width_update)
 
     # -------------------------- WORK_MODE ----------------------------------
-    Entry_width = 20  # 输入框显示宽度
-
     def _work_mode_update(event):
         work_mode = work_mode_cfg_cmp.get()
-        cfg['WORK_MODE'] = 3 if work_mode == 'PCM' \
-            else 2 if work_mode == "FHR" \
-            else 1 if work_mode == "PHR" \
+        cfg['WORK_MODE'] = 3 if work_mode == 'Gray Scale Mode' \
+            else 2 if work_mode == "Ranging Mode" \
+            else 1 if work_mode == "Echo Mode" \
             else 0  # SPHR
 
     work_mode_cfg_cmp = ttk.Combobox(configs_frame, width=23)
-    work_mode_cfg_cmp['value'] = ('SPHR', 'PHR', 'FHR', 'PCM')  # 设置下拉菜单中的值
+    work_mode_cfg_cmp['value'] = ("Histogram Mode", "Echo Mode", "Ranging Mode", "Gray Scale Mode")  # 设置下拉菜单中的值
     work_mode_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
     work_mode_cfg_cmp.bind("<<ComboboxSelected>>", _work_mode_update)
 
@@ -259,11 +278,14 @@ def msku_gui():
     # -------------------------- MIPI_RATE ----------------------------------
     def _mipi_rate_update(event):
         mipi_rate = mipi_rate_cfg_cmp.get()
-        cfg['MIPI_RATE'] = mipi_rate
+        cfg['MIPI_RATE'] = 0.8 if mipi_rate == "0.8 Gbps/Lane" \
+            else 1.0 if mipi_rate == "1.0 Gbps/Lane" \
+            else 1.2 if mipi_rate == "1.2 Gbps/Lane" \
+            else 1.5
 
-    mipi_rate_value = ["0.8G", "1.0G", "1.2G", "1.5G"]
+    mipi_rate_value = [0.8, 1.0, 1.2, 1.5]
     mipi_rate_cfg_cmp = ttk.Combobox(configs_frame, width=23)
-    mipi_rate_cfg_cmp['value'] = ("0.8G", "1.0G", "1.2G", "1.5G")  # 设置下拉菜单中的值
+    mipi_rate_cfg_cmp['value'] = ("0.8 Gbps/Lane", "1.0 Gbps/Lane", "1.2 Gbps/Lane", "1.5 Gbps/Lane")  # 设置下拉菜单中的值
     mipi_rate_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
     mipi_rate_cfg_cmp.bind("<<ComboboxSelected>>", _mipi_rate_update)
 
@@ -358,34 +380,33 @@ def msku_gui():
 
     # ------------------------ 保存按钮 ------------------------
     def _do_save():
-        _log_update('Saving...', log_type=0)
-        if preview_triggered is False:
-            _log_update('Error! You have not configured anything yet.', log_type=2)
+        # _log_update('Saving...', log_type=0)
+        # if preview_triggered is False:
+        #     _log_update('Error! You have not genetate ROI yet.', log_type=2)
+        #     return
+        # cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上配置的文件名
+        # cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上配置的文件名
+        # RoiMemGenerate(cfg, msku_roi_mem)
+        # HawkPubMethod.GenerateHawkRegConfig(cfg)
+        # _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt", log_type=1)
+        # _log_update(f"Hawk ROI data has been saved to: {cfg['fd_path']}/{cfg['roi_name']}.txt", log_type=1)
+        # _log_update('Save successfully.', log_type=0)
+        try:
+            _log_update('Saving...', log_type=0)
+            if preview_triggered is False:
+                _log_update('Error! You have not genetate ROI yet.', log_type=2)
+                return
+            cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上配置的文件名
+            cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上配置的文件名
+            RoiMemGenerate(cfg, msku_roi_mem)
+            HawkPubMethod.GenerateHawkRegConfig(cfg)
+            _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt", log_type=1)
+            _log_update(f"Hawk ROI data has been saved to: {cfg['fd_path']}/{cfg['roi_name']}.txt", log_type=1)
+            _log_update('Save successfully.', log_type=0)
             return
-        cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上配置的文件名
-        cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上配置的文件名
-        RoiMemGenerate(cfg, msku_roi_mem)
-        HawkPubMethod.GenerateHawkRegConfig(cfg)
-        _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt", log_type=1)
-        _log_update(f"Hawk ROI data has been saved to: {cfg['fd_path']}/{cfg['roi_name']}.txt", log_type=1)
-        _log_update('Save successfully.', log_type=0)
-
-        # try:
-        #     _log_update('Saving...', log_type=0)
-        #     if preview_triggered is False:
-        #         _log_update('Error! You have not configured anything yet.', log_type=2)
-        #         return
-        #     cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上配置的文件名
-        #     cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上配置的文件名
-        #     RoiMemGenerate(cfg, msku_roi_mem)
-        #     HawkPubMethod.GenerateHawkRegConfig(cfg)
-        #     _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt", log_type=1)
-        #     _log_update(f"Hawk ROI data has been saved to: {cfg['fd_path']}/{cfg['roi_name']}.txt", log_type=1)
-        #     _log_update('Save successfully.', log_type=0)
-        #     return
-        # except BaseException as e:
-        #     _log_update(f"Save failure! Log：{e}", log_type=2)
-        #     return
+        except BaseException as e:
+            _log_update(f"Save failure! Log：{e}", log_type=2)
+            return
 
     # ------------------------ RELOAD按钮 ------------------------
     def _reload():
@@ -393,7 +414,8 @@ def msku_gui():
         # log_print_window.insert(tkinter.INSERT, '开始保存...\n')
         _log_update('Reload script...')
         try:
-            cfg = PubMethod.ReadJsonFile('ROIConfig.json')
+            cfg = PubMethod.ReadJsonFile('HawkConfig.json')
+            config_mapping(cfg)
             _set_default_value()  # 根据配置值，重新配置界面值
             _log_update('Reload successfully.')
             return
@@ -442,7 +464,7 @@ def msku_gui():
     log_print_cmp.configure(state='disabled')
 
     # -------------------------配置布局，以及默认值并打开窗口------------------------------
-    rows=0
+    rows = 0
     def get_row(ini=1):
         nonlocal rows
         rows = (rows + 1) if ini != 1 else 0
@@ -453,7 +475,6 @@ def msku_gui():
         nonlocal vcoor
         vcoor = height + vcoor + 0.005
         return height
-
 
     def _set_dsp():
         nonlocal vcoor
@@ -473,19 +494,19 @@ def msku_gui():
 
         # -------------- configs_frame -> Label -----------------
         # 放置输入框，并设置位置
-        tkinter.Label(configs_frame, Lable_style, text="SYS_FREQ  ").grid(Lable_grid, row=get_row(ini=1))
-        tkinter.Label(configs_frame, Lable_style, text="WORK_MODE ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="SCAN_MODE ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="MIPI RATE ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="V_ROLL_NUM").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="H_ROLL_NUM").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="H_VLD_SEG ").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="WORK_MODE    ").grid(Lable_grid, row=get_row(ini=1))
+        tkinter.Label(configs_frame, Lable_style, text="TDC bin width").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="MIPI RATE    ").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="SCAN_MODE    ").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="V_ROLL_NUM   ").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="H_ROLL_NUM   ").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="H_VLD_SEG    ").grid(Lable_grid, row=get_row(ini=0))
 
         # -------------- configs_frame -> input cmp -----------------
-        sysc_freq_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1)
-        work_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
-        scan_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
+        work_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1)
+        tdc_bin_width_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
         mipi_rate_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
+        scan_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
         vroll_num_cfg_cmp.grid(Scale_grid, row=get_row(ini=0), column=1)
         hroll_num_cfg_cmp.grid(Scale_grid, row=get_row(ini=0), column=1)
         h_vld_seg_cfg_cmp.grid(Scale_grid, row=get_row(ini=0), column=1)
@@ -495,7 +516,8 @@ def msku_gui():
         cfgs_file_sel_cmp.grid(Entry_grid, row=get_row(ini=0), column=0, columnspan=2)
 
         cali_file_sel_btn = tkinter.Button(f_input_frame, Button_style, text='Load ROI file', command=_open_cali_file)
-        cfgs_file_sel_btn = tkinter.Button(f_input_frame, Button_style, text='Sel Config file', command=_open_config_file)
+        cfgs_file_sel_btn = tkinter.Button(f_input_frame, Button_style, text='Sel Config file',
+                                           command=_open_config_file)
         cali_file_sel_btn.grid(Button_grid, row=get_row(ini=1), column=2)
         cfgs_file_sel_btn.grid(Button_grid, row=get_row(ini=0), column=2)
 
@@ -518,7 +540,7 @@ def msku_gui():
     # --------------- 隐藏按钮显示 ------------------
     def _hidden_btn(event):
         _log_update("The Debug operation button is displayed.")
-        reload_btn = tkinter.Button(operate_frame,Button_style, text="RELOAD", command=_reload)
+        reload_btn = tkinter.Button(operate_frame, Button_style, text="RELOAD", command=_reload)
         preview0_btn = tkinter.Button(operate_frame, Button_style, text="Preview0", command=_preview_update0)
 
         reload_btn.grid(Button_grid, row=2, column=0)
@@ -530,7 +552,7 @@ def msku_gui():
         work_mode_cfg_cmp.current(cfg['WORK_MODE'])  # 通过 current() 设置下拉菜单选项的默认值
         scan_mode_cfg_cmp.current(cfg['SCAN_MODE'])  # 通过 current() 设置下拉菜单选项的默认值
         mipi_rate_cfg_cmp.current(mipi_rate_value.index(cfg['MIPI_RATE']))  # 通过 current() 设置下拉菜单选项的默认值
-        sysc_freq_cfg_cmp.current(sysc_freq_value.index(cfg['SYS_FREQ']))  # 通过 current() 设置下拉菜单选项的默认值
+        tdc_bin_width_cmp.current(bin_width_value.index(cfg['TDC_BIN_W']))  # 通过 current() 设置下拉菜单选项的默认值
         vroll_num_cfg_cmp.set(cfg['V_ROLL_NUM'] + 1)
         hroll_num_cfg_cmp.set(cfg['H_ROLL_NUM'] + 1)
         h_vld_seg_cfg_cmp.set(cfg['H_VLD_SEG'] + 1)
@@ -545,7 +567,8 @@ def msku_gui():
 
     # ------------------ 启动初始化 -----------------------
     try:
-        cfg = PubMethod.ReadJsonFile('ROIConfig.json')
+        cfg = PubMethod.ReadJsonFile('HawkConfig.json')
+        config_mapping(cfg)
         arrays = [np.zeros((576, 768))]
         # _msku_draw()
     except BaseException as e:

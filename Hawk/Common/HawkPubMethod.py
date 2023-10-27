@@ -1,6 +1,7 @@
 from SelfDefinedPackge import PubMethod
 from Hawk.Common.GlobalDef import *
 import re
+import os
 
 
 def GetMipiFile(fd_path):
@@ -204,6 +205,9 @@ def GenerateHawkRegConfig(cfg):
     roisram_write = "I2C_Block_Write" if protocol == "i2c" else "SPI_Block_Write"
 
     ref_cfg_file = cfg["ref_cfg_file"]
+    if not os.path.exists(ref_cfg_file):
+        raise ValueError("The reference config file does not exist!")
+
     csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
     # 将前端配置内容同步到 csru_cfg
     csru_cfg['work_mode'] = cfg["WORK_MODE"]
@@ -229,10 +233,8 @@ def GenerateHawkRegConfig(cfg):
     MIPIPLL_LPDL = MIPI_RATE_CONFIG[cfg["MIPI_RATE"]]["MIPIPLL_LPDL"]
     MIPIPLL_PPD = MIPI_RATE_CONFIG[cfg["MIPI_RATE"]]["MIPIPLL_PPD"]
     # MIPI_PKTDLY
-    if cfg["WORK_MODE"] >= 2:  # FHR or PCM
-        MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_FREQ']][cfg['MIPI_RATE']]
-    else:
-        MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_FREQ']][csru_cfg["out_bin_num"]][cfg['MIPI_RATE']]
+    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_FREQ']][cfg['MIPI_RATE']] if cfg["WORK_MODE"] >= 2 \
+        else MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_FREQ']][csru_cfg["out_bin_num"]][cfg['MIPI_RATE']]
     # PLL1 and DIV config. cfg['sys_freq'] = 330M, 250M, 200M
     PLL1_DIV1 = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["PLL1_DIV1"]
     PLL1_DIV2 = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["PLL1_DIV2"]
@@ -285,6 +287,8 @@ def GenerateHawkRegConfig(cfg):
                 register_value = (register_value & (0xFF - 0xF0)) + (cfg["H_VLD_SEG"] << 4)
             elif addr == csru_addr['MIPI_TXDLY']:
                 register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
+            elif addr == csru_addr['UPSMP_CFG']:
+                register_value = (register_value & (0xFF - 0x03)) + (cfg["UPSMP_MODE"] << 0)
             else:
                 register_value = PLL1_DIV1 if addr == csru_addr['PLL1_DIV1'] \
                     else PLL1_DIV2 if addr == csru_addr['PLL1_DIV2'] \
