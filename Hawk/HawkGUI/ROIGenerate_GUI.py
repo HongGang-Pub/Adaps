@@ -1,20 +1,21 @@
+import tkinter
+
 import re
-# import tkinter
 from tkinter import filedialog
 from tkinter import ttk
 
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import ImageTk, Image
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.ticker import MultipleLocator
 
 from Hawk.MSKU import MskuPubMethod
-from Hawk.HawkGUI import Player
 from Hawk.MSKU.MSKU_Cali import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
-from SelfDefinedPackge import PubMethod
 from Hawk.Common import HawkPubMethod
+from SelfDefinedPackge import PubMethod
+from Hawk.HawkGUI import Player
 from Hawk.HawkGUI.HawkComponentStyle import *
 
 
@@ -218,9 +219,10 @@ def msku_gui():
     frame_roi_img = tkinter.Frame(window)  # 左下添加 frame 控件用于展示动图
     frame_roi_cfg = tkinter.Frame(window)  # 右侧添加 frame 控件用于放置 配置、按钮、日志打印等内容
 
-    # --------------------- company_icon 设置 -------------------
+    # --------------------- company_图片 设置 -------------------
     imag = Image.open(r'.file/company_icon.png')
     photo = ImageTk.PhotoImage(imag)
+    # photo = tkinter.PhotoImage(r'.file/company_icon.png')
     tkinter.Label(company_icons, image=photo, background='white').pack(fill=tkinter.BOTH)
 
     # ----------------- frame_roi_cfg 增加多个控件，显示不同交互内容 -------------------
@@ -480,17 +482,24 @@ def msku_gui():
         nonlocal vcoor
         # ------------------ window -> frame -----------------
         vcoor = 0.005
-        company_icons.place(relx=0.005, rely=0.005, relwidth=0.695, relheight=set_next_cmp_coor(0.100))
-        frame_roi_img.place(relx=0.005, rely=0.110, relwidth=0.695, relheight=set_next_cmp_coor(0.885))
-        frame_roi_cfg.place(relx=0.700, rely=0.000, relwidth=0.295, relheight=set_next_cmp_coor(0.990))
-
+        company_icons.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.100))
+        frame_roi_img.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.885))
+        frame_roi_cfg.place(relx=0.700, rely=vcoor, relwidth=0.295, relheight=set_next_cmp_coor(0.990))
+        company_icons.place(relx=0.005, rely=0.005, relwidth=0.695, relheight=0.100)
+        frame_roi_img.place(relx=0.005, rely=0.110, relwidth=0.695, relheight=0.885)
+        frame_roi_cfg.place(relx=0.700, rely=0.000, relwidth=0.295, relheight=0.990)
         # --------------------- frame_roi_cfg -------------------
-        vcoor = 0.000
-        configs_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.380))
-        f_input_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.130))
-        output__frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.130))
-        operate_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.120))
-        logsout_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.240))
+        # vcoor = 0.000
+        # configs_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.380))
+        # f_input_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.130))
+        # output__frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.130))
+        # operate_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.120))
+        # logsout_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.240))
+        configs_frame.place(relx=0.010, rely=0.000, relwidth=0.990, relheight=0.380)
+        f_input_frame.place(relx=0.010, rely=0.385, relwidth=0.990, relheight=0.130)
+        output__frame.place(relx=0.010, rely=0.520, relwidth=0.990, relheight=0.130)
+        operate_frame.place(relx=0.010, rely=0.655, relwidth=0.990, relheight=0.120)
+        logsout_frame.place(relx=0.010, rely=0.780, relwidth=0.990, relheight=0.240)
 
         # -------------- configs_frame -> Label -----------------
         # 放置输入框，并设置位置

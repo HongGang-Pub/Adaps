@@ -6,24 +6,24 @@
 - [5. ROI配置校验](#5-roi配置校验)
 - [6. 寄存器配置生成功能说明](#6-寄存器配置生成功能说明)
 
-# 2. 软件介绍
+# 2. 软件介绍  
 1. 软件界面如下  
 ![软件界面](figs/Software.jpg "Software.jpg")
-2. Config: 
+1. Config: 
    1. WORK_MODE: 下拉选择，Histogram Mode / Echo Mode / Ranging Mode / Gray Scale Mode 
    2. TDC bin width：下拉选择，0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns
-   2. MIPI RATE：下拉选择，0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane
-   2. SCAN_MODE: 下拉选择，1D SCAN_MODE / 2D SCAN_MODE
-   3. V_ROLL_NUM: 垂直方向Rolling次数，选择范围: 1~32次
-   4. H_ROLL_NUM: 水平方向ROlling次数，选择范围: 1~16次
-   5. H_VLD_SEG: 每次Rolling打开的段数, 1~16段
-3. Input：
+   3. MIPI RATE：下拉选择，0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane
+   4. SCAN_MODE: 下拉选择，1D SCAN_MODE / 2D SCAN_MODE
+   5. V_ROLL_NUM: 垂直方向Rolling次数，选择范围: 1~32次
+   6. H_ROLL_NUM: 水平方向ROlling次数，选择范围: 1~16次
+   7. H_VLD_SEG: 每次Rolling打开的段数, 1~16段
+2. Input：
    1. Load ROI file：标定文件选择窗口, 默认打开./Input文件夹  
       > 标定文件格式请参看[**标定文件格式说明**](#4-标定文件格式说明)
-   3. Sel Config file：基准配置文件选择窗口
+   2. Sel Config file：基准配置文件选择窗口
       > 程序会根据选择的基准配置文件以及最新的配置信息，自动生成新的寄存器配置脚本  
-      > 寄存器配置脚本支持的功能请参看[**生成寄存器功能说明**](#6-寄存器配置生成功能说明)
-4. Output:
+      > 寄存器配置脚本支持的功能请参看[**寄存器配置生成功能说明**](#6-寄存器配置生成功能说明)
+3. Output:
    1. REG CFG File：生成的寄存器配置脚本文件名
    2. ROI SRAM File：生成的ROI文件名
 4. Operate:
@@ -82,6 +82,6 @@
 2. Upsampling 寄存器配置
 3. MIPI 速率 0.8、1.0、1.2、1.5 Gbps/Lane 相关寄存器配置
 4. MIPI_PKTDLY 自适应配置
-5. I2C_block_write 配置
-6. MIPI  WC & FLNR配置
+5. ROI SRAM Block_write 配置
+6. MIPI WC & FLNR配置
 7. V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、WOKR_MODE、SCAN_MODE等寄存器配置
