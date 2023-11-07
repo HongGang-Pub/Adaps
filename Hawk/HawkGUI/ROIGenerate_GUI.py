@@ -136,16 +136,17 @@ def msku_gui():
     # 窗口显示属性配置
     # ===============================================================================================
     window = tkinter.Tk()
-    window.title("Hawk ROI Generate 1.2")  # 标题
     # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
-    window.iconphoto(False, tkinter.PhotoImage(file=r".file/icon.png"))
     width = 1300
     height = 850
-    window.minsize(width, height)
     screenwidth = window.winfo_screenwidth()
     screenheight = window.winfo_screenheight()
     size_geo = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
     window.geometry(size_geo)
+    window.minsize(width, height)
+
+    window.title("Hawk ROI Generate 1.2")  # 标题
+    window.iconphoto(False, tkinter.PhotoImage(file=r".file/icon.png"))
 
     def _quit():
         window.quit()
@@ -481,10 +482,10 @@ def msku_gui():
     def _set_dsp():
         nonlocal vcoor
         # ------------------ window -> frame -----------------
-        vcoor = 0.005
-        company_icons.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.100))
-        frame_roi_img.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.885))
-        frame_roi_cfg.place(relx=0.700, rely=vcoor, relwidth=0.295, relheight=set_next_cmp_coor(0.990))
+        # vcoor = 0.005
+        # company_icons.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.100))
+        # frame_roi_img.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.885))
+        # frame_roi_cfg.place(relx=0.700, rely=vcoor, relwidth=0.295, relheight=set_next_cmp_coor(0.990))
         company_icons.place(relx=0.005, rely=0.005, relwidth=0.695, relheight=0.100)
         frame_roi_img.place(relx=0.005, rely=0.110, relwidth=0.695, relheight=0.885)
         frame_roi_cfg.place(relx=0.700, rely=0.000, relwidth=0.295, relheight=0.990)
