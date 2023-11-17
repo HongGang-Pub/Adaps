@@ -2,5 +2,5 @@
 .idea
 /Hawk/HawkGUI/build/
 /Hawk/HawkGUI/dist/
-/Hawk/HawkGUI/GUI/
+/GUI
 /venv/
