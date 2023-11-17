@@ -31,6 +31,7 @@ csru_addr = {
     "VC1_WC_H": 0x011B,
     # HIST UpSampling
     "UPSMP_CFG": 0x15,
+    "TDC_DLY_CFG1": 0x5A,
 }
 
 PLL1_DIV_CONFIG = {

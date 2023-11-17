@@ -73,9 +73,9 @@ def GetCsruConfig(config_file, protocol="i2c") -> dict:
     PXL_SPAD_OUT_EN_H = 0x01
 
     for line in range(len(csru_datas)):
-        _str = csru_datas[line].strip().replace("\n", "").replace("\r", "") # 去除换行符, 保存时统一保存
+        _str = csru_datas[line].strip().replace("\n", "").replace("\r", "")  # 去除换行符, 保存时统一保存
 
-        if _str == '' or _str[0:2] == '//':              # 空行 & 整行注释 场景
+        if _str == '' or _str[0:2] == '//':  # 空行 & 整行注释 场景
             continue
         configs = re.split(",|//", _str)
         for i in range(len(configs)):
@@ -220,6 +220,10 @@ def GenerateHawkRegConfig(cfg):
     # Calculate Register Value
     # ----------------------------------------------------------------------------------------
     WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+    if FLNR >= 8192:
+        csru_cfg['tx_frame_mode'] = 0
+        WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+
     # MIPI FLNR & WC cal
     VC0_FLNR_L = (FLNR & 0x00FF) >> 0
     VC0_FLNR_H = (FLNR & 0xFF00) >> 8
@@ -241,9 +245,13 @@ def GenerateHawkRegConfig(cfg):
     SYSCLK1M_DIVL = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["SYSCLK1M_DIVL"]
     SYSCLK1M_DIVH = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["SYSCLK1M_DIVH"]
     TXESC_CLKDIV = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["TXESC_CLKDIV"]
+    # TDC_DLY_CFG1
+    PLL_OD = ((PLL1_DIV1 & 0x03) >> 0)  # 0~3: 2，4，6，8
+    PHASE_DLY_OPT = 0b011 if PLL_OD == 0 else 0b111
+
     # ROI length
     if cfg["SCAN_MODE"] == 0:
-        roi_length = (13 + (cfg["H_VLD_SEG"] + 1)*6) * (cfg["V_ROLL_NUM"] + 1)
+        roi_length = (13 + (cfg["H_VLD_SEG"] + 1) * 6) * (cfg["V_ROLL_NUM"] + 1)
     else:
         roi_length = (13 + (cfg["H_ROLL_NUM"] + 1) * 6) * (cfg["V_ROLL_NUM"] + 1)
 
@@ -255,8 +263,8 @@ def GenerateHawkRegConfig(cfg):
         raise ValueError("The register configuration file is empty, please check。")
 
     for line in range(len(csru_datas)):
-        _str = csru_datas[line].strip().replace("\n", "").replace("\r", "") # 去除换行符, 保存时统一保存
-        if _str == '' or _str[0:2] == '//':              # 空行 & 整行注释 场景
+        _str = csru_datas[line].strip().replace("\n", "").replace("\r", "")  # 去除换行符, 保存时统一保存
+        if _str == '' or _str[0:2] == '//':  # 空行 & 整行注释 场景
             csru_datas[line] = _str
             continue
 
@@ -278,6 +286,7 @@ def GenerateHawkRegConfig(cfg):
             annotation = _str[index:] if index != -1 else ""
 
             if addr == csru_addr['SYS_CTRL']:
+                register_value = (register_value & (0xFF - 0x80)) + (csru_cfg['tx_frame_mode'] << 7)
                 register_value = (register_value & (0xFF - 0x08)) + (cfg["SCAN_MODE"] << 3)
                 register_value = (register_value & (0xFF - 0x06)) + (cfg["WORK_MODE"] << 1)
             elif addr == csru_addr['V_ROLL_NUM']:
@@ -285,10 +294,12 @@ def GenerateHawkRegConfig(cfg):
             elif addr == csru_addr['H_ROLL_NUM']:
                 register_value = (register_value & (0xFF - 0x0F)) + (cfg["H_ROLL_NUM"] << 0)
                 register_value = (register_value & (0xFF - 0xF0)) + (cfg["H_VLD_SEG"] << 4)
-            elif addr == csru_addr['MIPI_TXDLY']:
-                register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
             elif addr == csru_addr['UPSMP_CFG']:
                 register_value = (register_value & (0xFF - 0x03)) + (cfg["UPSMP_MODE"] << 0)
+            elif addr == csru_addr['MIPI_TXDLY']:
+                register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
+            elif addr == csru_addr['TDC_DLY_CFG1']:
+                register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
             else:
                 register_value = PLL1_DIV1 if addr == csru_addr['PLL1_DIV1'] \
                     else PLL1_DIV2 if addr == csru_addr['PLL1_DIV2'] \

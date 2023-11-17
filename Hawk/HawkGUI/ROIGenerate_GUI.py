@@ -259,12 +259,12 @@ def msku_gui():
     def _work_mode_update(event):
         work_mode = work_mode_cfg_cmp.get()
         cfg['WORK_MODE'] = 3 if work_mode == 'Gray Scale Mode' \
-            else 2 if work_mode == "Ranging Mode" \
+            else 2 if work_mode == "Histogram Mode" \
             else 1 if work_mode == "Echo Mode" \
             else 0  # SPHR
 
     work_mode_cfg_cmp = ttk.Combobox(configs_frame, width=23)
-    work_mode_cfg_cmp['value'] = ("Histogram Mode", "Echo Mode", "Ranging Mode", "Gray Scale Mode")  # 设置下拉菜单中的值
+    work_mode_cfg_cmp['value'] = ("Ranging Mode", "Echo Mode", "Histogram Mode", "Gray Scale Mode")  # 设置下拉菜单中的值
     work_mode_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
     work_mode_cfg_cmp.bind("<<ComboboxSelected>>", _work_mode_update)
 

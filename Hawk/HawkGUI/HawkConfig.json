@@ -12,7 +12,7 @@
 
 	"start_roll"	: 0,					"?start_roll"	: "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
 	"TDC_BIN_W"		: 1	,					"?TDC_BIN_W"	: "0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns",
-	"WORK_MODE"		: 2	,					"?WORK_MODE"	: "0~3: Histogram Mode / Echo Mode / Ranging Mode / Gray Scale Mode",
+	"WORK_MODE"		: 2	,					"?WORK_MODE"	: "0~3: Ranging Mode / Echo Mode / Histogram Mode / Gray Scale Mode",
 	"MIPI_RATE" 	: 0.8,					"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",

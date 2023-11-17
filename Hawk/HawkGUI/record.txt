@@ -9,8 +9,6 @@ pyinstaller -i .\.file\icon.ico -p ..\..\..\Adaps\ -F -w .\ROIGenerate_GUI.py
 
 nuitka --standalone --mingw64 --windows-disable-console --show-progress --include-data-dir=./Hawk/HawkGUI/Input=./Input --include-data-dir=./Hawk/HawkGUI/.file=./.file --include-data-files=./Hawk/HawkGUI/HawkConfig.json=HawkConfig.json --enable-plugin=tk-inter  --output-dir=GUI --windows-icon-from-ico=./Hawk/HawkGUI/.file/icon.ico ./Hawk/HawkGUI/ROIGenerate_GUI.py --include-package=PIL.ImageTk,PIL.Image --nofollow-import-to=urllib3,win32com,pyquery,requests,email,http,bdb,pdb,runpy,base64,copy,io,threading,encodings,pipes,xdrlib,netrc,difflib,sre_compile,sre_constants,sre_parse,cgi,webbrowser,importlib.resources,importlib._adapters,Hawk.DarkSpotAnalysis,Hawk.PCM,Hawk.TXU_Check,Hawk.SmallFunc,Pillow
 
-nuitka --standalone --mingw64 --report=*.py --include-data-dir=./Hawk/HawkGUI/Input=./Input --include-data-dir=./Hawk/HawkGUI/.file=./.file --include-data-files=./Hawk/HawkGUI/HawkConfig.json=HawkConfig.json --enable-plugin=tk-inter  --output-dir=GUI --windows-icon-from-ico=./Hawk/HawkGUI/.file/icon.ico ./Hawk/HawkGUI/ROIGenerate_GUI.py --include-package=PIL.ImageTk,PIL.Image --nofollow-import-to=urllib3,win32com,pyquery,requests,email,http,bdb,pdb,runpy,base64,copy,io,threading,encodings,pipes,xdrlib,netrc,difflib,sre_compile,sre_constants,sre_parse,cgi,webbrowser,importlib.resources,importlib._adapters,Hawk.DarkSpotAnalysis,Hawk.PCM,Hawk.TXU_Check,Hawk.SmallFunc,Pillow
-
 Options:
   --version             show program's version number and exit
   -h, --help            show this help message and exit
