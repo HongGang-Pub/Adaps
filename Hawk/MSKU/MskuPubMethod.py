@@ -9,7 +9,7 @@ import tkinter
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
-
+from SelfDefinedPackge import PubMethod
 import numpy as np
 import matplotlib.pyplot as plt
 from Hawk.Common import HawkPubMethod
@@ -205,7 +205,7 @@ def ParseRoiMem(cfg, roi_file=None, f_path='figs'):
 
     if roi_file is None:
         roi_file = cfg["roi_file"]
-    roi_data = HawkPubMethod.read_file(roi_file)
+    roi_data = PubMethod.read_file(roi_file)
 
     zone_roi_mem = []
     msku_roi_mem = []

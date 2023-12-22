@@ -7,7 +7,7 @@ from Hawk.MSKU import MskuPubMethod
 from Hawk.PCM import PcmPubMethod
 
 
-def do_work():
+def do_work(mipi_file, script_file, sramdata_path):
     # 获取寄存器配置
     csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
@@ -28,9 +28,9 @@ def do_work():
 
 
 if __name__ == '__main__':
-    mipi_file = r"D:\Software\DothinkTester\MipiData_PCM_Shift35_5"
+    mipi_file = r"C:\Users\honggang.li\Downloads\MipiData_shift2spad"
     # config_file=r"D:\Software\DothinkTester\Script\PCM.txt",
-    script_file = r"D:\Software\DothinkTester\Script\PCM_15(35_5).txt"
-    sramdata_path = r"D:\Software\DothinkTester\SramData"
+    script_file = r"C:\Users\honggang.li\Downloads\tmp\test_pcm_full_330mhz_adaps.txt"
+    sramdata_path = r"C:\Users\honggang.li\Downloads\tmp"
 
-    do_work()
+    do_work(mipi_file, script_file, sramdata_path)

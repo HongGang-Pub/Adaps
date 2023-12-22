@@ -17,6 +17,7 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
         bool: True or False
     """
 
+    error = 0
     sub_frame_num = 0
 
     file_index_list = list(f_dict.keys())
@@ -31,8 +32,9 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
         # 校验包是否为空
         if pkg_num is not None and actual_pkg_num != pkg_num:
             # raise ValueError("数据存在丢包：{}".format(file))
-            print("数据存在丢包：{}".format(file))
-            return False
+            print("数据存在丢包：{}:实际包数量:{}; 期待包个数:{}".format(file, actual_pkg_num, pkg_num))
+            error = 1
+            # return False
 
         """对subframe_info信息进行读取，check是否丢帧"""
         subframe_info = subframe_data[-1].split(" ")
@@ -48,11 +50,14 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
         if sub_frame_num > 1 and pre_frame_id + 1 != frame_id:
             # raise ValueError("存在丢包：{}->{}, MIPI_{}".format(pre_frame_id, frame_id, f_idx))
             print("存在丢帧：{} -> {}：MIPI_{}".format(pre_frame_id, frame_id, f_idx))
-            return False
+            # return False
+            error = 1
         else:
             pre_frame_id = frame_id
-
-    return True
+    if error == 1:
+        return False
+    else:
+        return True
 
 
 def PackageSplit(data: str, bin_number: int = 672, pixel_num: int = 4, PH: int = 4) -> list:
@@ -202,7 +207,10 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
 
         """get_csru_config"""
         if len(configs) > min_lens:
-            addr = int(configs[addr_index].strip(), 16)
+            try:
+                addr = int(configs[addr_index].strip(), 16)
+            except:
+                continue
 
             if addr == csru_addr['SYS_CTRL']:
                 _sys_ctrl = configs[addr_index + 1].strip()[0:3]

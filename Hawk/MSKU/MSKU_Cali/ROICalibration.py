@@ -16,12 +16,60 @@ def get_pcm_file(fp: str) -> dict:
         dict: type(dict): {索引：文件路径}
     """
     f1 = PubMethod.get_fp(fd_path=fp, mode=0, match_filter='GrayImage', regression=1, f_type="PCM Imag")
+    frame_num = 1  # 标定数据采用第几帧
+    cnt = 1
+
+    f_dict = {}
+    for f in f1:
+        if os.path.splitext(f)[1] == ".raw":
+            f_name = os.path.split(f)[1]
+            index = float(f_name.split("_")[3])
+            if index in f_dict:
+                cnt += 1
+                if cnt > frame_num:
+                    continue
+            else:
+                cnt = 1
+            f_dict[index] = f
+    return f_dict
+
+
+def get_pcm_file_1(fp: str) -> dict:
+    """
+    从指定的文件夹中获取对应的灰度图，用于成图
+
+    Args:
+        fp (str): 文件路径
+
+    Returns:
+        dict: type(dict): {索引：文件路径}
+    """
+    f1 = PubMethod.get_fp(fd_path=fp, mode=0, match_filter='GrayImage', regression=1, f_type="PCM Imag")
     f_dict = {}
     for f in f1:
         if os.path.splitext(f)[1] == ".raw":
             index = float(os.path.split(f)[0].split("\\")[-1].split("_")[0])
             f_dict[index] = f
     return f_dict
+
+
+def MoveCoorByPixel(hist_array: np.ndarray, cali_point: int) -> int:
+    """
+    对坐标按照pixel进行标定
+
+    Args:
+        hist_array (np.ndarray): 基准标定数据
+        cali_point (int): 需要按照pixel移位的点
+
+    Returns:
+
+    """
+    sub_point = (cali_point // 3) * 3
+    add_point = (cali_point // 3 + 1) * 3
+    if (add_point + 17 < 576) and (hist_array[sub_point] < hist_array[add_point + 17]):
+        return add_point
+    else:
+        return sub_point
 
 
 def Conv2(image: np.ndarray) -> np.ndarray:
@@ -120,7 +168,6 @@ def SCANMODE_1D(img, h_vld_seg, curvature) -> tuple:
         tuple: 返回多个值
     """
     per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
-    spad_array = np.zeros((576, 768))  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵会对应位置会被打开
 
     # 1D scan_mode将 spad 按照 576*48 (共16段划分)，然后累和
     seg_sum_array = SegAccumulation(array=img, accum_seg=1)
@@ -154,7 +201,7 @@ def SCANMODE_1D(img, h_vld_seg, curvature) -> tuple:
         vcoor = start_index_list[index]
         pre_vcoor = vcoor if abs(vcoor - pre_vcoor) > curvature else pre_vcoor
         start_index_list[pre_index] = pre_vcoor
-
+    # 向后校准
     for index in range(h_center, h_vld_seg):
         post_index = index + 1
         vcoor = start_index_list[index]
@@ -162,15 +209,17 @@ def SCANMODE_1D(img, h_vld_seg, curvature) -> tuple:
         post_vcoor = vcoor if abs(vcoor - post_vcoor) > curvature else post_vcoor
         start_index_list[post_index] = post_vcoor
 
-    # 通过 seg_hs 和 start_index进行组合产生横纵坐标，并根据标定位置修改spad_array，辅助成图check ROI是否正确
+    # 通过 seg_hs 和 start_index进行组合产生横纵坐标
     for seg_num in range(seg_hs, seg_hs + h_vld_seg + 1):
         start_index = start_index_list[seg_num - seg_hs]
         per_img_roi_data.append([seg_num, start_index])
-        spad_array[start_index: start_index + 17, seg_num * 48: (seg_num + 1) * 48] = 1
 
+    # 返回有效光条的二维数组
     valid_spad_max_photon_count = v_spad_value.max() / 48
+    dsp_img = img[:, :, 0] / valid_spad_max_photon_count
+    dsp_img = np.where(dsp_img <= 1, dsp_img, 1)
 
-    return per_img_roi_data, valid_spad_max_photon_count, spad_array
+    return per_img_roi_data, dsp_img
 
 
 def SCANMODE_2D(img: np.ndarray, h_vld_seg: int, mode: int = 0) -> tuple:
@@ -186,7 +235,6 @@ def SCANMODE_2D(img: np.ndarray, h_vld_seg: int, mode: int = 0) -> tuple:
         tuple: 返回多个值
     """
     per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
-    spad_array = np.zeros((576, 768))  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵会对应位置会被打开
 
     # 2D scan_mode将 spad 按照 576*(48*h_vld_seg) 步径为 1 进行累和
     seg_sum_array = SegAccumulation(array=img, accum_seg=h_vld_seg + 1)
@@ -217,15 +265,17 @@ def SCANMODE_2D(img: np.ndarray, h_vld_seg: int, mode: int = 0) -> tuple:
 
     # 通过 seg_hs 和 spad_vs进行组合产生横纵坐标，并根据标定位置修改spad_array，辅助成图check ROI是否正确
     per_img_roi_data.append([seg_hs, start_index])
-    spad_array[start_index: start_index + 17, seg_hs * 48: (seg_hs + h_vld_seg + 1) * 48] = 1
 
+    # 返回有效光条的二维数组
     valid_spad_max_photon_count = v_spad_value.max() / ((h_vld_seg + 1) * 48)
+    dsp_img = img[:, :, 0] / valid_spad_max_photon_count
+    dsp_img = np.where(dsp_img <= 1, dsp_img, 1)
 
-    return per_img_roi_data, valid_spad_max_photon_count, spad_array
+    return per_img_roi_data, dsp_img
 
 
 def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: int = 15, curvature: int = 30,
-                       noise_filter: int = 0, mode2D: int = 0, f_path: str = 'figs') -> tuple:
+                       noise_filter: int = 0, mode2D: int = 0) -> tuple:
     """
     根据配置调用相应方法对单张图片进行识别，找出光条，并生成 ROI 标定效果图片
 
@@ -237,7 +287,6 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
         curvature (int): 参看方法：SCANMODE_1D()
         noise_filter (int): 是否进行噪点消除
         mode2D (int):2D Scan mode标定方式
-        f_path (str): 图片的存储路径
 
     Returns:
         tuple: 返回多个值
@@ -248,32 +297,18 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
     # 利用numpy中array的reshape函数将读取到的数据进行重新排列
     ini_img = ini_img.reshape(576, 768, 1)
 
-    # tmp_img = np.zeros((rows,cols,1))
-    # for i in range(rows):
-    #     for j in range(cols):
-    #         tmp_img[i, j, 0] = img[rows-1-i, cols-1-j, 0]
-
     img = Conv2(image=ini_img) if noise_filter == 1 else ini_img
 
     if scan_mode == 0:
-        per_img_roi_data, photon_count, spad_array = SCANMODE_1D(img, h_vld_seg, curvature)
+        per_img_roi_data, dsp_img = SCANMODE_1D(img, h_vld_seg, curvature)
     else:
-        per_img_roi_data, photon_count, spad_array = SCANMODE_2D(img, h_vld_seg, mode=mode2D)
+        per_img_roi_data, dsp_img = SCANMODE_2D(img, h_vld_seg, mode=mode2D)
 
-    """融合ROI 标定数据和imag数据，成3D图像"""
-    spad_array_3D = np.zeros((576, 768, 3))
-    dsp_img = img[:, :, 0] / photon_count
-    dsp_img = np.where(dsp_img <= 1, dsp_img, 1)
-    spad_array_3D[:, :, 0] = dsp_img
-    spad_array_3D[:, :, 2] = spad_array * 0.8
-
-    f_path = "{}\\{}.png".format(f_path, img_name)
-    plt.imsave(f_path, spad_array_3D)
     print("完成 {} 图像识别！！！".format(img_name))
-    return per_img_roi_data, img, spad_array, photon_count
+    return per_img_roi_data, dsp_img
 
 
-def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> list:
+def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> tuple:
     """
     对文件按照给定的顺序调用标定方法标定，并成图展示整体标定效果
 
@@ -287,57 +322,134 @@ def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> list:
         cfg (dict): 相关配置信息
 
     Returns:
-        list: 按照顺序标定后返回的标定值
+        tuple: 按照顺序标定后返回的标定值
+        ROI_DATA 返回格式:
+        [
+        [[0, 0], [1, 0], [2, 0], ...，], // roll =0
+        ...
+        ]
     """
     """根据config文件赋值"""
-    fp = cfg['fd_path']
-    msk_intensity = cfg['msk_intensity']
-    light_intensity = cfg['light_intensity']
     reverse = True if cfg['is_reverse'] == 1 else False
 
     """对获取的文件进行排序，按排序进行图像识别"""
     file_index_list = list(f_dict.keys())
     file_index_list.sort(reverse=reverse)
 
-    if not os.path.exists(fp):
-        # 目录不存在，进行创建操作
-        os.makedirs(fp)
-
     """循环对所有图片进行识别，对图片进行融合"""
     image_roi_datas = []
-    spad_array_3D = np.zeros((576, 768, 3))
-    fusion_image = np.zeros((576, 768))  # 融合所有图片的光条
-    fusion_spad_array = np.zeros((576, 768))  # 融合所有开启的SPAD
-    max_photon_cnt = 0  # 所有图片rolling的最大光子数，基于此数值调整光条显示亮度
+    light_imags = []
 
     # for index in file_index_list[0:2]:
     for roll_cnt in range(len(file_index_list)):
         file = f_dict[file_index_list[roll_cnt]]
         f_name = "Roll{}_{}".format(roll_cnt, file_index_list[roll_cnt])
-        per_img_roi_data, img, spad_array, photon_cnt = GetRoiDataFromImag(file=file,
-                                                                           img_name=f_name,
-                                                                           scan_mode=cfg['SCAN_MODE'],
-                                                                           h_vld_seg=cfg['H_VLD_SEG'],
-                                                                           curvature=cfg['curvature'],
-                                                                           noise_filter=cfg['remove_noise'],
-                                                                           mode2D=cfg["mode2D"],
-                                                                           f_path=fp)
+        per_img_roi_data, dsp_img = GetRoiDataFromImag(file=file,
+                                                       img_name=f_name,
+                                                       scan_mode=cfg['SCAN_MODE'],
+                                                       h_vld_seg=cfg['H_VLD_SEG'],
+                                                       curvature=cfg['curvature'],
+                                                       noise_filter=cfg['remove_noise'],
+                                                       mode2D=cfg["mode2D"])
 
         image_roi_datas.append(per_img_roi_data)
-        fusion_image += img[:, :, 0]
+        light_imags.append(dsp_img)
+    return image_roi_datas, light_imags
+
+
+def Std_correct(A, B, precision):
+    """
+    Hawk 按照18行 spad 规格进行矫正 (只对横坐标进行矫正)
+    Args:
+        A (list): 基准数据, 数据格式：[[0, 0], [1, 0], [2, 0], [3, 0], ...]
+        B (list): 需矫正数据, 数据格式同 A
+        precision (int): 矫正精度(spad为单位)
+
+    Returns:
+        list: 返回矫正后的数据
+    """
+
+    for i in range(len(A)):
+        A_value = A[i][1]
+        B_value = B[i][1]
+        if abs(A_value - B_value) <= 18:
+            continue
+        elif abs(A_value - B_value) - 18 <= precision:
+            B[i][1] = A_value - 18 if A_value > B_value else A_value + 18
+    return B
+
+
+def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
+    """
+    对一维 ROI 数据进行矫正，减少 rolling 之间的间隙，影响成图效果
+    Args:
+        roi_data (list): ROI标定后的原始数据
+        cfg (int): 配置信息
+
+    Returns:
+        list：矫正后的 ROI 数据
+    """
+
+    golden_roi_index = cfg["GoldenRoll"]
+    precision = cfg["precision"]
+    correct_roi_data = roi_data
+    if precision == 0:  # 矫正精度为 0 时, 即不需要矫正直接返回原始标定数据
+        return correct_roi_data
+
+    for i in range(golden_roi_index, 0, -1):
+        correct_roi_data[i - 1] = Std_correct(correct_roi_data[i], roi_data[i - 1], precision=precision)
+    for j in range(golden_roi_index, len(roi_data) - 1):
+        correct_roi_data[j + 1] = Std_correct(correct_roi_data[j], roi_data[j + 1], precision=precision)
+    return correct_roi_data
+
+
+def CaliResultDsp(roi_data, ligth_imags, cfg):
+    """融合ROI 标定数据和imag数据，成3D图像"""
+
+    """根据config文件赋值"""
+    fp = cfg['file_path']
+    msk_intensity = cfg['msk_intensity']
+    light_intensity = cfg['light_intensity']
+
+    if not os.path.exists(fp):
+        # 目录不存在，进行创建操作
+        os.makedirs(fp)
+
+    """循环对所有图片进行识别，对图片进行融合"""
+    spad_array_3D = np.zeros((576, 768, 3))
+    fusion_image = np.zeros((576, 768))  # 融合所有图片的光条
+    fusion_spad_array = np.zeros((576, 768))  # 融合所有开启的SPAD
+
+    for roll_cnt in range(len(roi_data)):
+        sub_spad_array_3D = np.zeros((576, 768, 3))
+        spad_array = np.zeros((576, 768))  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵对应位置会被打开
+
+        # 光条二维数组
+        img = ligth_imags[roll_cnt]
+
+        # ROI 二维数组 (此实现只支持 1D)
+        for coors in roi_data[roll_cnt]:
+            v_coor = coors[1]
+            seg_num = coors[0]
+            spad_array[v_coor: v_coor + 17, seg_num * 48: (seg_num + 1) * 48] = 1
+
+        # 融合光条和 ROI 数组, 成图展示标定效果
+        sub_spad_array_3D[:, :, 0] = img
+        sub_spad_array_3D[:, :, 2] = spad_array * 0.8
+
+        file_path = "{}\\Roll{}.png".format(fp, roll_cnt)
+        plt.imsave(file_path, sub_spad_array_3D)
+
+        fusion_image += img
         fusion_spad_array += spad_array
-        max_photon_cnt = photon_cnt if photon_cnt > max_photon_cnt else max_photon_cnt
 
     """对整图数据进行处理，确保可以保存"""
     fusion_spad_array = np.where(fusion_spad_array <= 1, fusion_spad_array, 1)
     spad_array_3D[:, :, 2] = fusion_spad_array * msk_intensity / 100
 
-    # fusion_image_tmp = fusion_image / (max_photon_cnt * (1 - light_intensity / 100))
-    fusion_image_tmp = (fusion_image / max_photon_cnt) * light_intensity / 100
-    # fusion_image_tmp = fusion_image / max_photon_cnt
-    fusion_image_tmp = np.where(fusion_image_tmp <= 1, fusion_image_tmp, 1)
-    # fusion_image_tmp = fusion_image_tmp * light_intensity / 100
-    spad_array_3D[:, :, 0] = fusion_image_tmp
+    fusion_image = fusion_image / (fusion_image.max() / 2)  # 光条一般只会重叠一次，因此进行衰减
+    fusion_image = np.where(fusion_image <= 1, fusion_image, 1)
+    spad_array_3D[:, :, 0] = fusion_image * light_intensity / 100
 
     # 成图或者保存图片
     # plt.figure()
@@ -353,9 +465,8 @@ def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> list:
     f1 = "{}\\{}.png".format(fp, "fusion_imag")
     f2 = "{}\\{}.png".format(fp, "fusion_msku")
     # plt.imsave(f1, fusion_image, vmax=fusion_image.max() / 2)
-    plt.imsave(f1, fusion_image_tmp)
+    plt.imsave(f1, fusion_image)
     plt.imsave(f2, spad_array_3D)
-    return image_roi_datas
 
 
 def MskuRoiGenerate(cali_data: list, cfg: dict) -> list:
@@ -440,9 +551,9 @@ def RoiMemGenerate(cali_data, cfg):
         per_zone_mem = zones_config[vroll_cnt] + msku_roi_mem[vroll_cnt]
         roi_data = roi_data + per_zone_mem
 
-    MskuPubMethod.roi_imag(msku_roi_mem, cfg, fd_path=cfg['fd_path'])  # 成图
+    MskuPubMethod.roi_imag(msku_roi_mem, cfg, fd_path=cfg['file_path'])  # 成图
 
-    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"])
+    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["file_path"])
 
     print("ROI 生成完成！！！")
     return
@@ -469,7 +580,13 @@ def do_work(config_file):
         raise ValueError("文件数据错误：ROI标定需要{}个文件，实际只有{}个文件".format(roll_num, len(file_dict)))
 
     """标定，返回标定数据"""
-    img_roi_datas = GetRoiDataFromAllImags(file_dict, cfg)
+    _img_roi_datas, light_imags = GetRoiDataFromAllImags(file_dict, cfg)
+
+    """对标定的原始数据按照配置进行矫正，消除黑条"""
+    img_roi_datas = CoorCorrect_1D(_img_roi_datas, cfg)
+
+    print("标定信息保存中...")
+    CaliResultDsp(img_roi_datas, light_imags, cfg)
 
     """生成ROI Data"""
     RoiMemGenerate(img_roi_datas, cfg)

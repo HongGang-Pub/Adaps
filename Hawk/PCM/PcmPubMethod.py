@@ -91,14 +91,13 @@ def GetPcmDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
                     h_seg_s = seg_hs + seg_cnt
                     seg_coor_vs = msku_roi_mem[vroll_num][sub_light * (h_vld_seg + 1) + seg_cnt] % 1024
 
-                    # if pcm_sub == 0 and sub_light == 0 and seg_cnt == 0:    # 打印日志
-                    #     print("seg_hs:{}, seg_hs:{}".format(seg_coor_vs, seg_hs))
-
                     col_shift = hroll_num % 3
-                    row_shift = hroll_num // 3
+                    row_shift = (hroll_num // 3 + (3 - seg_coor_vs % 3)) % 3
 
                     h_s = h_seg_s * 48 + col_shift
                     v_s = seg_coor_vs + row_shift
+                    if v_s > 575:
+                        continue
 
                     pkg_index = sub_light * (h_vld_seg + 1) * 4 + seg_cnt * 4
 

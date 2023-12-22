@@ -4,14 +4,14 @@
 	"data_format"	: 1 ,					"?data_format"	: "ROI存储格式：0：byte对齐, 1: half-word对齐",
 
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
-	"SCAN_MODE"  	: 1	,
-	"V_ROLL_NUM" 	: 31,
+	"SCAN_MODE"  	: 0 ,
+	"V_ROLL_NUM" 	: 30,
 	"H_ROLL_NUM" 	: 3 ,
 	"H_VLD_SEG"  	: 15,
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,
-	"spad_vs"    	: 0 ,
+	"spad_vs"    	: 12,
 	"light_shift"	: 18,
 	"sublight_shift": 3	,
 	"roi_shape"  	: 0	,

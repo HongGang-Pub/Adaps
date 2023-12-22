@@ -1,6 +1,6 @@
 {
 	"?fd_path"		: "标定数据路径(PCM灰度图路径) (请注意使用双斜杠)",
-	"fd_path"		: "D:\\Project\\Hawk\\TF3004\\20230822分区光斑测试数据",
+	"fd_path"		: "C:\\Users\\honggang.li\\Downloads\\B03_ROI_data\\B03_ROI_data",
 
 	"file_path"		: "figs822",			"?file_path" 	: "存储的文件路径",
 	"roi_name"		: "roi_mem",			"?roi_name" 	: "存储的ROI Memory文件名",
@@ -12,14 +12,16 @@
 	"H_VLD_SEG"  	: 15,
 
 	"is_reverse"	: 0 ,					"?is_reverse"	: "文件读取顺序。是：序号从小到大；否：序号从大到小",
+	"GoldenRoll"	: 15,					"?GoldenRoll"	: "基于第几次 rolling 进行 ROI 标定的矫正" ,
+    "precision"		: 0 ,					"?precision"	: "对 ROI 矫正的精度, 配置为 0 时，不进行矫正" ,
 	"remove_noise"	: 0 ,					"?remove_noise"	: "是否消除噪点，如果光条明显，噪点相对较弱时，无需配置为1",
-	"curvature"		: 18,					"?curvature"	: "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI(1D scan生效)",
+	"curvature"		: 12,					"?curvature"	: "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI(1D scan生效)",
 	"mode2D"		: 0	,					"?mode2D"		: "0：以光条能量优先；1：以能 Masking的最大光子数优先",
 
 	"msk_intensity" : 80,					"?intensity"	: "ROI和光条亮度调整0~100",
-	"light_intensity":60,
+	"light_intensity":100,
 
-	"start_roll"	: 1,					"?start_roll": "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
+	"start_roll"	: 0,					"?start_roll": "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
 
 	"?zone_cfg_sel" : "zone_cfg_sel=-1:按顺序读取每一个Zone分区的配置生成ROI_DATA; zone_cfg_sel=0~31:所有分区的Zone配置都使用zone_cfg_sel的配置",
 	"zone_cfg_sel"	: 0,
