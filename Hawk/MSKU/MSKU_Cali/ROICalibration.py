@@ -393,17 +393,36 @@ def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
     golden_roi_index = cfg["GoldenRoll"]
     precision = cfg["precision"]
     correct_roi_data = roi_data
-    if precision == 0:  # 矫正精度为 0 时, 即不需要矫正直接返回原始标定数据
-        return correct_roi_data
+    # if precision == 0:  # 矫正精度为 0 时, 即不需要矫正直接返回原始标定数据
+    #     return correct_roi_data
 
-    for i in range(golden_roi_index, 0, -1):
-        correct_roi_data[i - 1] = Std_correct(correct_roi_data[i], roi_data[i - 1], precision=precision)
-    for j in range(golden_roi_index, len(roi_data) - 1):
-        correct_roi_data[j + 1] = Std_correct(correct_roi_data[j], roi_data[j + 1], precision=precision)
+    # for i in range(golden_roi_index, 0, -1):
+    #     correct_roi_data[i - 1] = Std_correct(correct_roi_data[i], roi_data[i - 1], precision=precision)
+    # for j in range(golden_roi_index, len(roi_data) - 1):
+    #     correct_roi_data[j + 1] = Std_correct(correct_roi_data[j], roi_data[j + 1], precision=precision)
+    # for i in range(len(correct_roi_data)-1, golden_roi_index, -1):
+    #     for j in range(0, len(correct_roi_data[i])):
+    #         correct_roi_data[i-1][j][1] = correct_roi_data[i][j][1] - 18
+
+    start_roll = 1
+    end_roll = 31
+    precision = 6
+    for cnt in range(0, 32):
+        base_roll = cnt * precision + start_roll
+        # print(base_roll)
+        if base_roll > 30:
+            break
+        for roll_cnt in range(base_roll, base_roll + precision-1):
+            if roll_cnt >= end_roll:
+                break
+            # print(roll_cnt)
+            for h_seg_cnt in range(0, len(correct_roi_data[roll_cnt])):
+                correct_roi_data[roll_cnt + 1][h_seg_cnt][1] = correct_roi_data[roll_cnt][h_seg_cnt][1] + 18
+
     return correct_roi_data
 
 
-def CaliResultDsp(roi_data, ligth_imags, cfg):
+def CaliResultDisplay(roi_data, ligth_imags, cfg):
     """融合ROI 标定数据和imag数据，成3D图像"""
 
     """根据config文件赋值"""
@@ -586,7 +605,7 @@ def do_work(config_file):
     img_roi_datas = CoorCorrect_1D(_img_roi_datas, cfg)
 
     print("标定信息保存中...")
-    CaliResultDsp(img_roi_datas, light_imags, cfg)
+    CaliResultDisplay(img_roi_datas, light_imags, cfg)
 
     """生成ROI Data"""
     RoiMemGenerate(img_roi_datas, cfg)
