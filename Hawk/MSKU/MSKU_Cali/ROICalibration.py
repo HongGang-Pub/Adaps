@@ -5,19 +5,19 @@ from SelfDefinedPackge import PubMethod
 from Hawk.MSKU import MskuPubMethod
 
 
-def get_pcm_file(fp: str) -> dict:
+def get_pcm_file(fp: str, frame_num=5) -> dict:
     """
     从指定的文件夹中获取对应的灰度图，用于成图
 
     Args:
         fp (str): 文件路径
+        frame_num (int): 采用第几帧数据进行标定
 
     Returns:
         dict: type(dict): {索引：文件路径}
     """
     f1 = PubMethod.get_fp(fd_path=fp, mode=0, match_filter='GrayImage', regression=1, f_type="PCM Imag")
-    frame_num = 1  # 标定数据采用第几帧
-    cnt = 1
+    get_frame_cnt = 1
 
     f_dict = {}
     for f in f1:
@@ -25,11 +25,11 @@ def get_pcm_file(fp: str) -> dict:
             f_name = os.path.split(f)[1]
             index = float(f_name.split("_")[3])
             if index in f_dict:
-                cnt += 1
-                if cnt > frame_num:
+                get_frame_cnt += 1
+                if get_frame_cnt > frame_num:
                     continue
             else:
-                cnt = 1
+                get_frame_cnt = 1
             f_dict[index] = f
     return f_dict
 
@@ -379,6 +379,51 @@ def Std_correct(A, B, precision):
     return B
 
 
+def fill_gaps(blocks, length=6, max_move=1):
+    """
+    移动方块以填充缝隙，同时确保不产生新的缝隙。
+
+    :param blocks: 方块的初始位置列表。
+    :param length: 方块的长度（默认为6）。
+    :param max_move: 每个方块最大移动范围（默认为1）。
+    :return: 调整位置后的方块列表。
+    """
+    correct_blocks = blocks[:]
+    if not correct_blocks:
+        return []
+
+    # 对方块进行排序
+    correct_blocks.sort()
+
+    i = 0
+    while i < len(correct_blocks) - 1:
+        end_of_current = correct_blocks[i] + length
+        start_of_next = correct_blocks[i + 1]
+        distance = start_of_next - end_of_current
+
+        if distance < 0:  # 存在重叠
+            # 检查后面是否有缝隙
+            if i + 1 < len(correct_blocks) - 1:
+                next_end = correct_blocks[i + 1] + length
+                gap_after_next = correct_blocks[i + 2] - next_end
+                if gap_after_next > 0:
+                    # 使用重叠部分来填充缝隙
+                    move_distance = min(max_move, min(-distance, gap_after_next))
+                    correct_blocks[i + 1] += move_distance
+
+        elif distance > 0:  # 存在缝隙
+            # 确保移动不会产生新的缝隙
+            if i == 0:
+                # move_distance = min(max_move, distance)
+                move_distance = distance
+                correct_blocks[i] += move_distance
+            else:
+                move_distance = min(max_move, distance)
+                correct_blocks[i + 1] -= move_distance
+        i += 1
+    return correct_blocks
+
+
 def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
     """
     对一维 ROI 数据进行矫正，减少 rolling 之间的间隙，影响成图效果
@@ -389,35 +434,65 @@ def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
     Returns:
         list：矫正后的 ROI 数据
     """
-
-    golden_roi_index = cfg["GoldenRoll"]
-    precision = cfg["precision"]
     correct_roi_data = roi_data
-    # if precision == 0:  # 矫正精度为 0 时, 即不需要矫正直接返回原始标定数据
-    #     return correct_roi_data
 
-    # for i in range(golden_roi_index, 0, -1):
-    #     correct_roi_data[i - 1] = Std_correct(correct_roi_data[i], roi_data[i - 1], precision=precision)
-    # for j in range(golden_roi_index, len(roi_data) - 1):
-    #     correct_roi_data[j + 1] = Std_correct(correct_roi_data[j], roi_data[j + 1], precision=precision)
-    # for i in range(len(correct_roi_data)-1, golden_roi_index, -1):
-    #     for j in range(0, len(correct_roi_data[i])):
-    #         correct_roi_data[i-1][j][1] = correct_roi_data[i][j][1] - 18
+    if cfg["roi_correct"] == 0:
+        return correct_roi_data
+    # golden_roi_index = 1
+    # for roll_cnt in range(golden_roi_index, len(correct_roi_data)-1):
+    #     for h_seg_cnt in range(0, len(correct_roi_data[roll_cnt])):
+    #         correct_roi_data[roll_cnt + 1][h_seg_cnt][1] = correct_roi_data[roll_cnt][h_seg_cnt][1] + 18
+    # return correct_roi_data
 
-    start_roll = 1
-    end_roll = 31
-    precision = 6
-    for cnt in range(0, 32):
-        base_roll = cnt * precision + start_roll
-        # print(base_roll)
-        if base_roll > 30:
-            break
-        for roll_cnt in range(base_roll, base_roll + precision-1):
-            if roll_cnt >= end_roll:
-                break
-            # print(roll_cnt)
-            for h_seg_cnt in range(0, len(correct_roi_data[roll_cnt])):
-                correct_roi_data[roll_cnt + 1][h_seg_cnt][1] = correct_roi_data[roll_cnt][h_seg_cnt][1] + 18
+    # start_roll = 1
+    # end_roll = 31
+    # precision = 30
+    # for cnt in range(0, 32):
+    #     base_roll = cnt * precision + start_roll
+    #     # print(base_roll)
+    #     if base_roll > 30:
+    #         break
+    #     for roll_cnt in range(base_roll, base_roll + precision-1):
+    #         if roll_cnt >= end_roll:
+    #             break
+    #         # print(roll_cnt)
+    #         for h_seg_cnt in range(0, len(correct_roi_data[roll_cnt])):
+    #             correct_roi_data[roll_cnt + 1][h_seg_cnt][1] = correct_roi_data[roll_cnt][h_seg_cnt][1] + 18
+    vroll_num = len(correct_roi_data)
+    h_vld_seg = len(correct_roi_data[0])
+
+    for h_seg_cnt in range(0, h_vld_seg):
+        v_coors_list = []
+        v_pixel_list = []
+        v_coors_dict = {}   # 矫正时需对坐标排序再进行矫正，因此需要记录实际矫正位置
+
+        # 以段为单位解析每次 rolling 的坐标
+        for vroll_cnt in range(0, vroll_num):
+            v_coor = correct_roi_data[vroll_cnt][h_seg_cnt][1]
+            v_coors_list.append(v_coor)
+            v_pixel_list.append(v_coor//3)
+            v_coors_dict[v_coor] = vroll_cnt    # 记录实际矫正位置
+        v_coors_list.sort()
+        v_pixel_list.sort()
+
+        # 按照 pixel进行矫正
+        correct_pixel_list = fill_gaps(v_pixel_list)
+        # print(f"seg_num{h_seg_cnt}:")
+        # print(v_pixel_list)
+        # print(correct_pixel_list)
+
+        # 按照矫正的 pixel 对 ROI 进行矫正
+        for vroll_cnt in range(0, vroll_num):
+            act_roll = v_coors_dict[v_coors_list[vroll_cnt]]
+            old_pixel_value = v_pixel_list[vroll_cnt]
+            new_pixel_value = correct_pixel_list[vroll_cnt]
+            if old_pixel_value == new_pixel_value:
+                continue
+            elif old_pixel_value < new_pixel_value:     # 像下矫正
+                correct_coor = new_pixel_value * 3
+            else:                                       # 像上矫正
+                correct_coor = new_pixel_value * 3 + 2
+            correct_roi_data[act_roll][h_seg_cnt][1] = correct_coor
 
     return correct_roi_data
 
@@ -593,7 +668,7 @@ def do_work(config_file):
     roll_num = (v_roll_num + 1) if scan_mode == 0 else (h_roll_num + 1) * (v_roll_num + 1)
 
     """获取 .raw 标定文件，并按照给定要求返回字典"""
-    file_dict = get_pcm_file(cfg['fd_path'])
+    file_dict = get_pcm_file(cfg['fd_path'], cfg["cali_frm_num"])
 
     if len(file_dict) != roll_num:
         raise ValueError("文件数据错误：ROI标定需要{}个文件，实际只有{}个文件".format(roll_num, len(file_dict)))
@@ -601,6 +676,7 @@ def do_work(config_file):
     """标定，返回标定数据"""
     _img_roi_datas, light_imags = GetRoiDataFromAllImags(file_dict, cfg)
 
+    # print(_img_roi_datas)
     """对标定的原始数据按照配置进行矫正，消除黑条"""
     img_roi_datas = CoorCorrect_1D(_img_roi_datas, cfg)
 

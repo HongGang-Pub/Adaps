@@ -127,10 +127,10 @@ def roi_data_save(f_name, data=None, fd_path=".", data_format=1):
     return
 
 
-def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='msku_imag'):
+def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='imag_msku'):
     """ 生成根据 Masking 数据生成ROI图片 """
-    # spad_array = np.zeros((576, 768, 3))
     spad_array = np.zeros((576, 768))
+    depth_spad_array = np.zeros((192, 256))
 
     scan_mode = cfg["SCAN_MODE"]
     v_roll_num = cfg['V_ROLL_NUM']
@@ -150,6 +150,7 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='msku_imag'):
                 # spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48, :] = np.arrays(
                 #     [dsp, dsp, dsp])
                 spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
+                depth_spad_array[spad_coor//3, seg_num * 16:(seg_num + 1) * 16] = dsp
                 if seg_cnt == 0:
                     coor_info.append([seg_num * 48, spad_coor, "1D VROll_{}".format(vroll_cnt+1)])
     else:
@@ -166,6 +167,7 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='msku_imag'):
                     seg_num = per_coor >> 10
                     spad_coor = per_coor % 1024
                     spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
+                    depth_spad_array[spad_coor//3, seg_num * 16:(seg_num + h_vld_seg + 1) * 16] = dsp
                     if seg_cnt == 0:
                         coor_info.append([seg_num * 48, spad_coor, "2D ROll_{}_{}".format(vroll_cnt+1, hroll_cnt+1)])
                 roll_cnt += 1
@@ -176,12 +178,24 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='msku_imag'):
     ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
     ax.yaxis.set_major_locator(MultipleLocator(50))
     ax.xaxis.set_major_locator(MultipleLocator(48))
-    ax.imshow(spad_array, cmap="gray")
+    # ax.imshow(spad_array, cmap="gray")
+    ax.imshow(spad_array)
     # plt.show()
     for info in coor_info:
         do_mark(info)
     ArrayPubMethod.ArrayImageSave(fname=f_name, fd_path=fd_path)
     plt.close()
+
+    fig = plt.figure()
+    ax = fig.gca()
+    ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+    ax.yaxis.set_major_locator(MultipleLocator(20))
+    ax.xaxis.set_major_locator(MultipleLocator(16))
+    ax.imshow(depth_spad_array)
+    # plt.show()
+    ArrayPubMethod.ArrayImageSave(fname="imag_depth", fd_path=fd_path)
+    plt.close()
+
     # plt.show()
     # plt.imsave("{}/msku_imag.png".format(fd_path), spad_array, dpi=600)
     return

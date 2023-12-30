@@ -1,8 +1,8 @@
 {
 	"?fd_path"		: "标定数据路径(PCM灰度图路径) (请注意使用双斜杠)",
-	"fd_path"		: "C:\\Users\\honggang.li\\Downloads\\B03_ROI_data\\B03_ROI_data",
+	"fd_path"		: "C:\\Users\\honggang.li\\Downloads\\Record_PCM_2023_12_29_03_34_58",
 
-	"file_path"		: "figs822",			"?file_path" 	: "存储的文件路径",
+	"file_path"		: "cali_result",		"?file_path" 	: "存储的文件路径",
 	"roi_name"		: "roi_mem",			"?roi_name" 	: "存储的ROI Memory文件名",
 
 	"README"   		: "以下值需要与寄存器值保持一致",
@@ -12,10 +12,10 @@
 	"H_VLD_SEG"  	: 15,
 
 	"is_reverse"	: 0 ,					"?is_reverse"	: "文件读取顺序。是：序号从小到大；否：序号从大到小",
-	"GoldenRoll"	: 15,					"?GoldenRoll"	: "基于第几次 rolling 进行 ROI 标定的矫正" ,
-    "precision"		: 0 ,					"?precision"	: "对 ROI 矫正的精度, 配置为 0 时，不进行矫正" ,
+	"roi_correct"	: 1	,					"?roi_correct"	: "ROI是否需要按照pixel进行矫正：0：否，1：是",
+	"cali_frm_num"	: 5 ,					"?cali_frm_num"	: "使用灰度图中第几帧进行标定",
 	"remove_noise"	: 0 ,					"?remove_noise"	: "是否消除噪点，如果光条明显，噪点相对较弱时，无需配置为1",
-	"curvature"		: 12,					"?curvature"	: "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI(1D scan生效)",
+	"curvature"		: 2,					"?curvature"	: "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI(1D scan生效)",
 	"mode2D"		: 0	,					"?mode2D"		: "0：以光条能量优先；1：以能 Masking的最大光子数优先",
 
 	"msk_intensity" : 80,					"?intensity"	: "ROI和光条亮度调整0~100",
@@ -27,14 +27,14 @@
 	"zone_cfg_sel"	: 0,
 	"zone_cfg_def": {
 		"SUB_EXPOTIME"	: {
-			"Zone0" : 100,"Zone1" : 20,"Zone2" : 4094,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
+			"Zone0" : 99,"Zone1" : 20,"Zone2" : 40,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
 			"Zone8" : 20,"Zone9" : 20,"Zone10": 20,"Zone11": 20,"Zone12": 20,"Zone13": 10,"Zone14": 20,"Zone15": 20,
 			"Zone16": 20,"Zone17": 20,"Zone18": 20,"Zone19": 20,"Zone20": 20,"Zone21": 10,"Zone22": 20,"Zone23": 20,
 			"Zone24": 20,"Zone25": 20,"Zone26": 20,"Zone27": 20,"Zone28": 20,"Zone29": 10,"Zone30": 20,"Zone31": 20
 		},
 
 		"SUB_IDLETIME"	:  {
-			"Zone0" : 1,"Zone1" : 1,"Zone2" : 1,"Zone3" : 1,"Zone4" : 1,"Zone5" : 1,"Zone6" : 1,"Zone7" : 1,
+			"Zone0" : 0,"Zone1" : 1,"Zone2" : 1,"Zone3" : 1,"Zone4" : 1,"Zone5" : 1,"Zone6" : 1,"Zone7" : 1,
 			"Zone8" : 1,"Zone9" : 1,"Zone10": 1,"Zone11": 1,"Zone12": 1,"Zone13": 1,"Zone14": 1,"Zone15": 1,
 			"Zone16": 1,"Zone17": 1,"Zone18": 1,"Zone19": 1,"Zone20": 1,"Zone21": 1,"Zone22": 1,"Zone23": 1,
 			"Zone24": 1,"Zone25": 1,"Zone26": 1,"Zone27": 1,"Zone28": 1,"Zone29": 1,"Zone30": 1,"Zone31": 1
@@ -55,7 +55,7 @@
 		},
 
 		"EXPO_PLSWF" 	: {
-			"Zone0" : 16,"Zone1" : 1,"Zone2" : 1,"Zone3" : 1,"Zone4" : 1,"Zone5" : 1,"Zone6" : 1,"Zone7" : 1,
+			"Zone0" : 0,"Zone1" : 1,"Zone2" : 1,"Zone3" : 1,"Zone4" : 1,"Zone5" : 1,"Zone6" : 1,"Zone7" : 1,
 			"Zone8" : 1,"Zone9" : 1,"Zone10": 1,"Zone11": 1,"Zone12": 1,"Zone13": 1,"Zone14": 1,"Zone15": 1,
 			"Zone16": 1,"Zone17": 1,"Zone18": 1,"Zone19": 1,"Zone20": 1,"Zone21": 1,"Zone22": 1,"Zone23": 1,
 			"Zone24": 1,"Zone25": 1,"Zone26": 1,"Zone27": 1,"Zone28": 1,"Zone29": 1,"Zone30": 1,"Zone31": 1
@@ -76,7 +76,7 @@
 		},
 
 		"?Zone_x_MF_KN"		: "十进制值",
-		"Zone_0_MF_KN" 		: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+		"Zone_0_MF_KN" 		: [25, 34, 52, 113, 255, 207, 136, 59, 0, 0, 0, 0, 0, 0, 0, 0],
 		"Zone_1_MF_KN" 		: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		"Zone_2_MF_KN" 		: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 		"Zone_3_MF_KN" 		: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],

@@ -399,8 +399,9 @@ def msku_gui():
             if preview_triggered is False:
                 _log_update('Error! You have not genetate ROI yet.', log_type=2)
                 return
-            cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上配置的文件名
-            cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上配置的文件名
+            cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上 配置脚本 文件名
+            cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上 roi 文件名
+            cfg['ref_cfg_file'] = cfgs_file_sel_cmp.get() # 获取界面上配置的 基准脚本
             RoiMemGenerate(cfg, msku_roi_mem)
             HawkPubMethod.GenerateHawkRegConfig(cfg)
             _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt", log_type=1)
