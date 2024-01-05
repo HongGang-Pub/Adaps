@@ -275,7 +275,7 @@ def SCANMODE_2D(img: np.ndarray, h_vld_seg: int, mode: int = 0) -> tuple:
 
 
 def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: int = 15, curvature: int = 30,
-                       noise_filter: int = 0, mode2D: int = 0) -> tuple:
+                       noise_filter: int = 0, mode2D: int = 0, img_reverse: int = 0) -> tuple:
     """
     根据配置调用相应方法对单张图片进行识别，找出光条，并生成 ROI 标定效果图片
 
@@ -287,6 +287,7 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
         curvature (int): 参看方法：SCANMODE_1D()
         noise_filter (int): 是否进行噪点消除
         mode2D (int):2D Scan mode标定方式
+        img_reverse (int): img是否需要镜像：0：不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像
 
     Returns:
         tuple: 返回多个值
@@ -298,6 +299,21 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
     ini_img = ini_img.reshape(576, 768, 1)
 
     img = Conv2(image=ini_img) if noise_filter == 1 else ini_img
+    # plt.figure()
+    # plt.subplot(1, 2, 1)
+    # plt.imshow(img)
+
+    if img_reverse == 2:
+        img = np.flip(img, axis=0)
+    elif img_reverse == 1:
+        img = np.flip(img, axis=1)
+    elif img_reverse == 3:
+        img = np.flip(img)
+    else:
+        img = img
+    # plt.subplot(1, 2, 2)
+    # plt.imshow(img)
+    # plt.show()
 
     if scan_mode == 0:
         per_img_roi_data, dsp_img = SCANMODE_1D(img, h_vld_seg, curvature)
@@ -350,7 +366,8 @@ def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> tuple:
                                                        h_vld_seg=cfg['H_VLD_SEG'],
                                                        curvature=cfg['curvature'],
                                                        noise_filter=cfg['remove_noise'],
-                                                       mode2D=cfg["mode2D"])
+                                                       mode2D=cfg["mode2D"],
+                                                       img_reverse=cfg["img_reverse"])
 
         image_roi_datas.append(per_img_roi_data)
         light_imags.append(dsp_img)
