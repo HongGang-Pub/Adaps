@@ -10,13 +10,15 @@
 1. 软件界面如下  
 ![软件界面](figs/Software.jpg "Software.jpg")
 1. Config: 
-   1. WORK_MODE: 下拉选择，Histogram Mode / Echo Mode / Ranging Mode / Gray Scale Mode 
-   2. TDC bin width：下拉选择，0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns
-   3. MIPI RATE：下拉选择，0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane
-   4. SCAN_MODE: 下拉选择，1D SCAN_MODE / 2D SCAN_MODE
-   5. V_ROLL_NUM: 垂直方向Rolling次数，选择范围: 1~32次
-   6. H_ROLL_NUM: 水平方向ROlling次数，选择范围: 1~16次
-   7. H_VLD_SEG: 每次Rolling打开的段数, 1~16段
+   1. MST_MODE: 下拉选择，Slave Mode / Master Mode
+   2. WORK_MODE: 下拉选择，Histogram Mode / Echo Mode / Ranging Mode / Gray Scale Mode 
+   3. TRG_I_EN: 下拉选择，Disable / Enable
+   4. TDC bin width：下拉选择，0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns
+   5. MIPI RATE：下拉选择，0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane
+   6. SCAN_MODE: 下拉选择，1D SCAN_MODE / 2D SCAN_MODE
+   7. V_ROLL_NUM: 垂直方向Rolling次数，选择范围: 1~32次
+   8. H_ROLL_NUM: 水平方向ROlling次数，选择范围: 1~16次
+   9. H_VLD_SEG: 每次Rolling打开的段数, 1~16段
 2. Input：
    1. Load ROI file：标定文件选择窗口, 默认打开./Input文件夹  
       > 标定文件格式请参看[**标定文件格式说明**](#4-标定文件格式说明)

@@ -110,5 +110,5 @@ if __name__ == '__main__':
 
     messagebox.showinfo("执行结果", info)
 
-    # info = RoiSram.RoiMemGenerate()
+    # info = RoiSram.GenerateRoiMem()
     # print(info)

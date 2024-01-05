@@ -112,7 +112,7 @@ def MskuRoiGenerateForCaliData(cali_data: list, cfg: dict) -> list:
     return msku_roi_mem
 
 
-def RoiMemGenerate(cfg, msku_roi_mem):
+def GenerateRoiMem(cfg, msku_roi_mem):
     roi_data = []
 
     try:
@@ -145,7 +145,7 @@ def msku_gui():
     window.geometry(size_geo)
     window.minsize(width, height)
 
-    window.title("Hawk ROI Generate 1.2")  # 标题
+    window.title("Hawk ROI Generate 1.3")  # 标题
     window.iconphoto(False, tkinter.PhotoImage(file=r".file/icon.png"))
 
     def _quit():
@@ -165,6 +165,7 @@ def msku_gui():
     frame_cnt = 0
 
     def _preview_trigger():
+        """ 触发新的ROI效果展示 """
         nonlocal arrays, info, preview_update_symbol, preview_triggered
         preview_triggered = True
         preview_update_symbol = True
@@ -172,6 +173,7 @@ def msku_gui():
         return
 
     def update(i):
+        """ 动态图片更新函数 """
         nonlocal preview_update_symbol, frame_cnt
         if preview_update_symbol is True:
             frame_cnt = i
@@ -239,6 +241,26 @@ def msku_gui():
     logsout_frame = tkinter.LabelFrame(frame_roi_cfg, text="Log")  # 操作日志打印控件
 
     # logsout_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 操作日志打印控件
+
+    # -------------------------- MST_MODE ----------------------------------
+    def _mst_mode_update(event):
+        mst_mode = mstr_mode_cfg_cmp.get()
+        cfg['MST_MODE'] = 0 if (mst_mode == "Slave Mode") else 1
+
+    mstr_mode_cfg_cmp = ttk.Combobox(configs_frame, width=23)
+    mstr_mode_cfg_cmp['value'] = ("Slave Mode", "Master Mode")  # 设置下拉菜单中的值
+    mstr_mode_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
+    mstr_mode_cfg_cmp.bind("<<ComboboxSelected>>", _mst_mode_update)
+
+    # -------------------------- TRG_I_EN ----------------------------------
+    def _trg_i_en_update(event):
+        mst_mode = mstr_mode_cfg_cmp.get()
+        cfg['TRG_I_EN'] = 0 if (mst_mode == "Disable") else 1
+
+    trig_i_en_cfg_cmp = ttk.Combobox(configs_frame, width=23)
+    trig_i_en_cfg_cmp['value'] = ("Disable", "Enable")  # 设置下拉菜单中的值
+    trig_i_en_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
+    trig_i_en_cfg_cmp.bind("<<ComboboxSelected>>", _trg_i_en_update)
 
     # -------------------------- TDC_BIN_W ----------------------------------
     def _tdc_bin_width_update(event):
@@ -383,28 +405,18 @@ def msku_gui():
 
     # ------------------------ 保存按钮 ------------------------
     def _do_save():
-        # _log_update('Saving...', log_type=0)
-        # if preview_triggered is False:
-        #     _log_update('Error! You have not genetate ROI yet.', log_type=2)
-        #     return
-        # cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上配置的文件名
-        # cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上配置的文件名
-        # RoiMemGenerate(cfg, msku_roi_mem)
-        # HawkPubMethod.GenerateHawkRegConfig(cfg)
-        # _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt", log_type=1)
-        # _log_update(f"Hawk ROI data has been saved to: {cfg['fd_path']}/{cfg['roi_name']}.txt", log_type=1)
-        # _log_update('Save successfully.', log_type=0)
         try:
             _log_update('Saving...', log_type=0)
             if preview_triggered is False:
                 _log_update('Error! You have not genetate ROI yet.', log_type=2)
                 return
-            cfg['config_name'] = fname_for_cfg_cmp.get()  # 获取界面上 配置脚本 文件名
-            cfg['roi_name'] = fname_for_roi_cmp.get()  # 获取界面上 roi 文件名
-            cfg['ref_cfg_file'] = cfgs_file_sel_cmp.get() # 获取界面上配置的 基准脚本
-            RoiMemGenerate(cfg, msku_roi_mem)
+            cfg['ref_cfg_file'] = cfgs_file_sel_cmp.get()   # 获取界面上配置的基准脚本
+            cfg['config_name'] = fname_for_cfg_cmp.get()    # 获取界面上配置脚本文件名
+            cfg['roi_name'] = fname_for_roi_cmp.get()       # 获取界面上roi文件名
+            GenerateRoiMem(cfg, msku_roi_mem)
             HawkPubMethod.GenerateHawkRegConfig(cfg)
-            _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt", log_type=1)
+            _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt",
+                        log_type=1)
             _log_update(f"Hawk ROI data has been saved to: {cfg['fd_path']}/{cfg['roi_name']}.txt", log_type=1)
             _log_update('Save successfully.', log_type=0)
             return
@@ -469,12 +481,14 @@ def msku_gui():
 
     # -------------------------配置布局，以及默认值并打开窗口------------------------------
     rows = 0
+
     def get_row(ini=1):
         nonlocal rows
         rows = (rows + 1) if ini != 1 else 0
         return rows
 
     vcoor = 0
+
     def set_next_cmp_coor(height):
         nonlocal vcoor
         vcoor = height + vcoor + 0.005
@@ -483,29 +497,21 @@ def msku_gui():
     def _set_dsp():
         nonlocal vcoor
         # ------------------ window -> frame -----------------
-        # vcoor = 0.005
-        # company_icons.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.100))
-        # frame_roi_img.place(relx=0.005, rely=vcoor, relwidth=0.695, relheight=set_next_cmp_coor(0.885))
-        # frame_roi_cfg.place(relx=0.700, rely=vcoor, relwidth=0.295, relheight=set_next_cmp_coor(0.990))
         company_icons.place(relx=0.005, rely=0.005, relwidth=0.695, relheight=0.100)
         frame_roi_img.place(relx=0.005, rely=0.110, relwidth=0.695, relheight=0.885)
         frame_roi_cfg.place(relx=0.700, rely=0.000, relwidth=0.295, relheight=0.990)
         # --------------------- frame_roi_cfg -------------------
-        # vcoor = 0.000
-        # configs_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.380))
-        # f_input_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.130))
-        # output__frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.130))
-        # operate_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.120))
-        # logsout_frame.place(relx=0.010, rely=vcoor, relwidth=0.990, relheight=set_next_cmp_coor(0.240))
-        configs_frame.place(relx=0.010, rely=0.000, relwidth=0.990, relheight=0.380)
-        f_input_frame.place(relx=0.010, rely=0.385, relwidth=0.990, relheight=0.130)
-        output__frame.place(relx=0.010, rely=0.520, relwidth=0.990, relheight=0.130)
-        operate_frame.place(relx=0.010, rely=0.655, relwidth=0.990, relheight=0.120)
+        configs_frame.place(relx=0.010, rely=0.000, relwidth=0.990, relheight=0.430)
+        f_input_frame.place(relx=0.010, rely=0.435, relwidth=0.990, relheight=0.110)
+        output__frame.place(relx=0.010, rely=0.550, relwidth=0.990, relheight=0.110)
+        operate_frame.place(relx=0.010, rely=0.665, relwidth=0.990, relheight=0.110)
         logsout_frame.place(relx=0.010, rely=0.780, relwidth=0.990, relheight=0.240)
 
         # -------------- configs_frame -> Label -----------------
         # 放置输入框，并设置位置
-        tkinter.Label(configs_frame, Lable_style, text="WORK_MODE    ").grid(Lable_grid, row=get_row(ini=1))
+        tkinter.Label(configs_frame, Lable_style, text="MST_MODE     ").grid(Lable_grid, row=get_row(ini=1))
+        tkinter.Label(configs_frame, Lable_style, text="WORK_MODE    ").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="TRG_I_EN     ").grid(Lable_grid, row=get_row(ini=0))
         tkinter.Label(configs_frame, Lable_style, text="TDC bin width").grid(Lable_grid, row=get_row(ini=0))
         tkinter.Label(configs_frame, Lable_style, text="MIPI RATE    ").grid(Lable_grid, row=get_row(ini=0))
         tkinter.Label(configs_frame, Lable_style, text="SCAN_MODE    ").grid(Lable_grid, row=get_row(ini=0))
@@ -514,7 +520,9 @@ def msku_gui():
         tkinter.Label(configs_frame, Lable_style, text="H_VLD_SEG    ").grid(Lable_grid, row=get_row(ini=0))
 
         # -------------- configs_frame -> input cmp -----------------
-        work_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1)
+        mstr_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1)
+        work_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
+        trig_i_en_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
         tdc_bin_width_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
         mipi_rate_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
         scan_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
@@ -560,8 +568,27 @@ def msku_gui():
     operate_frame.bind_all('<Control-e>', _hidden_btn)  # Control-e 显示 debug 按钮
 
     def _set_default_value():
+        cfg['WORK_MODE'] = cfg['WORK_MODE'] if cfg['WORK_MODE'] <= 3 else 0
+        cfg['SCAN_MODE'] = cfg['SCAN_MODE'] if cfg['SCAN_MODE'] <= 1 else 0
+        cfg['MST_MODE'] = cfg['MST_MODE'] if cfg['MST_MODE'] <= 1 else 0
+        cfg['TRG_I_EN'] = cfg['TRG_I_EN'] if cfg['TRG_I_EN'] <= 1 else 0
+        cfg['V_ROLL_NUM'] = cfg['V_ROLL_NUM'] if cfg['V_ROLL_NUM'] <= 31 else 0
+        cfg['H_ROLL_NUM'] = cfg['H_ROLL_NUM'] if cfg['H_ROLL_NUM'] <= 15 else 0
+        cfg['H_VLD_SEG'] = cfg['H_VLD_SEG'] if cfg['H_VLD_SEG'] <= 15 else 0
+
+        try:
+            mipi_rate_value.index(cfg['MIPI_RATE'])
+        except:
+            cfg['MIPI_RATE'] = mipi_rate_value[0]
+        try:
+            mipi_rate_value.index(cfg['TDC_BIN_W'])
+        except:
+            cfg['TDC_BIN_W'] = mipi_rate_value[0]
+
         work_mode_cfg_cmp.current(cfg['WORK_MODE'])  # 通过 current() 设置下拉菜单选项的默认值
         scan_mode_cfg_cmp.current(cfg['SCAN_MODE'])  # 通过 current() 设置下拉菜单选项的默认值
+        mstr_mode_cfg_cmp.current(cfg['MST_MODE'])  # 通过 current() 设置下拉菜单选项的默认值
+        trig_i_en_cfg_cmp.current(cfg['TRG_I_EN'])  # 通过 current() 设置下拉菜单选项的默认值
         mipi_rate_cfg_cmp.current(mipi_rate_value.index(cfg['MIPI_RATE']))  # 通过 current() 设置下拉菜单选项的默认值
         tdc_bin_width_cmp.current(bin_width_value.index(cfg['TDC_BIN_W']))  # 通过 current() 设置下拉菜单选项的默认值
         vroll_num_cfg_cmp.set(cfg['V_ROLL_NUM'] + 1)

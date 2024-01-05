@@ -287,8 +287,10 @@ def GenerateHawkRegConfig(cfg):
 
             if addr == csru_addr['SYS_CTRL']:
                 register_value = (register_value & (0xFF - 0x80)) + (csru_cfg['tx_frame_mode'] << 7)
+                register_value = (register_value & (0xFF - 0x20)) + (cfg["TRG_I_EN"] << 5)
                 register_value = (register_value & (0xFF - 0x08)) + (cfg["SCAN_MODE"] << 3)
                 register_value = (register_value & (0xFF - 0x06)) + (cfg["WORK_MODE"] << 1)
+                register_value = (register_value & (0xFF - 0x01)) + (cfg["MST_MODE"] << 0)
             elif addr == csru_addr['V_ROLL_NUM']:
                 register_value = (register_value & (0xFF - 0x1F)) + (cfg["V_ROLL_NUM"] << 0)
             elif addr == csru_addr['H_ROLL_NUM']:
