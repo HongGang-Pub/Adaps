@@ -453,7 +453,7 @@ def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
     """
     correct_roi_data = roi_data
 
-    if cfg["roi_correct"] == 0:
+    if cfg["roi_correct"] == 0 or cfg["SCAN_MODE"] == 1:    # 1D配置不进行矫正 或者 2D scan_mode不进行矫正
         return correct_roi_data
     # golden_roi_index = 1
     # for roll_cnt in range(golden_roi_index, len(correct_roi_data)-1):
