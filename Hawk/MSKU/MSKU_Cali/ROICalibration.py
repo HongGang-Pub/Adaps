@@ -514,11 +514,15 @@ def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
     return correct_roi_data
 
 
-def CaliResultDisplay(roi_data, ligth_imags, cfg):
+def CaliResultDisplay(cali_data, ligth_imags, cfg):
     """融合ROI 标定数据和imag数据，成3D图像"""
 
     """根据config文件赋值"""
     fp = cfg['file_path']
+    scan_mode = cfg['SCAN_MODE']
+    v_roll_num = cfg['V_ROLL_NUM']
+    h_roll_num = cfg['H_ROLL_NUM'] if cfg['SCAN_MODE'] == 1 else 0
+    img_vld_seg = cfg['H_VLD_SEG'] if cfg['SCAN_MODE'] == 1 else 0
     msk_intensity = cfg['msk_intensity']
     light_intensity = cfg['light_intensity']
 
@@ -531,28 +535,32 @@ def CaliResultDisplay(roi_data, ligth_imags, cfg):
     fusion_image = np.zeros((576, 768))  # 融合所有图片的光条
     fusion_spad_array = np.zeros((576, 768))  # 融合所有开启的SPAD
 
-    for roll_cnt in range(len(roi_data)):
-        sub_spad_array_3D = np.zeros((576, 768, 3))
-        spad_array = np.zeros((576, 768))  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵对应位置会被打开
+    for vroll_cnt in range(v_roll_num + 1):
+        for hroll_cnt in range(h_roll_num + 1):
+            roll_cnt = vroll_cnt * (h_roll_num + 1) + hroll_cnt
+            sub_spad_array_3D = np.zeros((576, 768, 3))
+            spad_array = np.zeros((576, 768))  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵对应位置会被打开
 
-        # 光条二维数组
-        img = ligth_imags[roll_cnt]
+            # 光条二维数组
+            img = ligth_imags[roll_cnt]
 
-        # ROI 二维数组 (此实现只支持 1D)
-        for coors in roi_data[roll_cnt]:
-            v_coor = coors[1]
-            seg_num = coors[0]
-            spad_array[v_coor: v_coor + 17, seg_num * 48: (seg_num + 1) * 48] = 1
+            per_img_roi_data = cali_data[roll_cnt]
+            for coors in per_img_roi_data:
+                v_spad_c = coors[1]
+                seg_num = coors[0]
+                spad_array[v_spad_c: v_spad_c + 18, seg_num * 48: (seg_num + img_vld_seg + 1) * 48] = 1
 
-        # 融合光条和 ROI 数组, 成图展示标定效果
-        sub_spad_array_3D[:, :, 0] = img
-        sub_spad_array_3D[:, :, 2] = spad_array * 0.8
+            # plt.imshow(spad_array)
+            # plt.show()
+            # 融合光条和 ROI 数组, 成图展示标定效果
+            sub_spad_array_3D[:, :, 0] = img
+            sub_spad_array_3D[:, :, 2] = spad_array * 0.8
 
-        file_path = "{}\\Roll{}.png".format(fp, roll_cnt)
-        plt.imsave(file_path, sub_spad_array_3D)
+            file_path = "{}\\Roll{}_{}.png".format(fp, vroll_cnt, hroll_cnt)
+            plt.imsave(file_path, sub_spad_array_3D)
 
-        fusion_image += img
-        fusion_spad_array += spad_array
+            fusion_image += img
+            fusion_spad_array += spad_array
 
     """对整图数据进行处理，确保可以保存"""
     fusion_spad_array = np.where(fusion_spad_array <= 1, fusion_spad_array, 1)
