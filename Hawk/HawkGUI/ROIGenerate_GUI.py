@@ -617,6 +617,7 @@ def msku_gui():
     ax = fig.gca()
     # ani = animation.FuncAnimation(fig, update, range(len(arrays)), interval=700, blit=True)
     ani = Player.Player(fig, update, interval=700, blit=True, cache_frame_data=False, save_count=2, maxi=1000000)
+    # plt.show()
     canvas = FigureCanvasTkAgg(fig, master=frame_roi_img)  # A tk.DrawingArea.
     canvas.draw()
     canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
