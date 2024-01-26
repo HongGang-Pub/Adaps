@@ -1,0 +1,2 @@
+SYS_CLK = RegConfig.BIN_WIDTH.{TDC_BIN_W:.2f}ns.SYS_CLK
+NOTE = HawkConfig.FREF={FREF}Mhz
