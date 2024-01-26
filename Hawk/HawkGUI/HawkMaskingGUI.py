@@ -23,7 +23,8 @@ def DirectAccessCaliData(file, cfg):
     """通过读取文件的形式获取 cali_data"""
     ini_cali_datas = PubMethod.read_file(file)
 
-    # ---------------- 去除单行注释 ----------------------
+    # 去除单行注释
+    # /////////////////////////////////////////////////////////////////////
     cali_datas = []
     for line_cnt in range(len(ini_cali_datas)):
         _str = ini_cali_datas[line_cnt]
@@ -34,7 +35,8 @@ def DirectAccessCaliData(file, cfg):
         else:
             cali_datas.append([_str, line_cnt + 1])
 
-    # -------------------- 校验标定数量是否正确 ------------------------
+    # 校验标定数量是否正确
+    # /////////////////////////////////////////////////////////////////////
     num = (cfg['V_ROLL_NUM'] + 1) * (cfg['H_ROLL_NUM'] + 1) if cfg['SCAN_MODE'] == 1 else (cfg['V_ROLL_NUM'] + 1)
     if len(cali_datas) < num:  # 标定数量少于配置所需标定数时, 结束程序
         info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
@@ -93,7 +95,7 @@ def config_mapping(cfg: dict):
     """
     重映射寄存器配置，确保程序中的 key-value有值且正确
     """
-    cfg['SYS_FREQ'] = "200M" if (cfg["TDC_BIN_W"] in [1.25, 2.50]) \
+    cfg['SYS_CLK'] = "200M" if (cfg["TDC_BIN_W"] in [1.25, 2.50]) \
         else "250M" if (cfg["TDC_BIN_W"] in [1.00, 2.00]) \
         else "330M"
     cfg['UPSMP_MODE'] = 0b11 if (cfg["TDC_BIN_W"] in [0.75, 1.00, 1.25]) \
@@ -145,7 +147,7 @@ def msku_gui():
     window.geometry(size_geo)
     window.minsize(width, height)
 
-    window.title("Hawk ROI Generate 1.3")  # 标题
+    window.title("Hawk ROI Generate 1.4")  # 标题
     window.iconphoto(False, tkinter.PhotoImage(file=r".file/icon.png"))
 
     def _quit():
@@ -265,7 +267,7 @@ def msku_gui():
     # -------------------------- TDC_BIN_W ----------------------------------
     def _tdc_bin_width_update(event):
         tdc_bin_width = tdc_bin_width_cmp.get()
-        cfg['SYS_FREQ'] = "200M" if (tdc_bin_width in ["1.25 ns", "2.50 ns"]) \
+        cfg['SYS_CLK'] = "200M" if (tdc_bin_width in ["1.25 ns", "2.50 ns"]) \
             else "250M" if (tdc_bin_width in ["1.00 ns", "2.00 ns"]) \
             else "330M"
         cfg['UPSMP_MODE'] = 0b11 if (tdc_bin_width in ["0.75 ns", "1.00 ns", "1.25 ns"]) \
@@ -414,6 +416,7 @@ def msku_gui():
             cfg['config_name'] = fname_for_cfg_cmp.get()    # 获取界面上配置脚本文件名
             cfg['roi_name'] = fname_for_roi_cmp.get()       # 获取界面上roi文件名
             GenerateRoiMem(cfg, msku_roi_mem)
+            # reg_config = PubMethod.ReadJsonFile('reg_config.json')
             HawkPubMethod.GenerateHawkRegConfig(cfg)
             _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt",
                         log_type=1)

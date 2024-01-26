@@ -77,7 +77,7 @@ def do_work2(file_path, script_file):
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.cal_pkg_num(csru_cfg=csru_cfg)
+    # pkg_num = MipiPubMethod.CalPkgNum(csru_cfg=csru_cfg)
     # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 
@@ -115,7 +115,7 @@ def do_work3(file_path, script_file):
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.cal_pkg_num(csru_cfg=csru_cfg)
+    # pkg_num = MipiPubMethod.CalPkgNum(csru_cfg=csru_cfg)
     # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 

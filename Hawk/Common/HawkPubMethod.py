@@ -120,7 +120,7 @@ def GetCsruConfig(config_file, protocol="i2c") -> dict:
     return csru_cfg
 
 
-def cal_pkg_num(cfg):
+def CalPkgNum(cfg):
     """
     非多帧合一时，一次rolling包的数量
     Args:
@@ -188,16 +188,20 @@ def CalMipiFlnrAndWC(csru_cfg):
     return int(wc), flnr
 
 
-def GenerateHawkRegConfig(cfg):
+def GenerateHawkRegConfig(cfg: dict):
     """
     本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
     主要包含以下功能:
-        1. 根据 cfg["SYS_FREQ"] 配置, 配置 PLL1频率 及 与之相关的分频寄存器
+        1. 根据 cfg["SYS_CLK"] 配置, 配置 PLL1频率 及 与之相关的分频寄存器
         2. 根据 cfg["MIPI_RATE"] 配置, 配置 MIPI 速率相关的寄存器
         3. 根据 cfg[""] 配置 MIPI WC & FLNR寄存器
         4. 根据 cfg[""] 配置 MIPI_TXDLY[5:0] -> MIPI_PKTDLY
         5. 根据 cfg["roi_save_n"] 配置 block_write
     """
+
+    # ----------------------------------------------------------------------------------------
+    # initial
+    # ----------------------------------------------------------------------------------------
     protocol = cfg["protocol"]
     min_lens = 4 if protocol == "i2c" else 3
     addr_index = 2 if protocol == "i2c" else 1
@@ -208,23 +212,25 @@ def GenerateHawkRegConfig(cfg):
     if not os.path.exists(ref_cfg_file):
         raise ValueError("The reference config file does not exist!")
 
-    csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
+    # ----------------------------------------------------------------------------------------
+    # Calculate Register Value
+    # ----------------------------------------------------------------------------------------
+
+    # MIPI FLNR & WC
+    # ////////////////////////////////////////////////////////////////////////////
     # 将前端配置内容同步到 csru_cfg
+    csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
     csru_cfg['work_mode'] = cfg["WORK_MODE"]
     csru_cfg['scan_mode'] = cfg["SCAN_MODE"]
     csru_cfg['v_roll_Num'] = cfg["V_ROLL_NUM"]
     csru_cfg['h_roll_Num'] = cfg["H_ROLL_NUM"]
     csru_cfg['h_vld_seg'] = cfg["H_VLD_SEG"]
 
-    # ----------------------------------------------------------------------------------------
-    # Calculate Register Value
-    # ----------------------------------------------------------------------------------------
     WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
     if FLNR >= 8192:
         csru_cfg['tx_frame_mode'] = 0
         WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
 
-    # MIPI FLNR & WC cal
     VC0_FLNR_L = (FLNR & 0x00FF) >> 0
     VC0_FLNR_H = (FLNR & 0xFF00) >> 8
     VC1_FLNR_L = (FLNR & 0x00FF) >> 0
@@ -233,23 +239,50 @@ def GenerateHawkRegConfig(cfg):
     VC0_WC_H = (WC & 0xFF00) >> 8
     VC1_WC_L = (WC & 0x00FF) >> 0
     VC1_WC_H = (WC & 0xFF00) >> 8
+
+    # PLL0 config
+    # ////////////////////////////////////////////////////////////////////////////
+    PLL0_ID = FREQ_Config[cfg['FREF']]["PLL0"]["250M"]["ID"]
+    PLL0_OD = FREQ_Config[cfg['FREF']]["PLL0"]["250M"]["OD"]
+    PLL0_FB = FREQ_Config[cfg['FREF']]["PLL0"]["250M"]["FB"]
+    PLL0_DIV1 = ((PLL0_ID & 0x0007) << 4) + ((PLL0_OD & 0x0003) << 0)
+    PLL0_DIV2 = ((PLL0_FB & 0x00FF) << 0)
+
+    # PLL1 config. cfg['SYS_CLK'] = 330M, 250M, 200M
+    # ////////////////////////////////////////////////////////////////////////////
+    PLL1_ID = FREQ_Config[cfg['FREF']]["PLL1"][cfg['SYS_CLK']]["ID"]
+    PLL1_OD = FREQ_Config[cfg['FREF']]["PLL1"][cfg['SYS_CLK']]["OD"]
+    PLL1_FB = FREQ_Config[cfg['FREF']]["PLL1"][cfg['SYS_CLK']]["FB"]
+    PLL1_DIV1 = ((PLL1_ID & 0x0007) << 4) + ((PLL1_OD & 0x0003) << 0)
+    PLL1_DIV2 = ((PLL1_FB & 0x00FF) << 0)
+
+    # DIV config
+    # ////////////////////////////////////////////////////////////////////////////
+    SYSCLK1M_DIVL = DIV_CONFIG[cfg['SYS_CLK']]["SYSCLK1M_DIVL"]
+    SYSCLK1M_DIVH = DIV_CONFIG[cfg['SYS_CLK']]["SYSCLK1M_DIVH"]
+    TXESC_CLKDIV = DIV_CONFIG[cfg['SYS_CLK']]["TXESC_CLKDIV"]
+
     # MIPI_RATE CONFIG. cfg["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
-    MIPIPLL_LPDL = MIPI_RATE_CONFIG[cfg["MIPI_RATE"]]["MIPIPLL_LPDL"]
-    MIPIPLL_PPD = MIPI_RATE_CONFIG[cfg["MIPI_RATE"]]["MIPIPLL_PPD"]
+    # ////////////////////////////////////////////////////////////////////////////
+    MIPI_NS = FREQ_Config[cfg['FREF']]["MIPI"][cfg['MIPI_RATE']]["NS"]
+    MIPI_MS = FREQ_Config[cfg['FREF']]["MIPI"][cfg['MIPI_RATE']]["MS"]
+    MIPI_PS = FREQ_Config[cfg['FREF']]["MIPI"][cfg['MIPI_RATE']]["PS"]
+    MIPIPLL_LPDH = (MIPI_NS & 0xFF00) >> 8
+    MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
+    MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)
+
     # MIPI_PKTDLY
-    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_FREQ']][cfg['MIPI_RATE']] if cfg["WORK_MODE"] >= 2 \
-        else MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_FREQ']][csru_cfg["out_bin_num"]][cfg['MIPI_RATE']]
-    # PLL1 and DIV config. cfg['sys_freq'] = 330M, 250M, 200M
-    PLL1_DIV1 = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["PLL1_DIV1"]
-    PLL1_DIV2 = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["PLL1_DIV2"]
-    SYSCLK1M_DIVL = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["SYSCLK1M_DIVL"]
-    SYSCLK1M_DIVH = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["SYSCLK1M_DIVH"]
-    TXESC_CLKDIV = PLL1_DIV_CONFIG[cfg['SYS_FREQ']]["TXESC_CLKDIV"]
+    # ////////////////////////////////////////////////////////////////////////////
+    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_CLK']][cfg['MIPI_RATE']] if cfg["WORK_MODE"] >= 2 \
+        else MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_CLK']][csru_cfg["out_bin_num"]][cfg['MIPI_RATE']]
+
     # TDC_DLY_CFG1
+    # ////////////////////////////////////////////////////////////////////////////
     PLL_OD = ((PLL1_DIV1 & 0x03) >> 0)  # 0~3: 2，4，6，8
     PHASE_DLY_OPT = 0b011 if PLL_OD == 0 else 0b111
 
     # ROI length
+    # ////////////////////////////////////////////////////////////////////////////
     if cfg["SCAN_MODE"] == 0:
         roi_length = (13 + (cfg["H_VLD_SEG"] + 1) * 6) * (cfg["V_ROLL_NUM"] + 1)
     else:
@@ -303,11 +336,14 @@ def GenerateHawkRegConfig(cfg):
             elif addr == csru_addr['TDC_DLY_CFG1']:
                 register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
             else:
-                register_value = PLL1_DIV1 if addr == csru_addr['PLL1_DIV1'] \
+                register_value = PLL0_DIV1 if addr == csru_addr['PLL0_DIV1'] \
+                    else PLL0_DIV2 if addr == csru_addr['PLL0_DIV2'] \
+                    else PLL1_DIV1 if addr == csru_addr['PLL1_DIV1'] \
                     else PLL1_DIV2 if addr == csru_addr['PLL1_DIV2'] \
                     else SYSCLK1M_DIVL if addr == csru_addr['SYSCLK1M_DIVL'] \
                     else SYSCLK1M_DIVH if addr == csru_addr['SYSCLK1M_DIVH'] \
                     else TXESC_CLKDIV if addr == csru_addr['TXESC_CLKDIV'] \
+                    else MIPIPLL_LPDH if addr == csru_addr['MIPIPLL_LPDH'] \
                     else MIPIPLL_LPDL if addr == csru_addr['MIPIPLL_LPDL'] \
                     else MIPIPLL_PPD if addr == csru_addr['MIPIPLL_PPD'] \
                     else VC0_FLNR_L if addr == csru_addr['VC0_FLNR_L'] \

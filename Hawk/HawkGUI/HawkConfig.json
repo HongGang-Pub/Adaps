@@ -16,6 +16,7 @@
 	"MST_MODE"		: 0 ,					"?MST_MODE"		: "0: slave mode; 1: master mode",
 	"TRG_I_EN"		: 0 ,					"?TRG_I_EN"		: "0: disable; 1:enable",
 	"MIPI_RATE" 	: 0.8,					"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
+	"FREF"			: 24 ,					"?FREF"			: "24M or 25M",
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,

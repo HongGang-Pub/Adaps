@@ -9,6 +9,9 @@ csru_addr = {
     "DEPTHU_CFG2": 0x0020,
     "SPAD_CFG1": 0x0055,
     "SPAD_CFG2": 0x0056,
+    # PLL0 & DIV
+    "PLL0_DIV1": 0x006A,
+    "PLL0_DIV2": 0x006B,
     # PLL1 & DIV
     "PLL1_DIV1": 0x006E,
     "PLL1_DIV2": 0x006F,
@@ -16,6 +19,7 @@ csru_addr = {
     "SYSCLK1M_DIVH": 0x0006,
     "TXESC_CLKDIV": 0x0079,
     # MIPI RATE
+    "MIPIPLL_LPDH": 0x0074,
     "MIPIPLL_LPDL": 0x0075,
     "MIPIPLL_PPD": 0x0077,
     # MIPI PKTDLY
@@ -34,37 +38,50 @@ csru_addr = {
     "TDC_DLY_CFG1": 0x5A,
 }
 
-PLL1_DIV_CONFIG = {
-    # 系统频率
-    "330M": {
-        "PLL1_DIV1": 0x20,
-        "PLL1_DIV2": 0x37,
-        "SYSCLK1M_DIVL": 0x49,
-        "SYSCLK1M_DIVH": 0x01,
-        "TXESC_CLKDIV": 0xF0,
+FREQ_Config = {
+    # FREF freq
+    24: {
+        # PLL >> SYS_CLK freq
+        "PLL0": {
+            "250M": {"ID": 3, "FB": 250, "OD": 2}
+        },
+        "PLL1": {
+            "200M": {"ID": 3, "FB": 100, "OD": 1},
+            "250M": {"ID": 3, "FB": 125, "OD": 1},
+            "330M": {"ID": 2, "FB": 55 , "OD": 0}
+        },
+        # MIPI >> MIPI rete
+        "MIPI": {
+            0.8: {"NS": 200, "MS": 3, "PS": 2},
+            1.0: {"NS": 84 , "MS": 2, "PS": 1},
+            1.2: {"NS": 100, "MS": 2, "PS": 1},
+            1.5: {"NS": 125, "MS": 2, "PS": 1}
+        }
     },
-    "250M": {
-        "PLL1_DIV1": 0x31,
-        "PLL1_DIV2": 0x7D,
-        "SYSCLK1M_DIVL": 0xF9,
-        "SYSCLK1M_DIVH": 0x00,
-        "TXESC_CLKDIV": 0xCE,
-    },
-    "200M": {
-        "PLL1_DIV1": 0x31,
-        "PLL1_DIV2": 0x64,
-        "SYSCLK1M_DIVL": 0xC7,
-        "SYSCLK1M_DIVH": 0x00,
-        "TXESC_CLKDIV": 0xCB,
+
+    25: {
+        "PLL0": {
+            "250M": {"ID": 2, "FB": 160, "OD": 2}
+        },
+        "PLL1": {
+            "200M": {"ID": 2, "FB": 64, "OD": 1},
+            "250M": {"ID": 2, "FB": 80, "OD": 1},
+            "330M": {"ID": 3, "FB": 80, "OD": 0}
+        },
+        "MIPI": {
+            0.8: {"NS": 192, "MS": 3, "PS": 2},
+            1.0: {"NS": 80 , "MS": 2, "PS": 1},
+            1.2: {"NS": 96 , "MS": 2, "PS": 1},
+            1.5: {"NS": 120, "MS": 2, "PS": 1}
+        }
     }
 }
 
-MIPI_RATE_CONFIG = {
-    # MIPI 速率
-    0.8: {"MIPIPLL_LPDL": 0x00C8, "MIPIPLL_PPD": 0x0062},
-    1.0: {"MIPIPLL_LPDL": 0x0054, "MIPIPLL_PPD": 0x0041},
-    1.2: {"MIPIPLL_LPDL": 0x0064, "MIPIPLL_PPD": 0x0041},
-    1.5: {"MIPIPLL_LPDL": 0x007D, "MIPIPLL_PPD": 0x0041}
+DIV_CONFIG = {
+    # 系统频率
+    "330M": {"SYSCLK1M_DIVL": 0x49, "SYSCLK1M_DIVH": 0x01, "TXESC_CLKDIV": 0xF0},
+    "250M": {"SYSCLK1M_DIVL": 0xF9, "SYSCLK1M_DIVH": 0x00, "TXESC_CLKDIV": 0xCE},
+    "200M": {"SYSCLK1M_DIVL": 0xC7, "SYSCLK1M_DIVH": 0x00, "TXESC_CLKDIV": 0xCB}
 }
 
 MIPI_PKTDLY_CONFIG = {

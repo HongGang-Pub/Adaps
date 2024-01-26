@@ -60,7 +60,7 @@ def GetPcmDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
     v_roll_num = cfg["v_roll_num"]
     h_vld_seg = cfg["h_vld_seg"]
 
-    pkg_num = Hawk.Common.HawkPubMethod.cal_pkg_num(cfg=cfg)
+    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(cfg=cfg)
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
     if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):

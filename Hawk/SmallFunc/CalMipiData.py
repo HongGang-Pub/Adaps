@@ -14,7 +14,7 @@ def do_work():
     csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     wc, flnr = Hawk.Common.HawkPubMethod.CalMipiFlnrAndWC(csru_cfg)
-    pkg_num = Hawk.Common.HawkPubMethod.cal_pkg_num(csru_cfg)
+    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(csru_cfg)
     print(wc, pkg_num)
 
 
