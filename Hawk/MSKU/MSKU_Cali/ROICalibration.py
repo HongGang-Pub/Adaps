@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from SelfDefinedPackge import PubMethod
 from Hawk.MSKU import MskuPubMethod
+from scipy import signal
 
 
 def get_pcm_file(fp: str, frame_num=5) -> dict:
@@ -82,6 +83,9 @@ def Conv2(image: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: 和输入图像尺寸大小相同的feature map
     """
+    kernel = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
+
+    c = signal.convolve2d(image[:, :, 0], kernel, 'same')
 
     # 卷积大小固定为3*3卷积，这里因为固定了卷积大小，所以写代码前可以直接确定：卷积步长为1
     H = image.shape[0]
@@ -98,8 +102,6 @@ def Conv2(image: np.ndarray) -> np.ndarray:
     image = np.insert(image, H, values=image[H, :, :], axis=0)
 
     res = np.zeros([H, W, 1])  # 直接新建一个全零数组，省去了后边逐步填充数组的麻烦
-
-    kernel = np.array([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
 
     for i in range(H):
         for j in range(W):
@@ -155,7 +157,7 @@ def OpenWindows(hist_array: np.ndarray, ini_point: int, window_size: int) -> int
     return initial_point
 
 
-def SCANMODE_1D(img, h_vld_seg, curvature) -> tuple:
+def SCANMODE_1D(img, h_vld_seg, curvature, **kwargs) -> tuple:
     """
     1D Scan Mode下，根据配置标定ROI
 
@@ -184,15 +186,33 @@ def SCANMODE_1D(img, h_vld_seg, curvature) -> tuple:
     seg_hs = OpenWindows(v_spad_value, index, h_vld_seg + 1)
 
     # 按段纵向开窗，找到每段rolling开6行pixel的spad的起始点
+    # plt.figure()
     start_index_list = []
+    kernel = np.ones(1, int)
     for seg_num in range(seg_hs, seg_hs + h_vld_seg + 1):
         ini_point = v_spad_max_index[seg_num] - 17
         ini_point = ini_point if ini_point > 0 else 0
-        start_index = OpenWindows(seg_sum_array[:, seg_num], ini_point, 18)
+
+        seg_array = np.convolve(seg_sum_array[:, seg_num], kernel, mode='same')
+        start_index = OpenWindows(seg_array, ini_point, 18)
+        if seg_num == -1:
+            plt.subplot(1, 2, 1)
+            plt.plot(seg_sum_array[:, seg_num])
+            plt.subplot(1, 2, 2)
+            plt.plot(seg_array)
+        # 最后一段根据光子数进行矫正
+        if start_index == (575 - 17) or kwargs["cali_info"] == "last_frame":
+            for coor in range(start_index, 576):
+                if seg_sum_array[coor, seg_num] < v_spad_value[seg_num] * 98 / 100:
+                    continue
+                else:
+                    start_index = coor
+                    break
         start_index_list.append(start_index)
 
     """校准：根据设置的曲率（spad步径）以最亮的段为基准，判断某段标定位置是否偏移过大，如果过大，则会进行校准"""
     h_center = np.argmax(v_spad_value) - seg_hs
+    h_center = 8
     # 向前校准
     for cnt in range(0, h_center):
         pre_index = h_center - cnt - 1
@@ -275,7 +295,7 @@ def SCANMODE_2D(img: np.ndarray, h_vld_seg: int, mode: int = 0) -> tuple:
 
 
 def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: int = 15, curvature: int = 30,
-                       noise_filter: int = 0, mode2D: int = 0, img_reverse: int = 0) -> tuple:
+                       noise_filter: int = 0, mode2D: int = 0, img_reverse: int = 0, **kwargs) -> tuple:
     """
     根据配置调用相应方法对单张图片进行识别，找出光条，并生成 ROI 标定效果图片
 
@@ -284,7 +304,7 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
         img_name (str): 生成的 ROI 标定图像存储名称，且用于日志打印
         scan_mode (int): 寄存器配置
         h_vld_seg (int): 寄存器配置
-        curvature (int): 参看方法：SCANMODE_1D()
+        curvature (int): 参看方法：shift_display()
         noise_filter (int): 是否进行噪点消除
         mode2D (int):2D Scan mode标定方式
         img_reverse (int): img是否需要镜像：0：不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像
@@ -301,7 +321,7 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
     img = Conv2(image=ini_img) if noise_filter == 1 else ini_img
     # plt.figure()
     # plt.subplot(1, 2, 1)
-    # plt.imshow(img)
+    # plt.imshow(images)
 
     if img_reverse == 2:
         img = np.flip(img, axis=0)
@@ -312,11 +332,11 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
     else:
         img = img
     # plt.subplot(1, 2, 2)
-    # plt.imshow(img)
+    # plt.imshow(images)
     # plt.show()
 
     if scan_mode == 0:
-        per_img_roi_data, dsp_img = SCANMODE_1D(img, h_vld_seg, curvature)
+        per_img_roi_data, dsp_img = SCANMODE_1D(img, h_vld_seg, curvature, **kwargs)
     else:
         per_img_roi_data, dsp_img = SCANMODE_2D(img, h_vld_seg, mode=mode2D)
 
@@ -360,6 +380,8 @@ def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> tuple:
     for roll_cnt in range(len(file_index_list)):
         file = f_dict[file_index_list[roll_cnt]]
         f_name = "Roll{}_{}".format(roll_cnt, file_index_list[roll_cnt])
+
+        info = "last_frame" if (roll_cnt == len(file_index_list) - 1) else None
         per_img_roi_data, dsp_img = GetRoiDataFromImag(file=file,
                                                        img_name=f_name,
                                                        scan_mode=cfg['SCAN_MODE'],
@@ -367,7 +389,8 @@ def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> tuple:
                                                        curvature=cfg['curvature'],
                                                        noise_filter=cfg['remove_noise'],
                                                        mode2D=cfg["mode2D"],
-                                                       img_reverse=cfg["img_reverse"])
+                                                       img_reverse=cfg["img_reverse"],
+                                                       cali_info=info)
 
         image_roi_datas.append(per_img_roi_data)
         light_imags.append(dsp_img)
@@ -396,7 +419,7 @@ def Std_correct(A, B, precision):
     return B
 
 
-def fill_gaps(blocks, length=6, max_move=1):
+def fill_gaps(blocks, length=6, max_move=2, base_block_index=0):
     """
     移动方块以填充缝隙，同时确保不产生新的缝隙。
 
@@ -405,6 +428,10 @@ def fill_gaps(blocks, length=6, max_move=1):
     :param max_move: 每个方块最大移动范围（默认为1）。
     :return: 调整位置后的方块列表。
     """
+
+    move_distance_sum = 0
+    is_success = True
+
     correct_blocks = blocks[:]
     if not correct_blocks:
         return []
@@ -412,7 +439,7 @@ def fill_gaps(blocks, length=6, max_move=1):
     # 对方块进行排序
     correct_blocks.sort()
 
-    i = 0
+    i = base_block_index
     while i < len(correct_blocks) - 1:
         end_of_current = correct_blocks[i] + length
         start_of_next = correct_blocks[i + 1]
@@ -428,17 +455,79 @@ def fill_gaps(blocks, length=6, max_move=1):
                     move_distance = min(max_move, min(-distance, gap_after_next))
                     correct_blocks[i + 1] += move_distance
 
+                    move_distance_sum += move_distance
+                    is_success = False if max_move < min(-distance, gap_after_next) else True
+
         elif distance > 0:  # 存在缝隙
             # 确保移动不会产生新的缝隙
             if i == 0:
                 # move_distance = min(max_move, distance)
                 move_distance = distance
                 correct_blocks[i] += move_distance
+                move_distance_sum += move_distance
             else:
                 move_distance = min(max_move, distance)
                 correct_blocks[i + 1] -= move_distance
+
+                move_distance_sum += move_distance
+                is_success = False if max_move < distance else True
         i += 1
-    return correct_blocks
+
+    i = base_block_index
+    while i > 0:
+        end_of_current = correct_blocks[i - 1] + length
+        start_of_next = correct_blocks[i]
+        distance = start_of_next - end_of_current
+
+        if distance < 0:  # 存在重叠
+            # 检查前面是否有缝隙
+            if i > 1:
+                next_end = correct_blocks[i - 2] + length
+                gap_after_next = correct_blocks[i - 1] - next_end
+                if gap_after_next > 0:
+                    # 使用重叠部分来填充缝隙
+                    move_distance = min(max_move, min(-distance, gap_after_next))
+                    correct_blocks[i - 1] -= move_distance
+
+                    move_distance_sum += move_distance
+                    is_success = False if max_move < min(-distance, gap_after_next) else True
+
+        elif distance > 0:  # 存在缝隙
+            # 确保移动不会产生新的缝隙
+            if i == len(correct_blocks) - 1:
+                # move_distance = min(max_move, distance)
+                move_distance = distance
+                correct_blocks[i] -= move_distance
+                move_distance_sum += move_distance
+            else:
+                move_distance = min(max_move, distance)
+                correct_blocks[i - 1] += move_distance
+
+                move_distance_sum += move_distance
+                is_success = False if max_move < distance else True
+        i -= 1
+    return correct_blocks, move_distance_sum, is_success
+
+
+def roi_correct(blocks: list, max_move=1) -> list:
+    optimal_blocks = []
+    optimal_move_distance = 888     # 不能给0，否则不会更新
+
+    # 以不同的 index 为基准平移，寻找最优移动方案
+    print("----------------------------------------------------------")
+    for i in range(len(blocks)):
+        correct_blocks, move_distance, is_success = fill_gaps(blocks, max_move=max_move, base_block_index=i)
+        if (is_success is True) and (move_distance <= optimal_move_distance):
+            # 如果移动的距离累计相等，取中心点
+            if (move_distance == optimal_move_distance) and (i > len(blocks) / 2):
+                continue
+            optimal_blocks = correct_blocks
+            optimal_move_distance = move_distance
+            print(i, move_distance, is_success)
+
+    if optimal_blocks == []:
+        raise ValueError("光条缝隙太大，请尝试修改矫正阈值后再运行")
+    return optimal_blocks
 
 
 def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
@@ -453,50 +542,28 @@ def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
     """
     correct_roi_data = roi_data
 
-    if cfg["roi_correct"] == 0 or cfg["SCAN_MODE"] == 1:    # 1D配置不进行矫正 或者 2D scan_mode不进行矫正
+    if cfg["roi_correct"] == 0 or cfg["SCAN_MODE"] == 1:  # 1D配置不进行矫正 或者 2D scan_mode不进行矫正
         return correct_roi_data
-    # golden_roi_index = 1
-    # for roll_cnt in range(golden_roi_index, len(correct_roi_data)-1):
-    #     for h_seg_cnt in range(0, len(correct_roi_data[roll_cnt])):
-    #         correct_roi_data[roll_cnt + 1][h_seg_cnt][1] = correct_roi_data[roll_cnt][h_seg_cnt][1] + 18
-    # return correct_roi_data
 
-    # start_roll = 1
-    # end_roll = 31
-    # precision = 30
-    # for cnt in range(0, 32):
-    #     base_roll = cnt * precision + start_roll
-    #     # print(base_roll)
-    #     if base_roll > 30:
-    #         break
-    #     for roll_cnt in range(base_roll, base_roll + precision-1):
-    #         if roll_cnt >= end_roll:
-    #             break
-    #         # print(roll_cnt)
-    #         for h_seg_cnt in range(0, len(correct_roi_data[roll_cnt])):
-    #             correct_roi_data[roll_cnt + 1][h_seg_cnt][1] = correct_roi_data[roll_cnt][h_seg_cnt][1] + 18
     vroll_num = len(correct_roi_data)
     h_vld_seg = len(correct_roi_data[0])
 
     for h_seg_cnt in range(0, h_vld_seg):
         v_coors_list = []
         v_pixel_list = []
-        v_coors_dict = {}   # 矫正时需对坐标排序再进行矫正，因此需要记录实际矫正位置
+        v_coors_dict = {}  # 矫正时需对坐标排序再进行矫正，因此需要记录实际矫正位置
 
         # 以段为单位解析每次 rolling 的坐标
         for vroll_cnt in range(0, vroll_num):
             v_coor = correct_roi_data[vroll_cnt][h_seg_cnt][1]
+            v_coors_dict[v_coor] = vroll_cnt  # 记录实际矫正位置
             v_coors_list.append(v_coor)
-            v_pixel_list.append(v_coor//3)
-            v_coors_dict[v_coor] = vroll_cnt    # 记录实际矫正位置
+            v_pixel_list.append(v_coor // 3)
         v_coors_list.sort()
         v_pixel_list.sort()
 
         # 按照 pixel进行矫正
-        correct_pixel_list = fill_gaps(v_pixel_list)
-        # print(f"seg_num{h_seg_cnt}:")
-        # print(v_pixel_list)
-        # print(correct_pixel_list)
+        correct_pixel_list = roi_correct(v_pixel_list, cfg["correct_thres"])
 
         # 按照矫正的 pixel 对 ROI 进行矫正
         for vroll_cnt in range(0, vroll_num):
@@ -505,9 +572,9 @@ def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
             new_pixel_value = correct_pixel_list[vroll_cnt]
             if old_pixel_value == new_pixel_value:
                 continue
-            elif old_pixel_value < new_pixel_value:     # 像下矫正
+            elif old_pixel_value < new_pixel_value:  # 像下矫正
                 correct_coor = new_pixel_value * 3
-            else:                                       # 像上矫正
+            else:  # 像上矫正
                 correct_coor = new_pixel_value * 3 + 2
             correct_roi_data[act_roll][h_seg_cnt][1] = correct_coor
 
@@ -700,7 +767,6 @@ def do_work(config_file):
 
     """标定，返回标定数据"""
     _img_roi_datas, light_imags = GetRoiDataFromAllImags(file_dict, cfg)
-
     # print(_img_roi_datas)
     """对标定的原始数据按照配置进行矫正，消除黑条"""
     img_roi_datas = CoorCorrect_1D(_img_roi_datas, cfg)
@@ -720,3 +786,4 @@ if __name__ == '__main__':
     #     logs = msg
 
     do_work('MskuCalibrationConfig.json')
+    # plt.show()

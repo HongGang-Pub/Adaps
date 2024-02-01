@@ -147,6 +147,8 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='imag_msku'):
                 per_coor = per_rolling_data[seg_cnt]
                 seg_num = per_coor >> 10
                 spad_coor = per_coor % 1024
+                if spad_coor > 575:
+                    continue
                 # spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48, :] = np.arrays(
                 #     [dsp, dsp, dsp])
                 spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
@@ -166,6 +168,8 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='imag_msku'):
                     per_coor = per_rolling_data[seg_cnt]
                     seg_num = per_coor >> 10
                     spad_coor = per_coor % 1024
+                    if spad_coor > 575:
+                        continue
                     spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
                     depth_spad_array[spad_coor//3, seg_num * 16:(seg_num + h_vld_seg + 1) * 16] = dsp
                     if seg_cnt == 0:

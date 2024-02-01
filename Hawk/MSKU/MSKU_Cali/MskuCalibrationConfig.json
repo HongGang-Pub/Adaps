@@ -1,9 +1,9 @@
 {
 	"?fd_path"		: "标定数据路径(PCM灰度图路径) (请注意使用双斜杠)",
-	"fd_path"		: "C:\\Users\\honggang.li\\Downloads\\B06_REF_1point5\\OD3\\B06_focus2m+OD3_PCM_2024_01_02_05_43_31",
+	"fd_path"		: "C:\\Users\\honggang.li\\Downloads\\SavedImages(3)\\B13_ROI_data_800mm_20240131",
 
-	"file_path"		: "cali_result",		"?file_path" 	: "存储的文件路径",
-	"roi_name"		: "roi_mem",			"?roi_name" 	: "存储的ROI Memory文件名",
+	"file_path"		: "B13",		"?file_path" 	: "存储的文件路径",
+	"roi_name"		: "roi_mem_B13",			"?roi_name" 	: "存储的ROI Memory文件名",
 
 	"README"   		: "以下值需要与寄存器值保持一致",
 	"SCAN_MODE"  	: 0	,
@@ -13,10 +13,11 @@
 
 	"is_reverse"	: 0 ,					"?is_reverse"	: "文件读取顺序。是：序号从小到大；否：序号从大到小",
 	"img_reverse"	: 0 ,					"?img_reverse"	: "img是否需要镜像：0：不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像",
-	"roi_correct"	: 0	,					"?roi_correct"	: "1D SCAN_MODE ROI是否需要按照pixel进行矫正：0：否，1：是",
-	"cali_frm_num"	: 5 ,					"?cali_frm_num"	: "使用灰度图中第几帧进行标定",
+	"roi_correct"	: 1 ,					"?roi_correct"	: "1D SCAN_MODE ROI是否需要按照pixel进行矫正：0：否，1：是",
+	"correct_thres" : 1 ,					"?correct_thres": "ROI矫正阈值(以pixel为单位)",
+	"cali_frm_num"	: 4 ,					"?cali_frm_num"	: "使用灰度图中第几帧进行标定",
 	"remove_noise"	: 0 ,					"?remove_noise"	: "是否消除噪点，如果光条明显，噪点相对较弱时，无需配置为1",
-	"curvature"		: 2,					"?curvature"	: "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI(1D scan生效)",
+	"curvature"		: 1,					"?curvature"	: "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI(1D scan生效)",
 	"mode2D"		: 0	,					"?mode2D"		: "0：以光条能量优先；1：以能 Masking的最大光子数优先",
 
 	"msk_intensity" : 80,					"?intensity"	: "ROI和光条亮度调整0~100",
