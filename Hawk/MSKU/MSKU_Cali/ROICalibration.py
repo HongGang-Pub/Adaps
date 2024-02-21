@@ -226,7 +226,7 @@ def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature) -> list:
             coefficient = ref_value / v_spad_value[seg_num]
             GlobalDef.coefficient = coefficient if GlobalDef.coefficient is None \
                 else min(coefficient, GlobalDef.coefficient)
-            # print(GlobalDef.cali_info, GlobalDef.coefficient)
+            # print(GlobalDef.info, GlobalDef.coefficient)
 
         if GlobalDef.cali_info == "last_frame":
             for coor in range(start_index, 576):
@@ -503,7 +503,7 @@ def fill_gaps(blocks: list, length: int = 6, max_move: int = 2, base_block_index
                     correct_blocks[i + 1] += move_distance
 
                     move_distance_sum += move_distance
-                    is_success = False if max_move < min(-distance, gap_after_next) else True
+                    # is_success = False if max_move < min(-distance, gap_after_next) else True
 
         elif distance > 0:  # 存在缝隙
             # 确保移动不会产生新的缝隙
@@ -517,7 +517,9 @@ def fill_gaps(blocks: list, length: int = 6, max_move: int = 2, base_block_index
                 correct_blocks[i + 1] -= move_distance
 
                 move_distance_sum += move_distance
-                is_success = False if max_move < distance else True
+                if is_success and max_move < distance:
+                    is_success = False
+                    return [], 0, is_success
         i += 1
 
     # 以基准块为中心，通过平移前面的方块，移除缝隙
@@ -539,7 +541,7 @@ def fill_gaps(blocks: list, length: int = 6, max_move: int = 2, base_block_index
                     correct_blocks[i - 1] -= move_distance
 
                     move_distance_sum += move_distance
-                    is_success = False if max_move < min(-distance, gap_after_next) else True
+                    # is_success = False if max_move < min(-distance, gap_after_next) else True
 
         elif distance > 0:  # 存在缝隙
             # 确保移动不会产生新的缝隙
@@ -553,12 +555,14 @@ def fill_gaps(blocks: list, length: int = 6, max_move: int = 2, base_block_index
                 correct_blocks[i - 1] += move_distance
 
                 move_distance_sum += move_distance
-                is_success = False if max_move < distance else True
+                if is_success and max_move < distance:
+                    is_success = False
+                    return [], 0, is_success
         i -= 1
     return correct_blocks, move_distance_sum, is_success
 
 
-def roi_correct(blocks: list, max_move=1) -> list:
+def roi_correct(blocks: list, max_move=1, info="") -> list:
     optimal_blocks = []
     optimal_move_distance = 888  # 不能给0，否则不会更新
 
@@ -573,9 +577,11 @@ def roi_correct(blocks: list, max_move=1) -> list:
             optimal_blocks = correct_blocks
             optimal_move_distance = move_distance
             # print(i, move_distance, is_success)
+            # print(optimal_blocks)
+    # print(optimal_move_distance)
 
     if not optimal_blocks:
-        raise ValueError("光条缝隙太大，请尝试修改矫正阈值后再运行")
+        raise ValueError(f"{info}: 光条缝隙太大，请尝试修改矫正阈值后再运行")
     return optimal_blocks
 
 
@@ -612,7 +618,8 @@ def CoorCorrect_1D(roi_data: list, cfg: dict) -> list:
         v_pixel_list.sort()
 
         # 按照 pixel进行矫正
-        correct_pixel_list = roi_correct(v_pixel_list, cfg["correct_thres"])
+        # print(f"--------------- seg: {h_seg_cnt} ---------------")
+        correct_pixel_list = roi_correct(v_pixel_list, cfg["correct_thres"], info=f"segment_{h_seg_cnt}")
 
         # 按照矫正的 pixel 对 ROI 进行矫正
         for vroll_cnt in range(0, vroll_num):
@@ -848,4 +855,4 @@ if __name__ == '__main__':
     #     logs = msg
 
     do_work('MskuCalibrationConfig.json')
-    plt.show()
+    # plt.show()

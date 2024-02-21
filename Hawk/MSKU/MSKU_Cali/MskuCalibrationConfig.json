@@ -1,8 +1,8 @@
 {
 	"?fd_path"		: "标定数据路径(PCM灰度图路径) (请注意使用双斜杠)",
-	"fd_path"		: "C:\\Users\\honggang.li\\Downloads\\SavedImages(3)\\B13_ROI_data_800mm_20240131",
+	"fd_path"		: "C:\\Users\\honggang.li\\Downloads\\C1(1)\\C1",
 
-	"file_path"		: "B13",				"?file_path" 	: "存储的文件路径",
+	"file_path"		: "C1",				"?file_path" 	: "存储的文件路径",
 	"roi_name"		: "roi_mem_B13",		"?roi_name" 	: "存储的ROI Memory文件名",
 
 	"config_reg"   	: "以下值需要与寄存器值保持一致",
