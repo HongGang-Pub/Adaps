@@ -57,8 +57,7 @@ class Settings(object):
         with open(self.settings_path, "r", encoding='utf-8') as reader:
             settings = json.loads(reader.read())
             self.items = settings
-            self.items["custom_title_bar"] = False
-        if self.items["theme_sel"] == "dark":
-            self.items["theme_name"] = "dark"
-        else:
-            self.items["theme_name"] = "light"
+        # if self.items["theme_sel"] == "dark":
+        #     self.items["theme_name"] = "dark"
+        # else:
+        #     self.items["theme_name"] = "light"

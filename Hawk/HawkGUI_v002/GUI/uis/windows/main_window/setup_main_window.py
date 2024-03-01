@@ -128,7 +128,7 @@ class SetupMainWindow:
 
         # SET SIGNALS
         self.ui.left_menu.clicked.connect(self.btn_clicked)
-        self.ui.left_menu.released.connect(self.btn_released)
+        # self.ui.left_menu.released.connect(self.btn_released)
 
         # TITLE BAR / ADD EXTRA BUTTONS
         # ///////////////////////////////////////////////////////////////
@@ -143,21 +143,8 @@ class SetupMainWindow:
         self.ui.title_bar.set_title("We create eyes for the smart future")
 
         # ///////////////////////////////////////////////////////////////
-        # EXAMPLE CUSTOM WIDGETS
         # Here are added the custom widgets to pages and columns that
         # were created using Qt Designer.
-        # This is just an example and should be deleted when creating
-        # your application.
-        #
-        # OBJECTS FOR LOAD PAGES, LEFT AND RIGHT COLUMNS
-        # You can access objects inside Qt Designer projects using
-        # the objects below:
-        #
-        # <OBJECTS>
-        # LEFT COLUMN: self.ui.left_column.menus
-        # RIGHT COLUMN: self.ui.right_column
-        # LOAD PAGES: self.ui.load_pages
-        # </OBJECTS>
         # ///////////////////////////////////////////////////////////////
 
         # LOAD SETTINGS
@@ -170,15 +157,17 @@ class SetupMainWindow:
         themes = Themes()
         self.themes = themes.items
 
-        # ///////////////////////////////////////////////////////////////
-        # SET LEFT COLUMN BUTTON
-        # ///////////////////////////////////////////////////////////////
-
         # PAGES
         # ///////////////////////////////////////////////////////////////
 
         # PAGE 1 - ADD LOGO TO MAIN PAGE
-        self.ui.load_pages.pages.font().setPointSize(self.settings["font"]["text_size"])
+        # self.ui.load_pages.pages.font().setPointSize(self.settings["font"]["text_size"])
+        self.ui.load_pages.WORK_MODE_ComboBox.addItems(self.gui_value_config["WORK_MODE"]["show_gui"])
+        self.ui.load_pages.MIPI_RATE_ComboBox.addItems(self.gui_value_config["MIPI_RATE"]["show_gui"])
+        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
+        self.ui.load_pages.MST_MODE_ComboBox.addItems(self.gui_value_config["MST_MODE"]["show_gui"])
+        self.ui.load_pages.TRG_I_EN_ComboBox.addItems(self.gui_value_config["TRG_I_EN"]["show_gui"])
+        self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
 
         # PAGE 2
         # ICON BUTTON 1

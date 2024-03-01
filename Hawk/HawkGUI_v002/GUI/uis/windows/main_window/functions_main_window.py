@@ -83,24 +83,3 @@ class MainFunctions:
         self.group.addAnimation(self.left_box)
         self.group.addAnimation(self.right_box)
         self.group.start()
-
-    # User self defined function
-    # ///////////////////////////////////////////////////////////////
-
-    # 文件选择对话框
-    # ///////////////////////////////////////////////////////////////
-    def Sel_Config_file_func(self):
-        file = QFileDialog.getOpenFileName(parent=None, caption='Config File Select', dir='Input',
-                                           filter='file(*.txt) ;')
-        if file[0] == "":
-            return
-        # 选择后缀为.txt
-        self.ui.load_pages.Sel_Config_file_LineEdit.setText(file[0])
-
-    def Load_ROI_file_func(self):
-        file = QFileDialog.getOpenFileName(parent=None, caption='Cali Data Select', dir='Input',
-                                           filter='file(*.txt) ;')
-        if file[0] == "":
-            return
-        # 选择后缀为.txt
-        self.ui.load_pages.Load_ROI_file_LineEdit.setText(file[0])

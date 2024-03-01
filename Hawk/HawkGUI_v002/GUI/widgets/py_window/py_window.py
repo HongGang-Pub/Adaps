@@ -86,17 +86,6 @@ class PyWindow(QFrame):
         self.layout.setContentsMargins(margin, margin, margin, margin)
         self.layout.setSpacing(spacing)
 
-        # ADD DROP SHADOW
-        # ///////////////////////////////////////////////////////////////
-        if self.settings["custom_title_bar"]:
-            if enable_shadow:
-                self.shadow = QGraphicsDropShadowEffect()
-                self.shadow.setBlurRadius(20)
-                self.shadow.setXOffset(0)
-                self.shadow.setYOffset(0)
-                self.shadow.setColor(QColor(0, 0, 0, 160))
-                self.setGraphicsEffect(self.shadow)
-
     # APPLY AND UPDATE STYLESHEET
     # ///////////////////////////////////////////////////////////////
     def set_stylesheet(

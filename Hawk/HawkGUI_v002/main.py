@@ -19,6 +19,7 @@
 from gui.uis.windows.main_window.functions_main_window import *
 import sys
 from functools import partial
+from SelfDefinedPackge.JsonOperation import JsonFunction
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -33,8 +34,9 @@ from gui.core.json_settings import Settings
 # MAIN WINDOW
 from gui.uis.windows.main_window import *
 
-# IMPORT PY ONE DARK WIDGETS
+# IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
+from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import *
 
 # ADJUST QT FONT DPI FOR HIGHT SCALE AN 4K MONITOR
 # ///////////////////////////////////////////////////////////////
@@ -59,15 +61,24 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         settings = Settings()
         self.settings = settings.items
+
+        # LOAD HawkConfig.json
+        # ///////////////////////////////////////////////////////////////
+        gui_value_config = JsonFunction(file_path=".HawkConfig/GuiValueConfig.json")
+        self.gui_value_config = gui_value_config.items
+        hawk_config = JsonFunction(file_path="HawkConfig.json")
+        self.hawk_config = hawk_config.items
+
         # SETUP MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
         self.hide_grips = True  # Show/Hide resize grips
         SetupMainWindow.setup_gui(self)
+        HawkFunctions.gui_initial(self)
 
         # Connect Function
         # ///////////////////////////////////////////////////////////////
-        self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(MainFunctions.Sel_Config_file_func, self))
-        self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(MainFunctions.Load_ROI_file_func, self))
+        self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(HawkFunctions.Sel_Config_file_func, self))
+        self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(HawkFunctions.Load_ROI_file_func, self))
 
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
@@ -116,19 +127,6 @@ class MainWindow(QMainWindow):
 
         # DEBUG
         print(f"Button {btn.objectName()}, released!")
-
-    # RESIZE EVENT
-    # ///////////////////////////////////////////////////////////////
-    def resizeEvent(self, event):
-        SetupMainWindow.resize_grips(self)
-
-    # MOUSE CLICK EVENTS
-    # ///////////////////////////////////////////////////////////////
-    def mousePressEvent(self, event):
-        # SET DRAG POS WINDOW
-        p = event.globalPosition()
-        globalPos = p.toPoint()
-        self.dragPos = globalPos
 
 
 # SETTINGS WHEN TO START

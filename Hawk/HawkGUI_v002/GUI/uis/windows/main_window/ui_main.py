@@ -183,8 +183,7 @@ class UI_MainWindow(object):
             text_foreground=self.themes["app_color"]["text_foreground"],
             radius=8,
             font_family=self.settings["font"]["family"],
-            title_size=self.settings["font"]["title_size"],
-            is_custom_title_bar=self.settings["custom_title_bar"]
+            title_size=self.settings["font"]["title_size"]
         )
         self.title_bar_layout.addWidget(self.title_bar)
 

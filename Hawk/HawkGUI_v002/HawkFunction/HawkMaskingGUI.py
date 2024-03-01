@@ -15,8 +15,8 @@ from Hawk.MSKU.MSKU_Cali import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
 from Hawk.Common import HawkPubMethod
 from SelfDefinedPackge import PubMethod
-from Hawk.HawkGUI_v002.Function import Player
-from Hawk.HawkGUI_v002.Function.HawkComponentStyle import *
+from Hawk.HawkGUI_v002.HawkFunction import Player
+from Hawk.HawkGUI_v002.HawkFunction.HawkComponentStyle import *
 
 
 def DirectAccessCaliData(file, cfg):
@@ -135,28 +135,6 @@ def GenerateRoiMem(cfg, msku_roi_mem):
 
 def msku_gui():
     # ===============================================================================================
-    # 窗口显示属性配置
-    # ===============================================================================================
-    window = tkinter.Tk()
-    # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
-    width = 1300
-    height = 850
-    screenwidth = window.winfo_screenwidth()
-    screenheight = window.winfo_screenheight()
-    size_geo = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-    window.geometry(size_geo)
-    window.minsize(width, height)
-
-    window.title("Hawk ROI Generate 1.4")  # 标题
-    window.iconphoto(False, tkinter.PhotoImage(file=r".file/icon.png"))
-
-    def _quit():
-        window.quit()
-        window.destroy()
-
-    window.protocol("WM_DELETE_WINDOW", _quit)  # 关闭窗口，退出程序，防止后台程序持续占用
-
-    # ===============================================================================================
     # 绘制动态图片相关方法
     # ===============================================================================================
     msku_roi_mem = []
@@ -216,33 +194,6 @@ def msku_gui():
             }
         })
         return [imgs] + [title]
-
-    # ===============================================================================================
-    # Window 主界面增加 3 个 frame, 分别用于不同用途
-    # ===============================================================================================
-    company_icons = tkinter.Frame(window, background='white')  # 左上添加 frame 控件用于展示公司图片
-    frame_roi_img = tkinter.Frame(window)  # 左下添加 frame 控件用于展示动图
-    frame_roi_cfg = tkinter.Frame(window)  # 右侧添加 frame 控件用于放置 配置、按钮、日志打印等内容
-
-    # --------------------- company_图片 设置 -------------------
-    imag = Image.open(r'.file/company_icon.png')
-    photo = ImageTk.PhotoImage(imag)
-    # photo = tkinter.PhotoImage(r'.file/company_icon.png')
-    tkinter.Label(company_icons, image=photo, background='white').pack(fill=tkinter.BOTH)
-
-    # ----------------- frame_roi_cfg 增加多个控件，显示不同交互内容 -------------------
-    # register_config_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 寄存器配置控件
-    # califile_select_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 文件选择控件
-    # reg_roiram_file_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 文件选择控件
-    # bottoms_operate_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 按钮操作控件
-    # operation_print_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 操作日志打印控件
-    configs_frame = tkinter.LabelFrame(frame_roi_cfg, text="Config")  # 寄存器配置控件
-    f_input_frame = tkinter.LabelFrame(frame_roi_cfg, text="Input")  # 文件选择控件
-    output__frame = tkinter.LabelFrame(frame_roi_cfg, text="Output")  # 文件输出控件
-    operate_frame = tkinter.LabelFrame(frame_roi_cfg, text="Operate")  # 按钮操作控件
-    logsout_frame = tkinter.LabelFrame(frame_roi_cfg, text="Log")  # 操作日志打印控件
-
-    # logsout_frame = tkinter.Frame(frame_roi_cfg, bg='white')  # 操作日志打印控件
 
     # -------------------------- MST_MODE ----------------------------------
     def _mst_mode_update(event):
@@ -315,10 +266,6 @@ def msku_gui():
     mipi_rate_cfg_cmp['value'] = ("0.8 Gbps/Lane", "1.0 Gbps/Lane", "1.2 Gbps/Lane", "1.5 Gbps/Lane")  # 设置下拉菜单中的值
     mipi_rate_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
     mipi_rate_cfg_cmp.bind("<<ComboboxSelected>>", _mipi_rate_update)
-
-    # -------------------------- 文件存储文件名配置 ---------------------------
-    fname_for_cfg_cmp = tkinter.Entry(output__frame, relief="solid", width=26)
-    fname_for_roi_cmp = tkinter.Entry(output__frame, relief="solid", width=26)
 
     # -------------------------- V_ROLL_NUM -------------------------------------------
     def _vroll_update(value):
@@ -433,7 +380,7 @@ def msku_gui():
         # log_print_window.insert(tkinter.INSERT, '开始保存...\n')
         _log_update('Reload script...')
         try:
-            cfg = PubMethod.ReadJsonFile('HawkConfig.json')
+            cfg = PubMethod.ReadJsonFile('../HawkConfig.json')
             config_mapping(cfg)
             _set_default_value()  # 根据配置值，重新配置界面值
             _log_update('Reload successfully.')
@@ -482,83 +429,6 @@ def msku_gui():
     log_print_cmp.insert(tkinter.INSERT, 'Working!!!\n')
     log_print_cmp.configure(state='disabled')
 
-    # -------------------------配置布局，以及默认值并打开窗口------------------------------
-    rows = 0
-
-    def get_row(ini=1):
-        nonlocal rows
-        rows = (rows + 1) if ini != 1 else 0
-        return rows
-
-    vcoor = 0
-
-    def set_next_cmp_coor(height):
-        nonlocal vcoor
-        vcoor = height + vcoor + 0.005
-        return height
-
-    def _set_dsp():
-        nonlocal vcoor
-        # ------------------ window -> frame -----------------
-        company_icons.place(relx=0.005, rely=0.005, relwidth=0.695, relheight=0.100)
-        frame_roi_img.place(relx=0.005, rely=0.110, relwidth=0.695, relheight=0.885)
-        frame_roi_cfg.place(relx=0.700, rely=0.000, relwidth=0.295, relheight=0.990)
-        # --------------------- frame_roi_cfg -------------------
-        configs_frame.place(relx=0.010, rely=0.000, relwidth=0.990, relheight=0.430)
-        f_input_frame.place(relx=0.010, rely=0.435, relwidth=0.990, relheight=0.110)
-        output__frame.place(relx=0.010, rely=0.550, relwidth=0.990, relheight=0.110)
-        operate_frame.place(relx=0.010, rely=0.665, relwidth=0.990, relheight=0.110)
-        logsout_frame.place(relx=0.010, rely=0.780, relwidth=0.990, relheight=0.240)
-
-        # -------------- configs_frame -> Label -----------------
-        # 放置输入框，并设置位置
-        tkinter.Label(configs_frame, Lable_style, text="MST_MODE     ").grid(Lable_grid, row=get_row(ini=1))
-        tkinter.Label(configs_frame, Lable_style, text="WORK_MODE    ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="TRG_I_EN     ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="TDC bin width").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="MIPI RATE    ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="SCAN_MODE    ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="V_ROLL_NUM   ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="H_ROLL_NUM   ").grid(Lable_grid, row=get_row(ini=0))
-        tkinter.Label(configs_frame, Lable_style, text="H_VLD_SEG    ").grid(Lable_grid, row=get_row(ini=0))
-
-        # -------------- configs_frame -> input cmp -----------------
-        mstr_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1)
-        work_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
-        trig_i_en_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
-        tdc_bin_width_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
-        mipi_rate_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
-        scan_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=0), column=1)
-        vroll_num_cfg_cmp.grid(Scale_grid, row=get_row(ini=0), column=1)
-        hroll_num_cfg_cmp.grid(Scale_grid, row=get_row(ini=0), column=1)
-        h_vld_seg_cfg_cmp.grid(Scale_grid, row=get_row(ini=0), column=1)
-
-        # -------------- input_frame -> input cmp -----------------
-        cali_file_sel_cmp.grid(Entry_grid, row=get_row(ini=1), column=0, columnspan=2)
-        cfgs_file_sel_cmp.grid(Entry_grid, row=get_row(ini=0), column=0, columnspan=2)
-
-        cali_file_sel_btn = tkinter.Button(f_input_frame, Button_style, text='Load ROI file', command=_open_cali_file)
-        cfgs_file_sel_btn = tkinter.Button(f_input_frame, Button_style, text='Sel Config file',
-                                           command=_open_config_file)
-        cali_file_sel_btn.grid(Button_grid, row=get_row(ini=1), column=2)
-        cfgs_file_sel_btn.grid(Button_grid, row=get_row(ini=0), column=2)
-
-        # -------------- output__frame -> input cmp -----------------
-        tkinter.Label(output__frame, Lable_style, text="REG CFG File ").grid(Lable_grid, row=get_row(ini=1))
-        tkinter.Label(output__frame, Lable_style, text="ROI SRAM File").grid(Lable_grid, row=get_row(ini=0))
-        fname_for_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1, columnspan=1)
-        fname_for_roi_cmp.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
-
-        # -------------- bottom_operate_frame -> button -----------------
-        button_row = 0
-        previw1_btn = tkinter.Button(operate_frame, Button_style, text="Preview", command=_preview_update1)
-        save_dt_btn = tkinter.Button(operate_frame, Button_style, text="Save", command=_do_save)
-        clr_log_btn = tkinter.Button(operate_frame, Button_style, text="Clear Log", command=_log_clr)
-
-        previw1_btn.grid(Button_grid, row=button_row, column=0)
-        save_dt_btn.grid(Button_grid, row=button_row, column=1)
-        clr_log_btn.grid(Button_grid, row=button_row, column=2)
-
     # --------------- 隐藏按钮显示 ------------------
     def _hidden_btn(event):
         _log_update("The Debug operation button is displayed.")
@@ -606,15 +476,6 @@ def msku_gui():
 
         config_filename.set(cfg['ref_cfg_file'])
 
-    # ------------------ 启动初始化 -----------------------
-    try:
-        cfg = PubMethod.ReadJsonFile('HawkConfig.json')
-        config_mapping(cfg)
-        arrays = [np.zeros((576, 768))]
-        # _msku_draw()
-    except BaseException as e:
-        raise ValueError(f"System initialization failed. Log: {e}")
-
     # ----------------------- 画图 -------------------
     fig = plt.figure()
     ax = fig.gca()
@@ -625,13 +486,3 @@ def msku_gui():
     canvas.draw()
     canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
     # plt.close(fig)
-
-    # -------------- 左侧栏初始化 ----------------
-    _set_dsp()
-    _set_default_value()
-    tkinter.mainloop()
-    return
-
-
-if __name__ == '__main__':
-    msku_gui()

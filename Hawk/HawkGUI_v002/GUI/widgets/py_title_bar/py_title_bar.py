@@ -71,7 +71,6 @@ class PyTitleBar(QWidget):
             radius=8,
             font_family="Segoe UI",
             title_size=10,
-            is_custom_title_bar=True,
     ):
         super().__init__()
 
@@ -96,7 +95,6 @@ class PyTitleBar(QWidget):
         self._font_family = font_family
         self._title_size = title_size
         self._text_foreground = text_foreground
-        self._is_custom_title_bar = is_custom_title_bar
 
         # SETUP UI
         self.setup_ui()
@@ -126,21 +124,6 @@ class PyTitleBar(QWidget):
                 parent.dragPos = event.globalPos()
                 event.accept()
 
-        # MOVE APP WIDGETS
-        if is_custom_title_bar:
-            self.top_logo.mouseMoveEvent = moveWindow
-            self.div_1.mouseMoveEvent = moveWindow
-            self.title_label.mouseMoveEvent = moveWindow
-            self.div_2.mouseMoveEvent = moveWindow
-            self.div_3.mouseMoveEvent = moveWindow
-
-        # MAXIMIZE / RESTORE
-        if is_custom_title_bar:
-            self.top_logo.mouseDoubleClickEvent = self.maximize_restore
-            self.div_1.mouseDoubleClickEvent = self.maximize_restore
-            self.title_label.mouseDoubleClickEvent = self.maximize_restore
-            self.div_2.mouseDoubleClickEvent = self.maximize_restore
-
         # ADD WIDGETS TO TITLE BAR
         # ///////////////////////////////////////////////////////////////
         self.bg_layout.addWidget(self.top_logo)
@@ -158,11 +141,6 @@ class PyTitleBar(QWidget):
         # Extra BTNs layout
         self.bg_layout.addLayout(self.custom_buttons_layout)
 
-        # ADD Buttons
-        if is_custom_title_bar:
-            self.bg_layout.addWidget(self.minimize_button)
-            self.bg_layout.addWidget(self.maximize_restore_button)
-            self.bg_layout.addWidget(self.close_button)
 
     # ADD BUTTONS TO TITLE BAR
     # Add btns and emit signals
@@ -198,10 +176,6 @@ class PyTitleBar(QWidget):
 
                 # ADD TO LAYOUT
                 self.custom_buttons_layout.addWidget(self.menu)
-
-            # ADD DIV
-            if self._is_custom_title_bar:
-                self.custom_buttons_layout.addWidget(self.div_3)
 
     # TITLE BAR MENU EMIT SIGNALS
     # ///////////////////////////////////////////////////////////////
