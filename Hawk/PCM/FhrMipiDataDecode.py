@@ -40,7 +40,7 @@ def ParseFHRData(file_path, vroll=31, h_vld_seg=15):
             data.append(frame_data)
             frame_data = []
 
-    # for frame_num in range(1):
+    # for frame_num_sel in range(1):
     for frame_num in range(len(data)):
         fname = "FrameData{}.txt".format(frame_num)
         for pix_cnt in range(len(data[frame_num])):

@@ -1,5 +1,39 @@
+"""
+本文件仅用于将.raw图片中指定段的光强展示
+"""
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+import SelfDefinedPackge.PubMethod
+
+
+def get_pcm_file(fp: str, frame_num=5) -> dict:
+    """
+    从指定的文件夹中获取对应的灰度图，用于成图
+
+    Args:
+        fp (str): 文件路径
+        frame_num (int): 采用第几帧数据进行标定
+
+    Returns:
+        dict: type(dict): {索引：文件路径}
+    """
+    f1 = SelfDefinedPackge.PubMethod.get_fp(fd_path=fp, mode=0, match_filter='GrayImage', regression=1, f_type="PCM Imag")
+    get_frame_cnt = 1
+
+    f_dict = {}
+    for f in f1:
+        if os.path.splitext(f)[1] == ".raw":
+            f_name = os.path.split(f)[1]
+            index = float(f_name.split("_")[3])
+            if index in f_dict:
+                get_frame_cnt += 1
+                if get_frame_cnt > frame_num:
+                    continue
+            else:
+                get_frame_cnt = 1
+            f_dict[index] = f
+    return f_dict
 
 
 def SegAccumulation(array: np.ndarray, accum_seg: int = 1) -> np.ndarray:
@@ -53,7 +87,10 @@ def SCANMODE_1D(img) -> None:
 
 
 def do_work():
+    file_dict = get_pcm_file(fd_path, frame_num_sel)
+
     # 利用numpy的fromfile函数读取raw文件，并指定数据格式
+    image = file_dict[float(channel_sel)]
     ini_img = np.fromfile(image, dtype='uint32')
     # 利用numpy中array的reshape函数将读取到的数据进行重新排列
     ini_img = ini_img.reshape(576, 768, 1)
@@ -64,6 +101,8 @@ def do_work():
 
 
 if __name__ == '__main__':
-    Seg_range = [0, 3]
-    image = r"C:\Users\honggang.li\Downloads\B12_OD20B衰减片\B12_OD20B衰减片\B12_半圈离焦\GrayImage_frame_1_3123973902.raw"
+    channel_sel = 1             # 指定通道 (如采集的第 1 通道，则配置为 1)
+    frame_num_sel = 5           # 指定使用第几帧数据
+    Seg_range = [0, 3]          # 指定需要显示光强的 segment
+    fd_path = r"C:\Users\honggang.li\Downloads\C1(1)\C1"
     do_work()

@@ -153,7 +153,51 @@ def OpenWindows(hist_array: np.ndarray, ini_point: int, window_size: int) -> int
     return initial_point
 
 
-def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature) -> list:
+def CurveSmoothing(curve_array, base_point):
+    """
+    对数据进行平滑处理(此方法仅适用于 Hawk spec)
+    Args:
+        curve_array (np.array): 需要处理的曲线
+        base_point (int): 曲线最高点坐标最大值索引
+
+    Returns:
+        np.array: 返回平滑处理后的曲线
+    """
+    kernel = np.ones(18, int)
+    if base_point < 17 or base_point > (575 - 17):
+        if base_point < 17:
+            mirror_point = base_point * 2 + 1
+            top_array = curve_array[mirror_point:mirror_point + 18]
+            top_array = np.flip(top_array, axis=0)
+            seg_array1 = np.insert(curve_array, obj=0, values=top_array, axis=0)
+            seg_array2 = np.convolve(seg_array1, kernel, mode='same')
+            curve_array = seg_array2[18:]
+        else:
+            margin = 575 - base_point
+            mirror_point = base_point - margin - 18
+            down_array = curve_array[mirror_point:mirror_point + 18]
+            down_array = np.flip(down_array, axis=0)
+            seg_array1 = np.insert(curve_array, obj=576, values=down_array, axis=0)
+            seg_array2 = np.convolve(seg_array1, kernel, mode='same')
+            curve_array = seg_array2[0:576]
+        # for debug
+        # if GlobalDef.debug_cnt < 5 and max_point > (575-17):
+        #     plt.figure()
+        #     plt.subplot(2, 2, 1)
+        #     plt.plot(seg_sum_array[:, seg_num])
+        #     plt.subplot(2, 2, 2)
+        #     plt.plot(seg_array1)
+        #     plt.subplot(2, 2, 3)
+        #     plt.plot(seg_array2)
+        #     plt.subplot(2, 2, 4)
+        #     plt.plot(seg_array)
+        #     GlobalDef.debug_cnt += 1
+    else:
+        curve_array = np.convolve(curve_array, kernel, mode='same')
+    return curve_array
+
+
+def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature, light_smooth=0) -> list:
     """
     1D Scan Mode下，根据配置标定ROI
 
@@ -162,6 +206,7 @@ def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature) -> list:
         h_vld_seg (int): 寄存器配置
         ref_segment(int): 指定基准段用于偏移矫正
         curvature (int): 曲率配置，若不需要曲率自动矫正，配置值 > 576 即可
+        light_smooth (int): 是否对光条进行平滑处理
 
     Returns:
         list: 返回 ROI 标定数据
@@ -176,6 +221,7 @@ def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature) -> list:
     # ///////////////////////////////////////////////////////////////
     v_spad_value = np.max(seg_sum_array, axis=0)
     v_spad_max_index = np.argmax(seg_sum_array, axis=0)
+    ref_segment = np.argmax(v_spad_value) if ref_segment is None else ref_segment
 
     # 横向开窗，按照 h_vld_seg，找到亮度最高的段数
     # ///////////////////////////////////////////////////////////////
@@ -188,32 +234,20 @@ def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature) -> list:
     # ///////////////////////////////////////////////////////////////
     start_index_list = []
 
-    # 对 seg_sum_array 进行平滑处理
-    # ///////////////////////////////////////////////////////////////
-    # kernel = np.ones(18, int)
-    #
-    # H = seg_sum_array.shape[0]
-    # top_array = seg_sum_array[0, :]
-    # top_array = np.expand_dims(top_array, 0).repeat(17, axis=0)
-    # botton_array = seg_sum_array[H-1, :]
-    # botton_array = np.expand_dims(botton_array, 0).repeat(17, axis=0)
-
-    # _seg_sum_array = seg_sum_array
-    # _seg_sum_array = np.insert(_seg_sum_array, obj=H, values=botton_array, axis=0)
-    # _seg_sum_array = np.insert(_seg_sum_array, obj=0, values=top_array, axis=0)
-
     for seg_num in range(seg_hs, seg_hs + h_vld_seg + 1):
         ini_point = v_spad_max_index[seg_num] - 17
         ini_point = ini_point if ini_point > 0 else 0
 
-        # _seg_array = np.convolve(_seg_sum_array[:, seg_num], kernel, mode='same')
-        # seg_array = _seg_array[18:576+18]
+        # 对数据进行平滑处理
+        # ///////////////////////////////////////////////////////////////
+        seg_array = seg_sum_array[:, seg_num] if light_smooth == 0 \
+            else CurveSmoothing(seg_sum_array[:, seg_num], base_point=v_spad_max_index[seg_num])
 
-        seg_array = seg_sum_array[:, seg_num]
         start_index = OpenWindows(seg_array, ini_point, 18)
 
         # for debug
-        # if seg_num == 0:
+        # if seg_num == 3:
+        #     plt.figure()
         #     plt.subplot(1, 2, 1)
         #     plt.plot(seg_sum_array[:, seg_num])
         #     plt.subplot(1, 2, 2)
@@ -221,7 +255,8 @@ def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature) -> list:
 
         # 最后一段根据光子数进行矫正, 主要解决 spadisapp 覆盖式更新, 成图效果差的问题
         # ///////////////////////////////////////////////////////////////
-        if seg_hs < seg_num < (seg_hs + h_vld_seg + 1) and GlobalDef.cali_info not in ["first_frame", "last_frame"]:
+        # if seg_hs < seg_num < (seg_hs + h_vld_seg + 1) and GlobalDef.cali_info not in ["first_frame", "last_frame"]:
+        if seg_num == ref_segment and GlobalDef.cali_info not in ["first_frame", "last_frame"]:
             ref_value = np.min(seg_sum_array[start_index:start_index + 18, seg_num])
             coefficient = ref_value / v_spad_value[seg_num]
             GlobalDef.coefficient = coefficient if GlobalDef.coefficient is None \
@@ -240,7 +275,6 @@ def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature) -> list:
     # 校准：根据 基准段 & 设置的曲率（spad步径）
     # 判断某段标定位置是否偏移过大，如果过大，则会进行校准
     # ///////////////////////////////////////////////////////////////
-    ref_segment = np.argmax(v_spad_value) if ref_segment is None else ref_segment
     h_center = ref_segment - seg_hs
     # 向前校准
     for cnt in range(0, h_center):
@@ -328,7 +362,8 @@ def SCANMODE_2D(img: np.ndarray, h_vld_seg: int, mode: int = 0) -> list:
 
 
 def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: int = 15, ref_segment=None,
-                       curvature: int = 30, noise_filter: int = 0, mode2D: int = 0, img_reverse: int = 0) -> list:
+                       curvature: int = 30, noise_filter: int = 0, mode2D: int = 0, img_reverse: int = 0,
+                       light_smooth=0) -> list:
     """
     根据配置调用相应方法对单张图片进行识别，找出光条，并生成 ROI 标定效果图片
 
@@ -342,6 +377,7 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
         noise_filter (int): 是否进行噪点消除
         mode2D (int):2D Scan mode标定方式
         img_reverse (int): img是否需要镜像：0：不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像
+        light_smooth (int): 数据是否需要平滑处理
 
     Returns:
         list: ROI 标定数据
@@ -372,7 +408,7 @@ def GetRoiDataFromImag(file: str, img_name: str, scan_mode: int = 0, h_vld_seg: 
     # plt.show()
 
     if scan_mode == 0:
-        per_img_roi_data = SCANMODE_1D(img, h_vld_seg, ref_segment, curvature)
+        per_img_roi_data = SCANMODE_1D(img, h_vld_seg, ref_segment, curvature, light_smooth)
     else:
         per_img_roi_data = SCANMODE_2D(img, h_vld_seg, mode=mode2D)
 
@@ -430,7 +466,8 @@ def GetRoiDataFromAllImags(f_dict: dict, cfg: dict) -> list:
                                               curvature=cfg['curvature'],
                                               noise_filter=cfg['remove_noise'],
                                               mode2D=cfg["mode2D"],
-                                              img_reverse=cfg["img_reverse"])
+                                              img_reverse=cfg["img_reverse"],
+                                              light_smooth=cfg['light_smooth'])
 
         image_roi_datas.append(per_img_roi_data)
     return image_roi_datas
