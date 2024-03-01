@@ -1,0 +1,26 @@
+{   
+    "MST_MODE":{
+        "config":[0, 1],
+        "show_gui":["Slave Mode", "Master Mode"]
+    },
+    "SCAN_MODE":{
+        "config":[0, 1],
+        "show_gui":["1D SCAN_MODE", "2D SCAN_MODE"]
+    },
+    "TDC_BIN_W":{
+        "config":[0.75, 1.00, 1.25, 1.50, 2.00, 2.50],
+        "show_gui":["0.75 ns", "1.00 ns", "1.25 ns", "1.50 ns", "2.00 ns", "2.50 ns"]
+    },
+    "WORK_MODE":{
+        "config":[0, 1, 2, 3],
+        "show_gui":["Ranging Mode", "Echo Mode", "Histogram Mode", "Gray Scale Mode"]
+    },
+    "MIPI_RATE":{
+        "config":[0.8, 1.0, 1.2, 1.5],
+        "show_gui":["0.8 Gbps/Lane", "1.0 Gbps/Lane", "1.2 Gbps/Lane", "1.5 Gbps/Lane"]
+    },
+    "TRG_I_EN":{
+        "config":[0, 1],
+        "show_gui":["Disable", "Enable"]
+    }
+}

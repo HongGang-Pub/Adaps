@@ -1,0 +1,66 @@
+//I2C_Block_Write and I2C_Write represent I2C or SPI write
+//Note: XCLK=24MHz
+//Interface operation, device addr, register addr, value
+//System Config begin
+I2C_Write, 4A, 0063, 11
+I2C_Write, 4A, 006A, 32
+I2C_Write, 4A, 006B, FA
+I2C_Write, 4A, 0069, 01
+I2C_Write, 4A, 006E, 31
+I2C_Write, 4A, 006F, 7D
+I2C_Write, 4A, 0005, F9
+I2C_Write, 4A, 0006, 00
+I2C_Write, 4A, 0079, CE
+I2C_Write, 4A, 006D, 03
+I2C_Write, 4A, 0004, 6A
+I2C_Write, 4A, 0008, 00
+I2C_Write, 4A, 000B, 8A
+I2C_Write, 4A, 000C, 8A
+I2C_Write, 4A, 000D, 1F
+I2C_Write, 4A, 000E, 34
+I2C_Write, 4A, 000A, 00
+I2C_Write, 4A, 0015, 03
+I2C_Write, 4A, 0016, 00
+I2C_Write, 4A, 0017, A7
+I2C_Write, 4A, 001F, 06
+I2C_Write, 4A, 0020, 04
+I2C_Write, 4A, 0021, C6
+I2C_Write, 4A, 0022, 14
+I2C_Write, 4A, 0023, FF
+I2C_Write, 4A, 0024, 05
+I2C_Write, 4A, 0025, 00
+I2C_Write, 4A, 002A, 81
+I2C_Write, 4A, 0054, D2
+I2C_Write, 4A, 0055, FF
+I2C_Write, 4A, 0056, 84
+I2C_Write, 4A, 0057, 04
+I2C_Write, 4A, 0058, 00
+I2C_Write, 4A, 005A, 1E
+I2C_Write, 4A, 00A7, 01
+//System Config end
+//Noe: ROI SRAM write operation should be after System Configuration
+//ROI_RAM, base addr 0x1000, Write 0x560 half-word
+I2C_Block_Write, 4A, 1000, 560, roi_mem_1_31_4_3
+//MIPI_CONFIG begin
+I2C_Write, 4A, 0075, 64
+I2C_Write, 4A, 0077, 61
+I2C_Write, 4A, 0104, 0C
+I2C_Write, 4A, 001B, 02
+I2C_Write, 4A, 0108, FA
+I2C_Write, 4A, 010C, 05
+I2C_Write, 4A, 010D, 05
+I2C_Write, 4A, 0128, 20
+I2C_Write, 4A, 0129, 00
+I2C_Write, 4A, 012A, 20
+I2C_Write, 4A, 012B, 00
+I2C_Write, 4A, 0114, 2C
+I2C_Write, 4A, 0115, 2C
+I2C_Write, 4A, 0118, D0
+I2C_Write, 4A, 011A, D0
+I2C_Write, 4A, 0119, 02
+I2C_Write, 4A, 011B, 02
+I2C_Write, 4A, 0150, C0
+I2C_Write, 4A, 0151, C0
+//MIPI_CONFIG end
+I2C_Write, 4A, 000A, 01
+I2C_Write, 4A, 0007, 01
