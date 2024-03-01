@@ -15,8 +15,8 @@ from Hawk.MSKU.MSKU_Cali import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
 from Hawk.Common import HawkPubMethod
 from SelfDefinedPackge import PubMethod
-from Hawk.HawkGUI import Player
-from Hawk.HawkGUI.HawkComponentStyle import *
+from Hawk.HawkGUI_v002.Function import Player
+from Hawk.HawkGUI_v002.Function.HawkComponentStyle import *
 
 
 def DirectAccessCaliData(file, cfg):
