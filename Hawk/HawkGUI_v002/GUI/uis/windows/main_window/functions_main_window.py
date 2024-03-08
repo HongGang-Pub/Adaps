@@ -28,7 +28,7 @@ from .ui_main import *
 
 
 # FUNCTIONS
-class MainFunctions:
+class GuiMainFunctions:
     def __init__(self):
         super().__init__()
         # SETUP MAIN WINDOw

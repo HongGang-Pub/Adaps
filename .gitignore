@@ -4,3 +4,4 @@
 /Hawk/HawkGUI/dist/
 /GUI
 /venv/
+*.pyc

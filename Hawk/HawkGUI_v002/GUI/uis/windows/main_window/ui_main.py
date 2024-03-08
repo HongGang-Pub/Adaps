@@ -63,6 +63,11 @@ class UI_MainWindow(object):
         settings = Settings()
         self.settings = settings.items
 
+        if self.settings["theme_name"] == "dark":
+            styleFile = r"gui/themes/page_themes/dark/darkstyle.qss"
+        else:
+            styleFile = r"gui/themes/page_themes/light/lightstyle.qss"
+
         # LOAD THEME COLOR
         # ///////////////////////////////////////////////////////////////
         themes = Themes()
@@ -203,7 +208,6 @@ class UI_MainWindow(object):
         # IMPORT MAIN PAGES TO CONTENT AREA
         self.load_pages = Ui_MainPages()
         self.load_pages.setupUi(self.content_main_pages)
-        styleFile = r"gui/themes/page_themes/light/lightstyle.qss"
         with open(styleFile, 'r') as f:
             qssStyle = f.read()
         self.load_pages.pages.setStyleSheet(qssStyle)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesBqdNYQ.ui'
+## Form generated from reading UI file 'main_pagesDEmqXP.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -106,10 +106,6 @@ class Ui_MainPages(object):
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.WORK_MODE_Label)
 
         self.WORK_MODE_ComboBox = QComboBox(self.scrollAreaWidgetContents_2)
-        self.WORK_MODE_ComboBox.addItem("")
-        self.WORK_MODE_ComboBox.addItem("")
-        self.WORK_MODE_ComboBox.addItem("")
-        self.WORK_MODE_ComboBox.addItem("")
         self.WORK_MODE_ComboBox.setObjectName(u"WORK_MODE_ComboBox")
         self.WORK_MODE_ComboBox.setFont(font1)
 
@@ -128,10 +124,6 @@ class Ui_MainPages(object):
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.MIPI_RATE_Label)
 
         self.MIPI_RATE_ComboBox = QComboBox(self.scrollAreaWidgetContents_2)
-        self.MIPI_RATE_ComboBox.addItem("")
-        self.MIPI_RATE_ComboBox.addItem("")
-        self.MIPI_RATE_ComboBox.addItem("")
-        self.MIPI_RATE_ComboBox.addItem("")
         self.MIPI_RATE_ComboBox.setObjectName(u"MIPI_RATE_ComboBox")
         self.MIPI_RATE_ComboBox.setFont(font1)
 
@@ -148,8 +140,6 @@ class Ui_MainPages(object):
         self.formLayout.setWidget(2, QFormLayout.LabelRole, self.SCAN_MODE_Label)
 
         self.SCAN_MODE_ComboBox = QComboBox(self.scrollAreaWidgetContents_2)
-        self.SCAN_MODE_ComboBox.addItem("")
-        self.SCAN_MODE_ComboBox.addItem("")
         self.SCAN_MODE_ComboBox.setObjectName(u"SCAN_MODE_ComboBox")
         self.SCAN_MODE_ComboBox.setFont(font1)
 
@@ -203,7 +193,7 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_Slider.setObjectName(u"V_ROLL_NUM_Slider")
         self.V_ROLL_NUM_Slider.setMinimum(1)
         self.V_ROLL_NUM_Slider.setMaximum(32)
-        self.V_ROLL_NUM_Slider.setPageStep(4)
+        self.V_ROLL_NUM_Slider.setPageStep(1)
         self.V_ROLL_NUM_Slider.setOrientation(Qt.Horizontal)
 
         self.hLayout_v_roll_num.addWidget(self.V_ROLL_NUM_Slider)
@@ -231,7 +221,7 @@ class Ui_MainPages(object):
         self.H_ROLL_NUM_Slider.setEnabled(True)
         self.H_ROLL_NUM_Slider.setMinimum(1)
         self.H_ROLL_NUM_Slider.setMaximum(16)
-        self.H_ROLL_NUM_Slider.setPageStep(2)
+        self.H_ROLL_NUM_Slider.setPageStep(1)
         self.H_ROLL_NUM_Slider.setOrientation(Qt.Horizontal)
 
         self.hLayout_h_roll_num.addWidget(self.H_ROLL_NUM_Slider)
@@ -258,7 +248,7 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_Slider.setObjectName(u"H_VLD_SEG_Slider")
         self.H_VLD_SEG_Slider.setMinimum(1)
         self.H_VLD_SEG_Slider.setMaximum(16)
-        self.H_VLD_SEG_Slider.setPageStep(2)
+        self.H_VLD_SEG_Slider.setPageStep(1)
         self.H_VLD_SEG_Slider.setOrientation(Qt.Horizontal)
 
         self.hLayout_h_vld_seg.addWidget(self.H_VLD_SEG_Slider)
@@ -284,11 +274,12 @@ class Ui_MainPages(object):
         self.H_SEG_Shift_Slider = QSlider(self.scrollAreaWidgetContents_2)
         self.H_SEG_Shift_Slider.setObjectName(u"H_SEG_Shift_Slider")
         self.H_SEG_Shift_Slider.setEnabled(True)
-        self.H_SEG_Shift_Slider.setMinimum(1)
-        self.H_SEG_Shift_Slider.setMaximum(16)
+        self.H_SEG_Shift_Slider.setMinimum(0)
+        self.H_SEG_Shift_Slider.setMaximum(15)
         self.H_SEG_Shift_Slider.setSingleStep(1)
-        self.H_SEG_Shift_Slider.setPageStep(2)
-        self.H_SEG_Shift_Slider.setSliderPosition(1)
+        self.H_SEG_Shift_Slider.setPageStep(1)
+        self.H_SEG_Shift_Slider.setValue(0)
+        self.H_SEG_Shift_Slider.setSliderPosition(0)
         self.H_SEG_Shift_Slider.setOrientation(Qt.Horizontal)
 
         self.hLayout_h_seg_shift.addWidget(self.H_SEG_Shift_Slider)
@@ -460,24 +451,26 @@ class Ui_MainPages(object):
 
         self.OperatePage.addWidget(self.Operate)
 
-        self.LogPrint = QGroupBox(self.OperateFrame)
-        self.LogPrint.setObjectName(u"LogPrint")
-        self.LogPrint.setMaximumSize(QSize(500, 16777215))
-        self.horizontalLayout_15 = QHBoxLayout(self.LogPrint)
+        self.Log = QGroupBox(self.OperateFrame)
+        self.Log.setObjectName(u"Log")
+        self.Log.setMaximumSize(QSize(500, 16777215))
+        self.horizontalLayout_15 = QHBoxLayout(self.Log)
         self.horizontalLayout_15.setSpacing(0)
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.horizontalLayout_15.setContentsMargins(0, 9, 0, 1)
-        self.LogTextEdit_2 = QPlainTextEdit(self.LogPrint)
-        self.LogTextEdit_2.setObjectName(u"LogTextEdit_2")
-        self.LogTextEdit_2.setEnabled(False)
-        self.LogTextEdit_2.setFont(font)
-        self.LogTextEdit_2.setFrameShape(QFrame.NoFrame)
-        self.LogTextEdit_2.setFrameShadow(QFrame.Plain)
+        self.LogPrintWindow = QPlainTextEdit(self.Log)
+        self.LogPrintWindow.setObjectName(u"LogPrintWindow")
+        self.LogPrintWindow.setEnabled(True)
+        self.LogPrintWindow.setFont(font)
+        self.LogPrintWindow.setFocusPolicy(Qt.StrongFocus)
+        self.LogPrintWindow.setFrameShape(QFrame.NoFrame)
+        self.LogPrintWindow.setFrameShadow(QFrame.Plain)
+        self.LogPrintWindow.setReadOnly(True)
 
-        self.horizontalLayout_15.addWidget(self.LogTextEdit_2)
+        self.horizontalLayout_15.addWidget(self.LogPrintWindow)
 
 
-        self.OperatePage.addWidget(self.LogPrint)
+        self.OperatePage.addWidget(self.Log)
 
         self.OperatePage.setStretch(0, 7)
         self.OperatePage.setStretch(1, 2)
@@ -509,7 +502,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 852, 776))
+        self.contents.setGeometry(QRect(0, 0, 233, 256))
         self.contents.setStyleSheet(u"background: transparent;")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -584,8 +577,6 @@ class Ui_MainPages(object):
         self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.MST_MODE_Label)
 
         self.MST_MODE_ComboBox = QComboBox(self.groupBox)
-        self.MST_MODE_ComboBox.addItem("")
-        self.MST_MODE_ComboBox.addItem("")
         self.MST_MODE_ComboBox.setObjectName(u"MST_MODE_ComboBox")
 
         self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.MST_MODE_ComboBox)
@@ -599,8 +590,6 @@ class Ui_MainPages(object):
         self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.TRG_I_EN_Label)
 
         self.TRG_I_EN_ComboBox = QComboBox(self.groupBox)
-        self.TRG_I_EN_ComboBox.addItem("")
-        self.TRG_I_EN_ComboBox.addItem("")
         self.TRG_I_EN_ComboBox.setObjectName(u"TRG_I_EN_ComboBox")
 
         self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.TRG_I_EN_ComboBox)
@@ -614,12 +603,6 @@ class Ui_MainPages(object):
         self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.TDC_Bin_Width_Label)
 
         self.TDC_Bin_Width_ComboBox = QComboBox(self.groupBox)
-        self.TDC_Bin_Width_ComboBox.addItem("")
-        self.TDC_Bin_Width_ComboBox.addItem("")
-        self.TDC_Bin_Width_ComboBox.addItem("")
-        self.TDC_Bin_Width_ComboBox.addItem("")
-        self.TDC_Bin_Width_ComboBox.addItem("")
-        self.TDC_Bin_Width_ComboBox.addItem("")
         self.TDC_Bin_Width_ComboBox.setObjectName(u"TDC_Bin_Width_ComboBox")
 
         self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.TDC_Bin_Width_ComboBox)
@@ -629,11 +612,6 @@ class Ui_MainPages(object):
 
         self.formLayout_3 = QFormLayout()
         self.formLayout_3.setObjectName(u"formLayout_3")
-        self.pushButton3333 = QPushButton(self.groupBox)
-        self.pushButton3333.setObjectName(u"pushButton3333")
-
-        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.pushButton3333)
-
 
         self.horizontalLayout_4.addLayout(self.formLayout_3)
 
@@ -684,21 +662,8 @@ class Ui_MainPages(object):
         MainPages.setWindowTitle(QCoreApplication.translate("MainPages", u"Form", None))
         self.Config.setTitle(QCoreApplication.translate("MainPages", u"Config", None))
         self.WORK_MODE_Label.setText(QCoreApplication.translate("MainPages", u"WORK_MODE", None))
-        self.WORK_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Ranging Mode", None))
-        self.WORK_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Echo Mode", None))
-        self.WORK_MODE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"Histogram Mode", None))
-        self.WORK_MODE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"Gray Scale Mode", None))
-
         self.MIPI_RATE_Label.setText(QCoreApplication.translate("MainPages", u"MIPI RATE", None))
-        self.MIPI_RATE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.8 Gbps/Lane", None))
-        self.MIPI_RATE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"1.0 Gbps/Lane", None))
-        self.MIPI_RATE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.2 Gbps/Lane", None))
-        self.MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
-
         self.SCAN_MODE_Label.setText(QCoreApplication.translate("MainPages", u"SCAN_MODE", None))
-        self.SCAN_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1D SCAN_MODE", None))
-        self.SCAN_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2D SCAN_MODE", None))
-
         self.V_ROLL_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_ROLL_NUM", None))
         self.H_ROLL_NUM_Label.setText(QCoreApplication.translate("MainPages", u"H_ROLL_NUM", None))
         self.H_VLD_SEG_Label.setText(QCoreApplication.translate("MainPages", u"H_VLD_SEG", None))
@@ -707,37 +672,27 @@ class Ui_MainPages(object):
         self.H_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"1", None))
         self.H_VLD_SEG_Value.setText(QCoreApplication.translate("MainPages", u"16", None))
         self.H_SEG_Shift_Value.setText(QCoreApplication.translate("MainPages", u"1", None))
+        self.Sel_Config_file_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
         self.Sel_Config_file_Button.setText(QCoreApplication.translate("MainPages", u"Sel Config file", None))
+        self.Load_ROI_file_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9ROI\u6807\u5b9a\u6587\u4ef6", None))
         self.Load_ROI_file_Button.setText(QCoreApplication.translate("MainPages", u"Load ROI file", None))
         self.REG_CFG_File_Label.setText(QCoreApplication.translate("MainPages", u"REG CFG File", None))
+        self.REG_CFG_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
         self.ROI_SRAM_File_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM File", None))
+        self.ROI_SRAM_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
         self.Operate.setTitle(QCoreApplication.translate("MainPages", u"Operete", None))
         self.Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.Preview.setText(QCoreApplication.translate("MainPages", u"Preview", None))
         self.ClearLog.setText(QCoreApplication.translate("MainPages", u"Clear Log", None))
         self.Reload.setText(QCoreApplication.translate("MainPages", u"Reload", None))
         self.Preview0.setText(QCoreApplication.translate("MainPages", u"Preveiw0", None))
-        self.LogPrint.setTitle(QCoreApplication.translate("MainPages", u"Log", None))
+        self.Log.setTitle(QCoreApplication.translate("MainPages", u"Log", None))
         self.title_label.setText(QCoreApplication.translate("MainPages", u"Custom Widgets Page", None))
         self.description_label.setText(QCoreApplication.translate("MainPages", u"Here will be all the custom widgets, they will be added over time on this page.\n"
 "I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.", None))
         self.groupBox.setTitle(QCoreApplication.translate("MainPages", u"GroupBox", None))
         self.MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
-        self.MST_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Slave Mode", None))
-        self.MST_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Master Mode", None))
-
         self.TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
-        self.TRG_I_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
-        self.TRG_I_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
-
         self.TDC_Bin_Width_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
-        self.TDC_Bin_Width_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.75 ns", None))
-        self.TDC_Bin_Width_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"1.00 ns", None))
-        self.TDC_Bin_Width_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.25 ns", None))
-        self.TDC_Bin_Width_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.50 ns", None))
-        self.TDC_Bin_Width_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"2.00 ns", None))
-        self.TDC_Bin_Width_ComboBox.setItemText(5, QCoreApplication.translate("MainPages", u"2.50 ns", None))
-
-        self.pushButton3333.setText(QCoreApplication.translate("MainPages", u"PushButton", None))
     # retranslateUi
 
