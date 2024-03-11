@@ -179,7 +179,7 @@ class UI_MainWindow(object):
         # ADD CONTENT AREA
         # ///////////////////////////////////////////////////////////////
         self.content_area_frame = QFrame()
-        self.content_area_frame.setStyleSheet(f"background-color: self.themes['app_color']['bg_two']; border-radius: 0px;")
+        # self.content_area_frame.setStyleSheet(f"background-color: self.themes['app_color']['bg_two']; border-radius: 0px;")
 
         # CREATE LAYOUT
         self.content_area_layout = QHBoxLayout(self.content_area_frame)

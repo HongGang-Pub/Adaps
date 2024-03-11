@@ -1073,33 +1073,7 @@
                   <bool>true</bool>
                  </property>
                  <property name="plainText">
-                  <string>23
-2321
-213
-12312
-3123
-213
-123
-21
-312
-312
-312
-3
-123
-123
-123
-12
-312
-312
-32
-13
-123
-12
-312
-312
-321
-312
-3123</string>
+                  <string/>
                  </property>
                 </widget>
                </item>

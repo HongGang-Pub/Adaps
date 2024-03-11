@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesDEmqXP.ui'
+## Form generated from reading UI file 'main_pagesAfmjsm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -687,6 +687,33 @@ class Ui_MainPages(object):
         self.Reload.setText(QCoreApplication.translate("MainPages", u"Reload", None))
         self.Preview0.setText(QCoreApplication.translate("MainPages", u"Preveiw0", None))
         self.Log.setTitle(QCoreApplication.translate("MainPages", u"Log", None))
+        self.LogPrintWindow.setPlainText(QCoreApplication.translate("MainPages", u"23\n"
+"2321\n"
+"213\n"
+"12312\n"
+"3123\n"
+"213\n"
+"123\n"
+"21\n"
+"312\n"
+"312\n"
+"312\n"
+"3\n"
+"123\n"
+"123\n"
+"123\n"
+"12\n"
+"312\n"
+"312\n"
+"32\n"
+"13\n"
+"123\n"
+"12\n"
+"312\n"
+"312\n"
+"321\n"
+"312\n"
+"3123", None))
         self.title_label.setText(QCoreApplication.translate("MainPages", u"Custom Widgets Page", None))
         self.description_label.setText(QCoreApplication.translate("MainPages", u"Here will be all the custom widgets, they will be added over time on this page.\n"
 "I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.", None))

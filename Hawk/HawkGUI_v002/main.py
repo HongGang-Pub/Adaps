@@ -1,18 +1,6 @@
-# ///////////////////////////////////////////////////////////////
-#
-# BY: WANDERSON M.PIMENTA
-# PROJECT MADE WITH: Qt Designer and PySide6
-# V: 1.0.0
-#
-# This project can be used freely for all uses, as long as they maintain the
-# respective credits only in the Python scripts, any information in the visual
-# interface (GUI) can be modified without any implication.
-#
-# There are limitations on Qt licenses if you want to use your products
-# commercially, I recommend reading them on the official website:
-# https://doc.qt.io/qtforpython/licenses.html
-#
-# ///////////////////////////////////////////////////////////////
+import os
+import sys
+sys.path.append(os.path.join(os.getcwd(), "../../"))
 
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
@@ -37,6 +25,7 @@ from gui.uis.windows.main_window import *
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import *
+
 
 # ADJUST QT FONT DPI FOR HIGHT SCALE AN 4K MONITOR
 # ///////////////////////////////////////////////////////////////
@@ -89,7 +78,8 @@ class MainWindow(QMainWindow):
         self.ui.load_pages.MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MIPI_RATE_UPDATE, self))
         self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MST_MODE_UPDATE, self))
         self.ui.load_pages.TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.TRG_I_EN_UPDATE, self))
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.TDC_BIN_W_UPDATE, self))
+        self.ui.load_pages.TDC_Bin_Width_ComboBox.currentIndexChanged.connect(
+            partial(HawkFunctions.TDC_BIN_W_UPDATE, self))
         self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.V_ROLL_NUM_UPDATE, self))
         self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
         self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
