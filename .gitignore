@@ -1,9 +1,5 @@
-/Hawk/HawkGUI/ROIGenerate_GUI.spec
 .idea
-/Hawk/HawkGUI/build/
-/Hawk/HawkGUI/dist/
 /GUI
 /venv/
-*.pyc
 Sony/
 A-TPM/
