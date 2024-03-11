@@ -30,8 +30,9 @@ from Hawk.HawkGUI_v002.HawkFunction.GlobalDef import MaskingValue
 from Hawk.HawkGUI_v002.HawkFunction.Player import Player
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
-from matplotlib.backends.backend_qtagg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
 import numpy as np
+
 
 # FUNCTIONS
 class HawkFunctions:
@@ -88,12 +89,12 @@ class HawkFunctions:
         self.ui.load_pages.ROI_SRAM_File_LineEdit.setText(self.hawk_config['roi_name'])
 
         # 显示动图
-        self.fig = plt.figure()
-        self.ax = self.fig.gca()
-        ani = Player(self.fig, self.update, interval=700, blit=True, cache_frame_data=False, save_count=2, maxi=1000000)
-        # plt.show()
-        canvas = FigureCanvas(self.fig, master=MaskingValue.frame_roi_img)  # A tk.DrawingArea.
-        canvas.draw()
+        # self.fig = plt.figure()
+        # self.ax = self.fig.gca()
+        # ani = Player(self.fig, self.update, interval=700, blit=True, cache_frame_data=False, save_count=2, maxi=1000000)
+        # # plt.show()
+        # canvas = FigureCanvas(self.fig, master=MaskingValue.frame_roi_img)  # A tk.DrawingArea.
+        # canvas.draw()
         return
 
     # 文件选择对话框
