@@ -23,6 +23,9 @@ class Player(FuncAnimation):
                                init_func=init_func, fargs=fargs,
                                save_count=save_count, **kwargs)
 
+    def reset(self):
+        self.i = 0
+
     def play(self):
         while self.runs:
             self.i = self.i + self.forwards - (not self.forwards)

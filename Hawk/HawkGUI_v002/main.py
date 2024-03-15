@@ -13,7 +13,7 @@ from SelfDefinedPackge.JsonOperation import JsonFunction
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.gui.qt_core import *
 
-# IMPORT SETTINGS
+# IMPORT SETTINGSpy
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_settings import Settings
 
@@ -24,7 +24,8 @@ from gui.uis.windows.main_window import *
 
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
-from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import *
+from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import HawkFunctions
+from Hawk.HawkGUI_v002.HawkFunction.MaskingWindow import MaskingWindow
 
 
 # ADJUST QT FONT DPI FOR HIGHT SCALE AN 4K MONITOR
@@ -60,6 +61,7 @@ class MainWindow(QMainWindow):
 
         # SETUP MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
+        self.masking_win = MaskingWindow()
         self.hide_grips = True  # Show/Hide resize grips
         SetupMainWindow.setup_gui(self)
         HawkFunctions.gui_initial(self)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesAfmjsm.ui'
+## Form generated from reading UI file 'main_pagestJGCtm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -50,6 +50,7 @@ class Ui_MainPages(object):
         self.MainPage.setObjectName(u"MainPage")
         self.ShowPage = QVBoxLayout()
         self.ShowPage.setObjectName(u"ShowPage")
+        self.ShowPage.setContentsMargins(-1, 7, -1, -1)
 
         self.MainPage.addLayout(self.ShowPage)
 
@@ -191,6 +192,7 @@ class Ui_MainPages(object):
         self.hLayout_v_roll_num.setContentsMargins(0, -1, 0, -1)
         self.V_ROLL_NUM_Slider = QSlider(self.scrollAreaWidgetContents_2)
         self.V_ROLL_NUM_Slider.setObjectName(u"V_ROLL_NUM_Slider")
+        self.V_ROLL_NUM_Slider.setMouseTracking(False)
         self.V_ROLL_NUM_Slider.setMinimum(1)
         self.V_ROLL_NUM_Slider.setMaximum(32)
         self.V_ROLL_NUM_Slider.setPageStep(1)
@@ -485,7 +487,6 @@ class Ui_MainPages(object):
 
         self.horizontalLayout.addLayout(self.MainPage)
 
-        self.horizontalLayout.setStretch(0, 7)
         self.pages.addWidget(self.page_1)
         self.page_2 = QWidget()
         self.page_2.setObjectName(u"page_2")
@@ -502,7 +503,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 233, 256))
+        self.contents.setGeometry(QRect(0, 0, 852, 776))
         self.contents.setStyleSheet(u"background: transparent;")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -647,10 +648,10 @@ class Ui_MainPages(object):
 #endif // QT_CONFIG(shortcut)
 
         self.retranslateUi(MainPages)
+        self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
         self.H_ROLL_NUM_Slider.valueChanged.connect(self.H_ROLL_NUM_Value.setNum)
         self.H_SEG_Shift_Slider.valueChanged.connect(self.H_SEG_Shift_Value.setNum)
         self.H_VLD_SEG_Slider.valueChanged.connect(self.H_VLD_SEG_Value.setNum)
-        self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
 
@@ -687,33 +688,7 @@ class Ui_MainPages(object):
         self.Reload.setText(QCoreApplication.translate("MainPages", u"Reload", None))
         self.Preview0.setText(QCoreApplication.translate("MainPages", u"Preveiw0", None))
         self.Log.setTitle(QCoreApplication.translate("MainPages", u"Log", None))
-        self.LogPrintWindow.setPlainText(QCoreApplication.translate("MainPages", u"23\n"
-"2321\n"
-"213\n"
-"12312\n"
-"3123\n"
-"213\n"
-"123\n"
-"21\n"
-"312\n"
-"312\n"
-"312\n"
-"3\n"
-"123\n"
-"123\n"
-"123\n"
-"12\n"
-"312\n"
-"312\n"
-"32\n"
-"13\n"
-"123\n"
-"12\n"
-"312\n"
-"312\n"
-"321\n"
-"312\n"
-"3123", None))
+        self.LogPrintWindow.setPlainText("")
         self.title_label.setText(QCoreApplication.translate("MainPages", u"Custom Widgets Page", None))
         self.description_label.setText(QCoreApplication.translate("MainPages", u"Here will be all the custom widgets, they will be added over time on this page.\n"
 "I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.", None))

@@ -47,6 +47,11 @@ def get_fp(fd_path: str, mode: int, match_filter: str, regression: int = 0, f_ty
             for file in files:
                 if re.search(match_filter, os.path.splitext(file)[mode]):
                     file_list.append("{}\\{}".format(root, file))
+
+    # Note
+    # name = os.path.basename(file_i)   # 文件名 (包含后缀) ps: file_i 为文件绝对路径
+    # name_all = os.path.splitext(name) # 分割文件名和后缀
+    # name_0 = name_all[0]              # 或者文件名
     return file_list
 
 

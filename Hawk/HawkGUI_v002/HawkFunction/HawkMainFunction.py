@@ -41,10 +41,13 @@ class HawkFunctions:
         # SETUP MAIN WINDOw
         # Load widgets from "gui\uis\main_window\ui_main.py"
         # ///////////////////////////////////////////////////////////////
-        self.hawk_config = {}
-        self.gui_value_config = {}
         self.ui = UI_MainWindow()
         self.ui.setup_ui(self)
+
+        # Get config
+        # ///////////////////////////////////////////////////////////////
+        self.hawk_config = {}   # hawk general config
+        self.gui_value_config = {}  # hawk UI function
 
     # gui initial
     # ///////////////////////////////////////////////////////////////

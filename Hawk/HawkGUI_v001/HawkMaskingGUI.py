@@ -375,7 +375,8 @@ def msku_gui():
     # ===============================================================================================
     # ------------------------ 预览按钮0: 通过 ROIConfig.json文件进行 rolling ------------------------
     def _preview_update0():
-        nonlocal msku_roi_mem
+        nonlocal msku_roi_mem, ani
+        ani.reset()
         try:
             msku_roi_mem = MskuRoiGenerateForJsonConfig(cfg)
             _preview_trigger()
@@ -386,7 +387,8 @@ def msku_gui():
 
     # ------------------------ 预览按钮1: 通过标定文件进行 rolling ------------------------
     def _preview_update1():
-        nonlocal msku_roi_mem
+        nonlocal msku_roi_mem, ani
+        ani.reset()
         try:
             if cali_filename.get() == '':
                 # log_print_window.insert(tkinter.INSERT, "没有选取任何文件！！！\n")
@@ -619,7 +621,7 @@ def msku_gui():
     fig = plt.figure()
     ax = fig.gca()
     # ani = animation.FuncAnimation(fig, update, range(len(arrays)), interval=700, blit=True)
-    ani = Player.Player(fig, update, interval=700, blit=True, cache_frame_data=False, save_count=2, maxi=1000000)
+    ani = Player.Player(fig, update, interval=700, blit=True, cache_frame_data=False, save_count=2, maxi=10000)
     # plt.show()
     canvas = FigureCanvasTkAgg(fig, master=frame_roi_img)  # A tk.DrawingArea.
     canvas.draw()

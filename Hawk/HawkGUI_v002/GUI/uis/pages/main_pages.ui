@@ -75,7 +75,18 @@
        <item>
         <layout class="QHBoxLayout" name="MainPage" stretch="7,3">
          <item>
-          <layout class="QVBoxLayout" name="ShowPage"/>
+          <layout class="QVBoxLayout" name="ShowPage">
+           <property name="topMargin">
+            <number>7</number>
+           </property>
+           <item>
+            <widget class="QGroupBox" name="ShowPageBox">
+             <property name="title">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QFrame" name="OperateFrame">
@@ -470,6 +481,9 @@
                      </property>
                      <item>
                       <widget class="QSlider" name="V_ROLL_NUM_Slider">
+                       <property name="mouseTracking">
+                        <bool>false</bool>
+                       </property>
                        <property name="minimum">
                         <number>1</number>
                        </property>
@@ -1126,8 +1140,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>233</width>
-            <height>256</height>
+            <width>852</width>
+            <height>776</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -1334,6 +1348,22 @@ I will try to always record a new tutorial when adding a new Widget and updating
  <resources/>
  <connections>
   <connection>
+   <sender>V_ROLL_NUM_Slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>V_ROLL_NUM_Value</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>819</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>839</x>
+     <y>130</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>H_ROLL_NUM_Slider</sender>
    <signal>valueChanged(int)</signal>
    <receiver>H_ROLL_NUM_Value</receiver>
@@ -1378,22 +1408,6 @@ I will try to always record a new tutorial when adding a new Widget and updating
     <hint type="destinationlabel">
      <x>839</x>
      <y>196</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>V_ROLL_NUM_Slider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>V_ROLL_NUM_Value</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>819</x>
-     <y>129</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>839</x>
-     <y>130</y>
     </hint>
    </hints>
   </connection>

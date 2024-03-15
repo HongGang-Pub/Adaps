@@ -169,6 +169,8 @@ class SetupMainWindow:
         self.ui.load_pages.TRG_I_EN_ComboBox.addItems(self.gui_value_config["TRG_I_EN"]["show_gui"])
         self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
 
+        self.ui.load_pages.ShowPage.addWidget(self.masking_win)
+
         # PAGE 2
         # ICON BUTTON 1
         self.icon_button_1 = PyIconButton(

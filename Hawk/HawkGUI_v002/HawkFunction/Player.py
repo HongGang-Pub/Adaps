@@ -15,7 +15,7 @@ class Player(FuncAnimation):
         self.forwards = True
         self.fig = fig
         self.func = func
-        self.setup(pos)
+        # self.setup(pos)
         FuncAnimation.__init__(self,
                                self.fig,
                                self.func,
@@ -31,6 +31,9 @@ class Player(FuncAnimation):
             else:
                 self.stop()
                 yield self.i
+
+    def reset(self):
+        self.i = 0
 
     def start(self):
         self.runs = True
@@ -55,6 +58,7 @@ class Player(FuncAnimation):
     def onebackward(self, event=None):
         self.forwards = False
         self.onestep()
+        self.forwards = True
 
     def onestep(self):
         if self.min < self.i < self.max:
