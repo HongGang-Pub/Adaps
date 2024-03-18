@@ -19,13 +19,16 @@ from PySide6.QtCore import QTimer, Slot, QThread
 
 
 class Myplot(FigureCanvas):
-    def __init__(self, parent=None, width=5, height=3, dpi=100):
+    def __init__(self, parent=None, width=10, height=6, dpi=120):
         # normalized for 中文显示和负号
         plt.rcParams['font.sans-serif'] = ['SimHei']
         plt.rcParams['axes.unicode_minus'] = False
-
+        plt.subplots_adjust(top=0.95, bottom=0, left=0.05, right=1, hspace=1, wspace=1)
         # new figure
         self.fig = Figure(figsize=(width, height), dpi=dpi)
+        # self.fig = Figure()
+        self.fig.set_facecolor('#f5f5f5')
+
         # activate figure window
         # super(Plot_dynamic,self).__init__(self.fig)
         FigureCanvas.__init__(self, self.fig)
@@ -52,7 +55,11 @@ class DynamicFig(Myplot):
         Myplot.__init__(self, *args, **kwargs)
 
     def compute_initial_figure(self):
-        arr = np.random.rand(576, 768)
+        arr = np.zeros((576, 768))
+        # --------------------- 配置刻度 --------------------
+        self.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+        self.axes.xaxis.set_major_locator(MultipleLocator(48))
+        self.axes.yaxis.set_major_locator(MultipleLocator(50))
         self.axes.imshow(arr)
 
 
@@ -65,8 +72,8 @@ class MaskingWindow(QWidget):
         # ///////////////////////////////////////////////////////////////
         self.arrays = []
         self.info = []
-        self.is_pause = False
-        self.index = 0
+        self.is_playing = False
+        self.index = -1
         self._timer = QTimer(self)
 
         for i in range(5):
@@ -75,7 +82,7 @@ class MaskingWindow(QWidget):
             self.arrays.append(arr)
 
         self.initUI()
-        self.Operatebar()
+        self.Operate_bar()
 
     def initUI(self):
         self.canvas = DynamicFig()
@@ -95,12 +102,18 @@ class MaskingWindow(QWidget):
         # self.win_vlayout.addWidget(self.figtoolbar)  # 工具栏添加到窗口布局中
 
     def update_fig(self):
+        if self.is_playing:
+            self.index += 1
         self.canvas.axes.cla()
+        # --------------------- 配置刻度 --------------------
+        self.canvas.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+        self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
+        self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
+
+        print(self.index)
         self.canvas.axes.imshow(self.arrays[self.index % 5])
         self.canvas.draw()
-        if self.is_pause:
-            self.index += 1
-        print(self.index)
+
 
     def Play_plot(self):
         print('Play_plot')
@@ -112,32 +125,36 @@ class MaskingWindow(QWidget):
         self._timer.timeout.disconnect(self.update_fig)
 
     def Oneforward_plot(self):
-        print('Oneforward_plot')
+        # print('Oneforward_plot')
         self.index += 1
         self.update_fig()
 
     def Oneback_plot(self):
-        print('Oneback_plot')
+        # print('Oneback_plot')
         self.index = self.index-1 if self.index > 0 else 0
         self.update_fig()
 
+    def Replay_plog(self):
+        # print('Replay_plog')
+        self.index = -1
+
     def PlaySwitch_plot(self):
-        if self.is_pause:
-            self.is_pause = False
+        if self.is_playing:
+            self.is_playing = False
             self.Pause_plot()
             # self.pushButton.setText('暂停')
             print("stop")
             icon = QIcon(Functions.set_svg_icon("icon_play.svg"))
             self.btn_playControl.setIcon(icon)
-        elif not self.is_pause:
-            self.is_pause = True
+        elif not self.is_playing:
+            self.is_playing = True
             self.Play_plot()
             # self.pushButton.setText('运行')
             print("play")
             icon = QIcon(Functions.set_svg_icon("icon_stop.svg"))
             self.btn_playControl.setIcon(icon)
 
-    def Operatebar(self):
+    def Operate_bar(self):
         self.control_bar_frame.setStyleSheet(
             """
             QPushButton {
@@ -178,10 +195,12 @@ class MaskingWindow(QWidget):
         # self.bnt_initial.setFixedSize(100, 100)
         # self.bnt_initial.setIconSize(QtCore.QSize(80, 80))
 
+        # Button connect
+        # ////////////////////////////////////////////////////////////////////////
         self.btn_oneback.clicked.connect(self.Oneback_plot)
         self.btn_playControl.clicked.connect(self.PlaySwitch_plot)
         self.btn_oneforward.clicked.connect(self.Oneforward_plot)
-        # self.btn_replay.clicked.connect(self.ani.reset)
+        self.btn_replay.clicked.connect(self.Replay_plog)
 
         # self.btn_test = QPushButton("test")
         # self.btn_test.clicked.connect(self.ani.stop)
@@ -194,7 +213,7 @@ class MaskingWindow(QWidget):
         return
 
     # def resizeEvent(self, event):
-    #     self.is_pause = True
+    #     self.is_playing = True
     #     icon_play = QIcon(Functions.set_svg_icon("icon_stop.svg"))
     #     self.btn_playControl.setIcon(icon_play)
     #     self.ani.start()

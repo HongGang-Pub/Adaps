@@ -32,11 +32,11 @@ class MaskingWindow(QWidget):
 
         self.initUI()
         self.plotfig()
-        # self.Operatebar()
+        # self.Operate_bar()
 
     def initUI(self):
         # Initial Window and setting
-        # plt.subplots_adjust(top=0.95, bottom=0, left=0.05, right=1, hspace=1, wspace=1)
+        plt.subplots_adjust(top=0.95, bottom=0, left=0.05, right=1, hspace=1, wspace=1)
         self.figs = plt.figure()  # 创建figure对象
         self.figs.set_facecolor('#f5f5f5')
         self.axes = self.figs.subplots()
@@ -179,7 +179,7 @@ class MaskingWindow(QWidget):
         return
 
     # def resizeEvent(self, event):
-    #     self.is_pause = True
+    #     self.is_playing = True
     #     icon_play = QIcon(Functions.set_svg_icon("icon_stop.svg"))
     #     self.btn_playControl.setIcon(icon_play)
     #     self.ani.start()
