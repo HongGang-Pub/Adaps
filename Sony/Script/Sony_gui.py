@@ -3,7 +3,7 @@ import sys
 
 # sys.path.append(os.path.join(os.getcwd(), "../../SelfDefinedPackge"))
 sys.path.append(r"D:\\Git\Adaps\\")
-print(os.getcwd())
+# print(os.getcwd())
 
 import re
 import tkinter
@@ -21,7 +21,7 @@ def msku_gui():
     # ===============================================================================================
     window = tkinter.Tk()
     # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
-    width = 400
+    width = 350
     height = 500
     screenwidth = window.winfo_screenwidth()
     screenheight = window.winfo_screenheight()
@@ -50,14 +50,14 @@ def msku_gui():
     logsout_frame = tkinter.LabelFrame(MainFrame, text="Log")  # 操作日志打印控件
 
     # -------------------------- MST_MODE ----------------------------------
-    def is_merge(event):
-        _merge = meger_cfg_cmp.get()
-        cfg['merge'] = True if (_merge == "Yes") else False
+    def _dsp_mode(event):
+        _dsp_mode = dsp_mode_cfg_cmp.get()
+        cfg['dsp_mode'] = 0 if (_dsp_mode == "Display by frame") else 1
 
-    meger_cfg_cmp = ttk.Combobox(configs_frame, width=23)
-    meger_cfg_cmp['value'] = ("No", "Yes")  # 设置下拉菜单中的值
-    meger_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
-    meger_cfg_cmp.bind("<<ComboboxSelected>>", is_merge)
+    dsp_mode_cfg_cmp = ttk.Combobox(configs_frame, width=23)
+    dsp_mode_cfg_cmp['value'] = ("Display by frame", "Display by point")  # 设置下拉菜单中的值
+    dsp_mode_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
+    dsp_mode_cfg_cmp.bind("<<ComboboxSelected>>", _dsp_mode)
 
     # ---------------------------- 标定文件选择窗口 ----------------------
     def start_bin_validate_input(event):
@@ -103,12 +103,14 @@ def msku_gui():
     def _get_config():
         cfg['start_bin'] = int(start_bin.get())
         cfg['end_bin'] = int(end_bin.get())
-        cfg['sel_pixel'] = pixel_sel.get()
+        cfg['pixel_sel'] = pixel_sel.get()
+        if cfg["file_sel"] == '':
+            _log_update("请先选择文件!!!", log_type=2)
 
     def _get_file():
         try:
             filepath = filedialog.askopenfilenames(filetypes=[("文本文件", "*.txt")],
-                                                   initialdir=r'.',
+                                                   # initialdir=r'.',
                                                    title='File Select')
             sel_filename.set(filepath[0])
             cfg["file_sel"] = filepath
@@ -127,23 +129,42 @@ def msku_gui():
     def _view():
         _get_config()
         histogram.fig_close()
-        histogram.do_work(cfg)
-        # try:
-        #     histogram.do_work(cfg)
-        #     return
-        # except BaseException as e:
-        #     _log_update(f"View failure! Log：{e}", log_type=2)
-        #     return
+        # histogram.do_work(cfg)
+        try:
+            histogram.do_work(cfg)
+            _log_update(f"完成作图", log_type=0)
+            return
+        except BaseException as e:
+            _log_update(f"View failure! Log：{e}", log_type=2)
+            return
 
     def _more_view():
         _get_config()
-        histogram.do_work(cfg)
-        # try:
-        #     histogram.do_work(cfg)
-        #     return
-        # except BaseException as e:
-        #     _log_update(f"View failure! Log：{e}", log_type=2)
-        #     return
+        # histogram.do_work(cfg)
+        try:
+            histogram.do_work(cfg)
+            _log_update(f"完成作图", log_type=0)
+            return
+        except BaseException as e:
+            _log_update(f"View failure! Log：{e}", log_type=2)
+            return
+
+    def _close_fig():
+        try:
+            histogram.fig_close()
+            _log_update(f"图片全部关闭", log_type=0)
+        except BaseException as e:
+            _log_update(f"Close figure failure! Log：{e}", log_type=2)
+            return
+
+    def _save_fig():
+        try:
+            _log_update(f"保存中...", log_type=0)
+            histogram.fig_save()
+            _log_update(f"保存成功...", log_type=0)
+        except BaseException as e:
+            _log_update(f"Save figure failure! Log：{e}", log_type=2)
+            return
 
     # ------------------------ Log Clear ------------------------
     def _log_clr():
@@ -199,9 +220,9 @@ def msku_gui():
         # ------------------ window -> frame -----------------
         MainFrame.place(relx=0.000, rely=0.000, relwidth=1.000, relheight=0.990)
         # --------------------- frame_roi_cfg -------------------
-        configs_frame.place(relx=0.000, rely=0.000, relwidth=0.990, relheight=0.400)
-        f_input_frame.place(relx=0.000, rely=0.405, relwidth=0.990, relheight=0.150)
-        operate_frame.place(relx=0.010, rely=0.560, relwidth=0.990, relheight=0.150)
+        configs_frame.place(relx=0.000, rely=0.000, relwidth=0.990, relheight=0.350)
+        f_input_frame.place(relx=0.000, rely=0.355, relwidth=0.990, relheight=0.150)
+        operate_frame.place(relx=0.010, rely=0.510, relwidth=0.990, relheight=0.200)
         logsout_frame.place(relx=0.010, rely=0.715, relwidth=0.990, relheight=0.290)
 
         # -------------- configs_frame -> Label -----------------
@@ -212,7 +233,7 @@ def msku_gui():
         tkinter.Label(configs_frame, Lable_style, text="Pixel Sel    ").grid(Lable_grid, row=get_row(ini=0))
 
         # -------------- configs_frame -> input cmp -----------------
-        meger_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1, columnspan=1)
+        dsp_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1, columnspan=1)
         start_bin.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
         end_bin.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
         pixel_sel.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
@@ -222,14 +243,17 @@ def msku_gui():
         file_sel_btn.grid(Button_grid, row=get_row(ini=-1), column=2)
 
         # -------------- bottom_operate_frame -> button -----------------
-        button_row = 0
-        view_bnt = tkinter.Button(operate_frame, Button_style, text="View", command=_view)
-        more_view_bnt = tkinter.Button(operate_frame, Button_style, text="More View", command=_more_view)
-        clr_log_btn = tkinter.Button(operate_frame, Button_style, text="Clear Log", command=_log_clr)
+        covr_view_btn = tkinter.Button(operate_frame, Button_style, text="View", command=_view)
+        more_view_btn = tkinter.Button(operate_frame, Button_style, text="View+", command=_more_view)
+        imag_save_btn = tkinter.Button(operate_frame, Button_style, text="Save", command=_save_fig)
+        close_fig_btn = tkinter.Button(operate_frame, Button_style, text="Close", command=_close_fig)
+        clear_log_btn = tkinter.Button(operate_frame, Button_style, text="Clear", command=_log_clr)
 
-        view_bnt.grid(Button_grid, row=button_row, column=0)
-        more_view_bnt.grid(Button_grid, row=button_row, column=1)
-        clr_log_btn.grid(Button_grid, row=button_row, column=2)
+        covr_view_btn.grid(Button_grid, row=0, column=0)
+        more_view_btn.grid(Button_grid, row=0, column=1)
+        imag_save_btn.grid(Button_grid, row=0, column=2)
+        close_fig_btn.grid(Button_grid, row=1, column=0)
+        clear_log_btn.grid(Button_grid, row=1, column=1)
 
     # --------------- 隐藏按钮显示 ------------------
     def _hidden_btn(event):
@@ -243,7 +267,7 @@ def msku_gui():
     operate_frame.bind_all('<Control-e>', _hidden_btn)  # Control-e 显示 debug 按钮
 
     def _set_default_value():
-        meger_cfg_cmp.current(cfg['merge'])  # 通过 current() 设置下拉菜单选项的默认值
+        dsp_mode_cfg_cmp.current(cfg['dsp_mode'])  # 通过 current() 设置下拉菜单选项的默认值
         start_bin.delete(0, "end")
         start_bin.insert(0, cfg['start_bin'])
         end_bin.delete(0, "end")
@@ -253,11 +277,12 @@ def msku_gui():
 
     # ------------------ 启动初始化 -----------------------
     try:
-        cfg = {"merge": True,
-               "start_bin": 0,
-               "end_bin": 1000,
-               "pixel_sel": "0, 50, 100, 150, 192",
-               "file_sel":""}
+        cfg = PubMethod.ReadJsonFile('config.json')
+        # cfg = {"dsp_mode": True,
+        #        "start_bin": 0,
+        #        "end_bin": 1000,
+        #        "pixel_sel": "0, 50, 100, 150, 192",
+        #        "file_sel":""}
         # _msku_draw()
     except BaseException as e:
         raise ValueError(f"System initialization failed. Log: {e}")
@@ -265,8 +290,8 @@ def msku_gui():
     # -------------- 左侧栏初始化 ----------------
     _set_dsp()
     _set_default_value()
+    tkinter.mainloop()
 
 
 if __name__ == '__main__':
-    UI = msku_gui()
-    tkinter.mainloop()
+    msku_gui()

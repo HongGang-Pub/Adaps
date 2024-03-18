@@ -13,80 +13,128 @@ import mplcursors
 
 def fig_close():
     for fig in plt.get_fignums():
-        plt.figure(fig)
+        per_fig = plt.figure(fig)
         plt.close()
 
+def fig_save():
+    print(plt.get_fignums())
+    for fig in plt.get_fignums():
+        per_fig = plt.figure(fig)
+        title = per_fig.axes[0].axes.get_title()
+        plt.savefig(f'..\\figs\\{title}.png', dpi=300)
 
-def hist_img(data, pixel_id, title=None, is_merge=True, is_save=False, start_bin=0, end_bin=1000):
+def do_mark(data_np):
+    width = np.shape(data_np)[0]
+    max_value = np.max(data_np)
+    max_indexes = np.argwhere(data_np == max_value).flatten()
+    min_index = np.min(max_indexes)
+    max_index = np.max(max_indexes)
+
+    coors = [(min_index, max_value), (max_index, max_value)]
+
+    if coors[0] == coors[1]:
+        coors.pop()
+        # shift = 15
+
+    for idx in range(len(coors)):
+        shift = (2 * idx - 1) * width * 0.05
+        coor = coors[idx]
+        coor_mark = (coor[0] + shift, coor[1] * 1.05)
+        plt.annotate(f'{coor}',
+                     xy=coor,
+                     xytext=coor_mark,
+                     arrowprops=dict(facecolor='#74C476',
+                                     alpha=0.6,
+                                     arrowstyle='->',
+                                     connectionstyle='arc3,rad=0.5',  # 有多个参数可选
+                                     color='r'
+                                     ),
+                     )
+
+
+def hist_img(cfg):
+    dsp_mode = cfg["dsp_mode"]
+    file_list = cfg["file_sel"]
+    start_bin = cfg["start_bin"]
+    end_bin = cfg["end_bin"]
+    start_index = cfg["bin_start_index"]
+    is_save = cfg["save"]
+
+    pixel_id_sel = cfg["pixel_sel"].split(",")
+    pixel_id = list(map(int, pixel_id_sel))
+
+    f_names = []
+    f_datas = []
+
+    font1 = {'family': 'SimHei',
+             'weight': 'normal',
+             'size': 12, }  # 设置图例大小位置
+
     def gen_fig():
+        plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签SimHei
+        plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
         fig, ax = plt.subplots()
         plt.xlabel("1ns/bin")
         plt.ylabel("Counts")
-        plt.title(title)
+
         handle = []
         return fig, ax, handle
 
-    def do_mark(coors):
-        if coors[1][1] in is_marked_vcoor:
-            return
-        if coors[0] == coors[1]:
-            coors.pop()
-            # shift = 15
-        for idx in range(len(coors)):
-            shift = -15 + idx * 30
-            coor = coors[idx]
-            is_marked_vcoor.append(coor[1])
-            coor_mark = (coor[0] + shift, coor[1] * 1.05)
-            plt.annotate(f'{coor}',
-                         xy=coor,
-                         xytext=coor_mark,
-                         arrowprops=dict(facecolor='#74C476',
-                                         alpha=0.6,
-                                         arrowstyle='->',
-                                         connectionstyle='arc3,rad=0.5',  # 有多个参数可选
-                                         color='r'
-                                         ),
-                         )
+    for f in file_list:
+        f_name = os.path.splitext(os.path.basename(f))[0]
+        f_data = SelfDefinedPackge.PubMethod.read_file(f)
+        f_names.append(f_name)
+        f_datas.append(f_data)
 
-    plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签SimHei
-    plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-
-    is_marked_vcoor = []
-
-    fig, ax, handle = gen_fig()
-
-    for index in range(len(pixel_id)):
-        if not is_merge and index != 0:
+    if dsp_mode == 0:  # 一帧多点展示
+        for per_frame_data in f_datas:
             fig, ax, handle = gen_fig()
+            title = f_names.pop(0)
+            plt.title(title)
+            for pxl_id in pixel_id:
+                data1 = per_frame_data[pxl_id].split("\t")
+                data2 = list(map(int, data1[start_bin + start_index:end_bin + start_index]))
 
-        pxl_id = pixel_id[index]
-        data1 = data[pxl_id].split("\t")
-        data2 = list(map(int, data1[start_bin+16:end_bin+16]))
+                data_np = np.array(data2)
+                hdl, = plt.plot(data_np, label=f"Pixel_id:{pxl_id}")
 
-        data_np = np.array(data2)
-        hdl, = plt.plot(data_np, label=f"Pixel_id:{pxl_id - 4}")
+                # 折线图 label 标签显示
+                handle.append(hdl)
+                legend = plt.legend(handles=handle, prop=font1)
 
-        # 折线图 label 标签显示
-        handle.append(hdl)
-        font1 = {'family': 'SimHei',
-                 'weight': 'normal',
-                 'size': 12, }  # 设置图例大小位置
-        legend = plt.legend(handles=handle, prop=font1)
+                if is_save:
+                    # 对图片进行标记
+                    # /////////////////////////////////////////////////////
+                    do_mark(data_np)
+                    plt.savefig(f'..\\figs\\{title}.png', dpi=300)
+                    plt.close()
 
-        # 对图片进行标记
-        # /////////////////////////////////////////////////////
-        width = np.shape(data_np)[0]
-        max_value = np.max(data_np)
-        max_indexes = np.argwhere(data_np == max_value).flatten()
-        min_index = np.min(max_indexes)
-        max_index = np.max(max_indexes)
-        # if index == 0:
-        #     do_mark(coors=[(min_index, max_value), (max_index, max_value)])
-        if is_save:
-            do_mark(coors=[(min_index, max_value), (max_index, max_value)])
-    # plt.show()
-    # plt.savefig(f'..\\figs\\{title}.png', dpi=300)
-    # plt.close()
+    else:  # 一帧多点展示
+        for pxl_id in pixel_id:
+            fig, ax, handle = gen_fig()
+            title = f"Pixel_id {pxl_id}"
+            plt.title(title)
+            for f_idx in range(len(f_datas)):
+                per_frame_data = f_datas[f_idx]
+                data1 = per_frame_data[pxl_id].split("\t")
+                data2 = list(map(int, data1[start_bin + start_index:end_bin + start_index]))
+
+                data_np = np.array(data2)
+                hdl, = plt.plot(data_np, label=f"{f_names[f_idx]}")
+
+                # 折线图 label 标签显示
+                handle.append(hdl)
+                legend = plt.legend(handles=handle, prop=font1)
+
+                if is_save:
+                    # 对图片进行标记
+                    # /////////////////////////////////////////////////////
+                    do_mark(data_np)
+                    plt.savefig(f'..\\figs\\{title}.png', dpi=300)
+                    plt.close()
+    if not is_save:
+        coor_show()
+        plt.show()
 
 
 def coor_show():
@@ -101,44 +149,20 @@ def coor_show():
 
 
 def do_work(cfg):
-    file_list = cfg["file_sel"]
-    is_merge = cfg["merge"]
-
-    pixel_id_sel = cfg["pixel_sel"].split(",")
-    pixel_id = list(map(int, pixel_id_sel))
-    is_save = False
-
-    for f in file_list:
-        f_name = os.path.basename(f)
-        name = os.path.splitext(f_name)[0]
-        data = SelfDefinedPackge.PubMethod.read_file(f)
-        hist_img(data, pixel_id, title=name, is_merge=is_merge, is_save=is_save,
-                 start_bin=cfg['start_bin'], end_bin=cfg['end_bin'])
-        print(f)
-    coor_show()
-    plt.show()
+    hist_img(cfg)
 
 
 if __name__ == '__main__':
-    is_merge = False
-    is_save = False
-    start = 16
-    end = 115
-    # 激光脉宽: 17.8ns, 4ns
-    # 图片数据：1~3：激光脉宽4ns; 4~: 17.8ns脉宽; 7: 测距;8 : 近距离测距；9：直接打激光
-    pixel_id = [4, 50, 108, 150, 195]
 
-    # data = SelfDefinedPackge.PubMethod.read_file("../TMP/test.txt")
-    # hist_img(data, pixel_id, is_merge)
+    fd_path = "..\第二次测试"
+    file_list = SelfDefinedPackge.PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt")
 
-    file_list = SelfDefinedPackge.PubMethod.get_fp(fd_path="..\第二次测试", mode=1, match_filter=".txt")
-    for f in file_list[0:1]:
-        f_name = os.path.basename(f)
-        name = os.path.splitext(f_name)[0]
-        data = SelfDefinedPackge.PubMethod.read_file(f)
-        hist_img(data, pixel_id, title=name, is_merge=is_merge, is_save=is_save, start_bin=start, end_bin=end)
-        print(f)
-
-    coor_show()
-    plt.show()
-    # print("END")
+    config = {"dsp_mode": 0,
+              "start_bin": 0,
+              "end_bin": 1000,
+              "pixel_sel": "0, 50, 100, 150, 191",
+              "file_sel": file_list,
+              "bin_start_index": 16,
+              "save": 0
+              }
+    do_work(config)
