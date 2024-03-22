@@ -1,0 +1,4 @@
+pyinstaller -D -w  .\Script\Sony_gui.py -p .
+
+
+nuitka --standalone --mingw64 --windows-disable-console --include-data-files=./Sony/Script/config.json=config.json --show-progress --enable-plugin=tk-inter,upx --upx-binary="D:\Program Files\Software\upx-4.2.2-win64\upx.exe" --output-dir=SonyGUI .\Sony\Script\Sony_gui.py
