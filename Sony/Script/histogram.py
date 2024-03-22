@@ -1,14 +1,15 @@
 import os
-import sys
+# import sys
+#
+# # sys.path.append(os.path.join(os.getcwd(), "../../SelfDefinedPackge"))
+# sys.path.append(r"D:\\Git\Adaps\\")
+# print(os.getcwd())
 
-# sys.path.append(os.path.join(os.getcwd(), "../../SelfDefinedPackge"))
-sys.path.append(r"D:\\Git\Adaps\\")
-print(os.getcwd())
-
-import SelfDefinedPackge.PubMethod
+from SelfDefinedPackge import PubMethod
 import numpy as np
 import matplotlib.pyplot as plt
 import mplcursors
+from matplotlib.ticker import MultipleLocator
 
 
 def fig_close():
@@ -17,7 +18,7 @@ def fig_close():
         plt.close()
 
 def fig_save():
-    print(plt.get_fignums())
+    # print(plt.get_fignums())
     for fig in plt.get_fignums():
         per_fig = plt.figure(fig)
         title = per_fig.axes[0].axes.get_title()
@@ -73,16 +74,41 @@ def hist_img(cfg):
     def gen_fig():
         plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签SimHei
         plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
+
         fig, ax = plt.subplots()
-        plt.xlabel("1ns/bin")
-        plt.ylabel("Counts")
+        fig.set_size_inches(16, 9)
+        plt.xlim((0, end_bin - start_bin + 1))
+        x_major, x_minor = cal_xtick(end_bin - start_bin + 1)
+        print("刻度设置", x_major, x_minor)
+        ax.xaxis.set_major_locator(MultipleLocator(x_major))
+        ax.xaxis.set_minor_locator(MultipleLocator(x_minor))
+        # ax.spines['bottom'].set_position(('data', 0))
+        # ax.spines['left'].set_position(('data', 0))
+        plt.xticks(rotation=30)
+        plt.xlabel("1ns/bin", fontsize=20)
+        plt.ylabel("Counts", fontsize=20)
 
         handle = []
         return fig, ax, handle
 
+    def cal_xtick(x_len):
+        x_major_split = x_len // 50
+
+        x_major = 2 if 0 <= x_major_split <= 2 \
+            else 5 if 2 < x_major_split <= 7 \
+            else 10 if 7 < x_major_split <= 12 \
+            else 15 if 12 < x_major_split <= 17 \
+            else 20
+
+        x_minor = 1 if x_major in [2, 5] \
+            else 2 if x_major in [10] \
+            else 5 if x_major in [15, 20] \
+            else x_major
+        return x_major, x_minor
+
     for f in file_list:
         f_name = os.path.splitext(os.path.basename(f))[0]
-        f_data = SelfDefinedPackge.PubMethod.read_file(f)
+        f_data = PubMethod.read_file(f)
         f_names.append(f_name)
         f_datas.append(f_data)
 
@@ -92,8 +118,8 @@ def hist_img(cfg):
             title = f_names.pop(0)
             plt.title(title)
             for pxl_id in pixel_id:
-                data1 = per_frame_data[pxl_id].split("\t")
-                data2 = list(map(int, data1[start_bin + start_index:end_bin + start_index]))
+                data1 = per_frame_data[pxl_id+4].split("\t")
+                data2 = list(map(int, data1[start_bin + start_index:end_bin + 1 + start_index]))
 
                 data_np = np.array(data2)
                 hdl, = plt.plot(data_np, label=f"Pixel_id:{pxl_id}")
@@ -116,7 +142,7 @@ def hist_img(cfg):
             plt.title(title)
             for f_idx in range(len(f_datas)):
                 per_frame_data = f_datas[f_idx]
-                data1 = per_frame_data[pxl_id].split("\t")
+                data1 = per_frame_data[pxl_id+4].split("\t")
                 data2 = list(map(int, data1[start_bin + start_index:end_bin + start_index]))
 
                 data_np = np.array(data2)
@@ -154,15 +180,16 @@ def do_work(cfg):
 
 if __name__ == '__main__':
 
-    fd_path = "..\第二次测试"
-    file_list = SelfDefinedPackge.PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt")
+    fd_path = r"D:\Program Files\Software\SonyHistView\Data\第2次测试"
+    file_list = PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt")
 
     config = {"dsp_mode": 0,
               "start_bin": 0,
-              "end_bin": 1000,
+              "end_bin": 98,
               "pixel_sel": "0, 50, 100, 150, 191",
-              "file_sel": file_list,
+              "file_sel": file_list[0:1],
               "bin_start_index": 16,
               "save": 0
               }
+
     do_work(config)

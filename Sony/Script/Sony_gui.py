@@ -9,7 +9,7 @@ import re
 import tkinter
 from tkinter import filedialog
 from tkinter import ttk
-from Sony.Script.HawkComponentStyle import *
+from Sony.Script.TkComponentStyle import *
 from SelfDefinedPackge import PubMethod
 from Sony.Script import histogram
 from matplotlib import pyplot as plt
