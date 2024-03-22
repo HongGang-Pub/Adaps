@@ -21,12 +21,14 @@ from PySide6.QtCore import QTimer, Slot, QThread
 class Myplot(FigureCanvas):
     def __init__(self, parent=None, width=10, height=6, dpi=120):
         # normalized for 中文显示和负号
+        # plt.subplots_adjust(top=0.95, bottom=0, left=0.05, right=1, hspace=0, wspace=0)
+        plt.subplots_adjust(top=1.00, bottom=0, left=0.00, right=1, hspace=0, wspace=0)
         plt.rcParams['font.sans-serif'] = ['SimHei']
         plt.rcParams['axes.unicode_minus'] = False
-        plt.subplots_adjust(top=0.95, bottom=0, left=0.05, right=1, hspace=1, wspace=1)
         # new figure
-        self.fig = Figure(figsize=(width, height), dpi=dpi)
-        # self.fig = Figure()
+        # self.fig = Figure(figsize=(width, height), dpi=dpi)
+        self.fig = Figure()
+        # self.fig.tight_layout()
         self.fig.set_facecolor('#f5f5f5')
 
         # activate figure window
@@ -86,7 +88,6 @@ class MaskingWindow(QWidget):
 
     def initUI(self):
         self.canvas = DynamicFig()
-        self.canvas.figure.set_facecolor('#f5f5f5')
 
         # Control bar
         self.control_bar_frame = QFrame()   # 动图操作控制添加到窗口布局中
@@ -102,8 +103,6 @@ class MaskingWindow(QWidget):
         # self.win_vlayout.addWidget(self.figtoolbar)  # 工具栏添加到窗口布局中
 
     def update_fig(self):
-        if self.is_playing:
-            self.index += 1
         self.canvas.axes.cla()
         # --------------------- 配置刻度 --------------------
         self.canvas.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
@@ -114,10 +113,14 @@ class MaskingWindow(QWidget):
         self.canvas.axes.imshow(self.arrays[self.index % 5])
         self.canvas.draw()
 
+    def dynamic_fig(self):
+        if self.is_playing:
+            self.index += 1
+        self.update_fig()
 
     def Play_plot(self):
         print('Play_plot')
-        self._timer.timeout.connect(self.update_fig)
+        self._timer.timeout.connect(self.dynamic_fig)
         self._timer.start(700)  # plot after 1s delay
 
     def Pause_plot(self):
@@ -136,7 +139,8 @@ class MaskingWindow(QWidget):
 
     def Replay_plog(self):
         # print('Replay_plog')
-        self.index = -1
+        self.index = 0
+        self.update_fig()
 
     def PlaySwitch_plot(self):
         if self.is_playing:

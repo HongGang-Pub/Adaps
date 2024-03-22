@@ -74,17 +74,24 @@ class HawkFunctions:
 
         # 下拉框设置初始值
         self.ui.load_pages.WORK_MODE_ComboBox.setCurrentIndex(self.hawk_config['WORK_MODE'])
+        self.ui.load_pages.WORK_MODE_ComboBox_2.setCurrentIndex(self.hawk_config['WORK_MODE'])
         self.ui.load_pages.MIPI_RATE_ComboBox.setCurrentIndex(MIPI_RATE_index)
+        self.ui.load_pages.MIPI_RATE_ComboBox_2.setCurrentIndex(MIPI_RATE_index)
         self.ui.load_pages.SCAN_MODE_ComboBox.setCurrentIndex(self.hawk_config['SCAN_MODE'])
+        self.ui.load_pages.SCAN_MODE_ComboBox_2.setCurrentIndex(self.hawk_config['SCAN_MODE'])
         self.ui.load_pages.MST_MODE_ComboBox.setCurrentIndex(self.hawk_config['MST_MODE'])
         self.ui.load_pages.TRG_I_EN_ComboBox.setCurrentIndex(self.hawk_config['TRG_I_EN'])
         self.ui.load_pages.TDC_Bin_Width_ComboBox.setCurrentIndex(TDC_BIN_W_index)
 
         # 滚动条设置初始值
         self.ui.load_pages.V_ROLL_NUM_Slider.setValue(self.hawk_config['V_ROLL_NUM']+1)
+        self.ui.load_pages.V_ROLL_NUM_Slider_2.setValue(self.hawk_config['V_ROLL_NUM']+1)
         self.ui.load_pages.H_ROLL_NUM_Slider.setValue(self.hawk_config['H_ROLL_NUM']+1)
+        self.ui.load_pages.H_ROLL_NUM_Slider_2.setValue(self.hawk_config['H_ROLL_NUM']+1)
         self.ui.load_pages.H_VLD_SEG_Slider.setValue(self.hawk_config['H_VLD_SEG']+1)
+        self.ui.load_pages.H_VLD_SEG_Slider_2.setValue(self.hawk_config['H_VLD_SEG']+1)
         self.ui.load_pages.H_SEG_Shift_Slider.setValue(self.hawk_config['h_seg_shift'])
+        self.ui.load_pages.H_SEG_Shift_Slider_2.setValue(self.hawk_config['h_seg_shift'])
 
         # 文本框设置初始值
         self.ui.load_pages.Sel_Config_file_LineEdit.setText(self.hawk_config['ref_cfg_file'])

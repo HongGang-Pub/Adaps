@@ -51,6 +51,7 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
             # raise ValueError("存在丢包：{}->{}, MIPI_{}".format(pre_frame_id, frame_id, f_idx))
             print("存在丢帧：{} -> {}：MIPI_{}".format(pre_frame_id, frame_id, f_idx))
             # return False
+            pre_frame_id = frame_id
             error = 1
         else:
             pre_frame_id = frame_id
