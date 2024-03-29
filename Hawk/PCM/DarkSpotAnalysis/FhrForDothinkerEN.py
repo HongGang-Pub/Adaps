@@ -1,9 +1,8 @@
 import Hawk.Common.MipiPubMethod
 from Hawk.MSKU import MskuPubMethod
 from SelfDefinedPackge import ArrayPubMethod
-from Hawk.Common import HawkPubMethod
 from Hawk.PCM import PcmPubMethod
-from Hawk.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
+from Hawk.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 import numpy as np
 
 

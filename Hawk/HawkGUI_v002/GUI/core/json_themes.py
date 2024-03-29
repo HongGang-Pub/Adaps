@@ -21,7 +21,7 @@ import os
 
 # IMPORT SETTINGS
 # ///////////////////////////////////////////////////////////////
-from gui.core.json_settings import Settings
+from Hawk.HawkGUI_v002.gui.core.json_settings import Settings
 
 
 # APP THEMES

@@ -7,20 +7,20 @@
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
 	"SCAN_MODE"  	: 0	,
 	"V_ROLL_NUM" 	: 31,
-	"H_ROLL_NUM" 	: 3 ,
+	"H_ROLL_NUM" 	: 0 ,
 	"H_VLD_SEG"  	: 15,
 
 	"start_roll"	: 0,					"?start_roll"	: "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
 	"TDC_BIN_W"		: 1	,					"?TDC_BIN_W"	: "0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns",
-	"WORK_MODE"		: 2	,					"?WORK_MODE"	: "0~3: Ranging Mode / Echo Mode / Histogram Mode / Gray Scale Mode",
-	"MST_MODE"		: 0 ,					"?MST_MODE"		: "0: slave mode; 1: master mode",
+	"WORK_MODE"		: 3	,					"?WORK_MODE"	: "0~3: Ranging Mode / Echo Mode / Histogram Mode / Gray Scale Mode",
+	"MST_MODE"		: 1 ,					"?MST_MODE"		: "0: slave mode; 1: master mode",
 	"TRG_I_EN"		: 0 ,					"?TRG_I_EN"		: "0: disable; 1:enable",
 	"MIPI_RATE" 	: 0.8,					"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
-	"FREF"			: 24 ,					"?FREF"			: "24M or 25M",
+	"FREF"			: 25,					"?FREF"			: "24M or 25M",
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,
-	"spad_vs"    	: 0 ,
+	"spad_vs"    	: 3 ,
 	"light_shift"	: 18,
 	"sublight_shift": 3	,
 	"roi_shape"  	: 0	,
@@ -32,7 +32,7 @@
 	"zone_cfg_sel"	: 0,
 	"zone_cfg_def": {
 		"SUB_EXPOTIME"	: {
-			"Zone0" : 500,"Zone1" : 20,"Zone2" : 4094,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
+			"Zone0" : 100,"Zone1" : 20,"Zone2" : 4094,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
 			"Zone8" : 20,"Zone9" : 20,"Zone10": 20,"Zone11": 20,"Zone12": 20,"Zone13": 10,"Zone14": 20,"Zone15": 20,
 			"Zone16": 20,"Zone17": 20,"Zone18": 20,"Zone19": 20,"Zone20": 20,"Zone21": 10,"Zone22": 20,"Zone23": 20,
 			"Zone24": 20,"Zone25": 20,"Zone26": 20,"Zone27": 20,"Zone28": 20,"Zone29": 10,"Zone30": 20,"Zone31": 20
@@ -114,5 +114,5 @@
 		"Zone_31_MF_KN" 	: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 	},
 	"protocol"	: "i2c"	,				"?protocol"	: "i2c or spi",
-	"ref_cfg_file": "./Input/Ref_RegCfg.txt"
+	"ref_cfg_file": "./Input/Ref_regCfg.txt"
 }

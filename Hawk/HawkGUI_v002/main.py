@@ -64,7 +64,7 @@ class MainWindow(QMainWindow):
         self.masking_win = MaskingWindow()
         self.hide_grips = True  # Show/Hide resize grips
         SetupMainWindow.setup_gui(self)
-        HawkFunctions.gui_initial(self)
+        # HawkFunctions.gui_initial(self)
 
         # Connect Function
         # ///////////////////////////////////////////////////////////////
@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
         self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.V_ROLL_NUM_UPDATE, self))
         self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
         self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
-        self.ui.load_pages.H_SEG_Shift_Slider.valueChanged.connect(partial(HawkFunctions.h_seg_shift_UPDATE, self))
+        # self.ui.load_pages.H_SEG_Shift_Slider.valueChanged.connect(partial(HawkFunctions.h_seg_shift_UPDATE, self))
 
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked

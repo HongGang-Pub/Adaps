@@ -6,21 +6,21 @@ from Hawk.HawkGUI_v002.gui.widgets.py_table_widget import PyTableWidget
 from PySide6.QtCore import *
 from Hawk.HawkGUI_v002.gui.widgets import *
 
-
 class MainWindow(QDialog):
     def __init__(self):
         super().__init__()
         self.ui = Ui_Dialog()  # 这是类函数的名称
         self.ui.setupUi(self)  # 运行类函数里的setupUi
-
-        styleFile = r"../Hawk/HawkGUI_v002/gui/themes/page_themes/light/lightstyle.qss"
-        with open(styleFile, 'r') as f:
+        self.styleFile = styleFile
+        with open(self.styleFile, 'r') as f:
             qssStyle = f.read()
         self.setStyleSheet(qssStyle)
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    styleFile = r"../gui/themes/page_themes/light/lightstyle.qss"
     win = MainWindow()
+
     win.show()  # 显示窗口
     sys.exit(app.exec())

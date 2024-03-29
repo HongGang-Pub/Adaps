@@ -1,9 +1,17 @@
 {
-  "dsp_mode": 0,        "?dsp_mode": "0: 按帧显示多点; 1: 按点显示多帧",
-  "start_bin": 0,
-  "end_bin": 999,
-  "pixel_sel": "0, 50, 100, 150, 191",
-  "file_sel":"",
-  "bin_start_index": 16,
-  "save": 0
+    "dsp_mode": 0,
+    "?dsp_mode": "0: 按帧显示多点; 1: 按点显示多帧",
+    "start_bin": 0,
+    "end_bin": 999,
+    "pixel_sel": "0, 100, 191",
+    "file_sel": [
+        "C:/Users/honggang.li/Downloads/Sony/test01.bin"
+    ],
+    "bin_start_index": 16,
+    "frame_sel": "0",
+    "?frame_sel": "一个bin文件中包含96帧, 使用指定帧数据进行成图(<96), 格式如pixel_sel",
+    "DynamicLoading": {
+        "xlabel": "1 ns/bin",
+        "ylabel": "Count"
+    }
 }

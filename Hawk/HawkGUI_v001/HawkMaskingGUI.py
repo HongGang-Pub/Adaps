@@ -256,8 +256,8 @@ def msku_gui():
 
     # -------------------------- TRG_I_EN ----------------------------------
     def _trg_i_en_update(event):
-        mst_mode = mstr_mode_cfg_cmp.get()
-        cfg['TRG_I_EN'] = 0 if (mst_mode == "Disable") else 1
+        trig_i_en = trig_i_en_cfg_cmp.get()
+        cfg['TRG_I_EN'] = 0 if (trig_i_en == "Disable") else 1
 
     trig_i_en_cfg_cmp = ttk.Combobox(configs_frame, width=23)
     trig_i_en_cfg_cmp['value'] = ("Disable", "Enable")  # 设置下拉菜单中的值
@@ -586,9 +586,9 @@ def msku_gui():
         except:
             cfg['MIPI_RATE'] = mipi_rate_value[0]
         try:
-            mipi_rate_value.index(cfg['TDC_BIN_W'])
+            bin_width_value.index(cfg['TDC_BIN_W'])
         except:
-            cfg['TDC_BIN_W'] = mipi_rate_value[0]
+            cfg['TDC_BIN_W'] = bin_width_value[0]
 
         work_mode_cfg_cmp.current(cfg['WORK_MODE'])  # 通过 current() 设置下拉菜单选项的默认值
         scan_mode_cfg_cmp.current(cfg['SCAN_MODE'])  # 通过 current() 设置下拉菜单选项的默认值

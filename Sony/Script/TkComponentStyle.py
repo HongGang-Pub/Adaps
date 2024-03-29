@@ -50,6 +50,13 @@ Entry_grid = {
     "sticky": 'W'
 }
 
+CheckButton_style = {
+    "padx": 3,
+    "pady": 2,
+    "ipady": 3,
+    "sticky": "w"
+}
+
 Button_style = {
     "width": 12,
     "relief": "raised"

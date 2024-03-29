@@ -28,9 +28,9 @@ def do_work(mipi_file, script_file, sramdata_path):
 
 
 if __name__ == '__main__':
-    mipi_file = r"C:\Users\honggang.li\Downloads\MipiData_shift2spad"
+    mipi_file = r"D:\Program Files\Software\DothinkTester\MipiData_1Seg"
     # config_file=r"D:\Software\DothinkTester\Script\PCM.txt",
-    script_file = r"C:\Users\honggang.li\Downloads\tmp\test_pcm_full_330mhz_adaps.txt"
-    sramdata_path = r"C:\Users\honggang.li\Downloads\tmp"
+    script_file = r"D:\Program Files\Software\DothinkTester\Script\PcmDarkSpotTest\reg_config_1Seg(11).txt"
+    sramdata_path = r"D:\Program Files\Software\DothinkTester\SramData"
 
     do_work(mipi_file, script_file, sramdata_path)

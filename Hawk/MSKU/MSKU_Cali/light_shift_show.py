@@ -25,7 +25,8 @@ def get_pcm_file(fp: str, frame_num=5) -> dict:
     f_dict = {}
     for f in f1:
         if os.path.splitext(f)[1] == ".raw":
-            f_name = os.path.split(f)[1]
+            f_name = os.path.basename(f)
+            f_name = os.path.splitext(f_name)[0]
             index = float(f_name.split("_")[3])
             if index in f_dict:
                 get_frame_cnt += 1
@@ -71,6 +72,6 @@ def do_work():
 if __name__ == '__main__':
     frame_num_sel = 3       # 指定使用第几帧数据
     axis = [100, 200, 300]  # 指定 X 轴坐标
-    fd_path = r"C:\Users\honggang.li\Downloads\B15_ROI_data_NDFilter_OD4"
+    fd_path = r"C:\Users\honggang.li\Downloads\HawkCaliData\6ns_PVDD30_B15_ROI"
 
     do_work()

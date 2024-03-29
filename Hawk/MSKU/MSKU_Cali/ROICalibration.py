@@ -24,7 +24,9 @@ def get_pcm_file(fp: str, frame_num=5) -> dict:
     f_dict = {}
     for f in f1:
         if os.path.splitext(f)[1] == ".raw":
-            f_name = os.path.split(f)[1]
+            # f_name = os.path.split(f)[1]
+            f_name = os.path.basename(f)
+            f_name = os.path.splitext(f_name)[0]
             index = float(f_name.split("_")[3])
             if index in f_dict:
                 get_frame_cnt += 1
@@ -260,7 +262,7 @@ def SCANMODE_1D(img, h_vld_seg, ref_segment, curvature, light_smooth=0) -> list:
             ref_value = np.min(seg_sum_array[start_index:start_index + 18, seg_num])
             coefficient = ref_value / v_spad_value[seg_num]
             GlobalDef.coefficient = coefficient if GlobalDef.coefficient is None \
-                else min(coefficient, GlobalDef.coefficient)
+                else max(coefficient, GlobalDef.coefficient)
             # print(GlobalDef.info, GlobalDef.coefficient)
 
         if GlobalDef.cali_info == "last_frame":

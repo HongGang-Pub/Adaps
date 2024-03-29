@@ -1,6 +1,6 @@
 import os
 from Hawk.PCM import PcmPubMethod
-from Hawk.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
+from Hawk.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 
 
 def do_work(fd_path: str, chip_numbers, axis1, coeff_list, ref_ax: float = 0, ):

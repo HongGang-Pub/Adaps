@@ -13,6 +13,7 @@ from Sony.Script.TkComponentStyle import *
 from SelfDefinedPackge import PubMethod
 from Sony.Script import histogram
 from matplotlib import pyplot as plt
+from SelfDefinedPackge.JsonOperation import JsonFunction
 
 
 def msku_gui():
@@ -21,8 +22,8 @@ def msku_gui():
     # ===============================================================================================
     window = tkinter.Tk()
     # window.iconbitmap(r"C:\Users\honggang.li\OneDrive\图片\favicon1.ico")  # icon
-    width = 350
-    height = 500
+    width = 330
+    height = 550
     screenwidth = window.winfo_screenwidth()
     screenheight = window.winfo_screenheight()
     size_geo = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
@@ -33,6 +34,7 @@ def msku_gui():
 
     def _quit():
         histogram.fig_close()
+        configs.serialize()
         window.quit()
         window.destroy()
 
@@ -49,15 +51,25 @@ def msku_gui():
     operate_frame = tkinter.LabelFrame(MainFrame, text="Operate")  # 按钮操作控件
     logsout_frame = tkinter.LabelFrame(MainFrame, text="Log")  # 操作日志打印控件
 
-    # -------------------------- MST_MODE ----------------------------------
+    # -------------------------- DSP_MODE ----------------------------------
     def _dsp_mode(event):
-        _dsp_mode = dsp_mode_cfg_cmp.get()
+        _dsp_mode = dsp_mode_cfg.get()
         cfg['dsp_mode'] = 0 if (_dsp_mode == "Display by frame") else 1
 
-    dsp_mode_cfg_cmp = ttk.Combobox(configs_frame, width=23)
-    dsp_mode_cfg_cmp['value'] = ("Display by frame", "Display by point")  # 设置下拉菜单中的值
-    dsp_mode_cfg_cmp['state'] = "readonly"  # 设置下拉框只读
-    dsp_mode_cfg_cmp.bind("<<ComboboxSelected>>", _dsp_mode)
+    dsp_mode_cfg = ttk.Combobox(configs_frame, width=23)
+    dsp_mode_cfg['value'] = ("Display by frame", "Display by point")  # 设置下拉菜单中的值
+    dsp_mode_cfg['state'] = "readonly"  # 设置下拉框只读
+    dsp_mode_cfg.bind("<<ComboboxSelected>>", _dsp_mode)
+
+    # -------------------------- BIN_FILE_MODE ----------------------------------
+    # def binFileAnalysisModeSel():
+    #     if var.get():
+    #         cfg["binFileAnalysisMode"] = 1
+    #     else:
+    #         cfg["binFileAnalysisMode"] = 0
+    #
+    # var = tkinter.BooleanVar()
+    # bin_file_dsp_mode = tkinter.Checkbutton(configs_frame, text="拆分Bin文件", variable=var, command=binFileAnalysisModeSel)
 
     # ---------------------------- 标定文件选择窗口 ----------------------
     def start_bin_validate_input(event):
@@ -100,16 +112,51 @@ def msku_gui():
     pixel_sel = tkinter.Entry(configs_frame, relief="solid", width=26)
     pixel_sel.bind("<Key>", pixel_sel_validate_input)
 
+    def pixel_sel_validate_input(event):
+        # 判断用户按下的键是否是数字或允许的字符（如退格键）
+        if event.char.isdigit() or event.char in ['\b', ' ', ',']:
+            # 如果是数字或允许的字符，则继续输入
+            pass
+        else:
+            # 如果不是数字或允许的字符，则禁止输入并弹出提示框
+            # check_input(content)
+            # tkinter.messagebox.showwarning("警告", "请输入数字！")
+            return "break"
+
+    pixel_sel = tkinter.Entry(configs_frame, relief="solid", width=26)
+    pixel_sel.bind("<Key>", pixel_sel_validate_input)
+
+
+    def frame_sel_validate_input(event):
+        # 判断用户按下的键是否是数字或允许的字符（如退格键）
+        if event.char.isdigit() or event.char in ['\b', ' ', ',']:
+            # 如果是数字或允许的字符，则继续输入
+            pass
+        else:
+            # 如果不是数字或允许的字符，则禁止输入并弹出提示框
+            # check_input(content)
+            # tkinter.messagebox.showwarning("警告", "请输入数字！")
+            return "break"
+
+    frame_sel = tkinter.Entry(configs_frame, relief="solid", width=26)
+    frame_sel.bind("<Key>", frame_sel_validate_input)
+
     def _get_config():
         cfg['start_bin'] = int(start_bin.get())
         cfg['end_bin'] = int(end_bin.get())
         cfg['pixel_sel'] = pixel_sel.get()
+        cfg['frame_sel'] = frame_sel.get()
+
         if cfg["file_sel"] == '':
             _log_update("请先选择文件!!!", log_type=2)
 
+        # 重新加载文件
+        reload_configs = PubMethod.ReadJsonFile('config.json')
+        cfg["DynamicLoading"] = reload_configs["DynamicLoading"]
+
     def _get_file():
         try:
-            filepath = filedialog.askopenfilenames(filetypes=[("文本文件", "*.txt")],
+            filepath = filedialog.askopenfilenames(filetypes=[("文本文件", "*.txt"), ("文本文件", "*.bin")],
                                                    # initialdir=r'.',
                                                    title='File Select')
             sel_filename.set(filepath[0])
@@ -131,8 +178,8 @@ def msku_gui():
         histogram.fig_close()
         # histogram.do_work(cfg)
         try:
+            _log_update(f"作图中...", log_type=0)
             histogram.do_work(cfg)
-            _log_update(f"完成作图", log_type=0)
             return
         except BaseException as e:
             _log_update(f"View failure! Log：{e}", log_type=2)
@@ -142,8 +189,8 @@ def msku_gui():
         _get_config()
         # histogram.do_work(cfg)
         try:
+            _log_update(f"作图中...", log_type=0)
             histogram.do_work(cfg)
-            _log_update(f"完成作图", log_type=0)
             return
         except BaseException as e:
             _log_update(f"View failure! Log：{e}", log_type=2)
@@ -218,12 +265,12 @@ def msku_gui():
 
     def _set_dsp():
         # ------------------ window -> frame -----------------
-        MainFrame.place(relx=0.000, rely=0.000, relwidth=1.000, relheight=0.990)
+        MainFrame.place(relx=0.005, rely=0.000, relwidth=1.000, relheight=0.990)
         # --------------------- frame_roi_cfg -------------------
-        configs_frame.place(relx=0.000, rely=0.000, relwidth=0.990, relheight=0.350)
-        f_input_frame.place(relx=0.000, rely=0.355, relwidth=0.990, relheight=0.150)
-        operate_frame.place(relx=0.010, rely=0.510, relwidth=0.990, relheight=0.200)
-        logsout_frame.place(relx=0.010, rely=0.715, relwidth=0.990, relheight=0.290)
+        configs_frame.place(relx=0.000, rely=0.000, relwidth=0.990, relheight=0.380)
+        f_input_frame.place(relx=0.000, rely=0.385, relwidth=0.990, relheight=0.120)
+        operate_frame.place(relx=0.000, rely=0.510, relwidth=0.990, relheight=0.200)
+        logsout_frame.place(relx=0.000, rely=0.715, relwidth=0.990, relheight=0.290)
 
         # -------------- configs_frame -> Label -----------------
         # 放置输入框，并设置位置
@@ -231,12 +278,17 @@ def msku_gui():
         tkinter.Label(configs_frame, Lable_style, text="Start Bin    ").grid(Lable_grid, row=get_row(ini=0))
         tkinter.Label(configs_frame, Lable_style, text="End Bin      ").grid(Lable_grid, row=get_row(ini=0))
         tkinter.Label(configs_frame, Lable_style, text="Pixel Sel    ").grid(Lable_grid, row=get_row(ini=0))
+        tkinter.Label(configs_frame, Lable_style, text="Frame Sel    ").grid(Lable_grid, row=get_row(ini=0))
 
         # -------------- configs_frame -> input cmp -----------------
-        dsp_mode_cfg_cmp.grid(Entry_grid, row=get_row(ini=1), column=1, columnspan=1)
+        dsp_mode_cfg.grid(Entry_grid, row=get_row(ini=1), column=1, columnspan=1)
         start_bin.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
         end_bin.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
         pixel_sel.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
+        frame_sel.grid(Entry_grid, row=get_row(ini=0), column=1, columnspan=1)
+
+        # Check box
+        # bin_file_dsp_mode.grid(CheckButton_style, row=get_row(ini=0), column=0)
 
         file_sel_btn = tkinter.Button(f_input_frame, Button_style, text='选择文件', command=_get_file)
         file_sel_cmp.grid(Entry_grid, row=get_row(ini=1), column=0, columnspan=2)
@@ -267,17 +319,27 @@ def msku_gui():
     operate_frame.bind_all('<Control-e>', _hidden_btn)  # Control-e 显示 debug 按钮
 
     def _set_default_value():
-        dsp_mode_cfg_cmp.current(cfg['dsp_mode'])  # 通过 current() 设置下拉菜单选项的默认值
+        dsp_mode_cfg.current(cfg['dsp_mode'])  # 通过 current() 设置下拉菜单选项的默认值
         start_bin.delete(0, "end")
         start_bin.insert(0, cfg['start_bin'])
         end_bin.delete(0, "end")
         end_bin.insert(0, cfg['end_bin'])
         pixel_sel.delete(0, "end")
         pixel_sel.insert(0, cfg['pixel_sel'])
+        frame_sel.delete(0, "end")
+        frame_sel.insert(0, cfg['frame_sel'])
+        sel_filename.set(cfg["file_sel"][0])
+
+        # if cfg["binFileAnalysisMode"] == 1:
+        #     var.set(True)
+        # else:
+        #     var.set(False)
 
     # ------------------ 启动初始化 -----------------------
     try:
-        cfg = PubMethod.ReadJsonFile('config.json')
+        # cfg = PubMethod.ReadJsonFile('config.json')
+        configs = JsonFunction(file_path="config.json")
+        cfg = configs.items
         # cfg = {"dsp_mode": True,
         #        "start_bin": 0,
         #        "end_bin": 1000,

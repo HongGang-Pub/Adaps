@@ -162,16 +162,6 @@ class SetupMainWindow:
 
         # PAGE 1 - ADD LOGO TO MAIN PAGE
         # self.ui.load_pages.pages.font().setPointSize(self.settings["font"]["text_size"])
-        self.ui.load_pages.WORK_MODE_ComboBox.addItems(self.gui_value_config["WORK_MODE"]["show_gui"])
-        self.ui.load_pages.WORK_MODE_ComboBox_2.addItems(self.gui_value_config["WORK_MODE"]["show_gui"])
-        self.ui.load_pages.MIPI_RATE_ComboBox.addItems(self.gui_value_config["MIPI_RATE"]["show_gui"])
-        self.ui.load_pages.MIPI_RATE_ComboBox_2.addItems(self.gui_value_config["MIPI_RATE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox_2.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-
-        self.ui.load_pages.MST_MODE_ComboBox.addItems(self.gui_value_config["MST_MODE"]["show_gui"])
-        self.ui.load_pages.TRG_I_EN_ComboBox.addItems(self.gui_value_config["TRG_I_EN"]["show_gui"])
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
 
         self.ui.load_pages.ShowPage.addWidget(self.masking_win)
 
@@ -286,7 +276,7 @@ class SetupMainWindow:
             color=self.themes["app_color"]["text_foreground"],
             selection_color=self.themes["app_color"]["context_color"],
             bg_color=self.themes["app_color"]["bg_two"],
-            header_horizontal_color=self.themes["app_color"]["dark_two"],
+            header_horizontal_color=self.themes["app_color"]["bg_three"],
             header_vertical_color=self.themes["app_color"]["bg_three"],
             bottom_line_color=self.themes["app_color"]["bg_three"],
             grid_line_color=self.themes["app_color"]["bg_one"],

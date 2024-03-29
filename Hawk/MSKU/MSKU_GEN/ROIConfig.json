@@ -1,17 +1,17 @@
 {
 	"fd_path"		: "Output" ,			"?fd_path" 		: "文件存储路径",
-	"roi_name"		: "roi_mem",			"?roi_name" 	: "ROI相关文件存储的文件名",
+	"roi_name"		: "roi_mem_vs_-17",		"?roi_name" 	: "ROI相关文件存储的文件名",
 	"data_format"	: 1 ,					"?data_format"	: "ROI存储格式：0：byte对齐, 1: half-word对齐",
 
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
 	"SCAN_MODE"  	: 0 ,
-	"V_ROLL_NUM" 	: 30,
-	"H_ROLL_NUM" 	: 3 ,
+	"V_ROLL_NUM" 	: 31,
+	"H_ROLL_NUM" 	: 0 ,
 	"H_VLD_SEG"  	: 15,
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,
-	"spad_vs"    	: 12,
+	"spad_vs"    	: -17,
 	"light_shift"	: 18,
 	"sublight_shift": 3	,
 	"roi_shape"  	: 0	,
@@ -22,7 +22,7 @@
 	"zone_cfg_sel"	: 0,
 	"zone_cfg_def": {
 		"SUB_EXPOTIME"	: {
-			"Zone0" : 500,"Zone1" : 20,"Zone2" : 4094,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
+			"Zone0" : 100,"Zone1" : 20,"Zone2" : 4094,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
 			"Zone8" : 20,"Zone9" : 20,"Zone10": 20,"Zone11": 20,"Zone12": 20,"Zone13": 10,"Zone14": 20,"Zone15": 20,
 			"Zone16": 20,"Zone17": 20,"Zone18": 20,"Zone19": 20,"Zone20": 20,"Zone21": 10,"Zone22": 20,"Zone23": 20,
 			"Zone24": 20,"Zone25": 20,"Zone26": 20,"Zone27": 20,"Zone28": 20,"Zone29": 10,"Zone30": 20,"Zone31": 20

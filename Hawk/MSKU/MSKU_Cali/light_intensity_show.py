@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import SelfDefinedPackge.PubMethod
-
+import mplcursors
 
 def get_pcm_file(fp: str, frame_num) -> list:
     """
@@ -26,7 +26,9 @@ def get_pcm_file(fp: str, frame_num) -> list:
     f_list = []
     for f in f1:
         if os.path.splitext(f)[1] == ".raw":
-            f_name = os.path.split(f)[1]
+            f_name = os.path.basename(f)
+            f_name = os.path.splitext(f_name)[0]
+
             index = float(f_name.split("_")[3])
             if index == channel_sel:
                 if frame_num[0] <= get_frame_cnt <= frame_num[1]:
@@ -77,14 +79,15 @@ def do_work():
     plt.figure()
     plt.imshow(image)
     shift_display([image])
+    cursor = mplcursors.cursor(multiple=True)
     plt.show()
     return
 
 
 if __name__ == '__main__':
-    channel_sel = 1             # 指定通道 (如采集的第 1 通道，则配置为 1)
+    channel_sel = 10             # 指定通道 (如采集的第 1 通道，则配置为 1)
     frame_num_sel = [0, 10]     # 指定使用某几帧数据 (如第0帧到第10帧，则设置为 [0, 10])
     axis = [100, 200, 300]      # 指定 X 轴坐标
-    fd_path = r"C:\Users\honggang.li\Downloads\C1(1)\C1"
+    fd_path = r"C:\Users\honggang.li\Downloads\HawkCaliData\B17_ROI_data"
 
     do_work()

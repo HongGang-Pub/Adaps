@@ -1,9 +1,8 @@
 import Hawk.Common.MipiPubMethod
 from Hawk.MSKU import MskuPubMethod
 from SelfDefinedPackge import ArrayPubMethod
-from Hawk.Common import HawkPubMethod
-from Hawk.PCM import PcmPubMethod
-from Hawk.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
+from Hawk.PCM import FhrPubMethod
+from Hawk.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 import numpy as np
 
 
@@ -25,8 +24,8 @@ def do_work():
     # 获取 msku roi 数据
     zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(csru_cfg, f_path=fd_path)
 
-    # 获取 PCM 数据
-    array, spad_data = PcmPubMethod.GetPcmDataFromDothinker(file_path=mipi_file,
+    # 获取 FHR 数据
+    array, spad_data = FhrPubMethod.GetFhrDataFromDothinker(file_path=mipi_file,
                                                             cfg=csru_cfg,
                                                             msku_roi_mem=msku_roi_mem)
 
@@ -38,7 +37,8 @@ def do_work():
 
     title = "Image: max_bin:{}, min_bin:{}, median_bin:{}".format(
                     np.max(spad_data), np.min(spad_data), np.median(spad_data))
-    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title], fd_path=fd_path, fname="PCM")
+    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title], fd_path=fd_path, fname="PHR")
+    # ArrayPubMethod.ArrayImage(array_lst=[arrays], title_list=[title])
     DarkMethod.write_excel(data, excel_name)
 
     print("数据处理完成！！！")
@@ -46,16 +46,16 @@ def do_work():
 
 
 if __name__ == '__main__':
-    fd_path = "PCM_18_3_7Seg"
+    fd_path = "FHR_15(35)_OUT_EN7"
     excel_name = r'{}\Spad分析.xlsx'.format(fd_path)
 
     chip_number = 'S04'
     axis1 = [1.11]
     coeff_list = [0.9]
 
-    mipi_file = r"D:\Software\DothinkTester\MipiData_PCM_Shift18(7Seg)"
+    mipi_file = r"D:\Software\DothinkTester\MipiData_FHR_Shift35_3_EN8"
     # config_file=r"D:\Software\DothinkTester\Script\PCM.txt",
-    script_file = r"D:\Software\DothinkTester\Script\PCM(7Seg).txt"
+    script_file = r"D:\Software\DothinkTester\Script\FHR_15(35)_OUT_EN.txt"
     sramdata_path = r"D:\Software\DothinkTester\SramData"
 
     do_work()
