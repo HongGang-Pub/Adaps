@@ -2,7 +2,7 @@
     "theme_name" : "Default",
     "app_color" : {
         "dark_one" : "#1b1e23",         "?dark_one": "左侧导航栏背景色",
-        "dark_two" : "#1e2229",         "?dark_two": "左侧导航栏active背景色",
+        "dark_two" : "#e6dcd8",         "?dark_two": "左侧导航栏active背景色",
         "dark_three" : "#21252d",       "?dark_three": "左侧导航栏鼠标悬浮颜色",
         "dark_four" : "#272c36",        "?dark_four": "按钮点击颜色",
         "bg_one" : "#2c313c",           "?bg_one": "pages背景色",
