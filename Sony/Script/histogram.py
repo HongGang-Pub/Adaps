@@ -96,6 +96,24 @@ def cal_xtick(x_len):
     return x_major, x_minor
 
 
+def upsampling_data_convert(fname: str, data_np: np.array):
+    fname = fname.lower()
+    if "upsmp" in fname or "upsample" in fname or "upsampling" in fname:
+        print("upsampling_data_convert")
+        H = data_np.shape[0]
+        _data_np = np.zeros(H)
+        for i in range(H):
+            if i % 2 == 0 and i+1 < H-1:
+                _data_np[i+1] = data_np[i]
+            elif i % 2 == 1:
+                _data_np[i-1] = data_np[i]
+            else:
+                pass
+        return _data_np
+    else:
+        return data_np
+
+
 def hist_img_forTxt(cfg):
     dsp_mode = cfg["dsp_mode"]
     file_list = cfg["file_sel"]

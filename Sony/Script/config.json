@@ -2,10 +2,11 @@
     "dsp_mode": 0,
     "?dsp_mode": "0: 按帧显示多点; 1: 按点显示多帧",
     "start_bin": 0,
-    "end_bin": 999,
+    "end_bin": 100,
     "pixel_sel": "0, 100, 191",
     "file_sel": [
-        "C:/Users/honggang.li/Downloads/Sony/test01.bin"
+        "D:/Program Files/Software/SonyHistView/Data/Sony Demo测试 20240401/LP_NUM=1_nnnnn - 副本.bin",
+        "D:/Program Files/Software/SonyHistView/Data/Sony Demo测试 20240401/LP_NUM=1_upsampling.bin"
     ],
     "bin_start_index": 16,
     "frame_sel": "0",
