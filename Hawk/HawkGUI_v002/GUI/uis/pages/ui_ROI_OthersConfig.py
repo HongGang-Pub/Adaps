@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ROI_OthersConfigazSxuj.ui'
+## Form generated from reading UI file 'ROI_OthersConfigQOsyTh.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -24,7 +24,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(766, 490)
+        Dialog.resize(851, 867)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(False)
         self.verticalLayout = QVBoxLayout(Dialog)

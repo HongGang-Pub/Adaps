@@ -52,47 +52,37 @@ class HawkFunctions:
     # gui initial
     # ///////////////////////////////////////////////////////////////
     def gui_initial(self):
-        self.ui.load_pages.WORK_MODE_ComboBox.addItems(self.gui_value_config["WORK_MODE"]["show_gui"])
-        self.ui.load_pages.WORK_MODE_ComboBox_2.addItems(self.gui_value_config["WORK_MODE"]["show_gui"])
-        self.ui.load_pages.MIPI_RATE_ComboBox.addItems(self.gui_value_config["MIPI_RATE"]["show_gui"])
-        self.ui.load_pages.MIPI_RATE_ComboBox_2.addItems(self.gui_value_config["MIPI_RATE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox_2.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-
+        self.ui.load_pages.REF_CLK_Config_ComboBox.addItems(self.gui_value_config["REF_CLK"]["show_gui"])
+        self.ui.load_pages.SYS_CLK_Config_ComboBox.addItems(self.gui_value_config["SYS_CLK"]["show_gui"])
+        self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
         self.ui.load_pages.MST_MODE_ComboBox.addItems(self.gui_value_config["MST_MODE"]["show_gui"])
         self.ui.load_pages.TRG_I_EN_ComboBox.addItems(self.gui_value_config["TRG_I_EN"]["show_gui"])
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
+        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
+        self.ui.load_pages.SCAN_MODE_ComboBox_2.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
+        self.ui.load_pages.SCAN_MODE_ComboBox_3.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
+        self.ui.load_pages.SCAN_MODE_ComboBox_4.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
 
-        self.hawk_config['WORK_MODE'] = self.hawk_config['WORK_MODE'] if self.hawk_config['WORK_MODE'] <= 3 else 0
-        self.hawk_config['SCAN_MODE'] = self.hawk_config['SCAN_MODE'] if self.hawk_config['SCAN_MODE'] <= 1 else 0
-        self.hawk_config['MST_MODE'] = self.hawk_config['MST_MODE'] if self.hawk_config['MST_MODE'] <= 1 else 0
-        self.hawk_config['TRG_I_EN'] = self.hawk_config['TRG_I_EN'] if self.hawk_config['TRG_I_EN'] <= 1 else 0
-        self.hawk_config['V_ROLL_NUM'] = self.hawk_config['V_ROLL_NUM'] if self.hawk_config['V_ROLL_NUM'] <= 31 else 0
-        self.hawk_config['H_ROLL_NUM'] = self.hawk_config['H_ROLL_NUM'] if self.hawk_config['H_ROLL_NUM'] <= 15 else 0
-        self.hawk_config['H_VLD_SEG'] = self.hawk_config['H_VLD_SEG'] if self.hawk_config['H_VLD_SEG'] <= 15 else 0
-        self.hawk_config['h_seg_shift'] = self.hawk_config['h_seg_shift'] if self.hawk_config['h_seg_shift'] <= 15 else 4
+        self.ui.load_pages.WORK_MODE_ComboBox.add_items(self.gui_value_config["WORK_MODE"]["show_gui"])
+        self.ui.load_pages.MIPI_RATE_ComboBox.add_items(self.gui_value_config["MIPI_RATE"]["show_gui"])
 
-        try:
-            MIPI_RATE_index = self.gui_value_config["MIPI_RATE"]["config"].index(self.hawk_config['MIPI_RATE'])
-        except:
-            self.hawk_config['MIPI_RATE'] = self.gui_value_config["MIPI_RATE"]["config"][0]
-            MIPI_RATE_index = 0
-        try:
-            TDC_BIN_W_index = self.gui_value_config["TDC_BIN_W"]["config"].index(self.hawk_config['TDC_BIN_W'])
-        except:
-            self.hawk_config['TDC_BIN_W'] = self.gui_value_config["TDC_BIN_W"]["config"][0]
-            TDC_BIN_W_index = 0
+        REF_CLK_index = self.gui_value_config["REF_CLK"]["config"].index(self.hawk_config['FREF_CLK'])
+        MST_MODE_index = self.gui_value_config["MST_MODE"]["config"].index(self.hawk_config['MST_MODE'])
+        TRG_I_EN_index = self.gui_value_config["TRG_I_EN"]["config"].index(self.hawk_config['TRG_I_EN'])
+        TDC_BIN_W_index = self.gui_value_config["TDC_BIN_W"]["config"].index(self.hawk_config['TDC_BIN_W'])
+        SYS_CLK_index = 2 - TDC_BIN_W_index % 3
+        SCAN_MODE_index = self.gui_value_config["SCAN_MODE"]["config"].index(self.hawk_config['SCAN_MODE'])
+        WORK_MODE_indexs = [self.gui_value_config["WORK_MODE"]["config"].index(config) for config in self.hawk_config['WORK_MODE']]
+        MIPI_RATE_indexs = [self.gui_value_config["MIPI_RATE"]["config"].index(config) for config in self.hawk_config['MIPI_RATE']]
 
         # 下拉框设置初始值
-        self.ui.load_pages.WORK_MODE_ComboBox.setCurrentIndex(self.hawk_config['WORK_MODE'])
-        self.ui.load_pages.WORK_MODE_ComboBox_2.setCurrentIndex(self.hawk_config['WORK_MODE'])
-        self.ui.load_pages.MIPI_RATE_ComboBox.setCurrentIndex(MIPI_RATE_index)
-        self.ui.load_pages.MIPI_RATE_ComboBox_2.setCurrentIndex(MIPI_RATE_index)
-        self.ui.load_pages.SCAN_MODE_ComboBox.setCurrentIndex(self.hawk_config['SCAN_MODE'])
-        self.ui.load_pages.SCAN_MODE_ComboBox_2.setCurrentIndex(self.hawk_config['SCAN_MODE'])
-        self.ui.load_pages.MST_MODE_ComboBox.setCurrentIndex(self.hawk_config['MST_MODE'])
-        self.ui.load_pages.TRG_I_EN_ComboBox.setCurrentIndex(self.hawk_config['TRG_I_EN'])
+        self.ui.load_pages.REF_CLK_Config_ComboBox.setCurrentIndex(REF_CLK_index)
+        self.ui.load_pages.MST_MODE_ComboBox.setCurrentIndex(MST_MODE_index)
+        self.ui.load_pages.TRG_I_EN_ComboBox.setCurrentIndex(TRG_I_EN_index)
         self.ui.load_pages.TDC_Bin_Width_ComboBox.setCurrentIndex(TDC_BIN_W_index)
+        self.ui.load_pages.SYS_CLK_Config_ComboBox.setCurrentIndex(SYS_CLK_index)
+        self.ui.load_pages.SCAN_MODE_ComboBox.setCurrentIndex(SCAN_MODE_index)
+        self.ui.load_pages.WORK_MODE_ComboBox.select_indexs(WORK_MODE_indexs)
+        self.ui.load_pages.MIPI_RATE_ComboBox.select_indexs(MIPI_RATE_indexs)
 
         # 滚动条设置初始值
         self.ui.load_pages.V_ROLL_NUM_Slider.setValue(self.hawk_config['V_ROLL_NUM']+1)
@@ -101,8 +91,6 @@ class HawkFunctions:
         self.ui.load_pages.H_ROLL_NUM_Slider_2.setValue(self.hawk_config['H_ROLL_NUM']+1)
         self.ui.load_pages.H_VLD_SEG_Slider.setValue(self.hawk_config['H_VLD_SEG']+1)
         self.ui.load_pages.H_VLD_SEG_Slider_2.setValue(self.hawk_config['H_VLD_SEG']+1)
-        self.ui.load_pages.H_SEG_Shift_Slider.setValue(self.hawk_config['h_seg_shift'])
-        self.ui.load_pages.H_SEG_Shift_Slider_2.setValue(self.hawk_config['h_seg_shift'])
 
         # 文本框设置初始值
         self.ui.load_pages.Sel_Config_file_LineEdit.setText(self.hawk_config['ref_cfg_file'])
@@ -184,7 +172,7 @@ class HawkFunctions:
 
     def get_input_text(self):
         self.hawk_config['config_name'] = self.ui.load_pages.REG_CFG_File_LineEdit.text()
-        self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdit.text()
+        self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdi.text()
         print(self.hawk_config['config_name'], self.hawk_config['roi_name'])
 
     def log_print(self, log, log_type):

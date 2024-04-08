@@ -2,7 +2,14 @@
 	"fd_path"		: "Output",				"?fd_path" 		: "文件存储路径",
 	"config_name"	: "reg_config",			"?config_name"	: "寄存器配置脚本存储的文件名",
 	"roi_name"		: "roi_mem",			"?roi_name" 	: "ROI相关文件存储的文件名",
-	"data_format"	: 1,					"?data_format"	: "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
+
+	"?REG_CONFIG"	: "寄存器配置",
+	"TDC_BIN_W"		: "2.00ns",			"?TDC_BIN_W"	: "0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns",
+	"WORK_MODE"		: [2],				"?WORK_MODE"	: "0~3: Ranging Mode / Echo Mode / Histogram Mode / Gray Scale Mode",
+	"MST_MODE"		: 0,				"?MST_MODE"		: "0: slave mode; 1: master mode",
+	"TRG_I_EN"		: 0,				"?TRG_I_EN"		: "0: disable; 1:enable",
+	"MIPI_RATE" 	: ["0.8G"],			"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
+	"FREF_CLK"		: "FREF_24M",		"?FREF"			: "24M or 25M",
 
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
 	"SCAN_MODE"  	: 0	,
@@ -10,15 +17,8 @@
 	"H_ROLL_NUM" 	: 3 ,
 	"H_VLD_SEG"  	: 15,
 
-	"start_roll"	: 0,					"?start_roll"	: "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
-	"TDC_BIN_W"		: 1	,					"?TDC_BIN_W"	: "0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns",
-	"WORK_MODE"		: 2	,					"?WORK_MODE"	: "0~3: Ranging Mode / Echo Mode / Histogram Mode / Gray Scale Mode",
-	"MST_MODE"		: 0 ,					"?MST_MODE"		: "0: slave mode; 1: master mode",
-	"TRG_I_EN"		: 0 ,					"?TRG_I_EN"		: "0: disable; 1:enable",
-	"MIPI_RATE" 	: 0.8,					"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
-	"FREF"			: 24 ,					"?FREF"			: "24M or 25M",
-
-	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
+	"start_roll"	: 0 ,					"?start_roll"	: "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",
+	"data_format"	: 1 ,					"?data_format"	: "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
 	"seg_hs"	 	: 0 ,
 	"spad_vs"    	: 0 ,
 	"light_shift"	: 18,
@@ -27,12 +27,11 @@
 	"v_spad_shift"	: 0 ,
 	"h_seg_shift" 	: 4	,
 
-
 	"?zone_cfg_sel" : "zone_cfg_sel=-1:按顺序读取每一个Zone分区的配置生成ROI_DATA; zone_cfg_sel=0~31:所有分区的Zone配置都使用zone_cfg_sel的配置",
 	"zone_cfg_sel"	: 0,
 	"zone_cfg_def": {
 		"SUB_EXPOTIME"	: {
-			"Zone0" : 500,"Zone1" : 20,"Zone2" : 4094,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
+			"Zone0" : 20,"Zone1" : 20,"Zone2" : 20,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
 			"Zone8" : 20,"Zone9" : 20,"Zone10": 20,"Zone11": 20,"Zone12": 20,"Zone13": 10,"Zone14": 20,"Zone15": 20,
 			"Zone16": 20,"Zone17": 20,"Zone18": 20,"Zone19": 20,"Zone20": 20,"Zone21": 10,"Zone22": 20,"Zone23": 20,
 			"Zone24": 20,"Zone25": 20,"Zone26": 20,"Zone27": 20,"Zone28": 20,"Zone29": 10,"Zone30": 20,"Zone31": 20

@@ -64,11 +64,11 @@ class MainWindow(QMainWindow):
         self.masking_win = MaskingWindow()
         self.hide_grips = True  # Show/Hide resize grips
         SetupMainWindow.setup_gui(self)
-        # HawkFunctions.gui_initial(self)
+        HawkFunctions.gui_initial(self)
 
         # Connect Function
         # ///////////////////////////////////////////////////////////////
-        self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(HawkFunctions.Sel_Config_file_func, self))
+        # self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(HawkFunctions.Sel_Config_file_func, self))
         self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(HawkFunctions.Load_ROI_file_func, self))
         self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.get_input_text, self))
         self.ui.load_pages.Preview.clicked.connect(partial(HawkFunctions.log_print, self, "11111111111111", 0))

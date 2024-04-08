@@ -1,7 +1,7 @@
 {
 	"fd_path"		: "Output",				"?fd_path" 		: "文件存储路径",
 	"config_name"	: "reg_config",			"?config_name"	: "寄存器配置脚本存储的文件名",
-	"roi_name"		: "roi_mem",			"?roi_name" 	: "ROI相关文件存储的文件名",
+	"roi_name"		: "1d_vroll32_roi_mem",	"?roi_name" 	: "ROI相关文件存储的文件名",
 	"data_format"	: 1,					"?data_format"	: "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
 
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
@@ -16,7 +16,7 @@
 	"MST_MODE"		: 1 ,					"?MST_MODE"		: "0: slave mode; 1: master mode",
 	"TRG_I_EN"		: 0 ,					"?TRG_I_EN"		: "0: disable; 1:enable",
 	"MIPI_RATE" 	: 0.8,					"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
-	"FREF"			: 25,					"?FREF"			: "24M or 25M",
+	"FREF"			: 24,					"?FREF"			: "24M or 25M",
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,

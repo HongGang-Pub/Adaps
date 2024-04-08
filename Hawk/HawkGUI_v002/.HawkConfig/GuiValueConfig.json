@@ -1,4 +1,8 @@
-{   
+{
+    "REF_CLK":{
+        "config":["FREF_24M", "FREF_25M"],
+        "show_gui":["24M", "25M"]
+    },
     "MST_MODE":{
         "config":[0, 1],
         "show_gui":["Slave Mode", "Master Mode"]
@@ -8,15 +12,19 @@
         "show_gui":["1D SCAN_MODE", "2D SCAN_MODE"]
     },
     "TDC_BIN_W":{
-        "config":[0.75, 1.00, 1.25, 1.50, 2.00, 2.50],
+        "config":["0.75ns", "1.00ns", "1.25ns", "1.50ns", "2.00ns", "2.50ns"],
         "show_gui":["0.75 ns", "1.00 ns", "1.25 ns", "1.50 ns", "2.00 ns", "2.50 ns"]
+    },
+    "SYS_CLK":{
+        "config":[],
+        "show_gui":["200M", "250M", "330M"]
     },
     "WORK_MODE":{
         "config":[0, 1, 2, 3],
         "show_gui":["Ranging Mode", "Echo Mode", "Histogram Mode", "Gray Scale Mode"]
     },
     "MIPI_RATE":{
-        "config":[0.8, 1.0, 1.2, 1.5],
+        "config":["0.8G", "1.0G", "1.2G", "1.5G"],
         "show_gui":["0.8 Gbps/Lane", "1.0 Gbps/Lane", "1.2 Gbps/Lane", "1.5 Gbps/Lane"]
     },
     "TRG_I_EN":{
