@@ -206,7 +206,7 @@ def hist_img_forRaw(cfg):
             per_frame_data = f_datas[f_idx]
             for frm in frame:
                 fig, ax, handle = gen_fig(x_len, xlabel, ylabel)
-                title = f"{f_names[f_idx]}.bin -> {frm}帧"
+                title = f"{f_names[f_idx]} {frm}帧"
                 plt.title(title)
                 for pxl_id in pixel_id:
                     data1 = per_frame_data[frm*197 + pxl_id + 4]
@@ -228,23 +228,27 @@ def hist_img_forRaw(cfg):
                     for frm in frame:
                         data1 = per_frame_data[frm * 197 + pxl_id + 4]
                         data_np = data1[start_bin + start_index:end_bin + start_index]
-                        hdl, = plt.plot(data_np, label=f"{f_names[f_idx]}.bin -> {frm}帧")
+                        hdl, = plt.plot(data_np, label=f"{f_names[f_idx]} -> {frm}帧")
 
                         # 折线图 label 标签显示
                         handle.append(hdl)
                         legend = plt.legend(handles=handle, prop=font1)
-        else:       # 一个bin文件时，一点多帧模式，每个bin文件展示所有帧
+        else:       # 一个bin文件时，一点多帧模式，每个bin文件展示指定的帧数据(帧范围)
+            if len(frame) == 1:     # 指定一个帧时, 使用指定得帧成图
+                frame.append(frame[0]+1)
+            elif frame[0] >= frame[1]:
+                raise ValueError("使用一点多帧模式查看单个bin文件, 请配置正确的Frame Sel\neg: 0 or 0, 15 ")
             for pxl_id in pixel_id:
                 fig, ax, handle = gen_fig(x_len, xlabel, ylabel)
-                title = f"{f_names[0]}.bin Pixel_id {pxl_id}"
+                title = f"{f_names[0]} Pixel_id {pxl_id}"
                 plt.title(title)
                 for f_idx in range(len(f_datas)):
-                    for frm_cnt in range(96):
+                    for frm_cnt in range(frame[0], frame[1]):
                         per_frame_data = f_datas[f_idx]
                         data1 = per_frame_data[frm_cnt * 197 + pxl_id + 4]
                         data_np = data1[start_bin + start_index:end_bin + start_index]
-                        hdl, = plt.plot(data_np)
-                        # hdl, = plt.plot(data_np, label=f"{f_names[f_idx]} {frm_cnt}帧")
+                        # hdl, = plt.plot(data_np)
+                        hdl, = plt.plot(data_np, label=f"{f_names[f_idx]} {frm_cnt}帧")
 
                         # 折线图 label 标签显示
                         # handle.append(hdl)
@@ -264,7 +268,37 @@ def coor_show():
     #     # sel.annotation.set_text(int(sel.index))
 
 
-def do_work(cfg):
+def hist_imag(cfg):
+    cfg, f_base_type = filter_file(cfg)
+
+    if f_base_type == ".bin":
+        pass
+    else:
+        raise ValueError("只有 bin 类型的文件可以成图！")
+
+    file_list = cfg["file_sel"]
+    start_index = cfg["bin_start_index"]
+
+    for f in file_list:
+        plt.figure()
+        title = os.path.splitext(os.path.basename(f))[0]
+        plt.title(title)
+        data_array = np.zeros((56, 192))
+        f_data = np.fromfile(f, dtype=np.int16, offset=4)
+        f_data.shape = 18912, 1280
+        f_data = f_data[:, start_index: start_index+1000]
+        # pixel_cnt_max_index = np.argmax(f_data, axis=1)
+        pixle_photon_cnt = np.sum(f_data, axis=1)
+        for roll_cnt in range(0, 56):
+            index = (roll_cnt+24)*197 + 4
+            # data_array[roll_cnt] = pixel_cnt_max_index[index: index+192]
+            data_array[roll_cnt] = pixle_photon_cnt[index: index+192]
+        plt.imshow(data_array, cmap="gray")
+    coor_show()
+    plt.show()
+
+
+def filter_file(cfg):
     file_list = cfg["file_sel"]
     f_base_type = os.path.splitext(os.path.basename(file_list[0]))[1]  # 如果传递多个文件类型，以一个文件类型数据进行筛选
 
@@ -272,6 +306,11 @@ def do_work(cfg):
         f_name, f_type = os.path.splitext(os.path.basename(f))
         if f_type != f_base_type:
             cfg["file_list"].remove(f)
+    return cfg, f_base_type
+
+
+def do_work(cfg):
+    cfg, f_base_type = filter_file(cfg)
     if f_base_type == ".txt":
         hist_img_forTxt(cfg)
     elif f_base_type == ".bin":
@@ -281,16 +320,17 @@ def do_work(cfg):
 
 
 if __name__ == '__main__':
-    fd_path = r"D:\Program Files\Software\SonyHistView\Data\第2次测试"
-    file_list = PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt")
+    fd_path = r"D:\Program Files\Software\SonyHistView\Data\Sony Demo测试 20240401\Histogram_mode_ArrayMode.bin"
+    # file_list = PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt")
 
     config = {"dsp_mode": 0,
               "start_bin": 0,
               "end_bin": 98,
               "pixel_sel": "0, 50, 100, 150, 191",
-              "file_sel": file_list[0:1],
+              "file_sel": [fd_path],
               "bin_start_index": 16,
               "save": 0
               }
 
-    do_work(config)
+    # do_work(config)
+    hist_imag(config)

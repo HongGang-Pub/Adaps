@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 rows = 576  # 图像的行数
 cols = 768  # 图像的列数
 channels = 1  # 图像的通道数，灰度图为1
-file = r"D:\Git\Adaps\Sony\figs\1.5%反射率+0.5m+50v PVDD.raw"
+file = r"D:\Program Files\Software\SpadisApp\InternalRelease_SpadisApp_v4.0-150-g89df\SavedImages\ROI_18_3_PCM_2024_04_08_05_59_35\GrayImage_frame_0_942589702.raw"
 
 """利用numpy的fromfile函数读取raw文件，并指定数据格式"""
 img = np.fromfile(file, dtype='uint32')

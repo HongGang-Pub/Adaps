@@ -7,7 +7,7 @@ import os
 
 def do_work():
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
-    if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=314):
+    if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=386):
         return
     else:
         print("检查完成！！！")

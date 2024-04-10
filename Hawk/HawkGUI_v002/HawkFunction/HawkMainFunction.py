@@ -26,12 +26,6 @@ from Hawk.HawkGUI_v002.gui.qt_core import *
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.gui.uis.windows.main_window.ui_main import *
 from PySide6.QtGui import QColor, QBrush, QTextCursor
-from Hawk.HawkGUI_v002.HawkFunction.GlobalDef import MaskingValue
-from Hawk.HawkGUI_v002.HawkFunction.Player import Player
-import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
-import numpy as np
 
 
 # FUNCTIONS
@@ -58,9 +52,7 @@ class HawkFunctions:
         self.ui.load_pages.MST_MODE_ComboBox.addItems(self.gui_value_config["MST_MODE"]["show_gui"])
         self.ui.load_pages.TRG_I_EN_ComboBox.addItems(self.gui_value_config["TRG_I_EN"]["show_gui"])
         self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox_2.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox_3.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox_4.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
+        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
 
         self.ui.load_pages.WORK_MODE_ComboBox.add_items(self.gui_value_config["WORK_MODE"]["show_gui"])
         self.ui.load_pages.MIPI_RATE_ComboBox.add_items(self.gui_value_config["MIPI_RATE"]["show_gui"])
@@ -86,16 +78,25 @@ class HawkFunctions:
 
         # 滚动条设置初始值
         self.ui.load_pages.V_ROLL_NUM_Slider.setValue(self.hawk_config['V_ROLL_NUM']+1)
-        self.ui.load_pages.V_ROLL_NUM_Slider_2.setValue(self.hawk_config['V_ROLL_NUM']+1)
         self.ui.load_pages.H_ROLL_NUM_Slider.setValue(self.hawk_config['H_ROLL_NUM']+1)
-        self.ui.load_pages.H_ROLL_NUM_Slider_2.setValue(self.hawk_config['H_ROLL_NUM']+1)
         self.ui.load_pages.H_VLD_SEG_Slider.setValue(self.hawk_config['H_VLD_SEG']+1)
-        self.ui.load_pages.H_VLD_SEG_Slider_2.setValue(self.hawk_config['H_VLD_SEG']+1)
 
         # 文本框设置初始值
         self.ui.load_pages.Sel_Config_file_LineEdit.setText(self.hawk_config['ref_cfg_file'])
         self.ui.load_pages.REG_CFG_File_LineEdit.setText(self.hawk_config['config_name'])
         self.ui.load_pages.ROI_SRAM_File_LineEdit.setText(self.hawk_config['roi_name'])
+
+        self.gridlayout_1 = QGridLayout(self.ui.load_pages.FunctionSelectWin)
+        self.gridlayout_1.setHorizontalSpacing(30)
+        self.spacer = QSpacerItem(20, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        func_list = self.gui_value_config["FunctionList"]
+        for idx in range(len(func_list)):
+            func = func_list[idx]
+            self.rb00 = QRadioButton(f"{func}")
+            self.gridlayout_1.addWidget(self.rb00, idx // 8, idx % 8)
+
+        self.gridlayout_1.addItem(self.spacer, 0, 8)
 
         # 显示动图
         # self.fig = plt.figure()
@@ -192,45 +193,3 @@ class HawkFunctions:
         logTextEdit.setTextCursor(cursor)
         logTextEdit.ensureCursorVisible()
         cursor.insertText(f"\n")
-
-    def update(self, i):
-        """ 动态图片更新函数 """
-        if MaskingValue.preview_update_symbol is True:
-            MaskingValue.frame_cnt = i
-            preview_update_symbol = False
-
-        subframe_index = (i - MaskingValue.frame_cnt) % len(MaskingValue.arrays)
-
-        # print(i, frame_cnt, subframe_index)
-
-        self.ax.cla()
-        # --------------------- 配置刻度 --------------------
-        self.ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
-        self.ax.xaxis.set_major_locator(MultipleLocator(48))
-        self.ax.yaxis.set_major_locator(MultipleLocator(50))
-
-        imgs = self.ax.imshow(X=MaskingValue.arrays[subframe_index])
-
-        if not (subframe_index < len(MaskingValue.info)):
-            return [imgs]
-
-        # ------------- title config -------------------
-        x, y, s = MaskingValue.info[subframe_index]
-        _str = f"{s}({x}, {y})"
-        x = x + 5 if x < 610 else 610
-        y = y - 12 if y > 30 else y + 37
-        y = y if y < 565 else 565
-        title = self.ax.text(x, y, _str, fontdict={
-            'family': 'Times New Roman',  # 标注文本字体
-            'fontsize': 10,  # 文本大小
-            'fontweight': 'bold',  # 字体粗细
-            # 'fontstyle': 'italic',  # 字体风格
-            'color': 'white',  # 文本颜色
-            'backgroundcolor': 'blue',  # 背景颜色
-            'bbox': {
-                'boxstyle': 'round',  # 椭圆外框
-                'edgecolor': 'white',  # 线框颜色
-                'linewidth': 0
-            }
-        })
-        return [imgs] + [title]

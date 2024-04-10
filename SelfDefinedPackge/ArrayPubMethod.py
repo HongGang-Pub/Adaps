@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from SelfDefinedPackge.MatplotExtension import *
+from matplotlib.ticker import MultipleLocator
 
 
 def ArrayImageSave(fname, fd_path):
@@ -56,11 +58,17 @@ def ArrayImage(array_lst, fd_path=None, fname="ArrayImage", title_list=None,
                     index, np.max(array_lst[index]), np.min(array_lst[index]), np.median(array_lst[index]))
             else:
                 title = title_list[index]
+
+            # --------------------- 配置刻度 --------------------
+            __axs__.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+            __axs__.xaxis.set_major_locator(MultipleLocator(48))
+            __axs__.yaxis.set_major_locator(MultipleLocator(18))
             __axs__.set_title(title)
         else:
             break
     if fd_path is None:
-        plt.show()
+        self_plt_show()
+        # plt.show()
     else:
         ArrayImageSave(fname=fname, fd_path=fd_path)
         plt.close()

@@ -54,9 +54,10 @@ class MainWindow(QMainWindow):
 
         # LOAD HawkConfig.json
         # ///////////////////////////////////////////////////////////////
-        gui_value_config = JsonFunction(file_path=".HawkConfig/GuiValueConfig.json")
+        gui_value_config = JsonFunction(file_path=".HawkConfig/HawkGuiConfig.json")
         self.gui_value_config = gui_value_config.items
-        hawk_config = JsonFunction(file_path="HawkConfig.json")
+
+        hawk_config = JsonFunction(file_path=".HawkConfig/HawkConfig.json")
         self.hawk_config = hawk_config.items
 
         # SETUP MAIN WINDOW
@@ -69,22 +70,22 @@ class MainWindow(QMainWindow):
         # Connect Function
         # ///////////////////////////////////////////////////////////////
         # self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(HawkFunctions.Sel_Config_file_func, self))
-        self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(HawkFunctions.Load_ROI_file_func, self))
-        self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.get_input_text, self))
-        self.ui.load_pages.Preview.clicked.connect(partial(HawkFunctions.log_print, self, "11111111111111", 0))
-        self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.log_print, self, "222222222222222", 1))
-        self.ui.load_pages.ClearLog.clicked.connect(partial(HawkFunctions.log_print, self, "333333333333", 2))
-
-        self.ui.load_pages.WORK_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.WORK_MODE_UPDATE, self))
-        self.ui.load_pages.SCAN_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.SCAN_MODE_UPDATE, self))
-        self.ui.load_pages.MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MIPI_RATE_UPDATE, self))
-        self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MST_MODE_UPDATE, self))
-        self.ui.load_pages.TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.TRG_I_EN_UPDATE, self))
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.currentIndexChanged.connect(
-            partial(HawkFunctions.TDC_BIN_W_UPDATE, self))
-        self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.V_ROLL_NUM_UPDATE, self))
-        self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
-        self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
+        # self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(HawkFunctions.Load_ROI_file_func, self))
+        # self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.get_input_text, self))
+        # self.ui.load_pages.Preview.clicked.connect(partial(HawkFunctions.log_print, self, "11111111111111", 0))
+        # self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.log_print, self, "222222222222222", 1))
+        # self.ui.load_pages.ClearLog.clicked.connect(partial(HawkFunctions.log_print, self, "333333333333", 2))
+        #
+        # self.ui.load_pages.WORK_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.WORK_MODE_UPDATE, self))
+        # self.ui.load_pages.SCAN_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.SCAN_MODE_UPDATE, self))
+        # self.ui.load_pages.MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MIPI_RATE_UPDATE, self))
+        # self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MST_MODE_UPDATE, self))
+        # self.ui.load_pages.TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.TRG_I_EN_UPDATE, self))
+        # self.ui.load_pages.TDC_Bin_Width_ComboBox.currentIndexChanged.connect(
+        #     partial(HawkFunctions.TDC_BIN_W_UPDATE, self))
+        # self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.V_ROLL_NUM_UPDATE, self))
+        # self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
+        # self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
         # self.ui.load_pages.H_SEG_Shift_Slider.valueChanged.connect(partial(HawkFunctions.h_seg_shift_UPDATE, self))
 
     # LEFT MENU BTN IS CLICKED

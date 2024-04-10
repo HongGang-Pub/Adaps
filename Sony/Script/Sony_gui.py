@@ -6,7 +6,7 @@ sys.path.append(r"D:\\Git\Adaps\\")
 # print(os.getcwd())
 
 import re
-import tkinter
+import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 from Sony.Script.TkComponentStyle import *
@@ -126,7 +126,6 @@ def msku_gui():
     pixel_sel = tkinter.Entry(configs_frame, relief="solid", width=26)
     pixel_sel.bind("<Key>", pixel_sel_validate_input)
 
-
     def frame_sel_validate_input(event):
         # 判断用户按下的键是否是数字或允许的字符（如退格键）
         if event.char.isdigit() or event.char in ['\b', ' ', ',']:
@@ -213,6 +212,17 @@ def msku_gui():
             _log_update(f"Save figure failure! Log：{e}", log_type=2)
             return
 
+    def _draw_imag():
+        _get_config()
+        # histogram.do_work(cfg)
+        try:
+            _log_update(f"作图中...", log_type=0)
+            histogram.hist_imag(cfg)
+            return
+        except BaseException as e:
+            _log_update(f"View failure! Log：{e}", log_type=2)
+            return
+
     # ------------------------ Log Clear ------------------------
     def _log_clr():
         """log_type=0: normal, 1: warning, 2: error"""
@@ -297,15 +307,17 @@ def msku_gui():
         # -------------- bottom_operate_frame -> button -----------------
         covr_view_btn = tkinter.Button(operate_frame, Button_style, text="View", command=_view)
         more_view_btn = tkinter.Button(operate_frame, Button_style, text="View+", command=_more_view)
+        draw_imag_btn = tkinter.Button(operate_frame, Button_style, text="Imag", command=_draw_imag)
         imag_save_btn = tkinter.Button(operate_frame, Button_style, text="Save", command=_save_fig)
         close_fig_btn = tkinter.Button(operate_frame, Button_style, text="Close", command=_close_fig)
         clear_log_btn = tkinter.Button(operate_frame, Button_style, text="Clear", command=_log_clr)
 
         covr_view_btn.grid(Button_grid, row=0, column=0)
         more_view_btn.grid(Button_grid, row=0, column=1)
-        imag_save_btn.grid(Button_grid, row=0, column=2)
-        close_fig_btn.grid(Button_grid, row=1, column=0)
-        clear_log_btn.grid(Button_grid, row=1, column=1)
+        draw_imag_btn.grid(Button_grid, row=0, column=2)
+        imag_save_btn.grid(Button_grid, row=1, column=0)
+        close_fig_btn.grid(Button_grid, row=1, column=1)
+        clear_log_btn.grid(Button_grid, row=1, column=2)
 
     # --------------- 隐藏按钮显示 ------------------
     def _hidden_btn(event):
@@ -352,7 +364,7 @@ def msku_gui():
     # -------------- 左侧栏初始化 ----------------
     _set_dsp()
     _set_default_value()
-    tkinter.mainloop()
+    tk.mainloop()
 
 
 if __name__ == '__main__':

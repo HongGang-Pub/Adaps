@@ -4,18 +4,16 @@ import sys
 from PySide6.QtGui import QIcon
 import numpy as np
 
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QFrame
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QFrame
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from Hawk.HawkGUI_v002.HawkFunction import Player
 from matplotlib.ticker import MultipleLocator
 from Hawk.HawkGUI_v002.gui.qt_core import *
 from Hawk.HawkGUI_v002.gui.core.functions import Functions
-from PySide6 import QtCore, QtWidgets
-from PySide6.QtWidgets import QWidget, QPushButton, QApplication, QMainWindow, QGridLayout
-from matplotlib.animation import FuncAnimation
-from PySide6.QtCore import QTimer, Slot, QThread
+from PySide6 import QtWidgets
+from PySide6.QtWidgets import QWidget, QPushButton, QApplication
+from PySide6.QtCore import QTimer
 
 
 class Myplot(FigureCanvas):

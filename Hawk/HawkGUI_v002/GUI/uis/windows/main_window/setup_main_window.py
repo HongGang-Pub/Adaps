@@ -163,9 +163,11 @@ class SetupMainWindow:
         # PAGE 1 - ADD LOGO TO MAIN PAGE
         # self.ui.load_pages.pages.font().setPointSize(self.settings["font"]["text_size"])
 
-        self.ui.load_pages.ShowPage.addWidget(self.masking_win)
+        # self.ui.load_pages.ShowPage.addWidget(self.masking_win)
 
         # PAGE 2
+
+        # PAGE 3
         # ICON BUTTON 1
         self.icon_button_1 = PyIconButton(
             icon_path=Functions.set_svg_icon("icon_heart.svg"),

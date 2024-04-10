@@ -91,12 +91,12 @@ def do_work():
 
     # 利用numpy的fromfile函数读取raw文件，并指定数据格式
     # image = file_dict[float(channel_sel)]
-    image = r"C:\Users\honggang.li\Downloads\HawkCaliData\B17_ROI_data\GrayImage_vscel_channel_3.raw"
+    image = r"D:\Program Files\Software\SpadisApp\InternalRelease_SpadisApp_v4.0-150-g89df\SavedImages\ROI_18_3_Vs=0_PCM_2024_04_08_06_02_10\GrayImage_frame_1_1097715546.raw"
     ini_img = np.fromfile(image, dtype='uint32')
     # 利用numpy中array的reshape函数将读取到的数据进行重新排列
     ini_img = ini_img.reshape(576, 768, 1)
-    plt.imshow(ini_img)
-    SCANMODE_1D(ini_img)
+    plt.imshow(ini_img, vmax=50, cmap="gray")
+    # SCANMODE_1D(ini_img)
     cursor = mplcursors.cursor(multiple=True)
     plt.show()
     return
@@ -105,6 +105,6 @@ def do_work():
 if __name__ == '__main__':
     channel_sel = 1             # 指定通道 (如采集的第 1 通道，则配置为 1)
     frame_num_sel = 5           # 指定使用第几帧数据
-    Seg_range = [2, 5, 10]          # 指定需要显示光强的 segment
-    fd_path = r"C:\Users\honggang.li\Downloads\HawkCaliData\Record_PCM_2024_03_22_04_58_20"
+    Seg_range = []          # 指定需要显示光强的 segment
+    fd_path = r"D:\Program Files\Software\SpadisApp\InternalRelease_SpadisApp_v4.0-150-g89df\SavedImages\ROI_18_3_PCM_2024_04_08_06_02_10\GrayImage_frame_1_1097715546.raw"
     do_work()

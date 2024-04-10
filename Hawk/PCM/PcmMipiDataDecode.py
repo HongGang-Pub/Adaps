@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 import Hawk.Common.MipiPubMethod
@@ -21,16 +23,16 @@ def do_work(mipi_file, script_file, sramdata_path):
 
     # 成图展示 PCM 灰度图
     # ArrayImageSave(fname="arrays", fd_path="figs")
-    title = "Image: max_bin:{}, min_bin:{}, median_bin:{}".format(
-                    np.max(spad_data), np.min(spad_data), np.median(spad_data))
+    name = os.path.basename(script_file)   # 文件名 (包含后缀) ps: file_i 为文件绝对路径
+    title = os.path.splitext(name)[0] # 分割文件名和后缀
 
-    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title])
+    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title], vmin=0, vmax=1)
 
 
 if __name__ == '__main__':
-    mipi_file = r"D:\Program Files\Software\DothinkTester\MipiData_1Seg"
+    mipi_file = r"D:\Program Files\Software\DothinkTester\MipiData_darklight_masking_18_3"
     # config_file=r"D:\Software\DothinkTester\Script\PCM.txt",
-    script_file = r"D:\Program Files\Software\DothinkTester\Script\PcmDarkSpotTest\reg_config_1Seg(11).txt"
+    script_file = r"D:\Program Files\Software\DothinkTester\Script\PCMLightAnalysis\test_pcm_masking_18_3.txt"
     sramdata_path = r"D:\Program Files\Software\DothinkTester\SramData"
 
     do_work(mipi_file, script_file, sramdata_path)
