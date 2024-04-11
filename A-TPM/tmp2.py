@@ -1,24 +1,61 @@
-import numpy as np
-import os
-from SelfDefinedPackge import PubMethod
-fname = r"C:\Users\honggang.li\Downloads\Sony\test01.bin"
+from PySide6 import QtCore, QtGui, QtWidgets
+import sys
+import random
 
-data = np.fromfile(fname, dtype=np.int16, offset=4)
-data.shape = 18912, 1280
 
-datac = data[0]
-print(datac.shape)
+class UI_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(1300, 800)
+        self.btnA = QtWidgets.QPushButton(Dialog)
+        self.btnA.setGeometry(QtCore.QRect(10, 80, 101, 131))
+        self.btnA.setObjectName("btn1")
 
-fname = r"C:\Users\honggang.li\Downloads\Sony\test01.txt"
-f_data = PubMethod.read_file(fname)
+        self.formLayout = QtWidgets.QFormLayout()
+        self.groupBox = QtWidgets.QGroupBox("Results")
+        self.groupBox.setLayout(self.formLayout)
+        self.resultScrollArea = QtWidgets.QScrollArea(Dialog)
+        self.resultScrollArea.setWidget(self.groupBox)
+        self.resultScrollArea.setGeometry(QtCore.QRect(20, 220, 1011, 531))
+        self.resultScrollArea.setWidgetResizable(True)
+        self.resultScrollArea.setObjectName("resultScrollArea")
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-for i in range(197):
-    data1 = f_data[i].split("\t")
-    data2 = list(map(int, data1))
-    data_np1 = np.array(data2)
-    data_np2 = data[i]
-    if (data_np1 == data_np2).all():
-        print(i, "Compare Correct")
-    else:
-        raise ValueError
-        print(i, "Compare Error")
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Example Program"))
+        self.btnA.setText(_translate("Dialog", "Push Button"))
+
+
+class Dialog(QtWidgets.QDialog, UI_Dialog):
+    def __init__(self, parent=None):
+        super(Dialog, self).__init__(parent)
+        self.setupUi(self)
+        self.btnA.clicked.connect(self.pushed)
+
+    @QtCore.pyqtSlot()
+    def pushed(self):
+        unkownLength = random.randint(1, 20)
+        self.addButtons(unkownLength)
+
+    def addButtons(self, looping):
+        for button in self.groupBox.findChildren(QtWidgets.QPushButton):
+            button.deleteLater()
+        placement = -100
+        pos = QtCore.QPoint(20, 40)
+        for i in range(looping):
+            currentName = "btn" + str(i)
+            self.btnB = QtWidgets.QPushButton(
+                self.groupBox, objectName=currentName
+            )
+            self.btnB.setGeometry(QtCore.QRect(pos, QtCore.QSize(100, 100)))
+            pos += QtCore.QPoint(110, 110)
+            self.btnB.show()
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    w = Dialog()
+    w.show()
+    sys.exit(app.exec_())

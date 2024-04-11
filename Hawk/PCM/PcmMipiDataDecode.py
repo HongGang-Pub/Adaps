@@ -9,7 +9,7 @@ from Hawk.MSKU import MskuPubMethod
 from Hawk.PCM import PcmPubMethod
 
 
-def do_work(mipi_file, script_file, sramdata_path):
+def get_pcm_array(mipi_file, script_file, sramdata_path):
     # 获取寄存器配置
     csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
@@ -20,19 +20,23 @@ def do_work(mipi_file, script_file, sramdata_path):
     array, spad_data = PcmPubMethod.GetPcmDataFromDothinker(file_path=mipi_file,
                                                             cfg=csru_cfg,
                                                             msku_roi_mem=msku_roi_mem)
+    return array
+
+
+def do_work(mipi_file, script_file, sramdata_path):
+    array = get_pcm_array(mipi_file, script_file, sramdata_path)
 
     # 成图展示 PCM 灰度图
     # ArrayImageSave(fname="arrays", fd_path="figs")
-    name = os.path.basename(script_file)   # 文件名 (包含后缀) ps: file_i 为文件绝对路径
-    title = os.path.splitext(name)[0] # 分割文件名和后缀
+    name = os.path.basename(mipi_file)    # 文件名 (包含后缀) ps: file_i 为文件绝对路径
+    title = os.path.splitext(name)[0]     # 分割文件名和后缀
 
-    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title], vmin=0, vmax=1)
+    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title], vmin=0, vmax=100)
 
 
 if __name__ == '__main__':
-    mipi_file = r"D:\Program Files\Software\DothinkTester\MipiData_darklight_masking_18_3"
-    # config_file=r"D:\Software\DothinkTester\Script\PCM.txt",
-    script_file = r"D:\Program Files\Software\DothinkTester\Script\PCMLightAnalysis\test_pcm_masking_18_3.txt"
+    script_file = r"D:\Program Files\Software\DothinkTester\Script\PCMLightAnalysis\test_pcm_masking_1Seg.txt"
+    mipi_file = r"D:\Program Files\Software\DothinkTester\MipiData_brightlight_masking_1Seg"
     sramdata_path = r"D:\Program Files\Software\DothinkTester\SramData"
 
     do_work(mipi_file, script_file, sramdata_path)

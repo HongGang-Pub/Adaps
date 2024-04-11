@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagespWpTHI.ui'
+## Form generated from reading UI file 'main_pagesbxJXyc.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -15,12 +15,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFormLayout,
-    QFrame, QGridLayout, QGroupBox, QHBoxLayout,
-    QLabel, QLineEdit, QPlainTextEdit, QPushButton,
-    QScrollArea, QSizePolicy, QSlider, QSpacerItem,
-    QSpinBox, QStackedWidget, QTabWidget, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QButtonGroup, QCheckBox, QComboBox,
+    QFormLayout, QFrame, QGridLayout, QGroupBox,
+    QHBoxLayout, QLabel, QLineEdit, QPlainTextEdit,
+    QPushButton, QRadioButton, QScrollArea, QSizePolicy,
+    QSlider, QSpacerItem, QSpinBox, QStackedWidget,
+    QTabWidget, QVBoxLayout, QWidget)
 
 from Hawk.HawkGUI_v002.gui.widgets.py_combo_check_box.py_combo_check import QComboCheckBox
 
@@ -28,7 +28,7 @@ class Ui_MainPages(object):
     def setupUi(self, MainPages):
         if not MainPages.objectName():
             MainPages.setObjectName(u"MainPages")
-        MainPages.resize(640, 704)
+        MainPages.resize(792, 708)
         MainPages.setStyleSheet(u"")
         self.verticalLayout_2 = QVBoxLayout(MainPages)
         self.verticalLayout_2.setSpacing(0)
@@ -61,25 +61,6 @@ class Ui_MainPages(object):
         self.formLayout_2 = QFormLayout(self.RegisterConfig)
         self.formLayout_2.setObjectName(u"formLayout_2")
         self.formLayout_2.setContentsMargins(9, 9, 9, 9)
-        self.REF_CLK_Config_Label = QLabel(self.RegisterConfig)
-        self.REF_CLK_Config_Label.setObjectName(u"REF_CLK_Config_Label")
-        self.REF_CLK_Config_Label.setFont(font)
-        self.REF_CLK_Config_Label.setFrameShape(QFrame.StyledPanel)
-
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.REF_CLK_Config_Label)
-
-        self.REF_CLK_Config_ComboBox = QComboBox(self.RegisterConfig)
-        self.REF_CLK_Config_ComboBox.setObjectName(u"REF_CLK_Config_ComboBox")
-        self.REF_CLK_Config_ComboBox.setMinimumSize(QSize(150, 0))
-        self.REF_CLK_Config_ComboBox.setMaximumSize(QSize(16777215, 16777215))
-        font1 = QFont()
-        font1.setFamilies([u"Microsoft YaHei UI"])
-        font1.setPointSize(9)
-        font1.setBold(False)
-        self.REF_CLK_Config_ComboBox.setFont(font1)
-
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.REF_CLK_Config_ComboBox)
-
         self.SYS_CLK_Config_Label = QLabel(self.RegisterConfig)
         self.SYS_CLK_Config_Label.setObjectName(u"SYS_CLK_Config_Label")
         self.SYS_CLK_Config_Label.setFont(font)
@@ -91,6 +72,10 @@ class Ui_MainPages(object):
         self.SYS_CLK_Config_ComboBox = QComboBox(self.RegisterConfig)
         self.SYS_CLK_Config_ComboBox.setObjectName(u"SYS_CLK_Config_ComboBox")
         self.SYS_CLK_Config_ComboBox.setMinimumSize(QSize(100, 0))
+        font1 = QFont()
+        font1.setFamilies([u"Microsoft YaHei UI"])
+        font1.setPointSize(9)
+        font1.setBold(False)
         self.SYS_CLK_Config_ComboBox.setFont(font1)
 
         self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.SYS_CLK_Config_ComboBox)
@@ -179,6 +164,21 @@ class Ui_MainPages(object):
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.formLayout_2.setItem(7, QFormLayout.LabelRole, self.verticalSpacer_2)
+
+        self.REF_CLK_Config_Label = QLabel(self.RegisterConfig)
+        self.REF_CLK_Config_Label.setObjectName(u"REF_CLK_Config_Label")
+        self.REF_CLK_Config_Label.setFont(font)
+        self.REF_CLK_Config_Label.setFrameShape(QFrame.StyledPanel)
+
+        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.REF_CLK_Config_Label)
+
+        self.REF_CLK_Config_ComboBox = QComboBox(self.RegisterConfig)
+        self.REF_CLK_Config_ComboBox.setObjectName(u"REF_CLK_Config_ComboBox")
+        self.REF_CLK_Config_ComboBox.setMinimumSize(QSize(150, 0))
+        self.REF_CLK_Config_ComboBox.setMaximumSize(QSize(16777215, 16777215))
+        self.REF_CLK_Config_ComboBox.setFont(font1)
+
+        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.REF_CLK_Config_ComboBox)
 
 
         self.horizontalLayout_2.addWidget(self.RegisterConfig)
@@ -353,7 +353,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 222, 183))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 298, 183))
         self.formLayout = QFormLayout(self.scrollAreaWidgetContents_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -495,7 +495,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 239, 112))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 315, 116))
         self.formLayout_4 = QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -556,7 +556,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 239, 112))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 315, 116))
         self.formLayout_5 = QFormLayout(self.scrollAreaWidgetContents_4)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -673,10 +673,6 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.ROI_Sram_File_CheckBox, 3, 3, 1, 1)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.gridLayout_6.addItem(self.horizontalSpacer_2, 5, 4, 1, 1)
-
         self.ROI_Zone_Sel_CheckBox = QCheckBox(self.FileConifg)
         self.ROI_Zone_Sel_CheckBox.setObjectName(u"ROI_Zone_Sel_CheckBox")
 
@@ -717,34 +713,16 @@ class Ui_MainPages(object):
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(9, -1, 9, 9)
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer, 0, 0, 1, 1)
-
-        self.ClearLog_2 = QPushButton(self.Operate)
-        self.ClearLog_2.setObjectName(u"ClearLog_2")
-        self.ClearLog_2.setFont(font)
-        self.ClearLog_2.setCursor(QCursor(Qt.PointingHandCursor))
-
-        self.gridLayout.addWidget(self.ClearLog_2, 2, 1, 1, 1)
-
         self.ClearLog = QPushButton(self.Operate)
         self.ClearLog.setObjectName(u"ClearLog")
         self.ClearLog.setFont(font)
         self.ClearLog.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.gridLayout.addWidget(self.ClearLog, 3, 1, 1, 1)
-
-        self.ClearLog_3 = QPushButton(self.Operate)
-        self.ClearLog_3.setObjectName(u"ClearLog_3")
-        self.ClearLog_3.setFont(font)
-        self.ClearLog_3.setCursor(QCursor(Qt.PointingHandCursor))
-
-        self.gridLayout.addWidget(self.ClearLog_3, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.ClearLog, 1, 0, 1, 1)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.gridLayout.addItem(self.horizontalSpacer_3, 0, 2, 1, 1)
+        self.gridLayout.addItem(self.horizontalSpacer_3, 0, 1, 1, 1)
 
         self.Save = QPushButton(self.Operate)
         self.Save.setObjectName(u"Save")
@@ -753,7 +731,7 @@ class Ui_MainPages(object):
         self.Save.setFont(font)
         self.Save.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.gridLayout.addWidget(self.Save, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.Save, 0, 0, 1, 1)
 
 
         self.horizontalLayout_5.addWidget(self.Operate)
@@ -798,21 +776,33 @@ class Ui_MainPages(object):
 
         self.verticalLayout_6.addWidget(self.title_label_2)
 
-        self.description_label_2 = QLabel(self.page_2)
-        self.description_label_2.setObjectName(u"description_label_2")
-        self.description_label_2.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.description_label_2.setWordWrap(True)
-
-        self.verticalLayout_6.addWidget(self.description_label_2)
-
         self.FunctionWindow = QGroupBox(self.page_2)
         self.FunctionWindow.setObjectName(u"FunctionWindow")
         self.verticalLayout_8 = QVBoxLayout(self.FunctionWindow)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.FunctionSelectWin = QGroupBox(self.FunctionWindow)
         self.FunctionSelectWin.setObjectName(u"FunctionSelectWin")
-        self.verticalLayout_9 = QVBoxLayout(self.FunctionSelectWin)
-        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.FunctionSelectWin.setMinimumSize(QSize(0, 0))
+        self.gridLayout_2 = QGridLayout(self.FunctionSelectWin)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.SpadisAppPCMREAD = QRadioButton(self.FunctionSelectWin)
+        self.FunctionSelectGroup = QButtonGroup(MainPages)
+        self.FunctionSelectGroup.setObjectName(u"FunctionSelectGroup")
+        self.FunctionSelectGroup.addButton(self.SpadisAppPCMREAD)
+        self.SpadisAppPCMREAD.setObjectName(u"SpadisAppPCMREAD")
+
+        self.gridLayout_2.addWidget(self.SpadisAppPCMREAD, 0, 1, 1, 1)
+
+        self.DothinkPCMImag = QRadioButton(self.FunctionSelectWin)
+        self.FunctionSelectGroup.addButton(self.DothinkPCMImag)
+        self.DothinkPCMImag.setObjectName(u"DothinkPCMImag")
+
+        self.gridLayout_2.addWidget(self.DothinkPCMImag, 0, 0, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.gridLayout_2.addItem(self.horizontalSpacer, 0, 2, 1, 1)
+
 
         self.verticalLayout_8.addWidget(self.FunctionSelectWin)
 
@@ -822,168 +812,73 @@ class Ui_MainPages(object):
         self.General_Config.setMaximumSize(QSize(16777215, 16777215))
         self.gridLayout_8 = QGridLayout(self.General_Config)
         self.gridLayout_8.setObjectName(u"gridLayout_8")
+        self.gridLayout_8.setHorizontalSpacing(20)
         self.gridLayout_8.setContentsMargins(9, 9, 40, 9)
         self.general_Label_03 = QLabel(self.General_Config)
         self.general_Label_03.setObjectName(u"general_Label_03")
         self.general_Label_03.setFont(font)
 
-        self.gridLayout_8.addWidget(self.general_Label_03, 3, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.general_Label_03, 5, 0, 1, 1)
 
-        self.general_Label_02 = QLabel(self.General_Config)
-        self.general_Label_02.setObjectName(u"general_Label_02")
-        self.general_Label_02.setFont(font)
+        self.select_ComboBox_03 = QComboBox(self.General_Config)
+        self.select_ComboBox_03.setObjectName(u"select_ComboBox_03")
+        self.select_ComboBox_03.setMinimumSize(QSize(200, 0))
+        self.select_ComboBox_03.setMaximumSize(QSize(16777215, 16777215))
+        self.select_ComboBox_03.setFont(font1)
 
-        self.gridLayout_8.addWidget(self.general_Label_02, 2, 0, 1, 1)
-
-        self.tips_label_1 = QLabel(self.General_Config)
-        self.tips_label_1.setObjectName(u"tips_label_1")
-        self.tips_label_1.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_1.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_1, 1, 4, 1, 1)
-
-        self.tips_label_8 = QLabel(self.General_Config)
-        self.tips_label_8.setObjectName(u"tips_label_8")
-        self.tips_label_8.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_8.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_8, 8, 4, 1, 1)
-
-        self.general_Label_01 = QLabel(self.General_Config)
-        self.general_Label_01.setObjectName(u"general_Label_01")
-        self.general_Label_01.setFont(font)
-
-        self.gridLayout_8.addWidget(self.general_Label_01, 1, 0, 1, 1)
-
-        self.general_LineEdit_05 = QLineEdit(self.General_Config)
-        self.general_LineEdit_05.setObjectName(u"general_LineEdit_05")
-        self.general_LineEdit_05.setMinimumSize(QSize(150, 0))
-        self.general_LineEdit_05.setMaximumSize(QSize(16777215, 16777215))
-        self.general_LineEdit_05.setFont(font)
-
-        self.gridLayout_8.addWidget(self.general_LineEdit_05, 5, 1, 1, 1)
-
-        self.general_LineEdit_04 = QLineEdit(self.General_Config)
-        self.general_LineEdit_04.setObjectName(u"general_LineEdit_04")
-        self.general_LineEdit_04.setMinimumSize(QSize(150, 0))
-        self.general_LineEdit_04.setMaximumSize(QSize(16777215, 16777215))
-        self.general_LineEdit_04.setFont(font)
-
-        self.gridLayout_8.addWidget(self.general_LineEdit_04, 4, 1, 1, 1)
-
-        self.tips_label_10 = QLabel(self.General_Config)
-        self.tips_label_10.setObjectName(u"tips_label_10")
-        self.tips_label_10.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_10.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_10, 10, 4, 1, 1)
-
-        self.general_LineEdit_10 = QLineEdit(self.General_Config)
-        self.general_LineEdit_10.setObjectName(u"general_LineEdit_10")
-        self.general_LineEdit_10.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.general_LineEdit_10.sizePolicy().hasHeightForWidth())
-        self.general_LineEdit_10.setSizePolicy(sizePolicy1)
-        self.general_LineEdit_10.setFocusPolicy(Qt.StrongFocus)
-        self.general_LineEdit_10.setReadOnly(True)
-
-        self.gridLayout_8.addWidget(self.general_LineEdit_10, 10, 1, 1, 1)
-
-        self.tips_label_9 = QLabel(self.General_Config)
-        self.tips_label_9.setObjectName(u"tips_label_9")
-        self.tips_label_9.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_9.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_9, 9, 4, 1, 1)
-
-        self.general_Label_08 = QLabel(self.General_Config)
-        self.general_Label_08.setObjectName(u"general_Label_08")
-        self.general_Label_08.setMinimumSize(QSize(0, 0))
-        self.general_Label_08.setMaximumSize(QSize(16777215, 16777215))
-        self.general_Label_08.setFont(font1)
-        self.general_Label_08.setFrameShape(QFrame.NoFrame)
-        self.general_Label_08.setFrameShadow(QFrame.Raised)
-
-        self.gridLayout_8.addWidget(self.general_Label_08, 8, 0, 1, 1)
-
-        self.general_LineEdit_06 = QLineEdit(self.General_Config)
-        self.general_LineEdit_06.setObjectName(u"general_LineEdit_06")
-        self.general_LineEdit_06.setMinimumSize(QSize(150, 0))
-        self.general_LineEdit_06.setMaximumSize(QSize(16777215, 16777215))
-        self.general_LineEdit_06.setFont(font)
-
-        self.gridLayout_8.addWidget(self.general_LineEdit_06, 6, 1, 1, 1)
-
-        self.tips_label_2 = QLabel(self.General_Config)
-        self.tips_label_2.setObjectName(u"tips_label_2")
-        self.tips_label_2.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_2.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_2, 2, 4, 1, 1)
-
-        self.tips_label_4 = QLabel(self.General_Config)
-        self.tips_label_4.setObjectName(u"tips_label_4")
-        self.tips_label_4.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_4.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_4, 4, 4, 1, 1)
-
-        self.general_LineEdit_07 = QLineEdit(self.General_Config)
-        self.general_LineEdit_07.setObjectName(u"general_LineEdit_07")
-        self.general_LineEdit_07.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.general_LineEdit_07.sizePolicy().hasHeightForWidth())
-        self.general_LineEdit_07.setSizePolicy(sizePolicy1)
-        self.general_LineEdit_07.setFocusPolicy(Qt.StrongFocus)
-        self.general_LineEdit_07.setReadOnly(True)
-
-        self.gridLayout_8.addWidget(self.general_LineEdit_07, 7, 1, 1, 1)
-
-        self.tips_label_5 = QLabel(self.General_Config)
-        self.tips_label_5.setObjectName(u"tips_label_5")
-        self.tips_label_5.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_5.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_5, 5, 4, 1, 1)
-
-        self.general_Label_04 = QLabel(self.General_Config)
-        self.general_Label_04.setObjectName(u"general_Label_04")
-        self.general_Label_04.setFont(font)
-
-        self.gridLayout_8.addWidget(self.general_Label_04, 4, 0, 1, 1)
-
-        self.tips_label_3 = QLabel(self.General_Config)
-        self.tips_label_3.setObjectName(u"tips_label_3")
-        self.tips_label_3.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_3.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_3, 3, 4, 1, 1)
-
-        self.general_Label_06 = QLabel(self.General_Config)
-        self.general_Label_06.setObjectName(u"general_Label_06")
-        self.general_Label_06.setFont(font)
-
-        self.gridLayout_8.addWidget(self.general_Label_06, 6, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.select_ComboBox_03, 2, 1, 1, 1)
 
         self.general_LineEdit_01 = QLineEdit(self.General_Config)
         self.general_LineEdit_01.setObjectName(u"general_LineEdit_01")
-        self.general_LineEdit_01.setMinimumSize(QSize(300, 0))
+        self.general_LineEdit_01.setMinimumSize(QSize(0, 0))
         self.general_LineEdit_01.setMaximumSize(QSize(16777215, 16777215))
         self.general_LineEdit_01.setFont(font)
 
-        self.gridLayout_8.addWidget(self.general_LineEdit_01, 1, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.general_LineEdit_01, 3, 1, 1, 1)
 
-        self.general_Button_08 = QPushButton(self.General_Config)
-        self.general_Button_08.setObjectName(u"general_Button_08")
-        sizePolicy2.setHeightForWidth(self.general_Button_08.sizePolicy().hasHeightForWidth())
-        self.general_Button_08.setSizePolicy(sizePolicy2)
+        self.select_Label_01 = QLabel(self.General_Config)
+        self.select_Label_01.setObjectName(u"select_Label_01")
+        self.select_Label_01.setFont(font)
+        self.select_Label_01.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout_8.addWidget(self.general_Button_08, 8, 2, 1, 1)
+        self.gridLayout_8.addWidget(self.select_Label_01, 0, 0, 1, 1)
 
-        self.general_Button_09 = QPushButton(self.General_Config)
-        self.general_Button_09.setObjectName(u"general_Button_09")
-        sizePolicy2.setHeightForWidth(self.general_Button_09.sizePolicy().hasHeightForWidth())
-        self.general_Button_09.setSizePolicy(sizePolicy2)
+        self.select_Label_02 = QLabel(self.General_Config)
+        self.select_Label_02.setObjectName(u"select_Label_02")
+        self.select_Label_02.setFont(font)
+        self.select_Label_02.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout_8.addWidget(self.general_Button_09, 9, 2, 1, 1)
+        self.gridLayout_8.addWidget(self.select_Label_02, 1, 0, 1, 1)
+
+        self.file_sel_Label_04 = QLabel(self.General_Config)
+        self.file_sel_Label_04.setObjectName(u"file_sel_Label_04")
+        self.file_sel_Label_04.setMinimumSize(QSize(0, 0))
+        self.file_sel_Label_04.setMaximumSize(QSize(16777215, 16777215))
+        self.file_sel_Label_04.setFont(font1)
+        self.file_sel_Label_04.setFrameShape(QFrame.NoFrame)
+        self.file_sel_Label_04.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout_8.addWidget(self.file_sel_Label_04, 10, 0, 1, 1)
+
+        self.file_sel_Label_01 = QLabel(self.General_Config)
+        self.file_sel_Label_01.setObjectName(u"file_sel_Label_01")
+        self.file_sel_Label_01.setMinimumSize(QSize(0, 0))
+        self.file_sel_Label_01.setMaximumSize(QSize(16777215, 16777215))
+        self.file_sel_Label_01.setFont(font1)
+        self.file_sel_Label_01.setFrameShape(QFrame.NoFrame)
+        self.file_sel_Label_01.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout_8.addWidget(self.file_sel_Label_01, 7, 0, 1, 1)
+
+        self.file_sel_LineEdit_02 = QLineEdit(self.General_Config)
+        self.file_sel_LineEdit_02.setObjectName(u"file_sel_LineEdit_02")
+        self.file_sel_LineEdit_02.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.file_sel_LineEdit_02.sizePolicy().hasHeightForWidth())
+        self.file_sel_LineEdit_02.setSizePolicy(sizePolicy1)
+        self.file_sel_LineEdit_02.setFocusPolicy(Qt.StrongFocus)
+        self.file_sel_LineEdit_02.setReadOnly(False)
+
+        self.gridLayout_8.addWidget(self.file_sel_LineEdit_02, 8, 1, 1, 1)
 
         self.general_LineEdit_02 = QLineEdit(self.General_Config)
         self.general_LineEdit_02.setObjectName(u"general_LineEdit_02")
@@ -991,51 +886,121 @@ class Ui_MainPages(object):
         self.general_LineEdit_02.setMaximumSize(QSize(16777215, 16777215))
         self.general_LineEdit_02.setFont(font)
 
-        self.gridLayout_8.addWidget(self.general_LineEdit_02, 2, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.general_LineEdit_02, 4, 1, 1, 1)
 
-        self.general_LineEdit_09 = QLineEdit(self.General_Config)
-        self.general_LineEdit_09.setObjectName(u"general_LineEdit_09")
-        self.general_LineEdit_09.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.general_LineEdit_09.sizePolicy().hasHeightForWidth())
-        self.general_LineEdit_09.setSizePolicy(sizePolicy1)
-        self.general_LineEdit_09.setFocusPolicy(Qt.StrongFocus)
-        self.general_LineEdit_09.setReadOnly(True)
+        self.general_Label_02 = QLabel(self.General_Config)
+        self.general_Label_02.setObjectName(u"general_Label_02")
+        self.general_Label_02.setFont(font)
 
-        self.gridLayout_8.addWidget(self.general_LineEdit_09, 9, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.general_Label_02, 4, 0, 1, 1)
 
-        self.general_Button_07 = QPushButton(self.General_Config)
-        self.general_Button_07.setObjectName(u"general_Button_07")
-        sizePolicy2.setHeightForWidth(self.general_Button_07.sizePolicy().hasHeightForWidth())
-        self.general_Button_07.setSizePolicy(sizePolicy2)
+        self.file_sel_LineEdit_01 = QLineEdit(self.General_Config)
+        self.file_sel_LineEdit_01.setObjectName(u"file_sel_LineEdit_01")
+        self.file_sel_LineEdit_01.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.file_sel_LineEdit_01.sizePolicy().hasHeightForWidth())
+        self.file_sel_LineEdit_01.setSizePolicy(sizePolicy1)
+        self.file_sel_LineEdit_01.setFocusPolicy(Qt.StrongFocus)
+        self.file_sel_LineEdit_01.setReadOnly(False)
 
-        self.gridLayout_8.addWidget(self.general_Button_07, 7, 2, 1, 1)
+        self.gridLayout_8.addWidget(self.file_sel_LineEdit_01, 7, 1, 1, 1)
 
-        self.general_Label_10 = QLabel(self.General_Config)
-        self.general_Label_10.setObjectName(u"general_Label_10")
-        self.general_Label_10.setMinimumSize(QSize(0, 0))
-        self.general_Label_10.setMaximumSize(QSize(16777215, 16777215))
-        self.general_Label_10.setFont(font1)
-        self.general_Label_10.setFrameShape(QFrame.NoFrame)
-        self.general_Label_10.setFrameShadow(QFrame.Raised)
+        self.file_sel_LineEdit_03 = QLineEdit(self.General_Config)
+        self.file_sel_LineEdit_03.setObjectName(u"file_sel_LineEdit_03")
+        self.file_sel_LineEdit_03.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.file_sel_LineEdit_03.sizePolicy().hasHeightForWidth())
+        self.file_sel_LineEdit_03.setSizePolicy(sizePolicy1)
+        self.file_sel_LineEdit_03.setFocusPolicy(Qt.StrongFocus)
+        self.file_sel_LineEdit_03.setReadOnly(False)
 
-        self.gridLayout_8.addWidget(self.general_Label_10, 10, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.file_sel_LineEdit_03, 9, 1, 1, 1)
 
-        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.file_sel_Label_02 = QLabel(self.General_Config)
+        self.file_sel_Label_02.setObjectName(u"file_sel_Label_02")
+        self.file_sel_Label_02.setMinimumSize(QSize(0, 0))
+        self.file_sel_Label_02.setMaximumSize(QSize(16777215, 16777215))
+        self.file_sel_Label_02.setFont(font1)
+        self.file_sel_Label_02.setFrameShape(QFrame.NoFrame)
+        self.file_sel_Label_02.setFrameShadow(QFrame.Raised)
 
-        self.gridLayout_8.addItem(self.horizontalSpacer_8, 1, 5, 1, 1)
+        self.gridLayout_8.addWidget(self.file_sel_Label_02, 8, 0, 1, 1)
 
-        self.tips_label_6 = QLabel(self.General_Config)
-        self.tips_label_6.setObjectName(u"tips_label_6")
-        self.tips_label_6.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_6.setWordWrap(False)
+        self.select_ComboBox_01 = QComboBox(self.General_Config)
+        self.select_ComboBox_01.setObjectName(u"select_ComboBox_01")
+        self.select_ComboBox_01.setMinimumSize(QSize(200, 0))
+        self.select_ComboBox_01.setMaximumSize(QSize(16777215, 16777215))
+        self.select_ComboBox_01.setFont(font1)
 
-        self.gridLayout_8.addWidget(self.tips_label_6, 6, 4, 1, 1)
+        self.gridLayout_8.addWidget(self.select_ComboBox_01, 0, 1, 1, 1)
 
-        self.general_Label_05 = QLabel(self.General_Config)
-        self.general_Label_05.setObjectName(u"general_Label_05")
-        self.general_Label_05.setFont(font)
+        self.general_LineEdit_04 = QLineEdit(self.General_Config)
+        self.general_LineEdit_04.setObjectName(u"general_LineEdit_04")
+        self.general_LineEdit_04.setMinimumSize(QSize(150, 0))
+        self.general_LineEdit_04.setMaximumSize(QSize(16777215, 16777215))
+        self.general_LineEdit_04.setFont(font)
 
-        self.gridLayout_8.addWidget(self.general_Label_05, 5, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.general_LineEdit_04, 6, 1, 1, 1)
+
+        self.file_sel_LineEdit_04 = QLineEdit(self.General_Config)
+        self.file_sel_LineEdit_04.setObjectName(u"file_sel_LineEdit_04")
+        self.file_sel_LineEdit_04.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.file_sel_LineEdit_04.sizePolicy().hasHeightForWidth())
+        self.file_sel_LineEdit_04.setSizePolicy(sizePolicy1)
+        self.file_sel_LineEdit_04.setFocusPolicy(Qt.StrongFocus)
+        self.file_sel_LineEdit_04.setReadOnly(False)
+
+        self.gridLayout_8.addWidget(self.file_sel_LineEdit_04, 10, 1, 1, 1)
+
+        self.general_Label_01 = QLabel(self.General_Config)
+        self.general_Label_01.setObjectName(u"general_Label_01")
+        self.general_Label_01.setFont(font)
+
+        self.gridLayout_8.addWidget(self.general_Label_01, 3, 0, 1, 1)
+
+        self.file_sel_Button_02 = QPushButton(self.General_Config)
+        self.file_sel_Button_02.setObjectName(u"file_sel_Button_02")
+        sizePolicy2.setHeightForWidth(self.file_sel_Button_02.sizePolicy().hasHeightForWidth())
+        self.file_sel_Button_02.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_8.addWidget(self.file_sel_Button_02, 8, 2, 1, 1)
+
+        self.select_ComboBox_02 = QComboBox(self.General_Config)
+        self.select_ComboBox_02.setObjectName(u"select_ComboBox_02")
+        self.select_ComboBox_02.setMinimumSize(QSize(200, 0))
+        self.select_ComboBox_02.setMaximumSize(QSize(16777215, 16777215))
+        self.select_ComboBox_02.setFont(font1)
+
+        self.gridLayout_8.addWidget(self.select_ComboBox_02, 1, 1, 1, 1)
+
+        self.file_sel_Button_03 = QPushButton(self.General_Config)
+        self.file_sel_Button_03.setObjectName(u"file_sel_Button_03")
+        sizePolicy2.setHeightForWidth(self.file_sel_Button_03.sizePolicy().hasHeightForWidth())
+        self.file_sel_Button_03.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_8.addWidget(self.file_sel_Button_03, 9, 2, 1, 1)
+
+        self.file_sel_Button_01 = QPushButton(self.General_Config)
+        self.file_sel_Button_01.setObjectName(u"file_sel_Button_01")
+        sizePolicy2.setHeightForWidth(self.file_sel_Button_01.sizePolicy().hasHeightForWidth())
+        self.file_sel_Button_01.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_8.addWidget(self.file_sel_Button_01, 7, 2, 1, 1)
+
+        self.file_sel_Label_03 = QLabel(self.General_Config)
+        self.file_sel_Label_03.setObjectName(u"file_sel_Label_03")
+        self.file_sel_Label_03.setMinimumSize(QSize(0, 0))
+        self.file_sel_Label_03.setMaximumSize(QSize(16777215, 16777215))
+        self.file_sel_Label_03.setFont(font1)
+        self.file_sel_Label_03.setFrameShape(QFrame.NoFrame)
+        self.file_sel_Label_03.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout_8.addWidget(self.file_sel_Label_03, 9, 0, 1, 1)
+
+        self.file_sel_Button_04 = QPushButton(self.General_Config)
+        self.file_sel_Button_04.setObjectName(u"file_sel_Button_04")
+        sizePolicy2.setHeightForWidth(self.file_sel_Button_04.sizePolicy().hasHeightForWidth())
+        self.file_sel_Button_04.setSizePolicy(sizePolicy2)
+
+        self.gridLayout_8.addWidget(self.file_sel_Button_04, 10, 2, 1, 1)
 
         self.general_LineEdit_03 = QLineEdit(self.General_Config)
         self.general_LineEdit_03.setObjectName(u"general_LineEdit_03")
@@ -1043,51 +1008,20 @@ class Ui_MainPages(object):
         self.general_LineEdit_03.setMaximumSize(QSize(16777215, 16777215))
         self.general_LineEdit_03.setFont(font)
 
-        self.gridLayout_8.addWidget(self.general_LineEdit_03, 3, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.general_LineEdit_03, 5, 1, 1, 1)
 
-        self.general_Label_09 = QLabel(self.General_Config)
-        self.general_Label_09.setObjectName(u"general_Label_09")
-        self.general_Label_09.setMinimumSize(QSize(0, 0))
-        self.general_Label_09.setMaximumSize(QSize(16777215, 16777215))
-        self.general_Label_09.setFont(font1)
-        self.general_Label_09.setFrameShape(QFrame.NoFrame)
-        self.general_Label_09.setFrameShadow(QFrame.Raised)
+        self.general_Label_04 = QLabel(self.General_Config)
+        self.general_Label_04.setObjectName(u"general_Label_04")
+        self.general_Label_04.setFont(font)
 
-        self.gridLayout_8.addWidget(self.general_Label_09, 9, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.general_Label_04, 6, 0, 1, 1)
 
-        self.general_Label_07 = QLabel(self.General_Config)
-        self.general_Label_07.setObjectName(u"general_Label_07")
-        self.general_Label_07.setMinimumSize(QSize(0, 0))
-        self.general_Label_07.setMaximumSize(QSize(16777215, 16777215))
-        self.general_Label_07.setFont(font1)
-        self.general_Label_07.setFrameShape(QFrame.NoFrame)
-        self.general_Label_07.setFrameShadow(QFrame.Raised)
+        self.select_Label_03 = QLabel(self.General_Config)
+        self.select_Label_03.setObjectName(u"select_Label_03")
+        self.select_Label_03.setFont(font)
+        self.select_Label_03.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout_8.addWidget(self.general_Label_07, 7, 0, 1, 1)
-
-        self.general_LineEdit_08 = QLineEdit(self.General_Config)
-        self.general_LineEdit_08.setObjectName(u"general_LineEdit_08")
-        self.general_LineEdit_08.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.general_LineEdit_08.sizePolicy().hasHeightForWidth())
-        self.general_LineEdit_08.setSizePolicy(sizePolicy1)
-        self.general_LineEdit_08.setFocusPolicy(Qt.StrongFocus)
-        self.general_LineEdit_08.setReadOnly(True)
-
-        self.gridLayout_8.addWidget(self.general_LineEdit_08, 8, 1, 1, 1)
-
-        self.general_Button_10 = QPushButton(self.General_Config)
-        self.general_Button_10.setObjectName(u"general_Button_10")
-        sizePolicy2.setHeightForWidth(self.general_Button_10.sizePolicy().hasHeightForWidth())
-        self.general_Button_10.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_8.addWidget(self.general_Button_10, 10, 2, 1, 1)
-
-        self.tips_label_7 = QLabel(self.General_Config)
-        self.tips_label_7.setObjectName(u"tips_label_7")
-        self.tips_label_7.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.tips_label_7.setWordWrap(False)
-
-        self.gridLayout_8.addWidget(self.tips_label_7, 7, 4, 1, 1)
+        self.gridLayout_8.addWidget(self.select_Label_03, 2, 0, 1, 1)
 
 
         self.verticalLayout_8.addWidget(self.General_Config)
@@ -1105,32 +1039,18 @@ class Ui_MainPages(object):
         self.gridLayout_9.setHorizontalSpacing(20)
         self.gridLayout_9.setVerticalSpacing(10)
         self.gridLayout_9.setContentsMargins(20, -1, 20, 9)
-        self.general_operate_Button_05 = QPushButton(self.Operate_2)
-        self.general_operate_Button_05.setObjectName(u"general_operate_Button_05")
-        sizePolicy1.setHeightForWidth(self.general_operate_Button_05.sizePolicy().hasHeightForWidth())
-        self.general_operate_Button_05.setSizePolicy(sizePolicy1)
-        self.general_operate_Button_05.setFont(font)
-        self.general_operate_Button_05.setCursor(QCursor(Qt.PointingHandCursor))
+        self.general_operate_Button_04 = QPushButton(self.Operate_2)
+        self.general_operate_Button_04.setObjectName(u"general_operate_Button_04")
+        sizePolicy1.setHeightForWidth(self.general_operate_Button_04.sizePolicy().hasHeightForWidth())
+        self.general_operate_Button_04.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_04.setFont(font)
+        self.general_operate_Button_04.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.gridLayout_9.addWidget(self.general_operate_Button_05, 0, 4, 1, 1)
+        self.gridLayout_9.addWidget(self.general_operate_Button_04, 0, 3, 1, 1)
 
-        self.general_operate_Button_03 = QPushButton(self.Operate_2)
-        self.general_operate_Button_03.setObjectName(u"general_operate_Button_03")
-        sizePolicy1.setHeightForWidth(self.general_operate_Button_03.sizePolicy().hasHeightForWidth())
-        self.general_operate_Button_03.setSizePolicy(sizePolicy1)
-        self.general_operate_Button_03.setFont(font)
-        self.general_operate_Button_03.setCursor(QCursor(Qt.PointingHandCursor))
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        self.gridLayout_9.addWidget(self.general_operate_Button_03, 0, 2, 1, 1)
-
-        self.general_operate_Button_01 = QPushButton(self.Operate_2)
-        self.general_operate_Button_01.setObjectName(u"general_operate_Button_01")
-        sizePolicy1.setHeightForWidth(self.general_operate_Button_01.sizePolicy().hasHeightForWidth())
-        self.general_operate_Button_01.setSizePolicy(sizePolicy1)
-        self.general_operate_Button_01.setFont(font)
-        self.general_operate_Button_01.setCursor(QCursor(Qt.PointingHandCursor))
-
-        self.gridLayout_9.addWidget(self.general_operate_Button_01, 0, 0, 1, 1)
+        self.gridLayout_9.addItem(self.horizontalSpacer_9, 0, 6, 1, 1)
 
         self.general_operate_Button_02 = QPushButton(self.Operate_2)
         self.general_operate_Button_02.setObjectName(u"general_operate_Button_02")
@@ -1141,14 +1061,32 @@ class Ui_MainPages(object):
 
         self.gridLayout_9.addWidget(self.general_operate_Button_02, 0, 1, 1, 1)
 
-        self.general_operate_Button_04 = QPushButton(self.Operate_2)
-        self.general_operate_Button_04.setObjectName(u"general_operate_Button_04")
-        sizePolicy1.setHeightForWidth(self.general_operate_Button_04.sizePolicy().hasHeightForWidth())
-        self.general_operate_Button_04.setSizePolicy(sizePolicy1)
-        self.general_operate_Button_04.setFont(font)
-        self.general_operate_Button_04.setCursor(QCursor(Qt.PointingHandCursor))
+        self.general_operate_Button_05 = QPushButton(self.Operate_2)
+        self.general_operate_Button_05.setObjectName(u"general_operate_Button_05")
+        sizePolicy1.setHeightForWidth(self.general_operate_Button_05.sizePolicy().hasHeightForWidth())
+        self.general_operate_Button_05.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_05.setFont(font)
+        self.general_operate_Button_05.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.gridLayout_9.addWidget(self.general_operate_Button_04, 0, 3, 1, 1)
+        self.gridLayout_9.addWidget(self.general_operate_Button_05, 0, 4, 1, 1)
+
+        self.general_operate_Button_01 = QPushButton(self.Operate_2)
+        self.general_operate_Button_01.setObjectName(u"general_operate_Button_01")
+        sizePolicy1.setHeightForWidth(self.general_operate_Button_01.sizePolicy().hasHeightForWidth())
+        self.general_operate_Button_01.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_01.setFont(font)
+        self.general_operate_Button_01.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.gridLayout_9.addWidget(self.general_operate_Button_01, 0, 0, 1, 1)
+
+        self.general_operate_Button_03 = QPushButton(self.Operate_2)
+        self.general_operate_Button_03.setObjectName(u"general_operate_Button_03")
+        sizePolicy1.setHeightForWidth(self.general_operate_Button_03.sizePolicy().hasHeightForWidth())
+        self.general_operate_Button_03.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_03.setFont(font)
+        self.general_operate_Button_03.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.gridLayout_9.addWidget(self.general_operate_Button_03, 0, 2, 1, 1)
 
         self.general_operate_Button_06 = QPushButton(self.Operate_2)
         self.general_operate_Button_06.setObjectName(u"general_operate_Button_06")
@@ -1157,11 +1095,7 @@ class Ui_MainPages(object):
         self.general_operate_Button_06.setFont(font)
         self.general_operate_Button_06.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.gridLayout_9.addWidget(self.general_operate_Button_06, 1, 0, 1, 1)
-
-        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.gridLayout_9.addItem(self.horizontalSpacer_9, 0, 5, 1, 1)
+        self.gridLayout_9.addWidget(self.general_operate_Button_06, 0, 5, 1, 1)
 
 
         self.verticalLayout_6.addWidget(self.Operate_2)
@@ -1209,7 +1143,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 630, 694))
+        self.contents.setGeometry(QRect(0, 0, 630, 698))
         self.contents.setStyleSheet(u"background: transparent;")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -1271,7 +1205,7 @@ class Ui_MainPages(object):
 
         self.retranslateUi(MainPages)
 
-        self.pages.setCurrentIndex(0)
+        self.pages.setCurrentIndex(1)
         self.ROIConfig.setCurrentIndex(0)
 
 
@@ -1280,13 +1214,13 @@ class Ui_MainPages(object):
 
     def retranslateUi(self, MainPages):
         MainPages.setWindowTitle(QCoreApplication.translate("MainPages", u"Form", None))
-        self.REF_CLK_Config_Label.setText(QCoreApplication.translate("MainPages", u"REF CLK", None))
         self.SYS_CLK_Config_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
         self.MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
         self.TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
         self.WORK_MODE_Label.setText(QCoreApplication.translate("MainPages", u"WORK_MODE", None))
         self.MIPI_RATE_Label.setText(QCoreApplication.translate("MainPages", u"MIPI RATE", None))
         self.TDC_Bin_Width_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
+        self.REF_CLK_Config_Label.setText(QCoreApplication.translate("MainPages", u"REF CLK", None))
         self.SCAN_MODE_Label.setText(QCoreApplication.translate("MainPages", u"SCAN_MODE", None))
         self.V_ROLL_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_ROLL_NUM", None))
         self.V_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"32", None))
@@ -1321,57 +1255,44 @@ class Ui_MainPages(object):
         self.ROI_Zone_Sel_CheckBox.setText(QCoreApplication.translate("MainPages", u"Integration", None))
         self.ROI_SRAM_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
         self.REG_CFG_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
-        self.ClearLog_2.setText(QCoreApplication.translate("MainPages", u"Clear Log", None))
         self.ClearLog.setText(QCoreApplication.translate("MainPages", u"Clear Log", None))
-        self.ClearLog_3.setText(QCoreApplication.translate("MainPages", u"Clear Log", None))
         self.Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.Layout3.setTitle(QCoreApplication.translate("MainPages", u"Log", None))
         self.LogPrintWindow_1.setPlainText("")
-        self.title_label_2.setText(QCoreApplication.translate("MainPages", u"Hawk Script Config", None))
-        self.description_label_2.setText(QCoreApplication.translate("MainPages", u"Here will be all the custom widgets, they will be added over time on this page.\n"
-"I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.", None))
+        self.title_label_2.setText(QCoreApplication.translate("MainPages", u"Hawk Toolbox", None))
         self.FunctionWindow.setTitle("")
         self.FunctionSelectWin.setTitle(QCoreApplication.translate("MainPages", u"Function Select", None))
+        self.SpadisAppPCMREAD.setText(QCoreApplication.translate("MainPages", u"Spadis App PCM READ", None))
+        self.DothinkPCMImag.setText(QCoreApplication.translate("MainPages", u"Dothink PCM Imag", None))
         self.general_Label_03.setText(QCoreApplication.translate("MainPages", u"Input3", None))
-        self.general_Label_02.setText(QCoreApplication.translate("MainPages", u"Input2", None))
-        self.tips_label_1.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.tips_label_8.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.general_Label_01.setText(QCoreApplication.translate("MainPages", u"Input1", None))
-        self.general_LineEdit_05.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u5185\u5bb9", None))
-        self.general_LineEdit_04.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u5185\u5bb9", None))
-        self.tips_label_10.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.general_LineEdit_10.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
-        self.tips_label_9.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.general_Label_08.setText(QCoreApplication.translate("MainPages", u"File sel", None))
-        self.general_LineEdit_06.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u5185\u5bb9", None))
-        self.tips_label_2.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.tips_label_4.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.general_LineEdit_07.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
-        self.tips_label_5.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.general_Label_04.setText(QCoreApplication.translate("MainPages", u"Input4", None))
-        self.tips_label_3.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.general_Label_06.setText(QCoreApplication.translate("MainPages", u"Input6", None))
         self.general_LineEdit_01.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u5185\u5bb9", None))
-        self.general_Button_08.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.general_Button_09.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.select_Label_01.setText(QCoreApplication.translate("MainPages", u"Select1", None))
+        self.select_Label_02.setText(QCoreApplication.translate("MainPages", u"Select1", None))
+        self.file_sel_Label_04.setText(QCoreApplication.translate("MainPages", u"File sel", None))
+        self.file_sel_Label_01.setText(QCoreApplication.translate("MainPages", u"File sel", None))
+        self.file_sel_LineEdit_02.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
         self.general_LineEdit_02.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u5185\u5bb9", None))
-        self.general_LineEdit_09.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
-        self.general_Button_07.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.general_Label_10.setText(QCoreApplication.translate("MainPages", u"File sel", None))
-        self.tips_label_6.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
-        self.general_Label_05.setText(QCoreApplication.translate("MainPages", u"Input5", None))
+        self.general_Label_02.setText(QCoreApplication.translate("MainPages", u"Input2", None))
+        self.file_sel_LineEdit_01.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
+        self.file_sel_LineEdit_03.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
+        self.file_sel_Label_02.setText(QCoreApplication.translate("MainPages", u"File sel", None))
+        self.general_LineEdit_04.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u5185\u5bb9", None))
+        self.file_sel_LineEdit_04.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
+        self.general_Label_01.setText(QCoreApplication.translate("MainPages", u"Input1", None))
+        self.file_sel_Button_02.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.file_sel_Button_03.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.file_sel_Button_01.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.file_sel_Label_03.setText(QCoreApplication.translate("MainPages", u"File sel", None))
+        self.file_sel_Button_04.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.general_LineEdit_03.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u5185\u5bb9", None))
-        self.general_Label_09.setText(QCoreApplication.translate("MainPages", u"File sel", None))
-        self.general_Label_07.setText(QCoreApplication.translate("MainPages", u"File sel", None))
-        self.general_LineEdit_08.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u6587\u4ef6", None))
-        self.general_Button_10.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.tips_label_7.setText(QCoreApplication.translate("MainPages", u"tips: ......", None))
+        self.general_Label_04.setText(QCoreApplication.translate("MainPages", u"Input4", None))
+        self.select_Label_03.setText(QCoreApplication.translate("MainPages", u"Select1", None))
         self.Operate_2.setTitle(QCoreApplication.translate("MainPages", u"Operate", None))
-        self.general_operate_Button_05.setText(QCoreApplication.translate("MainPages", u"button", None))
-        self.general_operate_Button_03.setText(QCoreApplication.translate("MainPages", u"button", None))
-        self.general_operate_Button_01.setText(QCoreApplication.translate("MainPages", u"button", None))
-        self.general_operate_Button_02.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.general_operate_Button_04.setText(QCoreApplication.translate("MainPages", u"button", None))
+        self.general_operate_Button_02.setText(QCoreApplication.translate("MainPages", u"button", None))
+        self.general_operate_Button_05.setText(QCoreApplication.translate("MainPages", u"button", None))
+        self.general_operate_Button_01.setText(QCoreApplication.translate("MainPages", u"button", None))
+        self.general_operate_Button_03.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.general_operate_Button_06.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.LogPrint_2.setTitle(QCoreApplication.translate("MainPages", u"Log", None))
         self.LogPrintWindow_2.setPlainText("")

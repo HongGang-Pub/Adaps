@@ -196,6 +196,7 @@ def hist_img_forRaw(cfg):
     for f in file_list:
         f_name = os.path.splitext(os.path.basename(f))[0]
         f_data = np.fromfile(f, dtype=np.int16, offset=4)
+
         f_data.shape = 18912, 1280
 
         f_names.append(f_name)

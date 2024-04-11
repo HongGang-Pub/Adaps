@@ -48,14 +48,13 @@ class HawkFunctions:
     def gui_initial(self):
         self.ui.load_pages.REF_CLK_Config_ComboBox.addItems(self.gui_value_config["REF_CLK"]["show_gui"])
         self.ui.load_pages.SYS_CLK_Config_ComboBox.addItems(self.gui_value_config["SYS_CLK"]["show_gui"])
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
         self.ui.load_pages.MST_MODE_ComboBox.addItems(self.gui_value_config["MST_MODE"]["show_gui"])
         self.ui.load_pages.TRG_I_EN_ComboBox.addItems(self.gui_value_config["TRG_I_EN"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
-
         self.ui.load_pages.WORK_MODE_ComboBox.add_items(self.gui_value_config["WORK_MODE"]["show_gui"])
+        self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
         self.ui.load_pages.MIPI_RATE_ComboBox.add_items(self.gui_value_config["MIPI_RATE"]["show_gui"])
+
+        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
 
         REF_CLK_index = self.gui_value_config["REF_CLK"]["config"].index(self.hawk_config['FREF_CLK'])
         MST_MODE_index = self.gui_value_config["MST_MODE"]["config"].index(self.hawk_config['MST_MODE'])
@@ -85,26 +84,6 @@ class HawkFunctions:
         self.ui.load_pages.Sel_Config_file_LineEdit.setText(self.hawk_config['ref_cfg_file'])
         self.ui.load_pages.REG_CFG_File_LineEdit.setText(self.hawk_config['config_name'])
         self.ui.load_pages.ROI_SRAM_File_LineEdit.setText(self.hawk_config['roi_name'])
-
-        self.gridlayout_1 = QGridLayout(self.ui.load_pages.FunctionSelectWin)
-        self.gridlayout_1.setHorizontalSpacing(30)
-        self.spacer = QSpacerItem(20, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        func_list = self.gui_value_config["FunctionList"]
-        for idx in range(len(func_list)):
-            func = func_list[idx]
-            self.rb00 = QRadioButton(f"{func}")
-            self.gridlayout_1.addWidget(self.rb00, idx // 8, idx % 8)
-
-        self.gridlayout_1.addItem(self.spacer, 0, 8)
-
-        # 显示动图
-        # self.fig = plt.figure()
-        # self.ax = self.fig.gca()
-        # ani = Player(self.fig, self.update, interval=700, blit=True, cache_frame_data=False, save_count=2, maxi=1000000)
-        # # plt.show()
-        # canvas = FigureCanvas(self.fig, master=MaskingValue.frame_roi_img)  # A tk.DrawingArea.
-        # canvas.draw()
         return
 
     # 文件选择对话框
@@ -173,7 +152,7 @@ class HawkFunctions:
 
     def get_input_text(self):
         self.hawk_config['config_name'] = self.ui.load_pages.REG_CFG_File_LineEdit.text()
-        self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdi.text()
+        self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdit.text()
         print(self.hawk_config['config_name'], self.hawk_config['roi_name'])
 
     def log_print(self, log, log_type):
@@ -182,7 +161,7 @@ class HawkFunctions:
         else:
             theme = ["#9DA9B5", "blue", "red"]
         color = theme[log_type]
-        logTextEdit = self.ui.load_pages.LogPrintWindow
+        logTextEdit = self.ui.load_pages.LogPrintWindow_1
         cursor = logTextEdit.textCursor()
         cursor.movePosition(QTextCursor.End)
 

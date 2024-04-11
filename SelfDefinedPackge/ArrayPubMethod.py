@@ -67,6 +67,7 @@ def ArrayImage(array_lst, fd_path=None, fname="ArrayImage", title_list=None,
         else:
             break
     if fd_path is None:
+        # plt.xlim(0, 768)
         self_plt_show()
         # plt.show()
     else:
