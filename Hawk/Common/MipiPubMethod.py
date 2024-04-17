@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 
 from Hawk.Common.GlobalDef import csru_addr
@@ -16,7 +18,7 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
     Returns:
         bool: True or False
     """
-
+    logging.info("MIPI 数据包检查...")
     error = 0
     sub_frame_num = 0
 
@@ -32,7 +34,7 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
         # 校验包是否为空
         if pkg_num is not None and actual_pkg_num != pkg_num:
             # raise ValueError("数据存在丢包：{}".format(file))
-            print("数据存在丢包：{}:实际包数量:{}; 期待包个数:{}".format(file, actual_pkg_num, pkg_num))
+            logging.error("数据存在丢包：{}:实际包数量:{}; 期待包个数:{}".format(file, actual_pkg_num, pkg_num))
             error = 1
             # return False
 
@@ -49,7 +51,7 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
 
         if sub_frame_num > 1 and pre_frame_id + 1 != frame_id:
             # raise ValueError("存在丢包：{}->{}, MIPI_{}".format(pre_frame_id, frame_id, f_idx))
-            print("存在丢帧：{} -> {}：MIPI_{}".format(pre_frame_id, frame_id, f_idx))
+            logging.error("存在丢帧：{} -> {}：MIPI_{}".format(pre_frame_id, frame_id, f_idx))
             # return False
             pre_frame_id = frame_id
             error = 1
@@ -172,6 +174,7 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
     Returns:
         dict: 寄存相关配置
     """
+    logging.info("获取寄存器配置信息...")
     addr_index = 2 if protocol == "i2c" else 1
     min_lens = 4 if protocol == "i2c" else 3
     block_write = "I2C_Block_Write" if protocol == "i2c" else "SPI_Block_Write"
@@ -278,7 +281,7 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
                 else:
                     h_seg_shift = 0
                 csru_cfg["h_seg_shift"] = h_seg_shift
-    print("\033[1;31;40m寄存器配置信息：\n{}\033[0m".format(csru_cfg))
+    logging.warning("寄存器配置信息：\n{}".format(csru_cfg))
     return csru_cfg
 
 

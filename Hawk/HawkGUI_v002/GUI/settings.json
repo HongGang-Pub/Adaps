@@ -4,12 +4,12 @@
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
     "startup_size": [
-        1320,
-        850
+        1000,
+        900
     ],
     "minimum_size": [
-        900,
-        800
+        800,
+        900
     ],
     "lef_menu_size" : {
         "minimum" : 50,

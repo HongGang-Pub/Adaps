@@ -1,7 +1,7 @@
 {
 	"fd_path"		: "Output",				"?fd_path" 		: "文件存储路径",
 	"config_name"	: "reg_config",			"?config_name"	: "寄存器配置脚本存储的文件名",
-	"roi_name"		: "1d_vroll32_roi_mem",	"?roi_name" 	: "ROI相关文件存储的文件名",
+	"roi_name"		: "roi_mem",			"?roi_name" 	: "ROI相关文件存储的文件名",
 	"data_format"	: 1,					"?data_format"	: "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
 
 	"user_guide1"   : "以下值需要与寄存器值保持一致",
@@ -16,11 +16,11 @@
 	"MST_MODE"		: 1 ,					"?MST_MODE"		: "0: slave mode; 1: master mode",
 	"TRG_I_EN"		: 0 ,					"?TRG_I_EN"		: "0: disable; 1:enable",
 	"MIPI_RATE" 	: 0.8,					"?MIPI_RATE"	: "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
-	"FREF"			: 24,					"?FREF"			: "24M or 25M",
+	"FREF"			: 25,					"?FREF"			: "24M or 25M",
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,
-	"spad_vs"    	: 3 ,
+	"spad_vs"    	: 0 ,
 	"light_shift"	: 18,
 	"sublight_shift": 3	,
 	"roi_shape"  	: 0	,
@@ -32,10 +32,10 @@
 	"zone_cfg_sel"	: 0,
 	"zone_cfg_def": {
 		"SUB_EXPOTIME"	: {
-			"Zone0" : 100,"Zone1" : 20,"Zone2" : 4094,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,
-			"Zone8" : 20,"Zone9" : 20,"Zone10": 20,"Zone11": 20,"Zone12": 20,"Zone13": 10,"Zone14": 20,"Zone15": 20,
-			"Zone16": 20,"Zone17": 20,"Zone18": 20,"Zone19": 20,"Zone20": 20,"Zone21": 10,"Zone22": 20,"Zone23": 20,
-			"Zone24": 20,"Zone25": 20,"Zone26": 20,"Zone27": 20,"Zone28": 20,"Zone29": 10,"Zone30": 20,"Zone31": 20
+			"Zone0" : 100,"Zone1" : 100,"Zone2" : 100,"Zone3" : 100,"Zone4" : 100,"Zone5" : 100,"Zone6" : 100,"Zone7" : 100,
+			"Zone8" : 100,"Zone9" : 100,"Zone10": 100,"Zone11": 100,"Zone12": 100,"Zone13": 100,"Zone14": 100,"Zone15": 100,
+			"Zone16": 100,"Zone17": 100,"Zone18": 100,"Zone19": 100,"Zone20": 100,"Zone21": 100,"Zone22": 100,"Zone23": 100,
+			"Zone24": 100,"Zone25": 100,"Zone26": 100,"Zone27": 100,"Zone28": 100,"Zone29": 100,"Zone30": 100,"Zone31": 100
 		},
 
 		"SUB_IDLETIME"	:  {
@@ -114,5 +114,5 @@
 		"Zone_31_MF_KN" 	: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 	},
 	"protocol"	: "i2c"	,				"?protocol"	: "i2c or spi",
-	"ref_cfg_file": "./Input/Ref_regCfg.txt"
+	"ref_cfg_file": "./Input/test_pcm_full_250M_0.8G.txt"
 }

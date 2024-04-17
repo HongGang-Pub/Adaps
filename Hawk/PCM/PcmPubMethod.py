@@ -1,9 +1,14 @@
+import time
+
+import PySide6.QtCore
+
 import Hawk.Common.HawkPubMethod
 from SelfDefinedPackge import PubMethod
 from Hawk.Common import HawkPubMethod
 from Hawk.Common import MipiPubMethod
 import numpy as np
 import os
+import logging
 
 
 def GetPcmDataFromSpadisApp(fp, frame_number=1):
@@ -83,8 +88,11 @@ def GetPcmDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
                 subframe_data = PubMethod.read_file(file)
 
                 if pcm_sub == 0 and sub_light == 0:  # 打印日志
-                    print("MIPI_{}: vroll_num:{}, hroll_num:{}".format(f_index, vroll_num, hroll_num))
-
+                    # if qt_trigger != None:
+                    #     qt_trigger.emit("MIPI_{}: vroll_num:{}, hroll_num:{}".format(f_index, vroll_num, hroll_num))
+                    # logger = logging.getLogger()
+                    logging.info("MIPI_{:0>5}: vroll_num:{:0>2}, hroll_num:{:0>2}".format(f_index, vroll_num, hroll_num))
+                    # print("MIPI_{}: vroll_num:{}, hroll_num:{}".format(f_index, vroll_num, hroll_num))
                 seg_hs = msku_roi_mem[vroll_num][0] >> 10
 
                 for seg_cnt in range(h_vld_seg + 1):

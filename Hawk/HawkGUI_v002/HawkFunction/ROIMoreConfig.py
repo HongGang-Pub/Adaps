@@ -19,7 +19,7 @@ class MainWindow(QDialog):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    styleFile = r"../gui/themes/page_themes/light/lightstyle.qss"
+    styleFile = r"./gui/themes/page_themes/light/lightstyle.qss"
     win = MainWindow()
 
     win.show()  # 显示窗口

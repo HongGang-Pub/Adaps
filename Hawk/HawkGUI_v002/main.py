@@ -1,5 +1,8 @@
 import os
 import sys
+
+import matplotlib.pyplot as plt
+
 sys.path.append(os.path.join(os.getcwd(), "../../"))
 
 # IMPORT PACKAGES AND MODULES
@@ -12,7 +15,6 @@ from SelfDefinedPackge.JsonOperation import JsonFunction
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.gui.qt_core import *
-
 # IMPORT SETTINGSpy
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_settings import Settings
@@ -26,6 +28,7 @@ from gui.uis.windows.main_window import *
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import HawkFunctions
 from Hawk.HawkGUI_v002.HawkFunction.HawkToolbox import HawkToolbox
+from SelfDefinedPackge import MatplotExtension
 from Hawk.HawkGUI_v002.HawkFunction.MaskingWindow import MaskingWindow
 
 
@@ -53,46 +56,25 @@ class MainWindow(QMainWindow):
         settings = Settings()
         self.settings = settings.items
 
-        # LOAD HawkConfig.json
+        # LOAD Data
         # ///////////////////////////////////////////////////////////////
-        gui_value_config = JsonFunction(file_path=".HawkConfig/HawkGuiConfig.json")
-        self.gui_value_config = gui_value_config.items
+        self.GuiValueConfig = JsonFunction(file_path=".HawkConfig/HawkGuiConfig.json")
+        self.HawkConfig = JsonFunction(file_path=".HawkConfig/HawkConfig.json")
+        self.HawkToolConfig = JsonFunction(file_path=".HawkConfig/HawkToolConfig.json")
 
-        hawk_config = JsonFunction(file_path=".HawkConfig/HawkConfig.json")
-        self.hawk_config = hawk_config.items
-
-        self.DothinkPCMImagValue = {}
+        self.gui_value_config = self.GuiValueConfig.items
+        self.hawk_config = self.HawkConfig.items
+        self.hawk_tool_config = self.HawkToolConfig.items
 
         # SETUP MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
-        self.masking_win = MaskingWindow()
+        # self.masking_win = MaskingWindow()
         self.hide_grips = True  # Show/Hide resize grips
+
         SetupMainWindow.setup_gui(self)
-        HawkFunctions.gui_initial(self)
+        HawkFunctions.setup_gui(self)
         HawkToolbox.setup_gui(self)
 
-        # Connect Function
-        # ///////////////////////////////////////////////////////////////
-        self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(HawkFunctions.Sel_Config_file_func, self))
-        self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(HawkFunctions.Load_ROI_file_func, self))
-        self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.get_input_text, self))
-        self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.log_print, self, "222222222222222", 1))
-        # self.ui.load_pages.Preview.clicked.connect(partial(HawkFunctions.log_print, self, "11111111111111", 0))
-        # self.ui.load_pages.ClearLog.clicked.connect(partial(HawkFunctions.log_print, self, "333333333333", 2))
-        self.ui.load_pages.ClearLog.clicked.connect(lambda: HawkFunctions.log_print(self, "333333333333", 2))
-
-        self.ui.load_pages.WORK_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.WORK_MODE_UPDATE, self))
-        self.ui.load_pages.SCAN_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.SCAN_MODE_UPDATE, self))
-        self.ui.load_pages.MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MIPI_RATE_UPDATE, self))
-        self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MST_MODE_UPDATE, self))
-        self.ui.load_pages.TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.TRG_I_EN_UPDATE, self))
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.currentIndexChanged.connect(
-            partial(HawkFunctions.TDC_BIN_W_UPDATE, self))
-        self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.V_ROLL_NUM_UPDATE, self))
-        self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
-        self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
-
-        self.ui.load_pages.FunctionSelectGroup.buttonClicked.connect(partial(HawkToolbox.FunctionSelect, self))
 
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
@@ -141,6 +123,10 @@ class MainWindow(QMainWindow):
 
         # DEBUG
         print(f"Button {btn.objectName()}, released!")
+
+    def closeEvent(self, event):
+        self.HawkToolConfig.serialize()
+        MatplotExtension.fig_close()
 
 
 # SETTINGS WHEN TO START

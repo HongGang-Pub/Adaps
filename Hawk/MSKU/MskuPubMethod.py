@@ -205,7 +205,7 @@ def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='imag_msku'):
     return
 
 
-def ParseRoiMem(cfg, roi_file=None, f_path='figs'):
+def ParseRoiMem(cfg, roi_file=None, f_path=None):
     """
     根据寄存器配置解析 ROI 数据
     Args:
@@ -260,7 +260,8 @@ def ParseRoiMem(cfg, roi_file=None, f_path='figs'):
     }
 
     # 成图展示 masking 效果
-    roi_imag(msku_roi_mem, csru_cfg, fd_path=f_path)
+    if f_path is not None:
+        roi_imag(msku_roi_mem, csru_cfg, fd_path=f_path)
 
     return zone_roi_mem, msku_roi_mem
 

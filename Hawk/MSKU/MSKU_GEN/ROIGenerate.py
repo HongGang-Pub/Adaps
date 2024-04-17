@@ -41,7 +41,10 @@ def MskuRoiGenerate(cfg):
         if scan_mode == 0:  # 1D scan
             # sub_frame_num = v_roll_cnt
             for j in range(0, 6):
-                sublight_vs = light_vs + sublight_shift * j
+                _light_vs = light_vs if j >= 1 else 575
+                # sublight_vs = light_vs + sublight_shift * j if j >= 1 else 576
+                sublight_vs = _light_vs + sublight_shift * j
+
                 for seg_num in range(0, h_vld_seg + 1):
                     h_seg_s = seg_hs + seg_num
                     if roi_shape == 0:

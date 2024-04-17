@@ -1,31 +1,10 @@
-# ///////////////////////////////////////////////////////////////
-#
-# BY: WANDERSON M.PIMENTA
-# PROJECT MADE WITH: Qt Designer and PySide6
-# V: 1.0.0
-#
-# This project can be used freely for all uses, as long as they maintain the
-# respective credits only in the Python scripts, any information in the visual
-# interface (GUI) can be modified without any implication.
-#
-# There are limitations on Qt licenses if you want to use your products
-# commercially, I recommend reading them on the official website:
-# https://doc.qt.io/qtforpython/licenses.html
-#
-# ///////////////////////////////////////////////////////////////
-
-# IMPORT PACKAGES AND MODULES
-# ///////////////////////////////////////////////////////////////
-import sys
-
-# IMPORT QT CORE
-# ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.gui.qt_core import *
 
 # LOAD UI MAIN
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.gui.uis.windows.main_window.ui_main import *
 from PySide6.QtGui import QColor, QBrush, QTextCursor
+from functools import partial
 
 
 # FUNCTIONS
@@ -45,7 +24,7 @@ class HawkFunctions:
 
     # gui initial
     # ///////////////////////////////////////////////////////////////
-    def gui_initial(self):
+    def setup_gui(self):
         self.ui.load_pages.REF_CLK_Config_ComboBox.addItems(self.gui_value_config["REF_CLK"]["show_gui"])
         self.ui.load_pages.SYS_CLK_Config_ComboBox.addItems(self.gui_value_config["SYS_CLK"]["show_gui"])
         self.ui.load_pages.MST_MODE_ComboBox.addItems(self.gui_value_config["MST_MODE"]["show_gui"])
@@ -84,6 +63,27 @@ class HawkFunctions:
         self.ui.load_pages.Sel_Config_file_LineEdit.setText(self.hawk_config['ref_cfg_file'])
         self.ui.load_pages.REG_CFG_File_LineEdit.setText(self.hawk_config['config_name'])
         self.ui.load_pages.ROI_SRAM_File_LineEdit.setText(self.hawk_config['roi_name'])
+
+        # Connect Function
+        # ///////////////////////////////////////////////////////////////
+        self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(HawkFunctions.Sel_Config_file_func, self))
+        self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(HawkFunctions.Load_ROI_file_func, self))
+        self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.get_input_text, self))
+        # self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.log_print, self, "222222222222222", 1))
+        # self.ui.load_pages.Preview.clicked.connect(partial(HawkFunctions.log_print, self, "11111111111111", 0))
+        # self.ui.load_pages.ClearLog.clicked.connect(partial(HawkFunctions.log_print, self, "333333333333", 2))
+        # self.ui.load_pages.ClearLog.clicked.connect(lambda: HawkFunctions.log_print(self, "333333333333", 2))
+
+        self.ui.load_pages.WORK_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.WORK_MODE_UPDATE, self))
+        self.ui.load_pages.SCAN_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.SCAN_MODE_UPDATE, self))
+        self.ui.load_pages.MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MIPI_RATE_UPDATE, self))
+        self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.MST_MODE_UPDATE, self))
+        self.ui.load_pages.TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.TRG_I_EN_UPDATE, self))
+        self.ui.load_pages.TDC_Bin_Width_ComboBox.currentIndexChanged.connect(
+            partial(HawkFunctions.TDC_BIN_W_UPDATE, self))
+        self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.V_ROLL_NUM_UPDATE, self))
+        self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
+        self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
         return
 
     # 文件选择对话框
@@ -154,21 +154,3 @@ class HawkFunctions:
         self.hawk_config['config_name'] = self.ui.load_pages.REG_CFG_File_LineEdit.text()
         self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdit.text()
         print(self.hawk_config['config_name'], self.hawk_config['roi_name'])
-
-    def log_print(self, log, log_type):
-        if self.settings["theme_name"] == "dark":
-            theme = ["#DFE1E2", "yellow", "red"]
-        else:
-            theme = ["#9DA9B5", "blue", "red"]
-        color = theme[log_type]
-        logTextEdit = self.ui.load_pages.LogPrintWindow_1
-        cursor = logTextEdit.textCursor()
-        cursor.movePosition(QTextCursor.End)
-
-        text_format = logTextEdit.currentCharFormat()  # 创建TextCharFormat对象 获取当前字文本的字符串格式
-        text_format.setForeground(QBrush(QColor(color)))  # 设置字体颜色
-        cursor.mergeCharFormat(text_format)  # 追加格式到原有文本
-        cursor.insertText(f"{log}")
-        logTextEdit.setTextCursor(cursor)
-        logTextEdit.ensureCursorVisible()
-        cursor.insertText(f"\n")
