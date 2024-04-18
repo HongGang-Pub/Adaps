@@ -205,5 +205,16 @@ def gray2bin(n):
     return bin(n)[2:].zfill(4)
 
 
+def hex_regex_str(bit_width=4):
+    repeat_times = bit_width // 4
+    regex_str = "[0-9A-Fa-f]{{0,{}}}".format(repeat_times)
+
+    if bit_width % 4 != 0:
+        _mod = bit_width % 4
+        _str = f"[0-{(2 ** _mod) - 1}]"
+        regex_str = f"({_str}{regex_str})|({regex_str})"
+    return regex_str
+
+
 if __name__ == '__main__':
     print("Hello world.")

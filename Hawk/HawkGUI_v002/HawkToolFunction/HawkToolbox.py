@@ -1,7 +1,11 @@
+import PySide6.QtCore
+import PySide6.QtGui
+
 import SelfDefinedPackge.ArrayPubMethod
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer, QRegularExpression
+from PySide6.QtGui import QRegularExpressionValidator
 from SelfDefinedPackge.MyThread import *
 
 # LOAD UI MAIN
@@ -94,7 +98,6 @@ class HawkToolbox:
                                            self.settings["theme_name"]))
         self.timer.start(200)
 
-
     # QRadioButton bounding function
     # ///////////////////////////////////////////////////////////////
     def FunctionSelectTrigger(self, btn):
@@ -171,6 +174,10 @@ class HawkToolbox:
 
         self.ui.load_pages.general_Label_01.setText("Image title")
         self.ui.load_pages.general_Label_02.setText("Color Bar")
+
+        reg = QRegularExpression('[0-9, ]+$')
+        validator = QRegularExpressionValidator(reg)
+        self.ui.load_pages.general_LineEdit_02.setValidator(validator)
 
         self.ui.load_pages.file_sel_Label_01.setText("Script File")
         self.ui.load_pages.file_sel_Label_02.setText("Mipi File")

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>ROIZoneConfig</class>
+ <widget class="QDialog" name="ROIZoneConfig">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>766</width>
-    <height>527</height>
+    <width>966</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,90 +29,20 @@
       </sizepolicy>
      </property>
      <layout class="QGridLayout" name="gridLayout" rowstretch="0">
-      <item row="0" column="4">
-       <widget class="QComboBox" name="SYS_CLK_Config_ComboBox">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI</family>
-          <pointsize>9</pointsize>
-          <bold>false</bold>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Minimum</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="SYS_CLK_Config_Label">
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>SYS CLK</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="REF_CLK_Config_Label">
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>REF CLK</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="REF_CLK_Config_ComboBox">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI</family>
-          <pointsize>9</pointsize>
-          <bold>false</bold>
-         </font>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="6">
-       <widget class="QCheckBox" name="ROI_Zone_Sel_CheckBox">
+       <widget class="QLabel" name="ZoneConfigSel_Label">
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>Configure each Zone independently</string>
+         <string>Zone Config Sel</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="7">
+      <item row="0" column="10">
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -128,6 +58,13 @@
         </property>
        </spacer>
       </item>
+      <item row="0" column="9">
+       <widget class="QCheckBox" name="ZoneConfigSel_CheckBox">
+        <property name="text">
+         <string>Configure each Zone independently</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="5">
        <spacer name="horizontalSpacer_4">
         <property name="orientation">
@@ -138,11 +75,141 @@
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>40</width>
+          <width>20</width>
           <height>20</height>
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="0" column="8">
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>10</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="7">
+       <widget class="QSpinBox" name="ZoneConfigSel_SpinBox">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>32</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="Expoperiod_Label_Value">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Minimum</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLineEdit" name="Expotime_Value">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="Expotime_Label">
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Expotime</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="Expoperiod_Label">
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Expo Period</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -154,12 +221,21 @@
        <number>8</number>
       </property>
       <item>
-       <widget class="QTableWidget" name="tableWidget">
+       <widget class="QTableWidget" name="ZoneConfigInputTable">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="autoScrollMargin">
+         <number>1</number>
+        </property>
+        <property name="verticalScrollMode">
+         <enum>QAbstractItemView::ScrollPerPixel</enum>
+        </property>
+        <property name="horizontalScrollMode">
+         <enum>QAbstractItemView::ScrollPerPixel</enum>
         </property>
         <property name="showGrid">
          <bool>true</bool>
@@ -171,16 +247,19 @@
          <bool>false</bool>
         </property>
         <property name="rowCount">
-         <number>8</number>
+         <number>23</number>
         </property>
         <property name="columnCount">
-         <number>33</number>
+         <number>32</number>
         </property>
         <attribute name="horizontalHeaderVisible">
          <bool>true</bool>
         </attribute>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>60</number>
         </attribute>
         <attribute name="horizontalHeaderHighlightSections">
          <bool>true</bool>
@@ -234,14 +313,84 @@
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel</string>
+          <string>MF Kernel 1</string>
          </property>
         </row>
-        <column>
+        <row>
          <property name="text">
-          <string>Zone</string>
+          <string>MF Kernel 2</string>
          </property>
-        </column>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 3</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 4</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 5</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 6</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 7</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 8</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 9</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 10</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 11</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 12</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 13</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 14</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 15</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>MF Kernel 16</string>
+         </property>
+        </row>
         <column>
          <property name="text">
           <string>Zone1</string>
@@ -402,12 +551,12 @@
           <string>Zone32</string>
          </property>
         </column>
-        <item row="0" column="1">
+        <item row="0" column="0">
          <property name="text">
           <string/>
          </property>
         </item>
-        <item row="1" column="1">
+        <item row="1" column="0">
          <property name="text">
           <string/>
          </property>
@@ -426,47 +575,6 @@
       </sizepolicy>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="REG_CFG_File_LineEdit_2">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="placeholderText">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="REG_CFG_File_Label_2">
-        <property name="font">
-         <font>
-          <family>Microsoft YaHei UI</family>
-          <pointsize>9</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Expotime</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2">
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
@@ -482,6 +590,77 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item row="1" column="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <spacer name="horizontalSpacer_18">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="OKButton">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Ok</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="CancelButton">
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Cancel</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -509,12 +688,12 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>ROIZoneConfig</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>615</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -525,12 +704,12 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>ROIZoneConfig</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>615</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

@@ -1,7 +1,6 @@
+import logging
 import os
 import sys
-
-import matplotlib.pyplot as plt
 
 sys.path.append(os.path.join(os.getcwd(), "../../"))
 
@@ -9,7 +8,6 @@ sys.path.append(os.path.join(os.getcwd(), "../../"))
 # ///////////////////////////////////////////////////////////////
 from gui.uis.windows.main_window.functions_main_window import *
 import sys
-from functools import partial
 from SelfDefinedPackge.JsonOperation import JsonFunction
 
 # IMPORT QT CORE
@@ -27,9 +25,8 @@ from gui.uis.windows.main_window import *
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import HawkFunctions
-from Hawk.HawkGUI_v002.HawkFunction.HawkToolbox import HawkToolbox
+from Hawk.HawkGUI_v002.HawkToolFunction.HawkToolbox import HawkToolbox
 from SelfDefinedPackge import MatplotExtension
-from Hawk.HawkGUI_v002.HawkFunction.MaskingWindow import MaskingWindow
 
 
 # ADJUST QT FONT DPI FOR HIGHT SCALE AN 4K MONITOR
@@ -55,15 +52,27 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         settings = Settings()
         self.settings = settings.items
+        if self.settings["theme_name"] == "dark":
+            styleFile = r"gui/themes/page_themes/dark/darkstyle.qss"
+        else:
+            styleFile = r"gui/themes/page_themes/light/lightstyle.qss"
+        try:
+            with open(styleFile, 'r') as f:
+                self.qssStyle = f.read()
+        except:
+            logging.warning("No theme profile found...")
+            self.qssStyle = None
 
         # LOAD Data
         # ///////////////////////////////////////////////////////////////
         self.GuiValueConfig = JsonFunction(file_path=".HawkConfig/HawkGuiConfig.json")
         self.HawkConfig = JsonFunction(file_path=".HawkConfig/HawkConfig.json")
+        self.HawkZoneConfig = JsonFunction(file_path=".HawkConfig/HawkZoneConfig.json")
         self.HawkToolConfig = JsonFunction(file_path=".HawkConfig/HawkToolConfig.json")
 
         self.gui_value_config = self.GuiValueConfig.items
         self.hawk_config = self.HawkConfig.items
+        self.hawkzoneconfig = self.HawkZoneConfig.items
         self.hawk_tool_config = self.HawkToolConfig.items
 
         # SETUP MAIN WINDOW

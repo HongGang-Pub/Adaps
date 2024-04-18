@@ -1,9 +1,11 @@
+import logging
+
 from Hawk.HawkGUI_v002.gui.qt_core import *
 
 # LOAD UI MAIN
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.gui.uis.windows.main_window.ui_main import *
-from PySide6.QtGui import QColor, QBrush, QTextCursor
+from Hawk.HawkGUI_v002.HawkFunction.ROIZoneConfig import ROIZoneConfigWin
 from functools import partial
 
 
@@ -25,6 +27,10 @@ class HawkFunctions:
     # gui initial
     # ///////////////////////////////////////////////////////////////
     def setup_gui(self):
+        # Instans ROI_Zone_Config Win
+        self.ui_zone_config_win = ROIZoneConfigWin(self.qssStyle)
+
+        # 配置下拉选项
         self.ui.load_pages.REF_CLK_Config_ComboBox.addItems(self.gui_value_config["REF_CLK"]["show_gui"])
         self.ui.load_pages.SYS_CLK_Config_ComboBox.addItems(self.gui_value_config["SYS_CLK"]["show_gui"])
         self.ui.load_pages.MST_MODE_ComboBox.addItems(self.gui_value_config["MST_MODE"]["show_gui"])
@@ -32,7 +38,6 @@ class HawkFunctions:
         self.ui.load_pages.WORK_MODE_ComboBox.add_items(self.gui_value_config["WORK_MODE"]["show_gui"])
         self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.gui_value_config["TDC_BIN_W"]["show_gui"])
         self.ui.load_pages.MIPI_RATE_ComboBox.add_items(self.gui_value_config["MIPI_RATE"]["show_gui"])
-
         self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.gui_value_config["SCAN_MODE"]["show_gui"])
 
         REF_CLK_index = self.gui_value_config["REF_CLK"]["config"].index(self.hawk_config['FREF_CLK'])
@@ -64,15 +69,10 @@ class HawkFunctions:
         self.ui.load_pages.REG_CFG_File_LineEdit.setText(self.hawk_config['config_name'])
         self.ui.load_pages.ROI_SRAM_File_LineEdit.setText(self.hawk_config['roi_name'])
 
-        # Connect Function
-        # ///////////////////////////////////////////////////////////////
+        # 按钮绑定
         self.ui.load_pages.Sel_Config_file_Button.clicked.connect(partial(HawkFunctions.Sel_Config_file_func, self))
         self.ui.load_pages.Load_ROI_file_Button.clicked.connect(partial(HawkFunctions.Load_ROI_file_func, self))
         self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.get_input_text, self))
-        # self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.log_print, self, "222222222222222", 1))
-        # self.ui.load_pages.Preview.clicked.connect(partial(HawkFunctions.log_print, self, "11111111111111", 0))
-        # self.ui.load_pages.ClearLog.clicked.connect(partial(HawkFunctions.log_print, self, "333333333333", 2))
-        # self.ui.load_pages.ClearLog.clicked.connect(lambda: HawkFunctions.log_print(self, "333333333333", 2))
 
         self.ui.load_pages.WORK_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.WORK_MODE_UPDATE, self))
         self.ui.load_pages.SCAN_MODE_ComboBox.currentIndexChanged.connect(partial(HawkFunctions.SCAN_MODE_UPDATE, self))
@@ -84,6 +84,7 @@ class HawkFunctions:
         self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.V_ROLL_NUM_UPDATE, self))
         self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
         self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
+        self.ui.load_pages.ROIZoneConfig.linkActivated.connect(partial(HawkFunctions.OpenROIZoneConfigWin, self))
         return
 
     # 文件选择对话框
@@ -154,3 +155,8 @@ class HawkFunctions:
         self.hawk_config['config_name'] = self.ui.load_pages.REG_CFG_File_LineEdit.text()
         self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdit.text()
         print(self.hawk_config['config_name'], self.hawk_config['roi_name'])
+
+    def OpenROIZoneConfigWin(self, url):
+        logging.info("Open ROI zone config window...")
+        self.ui_zone_config_win.setModal(True)
+        self.ui_zone_config_win.show(self.hawkzoneconfig)
