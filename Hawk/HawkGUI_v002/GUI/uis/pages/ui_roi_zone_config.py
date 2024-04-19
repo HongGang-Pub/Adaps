@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'roi_zone_configKKFShk.ui'
+## Form generated from reading UI file 'roi_zone_configraRzBm.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -16,10 +16,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractButton, QAbstractItemView, QApplication, QCheckBox,
-    QDialog, QDialogButtonBox, QGridLayout, QHBoxLayout,
-    QHeaderView, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QSpacerItem, QSpinBox, QTableWidget,
-    QTableWidgetItem, QVBoxLayout, QWidget)
+    QDialog, QDialogButtonBox, QGridLayout, QHeaderView,
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QSpacerItem, QSpinBox, QTableWidget, QTableWidgetItem,
+    QVBoxLayout, QWidget)
 
 class Ui_ROIZoneConfig(object):
     def setupUi(self, ROIZoneConfig):
@@ -73,14 +73,14 @@ class Ui_ROIZoneConfig(object):
 
         self.gridLayout.addWidget(self.ZoneConfigSel_SpinBox, 0, 7, 1, 1)
 
-        self.Expoperiod_Label_Value = QLineEdit(self.horizontalWidget)
-        self.Expoperiod_Label_Value.setObjectName(u"Expoperiod_Label_Value")
-        self.Expoperiod_Label_Value.setEnabled(False)
-        self.Expoperiod_Label_Value.setMinimumSize(QSize(100, 0))
-        self.Expoperiod_Label_Value.setMaximumSize(QSize(100, 16777215))
-        self.Expoperiod_Label_Value.setFont(font)
+        self.Expoperiod_Value = QLineEdit(self.horizontalWidget)
+        self.Expoperiod_Value.setObjectName(u"Expoperiod_Value")
+        self.Expoperiod_Value.setEnabled(False)
+        self.Expoperiod_Value.setMinimumSize(QSize(100, 0))
+        self.Expoperiod_Value.setMaximumSize(QSize(100, 16777215))
+        self.Expoperiod_Value.setFont(font)
 
-        self.gridLayout.addWidget(self.Expoperiod_Label_Value, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.Expoperiod_Value, 0, 1, 1, 1)
 
         self.horizontalSpacer_2 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
@@ -106,6 +106,11 @@ class Ui_ROIZoneConfig(object):
         self.Expoperiod_Label.setFont(font)
 
         self.gridLayout.addWidget(self.Expoperiod_Label, 0, 0, 1, 1)
+
+        self.EditZoneConifg_Button = QPushButton(self.horizontalWidget)
+        self.EditZoneConifg_Button.setObjectName(u"EditZoneConifg_Button")
+
+        self.gridLayout.addWidget(self.EditZoneConifg_Button, 0, 11, 1, 1)
 
 
         self.verticalLayout.addWidget(self.horizontalWidget)
@@ -250,7 +255,8 @@ class Ui_ROIZoneConfig(object):
         self.ZoneConfigInputTable.setColumnCount(32)
         self.ZoneConfigInputTable.horizontalHeader().setVisible(True)
         self.ZoneConfigInputTable.horizontalHeader().setCascadingSectionResizes(False)
-        self.ZoneConfigInputTable.horizontalHeader().setMinimumSectionSize(60)
+        self.ZoneConfigInputTable.horizontalHeader().setMinimumSectionSize(0)
+        self.ZoneConfigInputTable.horizontalHeader().setDefaultSectionSize(60)
         self.ZoneConfigInputTable.horizontalHeader().setHighlightSections(True)
         self.ZoneConfigInputTable.horizontalHeader().setProperty("showSortIndicator", False)
         self.ZoneConfigInputTable.verticalHeader().setVisible(True)
@@ -271,34 +277,6 @@ class Ui_ROIZoneConfig(object):
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.gridLayout_3.addItem(self.horizontalSpacer_3, 0, 2, 1, 1)
-
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(-1, 0, -1, -1)
-        self.horizontalSpacer_18 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_4.addItem(self.horizontalSpacer_18)
-
-        self.OKButton = QPushButton(self.verticalWidget)
-        self.OKButton.setObjectName(u"OKButton")
-        self.OKButton.setMinimumSize(QSize(90, 0))
-        self.OKButton.setMaximumSize(QSize(90, 16777215))
-
-        self.horizontalLayout_4.addWidget(self.OKButton)
-
-        self.CancelButton = QPushButton(self.verticalWidget)
-        self.CancelButton.setObjectName(u"CancelButton")
-        self.CancelButton.setMinimumSize(QSize(90, 0))
-        self.CancelButton.setMaximumSize(QSize(90, 16777215))
-
-        self.horizontalLayout_4.addWidget(self.CancelButton)
-
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.horizontalLayout_4.addItem(self.horizontalSpacer_6)
-
-
-        self.gridLayout_3.addLayout(self.horizontalLayout_4, 1, 2, 1, 1)
 
 
         self.verticalLayout.addWidget(self.verticalWidget)
@@ -324,10 +302,11 @@ class Ui_ROIZoneConfig(object):
         ROIZoneConfig.setWindowTitle(QCoreApplication.translate("ROIZoneConfig", u"Dialog", None))
         self.ZoneConfigSel_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Zone Config Sel", None))
         self.ZoneConfigSel_CheckBox.setText(QCoreApplication.translate("ROIZoneConfig", u"Configure each Zone independently", None))
-        self.Expoperiod_Label_Value.setPlaceholderText("")
+        self.Expoperiod_Value.setPlaceholderText("")
         self.Expotime_Value.setPlaceholderText("")
         self.Expotime_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Expotime", None))
         self.Expoperiod_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Expo Period", None))
+        self.EditZoneConifg_Button.setText(QCoreApplication.translate("ROIZoneConfig", u"Edit", None))
         ___qtablewidgetitem = self.ZoneConfigInputTable.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("ROIZoneConfig", u"Zone1", None));
         ___qtablewidgetitem1 = self.ZoneConfigInputTable.horizontalHeaderItem(1)
@@ -443,7 +422,5 @@ class Ui_ROIZoneConfig(object):
         self.ZoneConfigInputTable.setSortingEnabled(False)
         self.ZoneConfigInputTable.setSortingEnabled(__sortingEnabled)
 
-        self.OKButton.setText(QCoreApplication.translate("ROIZoneConfig", u"Ok", None))
-        self.CancelButton.setText(QCoreApplication.translate("ROIZoneConfig", u"Cancel", None))
     # retranslateUi
 

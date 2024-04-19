@@ -28,7 +28,7 @@ class HawkFunctions:
     # ///////////////////////////////////////////////////////////////
     def setup_gui(self):
         # Instans ROI_Zone_Config Win
-        self.ui_zone_config_win = ROIZoneConfigWin(self.qssStyle)
+        self.ui_zone_config_win = ROIZoneConfigWin(self.hawk_config, self.qssStyle)
 
         # 配置下拉选项
         self.ui.load_pages.REF_CLK_Config_ComboBox.addItems(self.gui_value_config["REF_CLK"]["show_gui"])
@@ -85,6 +85,8 @@ class HawkFunctions:
         self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(HawkFunctions.H_ROLL_NUM_UPDATE, self))
         self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
         self.ui.load_pages.ROIZoneConfig.linkActivated.connect(partial(HawkFunctions.OpenROIZoneConfigWin, self))
+        self.ui_zone_config_win.return_config_signal.sync_signal.connect(partial(HawkFunctions.refresh_hawk_config, self))
+        self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.saveTextFile, self))
         return
 
     # 文件选择对话框
@@ -159,4 +161,25 @@ class HawkFunctions:
     def OpenROIZoneConfigWin(self, url):
         logging.info("Open ROI zone config window...")
         self.ui_zone_config_win.setModal(True)
-        self.ui_zone_config_win.show(self.hawkzoneconfig)
+        self.ui_zone_config_win.show(self.hawk_config)
+
+    def refresh_hawk_config(self):
+        logging.info("Get the latest configuration")
+        self.hawk_config = self.ui_zone_config_win.get_hawk_config()
+
+    def saveImage(self):  # 保存图片到本地
+        fd, type = QFileDialog.getSaveFileName(self, "保存图片", "", "*.jpg;;*.png;;All Files(*)")
+        print(fd)
+
+    def openDirectory(self):  # 打开文件夹（目录）
+        fd = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
+        print(fd)
+
+    def openTextFile(self):  # 选择文本文件上传
+        fd, fp = QFileDialog.getOpenFileName(self, "选择文件", "", "*.txt;;All Files(*)")
+        print(fd)
+
+    def saveTextFile(self):  # 保存文本文件
+        fd, fp = QFileDialog.getSaveFileName(self, "保存文件", "", "*.txt;;All Files(*)")
+        print(fd)
+        print(fp)

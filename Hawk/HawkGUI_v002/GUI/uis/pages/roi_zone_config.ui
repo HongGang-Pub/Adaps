@@ -114,7 +114,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="Expoperiod_Label_Value">
+       <widget class="QLineEdit" name="Expoperiod_Value">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -211,6 +211,13 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="11">
+       <widget class="QPushButton" name="EditZoneConifg_Button">
+        <property name="text">
+         <string>Edit</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -259,6 +266,9 @@
          <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>0</number>
+        </attribute>
+        <attribute name="horizontalHeaderDefaultSectionSize">
          <number>60</number>
         </attribute>
         <attribute name="horizontalHeaderHighlightSections">
@@ -590,77 +600,6 @@
          </size>
         </property>
        </spacer>
-      </item>
-      <item row="1" column="2">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <spacer name="horizontalSpacer_18">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="OKButton">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Ok</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="CancelButton">
-          <property name="minimumSize">
-           <size>
-            <width>90</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>90</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Cancel</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
       </item>
      </layout>
     </widget>

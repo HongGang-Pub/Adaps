@@ -145,17 +145,17 @@ class QTableWidgetDemo(QMainWindow):
         self.tableWidget.itemSelectionChanged.connect(
             lambda: self.text.appendPlainText(f'触发itemSelectionChanged信号：'))
         # self.tableWidget.cellActivated[int, int].connect(
-        #     lambda row, column: self.onCellSignal(row, column, 'cellActivated'))
+        #     lambda row, column: self.oncellClicked(row, column, 'cellActivated'))
         self.tableWidget.cellChanged[int, int].connect(
             lambda row, column: self.onCellSignal(row, column, 'cellChanged'))
         self.tableWidget.cellClicked[int, int].connect(
             lambda row, column: self.onCellSignal(row, column, 'cellClicked'))
-        # self.tableWidget.cellDoubleClicked[int, int].connect(
-        #     lambda row, column: self.onCellSignal(row, column, 'cellDoubleClicked'))
-        # self.tableWidget.cellEntered[int, int].connect(
-        #     lambda row, column: self.onCellSignal(row, column, 'cellEntered'))
-        # self.tableWidget.cellPressed[int, int].connect(
-        #     lambda row, column: self.onCellSignal(row, column, 'cellPressed'))
+        self.tableWidget.cellDoubleClicked[int, int].connect(
+            lambda row, column: self.onCellSignal(row, column, 'cellDoubleClicked'))
+        self.tableWidget.cellEntered[int, int].connect(
+            lambda row, column: self.onCellSignal(row, column, 'cellEntered'))
+        self.tableWidget.cellPressed[int, int].connect(
+            lambda row, column: self.onCellSignal(row, column, 'cellPressed'))
         self.tableWidget.currentCellChanged[int, int, int, int].connect(
             lambda currentRow, currentColumn, previousRow, previousColumn: self.text.appendPlainText(
                 f'row:{currentRow},column:{currentColumn},触发信号:currentCellChanged,preRow:{previousRow},preColumn:{columnCount}'))

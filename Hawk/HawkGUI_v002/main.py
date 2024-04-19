@@ -4,10 +4,12 @@ import sys
 
 sys.path.append(os.path.join(os.getcwd(), "../../"))
 
+
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
 from gui.uis.windows.main_window.functions_main_window import *
 import sys
+from functools import partial
 from SelfDefinedPackge.JsonOperation import JsonFunction
 
 # IMPORT QT CORE
@@ -27,6 +29,7 @@ from gui.uis.windows.main_window import *
 from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import HawkFunctions
 from Hawk.HawkGUI_v002.HawkToolFunction.HawkToolbox import HawkToolbox
 from SelfDefinedPackge import MatplotExtension
+from SelfDefinedPackge.LogerPubMethod import *
 
 
 # ADJUST QT FONT DPI FOR HIGHT SCALE AN 4K MONITOR
@@ -67,12 +70,10 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.GuiValueConfig = JsonFunction(file_path=".HawkConfig/HawkGuiConfig.json")
         self.HawkConfig = JsonFunction(file_path=".HawkConfig/HawkConfig.json")
-        self.HawkZoneConfig = JsonFunction(file_path=".HawkConfig/HawkZoneConfig.json")
         self.HawkToolConfig = JsonFunction(file_path=".HawkConfig/HawkToolConfig.json")
 
         self.gui_value_config = self.GuiValueConfig.items
         self.hawk_config = self.HawkConfig.items
-        self.hawkzoneconfig = self.HawkZoneConfig.items
         self.hawk_tool_config = self.HawkToolConfig.items
 
         # SETUP MAIN WINDOW
@@ -80,6 +81,7 @@ class MainWindow(QMainWindow):
         # self.masking_win = MaskingWindow()
         self.hide_grips = True  # Show/Hide resize grips
 
+        self.generate_logger()
         SetupMainWindow.setup_gui(self)
         HawkFunctions.setup_gui(self)
         HawkToolbox.setup_gui(self)
@@ -133,7 +135,16 @@ class MainWindow(QMainWindow):
         # DEBUG
         print(f"Button {btn.objectName()}, released!")
 
+    def generate_logger(self):
+        self.logger = LogerForMultithreading()
+        self.timer = QTimer()
+        self.timer.timeout.connect(partial(self.logger.update_log_for_qplaintextedit,
+                                           self.ui.LogPrintWindow,
+                                           self.settings["theme_name"]))
+        self.timer.start(200)
+
     def closeEvent(self, event):
+        self.HawkConfig.serialize()
         self.HawkToolConfig.serialize()
         MatplotExtension.fig_close()
 

@@ -15,8 +15,8 @@ from functools import partial
 
 from Hawk.PCM import PcmMipiDataDecode
 from Hawk.ToolBox import SpadisAppPCMRead
-from SelfDefinedPackge.LogerPubMethod import *
-from Hawk.HawkGUI_v002.gui.Signal import *
+from Hawk.HawkGUI_v002.gui.Signal import MySignals
+import logging
 
 
 # FUNCTIONS
@@ -40,10 +40,6 @@ class HawkToolbox:
         # set Hawk Toobbox gui
         HawkToolbox.gui_initial(self)
         HawkToolbox.operate_bounding(self)
-        HawkToolbox.generate_logger(self)
-        # HawkToolbox.generate_logger1(self)
-
-        # 创建同步信号
 
         # Start initialization
         # ///////////////////////////////////////////////////////////////
@@ -89,14 +85,6 @@ class HawkToolbox:
             partial(HawkToolbox.general_operate_Button_06_func, self))
         self.dothink_signal.sync_signal.connect(
             partial(HawkToolbox.dothink_pcm_imag_array_image, self))
-
-    def generate_logger(self):
-        self.logger = LogerForMultithreading()
-        self.timer = QTimer()
-        self.timer.timeout.connect(partial(self.logger.update_log_for_qplaintextedit,
-                                           self.ui.LogPrintWindow,
-                                           self.settings["theme_name"]))
-        self.timer.start(200)
 
     # QRadioButton bounding function
     # ///////////////////////////////////////////////////////////////
