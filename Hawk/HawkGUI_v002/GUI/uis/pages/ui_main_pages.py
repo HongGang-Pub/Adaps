@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesNjEbyo.ui'
+## Form generated from reading UI file 'main_pagescBcCzB.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -28,7 +28,7 @@ class Ui_MainPages(object):
     def setupUi(self, MainPages):
         if not MainPages.objectName():
             MainPages.setObjectName(u"MainPages")
-        MainPages.resize(844, 649)
+        MainPages.resize(844, 589)
         MainPages.setStyleSheet(u"")
         self.horizontalLayout_23 = QHBoxLayout(MainPages)
         self.horizontalLayout_23.setSpacing(0)
@@ -49,12 +49,12 @@ class Ui_MainPages(object):
         self.verticalLayout_12.setSpacing(6)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.verticalLayout_12.setContentsMargins(5, 5, 5, 0)
-        self.Layout1 = QGroupBox(self.page_1)
-        self.Layout1.setObjectName(u"Layout1")
-        self.horizontalLayout_2 = QHBoxLayout(self.Layout1)
+        self.ScriptConfig = QGroupBox(self.page_1)
+        self.ScriptConfig.setObjectName(u"ScriptConfig")
+        self.horizontalLayout_2 = QHBoxLayout(self.ScriptConfig)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.RegisterConfig = QFrame(self.Layout1)
+        self.RegisterConfig = QFrame(self.ScriptConfig)
         self.RegisterConfig.setObjectName(u"RegisterConfig")
         self.RegisterConfig.setMinimumSize(QSize(0, 0))
         self.RegisterConfig.setMaximumSize(QSize(400, 16777215))
@@ -178,27 +178,9 @@ class Ui_MainPages(object):
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.formLayout_2.setItem(8, QFormLayout.LabelRole, self.verticalSpacer_2)
+        self.formLayout_2.setItem(11, QFormLayout.LabelRole, self.verticalSpacer_2)
 
-
-        self.horizontalLayout_2.addWidget(self.RegisterConfig)
-
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
-
-        self.ROIConfigGroup = QFrame(self.Layout1)
-        self.ROIConfigGroup.setObjectName(u"ROIConfigGroup")
-        self.ROIConfigGroup.setMaximumSize(QSize(400, 16777215))
-        self.verticalLayout_11 = QVBoxLayout(self.ROIConfigGroup)
-        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.verticalLayout_11.setContentsMargins(-1, 9, -1, -1)
-        self.SubROIConfig = QFrame(self.ROIConfigGroup)
-        self.SubROIConfig.setObjectName(u"SubROIConfig")
-        self.formLayout_3 = QFormLayout(self.SubROIConfig)
-        self.formLayout_3.setObjectName(u"formLayout_3")
-        self.formLayout_3.setContentsMargins(1, 1, -1, -1)
-        self.SCAN_MODE_Label = QLabel(self.SubROIConfig)
+        self.SCAN_MODE_Label = QLabel(self.RegisterConfig)
         self.SCAN_MODE_Label.setObjectName(u"SCAN_MODE_Label")
         self.SCAN_MODE_Label.setMinimumSize(QSize(0, 0))
         self.SCAN_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
@@ -206,17 +188,9 @@ class Ui_MainPages(object):
         self.SCAN_MODE_Label.setFrameShape(QFrame.StyledPanel)
         self.SCAN_MODE_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.SCAN_MODE_Label)
+        self.formLayout_2.setWidget(7, QFormLayout.LabelRole, self.SCAN_MODE_Label)
 
-        self.SCAN_MODE_ComboBox = QComboBox(self.SubROIConfig)
-        self.SCAN_MODE_ComboBox.setObjectName(u"SCAN_MODE_ComboBox")
-        self.SCAN_MODE_ComboBox.setMinimumSize(QSize(150, 0))
-        self.SCAN_MODE_ComboBox.setMaximumSize(QSize(300, 16777215))
-        self.SCAN_MODE_ComboBox.setFont(font1)
-
-        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.SCAN_MODE_ComboBox)
-
-        self.V_ROLL_NUM_Label = QLabel(self.SubROIConfig)
+        self.V_ROLL_NUM_Label = QLabel(self.RegisterConfig)
         self.V_ROLL_NUM_Label.setObjectName(u"V_ROLL_NUM_Label")
         self.V_ROLL_NUM_Label.setMinimumSize(QSize(0, 0))
         self.V_ROLL_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
@@ -224,13 +198,41 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_Label.setFrameShape(QFrame.StyledPanel)
         self.V_ROLL_NUM_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.V_ROLL_NUM_Label)
+        self.formLayout_2.setWidget(8, QFormLayout.LabelRole, self.V_ROLL_NUM_Label)
+
+        self.H_ROLL_NUM_Label = QLabel(self.RegisterConfig)
+        self.H_ROLL_NUM_Label.setObjectName(u"H_ROLL_NUM_Label")
+        self.H_ROLL_NUM_Label.setMinimumSize(QSize(0, 0))
+        self.H_ROLL_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.H_ROLL_NUM_Label.setFont(font1)
+        self.H_ROLL_NUM_Label.setFrameShape(QFrame.StyledPanel)
+        self.H_ROLL_NUM_Label.setFrameShadow(QFrame.Raised)
+
+        self.formLayout_2.setWidget(9, QFormLayout.LabelRole, self.H_ROLL_NUM_Label)
+
+        self.H_VLD_SEG_Label = QLabel(self.RegisterConfig)
+        self.H_VLD_SEG_Label.setObjectName(u"H_VLD_SEG_Label")
+        self.H_VLD_SEG_Label.setMinimumSize(QSize(0, 0))
+        self.H_VLD_SEG_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.H_VLD_SEG_Label.setFont(font1)
+        self.H_VLD_SEG_Label.setFrameShape(QFrame.StyledPanel)
+        self.H_VLD_SEG_Label.setFrameShadow(QFrame.Raised)
+
+        self.formLayout_2.setWidget(10, QFormLayout.LabelRole, self.H_VLD_SEG_Label)
+
+        self.SCAN_MODE_ComboBox = QComboBox(self.RegisterConfig)
+        self.SCAN_MODE_ComboBox.setObjectName(u"SCAN_MODE_ComboBox")
+        self.SCAN_MODE_ComboBox.setMinimumSize(QSize(150, 0))
+        self.SCAN_MODE_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.SCAN_MODE_ComboBox.setFont(font1)
+
+        self.formLayout_2.setWidget(7, QFormLayout.FieldRole, self.SCAN_MODE_ComboBox)
 
         self.V_ROLL_NUM_CMP = QHBoxLayout()
         self.V_ROLL_NUM_CMP.setSpacing(0)
         self.V_ROLL_NUM_CMP.setObjectName(u"V_ROLL_NUM_CMP")
         self.V_ROLL_NUM_CMP.setContentsMargins(0, -1, 0, -1)
-        self.V_ROLL_NUM_Slider = QSlider(self.SubROIConfig)
+        self.V_ROLL_NUM_Slider = QSlider(self.RegisterConfig)
         self.V_ROLL_NUM_Slider.setObjectName(u"V_ROLL_NUM_Slider")
         self.V_ROLL_NUM_Slider.setMouseTracking(False)
         self.V_ROLL_NUM_Slider.setMinimum(1)
@@ -240,7 +242,7 @@ class Ui_MainPages(object):
 
         self.V_ROLL_NUM_CMP.addWidget(self.V_ROLL_NUM_Slider)
 
-        self.V_ROLL_NUM_Value = QLabel(self.SubROIConfig)
+        self.V_ROLL_NUM_Value = QLabel(self.RegisterConfig)
         self.V_ROLL_NUM_Value.setObjectName(u"V_ROLL_NUM_Value")
         self.V_ROLL_NUM_Value.setMinimumSize(QSize(20, 25))
         self.V_ROLL_NUM_Value.setMaximumSize(QSize(20, 16777215))
@@ -252,23 +254,13 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_CMP.addWidget(self.V_ROLL_NUM_Value)
 
 
-        self.formLayout_3.setLayout(1, QFormLayout.FieldRole, self.V_ROLL_NUM_CMP)
-
-        self.H_ROLL_NUM_Label = QLabel(self.SubROIConfig)
-        self.H_ROLL_NUM_Label.setObjectName(u"H_ROLL_NUM_Label")
-        self.H_ROLL_NUM_Label.setMinimumSize(QSize(0, 0))
-        self.H_ROLL_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.H_ROLL_NUM_Label.setFont(font1)
-        self.H_ROLL_NUM_Label.setFrameShape(QFrame.StyledPanel)
-        self.H_ROLL_NUM_Label.setFrameShadow(QFrame.Raised)
-
-        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.H_ROLL_NUM_Label)
+        self.formLayout_2.setLayout(8, QFormLayout.FieldRole, self.V_ROLL_NUM_CMP)
 
         self.H_ROLL_CMP = QHBoxLayout()
         self.H_ROLL_CMP.setSpacing(0)
         self.H_ROLL_CMP.setObjectName(u"H_ROLL_CMP")
         self.H_ROLL_CMP.setContentsMargins(0, -1, -1, -1)
-        self.H_ROLL_NUM_Slider = QSlider(self.SubROIConfig)
+        self.H_ROLL_NUM_Slider = QSlider(self.RegisterConfig)
         self.H_ROLL_NUM_Slider.setObjectName(u"H_ROLL_NUM_Slider")
         self.H_ROLL_NUM_Slider.setEnabled(True)
         self.H_ROLL_NUM_Slider.setMinimum(1)
@@ -278,7 +270,7 @@ class Ui_MainPages(object):
 
         self.H_ROLL_CMP.addWidget(self.H_ROLL_NUM_Slider)
 
-        self.H_ROLL_NUM_Value = QLabel(self.SubROIConfig)
+        self.H_ROLL_NUM_Value = QLabel(self.RegisterConfig)
         self.H_ROLL_NUM_Value.setObjectName(u"H_ROLL_NUM_Value")
         self.H_ROLL_NUM_Value.setMinimumSize(QSize(20, 25))
         self.H_ROLL_NUM_Value.setMaximumSize(QSize(20, 16777215))
@@ -290,23 +282,13 @@ class Ui_MainPages(object):
         self.H_ROLL_CMP.addWidget(self.H_ROLL_NUM_Value)
 
 
-        self.formLayout_3.setLayout(2, QFormLayout.FieldRole, self.H_ROLL_CMP)
-
-        self.H_VLD_SEG_Label = QLabel(self.SubROIConfig)
-        self.H_VLD_SEG_Label.setObjectName(u"H_VLD_SEG_Label")
-        self.H_VLD_SEG_Label.setMinimumSize(QSize(0, 0))
-        self.H_VLD_SEG_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.H_VLD_SEG_Label.setFont(font1)
-        self.H_VLD_SEG_Label.setFrameShape(QFrame.StyledPanel)
-        self.H_VLD_SEG_Label.setFrameShadow(QFrame.Raised)
-
-        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.H_VLD_SEG_Label)
+        self.formLayout_2.setLayout(9, QFormLayout.FieldRole, self.H_ROLL_CMP)
 
         self.H_VLD_SEG_CMP = QHBoxLayout()
         self.H_VLD_SEG_CMP.setSpacing(0)
         self.H_VLD_SEG_CMP.setObjectName(u"H_VLD_SEG_CMP")
         self.H_VLD_SEG_CMP.setContentsMargins(0, -1, -1, -1)
-        self.H_VLD_SEG_Slider = QSlider(self.SubROIConfig)
+        self.H_VLD_SEG_Slider = QSlider(self.RegisterConfig)
         self.H_VLD_SEG_Slider.setObjectName(u"H_VLD_SEG_Slider")
         self.H_VLD_SEG_Slider.setMinimum(1)
         self.H_VLD_SEG_Slider.setMaximum(16)
@@ -315,7 +297,7 @@ class Ui_MainPages(object):
 
         self.H_VLD_SEG_CMP.addWidget(self.H_VLD_SEG_Slider)
 
-        self.H_VLD_SEG_Value = QLabel(self.SubROIConfig)
+        self.H_VLD_SEG_Value = QLabel(self.RegisterConfig)
         self.H_VLD_SEG_Value.setObjectName(u"H_VLD_SEG_Value")
         self.H_VLD_SEG_Value.setMinimumSize(QSize(20, 25))
         self.H_VLD_SEG_Value.setMaximumSize(QSize(20, 16777215))
@@ -327,11 +309,21 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_CMP.addWidget(self.H_VLD_SEG_Value)
 
 
-        self.formLayout_3.setLayout(3, QFormLayout.FieldRole, self.H_VLD_SEG_CMP)
+        self.formLayout_2.setLayout(10, QFormLayout.FieldRole, self.H_VLD_SEG_CMP)
 
 
-        self.verticalLayout_11.addWidget(self.SubROIConfig)
+        self.horizontalLayout_2.addWidget(self.RegisterConfig)
 
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
+
+        self.ROIConfigGroup = QGroupBox(self.ScriptConfig)
+        self.ROIConfigGroup.setObjectName(u"ROIConfigGroup")
+        self.ROIConfigGroup.setMaximumSize(QSize(400, 16777215))
+        self.verticalLayout_11 = QVBoxLayout(self.ROIConfigGroup)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.verticalLayout_11.setContentsMargins(0, 0, 0, 6)
         self.ROIConfig = QTabWidget(self.ROIConfigGroup)
         self.ROIConfig.setObjectName(u"ROIConfig")
         self.ROIConfig.setMinimumSize(QSize(0, 0))
@@ -353,7 +345,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 325, 184))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 341, 276))
         self.formLayout = QFormLayout(self.scrollAreaWidgetContents_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -495,7 +487,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 325, 184))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 341, 276))
         self.formLayout_4 = QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -556,7 +548,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 325, 184))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 341, 276))
         self.formLayout_5 = QFormLayout(self.scrollAreaWidgetContents_4)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -593,22 +585,39 @@ class Ui_MainPages(object):
 
         self.formLayout_5.setLayout(0, QFormLayout.FieldRole, self.horizontalLayout_20)
 
-        self.seg_hs_Label_2 = QLabel(self.scrollAreaWidgetContents_4)
-        self.seg_hs_Label_2.setObjectName(u"seg_hs_Label_2")
-        self.seg_hs_Label_2.setMinimumSize(QSize(0, 0))
-        self.seg_hs_Label_2.setMaximumSize(QSize(16777215, 16777215))
-        self.seg_hs_Label_2.setFont(font1)
-        self.seg_hs_Label_2.setFrameShape(QFrame.StyledPanel)
-        self.seg_hs_Label_2.setFrameShadow(QFrame.Raised)
+        self.start_rolling_Label = QLabel(self.scrollAreaWidgetContents_4)
+        self.start_rolling_Label.setObjectName(u"start_rolling_Label")
+        self.start_rolling_Label.setMinimumSize(QSize(0, 0))
+        self.start_rolling_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.start_rolling_Label.setFont(font1)
+        self.start_rolling_Label.setFrameShape(QFrame.StyledPanel)
+        self.start_rolling_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout_5.setWidget(1, QFormLayout.LabelRole, self.seg_hs_Label_2)
+        self.formLayout_5.setWidget(1, QFormLayout.LabelRole, self.start_rolling_Label)
 
-        self.seg_hs_spinBox_2 = QSpinBox(self.scrollAreaWidgetContents_4)
-        self.seg_hs_spinBox_2.setObjectName(u"seg_hs_spinBox_2")
-        self.seg_hs_spinBox_2.setMinimum(1)
-        self.seg_hs_spinBox_2.setMaximum(16)
+        self.start_rolling__SpinBox = QSpinBox(self.scrollAreaWidgetContents_4)
+        self.start_rolling__SpinBox.setObjectName(u"start_rolling__SpinBox")
+        self.start_rolling__SpinBox.setMinimum(1)
+        self.start_rolling__SpinBox.setMaximum(16)
 
-        self.formLayout_5.setWidget(1, QFormLayout.FieldRole, self.seg_hs_spinBox_2)
+        self.formLayout_5.setWidget(1, QFormLayout.FieldRole, self.start_rolling__SpinBox)
+
+        self.End_rolling_Label = QLabel(self.scrollAreaWidgetContents_4)
+        self.End_rolling_Label.setObjectName(u"End_rolling_Label")
+        self.End_rolling_Label.setMinimumSize(QSize(0, 0))
+        self.End_rolling_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.End_rolling_Label.setFont(font1)
+        self.End_rolling_Label.setFrameShape(QFrame.StyledPanel)
+        self.End_rolling_Label.setFrameShadow(QFrame.Raised)
+
+        self.formLayout_5.setWidget(2, QFormLayout.LabelRole, self.End_rolling_Label)
+
+        self.End_rolling_SpinBox = QSpinBox(self.scrollAreaWidgetContents_4)
+        self.End_rolling_SpinBox.setObjectName(u"End_rolling_SpinBox")
+        self.End_rolling_SpinBox.setMinimum(1)
+        self.End_rolling_SpinBox.setMaximum(16)
+
+        self.formLayout_5.setWidget(2, QFormLayout.FieldRole, self.End_rolling_SpinBox)
 
         self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_4)
 
@@ -627,7 +636,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 325, 175))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 341, 267))
         self.formLayout_7 = QFormLayout(self.scrollAreaWidgetContents_6)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -658,11 +667,13 @@ class Ui_MainPages(object):
 
         self.ROISave = QPushButton(self.ROIConfigGroup)
         self.ROISave.setObjectName(u"ROISave")
+        self.ROISave.setMinimumSize(QSize(90, 0))
 
         self.horizontalLayout_4.addWidget(self.ROISave)
 
         self.ROIView = QPushButton(self.ROIConfigGroup)
         self.ROIView.setObjectName(u"ROIView")
+        self.ROIView.setMinimumSize(QSize(90, 0))
 
         self.horizontalLayout_4.addWidget(self.ROIView)
 
@@ -679,36 +690,38 @@ class Ui_MainPages(object):
         self.horizontalLayout_2.setStretch(0, 1)
         self.horizontalLayout_2.setStretch(2, 1)
 
-        self.verticalLayout_12.addWidget(self.Layout1)
+        self.verticalLayout_12.addWidget(self.ScriptConfig)
 
-        self.Layout2 = QGroupBox(self.page_1)
-        self.Layout2.setObjectName(u"Layout2")
-        self.horizontalLayout_5 = QHBoxLayout(self.Layout2)
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.FileConifg = QFrame(self.Layout2)
+        self.FileConifg = QGroupBox(self.page_1)
         self.FileConifg.setObjectName(u"FileConifg")
         self.FileConifg.setMinimumSize(QSize(300, 0))
         self.FileConifg.setMaximumSize(QSize(16777215, 16777215))
         self.gridLayout_6 = QGridLayout(self.FileConifg)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
         self.gridLayout_6.setContentsMargins(9, 9, 9, 9)
+        self.SPadisApp_Path_Sel_Label = QLabel(self.FileConifg)
+        self.SPadisApp_Path_Sel_Label.setObjectName(u"SPadisApp_Path_Sel_Label")
+        self.SPadisApp_Path_Sel_Label.setMinimumSize(QSize(0, 0))
+        self.SPadisApp_Path_Sel_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.SPadisApp_Path_Sel_Label.setFont(font1)
+        self.SPadisApp_Path_Sel_Label.setFrameShape(QFrame.NoFrame)
+        self.SPadisApp_Path_Sel_Label.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout_6.addWidget(self.SPadisApp_Path_Sel_Label, 5, 0, 1, 1)
+
+        self.Sel_Config_file_Button = QPushButton(self.FileConifg)
+        self.Sel_Config_file_Button.setObjectName(u"Sel_Config_file_Button")
+        sizePolicy2.setHeightForWidth(self.Sel_Config_file_Button.sizePolicy().hasHeightForWidth())
+        self.Sel_Config_file_Button.setSizePolicy(sizePolicy2)
+        self.Sel_Config_file_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_6.addWidget(self.Sel_Config_file_Button, 4, 2, 1, 1)
+
         self.ROI_SRAM_File_LineEdit = QLineEdit(self.FileConifg)
         self.ROI_SRAM_File_LineEdit.setObjectName(u"ROI_SRAM_File_LineEdit")
         self.ROI_SRAM_File_LineEdit.setFont(font)
 
         self.gridLayout_6.addWidget(self.ROI_SRAM_File_LineEdit, 3, 1, 1, 1)
-
-        self.Sel_Config_file_LineEdit = QLineEdit(self.FileConifg)
-        self.Sel_Config_file_LineEdit.setObjectName(u"Sel_Config_file_LineEdit")
-        self.Sel_Config_file_LineEdit.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.Sel_Config_file_LineEdit.sizePolicy().hasHeightForWidth())
-        self.Sel_Config_file_LineEdit.setSizePolicy(sizePolicy1)
-        self.Sel_Config_file_LineEdit.setMinimumSize(QSize(0, 0))
-        self.Sel_Config_file_LineEdit.setFocusPolicy(Qt.StrongFocus)
-        self.Sel_Config_file_LineEdit.setReadOnly(True)
-
-        self.gridLayout_6.addWidget(self.Sel_Config_file_LineEdit, 4, 1, 1, 1)
 
         self.ROI_SRAM_File_Label = QLabel(self.FileConifg)
         self.ROI_SRAM_File_Label.setObjectName(u"ROI_SRAM_File_Label")
@@ -721,21 +734,9 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.ROI_Sram_File_CheckBox, 3, 3, 1, 1)
 
-        self.SPadisApp_Path_Sel_Label = QLabel(self.FileConifg)
-        self.SPadisApp_Path_Sel_Label.setObjectName(u"SPadisApp_Path_Sel_Label")
-        self.SPadisApp_Path_Sel_Label.setMinimumSize(QSize(0, 0))
-        self.SPadisApp_Path_Sel_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.SPadisApp_Path_Sel_Label.setFont(font1)
-        self.SPadisApp_Path_Sel_Label.setFrameShape(QFrame.NoFrame)
-        self.SPadisApp_Path_Sel_Label.setFrameShadow(QFrame.Raised)
+        self.horizontalSpacer_5 = QSpacerItem(200, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
 
-        self.gridLayout_6.addWidget(self.SPadisApp_Path_Sel_Label, 5, 0, 1, 1)
-
-        self.REG_CFG_File_Label = QLabel(self.FileConifg)
-        self.REG_CFG_File_Label.setObjectName(u"REG_CFG_File_Label")
-        self.REG_CFG_File_Label.setFont(font)
-
-        self.gridLayout_6.addWidget(self.REG_CFG_File_Label, 1, 0, 1, 1)
+        self.gridLayout_6.addItem(self.horizontalSpacer_5, 5, 4, 1, 1)
 
         self.ROI_Zone_Sel_CheckBox = QCheckBox(self.FileConifg)
         self.ROI_Zone_Sel_CheckBox.setObjectName(u"ROI_Zone_Sel_CheckBox")
@@ -752,31 +753,6 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.Sel_Config_file_Label, 4, 0, 1, 1)
 
-        self.SPadisApp_Path_Sel_Button = QPushButton(self.FileConifg)
-        self.SPadisApp_Path_Sel_Button.setObjectName(u"SPadisApp_Path_Sel_Button")
-        sizePolicy2.setHeightForWidth(self.SPadisApp_Path_Sel_Button.sizePolicy().hasHeightForWidth())
-        self.SPadisApp_Path_Sel_Button.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_6.addWidget(self.SPadisApp_Path_Sel_Button, 5, 2, 1, 1)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-
-        self.gridLayout_6.addItem(self.verticalSpacer, 6, 0, 1, 1)
-
-        self.Sel_Config_file_Button = QPushButton(self.FileConifg)
-        self.Sel_Config_file_Button.setObjectName(u"Sel_Config_file_Button")
-        sizePolicy2.setHeightForWidth(self.Sel_Config_file_Button.sizePolicy().hasHeightForWidth())
-        self.Sel_Config_file_Button.setSizePolicy(sizePolicy2)
-
-        self.gridLayout_6.addWidget(self.Sel_Config_file_Button, 4, 2, 1, 1)
-
-        self.REG_CFG_File_LineEdit = QLineEdit(self.FileConifg)
-        self.REG_CFG_File_LineEdit.setObjectName(u"REG_CFG_File_LineEdit")
-        self.REG_CFG_File_LineEdit.setMinimumSize(QSize(0, 0))
-        self.REG_CFG_File_LineEdit.setFont(font)
-
-        self.gridLayout_6.addWidget(self.REG_CFG_File_LineEdit, 1, 1, 1, 1)
-
         self.SPadisApp_Path_Sel__LineEdit = QLineEdit(self.FileConifg)
         self.SPadisApp_Path_Sel__LineEdit.setObjectName(u"SPadisApp_Path_Sel__LineEdit")
         self.SPadisApp_Path_Sel__LineEdit.setEnabled(True)
@@ -788,14 +764,42 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.SPadisApp_Path_Sel__LineEdit, 5, 1, 1, 1)
 
-        self.horizontalSpacer_5 = QSpacerItem(60, 20, QSizePolicy.Maximum, QSizePolicy.Minimum)
+        self.REG_CFG_File_LineEdit = QLineEdit(self.FileConifg)
+        self.REG_CFG_File_LineEdit.setObjectName(u"REG_CFG_File_LineEdit")
+        self.REG_CFG_File_LineEdit.setMinimumSize(QSize(0, 0))
+        self.REG_CFG_File_LineEdit.setFont(font)
 
-        self.gridLayout_6.addItem(self.horizontalSpacer_5, 5, 4, 1, 1)
+        self.gridLayout_6.addWidget(self.REG_CFG_File_LineEdit, 1, 1, 1, 1)
+
+        self.REG_CFG_File_Label = QLabel(self.FileConifg)
+        self.REG_CFG_File_Label.setObjectName(u"REG_CFG_File_Label")
+        self.REG_CFG_File_Label.setFont(font)
+
+        self.gridLayout_6.addWidget(self.REG_CFG_File_Label, 1, 0, 1, 1)
+
+        self.SPadisApp_Path_Sel_Button = QPushButton(self.FileConifg)
+        self.SPadisApp_Path_Sel_Button.setObjectName(u"SPadisApp_Path_Sel_Button")
+        sizePolicy2.setHeightForWidth(self.SPadisApp_Path_Sel_Button.sizePolicy().hasHeightForWidth())
+        self.SPadisApp_Path_Sel_Button.setSizePolicy(sizePolicy2)
+        self.SPadisApp_Path_Sel_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_6.addWidget(self.SPadisApp_Path_Sel_Button, 5, 2, 1, 1)
+
+        self.Sel_Config_file_LineEdit = QLineEdit(self.FileConifg)
+        self.Sel_Config_file_LineEdit.setObjectName(u"Sel_Config_file_LineEdit")
+        self.Sel_Config_file_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.Sel_Config_file_LineEdit.sizePolicy().hasHeightForWidth())
+        self.Sel_Config_file_LineEdit.setSizePolicy(sizePolicy1)
+        self.Sel_Config_file_LineEdit.setMinimumSize(QSize(0, 0))
+        self.Sel_Config_file_LineEdit.setFocusPolicy(Qt.StrongFocus)
+        self.Sel_Config_file_LineEdit.setReadOnly(True)
+
+        self.gridLayout_6.addWidget(self.Sel_Config_file_LineEdit, 4, 1, 1, 1)
 
 
-        self.horizontalLayout_5.addWidget(self.FileConifg)
+        self.verticalLayout_12.addWidget(self.FileConifg)
 
-        self.Operate = QWidget(self.Layout2)
+        self.Operate = QGroupBox(self.page_1)
         self.Operate.setObjectName(u"Operate")
         self.Operate.setMinimumSize(QSize(0, 0))
         self.Operate.setMaximumSize(QSize(16777215, 16777215))
@@ -810,6 +814,7 @@ class Ui_MainPages(object):
         self.Save.setObjectName(u"Save")
         sizePolicy1.setHeightForWidth(self.Save.sizePolicy().hasHeightForWidth())
         self.Save.setSizePolicy(sizePolicy1)
+        self.Save.setMinimumSize(QSize(90, 0))
         self.Save.setFont(font)
         self.Save.setCursor(QCursor(Qt.PointingHandCursor))
 
@@ -820,11 +825,11 @@ class Ui_MainPages(object):
         self.gridLayout.addItem(self.horizontalSpacer_3, 0, 1, 1, 1)
 
 
-        self.horizontalLayout_5.addWidget(self.Operate)
+        self.verticalLayout_12.addWidget(self.Operate)
 
-        self.horizontalLayout_5.setStretch(0, 4)
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_12.addWidget(self.Layout2)
+        self.verticalLayout_12.addItem(self.verticalSpacer)
 
         self.pages.addWidget(self.page_1)
         self.page_2 = QWidget()
@@ -1288,6 +1293,7 @@ class Ui_MainPages(object):
         self.general_operate_Button_04.setObjectName(u"general_operate_Button_04")
         sizePolicy1.setHeightForWidth(self.general_operate_Button_04.sizePolicy().hasHeightForWidth())
         self.general_operate_Button_04.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_04.setMinimumSize(QSize(90, 0))
         self.general_operate_Button_04.setFont(font)
         self.general_operate_Button_04.setCursor(QCursor(Qt.PointingHandCursor))
 
@@ -1301,6 +1307,7 @@ class Ui_MainPages(object):
         self.general_operate_Button_02.setObjectName(u"general_operate_Button_02")
         sizePolicy1.setHeightForWidth(self.general_operate_Button_02.sizePolicy().hasHeightForWidth())
         self.general_operate_Button_02.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_02.setMinimumSize(QSize(90, 0))
         self.general_operate_Button_02.setFont(font)
         self.general_operate_Button_02.setCursor(QCursor(Qt.PointingHandCursor))
 
@@ -1310,6 +1317,7 @@ class Ui_MainPages(object):
         self.general_operate_Button_05.setObjectName(u"general_operate_Button_05")
         sizePolicy1.setHeightForWidth(self.general_operate_Button_05.sizePolicy().hasHeightForWidth())
         self.general_operate_Button_05.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_05.setMinimumSize(QSize(90, 0))
         self.general_operate_Button_05.setFont(font)
         self.general_operate_Button_05.setCursor(QCursor(Qt.PointingHandCursor))
 
@@ -1319,6 +1327,7 @@ class Ui_MainPages(object):
         self.general_operate_Button_01.setObjectName(u"general_operate_Button_01")
         sizePolicy1.setHeightForWidth(self.general_operate_Button_01.sizePolicy().hasHeightForWidth())
         self.general_operate_Button_01.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_01.setMinimumSize(QSize(90, 0))
         self.general_operate_Button_01.setFont(font)
         self.general_operate_Button_01.setCursor(QCursor(Qt.PointingHandCursor))
 
@@ -1328,6 +1337,7 @@ class Ui_MainPages(object):
         self.general_operate_Button_03.setObjectName(u"general_operate_Button_03")
         sizePolicy1.setHeightForWidth(self.general_operate_Button_03.sizePolicy().hasHeightForWidth())
         self.general_operate_Button_03.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_03.setMinimumSize(QSize(90, 0))
         self.general_operate_Button_03.setFont(font)
         self.general_operate_Button_03.setCursor(QCursor(Qt.PointingHandCursor))
 
@@ -1337,6 +1347,7 @@ class Ui_MainPages(object):
         self.general_operate_Button_06.setObjectName(u"general_operate_Button_06")
         sizePolicy1.setHeightForWidth(self.general_operate_Button_06.sizePolicy().hasHeightForWidth())
         self.general_operate_Button_06.setSizePolicy(sizePolicy1)
+        self.general_operate_Button_06.setMinimumSize(QSize(90, 0))
         self.general_operate_Button_06.setFont(font)
         self.general_operate_Button_06.setCursor(QCursor(Qt.PointingHandCursor))
 
@@ -1361,7 +1372,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 746, 522))
+        self.contents.setGeometry(QRect(0, 0, 233, 256))
         self.contents.setStyleSheet(u"background: transparent;")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -1423,9 +1434,12 @@ class Ui_MainPages(object):
 #endif // QT_CONFIG(shortcut)
 
         self.retranslateUi(MainPages)
+        self.H_ROLL_NUM_Slider.valueChanged.connect(self.H_ROLL_NUM_Value.setNum)
+        self.H_VLD_SEG_Slider.valueChanged.connect(self.H_VLD_SEG_Value.setNum)
+        self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(3)
+        self.ROIConfig.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -1442,10 +1456,10 @@ class Ui_MainPages(object):
         self.TDC_Bin_Width_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
         self.SCAN_MODE_Label.setText(QCoreApplication.translate("MainPages", u"SCAN_MODE", None))
         self.V_ROLL_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_ROLL_NUM", None))
-        self.V_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"32", None))
         self.H_ROLL_NUM_Label.setText(QCoreApplication.translate("MainPages", u"H_ROLL_NUM", None))
-        self.H_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"1", None))
         self.H_VLD_SEG_Label.setText(QCoreApplication.translate("MainPages", u"H_VLD_SEG", None))
+        self.V_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"32", None))
+        self.H_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"1", None))
         self.H_VLD_SEG_Value.setText(QCoreApplication.translate("MainPages", u"16", None))
         self.ROI_Shape_Light.setText(QCoreApplication.translate("MainPages", u"ROI shape", None))
         self.seg_hs_Label.setText(QCoreApplication.translate("MainPages", u"seg_hs", None))
@@ -1462,25 +1476,25 @@ class Ui_MainPages(object):
         self.ROI_SRAM_File_Label_4.setText(QCoreApplication.translate("MainPages", u"Base ROI", None))
         self.Load_ROI_file_LineEdit_2.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9ROI\u6807\u5b9a\u6587\u4ef6", None))
         self.Load_ROI_file_Button_2.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.seg_hs_Label_2.setText(QCoreApplication.translate("MainPages", u"Start Rolling", None))
+        self.start_rolling_Label.setText(QCoreApplication.translate("MainPages", u"Start Rolling", None))
+        self.End_rolling_Label.setText(QCoreApplication.translate("MainPages", u"Eed Rolling", None))
         self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config3ROIEdit), QCoreApplication.translate("MainPages", u"ROI Edit", None))
         self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config4ROICali), QCoreApplication.translate("MainPages", u"ROI Cali", None))
-        self.ROIZoneConfig.setText(QCoreApplication.translate("MainPages", u"<a href=\"https://www.example.com\">Others Config</a>", None))
+        self.ROIZoneConfig.setText(QCoreApplication.translate("MainPages", u"<html><head/><body><p><a href=\"https://www.example.com\"><span style=\" text-decoration: underline; color:#0078d7;\">Zone Config</span></a></p></body></html>", None))
         self.ROISave.setText(QCoreApplication.translate("MainPages", u"View", None))
         self.ROIView.setText(QCoreApplication.translate("MainPages", u"Save", None))
-        self.Layout2.setTitle("")
+        self.SPadisApp_Path_Sel_Label.setText(QCoreApplication.translate("MainPages", u"SpadisApp", None))
+        self.Sel_Config_file_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.ROI_SRAM_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
-        self.Sel_Config_file_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
         self.ROI_SRAM_File_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM File", None))
         self.ROI_Sram_File_CheckBox.setText(QCoreApplication.translate("MainPages", u"Include", None))
-        self.SPadisApp_Path_Sel_Label.setText(QCoreApplication.translate("MainPages", u"SpadisApp", None))
-        self.REG_CFG_File_Label.setText(QCoreApplication.translate("MainPages", u"REG CFG File", None))
         self.ROI_Zone_Sel_CheckBox.setText(QCoreApplication.translate("MainPages", u"Integration", None))
         self.Sel_Config_file_Label.setText(QCoreApplication.translate("MainPages", u"Base Script", None))
-        self.SPadisApp_Path_Sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Sel_Config_file_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.REG_CFG_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
         self.SPadisApp_Path_Sel__LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
+        self.REG_CFG_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
+        self.REG_CFG_File_Label.setText(QCoreApplication.translate("MainPages", u"REG CFG File", None))
+        self.SPadisApp_Path_Sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.Sel_Config_file_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
         self.Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.title_label_2.setText(QCoreApplication.translate("MainPages", u"Hawk Toolbox", None))
         self.FunctionWindow.setTitle("")

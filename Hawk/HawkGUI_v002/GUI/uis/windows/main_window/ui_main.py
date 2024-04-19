@@ -212,7 +212,7 @@ class UI_MainWindow(object):
         self.log_group_layout.setContentsMargins(9, 9, 9, 9)
 
         self.LogPrintWindow = QPlainTextEdit()
-        self.LogPrintWindow.setReadOnly(True)
+        # self.LogPrintWindow.setReadOnly(True)
         self.log_group_layout.addWidget(self.LogPrintWindow)
         self.log_group.setStyleSheet(qssStyle)
 
