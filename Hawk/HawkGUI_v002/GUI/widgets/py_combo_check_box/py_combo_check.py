@@ -196,6 +196,15 @@ class QComboCheckBox(QComboBox):
                 items.append(item)
         return items
 
+    def get_selected_index(self):
+        # 获取当前选择的子项
+        indexs = list()
+        for row in range(1, self.vars["listViewModel"].rowCount()):
+            item = self.vars["listViewModel"].item(row)
+            if item.checkState() == Qt.Checked:
+                indexs.append(row-1)
+        return indexs
+
     def is_all(self):
         # 判断是否是全选
         return True if self.vars["listViewModel"].item(0).checkState() == Qt.Checked else False
