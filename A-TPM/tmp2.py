@@ -1,3 +1,5 @@
-kernel = 20
-kernel_hex = hex(kernel)
-print(kernel_hex)
+def a():
+    def b(i):
+        print(i)
+
+a().b(4)

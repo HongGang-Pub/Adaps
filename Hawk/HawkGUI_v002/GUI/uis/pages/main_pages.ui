@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>844</width>
-    <height>589</height>
+    <width>1238</width>
+    <height>819</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -56,7 +56,7 @@
       <property name="styleSheet">
        <string notr="true"/>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0,0,0">
+      <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0,0">
        <property name="spacing">
         <number>6</number>
        </property>
@@ -844,8 +844,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>341</width>
-                      <height>276</height>
+                      <width>374</width>
+                      <height>531</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout">
@@ -868,49 +868,6 @@
                       <number>0</number>
                      </property>
                      <item row="0" column="0">
-                      <widget class="QLabel" name="ROI_Shape_Light">
-                       <property name="minimumSize">
-                        <size>
-                         <width>0</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>16777215</width>
-                         <height>16777215</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <family>Microsoft YaHei UI</family>
-                         <pointsize>9</pointsize>
-                         <bold>false</bold>
-                        </font>
-                       </property>
-                       <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
-                       </property>
-                       <property name="frameShadow">
-                        <enum>QFrame::Raised</enum>
-                       </property>
-                       <property name="text">
-                        <string>ROI shape</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QComboBox" name="ROI_Shape_ComboBox">
-                       <property name="font">
-                        <font>
-                         <family>Microsoft YaHei UI</family>
-                         <pointsize>9</pointsize>
-                         <bold>false</bold>
-                        </font>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="0">
                       <widget class="QLabel" name="seg_hs_Label">
                        <property name="minimumSize">
                         <size>
@@ -942,7 +899,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="1" column="1">
+                     <item row="0" column="1">
                       <widget class="QSpinBox" name="seg_hs_spinBox">
                        <property name="minimum">
                         <number>1</number>
@@ -952,7 +909,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="0">
+                     <item row="1" column="0">
                       <widget class="QLabel" name="spad_vs_Label">
                        <property name="minimumSize">
                         <size>
@@ -984,7 +941,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="1">
+                     <item row="1" column="1">
                       <widget class="QSpinBox" name="spad_vs_spinBox">
                        <property name="minimum">
                         <number>-575</number>
@@ -994,7 +951,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="0">
+                     <item row="2" column="0">
                       <widget class="QLabel" name="light_shift_Label">
                        <property name="minimumSize">
                         <size>
@@ -1026,7 +983,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="3" column="1">
+                     <item row="2" column="1">
                       <widget class="QSpinBox" name="light_shift_spinBox">
                        <property name="minimum">
                         <number>-576</number>
@@ -1036,7 +993,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="4" column="0">
+                     <item row="3" column="0">
                       <widget class="QLabel" name="sublight_shift_Label">
                        <property name="minimumSize">
                         <size>
@@ -1068,7 +1025,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="4" column="1">
+                     <item row="3" column="1">
                       <widget class="QSpinBox" name="sublight_shift_spinBox">
                        <property name="minimum">
                         <number>-576</number>
@@ -1076,6 +1033,59 @@
                        <property name="maximum">
                         <number>576</number>
                        </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="ROI_Shape_Light">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Raised</enum>
+                       </property>
+                       <property name="text">
+                        <string>ROI shape</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QComboBox" name="ROI_Shape_ComboBox">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Straight</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>Curve</string>
+                        </property>
+                       </item>
                       </widget>
                      </item>
                      <item row="5" column="0">
@@ -1198,8 +1208,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>341</width>
-                      <height>276</height>
+                      <width>374</width>
+                      <height>531</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_4">
@@ -1222,7 +1232,7 @@
                       <number>0</number>
                      </property>
                      <item row="0" column="0">
-                      <widget class="QLabel" name="ROI_SRAM_File_Label_3">
+                      <widget class="QLabel" name="ROI_File_Load_Label">
                        <property name="font">
                         <font>
                          <family>Microsoft YaHei UI</family>
@@ -1231,17 +1241,17 @@
                         </font>
                        </property>
                        <property name="text">
-                        <string>ROI Coor</string>
+                        <string>ROI File</string>
                        </property>
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <layout class="QHBoxLayout" name="horizontalLayout_3">
+                      <layout class="QHBoxLayout" name="ROI_File_Load_Layout">
                        <property name="spacing">
                         <number>9</number>
                        </property>
                        <item>
-                        <widget class="QLineEdit" name="Load_ROI_file_LineEdit">
+                        <widget class="QLineEdit" name="ROI_File_Load_LineEdit">
                          <property name="enabled">
                           <bool>true</bool>
                          </property>
@@ -1269,7 +1279,7 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="Load_ROI_file_Button">
+                        <widget class="QPushButton" name="ROI_File_Load_Button">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -1319,8 +1329,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>341</width>
-                      <height>276</height>
+                      <width>374</width>
+                      <height>531</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_5">
@@ -1343,7 +1353,7 @@
                       <number>0</number>
                      </property>
                      <item row="0" column="0">
-                      <widget class="QLabel" name="ROI_SRAM_File_Label_4">
+                      <widget class="QLabel" name="base_roi_file_Label">
                        <property name="font">
                         <font>
                          <family>Microsoft YaHei UI</family>
@@ -1357,12 +1367,12 @@
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <layout class="QHBoxLayout" name="horizontalLayout_20">
+                      <layout class="QHBoxLayout" name="base_roi_file_Layout">
                        <property name="spacing">
                         <number>9</number>
                        </property>
                        <item>
-                        <widget class="QLineEdit" name="Load_ROI_file_LineEdit_2">
+                        <widget class="QLineEdit" name="base_roi_file_LineEdit">
                          <property name="enabled">
                           <bool>true</bool>
                          </property>
@@ -1385,12 +1395,12 @@
                           <bool>true</bool>
                          </property>
                          <property name="placeholderText">
-                          <string>请选择ROI标定文件</string>
+                          <string>请选择需要修改的ROI文件</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="Load_ROI_file_Button_2">
+                        <widget class="QPushButton" name="base_roi_file_Button">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -1429,7 +1439,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="frameShadow">
                         <enum>QFrame::Raised</enum>
@@ -1437,15 +1447,8 @@
                        <property name="text">
                         <string>Start Rolling</string>
                        </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QSpinBox" name="start_rolling__SpinBox">
-                       <property name="minimum">
-                        <number>1</number>
-                       </property>
-                       <property name="maximum">
-                        <number>16</number>
+                       <property name="textFormat">
+                        <enum>Qt::PlainText</enum>
                        </property>
                       </widget>
                      </item>
@@ -1471,13 +1474,13 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="frameShadow">
                         <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
-                        <string>Eed Rolling</string>
+                        <string>End Rolling</string>
                        </property>
                       </widget>
                      </item>
@@ -1487,7 +1490,17 @@
                         <number>1</number>
                        </property>
                        <property name="maximum">
-                        <number>16</number>
+                        <number>32</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QSpinBox" name="start_rolling_SpinBox">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>32</number>
                        </property>
                       </widget>
                      </item>
@@ -1521,8 +1534,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>341</width>
-                      <height>267</height>
+                      <width>374</width>
+                      <height>522</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_7">
@@ -1544,6 +1557,433 @@
                      <property name="bottomMargin">
                       <number>0</number>
                      </property>
+                     <item row="0" column="0">
+                      <widget class="QLabel" name="cali_order_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>Cali Order</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QComboBox" name="cali_order_ComboBox">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>From small to large</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>From large to small</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="img_mirror_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>Img Mirror </string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="1">
+                      <widget class="QComboBox" name="img_mirror_ComboBox">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>No mirror</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>X-axis mirror</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>Y-axis mirror</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>X-axis and Y-axis mirror</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="cali_frm_num_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>cali frm num</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QLabel" name="remove_noise_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>remove noise</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QComboBox" name="remove_noise_ComboBox">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Yes</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>No</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="5" column="0">
+                      <widget class="QLabel" name="ref_segment_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>ref segment</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="6" column="0">
+                      <widget class="QLabel" name="curvature_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>curvature</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="7" column="0">
+                      <widget class="QLabel" name="roi_correct_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>roi correct</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="8" column="0">
+                      <widget class="QLabel" name="correct_thres_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>correct thres</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="9" column="0">
+                      <widget class="QLabel" name="mode_2D_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>mode 2D</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="9" column="1">
+                      <widget class="QComboBox" name="mode_2D_ComboBox">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Light strip energy is preferred</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>The number of covered photons is preferred</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QSpinBox" name="cali_frm_num__SpinBox">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10000</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="5" column="1">
+                      <widget class="QSpinBox" name="ref_segment_SpinBox">
+                       <property name="minimum">
+                        <number>-1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>15</number>
+                       </property>
+                       <property name="value">
+                        <number>-1</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="6" column="1">
+                      <widget class="QSpinBox" name="curvature_SpinBox">
+                       <property name="minimum">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <number>1000</number>
+                       </property>
+                       <property name="value">
+                        <number>2</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="7" column="1">
+                      <widget class="QComboBox" name="roi_correct_ComboBox">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Yes</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>No</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
+                     <item row="8" column="1">
+                      <widget class="QSpinBox" name="correct_thres_SpinBox">
+                       <property name="minimum">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <number>100</number>
+                       </property>
+                       <property name="value">
+                        <number>1</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="light_smooth_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>light smooth</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QComboBox" name="light_smooth_ComboBox">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <item>
+                        <property name="text">
+                         <string>Yes</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>No</string>
+                        </property>
+                       </item>
+                      </widget>
+                     </item>
                     </layout>
                    </widget>
                   </widget>
@@ -1661,7 +2101,7 @@
            <number>9</number>
           </property>
           <item row="5" column="0">
-           <widget class="QLabel" name="SPadisApp_Path_Sel_Label">
+           <widget class="QLabel" name="file_save_dir_Label">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1688,12 +2128,12 @@
              <enum>QFrame::Raised</enum>
             </property>
             <property name="text">
-             <string>SpadisApp</string>
+             <string>File Save Dir</string>
             </property>
            </widget>
           </item>
           <item row="4" column="2">
-           <widget class="QPushButton" name="Sel_Config_file_Button">
+           <widget class="QPushButton" name="base_script_Button">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1768,7 +2208,7 @@
            </widget>
           </item>
           <item row="4" column="0">
-           <widget class="QLabel" name="Sel_Config_file_Label">
+           <widget class="QLabel" name="base_script_Label">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -1800,7 +2240,7 @@
            </widget>
           </item>
           <item row="5" column="1">
-           <widget class="QLineEdit" name="SPadisApp_Path_Sel__LineEdit">
+           <widget class="QLineEdit" name="file_save_dir_LineEdit">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -1860,7 +2300,7 @@
            </widget>
           </item>
           <item row="5" column="2">
-           <widget class="QPushButton" name="SPadisApp_Path_Sel_Button">
+           <widget class="QPushButton" name="file_save_dir_Button">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1879,7 +2319,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QLineEdit" name="Sel_Config_file_LineEdit">
+           <widget class="QLineEdit" name="base_script_LineEdit">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -1945,6 +2385,19 @@
           <property name="spacing">
            <number>6</number>
           </property>
+          <item row="0" column="1">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="0" column="0">
            <widget class="QPushButton" name="Save">
             <property name="sizePolicy">
@@ -1973,34 +2426,8 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -3413,7 +3840,7 @@
             <x>0</x>
             <y>0</y>
             <width>233</width>
-            <height>256</height>
+            <height>265</height>
            </rect>
           </property>
           <property name="styleSheet">

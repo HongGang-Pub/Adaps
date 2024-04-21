@@ -70,10 +70,12 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         self.GuiValueConfig = JsonFunction(file_path=".HawkConfig/HawkGuiConfig.json")
         self.HawkConfig = JsonFunction(file_path=".HawkConfig/HawkConfig.json")
+        self.HawkROIGenConfig = JsonFunction(file_path=".HawkConfig/HawkROIGenConfig.json")
         self.HawkToolConfig = JsonFunction(file_path=".HawkConfig/HawkToolConfig.json")
 
         self.gui_value_config = self.GuiValueConfig.items
         self.hawk_config = self.HawkConfig.items
+        self.hawk_roi_gen_config = self.HawkROIGenConfig.items
         self.hawk_tool_config = self.HawkToolConfig.items
 
         # SETUP MAIN WINDOW

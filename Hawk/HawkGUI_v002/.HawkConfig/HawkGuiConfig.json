@@ -30,6 +30,5 @@
     "TRG_I_EN":{
         "config":[0, 1],
         "show_gui":["Disable", "Enable"]
-    },
-    "FunctionList": ["Dothink PCM Imag", "Spaddis App PCM READ"]
+    }
 }
