@@ -1,11 +1,13 @@
 import logging
 
+import Hawk.HawkGUI_v002.HawkFunction.MaskingWindow
 from Hawk.HawkGUI_v002.gui.qt_core import *
 
 # LOAD UI MAIN
 # ///////////////////////////////////////////////////////////////
 from Hawk.HawkGUI_v002.gui.uis.windows.main_window.ui_main import *
 from Hawk.HawkGUI_v002.HawkFunction.ROIZoneConfig import ROIZoneConfigWin
+from Hawk.HawkGUI_v002.HawkFunction.MaskingWindow import MaskingWindow
 from functools import partial
 
 
@@ -29,6 +31,7 @@ class HawkFunctions:
     def setup_gui(self):
         HawkFunctions.setup_script_gui(self)
         HawkFunctions.setup_roi_gui(self)
+        HawkFunctions.setup_masking_gui(self)
         HawkFunctions.setup_zone_gui(self)
         return
 
@@ -89,9 +92,10 @@ class HawkFunctions:
         self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(HawkFunctions.H_VLD_SEG_UPDATE, self))
 
         # 按钮绑定
-        self.ui.load_pages.base_script_Button.clicked.connect(partial(HawkFunctions.Base_script_file_sel_func, self))
+        self.ui.load_pages.base_script_Button.clicked.connect(partial(HawkFunctions.base_script_file_sel_func, self))
         self.ui.load_pages.file_save_dir_Button.clicked.connect(partial(HawkFunctions.file_save_dir_sel_func, self))
         self.ui.load_pages.Save.clicked.connect(partial(HawkFunctions.get_script_config, self))
+        self.ui.load_pages.ROIView.clicked.connect(partial(HawkFunctions.open_roi_masking_win, self))
         return
 
     def setup_roi_gui(self):
@@ -106,7 +110,7 @@ class HawkFunctions:
 
         # Gen ROI for cali txt
         self.ui.load_pages.ROI_File_Load_LineEdit.setText(self.hawk_roi_gen_config['ROIGenByFile']['gen_roi_file'])
-        self.ui.load_pages.ROI_File_Load_Button.clicked.connect(partial(HawkFunctions.ROI_Load_file_func, self))
+        self.ui.load_pages.ROI_File_Load_Button.clicked.connect(partial(HawkFunctions.roi_load_file_func, self))
 
         # Gen ROI for Base ROI
         self.ui.load_pages.base_roi_file_LineEdit.setText(self.hawk_roi_gen_config['ROIGenByBaseROI']['base_roi_file'])
@@ -135,12 +139,20 @@ class HawkFunctions:
     def setup_zone_gui(self):
         # Instans ROI_Zone_Config Win
         self.ui_zone_config_win = ROIZoneConfigWin(self.hawk_config, self.qssStyle)
-        self.ui.load_pages.ROIZoneConfig.linkActivated.connect(partial(HawkFunctions.OpenROIZoneConfigWin, self))
-        self.ui_zone_config_win.return_config_signal.sync_signal.connect(partial(HawkFunctions.refresh_hawk_config, self))
+        self.ui.load_pages.ROIZoneConfig.linkActivated.connect(partial(HawkFunctions.open_roizone_config_win, self))
+        self.ui_zone_config_win.return_config_signal.sync_signal.connect(
+            partial(HawkFunctions.refresh_hawk_config, self))
+
+
+    def setup_masking_gui(self):
+        # Instans ROI_Zone_Config Win
+        self.ui_masking_win = {}
+        self.masking_index = 0
+        return
 
     # 文件选择对话框
     # ///////////////////////////////////////////////////////////////
-    def Base_script_file_sel_func(self):
+    def base_script_file_sel_func(self):
         file, _ = QFileDialog.getOpenFileName(parent=None, caption='Base script file select', dir='Input',
                                               filter='file(*.txt) ;')
         if file:
@@ -156,8 +168,7 @@ class HawkFunctions:
             self.hawk_config['ref_cfg_file'] = dir_path
             logging.info(self.hawk_config['ref_cfg_file'])
 
-
-    def ROI_Load_file_func(self):
+    def roi_load_file_func(self):
         file, _ = QFileDialog.getOpenFileName(parent=None, caption='Cali Data Select', dir='Input',
                                               filter='file(*.txt) ;')
         if file == "":
@@ -221,14 +232,21 @@ class HawkFunctions:
     def get_script_config(self):
         self.hawk_config['config_name'] = self.ui.load_pages.REG_CFG_File_LineEdit.text()
         self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdit.text()
-        logging.info(self.hawk_config['config_name'], self.hawk_config['roi_name'])
+        logging.info(f"{self.hawk_config['config_name']}, {self.hawk_config['roi_name']}")
 
-    def OpenROIZoneConfigWin(self, url):
+    def open_roizone_config_win(self, url):
         logging.info("Open ROI zone config window...")
         self.ui_zone_config_win.setModal(True)
         self.ui_zone_config_win.show(self.hawk_config)
 
+    def open_roi_masking_win(self):
+        logging.info("ROI Masking display...")
+        self.ui_masking_win[self.masking_index] = MaskingWindow()   #TODO：initial need parameter
+        self.ui_masking_win[self.masking_index].show()
+        self.masking_index = (self.masking_index + 1) % 5
+
     def refresh_hawk_config(self):
+        """从 ROI ZONE config界面获取最新的配置"""
         logging.info("Get the latest configuration")
         self.hawk_config = self.ui_zone_config_win.get_hawk_config()
 

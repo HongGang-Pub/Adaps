@@ -192,7 +192,7 @@ if __name__ == '__main__':
     with open(styleFile, 'r') as f:
         qssStyle = f.read()
 
-    HawkConfig = JsonFunction(file_path="../.HawkConfig/HawkConfig.json")
+    HawkConfig = JsonFunction(file_path="../.Hawk01Config/HawkConfig.json")
     hawk_config = HawkConfig.items
 
     win = ROIZoneConfigWin(hawk_config, qssStyle)

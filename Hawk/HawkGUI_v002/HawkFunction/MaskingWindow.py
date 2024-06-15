@@ -107,8 +107,8 @@ class MaskingWindow(QWidget):
         self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
         self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
 
-        print(self.index)
-        self.canvas.axes.imshow(self.arrays[self.index % 5])
+        print(self.index % len(self.arrays))
+        self.canvas.axes.imshow(self.arrays[self.index % len(self.arrays)])
         self.canvas.draw()
 
     def dynamic_fig(self):

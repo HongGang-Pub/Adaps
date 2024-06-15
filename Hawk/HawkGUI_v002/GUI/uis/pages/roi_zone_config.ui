@@ -213,6 +213,12 @@
       </item>
       <item row="0" column="11">
        <widget class="QPushButton" name="EditZoneConifg_Button">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="text">
          <string>Edit</string>
         </property>

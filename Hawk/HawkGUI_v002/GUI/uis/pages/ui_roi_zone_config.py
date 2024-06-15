@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'roi_zone_configraRzBm.ui'
+## Form generated from reading UI file 'roi_zone_configrQElCJ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -109,6 +109,7 @@ class Ui_ROIZoneConfig(object):
 
         self.EditZoneConifg_Button = QPushButton(self.horizontalWidget)
         self.EditZoneConifg_Button.setObjectName(u"EditZoneConifg_Button")
+        self.EditZoneConifg_Button.setMinimumSize(QSize(60, 0))
 
         self.gridLayout.addWidget(self.EditZoneConifg_Button, 0, 11, 1, 1)
 

@@ -68,10 +68,10 @@ class MainWindow(QMainWindow):
 
         # LOAD Data
         # ///////////////////////////////////////////////////////////////
-        self.GuiValueConfig = JsonFunction(file_path=".HawkConfig/HawkGuiConfig.json")
-        self.HawkConfig = JsonFunction(file_path=".HawkConfig/HawkConfig.json")
-        self.HawkROIGenConfig = JsonFunction(file_path=".HawkConfig/HawkROIGenConfig.json")
-        self.HawkToolConfig = JsonFunction(file_path=".HawkConfig/HawkToolConfig.json")
+        self.GuiValueConfig = JsonFunction(file_path=".Hawk01Config/HawkGuiConfig.json")
+        self.HawkConfig = JsonFunction(file_path=".Hawk01Config/HawkConfig.json")
+        self.HawkROIGenConfig = JsonFunction(file_path=".Hawk01Config/HawkROIGenConfig.json")
+        self.HawkToolConfig = JsonFunction(file_path=".Hawk01Config/HawkToolConfig.json")
 
         self.gui_value_config = self.GuiValueConfig.items
         self.hawk_config = self.HawkConfig.items
@@ -80,7 +80,6 @@ class MainWindow(QMainWindow):
 
         # SETUP MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
-        # self.masking_win = MaskingWindow()
         self.hide_grips = True  # Show/Hide resize grips
 
         self.generate_logger()
