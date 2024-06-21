@@ -1,4 +1,5 @@
 import logging
+import gc
 
 import Hawk.HawkGUI_v002.HawkFunction.MaskingWindow
 from Hawk.HawkGUI_v002.gui.qt_core import *
@@ -36,6 +37,7 @@ class HawkFunctions:
         return
 
     def setup_script_gui(self):
+        """主界面配置"""
         # 配置下拉选项
         self.ui.load_pages.REF_CLK_Config_ComboBox.addItems(self.gui_value_config["REF_CLK"]["show_gui"])
         self.ui.load_pages.SYS_CLK_Config_ComboBox.addItems(self.gui_value_config["SYS_CLK"]["show_gui"])
@@ -99,6 +101,7 @@ class HawkFunctions:
         return
 
     def setup_roi_gui(self):
+        """主界面 -> ROI配置界面"""
         # Gen ROI for GUI
         self.ui.load_pages.seg_hs_spinBox.setValue(self.hawk_roi_gen_config['ROIGenDirect']['seg_hs'])
         self.ui.load_pages.spad_vs_spinBox.setValue(self.hawk_roi_gen_config['ROIGenDirect']['spad_vs'])
@@ -136,6 +139,9 @@ class HawkFunctions:
         self.ui.load_pages.correct_thres_SpinBox.setValue(self.hawk_roi_gen_config['ROIGenByROICali']['correct_thres'])
         self.ui.load_pages.mode_2D_ComboBox.setCurrentIndex(self.hawk_roi_gen_config['ROIGenByROICali']['mode2D'])
 
+    # ///////////////////////////////////////////////////////////////
+    # ZONE config window function
+    # ///////////////////////////////////////////////////////////////
     def setup_zone_gui(self):
         # Instans ROI_Zone_Config Win
         self.ui_zone_config_win = ROIZoneConfigWin(self.hawk_config, self.qssStyle)
@@ -143,31 +149,46 @@ class HawkFunctions:
         self.ui_zone_config_win.return_config_signal.sync_signal.connect(
             partial(HawkFunctions.refresh_hawk_config, self))
 
+    def open_roizone_config_win(self, url):
+        logging.info("Open ROI zone config window...")
+        self.ui_zone_config_win.setModal(True)
+        self.ui_zone_config_win.show(self.hawk_config)
 
+    def refresh_hawk_config(self):
+        """从 ROI ZONE config界面获取最新的配置"""
+        logging.info("Get the latest configuration")
+        self.hawk_config = self.ui_zone_config_win.get_hawk_config()
+
+    # ///////////////////////////////////////////////////////////////
+    # Masking window function
+    # ///////////////////////////////////////////////////////////////
     def setup_masking_gui(self):
         # Instans ROI_Zone_Config Win
         self.ui_masking_win = {}
         self.masking_index = 0
         return
 
-    # 文件选择对话框
-    # ///////////////////////////////////////////////////////////////
-    def base_script_file_sel_func(self):
-        file, _ = QFileDialog.getOpenFileName(parent=None, caption='Base script file select', dir='Input',
-                                              filter='file(*.txt) ;')
-        if file:
-            # 选择后缀为.txt
-            self.ui.load_pages.base_script_LineEdit.setText(file)
-            self.hawk_config['ref_cfg_file'] = file
-            logging.info(self.hawk_config['ref_cfg_file'])
+    def open_roi_masking_win(self):
+        logging.info("ROI Masking display...")
+        if self.ui_masking_win == {}:
+            ID = 0
+            self.roi_title_index = 0
+        else:
+            ID = (max(self.ui_masking_win.keys()) + 1) % 5
+            self.roi_title_index = self.roi_title_index + 1
+        print(ID, self.roi_title_index)
+        self.ui_masking_win[ID] = MaskingWindow(title=f"ROI SHOW {self.roi_title_index+1}", ID=ID)   #TODO：initial need parameter
+        self.ui_masking_win[ID].win_close_signal.int_signal1.connect(partial(HawkFunctions.masking_win_mem_free, self))
+        self.ui_masking_win[ID].show()
+        print(self.ui_masking_win)
 
-    def file_save_dir_sel_func(self):
-        dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
-        if dir_path:
-            self.ui.load_pages.file_save_dir_LineEdit.setText(dir_path)
-            self.hawk_config['ref_cfg_file'] = dir_path
-            logging.info(self.hawk_config['ref_cfg_file'])
+    def masking_win_mem_free(self, ID):
+        logging.info("Mem free...")
+        del self.ui_masking_win[ID]
+        print(self.ui_masking_win)
+        return
 
+    # /////////////////////////////////////////////////////////////////
     def roi_load_file_func(self):
         file, _ = QFileDialog.getOpenFileName(parent=None, caption='Cali Data Select', dir='Input',
                                               filter='file(*.txt) ;')
@@ -234,21 +255,26 @@ class HawkFunctions:
         self.hawk_config['roi_name'] = self.ui.load_pages.ROI_SRAM_File_LineEdit.text()
         logging.info(f"{self.hawk_config['config_name']}, {self.hawk_config['roi_name']}")
 
-    def open_roizone_config_win(self, url):
-        logging.info("Open ROI zone config window...")
-        self.ui_zone_config_win.setModal(True)
-        self.ui_zone_config_win.show(self.hawk_config)
+    # ///////////////////////////////////////////////////////////////
+    # 通用函数
+    # ///////////////////////////////////////////////////////////////
+    # 文件选择对话框
+    # ///////////////////////////////////////////////////////////////
+    def base_script_file_sel_func(self):
+        file, _ = QFileDialog.getOpenFileName(parent=None, caption='Base script file select', dir='Input',
+                                              filter='file(*.txt) ;')
+        if file:
+            # 选择后缀为.txt
+            self.ui.load_pages.base_script_LineEdit.setText(file)
+            self.hawk_config['ref_cfg_file'] = file
+            logging.info(self.hawk_config['ref_cfg_file'])
 
-    def open_roi_masking_win(self):
-        logging.info("ROI Masking display...")
-        self.ui_masking_win[self.masking_index] = MaskingWindow()   #TODO：initial need parameter
-        self.ui_masking_win[self.masking_index].show()
-        self.masking_index = (self.masking_index + 1) % 5
-
-    def refresh_hawk_config(self):
-        """从 ROI ZONE config界面获取最新的配置"""
-        logging.info("Get the latest configuration")
-        self.hawk_config = self.ui_zone_config_win.get_hawk_config()
+    def file_save_dir_sel_func(self):
+        dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
+        if dir_path:
+            self.ui.load_pages.file_save_dir_LineEdit.setText(dir_path)
+            self.hawk_config['ref_cfg_file'] = dir_path
+            logging.info(self.hawk_config['ref_cfg_file'])
 
     def saveImage(self):  # 保存图片到本地
         fd, type = QFileDialog.getSaveFileName(self, "保存图片", "", "*.jpg;;*.png;;All Files(*)")

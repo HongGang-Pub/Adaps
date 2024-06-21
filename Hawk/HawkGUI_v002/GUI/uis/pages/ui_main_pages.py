@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagestiiZqJ.ui'
+## Form generated from reading UI file 'main_pagesdAoGSV.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -345,7 +345,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 374, 531))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 374, 555))
         self.formLayout = QFormLayout(self.scrollAreaWidgetContents_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -489,7 +489,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 374, 531))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 374, 555))
         self.formLayout_4 = QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -550,7 +550,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 374, 531))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 374, 555))
         self.formLayout_5 = QFormLayout(self.scrollAreaWidgetContents_4)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -639,7 +639,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 374, 522))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 374, 546))
         self.formLayout_7 = QFormLayout(self.scrollAreaWidgetContents_6)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -816,32 +816,32 @@ class Ui_MainPages(object):
 
         self.verticalLayout_11.addWidget(self.ROIConfig)
 
-        self.ROIZoneConfig = QLabel(self.ROIConfigGroup)
-        self.ROIZoneConfig.setObjectName(u"ROIZoneConfig")
-        self.ROIZoneConfig.setAlignment(Qt.AlignBottom|Qt.AlignRight|Qt.AlignTrailing)
-        self.ROIZoneConfig.setMargin(0)
-        self.ROIZoneConfig.setOpenExternalLinks(False)
-
-        self.verticalLayout_11.addWidget(self.ROIZoneConfig)
-
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.horizontalLayout_4.setContentsMargins(-1, 0, -1, -1)
+        self.ROIZoneConfig = QLabel(self.ROIConfigGroup)
+        self.ROIZoneConfig.setObjectName(u"ROIZoneConfig")
+        self.ROIZoneConfig.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+        self.ROIZoneConfig.setMargin(0)
+        self.ROIZoneConfig.setOpenExternalLinks(False)
+
+        self.horizontalLayout_4.addWidget(self.ROIZoneConfig)
+
         self.horizontalSpacer_18 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_18)
-
-        self.ROISave = QPushButton(self.ROIConfigGroup)
-        self.ROISave.setObjectName(u"ROISave")
-        self.ROISave.setMinimumSize(QSize(90, 0))
-
-        self.horizontalLayout_4.addWidget(self.ROISave)
 
         self.ROIView = QPushButton(self.ROIConfigGroup)
         self.ROIView.setObjectName(u"ROIView")
         self.ROIView.setMinimumSize(QSize(90, 0))
 
         self.horizontalLayout_4.addWidget(self.ROIView)
+
+        self.ROISave = QPushButton(self.ROIConfigGroup)
+        self.ROISave.setObjectName(u"ROISave")
+        self.ROISave.setMinimumSize(QSize(90, 0))
+
+        self.horizontalLayout_4.addWidget(self.ROISave)
 
 
         self.verticalLayout_11.addLayout(self.horizontalLayout_4)
@@ -1534,7 +1534,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 233, 265))
+        self.contents.setGeometry(QRect(0, 0, 233, 256))
         self.contents.setStyleSheet(u"background: transparent;")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -1601,7 +1601,7 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(2)
+        self.ROIConfig.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -1633,11 +1633,11 @@ class Ui_MainPages(object):
 
         self.v_spad_shift_Label.setText(QCoreApplication.translate("MainPages", u"v_spad_shift", None))
         self.h_seg_shift_Label.setText(QCoreApplication.translate("MainPages", u"h_seg_shift", None))
-        self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config1byGUI), QCoreApplication.translate("MainPages", u"ROI_GUI", None))
+        self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config1byGUI), QCoreApplication.translate("MainPages", u"ROI GUI", None))
         self.ROI_File_Load_Label.setText(QCoreApplication.translate("MainPages", u"ROI File", None))
         self.ROI_File_Load_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9ROI\u6807\u5b9a\u6587\u4ef6", None))
         self.ROI_File_Load_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config2byCOOR), QCoreApplication.translate("MainPages", u"ROI_COOR", None))
+        self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config2byCOOR), QCoreApplication.translate("MainPages", u"ROI COOR", None))
         self.base_roi_file_Label.setText(QCoreApplication.translate("MainPages", u"Base ROI", None))
         self.base_roi_file_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u9700\u8981\u4fee\u6539\u7684ROI\u6587\u4ef6", None))
         self.base_roi_file_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
@@ -1676,8 +1676,8 @@ class Ui_MainPages(object):
 
         self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config4ROICali), QCoreApplication.translate("MainPages", u"ROI Cali", None))
         self.ROIZoneConfig.setText(QCoreApplication.translate("MainPages", u"<html><head/><body><p><a href=\"https://www.example.com\"><span style=\" text-decoration: underline; color:#0078d7;\">Zone Config</span></a></p></body></html>", None))
-        self.ROISave.setText(QCoreApplication.translate("MainPages", u"View", None))
-        self.ROIView.setText(QCoreApplication.translate("MainPages", u"Save", None))
+        self.ROIView.setText(QCoreApplication.translate("MainPages", u"View", None))
+        self.ROISave.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Dir", None))
         self.base_script_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.ROI_SRAM_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))

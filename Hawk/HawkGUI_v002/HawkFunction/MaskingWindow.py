@@ -1,10 +1,11 @@
 """GUI 界面增加画布"""
 import sys
 
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QCursor
 import numpy as np
 
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QFrame
+# from PySide6.QtGui import QIcon, QScreen, QAction
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -14,23 +15,54 @@ from Hawk.HawkGUI_v002.gui.core.functions import Functions
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QWidget, QPushButton, QApplication
 from PySide6.QtCore import QTimer
+from Hawk.HawkGUI_v002.gui.Signal import MySignals
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
+
+class CustomToolbar(NavigationToolbar2QT):
+    def __init__(self, canvas, parent=None):
+        super(CustomToolbar, self).__init__(canvas, parent)
+
+        # Set custom icons
+        # self._update_icons()
+
+        # Add custom action
+        # self._add_custom_action()
+
+    def _update_icons(self):
+        icon_mapping = {
+            'Home': 'path/to/your/custom/home.png',
+            'Back': 'path/to/your/custom/back.png',
+            'Forward': 'path/to/your/custom/forward.png',
+            'Pan': 'path/to/your/custom/pan.png',
+            'Zoom': 'path/to/your/custom/zoom.png',
+            'Save': 'path/to/your/custom/save.png'
+        }
+
+        for action in self.actions():
+            if action.text() in icon_mapping:
+                action.setIcon(QIcon(icon_mapping[action.text()]))
+
+    def _add_custom_action(self):
+        # Create a custom action with an icon
+        custom_action = QAction(QIcon('path/to/your/custom/icon.png'), 'Custom Action', self)
+        custom_action.triggered.connect(self.custom_function)
+        self.addAction(custom_action)
+
+    def custom_function(self):
+        print("Custom action triggered!")
 
 
 class Myplot(FigureCanvas):
     def __init__(self, parent=None, width=10, height=6, dpi=120):
         # normalized for 中文显示和负号
         # plt.subplots_adjust(top=0.95, bottom=0, left=0.05, right=1, hspace=0, wspace=0)
-        plt.subplots_adjust(top=1.00, bottom=0, left=0.00, right=1, hspace=0, wspace=0)
+        # plt.subplots_adjust(top=1.00, bottom=0, left=0.00, right=1, hspace=0, wspace=0)
         plt.rcParams['font.sans-serif'] = ['SimHei']
         plt.rcParams['axes.unicode_minus'] = False
-        # new figure
-        # self.fig = Figure(figsize=(width, height), dpi=dpi)
         self.fig = Figure()
-        # self.fig.tight_layout()
         self.fig.set_facecolor('#f5f5f5')
 
         # activate figure window
-        # super(Plot_dynamic,self).__init__(self.fig)
         FigureCanvas.__init__(self, self.fig)
         self.setParent(parent)
         # self.fig.canvas.mpl_connect('button_press_event', self)
@@ -43,7 +75,7 @@ class Myplot(FigureCanvas):
         FigureCanvas.setSizePolicy(self,
                                    QtWidgets.QSizePolicy.Expanding,
                                    QtWidgets.QSizePolicy.Expanding)
-        FigureCanvas.updateGeometry(self)
+        # FigureCanvas.updateGeometry(self)
 
     def compute_initial_figure(self):
         pass
@@ -55,18 +87,25 @@ class DynamicFig(Myplot):
         Myplot.__init__(self, *args, **kwargs)
 
     def compute_initial_figure(self):
-        arr = np.zeros((576, 768))
         # --------------------- 配置刻度 --------------------
         self.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
         self.axes.xaxis.set_major_locator(MultipleLocator(48))
         self.axes.yaxis.set_major_locator(MultipleLocator(50))
+        # ------------------ 给定初始图片 --------------------
+        self.fig.tight_layout()
+        arr = np.random.rand(576, 768, 3)
         self.axes.imshow(arr)
 
 
-class MaskingWindow(QWidget):
-    def __init__(self):
+class MaskingWindow(QMainWindow):
+    def __init__(self, title="ROI SHOW", ID=0):
         super().__init__()
-        self.setWindowTitle("matplotlib embeded in Python Qt with figure toolbar")
+        self.setWindowTitle(title)
+        self.ID = ID
+
+        # Sync Signal
+        # ///////////////////////////////////////////////////////////////
+        self.win_close_signal = MySignals()
 
         # Masking Data
         # ///////////////////////////////////////////////////////////////
@@ -78,13 +117,31 @@ class MaskingWindow(QWidget):
 
         for i in range(5):
             # arr = np.zeros((576, 768))
-            arr = np.random.rand(576, 768)
+            arr = np.random.rand(576, 768, 3)
             self.arrays.append(arr)
 
         self.initUI()
         self.Operate_bar()
 
     def initUI(self):
+        # 设置界面位置,确保多张图叠加显示位置不同
+        # self.setGeometry(100, 100, 658, 602)
+        self.setFixedSize(658, 602)
+        cursor_pos = QCursor.pos()
+        screen = QApplication.screenAt(cursor_pos)
+        if screen:
+            screen_geometry = screen.geometry()
+            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2 + 20*self.ID
+            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 + 20*self.ID
+            print(x, y)
+            self.move(x, y)
+
+        # 添加界面内容
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.win_vlayout = QVBoxLayout(self.central_widget)
+
+        # Canvas
         self.canvas = DynamicFig()
 
         # Control bar
@@ -93,9 +150,11 @@ class MaskingWindow(QWidget):
 
         # Toolbar
         # self.figtoolbar = NavigationToolbar(self.canvas, self)  # 创建figure工具栏
+        self.toolbar = CustomToolbar(self.canvas, self)
+        # self.addToolBar(self.toolbar)
 
         # Display
-        self.win_vlayout = QVBoxLayout(self)
+        self.win_vlayout.addWidget(self.toolbar, 1)  # 画布添加到窗口布局中
         self.win_vlayout.addWidget(self.canvas, 15)  # 画布添加到窗口布局中
         self.win_vlayout.addWidget(self.control_bar_frame, 1)
         # self.win_vlayout.addWidget(self.figtoolbar)  # 工具栏添加到窗口布局中
@@ -103,7 +162,8 @@ class MaskingWindow(QWidget):
     def update_fig(self):
         self.canvas.axes.cla()
         # --------------------- 配置刻度 --------------------
-        self.canvas.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+        # self.canvas.fig.tight_layout()
+        # self.canvas.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
         self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
         self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
 
@@ -155,6 +215,13 @@ class MaskingWindow(QWidget):
             print("play")
             icon = QIcon(Functions.set_svg_icon("icon_stop.svg"))
             self.btn_playControl.setIcon(icon)
+
+    def closeEvent(self, event):
+        # self._timer.stop()
+        self.arrays = []    # 清理内存
+        self.win_close_signal.int_signal1.emit(self.ID)
+        event.accept()
+
 
     def Operate_bar(self):
         self.control_bar_frame.setStyleSheet(

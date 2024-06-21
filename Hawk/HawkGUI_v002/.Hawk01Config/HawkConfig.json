@@ -11,8 +11,7 @@
     "WORK_MODE": [
         0,
         1,
-        2,
-        3
+        2
     ],
     "?WORK_MODE": "0~3: Ranging Mode / Echo Mode / Histogram Mode / Gray Scale Mode",
     "MST_MODE": 0,
@@ -28,7 +27,7 @@
     "user_guide1": "以下值需要与寄存器值保持一致",
     "SCAN_MODE": 0,
     "V_ROLL_NUM": 16,
-    "H_ROLL_NUM": 12,
+    "H_ROLL_NUM": 13,
     "H_VLD_SEG": 2,
     "start_roll": 0,
     "?start_roll": "从第几次rolling起始生成ROI文件(包含2D scan_mode的h_roll次数)",

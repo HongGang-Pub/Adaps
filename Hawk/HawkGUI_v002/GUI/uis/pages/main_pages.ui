@@ -797,7 +797,7 @@
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>2</number>
+                <number>1</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -807,7 +807,7 @@
                </property>
                <widget class="QWidget" name="Config1byGUI">
                 <attribute name="title">
-                 <string>ROI_GUI</string>
+                 <string>ROI GUI</string>
                 </attribute>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
                  <property name="spacing">
@@ -845,7 +845,7 @@
                       <x>0</x>
                       <y>0</y>
                       <width>374</width>
-                      <height>531</height>
+                      <height>555</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout">
@@ -1180,7 +1180,7 @@
                </widget>
                <widget class="QWidget" name="Config2byCOOR">
                 <attribute name="title">
-                 <string>ROI_COOR</string>
+                 <string>ROI COOR</string>
                 </attribute>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
                  <property name="rightMargin">
@@ -1209,7 +1209,7 @@
                       <x>0</x>
                       <y>0</y>
                       <width>374</width>
-                      <height>531</height>
+                      <height>555</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_4">
@@ -1330,7 +1330,7 @@
                       <x>0</x>
                       <y>0</y>
                       <width>374</width>
-                      <height>531</height>
+                      <height>555</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_5">
@@ -1535,7 +1535,7 @@
                       <x>0</x>
                       <y>0</y>
                       <width>374</width>
-                      <height>522</height>
+                      <height>546</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_7">
@@ -1993,26 +1993,26 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="ROIZoneConfig">
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.example.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0078d7;&quot;&gt;Zone Config&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-               </property>
-               <property name="margin">
-                <number>0</number>
-               </property>
-               <property name="openExternalLinks">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
               <layout class="QHBoxLayout" name="horizontalLayout_4">
                <property name="topMargin">
                 <number>0</number>
                </property>
+               <item>
+                <widget class="QLabel" name="ROIZoneConfig">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.example.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0078d7;&quot;&gt;Zone Config&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="margin">
+                  <number>0</number>
+                 </property>
+                 <property name="openExternalLinks">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <spacer name="horizontalSpacer_18">
                  <property name="orientation">
@@ -2027,7 +2027,7 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="ROISave">
+                <widget class="QPushButton" name="ROIView">
                  <property name="minimumSize">
                   <size>
                    <width>90</width>
@@ -2040,7 +2040,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="ROIView">
+                <widget class="QPushButton" name="ROISave">
                  <property name="minimumSize">
                   <size>
                    <width>90</width>
@@ -3840,7 +3840,7 @@
             <x>0</x>
             <y>0</y>
             <width>233</width>
-            <height>265</height>
+            <height>256</height>
            </rect>
           </property>
           <property name="styleSheet">
