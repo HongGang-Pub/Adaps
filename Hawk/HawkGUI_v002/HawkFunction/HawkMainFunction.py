@@ -177,7 +177,7 @@ class HawkFunctions:
             ID = (max(self.ui_masking_win.keys()) + 1) % 5
             self.roi_title_index = self.roi_title_index + 1
         print(ID, self.roi_title_index)
-        self.ui_masking_win[ID] = MaskingWindow(title=f"ROI SHOW {self.roi_title_index+1}", ID=ID)   #TODO：initial need parameter
+        self.ui_masking_win[ID] = MaskingWindow(title=f"ROI SHOW {self.roi_title_index+1}", ID=ID)  # TODO：initial need parameter
         self.ui_masking_win[ID].win_close_signal.int_signal1.connect(partial(HawkFunctions.masking_win_mem_free, self))
         self.ui_masking_win[ID].show()
         print(self.ui_masking_win)
