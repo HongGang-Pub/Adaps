@@ -1,4 +1,8 @@
+import logging
+import re
 import tkinter
+from typing import Tuple, List, Any
+
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 # import matplotlib
@@ -9,6 +13,9 @@ import tkinter
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
+from numpy import ndarray, dtype, floating, float_
+from numpy._typing import _64Bit
+
 from SelfDefinedPackge import PubMethod
 import numpy as np
 import matplotlib.pyplot as plt
@@ -100,7 +107,7 @@ def do_mark(info, fontsize=5):
     #              )
 
 
-def roi_data_save(f_name, data=None, fd_path=".", data_format=1):
+def roi_data_save(f_name, data=None, fd_path=".", roi_data_format=1):
     """ 保存 ROI 数据 """
     if data is None:
         return
@@ -114,7 +121,7 @@ def roi_data_save(f_name, data=None, fd_path=".", data_format=1):
     with open(file=file, mode="w", encoding="utf-8") as f:
         for i in range(0, len(data)):
             roi_string = '{:0>4X}'.format(data[i])
-            if data_format == 1:
+            if roi_data_format == 1:
                 f.write(roi_string)
                 if i < (len(data) - 1):
                     f.write('\n')
@@ -124,84 +131,6 @@ def roi_data_save(f_name, data=None, fd_path=".", data_format=1):
                 f.write(roi_string[0:2])
                 if i < (len(data) - 1):
                     f.write('\n')
-    return
-
-
-def roi_imag(msku_roi_data, cfg, fd_path='.', f_name='imag_msku'):
-    """ 生成根据 Masking 数据生成ROI图片 """
-    spad_array = np.zeros((576, 768))
-    depth_spad_array = np.zeros((192, 256))
-
-    scan_mode = cfg["SCAN_MODE"]
-    v_roll_num = cfg['V_ROLL_NUM']
-    h_roll_num = cfg['H_ROLL_NUM']
-    h_vld_seg = cfg['H_VLD_SEG']
-    coor_info = []
-
-    if scan_mode == 0:
-        for vroll_cnt in range(v_roll_num + 1):
-            per_rolling_data = msku_roi_data[vroll_cnt]
-            dsp = (vroll_cnt * 2) % 16 + 10
-            # for per_coor in per_rolling_data:
-            for seg_cnt in range(len(per_rolling_data)):
-                per_coor = per_rolling_data[seg_cnt]
-                seg_num = per_coor >> 10
-                spad_coor = per_coor % 1024
-                if spad_coor > 575:
-                    continue
-                # spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48, :] = np.arrays(
-                #     [dsp, dsp, dsp])
-                spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
-                depth_spad_array[spad_coor//3, seg_num * 16:(seg_num + 1) * 16] = dsp
-                if seg_cnt == 0:
-                    coor_info.append([seg_num * 48, spad_coor, "1D VROll_{}".format(vroll_cnt+1)])
-    else:
-        roll_cnt = 0
-        for vroll_cnt in range(v_roll_num + 1):
-            per_zone_data = msku_roi_data[vroll_cnt]
-            for hroll_cnt in range(h_roll_num + 1):
-                dsp = ((vroll_cnt * h_roll_num + hroll_cnt) * 2) % 32 + 10
-                index = hroll_cnt * 6
-                per_rolling_data = per_zone_data[index: index + 6]
-                # for per_coor in per_rolling_data:
-                for seg_cnt in range(len(per_rolling_data)):
-                    per_coor = per_rolling_data[seg_cnt]
-                    seg_num = per_coor >> 10
-                    spad_coor = per_coor % 1024
-                    if spad_coor > 575:
-                        continue
-                    spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
-                    depth_spad_array[spad_coor//3, seg_num * 16:(seg_num + h_vld_seg + 1) * 16] = dsp
-                    if seg_cnt == 0:
-                        coor_info.append([seg_num * 48, spad_coor, "2D ROll_{}_{}".format(vroll_cnt+1, hroll_cnt+1)])
-                roll_cnt += 1
-
-    # spad_array = spad_array / spad_array.max()
-    fig = plt.figure()
-    ax = fig.gca()
-    ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
-    ax.yaxis.set_major_locator(MultipleLocator(50))
-    ax.xaxis.set_major_locator(MultipleLocator(48))
-    # ax.imshow(spad_array, cmap="gray")
-    ax.imshow(spad_array)
-    # plt.show()
-    for info in coor_info:
-        do_mark(info)
-    ArrayPubMethod.ArrayImageSave(fname=f_name, fd_path=fd_path)
-    plt.close()
-
-    fig = plt.figure()
-    ax = fig.gca()
-    ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
-    ax.yaxis.set_major_locator(MultipleLocator(20))
-    ax.xaxis.set_major_locator(MultipleLocator(16))
-    ax.imshow(depth_spad_array)
-    # plt.show()
-    ArrayPubMethod.ArrayImageSave(fname="imag_depth", fd_path=fd_path)
-    plt.close()
-
-    # plt.show()
-    # plt.imsave("{}/msku_imag.png".format(fd_path), spad_array, dpi=600)
     return
 
 
@@ -261,15 +190,19 @@ def ParseRoiMem(cfg, roi_file=None, f_path=None):
 
     # 成图展示 masking 效果
     if f_path is not None:
-        roi_imag(msku_roi_mem, csru_cfg, fd_path=f_path)
+        RollingArrayCollect(msku_roi_data=msku_roi_mem, cfg=csru_cfg, is_save=1, fd_path=f_path)
 
     return zone_roi_mem, msku_roi_mem
 
 
-def PerRollingArrayCollect(msku_roi_data, cfg):
-    """ 返回每次 rolling 的二维数组效果图，用于成图 """
-    # spad_array = np.zeros((576, 768, 3))
-    spad_array = np.zeros((576, 768))
+def RollingArrayCollect(msku_roi_data, cfg, is_save=0, fd_path='.') -> tuple:
+    """
+    对 rolling 的数据生成二维数组用于成图, 包含:
+        1. 单次rolling masking的二维数组;
+        2. 所有rolling masking的叠加的二维数组(支持保存);
+        3. 所有rolling masking叠加的深度二维数组(支持保存);
+    """
+    spad_array = np.zeros((576, 768), dtype=np.float32)
 
     scan_mode = cfg["SCAN_MODE"]
     v_roll_num = cfg['V_ROLL_NUM']
@@ -278,6 +211,8 @@ def PerRollingArrayCollect(msku_roi_data, cfg):
     coor_info = []
 
     spad_array_collect = []
+    acc_spad_array = np.zeros((576, 768), dtype=np.float32)
+    depth_spad_array = np.zeros((192, 256), dtype=np.float32)
 
     if scan_mode == 0:
         for vroll_cnt in range(v_roll_num + 1):
@@ -291,6 +226,11 @@ def PerRollingArrayCollect(msku_roi_data, cfg):
                 # spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48, :] = np.arrays(
                 #     [dsp, dsp, dsp])
                 spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
+                acc_spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
+                try:
+                    depth_spad_array[spad_coor // 3, seg_num * 16:(seg_num + 1) * 16] = dsp
+                except:
+                    continue
                 if seg_cnt == 0:
                     coor_info.append([seg_num * 48, spad_coor, "1D VROll_{}".format(vroll_cnt+1)])
             spad_array_collect.append(spad_array)
@@ -309,18 +249,50 @@ def PerRollingArrayCollect(msku_roi_data, cfg):
                     seg_num = per_coor >> 10
                     spad_coor = per_coor % 1024
                     spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
+                    acc_spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
+                    try:
+                        depth_spad_array[spad_coor // 3, seg_num * 16:(seg_num + h_vld_seg + 1) * 16] = dsp
+                    except:
+                        continue
                     if seg_cnt == 0:
                         coor_info.append([seg_num * 48, spad_coor, "2D ROll_{}_{}".format(vroll_cnt+1, hroll_cnt+1)])
                 roll_cnt += 1
                 spad_array_collect.append(spad_array)
                 spad_array = np.zeros((576, 768))
-    return spad_array_collect, coor_info
+    if is_save:
+        # 对 acc_spad_array 和 depth_spad_array进行保存
+        fig = plt.figure()
+        ax = fig.gca()
+        ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+        ax.yaxis.set_major_locator(MultipleLocator(50))
+        ax.xaxis.set_major_locator(MultipleLocator(48))
+        # ax.imshow(spad_array, cmap="gray")
+        ax.imshow(acc_spad_array)
+        # plt.show()
+        for info in coor_info:
+            do_mark(info)
+        ArrayPubMethod.ArrayImageSave(fname='imag_msku', fd_path=fd_path)
+        plt.close()
+
+        fig = plt.figure()
+        ax = fig.gca()
+        ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+        ax.yaxis.set_major_locator(MultipleLocator(20))
+        ax.xaxis.set_major_locator(MultipleLocator(16))
+        ax.imshow(depth_spad_array)
+        # plt.show()
+        ArrayPubMethod.ArrayImageSave(fname="imag_depth", fd_path=fd_path)
+        plt.close()
+
+        # plt.show()
+        # plt.imsave("{}/msku_imag.png".format(fd_path), spad_array, dpi=600)
+    return spad_array_collect, acc_spad_array, depth_spad_array, coor_info
 
 
 def animation_img(fig, msku_roi_data, cfg):
     # ax = plt.gca()
     # fig = plt.figure()
-    arrays, info = PerRollingArrayCollect(msku_roi_data, cfg)
+    arrays, acc_spad_array, depth_spad_array, info = RollingArrayCollect(msku_roi_data, cfg)
 
     fig.clf()
     ax = fig.add_subplot(111)
@@ -376,3 +348,73 @@ def animation_img(fig, msku_roi_data, cfg):
     # plt.show()
     # plt.close()
     return ani
+
+
+def DirectAccessCaliData(cfg):
+    """通过读取文件的形式获取 cali_data"""
+    ini_cali_datas = PubMethod.read_file(cfg["gen_roi_file"])
+
+    # 去除单行注释
+    # /////////////////////////////////////////////////////////////////////
+    cali_datas = []
+    for line_cnt in range(len(ini_cali_datas)):
+        _str = ini_cali_datas[line_cnt]
+        if _str.strip() == '\n':
+            continue
+        elif _str.strip()[0:2] == '//':
+            continue
+        else:
+            cali_datas.append([_str, line_cnt + 1])
+
+    # 校验标定数量是否正确
+    # /////////////////////////////////////////////////////////////////////
+    num = (cfg['V_ROLL_NUM'] + 1) * (cfg['H_ROLL_NUM'] + 1) if cfg['SCAN_MODE'] == 1 else (cfg['V_ROLL_NUM'] + 1)
+    if len(cali_datas) < num:  # 标定数量少于配置所需标定数时, 结束程序
+        info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
+                f"{num} cali data are required, but only {len(cali_datas)} cali data are available.")
+        raise ValueError(info)
+    elif len(cali_datas) > num:  # 标定数量多余所需标定数时, 打印提示信息, 提示配置信息与标定信息不匹配
+        logging.warning(f"Be careful! The calibration data may not match the register configuration.")
+
+    def _split_cali_data(index):
+        [data, lines] = cali_datas[index]
+        data = re.split(',|;|，|；|//', data)
+        # if len(data) < 2:
+        #     raise ValueError(f"Calibration data format error.\n"
+        #                      f"line{lines}: {data}")
+        try:
+            _start_index = int(data[1])
+            _seg_num = int(data[0]) // 48
+        except:
+            raise ValueError(f"Calibration data format error.\n"
+                             f"line{lines}: {data}")
+        if _seg_num > 15:
+            raise ValueError(f"Calibration data error.\n"
+                             f"line{lines}: {data}\n"
+                             f"Error: {data[0]} beyond 767.")
+        return _seg_num, _start_index
+
+    img_roi_data = []
+    per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
+
+    frame_cnt = 0
+    if cfg['SCAN_MODE'] == 0:
+        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
+            seg_num, start_index = _split_cali_data(frame_cnt)
+
+            for seg_cnt in range(0, cfg['H_VLD_SEG'] + 1):
+                per_img_roi_data.append([seg_num + seg_cnt, start_index])
+
+            img_roi_data.append(per_img_roi_data)
+            per_img_roi_data = []
+            frame_cnt += 1
+    else:
+        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
+            for hroll_cnt in range(0, cfg['H_ROLL_NUM'] + 1):
+                seg_num, start_index = _split_cali_data(frame_cnt)
+                per_img_roi_data.append([seg_num, start_index])
+
+                img_roi_data.append(per_img_roi_data)
+                per_img_roi_data = []
+                frame_cnt += 1
+    return img_roi_data

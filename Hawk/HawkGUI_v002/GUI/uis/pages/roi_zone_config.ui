@@ -294,117 +294,186 @@
         </attribute>
         <row>
          <property name="text">
-          <string>SUB_EXPOTIME</string>
+          <string>SUB_EXPOTIME [11:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>SUB_IDLETIME</string>
+          <string>SUB_IDLETIME [11:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>EXPO_LASPRD</string>
+          <string>EXPO_LASPRD [11:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>EXPO_PLSWC</string>
+          <string>EXPO_PLSWC [5:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>EXPO_PLSWF</string>
+          <string>EXPO_PLSWF [4:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>TX_EN</string>
+          <string>TX_EN [3:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>SPADEN_IN3ROWS</string>
+          <string>SPADEN_IN3ROWS [1:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 1</string>
+          <string>MF Kernel 01 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 2</string>
+          <string>MF Kernel 02 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 3</string>
+          <string>MF Kernel 03 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 4</string>
+          <string>MF Kernel 04 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 5</string>
+          <string>MF Kernel 05 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 6</string>
+          <string>MF Kernel 06 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 7</string>
+          <string>MF Kernel 07 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 8</string>
+          <string>MF Kernel 08 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 9</string>
+          <string>MF Kernel 09 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 10</string>
+          <string>MF Kernel 10 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 11</string>
+          <string>MF Kernel 11 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 12</string>
+          <string>MF Kernel 12 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 13</string>
+          <string>MF Kernel 13 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 14</string>
+          <string>MF Kernel 14 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 15</string>
+          <string>MF Kernel 15 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <row>
          <property name="text">
-          <string>MF Kernel 16</string>
+          <string>MF Kernel 16 [7:0] </string>
+         </property>
+         <property name="textAlignment">
+          <set>AlignTrailing|AlignVCenter</set>
          </property>
         </row>
         <column>
@@ -578,34 +647,6 @@
          </property>
         </item>
        </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QWidget" name="verticalWidget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="2">
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>

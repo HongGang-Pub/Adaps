@@ -1593,28 +1593,28 @@ QTabBar::tab:right:!selected, QDockWidget QTabBar::tab:right:!selected {
 }
 
 QTabBar::tab:top, QDockWidget QTabBar::tab:top {
-  background-color: #C0C4C8;
+  background-color: #dad9d8;
   margin-left: 2px;
   padding-left: 4px;
   padding-right: 4px;
   padding-top: 2px;
   padding-bottom: 2px;
   min-width: 5px;
-  border-bottom: 3px solid #C0C4C8;
+  border-bottom: 3px solid #dad9d8;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
 QTabBar::tab:top:selected, QDockWidget QTabBar::tab:top:selected {
-  background-color: #B4B8BC;
-  border-bottom: 3px solid #37AEFE;
+  background-color: #d2d2d2;
+  border-bottom: 2px solid #0078d7;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
 QTabBar::tab:top:!selected:hover, QDockWidget QTabBar::tab:top:!selected:hover {
-  border: 1px solid #0078d7;
-  border-bottom: 3px solid #0078d7;
+  border: 0px solid #0078d7;
+  border-bottom: 2px solid #0078d7;
   /* Fixes spyder-ide/spyder#9766 and #243 */
   padding-left: 3px;
   padding-right: 3px;

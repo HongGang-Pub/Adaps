@@ -6,6 +6,7 @@ import numpy as np
 
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QFrame
 # from PySide6.QtGui import QIcon, QScreen, QAction
+import matplotlib
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -17,6 +18,7 @@ from PySide6.QtWidgets import QWidget, QPushButton, QApplication
 from PySide6.QtCore import QTimer
 from Hawk.HawkGUI_v002.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
+
 
 class CustomToolbar(NavigationToolbar2QT):
     def __init__(self, canvas, parent=None):
@@ -49,11 +51,12 @@ class CustomToolbar(NavigationToolbar2QT):
         self.addAction(custom_action)
 
     def custom_function(self):
-        print("Custom action triggered!")
+        # print("Custom action triggered!")
+        return
 
 
-class Myplot(FigureCanvas):
-    def __init__(self, parent=None, width=10, height=6, dpi=120):
+class DynamicFig(FigureCanvas):
+    def __init__(self, parent=None, ini_img=None):
         # normalized for 中文显示和负号
         # plt.subplots_adjust(top=0.95, bottom=0, left=0.05, right=1, hspace=0, wspace=0)
         # plt.subplots_adjust(top=1.00, bottom=0, left=0.00, right=1, hspace=0, wspace=0)
@@ -61,6 +64,7 @@ class Myplot(FigureCanvas):
         plt.rcParams['axes.unicode_minus'] = False
         self.fig = Figure()
         self.fig.set_facecolor('#f5f5f5')
+        self.ini_img = ini_img
 
         # activate figure window
         FigureCanvas.__init__(self, self.fig)
@@ -78,28 +82,25 @@ class Myplot(FigureCanvas):
         # FigureCanvas.updateGeometry(self)
 
     def compute_initial_figure(self):
-        pass
-
-
-# class for plotting a specific figure static or dynamic
-class DynamicFig(Myplot):
-    def __init__(self, *args, **kwargs):
-        Myplot.__init__(self, *args, **kwargs)
-
-    def compute_initial_figure(self):
         # --------------------- 配置刻度 --------------------
         self.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
         self.axes.xaxis.set_major_locator(MultipleLocator(48))
         self.axes.yaxis.set_major_locator(MultipleLocator(50))
         # ------------------ 给定初始图片 --------------------
         self.fig.tight_layout()
-        arr = np.random.rand(576, 768, 3)
-        self.axes.imshow(arr)
+        try:
+            self.axes.imshow(self.ini_img)
+        except:
+            pass
+        return
 
 
 class MaskingWindow(QMainWindow):
-    def __init__(self, title="ROI SHOW", ID=0):
+    def __init__(self, title="ROI SHOW", ID=0, arrays=None):
         super().__init__()
+        matplotlib.use('agg')
+        if arrays is None:
+            arrays = []
         self.setWindowTitle(title)
         self.ID = ID
 
@@ -109,19 +110,20 @@ class MaskingWindow(QMainWindow):
 
         # Masking Data
         # ///////////////////////////////////////////////////////////////
-        self.arrays = []
-        self.info = []
+        self.arrays = arrays
         self.is_playing = False
-        self.index = -1
+        self.index = 0
         self._timer = QTimer(self)
 
-        for i in range(5):
-            # arr = np.zeros((576, 768))
-            arr = np.random.rand(576, 768, 3)
-            self.arrays.append(arr)
+        if not self.arrays:
+            for i in range(5):
+                # arr = np.zeros((576, 768))
+                arr = np.random.rand(576, 768, 3)
+                self.arrays.append(arr)
 
         self.initUI()
         self.Operate_bar()
+        self.PlaySwitch_plot()
 
     def initUI(self):
         # 设置界面位置,确保多张图叠加显示位置不同
@@ -131,9 +133,9 @@ class MaskingWindow(QMainWindow):
         screen = QApplication.screenAt(cursor_pos)
         if screen:
             screen_geometry = screen.geometry()
-            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2 + 20*self.ID
-            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 + 20*self.ID
-            print(x, y)
+            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2 + 20 * (self.ID % 10)
+            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 + 20 * (self.ID % 10)
+            # print(x, y)
             self.move(x, y)
 
         # 添加界面内容
@@ -142,10 +144,10 @@ class MaskingWindow(QMainWindow):
         self.win_vlayout = QVBoxLayout(self.central_widget)
 
         # Canvas
-        self.canvas = DynamicFig()
+        self.canvas = DynamicFig(ini_img=self.arrays[0])
 
         # Control bar
-        self.control_bar_frame = QFrame()   # 动图操作控制添加到窗口布局中
+        self.control_bar_frame = QFrame()  # 动图操作控制添加到窗口布局中
         self.control_bar_hlayout = QHBoxLayout(self.control_bar_frame)
 
         # Toolbar
@@ -167,7 +169,7 @@ class MaskingWindow(QMainWindow):
         self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
         self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
 
-        print(self.index % len(self.arrays))
+        # print(self.index % len(self.arrays))
         self.canvas.axes.imshow(self.arrays[self.index % len(self.arrays)])
         self.canvas.draw()
 
@@ -177,12 +179,12 @@ class MaskingWindow(QMainWindow):
         self.update_fig()
 
     def Play_plot(self):
-        print('Play_plot')
+        # print('Play_plot')
         self._timer.timeout.connect(self.dynamic_fig)
         self._timer.start(700)  # plot after 1s delay
 
     def Pause_plot(self):
-        print('Pause_plot')
+        # print('Pause_plot')
         self._timer.timeout.disconnect(self.update_fig)
 
     def Oneforward_plot(self):
@@ -192,7 +194,7 @@ class MaskingWindow(QMainWindow):
 
     def Oneback_plot(self):
         # print('Oneback_plot')
-        self.index = self.index-1 if self.index > 0 else 0
+        self.index = self.index - 1 if self.index > 0 else 0
         self.update_fig()
 
     def Replay_plog(self):
@@ -205,23 +207,22 @@ class MaskingWindow(QMainWindow):
             self.is_playing = False
             self.Pause_plot()
             # self.pushButton.setText('暂停')
-            print("stop")
+            # print("stop")
             icon = QIcon(Functions.set_svg_icon("icon_play.svg"))
             self.btn_playControl.setIcon(icon)
         elif not self.is_playing:
             self.is_playing = True
             self.Play_plot()
             # self.pushButton.setText('运行')
-            print("play")
+            # print("play")
             icon = QIcon(Functions.set_svg_icon("icon_stop.svg"))
             self.btn_playControl.setIcon(icon)
 
     def closeEvent(self, event):
         # self._timer.stop()
-        self.arrays = []    # 清理内存
+        # self.arrays = []  # 清理内存
         self.win_close_signal.int_signal1.emit(self.ID)
         event.accept()
-
 
     def Operate_bar(self):
         self.control_bar_frame.setStyleSheet(

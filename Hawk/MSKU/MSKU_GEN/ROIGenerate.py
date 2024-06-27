@@ -41,10 +41,9 @@ def MskuRoiGenerate(cfg):
         if scan_mode == 0:  # 1D scan
             # sub_frame_num = v_roll_cnt
             for j in range(0, 6):
-                _light_vs = light_vs if j >= 1 else 575
-                # sublight_vs = light_vs + sublight_shift * j if j >= 1 else 576
-                sublight_vs = _light_vs + sublight_shift * j
-
+                # _light_vs = light_vs if j >= 1 else 575
+                # sublight_vs = _light_vs + sublight_shift * j
+                sublight_vs = light_vs + sublight_shift * j
                 for seg_num in range(0, h_vld_seg + 1):
                     h_seg_s = seg_hs + seg_num
                     if roi_shape == 0:
@@ -90,8 +89,8 @@ def RoiMemGenerate():
     except BaseException as msg:
         raise ValueError("The ROI configuration may be missing or incorrect! Log: {}".format(msg))
 
-    MskuPubMethod.roi_imag(msku_roi_mem, cfg, f_name=cfg['roi_name'], fd_path=cfg["fd_path"])
-    # arr = MskuPubMethod.PerRollingArrayCollect(msku_roi_mem, csru_cfg, f_name=csru_cfg['file_name'], fd_path=csru_cfg["fd_path"])
+    MskuPubMethod.RollingArrayCollect(msku_roi_data=msku_roi_mem, cfg=cfg, is_save=1, fd_path=cfg["fd_path"])
+    # arr = MskuPubMethod.RollingArrayCollect(msku_roi_mem, csru_cfg, f_name=csru_cfg['file_name'], fd_path=csru_cfg["fd_path"])
     # MskuPubMethod.animation_img(arr)
     # msku_gui(arr)
 
@@ -101,7 +100,7 @@ def RoiMemGenerate():
         #     MskuPubMethod.roi_data_save(f_name="ROLL_{}_{}".format(index, file), data=per_zone_mem)
         roi_data = roi_data + per_zone_mem
 
-    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"], data_format=cfg['data_format'])
+    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"], roi_data_format=cfg['roi_data_format'])
     return f"生成完成！"
 
 

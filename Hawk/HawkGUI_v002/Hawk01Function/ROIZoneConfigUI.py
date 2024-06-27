@@ -7,7 +7,7 @@ from functools import partial
 from PySide6.QtWidgets import QApplication, QDialog, QLineEdit, QSpinBox, QMessageBox, QHeaderView
 
 from Hawk.HawkGUI_v002.gui.uis.pages.ui_roi_zone_config import Ui_ROIZoneConfig
-from SelfDefinedPackge.PubMethod import *
+from SelfDefinedPackge.PubMethod import hex_regex_str
 from SelfDefinedPackge.JsonOperation import JsonFunction
 from Hawk.HawkGUI_v002.gui.Signal import MySignals
 
@@ -19,7 +19,7 @@ class CustomQSB(QSpinBox):
 
 
 class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
-    def __init__(self, hawk_config, qssStyle=None):
+    def __init__(self, hawk01_zone_config, qssStyle=None):
         super().__init__()
         self.setupUi(self)  # 运行类函数里的setupUi
         self.setStyleSheet(qssStyle)
@@ -32,7 +32,8 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
         # self.ZoneConfigInputTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ZoneConfigInputTable.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
 
-        self.hawk_config = hawk_config
+        self.hawk01_zone_config = hawk01_zone_config
+        self.zone_cfg_sel = 0
         self.row_type = ("SUB_EXPOTIME", "SUB_IDLETIME", "EXPO_LASPRD", "EXPO_PLSWC", "EXPO_PLSWF",
                          "TX_EN", "SPADEN_IN3ROWS", "MF Kernel")
 
@@ -67,29 +68,31 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
 
     def gui_initial(self):
         """初始化显示 GUI"""
-        zone_config_sel = self.hawk_config["zone_cfg_sel"]
-        if zone_config_sel == -1:
-            self.ZoneConfigSel_CheckBox.setChecked(True)
+        self.zone_cfg_sel = self.hawk01_zone_config["zone_cfg_sel"]
+        if self.zone_cfg_sel == -1:
+            self.ZoneConfigSel_CheckBox.setChecked(True)    # 独立配置每个分区
         else:
-            self.ZoneConfigSel_CheckBox.setChecked(False)
+            self.ZoneConfigSel_CheckBox.setChecked(False)   # 使用一个分区的配置配置所有分区
+            self.ZoneConfigSel_SpinBox.setValue(self.zone_cfg_sel+1)
         self.switch_zone_config_sel()
 
     def value_initial(self):
-        """舒适化显示默认值"""
+        """初始化显示默认值"""
         for row in range(self.table_row):
             for col in range(self.table_col):
                 if row < 7:
-                    config = self.hawk_config["zone_cfg_def"][f"{self.row_type[row]}"][f"Zone{col}"]
+                    config = self.hawk01_zone_config["zone_cfg_def"][f"{self.row_type[row]}"][f"Zone{col}"]
                 else:   # MF_KERNEL config
-                    config = self.hawk_config["zone_cfg_def"][f"Zone_{col}_MF_KN"][row - 7]
+                    config = self.hawk01_zone_config["zone_cfg_def"][f"Zone_{col}_MF_KN"][row - 7]
                 config_hex = hex(config)[2:]
                 self.ZoneConfigInputTable.cellWidget(row, col).setText(config_hex)
 
     def switch_zone_config_sel(self):
+        """根据配置动态切换Zone config界面"""
         if self.ZoneConfigSel_CheckBox.isChecked():
             # 每个zone单独配置UI设置
             self.ZoneConfigSel_SpinBox.setEnabled(False)
-            self.hawk_config["zone_cfg_sel"] = -1
+            self.zone_cfg_sel = -1
             self.cal_expose_value()
             is_enable = True if self.is_edit is True else False
             for col in range(self.table_col):
@@ -100,17 +103,17 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
         else:
             # 选择某一个zone配置 UI 设置
             self.ZoneConfigSel_SpinBox.setEnabled(True)
-            self.hawk_config["zone_cfg_sel"] = self.ZoneConfigSel_SpinBox.value() - 1
+            self.zone_cfg_sel = self.ZoneConfigSel_SpinBox.value() - 1
             for col in range(self.table_col):
                 # 除了选择列, 其他列设置折叠并不可编辑
-                width = 400 if col == self.hawk_config["zone_cfg_sel"] else 10
-                isEnable = False if (self.is_edit is False or col!=self.hawk_config["zone_cfg_sel"]) else True
+                width = 400 if col == self.zone_cfg_sel else 10
+                isEnable = False if (self.is_edit is False or col != self.zone_cfg_sel) else True
 
                 self.ZoneConfigInputTable.setColumnWidth(col, width)
                 for row in range(self.table_row):
                     cell = self.ZoneConfigInputTable.cellWidget(row, col)
                     cell.setEnabled(isEnable)
-            self.cal_expose_value(self.hawk_config["zone_cfg_sel"])
+            self.cal_expose_value(self.zone_cfg_sel)
 
     def zone_config_edit(self):
         if self.EditZoneConifg_Button.text() == "Edit":
@@ -123,33 +126,36 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
         pass
 
     def oncellClicked(self, row, column):
+        """cell 被点击时, 动态计算曝光信息"""
         # _str = f'row:{row},column:{column},触发信号:{type}'
         # print(_str)
         print("oncellClicked")
-        if self.hawk_config["zone_cfg_sel"] != -1:
-            column = self.hawk_config["zone_cfg_sel"]
+        if self.zone_cfg_sel != -1:
+            column = self.zone_cfg_sel
         self.cal_expose_value(col=column)
 
     def oncurrentCellChanged(self, row, col, pre_row, pre_col):
+        """cell 值改变时, 动态计算曝光信息"""
         print("oncurrentCellChanged")
         self.cal_expose_value(col)
 
     def get_zone_config(self):
-        zone_config_sel = self.hawk_config["zone_cfg_sel"]
-        (col_lower, col_upper) = (0, self.table_col) if zone_config_sel == -1 else (zone_config_sel, zone_config_sel+1)
+        """获取界面配置值"""
+        self.hawk01_zone_config["zone_cfg_sel"] = self.zone_cfg_sel
+        (col_lower, col_upper) = (0, self.table_col) if self.zone_cfg_sel == -1 else (self.zone_cfg_sel, self.zone_cfg_sel+1)
         for row in range(self.table_row):
             for col in range(col_lower, col_upper):
-                print("获取数据：", row, col)
+                # print("获取数据：", row, col)
                 _str = self.ZoneConfigInputTable.cellWidget(row, col).text()
                 if _str == "":
                     value = 0
                 else:
                     value = int(self.ZoneConfigInputTable.cellWidget(row, col).text(), 16)
                 if row < 7:
-                    self.hawk_config["zone_cfg_def"][f"{self.row_type[row]}"][f"Zone{col}"] = value
+                    self.hawk01_zone_config["zone_cfg_def"][f"{self.row_type[row]}"][f"Zone{col}"] = value
                 else:
-                    self.hawk_config["zone_cfg_def"][f"Zone_{col}_MF_KN"][row-7] = value
-        # print(self.hawk_config)
+                    self.hawk01_zone_config["zone_cfg_def"][f"Zone_{col}_MF_KN"][row - 7] = value
+        # print(self.hawk01_config)
         self.return_config_signal.sync_signal.emit()
         self.close()
         pass
@@ -162,11 +168,11 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
         self.Expotime_Value.setText(f"{col}:{EXPO_PLSWC}-{EXPO_PLSWF} ns")
 
     def get_hawk_config(self):
-        return self.hawk_config
+        return self.hawk01_zone_config
 
     def show(self, hawk_config=None):
         if hawk_config is not None:
-            self.hawk_config = hawk_config
+            self.hawk01_zone_config = hawk_config
         self.gui_initial()
         self.value_initial()
         super(ROIZoneConfigWin, self).show()
@@ -192,7 +198,7 @@ if __name__ == '__main__':
     with open(styleFile, 'r') as f:
         qssStyle = f.read()
 
-    HawkConfig = JsonFunction(file_path="../.Hawk01Config/HawkConfig.json")
+    HawkConfig = JsonFunction(file_path="../.Hawk01Config/Hawk01Config.json")
     hawk_config = HawkConfig.items
 
     win = ROIZoneConfigWin(hawk_config, qssStyle)

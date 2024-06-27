@@ -1,15 +1,6 @@
 {
-"BIN_WIDTH":{
-    "0.75ns":{"UPSMP_MODE": 3, "SYS_CLK":"330M"},
-    "1.00ns":{"UPSMP_MODE": 3, "SYS_CLK":"250M"},
-    "1.25ns":{"UPSMP_MODE": 3, "SYS_CLK":"200M"},
-    "1.50ns":{"UPSMP_MODE": 0, "SYS_CLK":"330M"},
-    "2.00ns":{"UPSMP_MODE": 0, "SYS_CLK":"250M"},
-    "2.50ns":{"UPSMP_MODE": 0, "SYS_CLK":"200M"}
-},
-
 "FREQ_Config" : {
-    "FREF_24M": {
+    "REF_24M": {
         "?PLL" : "PLL >> SYS_CLK freq",
         "PLL0": {
             "250M": {"ID": 3, "FB": 250, "OD": 2}
@@ -28,7 +19,7 @@
         }
     },
 
-    "FREF_25M": {
+    "REF_25M": {
         "PLL0": {
             "250M": {"ID": 2, "FB": 160, "OD": 2}
         },

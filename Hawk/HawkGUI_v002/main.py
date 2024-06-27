@@ -26,7 +26,7 @@ from gui.uis.windows.main_window import *
 
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
-from Hawk.HawkGUI_v002.HawkFunction.HawkMainFunction import HawkFunctions
+from Hawk.HawkGUI_v002.Hawk01Function.Hawk01MainUI import Hawk01MainUI
 from Hawk.HawkGUI_v002.HawkToolFunction.HawkToolbox import HawkToolbox
 from SelfDefinedPackge import MatplotExtension
 from SelfDefinedPackge.LogerPubMethod import *
@@ -66,16 +66,24 @@ class MainWindow(QMainWindow):
             logging.warning("No theme profile found...")
             self.qssStyle = None
 
+        # ///////////////////////////////////////////////////////////////
         # LOAD Data
         # ///////////////////////////////////////////////////////////////
-        self.GuiValueConfig = JsonFunction(file_path=".Hawk01Config/HawkGuiConfig.json")
-        self.HawkConfig = JsonFunction(file_path=".Hawk01Config/HawkConfig.json")
-        self.HawkROIGenConfig = JsonFunction(file_path=".Hawk01Config/HawkROIGenConfig.json")
-        self.HawkToolConfig = JsonFunction(file_path=".Hawk01Config/HawkToolConfig.json")
+        # Hawk01 Config
+        # ///////////////////////////////////////////////////////////////
+        self.Hawk01Config = JsonFunction(file_path=".Hawk01Config/Hawk01Config.json")
+        self.Hawk01GuiConfig = JsonFunction(file_path=".Hawk01Config/Hawk01GuiConfig.json")
+        self.Hawk01ZoneConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ZoneConfig.json")
+        self.Hawk01ROIGenConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ROIGenConfig.json")
 
-        self.gui_value_config = self.GuiValueConfig.items
-        self.hawk_config = self.HawkConfig.items
-        self.hawk_roi_gen_config = self.HawkROIGenConfig.items
+        self.hawk01_config = self.Hawk01Config.items
+        self.hawk01_gui_config = self.Hawk01GuiConfig.items
+        self.hawk01_zone_config = self.Hawk01ZoneConfig.items
+        self.hawk01_roi_gen_config = self.Hawk01ROIGenConfig.items
+
+        # Pub Config
+        # ///////////////////////////////////////////////////////////////
+        self.HawkToolConfig = JsonFunction(file_path=".HawkPubConfig/HawkToolConfig.json")
         self.hawk_tool_config = self.HawkToolConfig.items
 
         # SETUP MAIN WINDOW
@@ -84,9 +92,8 @@ class MainWindow(QMainWindow):
 
         self.generate_logger()
         SetupMainWindow.setup_gui(self)
-        HawkFunctions.setup_gui(self)
+        Hawk01MainUI.setup_gui(self)
         HawkToolbox.setup_gui(self)
-
 
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
@@ -144,8 +151,13 @@ class MainWindow(QMainWindow):
                                            self.settings["theme_name"]))
         self.timer.start(200)
 
-    def closeEvent(self, event):
-        self.HawkConfig.serialize()
+    def closeEvent(self, event):    # TODO
+        # Hawk 01 Config
+        self.Hawk01Config.serialize()
+        # self.Hawk01GuiConfig.serialize()
+        # self.Hawk01ZoneConfig.serialize()
+        self.Hawk01ROIGenConfig.serialize()
+        # Pub Config
         self.HawkToolConfig.serialize()
         MatplotExtension.fig_close()
 

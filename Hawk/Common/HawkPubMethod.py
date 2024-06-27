@@ -370,7 +370,7 @@ def GenerateHawkRegConfig(cfg: dict):
         else:
             csru_datas[line] = _str
 
-    PubMethod.data_save(fname=f'{cfg["config_name"]}.txt',
+    PubMethod.data_save(fname=f'{cfg["reg_name"]}.txt',
                         data_list=csru_datas,
                         split='\n',
                         fd_path=cfg["fd_path"])

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'roi_zone_configrQElCJ.ui'
+## Form generated from reading UI file 'roi_zone_configaGJawR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -191,50 +191,73 @@ class Ui_ROIZoneConfig(object):
         if (self.ZoneConfigInputTable.rowCount() < 23):
             self.ZoneConfigInputTable.setRowCount(23)
         __qtablewidgetitem32 = QTableWidgetItem()
+        __qtablewidgetitem32.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(0, __qtablewidgetitem32)
         __qtablewidgetitem33 = QTableWidgetItem()
+        __qtablewidgetitem33.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(1, __qtablewidgetitem33)
         __qtablewidgetitem34 = QTableWidgetItem()
+        __qtablewidgetitem34.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(2, __qtablewidgetitem34)
         __qtablewidgetitem35 = QTableWidgetItem()
+        __qtablewidgetitem35.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(3, __qtablewidgetitem35)
         __qtablewidgetitem36 = QTableWidgetItem()
+        __qtablewidgetitem36.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(4, __qtablewidgetitem36)
         __qtablewidgetitem37 = QTableWidgetItem()
+        __qtablewidgetitem37.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(5, __qtablewidgetitem37)
         __qtablewidgetitem38 = QTableWidgetItem()
+        __qtablewidgetitem38.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(6, __qtablewidgetitem38)
         __qtablewidgetitem39 = QTableWidgetItem()
+        __qtablewidgetitem39.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(7, __qtablewidgetitem39)
         __qtablewidgetitem40 = QTableWidgetItem()
+        __qtablewidgetitem40.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(8, __qtablewidgetitem40)
         __qtablewidgetitem41 = QTableWidgetItem()
+        __qtablewidgetitem41.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(9, __qtablewidgetitem41)
         __qtablewidgetitem42 = QTableWidgetItem()
+        __qtablewidgetitem42.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(10, __qtablewidgetitem42)
         __qtablewidgetitem43 = QTableWidgetItem()
+        __qtablewidgetitem43.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(11, __qtablewidgetitem43)
         __qtablewidgetitem44 = QTableWidgetItem()
+        __qtablewidgetitem44.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(12, __qtablewidgetitem44)
         __qtablewidgetitem45 = QTableWidgetItem()
+        __qtablewidgetitem45.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(13, __qtablewidgetitem45)
         __qtablewidgetitem46 = QTableWidgetItem()
+        __qtablewidgetitem46.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(14, __qtablewidgetitem46)
         __qtablewidgetitem47 = QTableWidgetItem()
+        __qtablewidgetitem47.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(15, __qtablewidgetitem47)
         __qtablewidgetitem48 = QTableWidgetItem()
+        __qtablewidgetitem48.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(16, __qtablewidgetitem48)
         __qtablewidgetitem49 = QTableWidgetItem()
+        __qtablewidgetitem49.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(17, __qtablewidgetitem49)
         __qtablewidgetitem50 = QTableWidgetItem()
+        __qtablewidgetitem50.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(18, __qtablewidgetitem50)
         __qtablewidgetitem51 = QTableWidgetItem()
+        __qtablewidgetitem51.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(19, __qtablewidgetitem51)
         __qtablewidgetitem52 = QTableWidgetItem()
+        __qtablewidgetitem52.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(20, __qtablewidgetitem52)
         __qtablewidgetitem53 = QTableWidgetItem()
+        __qtablewidgetitem53.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(21, __qtablewidgetitem53)
         __qtablewidgetitem54 = QTableWidgetItem()
+        __qtablewidgetitem54.setTextAlignment(Qt.AlignTrailing|Qt.AlignVCenter);
         self.ZoneConfigInputTable.setVerticalHeaderItem(22, __qtablewidgetitem54)
         __qtablewidgetitem55 = QTableWidgetItem()
         self.ZoneConfigInputTable.setItem(0, 0, __qtablewidgetitem55)
@@ -268,19 +291,6 @@ class Ui_ROIZoneConfig(object):
 
 
         self.verticalLayout.addWidget(self.widget)
-
-        self.verticalWidget = QWidget(ROIZoneConfig)
-        self.verticalWidget.setObjectName(u"verticalWidget")
-        sizePolicy.setHeightForWidth(self.verticalWidget.sizePolicy().hasHeightForWidth())
-        self.verticalWidget.setSizePolicy(sizePolicy)
-        self.gridLayout_3 = QGridLayout(self.verticalWidget)
-        self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
-
-        self.gridLayout_3.addItem(self.horizontalSpacer_3, 0, 2, 1, 1)
-
-
-        self.verticalLayout.addWidget(self.verticalWidget)
 
         self.buttonBox = QDialogButtonBox(ROIZoneConfig)
         self.buttonBox.setObjectName(u"buttonBox")
@@ -373,51 +383,51 @@ class Ui_ROIZoneConfig(object):
         ___qtablewidgetitem31 = self.ZoneConfigInputTable.horizontalHeaderItem(31)
         ___qtablewidgetitem31.setText(QCoreApplication.translate("ROIZoneConfig", u"Zone32", None));
         ___qtablewidgetitem32 = self.ZoneConfigInputTable.verticalHeaderItem(0)
-        ___qtablewidgetitem32.setText(QCoreApplication.translate("ROIZoneConfig", u"SUB_EXPOTIME", None));
+        ___qtablewidgetitem32.setText(QCoreApplication.translate("ROIZoneConfig", u"SUB_EXPOTIME [11:0] ", None));
         ___qtablewidgetitem33 = self.ZoneConfigInputTable.verticalHeaderItem(1)
-        ___qtablewidgetitem33.setText(QCoreApplication.translate("ROIZoneConfig", u"SUB_IDLETIME", None));
+        ___qtablewidgetitem33.setText(QCoreApplication.translate("ROIZoneConfig", u"SUB_IDLETIME [11:0] ", None));
         ___qtablewidgetitem34 = self.ZoneConfigInputTable.verticalHeaderItem(2)
-        ___qtablewidgetitem34.setText(QCoreApplication.translate("ROIZoneConfig", u"EXPO_LASPRD", None));
+        ___qtablewidgetitem34.setText(QCoreApplication.translate("ROIZoneConfig", u"EXPO_LASPRD [11:0] ", None));
         ___qtablewidgetitem35 = self.ZoneConfigInputTable.verticalHeaderItem(3)
-        ___qtablewidgetitem35.setText(QCoreApplication.translate("ROIZoneConfig", u"EXPO_PLSWC", None));
+        ___qtablewidgetitem35.setText(QCoreApplication.translate("ROIZoneConfig", u"EXPO_PLSWC [5:0] ", None));
         ___qtablewidgetitem36 = self.ZoneConfigInputTable.verticalHeaderItem(4)
-        ___qtablewidgetitem36.setText(QCoreApplication.translate("ROIZoneConfig", u"EXPO_PLSWF", None));
+        ___qtablewidgetitem36.setText(QCoreApplication.translate("ROIZoneConfig", u"EXPO_PLSWF [4:0] ", None));
         ___qtablewidgetitem37 = self.ZoneConfigInputTable.verticalHeaderItem(5)
-        ___qtablewidgetitem37.setText(QCoreApplication.translate("ROIZoneConfig", u"TX_EN", None));
+        ___qtablewidgetitem37.setText(QCoreApplication.translate("ROIZoneConfig", u"TX_EN [3:0] ", None));
         ___qtablewidgetitem38 = self.ZoneConfigInputTable.verticalHeaderItem(6)
-        ___qtablewidgetitem38.setText(QCoreApplication.translate("ROIZoneConfig", u"SPADEN_IN3ROWS", None));
+        ___qtablewidgetitem38.setText(QCoreApplication.translate("ROIZoneConfig", u"SPADEN_IN3ROWS [1:0] ", None));
         ___qtablewidgetitem39 = self.ZoneConfigInputTable.verticalHeaderItem(7)
-        ___qtablewidgetitem39.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 1", None));
+        ___qtablewidgetitem39.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 01 [7:0] ", None));
         ___qtablewidgetitem40 = self.ZoneConfigInputTable.verticalHeaderItem(8)
-        ___qtablewidgetitem40.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 2", None));
+        ___qtablewidgetitem40.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 02 [7:0] ", None));
         ___qtablewidgetitem41 = self.ZoneConfigInputTable.verticalHeaderItem(9)
-        ___qtablewidgetitem41.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 3", None));
+        ___qtablewidgetitem41.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 03 [7:0] ", None));
         ___qtablewidgetitem42 = self.ZoneConfigInputTable.verticalHeaderItem(10)
-        ___qtablewidgetitem42.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 4", None));
+        ___qtablewidgetitem42.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 04 [7:0] ", None));
         ___qtablewidgetitem43 = self.ZoneConfigInputTable.verticalHeaderItem(11)
-        ___qtablewidgetitem43.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 5", None));
+        ___qtablewidgetitem43.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 05 [7:0] ", None));
         ___qtablewidgetitem44 = self.ZoneConfigInputTable.verticalHeaderItem(12)
-        ___qtablewidgetitem44.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 6", None));
+        ___qtablewidgetitem44.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 06 [7:0] ", None));
         ___qtablewidgetitem45 = self.ZoneConfigInputTable.verticalHeaderItem(13)
-        ___qtablewidgetitem45.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 7", None));
+        ___qtablewidgetitem45.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 07 [7:0] ", None));
         ___qtablewidgetitem46 = self.ZoneConfigInputTable.verticalHeaderItem(14)
-        ___qtablewidgetitem46.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 8", None));
+        ___qtablewidgetitem46.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 08 [7:0] ", None));
         ___qtablewidgetitem47 = self.ZoneConfigInputTable.verticalHeaderItem(15)
-        ___qtablewidgetitem47.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 9", None));
+        ___qtablewidgetitem47.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 09 [7:0] ", None));
         ___qtablewidgetitem48 = self.ZoneConfigInputTable.verticalHeaderItem(16)
-        ___qtablewidgetitem48.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 10", None));
+        ___qtablewidgetitem48.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 10 [7:0] ", None));
         ___qtablewidgetitem49 = self.ZoneConfigInputTable.verticalHeaderItem(17)
-        ___qtablewidgetitem49.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 11", None));
+        ___qtablewidgetitem49.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 11 [7:0] ", None));
         ___qtablewidgetitem50 = self.ZoneConfigInputTable.verticalHeaderItem(18)
-        ___qtablewidgetitem50.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 12", None));
+        ___qtablewidgetitem50.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 12 [7:0] ", None));
         ___qtablewidgetitem51 = self.ZoneConfigInputTable.verticalHeaderItem(19)
-        ___qtablewidgetitem51.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 13", None));
+        ___qtablewidgetitem51.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 13 [7:0] ", None));
         ___qtablewidgetitem52 = self.ZoneConfigInputTable.verticalHeaderItem(20)
-        ___qtablewidgetitem52.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 14", None));
+        ___qtablewidgetitem52.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 14 [7:0] ", None));
         ___qtablewidgetitem53 = self.ZoneConfigInputTable.verticalHeaderItem(21)
-        ___qtablewidgetitem53.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 15", None));
+        ___qtablewidgetitem53.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 15 [7:0] ", None));
         ___qtablewidgetitem54 = self.ZoneConfigInputTable.verticalHeaderItem(22)
-        ___qtablewidgetitem54.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 16", None));
+        ___qtablewidgetitem54.setText(QCoreApplication.translate("ROIZoneConfig", u"MF Kernel 16 [7:0] ", None));
 
         __sortingEnabled = self.ZoneConfigInputTable.isSortingEnabled()
         self.ZoneConfigInputTable.setSortingEnabled(False)

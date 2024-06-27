@@ -1,6 +1,3 @@
-import tkinter
-
-import re
 from tkinter import filedialog
 from tkinter import ttk
 
@@ -11,84 +8,13 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.ticker import MultipleLocator
 
 from Hawk.MSKU import MskuPubMethod
-from Hawk.MSKU.MSKU_Cali import ROICalibration
+from Hawk.MSKU.MSKU_Cali.ROICalibration import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
 from Hawk.Common import HawkPubMethod
+from Hawk.MSKU.MskuPubMethod import DirectAccessCaliData
 from SelfDefinedPackge import PubMethod
 from Hawk.HawkGUI_v001 import Player
 from Hawk.HawkGUI_v001.HawkComponentStyle import *
-
-
-def DirectAccessCaliData(file, cfg):
-    """通过读取文件的形式获取 cali_data"""
-    ini_cali_datas = PubMethod.read_file(file)
-
-    # 去除单行注释
-    # /////////////////////////////////////////////////////////////////////
-    cali_datas = []
-    for line_cnt in range(len(ini_cali_datas)):
-        _str = ini_cali_datas[line_cnt]
-        if _str.strip() == '\n':
-            continue
-        elif _str.strip()[0:2] == '//':
-            continue
-        else:
-            cali_datas.append([_str, line_cnt + 1])
-
-    # 校验标定数量是否正确
-    # /////////////////////////////////////////////////////////////////////
-    num = (cfg['V_ROLL_NUM'] + 1) * (cfg['H_ROLL_NUM'] + 1) if cfg['SCAN_MODE'] == 1 else (cfg['V_ROLL_NUM'] + 1)
-    if len(cali_datas) < num:  # 标定数量少于配置所需标定数时, 结束程序
-        info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
-                f"{num} cali data are required, but only {len(cali_datas)} cali data are available.")
-        raise ValueError(info)
-    elif len(cali_datas) > num:  # 标定数量多余所需标定数时, 打印提示信息, 提示配置信息与标定信息不匹配
-        info = f"Be careful! The calibration data may not match the register configuration."
-    else:
-        info = None
-
-    def _split_cali_data(index):
-        [data, lines] = cali_datas[index]
-        data = re.split(',|;|，|；|//', data)
-        # if len(data) < 2:
-        #     raise ValueError(f"Calibration data format error.\n"
-        #                      f"line{lines}: {data}")
-        try:
-            _start_index = int(data[1])
-            _seg_num = int(data[0]) // 48
-        except:
-            raise ValueError(f"Calibration data format error.\n"
-                             f"line{lines}: {data}")
-        if _seg_num > 15:
-            raise ValueError(f"Calibration data error.\n"
-                             f"line{lines}: {data}\n"
-                             f"Error: {data[0]} beyond 767.")
-        return _seg_num, _start_index
-
-    img_roi_data = []
-    per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
-
-    frame_cnt = 0
-    if cfg['SCAN_MODE'] == 0:
-        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
-            seg_num, start_index = _split_cali_data(frame_cnt)
-
-            for seg_cnt in range(0, cfg['H_VLD_SEG'] + 1):
-                per_img_roi_data.append([seg_num + seg_cnt, start_index])
-
-            img_roi_data.append(per_img_roi_data)
-            per_img_roi_data = []
-            frame_cnt += 1
-    else:
-        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
-            for hroll_cnt in range(0, cfg['H_ROLL_NUM'] + 1):
-                seg_num, start_index = _split_cali_data(frame_cnt)
-                per_img_roi_data.append([seg_num, start_index])
-
-                img_roi_data.append(per_img_roi_data)
-                per_img_roi_data = []
-                frame_cnt += 1
-    return img_roi_data, info
 
 
 def config_mapping(cfg: dict):
@@ -122,14 +48,14 @@ def GenerateRoiMem(cfg, msku_roi_mem):
     except BaseException as msg:
         raise msg
 
-    MskuPubMethod.roi_imag(msku_roi_mem, cfg, f_name=cfg['roi_name'], fd_path=cfg["fd_path"])
+    MskuPubMethod.RollingArrayCollect(msku_roi_data=msku_roi_mem, cfg=cfg, is_save=1, fd_path=cfg["fd_path"])
 
     for index in range(len(zone_mem)):
         per_zone_mem = zone_mem[index] + msku_roi_mem[index]
         roi_data = roi_data + per_zone_mem
 
     MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"],
-                                data_format=cfg['data_format'])
+                                roi_data_format=cfg['roi_data_format'])
     return "ROI 生成完成！！！"
 
 
@@ -171,7 +97,7 @@ def msku_gui():
         nonlocal arrays, info, preview_update_symbol, preview_triggered
         preview_triggered = True
         preview_update_symbol = True
-        arrays, info = MskuPubMethod.PerRollingArrayCollect(msku_roi_mem, cfg)
+        arrays, acc_spad_array, depth_spad_array, info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg)
         return
 
     def update(i):
@@ -394,14 +320,12 @@ def msku_gui():
                 # log_print_window.insert(tkinter.INSERT, "没有选取任何文件！！！\n")
                 _log_update('Preview failed! You have not selected any file.', log_type=2)
                 return
-            cali_data, log = DirectAccessCaliData(cali_filename.get(), cfg)
+            cfg["gen_roi_file"] = cali_filename.get()
+            cali_data = DirectAccessCaliData(cfg)
             msku_roi_mem = MskuRoiGenerateForCaliData(cali_data, cfg)
 
             _preview_trigger()
             _log_update(f"Displaying...", log_type=0)
-
-            if log is not None:  # 打印标定文件校验的日志信息
-                _log_update(log, log_type=1)
             return
         except BaseException as e:
             _log_update(f"Preview failed! Log：{e}", log_type=2)
@@ -415,12 +339,12 @@ def msku_gui():
                 _log_update('Error! You have not genetate ROI yet.', log_type=2)
                 return
             cfg['ref_cfg_file'] = cfgs_file_sel_cmp.get()   # 获取界面上配置的基准脚本
-            cfg['config_name'] = fname_for_cfg_cmp.get()    # 获取界面上配置脚本文件名
+            cfg['reg_name'] = fname_for_cfg_cmp.get()    # 获取界面上配置脚本文件名
             cfg['roi_name'] = fname_for_roi_cmp.get()       # 获取界面上roi文件名
             GenerateRoiMem(cfg, msku_roi_mem)
             # reg_config = PubMethod.ReadJsonFile('reg_config.json')
             HawkPubMethod.GenerateHawkRegConfig(cfg)
-            _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['config_name']}.txt",
+            _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['reg_name']}.txt",
                         log_type=1)
             _log_update(f"Hawk ROI data has been saved to: {cfg['fd_path']}/{cfg['roi_name']}.txt", log_type=1)
             _log_update('Save successfully.', log_type=0)
@@ -602,7 +526,7 @@ def msku_gui():
 
         # 插入默认文本
         fname_for_cfg_cmp.delete(0, "end")
-        fname_for_cfg_cmp.insert(0, cfg['config_name'])
+        fname_for_cfg_cmp.insert(0, cfg['reg_name'])
         fname_for_roi_cmp.delete(0, "end")
         fname_for_roi_cmp.insert(0, cfg['roi_name'])
 
