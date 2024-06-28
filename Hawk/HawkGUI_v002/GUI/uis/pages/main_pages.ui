@@ -793,7 +793,7 @@
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>0</number>
+                <number>3</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -1677,56 +1677,6 @@
                       </layout>
                      </item>
                      <item row="1" column="0">
-                      <widget class="QLabel" name="cali_order_Label">
-                       <property name="font">
-                        <font>
-                         <family>Microsoft YaHei UI</family>
-                         <pointsize>9</pointsize>
-                         <bold>false</bold>
-                        </font>
-                       </property>
-                       <property name="frameShape">
-                        <enum>QFrame::NoFrame</enum>
-                       </property>
-                       <property name="text">
-                        <string>Cali Order</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="1">
-                      <widget class="QComboBox" name="cali_order_ComboBox">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>0</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>16777215</width>
-                         <height>16777215</height>
-                        </size>
-                       </property>
-                       <property name="font">
-                        <font>
-                         <family>Microsoft YaHei UI</family>
-                         <pointsize>9</pointsize>
-                         <bold>false</bold>
-                        </font>
-                       </property>
-                       <item>
-                        <property name="text">
-                         <string>From small to large</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>From large to small</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
-                     <item row="2" column="0">
                       <widget class="QLabel" name="img_mirror_Label">
                        <property name="font">
                         <font>
@@ -1743,7 +1693,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="2" column="1">
+                     <item row="1" column="1">
                       <widget class="QComboBox" name="img_mirror_ComboBox">
                        <property name="minimumSize">
                         <size>
@@ -1786,34 +1736,7 @@
                        </item>
                       </widget>
                      </item>
-                     <item row="3" column="0">
-                      <widget class="QLabel" name="cali_frm_num_Label">
-                       <property name="font">
-                        <font>
-                         <family>Microsoft YaHei UI</family>
-                         <pointsize>9</pointsize>
-                         <bold>false</bold>
-                        </font>
-                       </property>
-                       <property name="frameShape">
-                        <enum>QFrame::NoFrame</enum>
-                       </property>
-                       <property name="text">
-                        <string>cali frm num</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="1">
-                      <widget class="QSpinBox" name="cali_frm_num__SpinBox">
-                       <property name="minimum">
-                        <number>1</number>
-                       </property>
-                       <property name="maximum">
-                        <number>10000</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="4" column="0">
+                     <item row="2" column="0">
                       <widget class="QLabel" name="remove_noise_Label">
                        <property name="font">
                         <font>
@@ -1830,7 +1753,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="4" column="1">
+                     <item row="2" column="1">
                       <widget class="QComboBox" name="remove_noise_ComboBox">
                        <property name="minimumSize">
                         <size>
@@ -1863,7 +1786,7 @@
                        </item>
                       </widget>
                      </item>
-                     <item row="5" column="0">
+                     <item row="3" column="0">
                       <widget class="QLabel" name="light_smooth_Label">
                        <property name="font">
                         <font>
@@ -1880,7 +1803,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="5" column="1">
+                     <item row="3" column="1">
                       <widget class="QComboBox" name="light_smooth_ComboBox">
                        <property name="minimumSize">
                         <size>
@@ -1913,37 +1836,7 @@
                        </item>
                       </widget>
                      </item>
-                     <item row="6" column="0">
-                      <widget class="QLabel" name="ref_segment_Label">
-                       <property name="font">
-                        <font>
-                         <family>Microsoft YaHei UI</family>
-                         <pointsize>9</pointsize>
-                         <bold>false</bold>
-                        </font>
-                       </property>
-                       <property name="frameShape">
-                        <enum>QFrame::NoFrame</enum>
-                       </property>
-                       <property name="text">
-                        <string>ref segment</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="6" column="1">
-                      <widget class="QSpinBox" name="ref_segment_SpinBox">
-                       <property name="minimum">
-                        <number>0</number>
-                       </property>
-                       <property name="maximum">
-                        <number>15</number>
-                       </property>
-                       <property name="value">
-                        <number>0</number>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="7" column="0">
+                     <item row="4" column="0">
                       <widget class="QLabel" name="curvature_Label">
                        <property name="font">
                         <font>
@@ -1960,7 +1853,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="7" column="1">
+                     <item row="4" column="1">
                       <widget class="QSpinBox" name="curvature_SpinBox">
                        <property name="minimum">
                         <number>0</number>
@@ -1973,8 +1866,8 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="8" column="0">
-                      <widget class="QLabel" name="roi_correct_Label">
+                     <item row="5" column="0">
+                      <widget class="QLabel" name="correct_thres_Label">
                        <property name="font">
                         <font>
                          <family>Microsoft YaHei UI</family>
@@ -1986,12 +1879,42 @@
                         <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
-                        <string>roi correct</string>
+                        <string>correct thres</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="8" column="1">
-                      <widget class="QComboBox" name="roi_correct_ComboBox">
+                     <item row="5" column="1">
+                      <widget class="QSpinBox" name="correct_thres_SpinBox">
+                       <property name="minimum">
+                        <number>0</number>
+                       </property>
+                       <property name="maximum">
+                        <number>100</number>
+                       </property>
+                       <property name="value">
+                        <number>1</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="6" column="0">
+                      <widget class="QLabel" name="cali_order_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>Cali Order</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="6" column="1">
+                      <widget class="QComboBox" name="cali_order_ComboBox">
                        <property name="minimumSize">
                         <size>
                          <width>150</width>
@@ -2013,18 +1936,18 @@
                        </property>
                        <item>
                         <property name="text">
-                         <string>Yes</string>
+                         <string>From small to large</string>
                         </property>
                        </item>
                        <item>
                         <property name="text">
-                         <string>No</string>
+                         <string>From large to small</string>
                         </property>
                        </item>
                       </widget>
                      </item>
-                     <item row="9" column="0">
-                      <widget class="QLabel" name="correct_thres_Label">
+                     <item row="7" column="0">
+                      <widget class="QLabel" name="cali_frm_num_Label">
                        <property name="font">
                         <font>
                          <family>Microsoft YaHei UI</family>
@@ -2036,24 +1959,51 @@
                         <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
-                        <string>correct thres</string>
+                        <string>cali frm num</string>
                        </property>
                       </widget>
                      </item>
-                     <item row="9" column="1">
-                      <widget class="QSpinBox" name="correct_thres_SpinBox">
+                     <item row="7" column="1">
+                      <widget class="QSpinBox" name="cali_frm_num__SpinBox">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10000</number>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="8" column="0">
+                      <widget class="QLabel" name="ref_segment_Label">
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::NoFrame</enum>
+                       </property>
+                       <property name="text">
+                        <string>ref segment</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="8" column="1">
+                      <widget class="QSpinBox" name="ref_segment_SpinBox">
                        <property name="minimum">
                         <number>0</number>
                        </property>
                        <property name="maximum">
-                        <number>100</number>
+                        <number>16</number>
                        </property>
                        <property name="value">
-                        <number>1</number>
+                        <number>0</number>
                        </property>
                       </widget>
                      </item>
-                     <item row="10" column="0">
+                     <item row="9" column="0">
                       <widget class="QLabel" name="mode_2D_Label">
                        <property name="font">
                         <font>
@@ -2070,7 +2020,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="10" column="1">
+                     <item row="9" column="1">
                       <widget class="QComboBox" name="mode_2D_ComboBox">
                        <property name="minimumSize">
                         <size>
@@ -4075,8 +4025,8 @@ font: 700 9pt &quot;Consolas&quot;;
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>766</width>
-            <height>577</height>
+            <width>233</width>
+            <height>256</height>
            </rect>
           </property>
           <property name="styleSheet">

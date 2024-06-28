@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesiefQJK.ui'
+## Form generated from reading UI file 'main_pageslTIsTa.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -685,29 +685,12 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setLayout(0, QFormLayout.FieldRole, self.cali_file_path_Layout)
 
-        self.cali_order_Label = QLabel(self.scrollAreaWidgetContents_6)
-        self.cali_order_Label.setObjectName(u"cali_order_Label")
-        self.cali_order_Label.setFont(font1)
-        self.cali_order_Label.setFrameShape(QFrame.NoFrame)
-
-        self.formLayout_7.setWidget(1, QFormLayout.LabelRole, self.cali_order_Label)
-
-        self.cali_order_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
-        self.cali_order_ComboBox.addItem("")
-        self.cali_order_ComboBox.addItem("")
-        self.cali_order_ComboBox.setObjectName(u"cali_order_ComboBox")
-        self.cali_order_ComboBox.setMinimumSize(QSize(150, 0))
-        self.cali_order_ComboBox.setMaximumSize(QSize(16777215, 16777215))
-        self.cali_order_ComboBox.setFont(font1)
-
-        self.formLayout_7.setWidget(1, QFormLayout.FieldRole, self.cali_order_ComboBox)
-
         self.img_mirror_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.img_mirror_Label.setObjectName(u"img_mirror_Label")
         self.img_mirror_Label.setFont(font1)
         self.img_mirror_Label.setFrameShape(QFrame.NoFrame)
 
-        self.formLayout_7.setWidget(2, QFormLayout.LabelRole, self.img_mirror_Label)
+        self.formLayout_7.setWidget(1, QFormLayout.LabelRole, self.img_mirror_Label)
 
         self.img_mirror_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
         self.img_mirror_ComboBox.addItem("")
@@ -719,28 +702,14 @@ class Ui_MainPages(object):
         self.img_mirror_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.img_mirror_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(2, QFormLayout.FieldRole, self.img_mirror_ComboBox)
-
-        self.cali_frm_num_Label = QLabel(self.scrollAreaWidgetContents_6)
-        self.cali_frm_num_Label.setObjectName(u"cali_frm_num_Label")
-        self.cali_frm_num_Label.setFont(font1)
-        self.cali_frm_num_Label.setFrameShape(QFrame.NoFrame)
-
-        self.formLayout_7.setWidget(3, QFormLayout.LabelRole, self.cali_frm_num_Label)
-
-        self.cali_frm_num__SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
-        self.cali_frm_num__SpinBox.setObjectName(u"cali_frm_num__SpinBox")
-        self.cali_frm_num__SpinBox.setMinimum(1)
-        self.cali_frm_num__SpinBox.setMaximum(10000)
-
-        self.formLayout_7.setWidget(3, QFormLayout.FieldRole, self.cali_frm_num__SpinBox)
+        self.formLayout_7.setWidget(1, QFormLayout.FieldRole, self.img_mirror_ComboBox)
 
         self.remove_noise_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.remove_noise_Label.setObjectName(u"remove_noise_Label")
         self.remove_noise_Label.setFont(font1)
         self.remove_noise_Label.setFrameShape(QFrame.NoFrame)
 
-        self.formLayout_7.setWidget(4, QFormLayout.LabelRole, self.remove_noise_Label)
+        self.formLayout_7.setWidget(2, QFormLayout.LabelRole, self.remove_noise_Label)
 
         self.remove_noise_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
         self.remove_noise_ComboBox.addItem("")
@@ -750,14 +719,14 @@ class Ui_MainPages(object):
         self.remove_noise_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.remove_noise_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(4, QFormLayout.FieldRole, self.remove_noise_ComboBox)
+        self.formLayout_7.setWidget(2, QFormLayout.FieldRole, self.remove_noise_ComboBox)
 
         self.light_smooth_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.light_smooth_Label.setObjectName(u"light_smooth_Label")
         self.light_smooth_Label.setFont(font1)
         self.light_smooth_Label.setFrameShape(QFrame.NoFrame)
 
-        self.formLayout_7.setWidget(5, QFormLayout.LabelRole, self.light_smooth_Label)
+        self.formLayout_7.setWidget(3, QFormLayout.LabelRole, self.light_smooth_Label)
 
         self.light_smooth_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
         self.light_smooth_ComboBox.addItem("")
@@ -767,29 +736,14 @@ class Ui_MainPages(object):
         self.light_smooth_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.light_smooth_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(5, QFormLayout.FieldRole, self.light_smooth_ComboBox)
-
-        self.ref_segment_Label = QLabel(self.scrollAreaWidgetContents_6)
-        self.ref_segment_Label.setObjectName(u"ref_segment_Label")
-        self.ref_segment_Label.setFont(font1)
-        self.ref_segment_Label.setFrameShape(QFrame.NoFrame)
-
-        self.formLayout_7.setWidget(6, QFormLayout.LabelRole, self.ref_segment_Label)
-
-        self.ref_segment_SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
-        self.ref_segment_SpinBox.setObjectName(u"ref_segment_SpinBox")
-        self.ref_segment_SpinBox.setMinimum(0)
-        self.ref_segment_SpinBox.setMaximum(15)
-        self.ref_segment_SpinBox.setValue(0)
-
-        self.formLayout_7.setWidget(6, QFormLayout.FieldRole, self.ref_segment_SpinBox)
+        self.formLayout_7.setWidget(3, QFormLayout.FieldRole, self.light_smooth_ComboBox)
 
         self.curvature_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.curvature_Label.setObjectName(u"curvature_Label")
         self.curvature_Label.setFont(font1)
         self.curvature_Label.setFrameShape(QFrame.NoFrame)
 
-        self.formLayout_7.setWidget(7, QFormLayout.LabelRole, self.curvature_Label)
+        self.formLayout_7.setWidget(4, QFormLayout.LabelRole, self.curvature_Label)
 
         self.curvature_SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
         self.curvature_SpinBox.setObjectName(u"curvature_SpinBox")
@@ -797,31 +751,14 @@ class Ui_MainPages(object):
         self.curvature_SpinBox.setMaximum(1000)
         self.curvature_SpinBox.setValue(2)
 
-        self.formLayout_7.setWidget(7, QFormLayout.FieldRole, self.curvature_SpinBox)
-
-        self.roi_correct_Label = QLabel(self.scrollAreaWidgetContents_6)
-        self.roi_correct_Label.setObjectName(u"roi_correct_Label")
-        self.roi_correct_Label.setFont(font1)
-        self.roi_correct_Label.setFrameShape(QFrame.NoFrame)
-
-        self.formLayout_7.setWidget(8, QFormLayout.LabelRole, self.roi_correct_Label)
-
-        self.roi_correct_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
-        self.roi_correct_ComboBox.addItem("")
-        self.roi_correct_ComboBox.addItem("")
-        self.roi_correct_ComboBox.setObjectName(u"roi_correct_ComboBox")
-        self.roi_correct_ComboBox.setMinimumSize(QSize(150, 0))
-        self.roi_correct_ComboBox.setMaximumSize(QSize(16777215, 16777215))
-        self.roi_correct_ComboBox.setFont(font1)
-
-        self.formLayout_7.setWidget(8, QFormLayout.FieldRole, self.roi_correct_ComboBox)
+        self.formLayout_7.setWidget(4, QFormLayout.FieldRole, self.curvature_SpinBox)
 
         self.correct_thres_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.correct_thres_Label.setObjectName(u"correct_thres_Label")
         self.correct_thres_Label.setFont(font1)
         self.correct_thres_Label.setFrameShape(QFrame.NoFrame)
 
-        self.formLayout_7.setWidget(9, QFormLayout.LabelRole, self.correct_thres_Label)
+        self.formLayout_7.setWidget(5, QFormLayout.LabelRole, self.correct_thres_Label)
 
         self.correct_thres_SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
         self.correct_thres_SpinBox.setObjectName(u"correct_thres_SpinBox")
@@ -829,14 +766,60 @@ class Ui_MainPages(object):
         self.correct_thres_SpinBox.setMaximum(100)
         self.correct_thres_SpinBox.setValue(1)
 
-        self.formLayout_7.setWidget(9, QFormLayout.FieldRole, self.correct_thres_SpinBox)
+        self.formLayout_7.setWidget(5, QFormLayout.FieldRole, self.correct_thres_SpinBox)
+
+        self.cali_order_Label = QLabel(self.scrollAreaWidgetContents_6)
+        self.cali_order_Label.setObjectName(u"cali_order_Label")
+        self.cali_order_Label.setFont(font1)
+        self.cali_order_Label.setFrameShape(QFrame.NoFrame)
+
+        self.formLayout_7.setWidget(6, QFormLayout.LabelRole, self.cali_order_Label)
+
+        self.cali_order_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
+        self.cali_order_ComboBox.addItem("")
+        self.cali_order_ComboBox.addItem("")
+        self.cali_order_ComboBox.setObjectName(u"cali_order_ComboBox")
+        self.cali_order_ComboBox.setMinimumSize(QSize(150, 0))
+        self.cali_order_ComboBox.setMaximumSize(QSize(16777215, 16777215))
+        self.cali_order_ComboBox.setFont(font1)
+
+        self.formLayout_7.setWidget(6, QFormLayout.FieldRole, self.cali_order_ComboBox)
+
+        self.cali_frm_num_Label = QLabel(self.scrollAreaWidgetContents_6)
+        self.cali_frm_num_Label.setObjectName(u"cali_frm_num_Label")
+        self.cali_frm_num_Label.setFont(font1)
+        self.cali_frm_num_Label.setFrameShape(QFrame.NoFrame)
+
+        self.formLayout_7.setWidget(7, QFormLayout.LabelRole, self.cali_frm_num_Label)
+
+        self.cali_frm_num__SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
+        self.cali_frm_num__SpinBox.setObjectName(u"cali_frm_num__SpinBox")
+        self.cali_frm_num__SpinBox.setMinimum(1)
+        self.cali_frm_num__SpinBox.setMaximum(10000)
+
+        self.formLayout_7.setWidget(7, QFormLayout.FieldRole, self.cali_frm_num__SpinBox)
+
+        self.ref_segment_Label = QLabel(self.scrollAreaWidgetContents_6)
+        self.ref_segment_Label.setObjectName(u"ref_segment_Label")
+        self.ref_segment_Label.setFont(font1)
+        self.ref_segment_Label.setFrameShape(QFrame.NoFrame)
+
+        self.formLayout_7.setWidget(8, QFormLayout.LabelRole, self.ref_segment_Label)
+
+        self.ref_segment_SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
+        self.ref_segment_SpinBox.setObjectName(u"ref_segment_SpinBox")
+        self.ref_segment_SpinBox.setMinimum(0)
+        self.ref_segment_SpinBox.setMaximum(16)
+        self.ref_segment_SpinBox.setValue(0)
+
+        self.formLayout_7.setWidget(8, QFormLayout.FieldRole, self.ref_segment_SpinBox)
 
         self.mode_2D_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.mode_2D_Label.setObjectName(u"mode_2D_Label")
         self.mode_2D_Label.setFont(font1)
         self.mode_2D_Label.setFrameShape(QFrame.NoFrame)
 
-        self.formLayout_7.setWidget(10, QFormLayout.LabelRole, self.mode_2D_Label)
+        self.formLayout_7.setWidget(9, QFormLayout.LabelRole, self.mode_2D_Label)
 
         self.mode_2D_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
         self.mode_2D_ComboBox.addItem("")
@@ -846,7 +829,7 @@ class Ui_MainPages(object):
         self.mode_2D_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.mode_2D_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(10, QFormLayout.FieldRole, self.mode_2D_ComboBox)
+        self.formLayout_7.setWidget(9, QFormLayout.FieldRole, self.mode_2D_ComboBox)
 
         self.scrollArea_5.setWidget(self.scrollAreaWidgetContents_6)
 
@@ -1603,7 +1586,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 766, 577))
+        self.contents.setGeometry(QRect(0, 0, 233, 256))
         self.contents.setStyleSheet(u"background: transparent;")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -1670,7 +1653,7 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(2)
+        self.ROIConfig.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -1716,17 +1699,12 @@ class Ui_MainPages(object):
         self.cali_file_path_Label.setText(QCoreApplication.translate("MainPages", u"Cali Filer", None))
         self.cali_file_path_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u9700\u8981\u6807\u5b9a\u7684ROI\u6587\u4ef6", None))
         self.cali_file_path_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.cali_order_Label.setText(QCoreApplication.translate("MainPages", u"Cali Order", None))
-        self.cali_order_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"From small to large", None))
-        self.cali_order_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"From large to small", None))
-
         self.img_mirror_Label.setText(QCoreApplication.translate("MainPages", u"Img Mirror ", None))
         self.img_mirror_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No mirror", None))
         self.img_mirror_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"X-axis mirror", None))
         self.img_mirror_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"Y-axis mirror", None))
         self.img_mirror_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"X-axis and Y-axis mirror", None))
 
-        self.cali_frm_num_Label.setText(QCoreApplication.translate("MainPages", u"cali frm num", None))
         self.remove_noise_Label.setText(QCoreApplication.translate("MainPages", u"remove noise", None))
         self.remove_noise_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
         self.remove_noise_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
@@ -1735,13 +1713,14 @@ class Ui_MainPages(object):
         self.light_smooth_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
         self.light_smooth_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
 
-        self.ref_segment_Label.setText(QCoreApplication.translate("MainPages", u"ref segment", None))
         self.curvature_Label.setText(QCoreApplication.translate("MainPages", u"curvature", None))
-        self.roi_correct_Label.setText(QCoreApplication.translate("MainPages", u"roi correct", None))
-        self.roi_correct_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
-        self.roi_correct_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
-
         self.correct_thres_Label.setText(QCoreApplication.translate("MainPages", u"correct thres", None))
+        self.cali_order_Label.setText(QCoreApplication.translate("MainPages", u"Cali Order", None))
+        self.cali_order_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"From small to large", None))
+        self.cali_order_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"From large to small", None))
+
+        self.cali_frm_num_Label.setText(QCoreApplication.translate("MainPages", u"cali frm num", None))
+        self.ref_segment_Label.setText(QCoreApplication.translate("MainPages", u"ref segment", None))
         self.mode_2D_Label.setText(QCoreApplication.translate("MainPages", u"mode 2D", None))
         self.mode_2D_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Light strip energy is preferred", None))
         self.mode_2D_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"The number of covered photons is preferred", None))
