@@ -1,7 +1,7 @@
 {
     "FILE_CONFIG": "--------文件相关配置---------",
     "ref_cfg_file": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input/Ref_RegCfg.txt",
-    "fd_path": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input",
+    "fd_path": "D:/Git/Adaps/Hawk/HawkGUI_v002/Output",
     "reg_name": "reg_config",
     "roi_name": "roi_mem",
     "REG_CONFIG": "-----------寄存器配置-----------",

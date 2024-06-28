@@ -26,8 +26,7 @@
         "config_1D": "-----1D scan_mode配置信息-----",
         "ref_segment": 8,
         "curvature": 2,
-        "roi_correct": 1,
-        "correct_thres": 3,
+        "correct_thres": 0,
         "config_2D": "-----2D scan_mode配置信息-----",
         "mode2D": 0,
         "msk_intensity": 80,
@@ -39,10 +38,10 @@
             "cali_frm_num": "使用灰度图中第几帧进行标定",
             "remove_noise": "是否消除噪点，如果光条明显，噪点相对较弱时，无需配置为1",
             "light_smooth": "光条是否进行平滑处理(建议开启)",
-            "ref_segment": "指定基准段用于偏移矫正(int)，若为null，则以最亮段为基准",
+            "ref_segment": "指定基准段用于偏移矫正(int)，-1，则以最亮段为基准",
             "curvature": "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI",
             "roi_correct": "1D SCAN_MODE ROI是否需要按照pixel进行矫正：0：否，1：是",
-            "correct_thres": "ROI矫正阈值(以pixel为单位)",
+            "correct_thres": "ROI矫正阈值(以pixel为单位, 0则不矫正)",
             "mode2D": "0：以光条能量优先；1：以能 Masking的最大光子数优先",
             "intensity": "ROI和光条亮度调整0~100"
         }

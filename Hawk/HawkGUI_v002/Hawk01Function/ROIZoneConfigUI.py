@@ -156,7 +156,7 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
                 else:
                     self.hawk01_zone_config["zone_cfg_def"][f"Zone_{col}_MF_KN"][row - 7] = value
         # print(self.hawk01_config)
-        self.return_config_signal.sync_signal.emit()
+        self.return_config_signal.sync_signal_0.emit()
         self.close()
         pass
 

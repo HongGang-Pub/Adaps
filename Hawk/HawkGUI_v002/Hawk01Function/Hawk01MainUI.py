@@ -39,7 +39,6 @@ class Hawk01MainUI:
         """调用各个界面的 setup_gui, 完成界面初始化"""
         Hawk01MainUI.setup_script_gui(self)
         Hawk01MainUI.setup_roi_gui(self)
-        Hawk01MainUI.setup_masking_gui(self)
         Hawk01MainUI.setup_zone_gui(self)
         Hawk01MainUI.setup_file_gui(self)
         return
@@ -181,21 +180,14 @@ class Hawk01MainUI:
 
         # Gen ROI for cali data
         self.ui.load_pages.cali_file_path_LineEdit.setText(self.hawk01_roi_gen_config['ROIGenByCali']['cali_file'])
-        self.ui.load_pages.cali_order_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['is_reverse'])
-        self.ui.load_pages.img_mirror_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['img_reverse'])
+        self.ui.load_pages.cali_order_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['is_reverse'])
+        self.ui.load_pages.img_mirror_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['img_reverse'])
         self.ui.load_pages.cali_frm_num__SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['cali_frm_num'])
-        self.ui.load_pages.remove_noise_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['remove_noise'])
-        self.ui.load_pages.light_smooth_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['light_smooth'])
-        self.ui.load_pages.ref_segment_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['ref_segment'])
+        self.ui.load_pages.remove_noise_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['remove_noise'])
+        self.ui.load_pages.light_smooth_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['light_smooth'])
+        self.ui.load_pages.ref_segment_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['ref_segment']+1)
         self.ui.load_pages.curvature_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['curvature'])
-        self.ui.load_pages.roi_correct_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['roi_correct'])
-        self.ui.load_pages.correct_thres_SpinBox.setValue(
-            self.hawk01_roi_gen_config['ROIGenByCali']['correct_thres'])
+        self.ui.load_pages.correct_thres_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['correct_thres'])
         self.ui.load_pages.mode_2D_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['mode2D'])
         self.ui.load_pages.cali_file_path_Button.clicked.connect(partial(Hawk01MainUI.func_roi_cali_folder, self))
 
@@ -204,8 +196,10 @@ class Hawk01MainUI:
         self.ui.load_pages.ROISave.clicked.connect(partial(Hawk01MainUI.func_roi_save, self))  #TODO
 
         # ROI data刷新判断初始化
-        self.__pre_roi_gen_type__ = -1  # 上一个bak数据,避免
-        self.__pre_hawk01_config__ = {}
+        self.ui_masking_win = {}            # 存储masking_window对象, 便于后续内存销毁
+        self.MaskingWindowID = 0            # masking_window 标志位,
+        self.__pre_roi_gen_type__ = -1      # 上一个bak数据,避免重复执行
+        self.__pre_hawk01_config__ = {}     # 上一个配置数据,避免重复执行代码
         return
 
     def func_roi_load_file(self):
@@ -276,9 +270,8 @@ class Hawk01MainUI:
             self.hawk01_roi_gen_config['ROIGenByCali']['cali_frm_num'] = self.ui.load_pages.cali_frm_num__SpinBox.value()
             self.hawk01_roi_gen_config['ROIGenByCali']['remove_noise'] = self.ui.load_pages.remove_noise_ComboBox.currentIndex()
             self.hawk01_roi_gen_config['ROIGenByCali']['light_smooth'] = self.ui.load_pages.light_smooth_ComboBox.currentIndex()
-            self.hawk01_roi_gen_config['ROIGenByCali']['ref_segment'] = self.ui.load_pages.ref_segment_SpinBox.value()
+            self.hawk01_roi_gen_config['ROIGenByCali']['ref_segment'] = self.ui.load_pages.ref_segment_SpinBox.value()-1
             self.hawk01_roi_gen_config['ROIGenByCali']['curvature'] = self.ui.load_pages.curvature_SpinBox.value()
-            self.hawk01_roi_gen_config['ROIGenByCali']['roi_correct'] = self.ui.load_pages.roi_correct_ComboBox.currentIndex()
             self.hawk01_roi_gen_config['ROIGenByCali']['correct_thres'] = self.ui.load_pages.correct_thres_SpinBox.value()
             self.hawk01_roi_gen_config['ROIGenByCali']['mode2D'] = self.ui.load_pages.mode_2D_ComboBox.currentIndex()
             # logging.info(self.hawk01_roi_gen_config['ROIGenByCali'])
@@ -296,68 +289,86 @@ class Hawk01MainUI:
             {**self.hawk01_config, **self.hawk01_roi_gen_config['ROIGenByCali'], **self.hawk01_zone_config}
         return
 
-    @profile
-    def func_get_roi_mem_data(self):
+    # @profile
+    def func_get_roi_data_pkg(self):
         """
-        获取ROI相关数据, 包含:
-            data["msku_roi_mem"] = msku_roi_mem
-            data["arrays"] = arrays
-            data["fusion_image"] = fusion_image
-            data["spad_array_3D"] = spad_array_3D
-            data["acc_spad_array"] = acc_spad_array
-            data["depth_spad_array"] = depth_spad_array
-            data["coorinfo"] = coor_info
+        roi_data_pkg["roi_gen_type"] = 3
+        roi_data_pkg["roi_data_pkg"] = roi_data
+        roi_data_pkg["arrays"] = arrays
+        roi_data_pkg["fusion_image"] = fusion_image
+        roi_data_pkg["spad_array_3D"] = spad_array_3D
+        roi_data_pkg["acc_spad_array"] = acc_spad_array
+        roi_data_pkg["depth_spad_array"] = depth_spad_array
+        roi_data_pkg["coor_info"] = coor_info
         """
-        self.__roi_data__ = \
-            Hawk01Function.MskuRoiGenerateByJson(self.__hawk01_config__) if self.roi_gen_type == 0 else \
-            Hawk01Function.MskuRoiGenerateByFile(self.__hawk01_config__) if self.roi_gen_type == 1 else \
-            Hawk01Function.MskuRoiGenerateByBase(self.__hawk01_config__) if self.roi_gen_type == 2 else \
-            Hawk01Function.MskuRoiGenerateByCali(self.__hawk01_config__)
-        self.__msku_roi_mem__ = self.__roi_data__["msku_roi_mem"]
-        # del self.__roi_data__
-        gc.collect()
-        return
-
-    @profile
-    def func_refresh_roi_data(self):
+        # 从 ROI ZONE config界面获取配置
+        # ///////////////////////////////////////////
         Hawk01MainUI.func_get_roi_config(self)
         Hawk01MainUI.func_merge_hawk_config(self)
         self.hawk01_config["Default_ROI_GEN_TYPE"] = self.roi_gen_type
+        # 获取 ROI_DATA_PKG, # 如果界面没有更新, 则无需再次执行代码
+        # //////////////////////////////////////
         if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__hawk01_config__ != self.__pre_hawk01_config__:
             logging.info("获取最新的ROI数据....")
-            Hawk01MainUI.func_get_roi_mem_data(self)
+            self.__roi_data_pkg__ = \
+                Hawk01Function.MskuRoiGenerateByJson(self.__hawk01_config__) if self.roi_gen_type == 0 else \
+                Hawk01Function.MskuRoiGenerateByFile(self.__hawk01_config__) if self.roi_gen_type == 1 else \
+                Hawk01Function.MskuRoiGenerateByBase(self.__hawk01_config__) if self.roi_gen_type == 2 else \
+                Hawk01Function.MskuRoiGenerateByCali(self.__hawk01_config__)
             self.__pre_roi_gen_type__ = self.roi_gen_type
             self.__pre_hawk01_config__ = self.__hawk01_config__
         return
 
 
-    @profile()
+    def func_refresh_hawk_config(self):
+        """从 ROI ZONE config界面获取最新的配置"""
+        logging.info("Get the latest ROI Zone config...")
+        self.Hawk01ZoneConfig.serialize()
+
+    # @profile
+    def func_masking_date_mem_free(self, MaskingWindowID=None):
+        """图像界面关闭或者销毁时, 释放masking内存"""
+        logging.info(f"Masking Window {MaskingWindowID} free...")
+        try:
+            del self.ui_masking_win[MaskingWindowID]
+        except:
+            pass
+        if self.ui_masking_win == {}:
+            del self.__roi_data_pkg__
+            self.__pre_roi_gen_type__ = -1
+            self.__pre_hawk01_config__ = {}
+        gc.collect()
+        return
+    
+    
+    # @profile()
     def func_roi_view(self):
         """
         打开 ROI masking展示界面
         1. 最多支持展示 5 张图片, 若超出5张图片, 自动销毁最早的一张, 并进行内存释放
         """
-        Hawk01MainUI.func_refresh_roi_data(self)
+        Hawk01MainUI.func_get_roi_data_pkg(self)
         logging.info("ROI Masking display...")
-        self.ID = 0 if self.ui_masking_win == {} else self.ID + 1
+        self.MaskingWindowID = 0 if self.ui_masking_win == {} else self.MaskingWindowID + 1
         if len(self.ui_masking_win) == 5:
-            min_ID = min(self.ui_masking_win.keys())
-            Hawk01MainUI.func_masking_win_mem_free(self, min_ID)
-        self.ui_masking_win[self.ID] = MaskingWindow(title=f"ROI SHOW {self.ID + 1}", ID=self.ID, arrays=self.__roi_data__["arrays"])
-        self.ui_masking_win[self.ID].win_close_signal.int_signal1.connect(
-            partial(Hawk01MainUI.func_masking_win_mem_free, self))
-        del self.__roi_data__
-        gc.collect()
-        self.ui_masking_win[self.ID].show()
+            min_MaskingWindowID = min(self.ui_masking_win.keys())
+            Hawk01MainUI.func_masking_date_mem_free(self, min_MaskingWindowID)
+        self.ui_masking_win[self.MaskingWindowID] = MaskingWindow(title=f"ROI SHOW {self.MaskingWindowID + 1}",
+                                                                  ID=self.MaskingWindowID,
+                                                                  roi_data_pkg=self.__roi_data_pkg__,
+                                                                  hawk_config=self.__hawk01_config__)
+        self.ui_masking_win[self.MaskingWindowID].setStyleSheet(self.qssStyle)
+        self.ui_masking_win[self.MaskingWindowID].win_signal_sync.int_signal_1.connect(
+            partial(Hawk01MainUI.func_masking_date_mem_free, self))
+        self.ui_masking_win[self.MaskingWindowID].show()
         # print(self.ui_masking_win)
         return
 
     def func_roi_save(self):
-        Hawk01MainUI.func_refresh_roi_data(self)
-        Hawk01Function.RoiMemGenerate(self.__msku_roi_mem__, self.__hawk01_config__)
-        del self.__roi_data__
+        Hawk01MainUI.func_get_roi_data_pkg(self)
+        Hawk01Function.ROIDataPackageSave(self.__roi_data_pkg__, self.__hawk01_config__)
+        Hawk01MainUI.func_masking_date_mem_free(self)
         return
-
 
     # ///////////////////////////////////////////////////////////////
     # ZONE config window function
@@ -366,7 +377,7 @@ class Hawk01MainUI:
         # Instans ROI_Zone_Config Win
         self.ui_zone_config_win = ROIZoneConfigWin(self.hawk01_zone_config, self.qssStyle)
         self.ui.load_pages.ROIZoneConfig.linkActivated.connect(partial(Hawk01MainUI.func_open_roizone_config_win, self))
-        self.ui_zone_config_win.return_config_signal.sync_signal.connect(
+        self.ui_zone_config_win.return_config_signal.sync_signal_0.connect(
             partial(Hawk01MainUI.func_refresh_hawk_config, self))
         return
 
@@ -376,27 +387,6 @@ class Hawk01MainUI:
         self.ui_zone_config_win.setModal(True)
         self.ui_zone_config_win.show(self.hawk01_zone_config)
 
-    def func_refresh_hawk_config(self):
-        """从 ROI ZONE config界面获取最新的配置"""
-        logging.info("Get the latest ROI Zone config...")
-        self.Hawk01ZoneConfig.serialize()
-
-    # ///////////////////////////////////////////////////////////////
-    # Masking window function
-    # ///////////////////////////////////////////////////////////////
-    def setup_masking_gui(self):
-        # Initial ROI_Zone_Config Win
-        self.ui_masking_win = {}
-        self.ID = 0
-        return
-
-    @profile
-    def func_masking_win_mem_free(self, ID):
-        """图像界面关闭或者销毁时, 释放masking内存"""
-        logging.info(f"Mem{ID} free...")
-        del self.ui_masking_win[ID]
-        gc.collect()
-        return
 
     # ///////////////////////////////////////////////////////////////
     # FILE config window function

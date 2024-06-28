@@ -83,7 +83,7 @@ class HawkToolbox:
             partial(HawkToolbox.general_operate_Button_05_func, self))
         self.ui.load_pages.general_operate_Button_06.clicked.connect(
             partial(HawkToolbox.general_operate_Button_06_func, self))
-        self.dothink_signal.sync_signal.connect(
+        self.dothink_signal.sync_signal_0.connect(
             partial(HawkToolbox.dothink_pcm_imag_array_image, self))
 
     # QRadioButton bounding function
@@ -199,7 +199,7 @@ class HawkToolbox:
                     mipi_file=self.hawk_tool_config["DothinkPCMImagValue"]["mipi_file"],
                     sramdata_path=self.hawk_tool_config["DothinkPCMImagValue"]["sramdata_path"]
                 )
-                self.dothink_signal.sync_signal.emit()
+                self.dothink_signal.sync_signal_0.emit()
             except BaseException as msg:
                 logging.error(f"解析PCM数据错误: {msg}")
 

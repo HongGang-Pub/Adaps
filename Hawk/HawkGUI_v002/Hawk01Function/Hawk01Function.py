@@ -1,68 +1,71 @@
-from typing import Tuple, List, Any
-
-from numpy import ndarray, dtype, floating, float_
-from numpy._typing import _64Bit
-
-from SelfDefinedPackge import PubMethod
 from Hawk.MSKU.MSKU_Cali.ROICalibration import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
 from Hawk.MSKU import MskuPubMethod
 import gc
 from memory_profiler import profile
+import matplotlib.pyplot as plt
+from SelfDefinedPackge import ArrayPubMethod
+from matplotlib.pyplot import MultipleLocator
 
 
 def MskuRoiGenerateByJson(cfg: dict) -> dict:
     """完全通过Json文件生成 MskuRoi"""
-    data = {}
+    roi_data_pkg = {}
     msku_roi_mem = ROIGenerate.MskuRoiGenerate(cfg)
     arrays, acc_spad_array, depth_spad_array, coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg)
-    data["msku_roi_mem"] = msku_roi_mem
-    data["arrays"] = arrays
-    data["coor_coor_info"] = coor_info
-    data["acc_spad_array"] = acc_spad_array
-    data["depth_spad_array"] = depth_spad_array
-    return data
+    roi_data = RoiMemGenerate(msku_roi_mem, cfg)
+    roi_data_pkg["roi_gen_type"] = 0
+    roi_data_pkg["roi_data"] = roi_data
+    roi_data_pkg["arrays"] = arrays
+    roi_data_pkg["coor_info"] = coor_info
+    roi_data_pkg["acc_spad_array"] = acc_spad_array
+    roi_data_pkg["depth_spad_array"] = depth_spad_array
+    return roi_data_pkg
 
 
 def MskuRoiGenerateByFile(cfg: dict) -> dict:
     """通过手动的标定坐标生成ROI"""
-    data = {}
+    roi_data_pkg = {}
     cali_data = MskuPubMethod.DirectAccessCaliData(cfg)
     msku_roi_mem = ROICalibration.MskuRoiGenerate(cfg=cfg, cali_data=cali_data)
+    roi_data = RoiMemGenerate(msku_roi_mem, cfg)
     arrays, acc_spad_array, depth_spad_array, coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg)
-    data["msku_roi_mem"] = msku_roi_mem
-    data["arrays"] = arrays
-    data["coor_info"] = coor_info
-    data["acc_spad_array"] = acc_spad_array
-    data["depth_spad_array"] = depth_spad_array
+    roi_data_pkg["roi_gen_type"] = 1
+    roi_data_pkg["roi_data"] = roi_data
+    roi_data_pkg["arrays"] = arrays
+    roi_data_pkg["coor_info"] = coor_info
+    roi_data_pkg["acc_spad_array"] = acc_spad_array
+    roi_data_pkg["depth_spad_array"] = depth_spad_array
     gc.collect()
-    return data
+    return roi_data_pkg
 
 
 def MskuRoiGenerateByBase(cfg: dict) -> dict:  # TODO
-    data = {}
-    return data
+    roi_data_pkg = {}
+    roi_data_pkg["roi_gen_type"] = 2
+    return roi_data_pkg
 
 
-@profile
+# @profile
 def MskuRoiGenerateByCali(cfg: dict) -> dict:  # TODO
     """通过直接标定PCM图片生成ROI"""
-    data = {}
+    roi_data_pkg = {}
     cali_run = ROICalibration()
     cali_data, light_imags = cali_run.GetCaliDataFromPCMImage(cfg)
     msku_roi_mem = ROICalibration.MskuRoiGenerate(cfg=cfg, cali_data=cali_data)
+    roi_data = RoiMemGenerate(msku_roi_mem, cfg)
     arrays, acc_spad_array, depth_spad_array, coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg)
     arrays, fusion_image, spad_array_3D = cali_run.CaliResultDisplay(cali_data, light_imags, cfg, is_save=0)
-    data["msku_roi_mem"] = msku_roi_mem
-    data["arrays"] = arrays
-    data["fusion_image"] = fusion_image
-    data["spad_array_3D"] = spad_array_3D
-    data["acc_spad_array"] = acc_spad_array
-    data["depth_spad_array"] = depth_spad_array
-    data["coor_info"] = coor_info
-    del light_imags
-    gc.collect()
-    return data
+    roi_data_pkg["roi_gen_type"] = 3
+    roi_data_pkg["roi_data"] = roi_data
+    roi_data_pkg["arrays"] = arrays
+    roi_data_pkg["fusion_image"] = fusion_image
+    roi_data_pkg["spad_array_3D"] = spad_array_3D
+    roi_data_pkg["acc_spad_array"] = acc_spad_array
+    roi_data_pkg["depth_spad_array"] = depth_spad_array
+    roi_data_pkg["coor_info"] = coor_info
+    del cali_run
+    return roi_data_pkg
 
 
 def RoiMemGenerate(msku_roi_mem, cfg):
@@ -75,5 +78,74 @@ def RoiMemGenerate(msku_roi_mem, cfg):
     for vroll_cnt in range(len(msku_roi_mem)):
         per_zone_mem = zones_config[vroll_cnt] + msku_roi_mem[vroll_cnt]
         roi_data = roi_data + per_zone_mem
-    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"])
+    return roi_data
+
+
+def ROIDataPackageSave(roi_data_pkg, cfg, save_sel=0):
+    """
+    保存ROI数据: 包含图片、ROI数据
+    Args:
+        roi_data_pkg (dict): 包含生成ROI的所有必要信息
+        cfg (dict): Hawk 配置集合
+        save_sel (int): 0: 仅保存ROI数据,1: 保存ROI数据和图片数据
+
+    Returns:
+
+    """
+    MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data_pkg["roi_data"], fd_path=cfg["fd_path"])
+
+    if save_sel == 0:
+        return
+
+    # ROI masking数据效果保存
+    # /////////////////////////////////////////////////
+    img_fp = f'{cfg["fd_path"]}\\image'
+
+    # SPAD阵列保存
+    try:
+        fig = plt.figure()
+        ax = fig.gca()
+        ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+        ax.yaxis.set_major_locator(MultipleLocator(50))
+        ax.xaxis.set_major_locator(MultipleLocator(48))
+        # ax.imshow(spad_array, cmap="gray")
+        ax.imshow(roi_data_pkg["acc_spad_array"])
+        # plt.show()
+        for info in roi_data_pkg["coor_info"]:
+            MskuPubMethod.do_mark(info)
+        ArrayPubMethod.ArrayImageSave(fname='imag_msku', fd_path=img_fp)
+        plt.close()
+    except:
+        pass
+    # SPAD 深度数据保存
+    try:
+        fig = plt.figure()
+        ax = fig.gca()
+        ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+        ax.yaxis.set_major_locator(MultipleLocator(20))
+        ax.xaxis.set_major_locator(MultipleLocator(16))
+        ax.imshow(roi_data_pkg["depth_spad_array"])
+        # plt.show()
+        ArrayPubMethod.ArrayImageSave(fname="imag_depth", fd_path=img_fp)
+        plt.close()
+    except:
+        pass
+
+    # 标定数据保存
+    # /////////////////////////////////////////////////
+    if roi_data_pkg["roi_gen_type"] == 3:
+        try:
+            roll_num = len(roi_data_pkg["arrays"])
+            for roll_cnt in range(roll_num):
+                (x, y, text) = roi_data_pkg["coor_info"][roll_cnt]
+                file_path = "{}\\image\\{}.png".format(cfg["fd_path"], text)
+                plt.imsave(file_path, roi_data_pkg["arrays"][roll_cnt])
+            # 保存图像
+            # ///////////////////////////////////////////////////////////////
+            f1 = "{}\\{}.png".format(img_fp, "fusion_imag")
+            f2 = "{}\\{}.png".format(img_fp, "fusion_msku")
+            plt.imsave(f1, roi_data_pkg["fusion_image"])
+            plt.imsave(f2, roi_data_pkg["spad_array_3D"])
+        except:
+            pass
     return

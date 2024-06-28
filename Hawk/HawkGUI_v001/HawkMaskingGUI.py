@@ -54,7 +54,7 @@ def GenerateRoiMem(cfg, msku_roi_mem):
         per_zone_mem = zone_mem[index] + msku_roi_mem[index]
         roi_data = roi_data + per_zone_mem
 
-    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"],
+    MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"],
                                 roi_data_format=cfg['roi_data_format'])
     return "ROI 生成完成！！！"
 

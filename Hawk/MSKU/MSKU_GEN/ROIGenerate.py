@@ -100,8 +100,8 @@ def RoiMemGenerate():
         #     MskuPubMethod.roi_data_save(f_name="ROLL_{}_{}".format(index, file), data=per_zone_mem)
         roi_data = roi_data + per_zone_mem
 
-    MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"], roi_data_format=cfg['roi_data_format'])
-    return f"生成完成！"
+    MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"], roi_data_format=cfg['roi_data_format'])
+    return
 
 
 if __name__ == '__main__':

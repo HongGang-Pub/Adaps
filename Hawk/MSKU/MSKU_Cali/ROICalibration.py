@@ -185,7 +185,7 @@ class ROICalibration:
         # ///////////////////////////////////////////////////////////////
         v_spad_value = np.max(seg_sum_array, axis=0)
         v_spad_max_index = np.argmax(seg_sum_array, axis=0)
-        ref_segment = np.argmax(v_spad_value) if ref_segment is None else ref_segment
+        ref_segment = np.argmax(v_spad_value) if ref_segment == -1 else ref_segment
 
         # 横向开窗，按照 h_vld_seg，找到亮度最高的段数
         # ///////////////////////////////////////////////////////////////
@@ -598,7 +598,7 @@ class ROICalibration:
         """
         correct_roi_data = roi_data
 
-        if cfg["roi_correct"] == 0 or cfg["SCAN_MODE"] == 1:  # 1D配置不进行矫正 或者 2D scan_mode不进行矫正
+        if cfg["correct_thres"] == 0 or cfg["SCAN_MODE"] == 1:  # 1D配置不进行矫正 或者 2D scan_mode不进行矫正
             return correct_roi_data
 
         vroll_num = len(correct_roi_data)
@@ -844,7 +844,7 @@ class ROICalibration:
 
         MskuPubMethod.RollingArrayCollect(msku_roi_data=msku_roi_mem, cfg=cfg, is_save=1, fd_path=cfg['fd_path'])  # 成图
 
-        MskuPubMethod.roi_data_save(f_name=f"{cfg['roi_name']}.txt", data=roi_data, fd_path=cfg["fd_path"])
+        MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"])
 
         logging.info("ROI 生成完成！！！")
         return

@@ -1,5 +1,7 @@
 """GUI 界面增加画布"""
+import logging
 import sys
+from threading import Thread
 
 from PySide6.QtGui import QIcon, QCursor
 import numpy as np
@@ -18,6 +20,7 @@ from PySide6.QtWidgets import QWidget, QPushButton, QApplication
 from PySide6.QtCore import QTimer
 from Hawk.HawkGUI_v002.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
+from Hawk.HawkGUI_v002.Hawk01Function import Hawk01Function
 
 
 class CustomToolbar(NavigationToolbar2QT):
@@ -96,30 +99,38 @@ class DynamicFig(FigureCanvas):
 
 
 class MaskingWindow(QMainWindow):
-    def __init__(self, title="ROI SHOW", ID=0, arrays=None):
+    def __init__(self, title="ROI SHOW", ID=0, roi_data_pkg=None, hawk_config=None):
         super().__init__()
         matplotlib.use('agg')
-        if arrays is None:
-            arrays = []
         self.setWindowTitle(title)
         self.ID = ID
+        self.roi_data_pkg = roi_data_pkg
+        self.hawk_config = hawk_config
 
-        # Sync Signal
-        # ///////////////////////////////////////////////////////////////
-        self.win_close_signal = MySignals()
-
-        # Masking Data
-        # ///////////////////////////////////////////////////////////////
-        self.arrays = arrays
-        self.is_playing = False
-        self.index = 0
-        self._timer = QTimer(self)
-
-        if not self.arrays:
+        try:
+            self.arrays = self.roi_data_pkg["arrays"]
+            if self.roi_data_pkg["roi_gen_type"] == 3:
+                self.arrays.append(self.roi_data_pkg["fusion_image"])
+                self.arrays.append(self.roi_data_pkg["spad_array_3D"])
+        except:
+            self.arrays = []
             for i in range(5):
                 # arr = np.zeros((576, 768))
                 arr = np.random.rand(576, 768, 3)
                 self.arrays.append(arr)
+
+        # Sync Signal
+        # ///////////////////////////////////////////////////////////////
+        self.win_signal_sync = MySignals()
+        self.win_signal_sync.text_signal_1.connect(self.bnt_save_release)
+
+        # Masking Data
+        # ///////////////////////////////////////////////////////////////
+        self.is_playing = False
+        self.index = 0
+        self._timer = QTimer(self)
+
+
 
         self.initUI()
         self.Operate_bar()
@@ -153,6 +164,7 @@ class MaskingWindow(QMainWindow):
         # Toolbar
         # self.figtoolbar = NavigationToolbar(self.canvas, self)  # 创建figure工具栏
         self.toolbar = CustomToolbar(self.canvas, self)
+        self.toolbar.setStyleSheet("")
         # self.addToolBar(self.toolbar)
 
         # Display
@@ -202,6 +214,24 @@ class MaskingWindow(QMainWindow):
         self.index = 0
         self.update_fig()
 
+    def roi_data_save(self):
+        logging.info("标定数据保存中....")
+        self.btn_save.setEnabled(False)
+        def threadFunc():
+            try:
+                Hawk01Function.ROIDataPackageSave(self.roi_data_pkg, self.hawk_config, save_sel=1)
+                self.win_signal_sync.text_signal_1.emit("数据保存完成...")
+            except Exception as e:
+                self.win_signal_sync.text_signal_1.emit(e)
+        thread = Thread(target=threadFunc)
+        thread.start()
+        return
+
+    def bnt_save_release(self, info):
+        logging.info(info)
+        self.btn_save.setEnabled(True)
+        return
+
     def PlaySwitch_plot(self):
         if self.is_playing:
             self.is_playing = False
@@ -221,23 +251,20 @@ class MaskingWindow(QMainWindow):
     def closeEvent(self, event):
         # self._timer.stop()
         # self.arrays = []  # 清理内存
-        self.win_close_signal.int_signal1.emit(self.ID)
+        self.win_signal_sync.int_signal_1.emit(self.ID) # 同步到主界面, 进行内存释放
         event.accept()
 
     def Operate_bar(self):
         self.control_bar_frame.setStyleSheet(
             """
             QPushButton {
-              background-color: #e9e9e9;
-              color: #19232D;
               width: 40px;
               height: 40px;
               border-radius: 20px;
               padding: 0px;
-              outline: none;
-              border: none;
               qproperty-iconSize:40px;
-            }""")
+            }
+            """)
 
         # Play Button
         # ////////////////////////////////////////////////////////////////////////
@@ -262,6 +289,12 @@ class MaskingWindow(QMainWindow):
         icon_replay = QIcon(Functions.set_svg_icon("icon_replay.svg"))
         self.btn_replay.setIcon(icon_replay)
 
+        # Save Button
+        # ////////////////////////////////////////////////////////////////////////
+        self.btn_save = QPushButton()
+        # icon_save = QIcon(Functions.set_svg_icon("icon_save.svg", folder="../gui/images/svg_icons/"))
+        icon_save = QIcon(Functions.set_svg_icon("icon_save.svg"))
+        self.btn_save.setIcon(icon_save)
         # self.bnt_initial.setFixedSize(100, 100)
         # self.bnt_initial.setIconSize(QtCore.QSize(80, 80))
 
@@ -271,6 +304,7 @@ class MaskingWindow(QMainWindow):
         self.btn_playControl.clicked.connect(self.PlaySwitch_plot)
         self.btn_oneforward.clicked.connect(self.Oneforward_plot)
         self.btn_replay.clicked.connect(self.Replay_plog)
+        self.btn_save.clicked.connect(self.roi_data_save)
 
         # self.btn_test = QPushButton("test")
         # self.btn_test.clicked.connect(self.ani.stop)
@@ -279,6 +313,7 @@ class MaskingWindow(QMainWindow):
         self.control_bar_hlayout.addWidget(self.btn_playControl)
         self.control_bar_hlayout.addWidget(self.btn_oneforward)
         self.control_bar_hlayout.addWidget(self.btn_replay)
+        self.control_bar_hlayout.addWidget(self.btn_save)
         # self.control_bar_hlayout.addWidget(self.btn_test)
         return
 
