@@ -11,3 +11,4 @@ class MySignals(QObject):
     int_signal_1 = Signal(int)
     text_signal_1 = Signal(str)
     text_signal_2 = Signal(QPlainTextEdit, str)
+    Obj_signal_0 = Signal(QObject)  # 传递对象并执行对应操作

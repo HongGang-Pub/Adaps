@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'roi_zone_configaGJawR.ui'
+## Form generated from reading UI file 'roi_zone_configvrXHYb.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -73,39 +73,39 @@ class Ui_ROIZoneConfig(object):
 
         self.gridLayout.addWidget(self.ZoneConfigSel_SpinBox, 0, 7, 1, 1)
 
-        self.Expoperiod_Value = QLineEdit(self.horizontalWidget)
-        self.Expoperiod_Value.setObjectName(u"Expoperiod_Value")
-        self.Expoperiod_Value.setEnabled(False)
-        self.Expoperiod_Value.setMinimumSize(QSize(100, 0))
-        self.Expoperiod_Value.setMaximumSize(QSize(100, 16777215))
-        self.Expoperiod_Value.setFont(font)
+        self.Laser_Period_Value = QLineEdit(self.horizontalWidget)
+        self.Laser_Period_Value.setObjectName(u"Laser_Period_Value")
+        self.Laser_Period_Value.setEnabled(False)
+        self.Laser_Period_Value.setMinimumSize(QSize(100, 0))
+        self.Laser_Period_Value.setMaximumSize(QSize(100, 16777215))
+        self.Laser_Period_Value.setFont(font)
 
-        self.gridLayout.addWidget(self.Expoperiod_Value, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.Laser_Period_Value, 0, 1, 1, 1)
 
         self.horizontalSpacer_2 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.gridLayout.addItem(self.horizontalSpacer_2, 0, 2, 1, 1)
 
-        self.Expotime_Value = QLineEdit(self.horizontalWidget)
-        self.Expotime_Value.setObjectName(u"Expotime_Value")
-        self.Expotime_Value.setEnabled(False)
-        self.Expotime_Value.setMinimumSize(QSize(100, 0))
-        self.Expotime_Value.setMaximumSize(QSize(100, 16777215))
-        self.Expotime_Value.setFont(font)
+        self.Laser_Pluse_Width_Value = QLineEdit(self.horizontalWidget)
+        self.Laser_Pluse_Width_Value.setObjectName(u"Laser_Pluse_Width_Value")
+        self.Laser_Pluse_Width_Value.setEnabled(False)
+        self.Laser_Pluse_Width_Value.setMinimumSize(QSize(100, 0))
+        self.Laser_Pluse_Width_Value.setMaximumSize(QSize(100, 16777215))
+        self.Laser_Pluse_Width_Value.setFont(font)
 
-        self.gridLayout.addWidget(self.Expotime_Value, 0, 4, 1, 1)
+        self.gridLayout.addWidget(self.Laser_Pluse_Width_Value, 0, 4, 1, 1)
 
-        self.Expotime_Label = QLabel(self.horizontalWidget)
-        self.Expotime_Label.setObjectName(u"Expotime_Label")
-        self.Expotime_Label.setFont(font)
+        self.Laser_Pluse_Width_Label = QLabel(self.horizontalWidget)
+        self.Laser_Pluse_Width_Label.setObjectName(u"Laser_Pluse_Width_Label")
+        self.Laser_Pluse_Width_Label.setFont(font)
 
-        self.gridLayout.addWidget(self.Expotime_Label, 0, 3, 1, 1)
+        self.gridLayout.addWidget(self.Laser_Pluse_Width_Label, 0, 3, 1, 1)
 
-        self.Expoperiod_Label = QLabel(self.horizontalWidget)
-        self.Expoperiod_Label.setObjectName(u"Expoperiod_Label")
-        self.Expoperiod_Label.setFont(font)
+        self.Laser_Period_Label = QLabel(self.horizontalWidget)
+        self.Laser_Period_Label.setObjectName(u"Laser_Period_Label")
+        self.Laser_Period_Label.setFont(font)
 
-        self.gridLayout.addWidget(self.Expoperiod_Label, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.Laser_Period_Label, 0, 0, 1, 1)
 
         self.EditZoneConifg_Button = QPushButton(self.horizontalWidget)
         self.EditZoneConifg_Button.setObjectName(u"EditZoneConifg_Button")
@@ -313,10 +313,10 @@ class Ui_ROIZoneConfig(object):
         ROIZoneConfig.setWindowTitle(QCoreApplication.translate("ROIZoneConfig", u"Dialog", None))
         self.ZoneConfigSel_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Zone Config Sel", None))
         self.ZoneConfigSel_CheckBox.setText(QCoreApplication.translate("ROIZoneConfig", u"Configure each Zone independently", None))
-        self.Expoperiod_Value.setPlaceholderText("")
-        self.Expotime_Value.setPlaceholderText("")
-        self.Expotime_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Expotime", None))
-        self.Expoperiod_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Expo Period", None))
+        self.Laser_Period_Value.setPlaceholderText("")
+        self.Laser_Pluse_Width_Value.setPlaceholderText("")
+        self.Laser_Pluse_Width_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Laser Pluse Width", None))
+        self.Laser_Period_Label.setText(QCoreApplication.translate("ROIZoneConfig", u"Laser Period", None))
         self.EditZoneConifg_Button.setText(QCoreApplication.translate("ROIZoneConfig", u"Edit", None))
         ___qtablewidgetitem = self.ZoneConfigInputTable.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("ROIZoneConfig", u"Zone1", None));
