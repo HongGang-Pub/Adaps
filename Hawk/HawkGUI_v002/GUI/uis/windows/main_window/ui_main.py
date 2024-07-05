@@ -37,6 +37,8 @@ from Hawk.HawkGUI_v002.gui.widgets.py_credits_bar.py_credits import PyCredits
 
 # PY WINDOW
 # ///////////////////////////////////////////////////////////////
+
+
 class UI_MainWindow(object):
     def setup_ui(self, parent):
         if not parent.objectName():
@@ -211,8 +213,10 @@ class UI_MainWindow(object):
         self.log_group_layout = QVBoxLayout(self.log_group)
         self.log_group_layout.setContentsMargins(9, 9, 9, 9)
 
-        self.LogPrintWindow = QPlainTextEdit()
-        # self.LogPrintWindow.setReadOnly(True)
+        # self.LogPrintWindow = QPlainTextEdit()
+        self.LogPrintWindow = QTextBrowser()
+        self.LogPrintWindow.setOpenLinks(False)
+        # self.LogPrintWindow.setReadOnly(False)
         self.log_group_layout.addWidget(self.LogPrintWindow)
         self.log_group.setStyleSheet(qssStyle)
 

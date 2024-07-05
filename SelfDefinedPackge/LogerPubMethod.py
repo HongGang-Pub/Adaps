@@ -1,7 +1,4 @@
-import PySide6
-from PySide6.QtGui import QColor, QBrush, QTextCursor
-from PySide6.QtWidgets import QPlainTextEdit
-from PySide6.QtCore import QObject, Signal
+from PySide6.QtGui import QColor, QBrush, QTextCursor, QTextCharFormat, QDesktopServices
 import logging
 import logging.handlers
 import queue
@@ -11,6 +8,17 @@ def LoggingForConsoleFormat():
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(filename)s %(levelname)s: %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
+
+
+def open_folder(url):
+    if url.isLocalFile():
+        QDesktopServices.openUrl(url)
+
+
+def create_file_hyperlink(file_type, url):
+    """针对QTextCursor创建文件路径"""
+    s = f'{file_type} has been save to <a href="file:///{url}" style="color: blue; text-decoration: underline;">{url}</a>\t'
+    return s
 
 
 class LogerForMultithreading:
@@ -39,7 +47,7 @@ class LogerForMultithreading:
         self.logger.addHandler(self.queue_handler)
         # self.logger.addHandler(self.console_handler)
 
-    def update_log_for_qplaintextedit(self, log_weight: QPlainTextEdit = None, theme: str = "light"):
+    def update_log_from_logger(self, log_widget: QTextCursor = None, theme: str = "light"):
         while not self.log_queue.empty():
             log_theme_for_qplaintextedit = ["#DFE1E2", "yellow", "red"] if theme == "dark" else ["#9DA9B5", "blue", "red"]
             record = self.log_queue.get()
@@ -48,13 +56,13 @@ class LogerForMultithreading:
 
             color = log_theme_for_qplaintextedit[log_type]
 
-            cursor = log_weight.textCursor()
+            cursor = log_widget.textCursor()
             cursor.movePosition(QTextCursor.End)
 
-            text_format = log_weight.currentCharFormat()  # 创建TextCharFormat对象 获取当前字文本的字符串格式
+            # text_format = log_widget.currentCharFormat()  # 创建TextCharFormat对象 获取当前字文本的字符串格式
+            text_format = QTextCharFormat()
             text_format.setForeground(QBrush(QColor(color)))  # 设置字体颜色
             cursor.mergeCharFormat(text_format)  # 追加格式到原有文本
-            cursor.insertText(f"{message}")
-            log_weight.setTextCursor(cursor)
-            log_weight.ensureCursorVisible()
-            cursor.insertText(f"\n")
+            log_widget.setTextCursor(cursor)
+            log_widget.append(message)
+            log_widget.ensureCursorVisible()

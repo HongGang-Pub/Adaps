@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import threading
 
 sys.path.append(os.path.join(os.getcwd(), "../../"))
 
@@ -29,6 +30,7 @@ from gui.uis.windows.main_window import *
 from Hawk.HawkGUI_v002.Hawk01Function.Hawk01MainUI import Hawk01MainUI
 from Hawk.HawkGUI_v002.HawkToolFunction.HawkToolbox import HawkToolbox
 from SelfDefinedPackge import MatplotExtension
+from Hawk.HawkGUI_v002.gui.Signal import MySignals
 from SelfDefinedPackge.LogerPubMethod import *
 
 
@@ -51,10 +53,16 @@ class MainWindow(QMainWindow):
         self.ui = UI_MainWindow()
         self.ui.setup_ui(self)
 
+        # SETUP MAIN WINDOW
+        # ///////////////////////////////////////////////////////////////
+        self.hide_grips = True  # Show/Hide resize grips
+        self.win_signal_sync = MySignals()
+
         # LOAD SETTINGS
         # ///////////////////////////////////////////////////////////////
         settings = Settings()
         self.settings = settings.items
+
         if self.settings["theme_name"] == "dark":
             styleFile = r"gui/themes/page_themes/dark/darkstyle.qss"
         else:
@@ -66,31 +74,29 @@ class MainWindow(QMainWindow):
             logging.warning("No theme profile found...")
             self.qssStyle = None
 
+        # 日志记录
         # ///////////////////////////////////////////////////////////////
-        # LOAD Data
-        # ///////////////////////////////////////////////////////////////
-        # Hawk01 Config
+        self.generate_logger()
+
+        # Load Hawk01 Config
         # ///////////////////////////////////////////////////////////////
         self.Hawk01Config = JsonFunction(file_path=".Hawk01Config/Hawk01Config.json")
         self.Hawk01GuiConfig = JsonFunction(file_path=".Hawk01Config/Hawk01GuiConfig.json")
         self.Hawk01ZoneConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ZoneConfig.json")
         self.Hawk01ROIGenConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ROIGenConfig.json")
+        self.Hawk01RegisterConfig = JsonFunction('.Hawk01Config/Hawk01ScriptRegConfig.json')
 
         self.hawk01_config = self.Hawk01Config.items
         self.hawk01_gui_config = self.Hawk01GuiConfig.items
         self.hawk01_zone_config = self.Hawk01ZoneConfig.items
         self.hawk01_roi_gen_config = self.Hawk01ROIGenConfig.items
+        self.hawk01_register_config = self.Hawk01RegisterConfig.items
 
         # Pub Config
         # ///////////////////////////////////////////////////////////////
         self.HawkToolConfig = JsonFunction(file_path=".HawkPubConfig/HawkToolConfig.json")
         self.hawk_tool_config = self.HawkToolConfig.items
 
-        # SETUP MAIN WINDOW
-        # ///////////////////////////////////////////////////////////////
-        self.hide_grips = True  # Show/Hide resize grips
-
-        self.generate_logger()
         SetupMainWindow.setup_gui(self)
         Hawk01MainUI.setup_gui(self)
         HawkToolbox.setup_gui(self)
@@ -144,12 +150,16 @@ class MainWindow(QMainWindow):
         print(f"Button {btn.objectName()}, released!")
 
     def generate_logger(self):
+        """日志记录器"""
+        self.ui.LogPrintWindow.anchorClicked.connect(open_folder)
+
         self.logger = LogerForMultithreading()
         self.timer = QTimer()
-        self.timer.timeout.connect(partial(self.logger.update_log_for_qplaintextedit,
+        self.timer.timeout.connect(partial(self.logger.update_log_from_logger,
                                            self.ui.LogPrintWindow,
                                            self.settings["theme_name"]))
         self.timer.start(200)
+
 
     def closeEvent(self, event):    # TODO
         # Hawk 01 Config
@@ -162,6 +172,46 @@ class MainWindow(QMainWindow):
         MatplotExtension.fig_close()
 
 
+class InitialWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Initial Window")
+        self.setFixedSize(300, 100)
+        # self.setGeometry(300, 300, 300, 100)
+        cursor_pos = QCursor.pos()
+        screen = QApplication.screenAt(cursor_pos)
+        if screen:
+            screen_geometry = screen.geometry()
+            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2
+            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 - 50
+            # print(x, y)
+            self.move(x, y)
+
+        layout = QVBoxLayout()
+
+        self.label = QLabel("Loading...")
+        layout.addWidget(self.label)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+        # QTimer.singleShot(0, self.start_loading)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        QTimer.singleShot(10, self.load_main_window)
+
+    def load_main_window(self):
+        # self.label.setText("Loading...")
+        # self.main_window = MainWindow()
+        QTimer.singleShot(100, self.open_main_window)
+
+    def open_main_window(self):
+        self.main_window = MainWindow()
+        self.main_window.show()
+        self.close()
+
 # SETTINGS WHEN TO START
 # Set the initial class and also additional parameters of the "QApplication" class
 # ///////////////////////////////////////////////////////////////
@@ -173,6 +223,7 @@ if __name__ == "__main__":
 
     # SHOW MAIN WINDOW
     # ///////////////////////////////////////////////////////////////
+    # window = InitialWindow()
     window = MainWindow()
     window.show()
 

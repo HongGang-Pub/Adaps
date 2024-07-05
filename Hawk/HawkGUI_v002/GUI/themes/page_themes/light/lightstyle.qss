@@ -45,7 +45,7 @@ QWidget {
   border: 0px solid #002b36;
   padding: 0px;
   color: #19232D;
-  selection-background-color: #9FCBFF;
+  selection-background-color: #c0c4c8;
   selection-color: #19232D;
   border-radius: 8px
 }
@@ -58,7 +58,7 @@ QWidget:disabled {
 }
 
 QWidget::item:selected {
-  background-color: #9FCBFF;
+  background-color: #c0c4c8;
 }
 
 QWidget::item:hover:!selected {
@@ -103,7 +103,7 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qtooltip
 
 --------------------------------------------------------------------------- */
 QToolTip {
-  background-color: #9FCBFF;
+  background-color: #d2d2d2;
   color: #19232D;
   /* If you remove the border property, background stops working on Windows */
   border: none;
@@ -358,7 +358,7 @@ QMenuBar {
 }
 
 QMenuBar:focus {
-  border: 1px solid #9FCBFF;
+  border: 1px solid #c0c4c8;
 }
 
 QMenuBar::item {
@@ -713,7 +713,7 @@ QTextEdit:focus {
 }
 
 QTextEdit:selected {
-  background: #9FCBFF;
+  background: #c0c4c8;
   color: #C0C4C8;
 }
 
@@ -732,7 +732,7 @@ QPlainTextEdit:focus {
 }
 
 QPlainTextEdit:selected {
-  background: #9FCBFF;
+  background: #d2d2d2;
   color: #C0C4C8;
 }
 
@@ -867,16 +867,16 @@ QAbstractSpinBox::down-arrow:hover {
 }
 
 QAbstractSpinBox:hover {
-  border: 1px solid #9FCBFF;
+  border: 1px solid #0078d7;
   color: #19232D;
 }
 
 QAbstractSpinBox:focus {
-  border: 1px solid #0078d7;
+  border: 1px solid #c0c4c8;
 }
 
 QAbstractSpinBox:selected {
-  background: #9FCBFF;
+  background: #0078d7;
   color: #C0C4C8;
 }
 
@@ -995,7 +995,7 @@ QProgressBar:disabled {
 }
 
 QProgressBar::chunk {
-  background-color: #9FCBFF;
+  background-color: #d2d2d2;
   color: #f5f5f5;
   border-radius: 4px;
 }
@@ -1175,11 +1175,11 @@ QToolButton::menu-button {
 }
 
 QToolButton::menu-button:hover {
-  border: 1px solid #9FCBFF;
+  border: 1px solid #d2d2d2;
 }
 
 QToolButton::menu-button:checked:hover {
-  border: 1px solid #9FCBFF;
+  border: 1px solid #d2d2d2;
 }
 
 QToolButton::menu-indicator {
@@ -1274,7 +1274,7 @@ QComboBox:hover {
 }
 
 QComboBox:focus {
-  border: 1px solid #0078d7;
+  border: 1px solid #c6c6c6;
 }
 
 QComboBox:on {
@@ -1359,7 +1359,7 @@ QSlider::groove:vertical {
 }
 
 QSlider::add-page:vertical {
-  background: #9FCBFF;
+  background: #d2d2d2;
   border: 1px solid #C0C4C8;
   width: 4px;
   margin: 0px;
@@ -1487,7 +1487,7 @@ QTabWidget::pane {
 
 QTabWidget::pane:selected {
   background-color: #C0C4C8;
-  border: 1px solid #9FCBFF;
+  border: 1px solid #d2d2d2;
 }
 
 /* QTabBar ----------------------------------------------------------------
@@ -1710,7 +1710,7 @@ QTabBar QToolButton:pressed, QDockWidget QTabBar QToolButton:pressed {
 }
 
 QTabBar QToolButton:pressed:hover, QDockWidget QTabBar QToolButton:pressed:hover {
-  border: 1px solid #9FCBFF;
+  border: 1px solid #d2d2d2;
 }
 
 QTabBar QToolButton::left-arrow:enabled, QDockWidget QTabBar QToolButton::left-arrow:enabled {
@@ -1911,7 +1911,7 @@ QTreeView:selected,
 QListView:selected,
 QTableView:selected,
 QColumnView:selected {
-  background-color: #9FCBFF;
+  background-color: #d2d2d2;
   color: #C0C4C8;
 }
 
@@ -1926,14 +1926,14 @@ QTreeView::item:pressed,
 QListView::item:pressed,
 QTableView::item:pressed,
 QColumnView::item:pressed {
-  background-color: #9FCBFF;
+  background-color: #d2d2d2;
 }
 
 QTreeView::item:selected:active,
 QListView::item:selected:active,
 QTableView::item:selected:active,
 QColumnView::item:selected:active {
-  background-color: #9FCBFF;
+  background-color: #d2d2d2;
 }
 
 QTreeView::item:selected:!active,
@@ -2052,7 +2052,7 @@ QToolBox {
 
 QToolBox:selected {
   padding: 0px;
-  border: 2px solid #9FCBFF;
+  border: 2px solid #d2d2d2;
 }
 
 QToolBox::tab {
@@ -2069,7 +2069,7 @@ QToolBox::tab:disabled {
 
 QToolBox::tab:selected {
   background-color: #ACB1B6;
-  border-bottom: 2px solid #9FCBFF;
+  border-bottom: 2px solid #d2d2d2;
 }
 
 QToolBox::tab:selected:disabled {
@@ -2169,7 +2169,7 @@ QSplitter::handle:vertical {
 
 --------------------------------------------------------------------------- */
 QDateEdit, QDateTimeEdit {
-  selection-background-color: #9FCBFF;
+  selection-background-color: #d2d2d2;
   border-style: solid;
   border: 1px solid #C0C4C8;
   border-radius: 4px;
@@ -2183,7 +2183,7 @@ QDateEdit, QDateTimeEdit {
 }
 
 QDateEdit:on, QDateTimeEdit:on {
-  selection-background-color: #9FCBFF;
+  selection-background-color: #d2d2d2;
 }
 
 QDateEdit::drop-down, QDateTimeEdit::drop-down {
@@ -2207,19 +2207,19 @@ QDateEdit QAbstractItemView, QDateTimeEdit QAbstractItemView {
   background-color: #f5f5f5;
   border-radius: 4px;
   border: 1px solid #C0C4C8;
-  selection-background-color: #9FCBFF;
+  selection-background-color: #d2d2d2;
 }
 
 /* QAbstractView ----------------------------------------------------------
 
 --------------------------------------------------------------------------- */
 QAbstractView:hover {
-  border: 1px solid #9FCBFF;
+  border: 1px solid #d2d2d2;
   color: #19232D;
 }
 
 QAbstractView:selected {
-  background: #9FCBFF;
+  background: #d2d2d2;
   color: #C0C4C8;
 }
 

@@ -188,27 +188,27 @@ def CalMipiFlnrAndWC(csru_cfg):
     return int(wc), flnr
 
 
-def GenerateHawkRegConfig(cfg: dict):
+def GenerateHawkRegConfig(hawk_cfg: dict):
     """
     本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
     主要包含以下功能:
-        1. 根据 cfg["SYS_CLK"] 配置, 配置 PLL1频率 及 与之相关的分频寄存器
-        2. 根据 cfg["MIPI_RATE"] 配置, 配置 MIPI 速率相关的寄存器
-        3. 根据 cfg[""] 配置 MIPI WC & FLNR寄存器
-        4. 根据 cfg[""] 配置 MIPI_TXDLY[5:0] -> MIPI_PKTDLY
-        5. 根据 cfg["roi_save_n"] 配置 block_write
+        1. 根据 hawk_cfg["SYS_CLK"] 配置, 配置 PLL1频率 及 与之相关的分频寄存器
+        2. 根据 hawk_cfg["MIPI_RATE"] 配置, 配置 MIPI 速率相关的寄存器
+        3. 根据 hawk_cfg[""] 配置 MIPI WC & FLNR寄存器
+        4. 根据 hawk_cfg[""] 配置 MIPI_TXDLY[5:0] -> MIPI_PKTDLY
+        5. 根据 hawk_cfg["roi_save_n"] 配置 block_write
     """
 
     # ----------------------------------------------------------------------------------------
     # initial
     # ----------------------------------------------------------------------------------------
-    protocol = cfg["protocol"]
+    protocol = hawk_cfg["protocol"]
     min_lens = 4 if protocol == "i2c" else 3
     addr_index = 2 if protocol == "i2c" else 1
     regs_write = "I2C_Write" if protocol == "i2c" else "SPI_Write"
     roisram_write = "I2C_Block_Write" if protocol == "i2c" else "SPI_Block_Write"
 
-    ref_cfg_file = cfg["ref_cfg_file"]
+    ref_cfg_file = hawk_cfg["ref_cfg_file"]
     if not os.path.exists(ref_cfg_file):
         raise ValueError("The reference config file does not exist!")
 
@@ -220,11 +220,11 @@ def GenerateHawkRegConfig(cfg: dict):
     # ////////////////////////////////////////////////////////////////////////////
     # 将前端配置内容同步到 csru_cfg
     csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
-    csru_cfg['work_mode'] = cfg["WORK_MODE"]
-    csru_cfg['scan_mode'] = cfg["SCAN_MODE"]
-    csru_cfg['v_roll_Num'] = cfg["V_ROLL_NUM"]
-    csru_cfg['h_roll_Num'] = cfg["H_ROLL_NUM"]
-    csru_cfg['h_vld_seg'] = cfg["H_VLD_SEG"]
+    csru_cfg['work_mode'] = hawk_cfg["WORK_MODE"]
+    csru_cfg['scan_mode'] = hawk_cfg["SCAN_MODE"]
+    csru_cfg['v_roll_Num'] = hawk_cfg["V_ROLL_NUM"]
+    csru_cfg['h_roll_Num'] = hawk_cfg["H_ROLL_NUM"]
+    csru_cfg['h_vld_seg'] = hawk_cfg["H_VLD_SEG"]
 
     WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
     if FLNR >= 8192:
@@ -242,39 +242,39 @@ def GenerateHawkRegConfig(cfg: dict):
 
     # PLL0 config
     # ////////////////////////////////////////////////////////////////////////////
-    PLL0_ID = FREQ_Config[cfg['FREF']]["PLL0"]["250M"]["ID"]
-    PLL0_OD = FREQ_Config[cfg['FREF']]["PLL0"]["250M"]["OD"]
-    PLL0_FB = FREQ_Config[cfg['FREF']]["PLL0"]["250M"]["FB"]
+    PLL0_ID = FREQ_Config[hawk_cfg['FREF']]["PLL0"]["250M"]["ID"]
+    PLL0_OD = FREQ_Config[hawk_cfg['FREF']]["PLL0"]["250M"]["OD"]
+    PLL0_FB = FREQ_Config[hawk_cfg['FREF']]["PLL0"]["250M"]["FB"]
     PLL0_DIV1 = ((PLL0_ID & 0x0007) << 4) + ((PLL0_OD & 0x0003) << 0)
     PLL0_DIV2 = ((PLL0_FB & 0x00FF) << 0)
 
-    # PLL1 config. cfg['SYS_CLK'] = 330M, 250M, 200M
+    # PLL1 config. hawk_cfg['SYS_CLK'] = 330M, 250M, 200M
     # ////////////////////////////////////////////////////////////////////////////
-    PLL1_ID = FREQ_Config[cfg['FREF']]["PLL1"][cfg['SYS_CLK']]["ID"]
-    PLL1_OD = FREQ_Config[cfg['FREF']]["PLL1"][cfg['SYS_CLK']]["OD"]
-    PLL1_FB = FREQ_Config[cfg['FREF']]["PLL1"][cfg['SYS_CLK']]["FB"]
+    PLL1_ID = FREQ_Config[hawk_cfg['FREF']]["PLL1"][hawk_cfg['SYS_CLK']]["ID"]
+    PLL1_OD = FREQ_Config[hawk_cfg['FREF']]["PLL1"][hawk_cfg['SYS_CLK']]["OD"]
+    PLL1_FB = FREQ_Config[hawk_cfg['FREF']]["PLL1"][hawk_cfg['SYS_CLK']]["FB"]
     PLL1_DIV1 = ((PLL1_ID & 0x0007) << 4) + ((PLL1_OD & 0x0003) << 0)
     PLL1_DIV2 = ((PLL1_FB & 0x00FF) << 0)
 
     # DIV config
     # ////////////////////////////////////////////////////////////////////////////
-    SYSCLK1M_DIVL = DIV_CONFIG[cfg['SYS_CLK']]["SYSCLK1M_DIVL"]
-    SYSCLK1M_DIVH = DIV_CONFIG[cfg['SYS_CLK']]["SYSCLK1M_DIVH"]
-    TXESC_CLKDIV = DIV_CONFIG[cfg['SYS_CLK']]["TXESC_CLKDIV"]
+    SYSCLK1M_DIVL = DIV_CONFIG[hawk_cfg['SYS_CLK']]["SYSCLK1M_DIVL"]
+    SYSCLK1M_DIVH = DIV_CONFIG[hawk_cfg['SYS_CLK']]["SYSCLK1M_DIVH"]
+    TXESC_CLKDIV = DIV_CONFIG[hawk_cfg['SYS_CLK']]["TXESC_CLKDIV"]
 
-    # MIPI_RATE CONFIG. cfg["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
+    # MIPI_RATE CONFIG. hawk_cfg["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
     # ////////////////////////////////////////////////////////////////////////////
-    MIPI_NS = FREQ_Config[cfg['FREF']]["MIPI"][cfg['MIPI_RATE']]["NS"]
-    MIPI_MS = FREQ_Config[cfg['FREF']]["MIPI"][cfg['MIPI_RATE']]["MS"]
-    MIPI_PS = FREQ_Config[cfg['FREF']]["MIPI"][cfg['MIPI_RATE']]["PS"]
+    MIPI_NS = FREQ_Config[hawk_cfg['FREF']]["MIPI"][hawk_cfg['MIPI_RATE']]["NS"]
+    MIPI_MS = FREQ_Config[hawk_cfg['FREF']]["MIPI"][hawk_cfg['MIPI_RATE']]["MS"]
+    MIPI_PS = FREQ_Config[hawk_cfg['FREF']]["MIPI"][hawk_cfg['MIPI_RATE']]["PS"]
     MIPIPLL_LPDH = (MIPI_NS & 0xFF00) >> 8
     MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
     MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)
 
     # MIPI_PKTDLY
     # ////////////////////////////////////////////////////////////////////////////
-    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_CLK']][cfg['MIPI_RATE']] if cfg["WORK_MODE"] >= 2 \
-        else MIPI_PKTDLY_CONFIG[cfg['WORK_MODE']][cfg['SYS_CLK']][csru_cfg["out_bin_num"]][cfg['MIPI_RATE']]
+    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[hawk_cfg['WORK_MODE']][hawk_cfg['SYS_CLK']][hawk_cfg['MIPI_RATE']] if hawk_cfg["WORK_MODE"] >= 2 \
+        else MIPI_PKTDLY_CONFIG[hawk_cfg['WORK_MODE']][hawk_cfg['SYS_CLK']][csru_cfg["out_bin_num"]][hawk_cfg['MIPI_RATE']]
 
     # TDC_DLY_CFG1
     # ////////////////////////////////////////////////////////////////////////////
@@ -283,10 +283,10 @@ def GenerateHawkRegConfig(cfg: dict):
 
     # ROI length
     # ////////////////////////////////////////////////////////////////////////////
-    if cfg["SCAN_MODE"] == 0:
-        roi_length = (13 + (cfg["H_VLD_SEG"] + 1) * 6) * (cfg["V_ROLL_NUM"] + 1)
+    if hawk_cfg["SCAN_MODE"] == 0:
+        roi_length = (13 + (hawk_cfg["H_VLD_SEG"] + 1) * 6) * (hawk_cfg["V_ROLL_NUM"] + 1)
     else:
-        roi_length = (13 + (cfg["H_ROLL_NUM"] + 1) * 6) * (cfg["V_ROLL_NUM"] + 1)
+        roi_length = (13 + (hawk_cfg["H_ROLL_NUM"] + 1) * 6) * (hawk_cfg["V_ROLL_NUM"] + 1)
 
     # ----------------------------------------------------------------------------------------
     # Modify the register configuration according to the baseline script.
@@ -320,17 +320,17 @@ def GenerateHawkRegConfig(cfg: dict):
 
             if addr == csru_addr['SYS_CTRL']:
                 register_value = (register_value & (0xFF - 0x80)) + (csru_cfg['tx_frame_mode'] << 7)
-                register_value = (register_value & (0xFF - 0x20)) + (cfg["TRG_I_EN"] << 5)
-                register_value = (register_value & (0xFF - 0x08)) + (cfg["SCAN_MODE"] << 3)
-                register_value = (register_value & (0xFF - 0x06)) + (cfg["WORK_MODE"] << 1)
-                register_value = (register_value & (0xFF - 0x01)) + (cfg["MST_MODE"] << 0)
+                register_value = (register_value & (0xFF - 0x20)) + (hawk_cfg["TRG_I_EN"] << 5)
+                register_value = (register_value & (0xFF - 0x08)) + (hawk_cfg["SCAN_MODE"] << 3)
+                register_value = (register_value & (0xFF - 0x06)) + (hawk_cfg["WORK_MODE"] << 1)
+                register_value = (register_value & (0xFF - 0x01)) + (hawk_cfg["MST_MODE"] << 0)
             elif addr == csru_addr['V_ROLL_NUM']:
-                register_value = (register_value & (0xFF - 0x1F)) + (cfg["V_ROLL_NUM"] << 0)
+                register_value = (register_value & (0xFF - 0x1F)) + (hawk_cfg["V_ROLL_NUM"] << 0)
             elif addr == csru_addr['H_ROLL_NUM']:
-                register_value = (register_value & (0xFF - 0x0F)) + (cfg["H_ROLL_NUM"] << 0)
-                register_value = (register_value & (0xFF - 0xF0)) + (cfg["H_VLD_SEG"] << 4)
+                register_value = (register_value & (0xFF - 0x0F)) + (hawk_cfg["H_ROLL_NUM"] << 0)
+                register_value = (register_value & (0xFF - 0xF0)) + (hawk_cfg["H_VLD_SEG"] << 4)
             elif addr == csru_addr['UPSMP_CFG']:
-                register_value = (register_value & (0xFF - 0x03)) + (cfg["UPSMP_MODE"] << 0)
+                register_value = (register_value & (0xFF - 0x03)) + (hawk_cfg["UPSMP_MODE"] << 0)
             elif addr == csru_addr['MIPI_TXDLY']:
                 register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
             elif addr == csru_addr['TDC_DLY_CFG1']:
@@ -364,16 +364,210 @@ def GenerateHawkRegConfig(cfg: dict):
                 raise ValueError(f"Script format error.\n"
                                  f"line{line}: {_str}")
             configs[3] = "{:0>4X}".format(roi_length)
-            configs[4] = cfg["roi_name"]
+            configs[4] = hawk_cfg["roi_name"]
             csru_datas[line] = ", ".join(configs[0:5])
             continue
         else:
             csru_datas[line] = _str
 
-    PubMethod.data_save(fname=f'{cfg["reg_name"]}.txt',
+    PubMethod.data_save(fname=f'{hawk_cfg["reg_name"]}.txt',
                         data_list=csru_datas,
                         split='\n',
-                        fd_path=cfg["fd_path"])
+                        fd_path=hawk_cfg["fd_path"])
+    return
+
+
+def GenerateHawkRegConfigByJson(hawk_cfg: dict, reg_cfg: dict):
+    """
+    本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
+    主要包含以下功能:
+        1. 根据 hawk_cfg["SYS_CLK"] 配置, 配置 PLL1频率 及 与之相关的分频寄存器
+        2. 根据 hawk_cfg["MIPI_RATE"] 配置, 配置 MIPI 速率相关的寄存器
+        3. 根据 hawk_cfg[""] 配置 MIPI WC & FLNR寄存器
+        4. 根据 hawk_cfg[""] 配置 MIPI_TXDLY[5:0] -> MIPI_PKTDLY
+        5. 根据 hawk_cfg["roi_save_n"] 配置 block_write
+    Args:
+        hawk_cfg(dict): hawk配置信息
+        reg_cfg(dict): hawk寄存器配置值信息
+    """
+
+    # ----------------------------------------------------------------------------------------
+    # initial
+    # ----------------------------------------------------------------------------------------
+    protocol = hawk_cfg["protocol"]
+    min_lens = 4 if protocol == "i2c" else 3
+    addr_index = 2 if protocol == "i2c" else 1
+    regs_write = "I2C_Write" if protocol == "i2c" else "SPI_Write"
+    roisram_write = "I2C_Block_Write" if protocol == "i2c" else "SPI_Block_Write"
+
+    ref_cfg_file = hawk_cfg["ref_cfg_file"]
+    if not os.path.exists(ref_cfg_file):
+        raise ValueError("The reference config file does not exist!")
+
+    # ----------------------------------------------------------------------------------------
+    # Calculate Register Value
+    # ----------------------------------------------------------------------------------------
+
+    # MIPI FLNR & WC
+    # ////////////////////////////////////////////////////////////////////////////
+    # 将前端配置内容同步到 csru_cfg
+    csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
+    csru_cfg['work_mode'] = hawk_cfg["WORK_MODE"]
+    csru_cfg['scan_mode'] = hawk_cfg["SCAN_MODE"]
+    csru_cfg['v_roll_Num'] = hawk_cfg["V_ROLL_NUM"]
+    csru_cfg['h_roll_Num'] = hawk_cfg["H_ROLL_NUM"]
+    csru_cfg['h_vld_seg'] = hawk_cfg["H_VLD_SEG"]
+
+    WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+    if FLNR >= 8192:
+        csru_cfg['tx_frame_mode'] = 0
+        WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+
+    VC0_FLNR_L = (FLNR & 0x00FF) >> 0
+    VC0_FLNR_H = (FLNR & 0xFF00) >> 8
+    VC1_FLNR_L = (FLNR & 0x00FF) >> 0
+    VC1_FLNR_H = (FLNR & 0xFF00) >> 8
+    VC0_WC_L = (WC & 0x00FF) >> 0
+    VC0_WC_H = (WC & 0xFF00) >> 8
+    VC1_WC_L = (WC & 0x00FF) >> 0
+    VC1_WC_H = (WC & 0xFF00) >> 8
+
+    # PLL0 config
+    # ////////////////////////////////////////////////////////////////////////////
+    PLL0_ID = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL0"]["250M"]["ID"]
+    PLL0_OD = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL0"]["250M"]["OD"]
+    PLL0_FB = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL0"]["250M"]["FB"]
+    PLL0_DIV1 = ((PLL0_ID & 0x0007) << 4) + ((PLL0_OD & 0x0003) << 0)
+    PLL0_DIV2 = ((PLL0_FB & 0x00FF) << 0)
+
+    # PLL1 config. hawk_cfg['SYS_CLK'] = 330M, 250M, 200M
+    # ////////////////////////////////////////////////////////////////////////////
+    PLL1_ID = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["ID"]
+    PLL1_OD = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["OD"]
+    PLL1_FB = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["FB"]
+    PLL1_DIV1 = ((PLL1_ID & 0x0007) << 4) + ((PLL1_OD & 0x0003) << 0)
+    PLL1_DIV2 = ((PLL1_FB & 0x00FF) << 0)
+
+    # DIV config
+    # ////////////////////////////////////////////////////////////////////////////
+    SYSCLK1M_DIVL = reg_cfg["DIV_CONFIG"][hawk_cfg['SYS_CLK']]["SYSCLK1M_DIVL"]
+    SYSCLK1M_DIVH = reg_cfg["DIV_CONFIG"][hawk_cfg['SYS_CLK']]["SYSCLK1M_DIVH"]
+    TXESC_CLKDIV = reg_cfg["DIV_CONFIG"][hawk_cfg['SYS_CLK']]["TXESC_CLKDIV"]
+
+    # MIPI_RATE CONFIG. hawk_cfg["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
+    # ////////////////////////////////////////////////////////////////////////////
+    MIPI_NS = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["NS"]
+    MIPI_MS = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["MS"]
+    MIPI_PS = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["PS"]
+    MIPIPLL_LPDH = (MIPI_NS & 0xFF00) >> 8
+    MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
+    MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)
+
+    # MIPI_PKTDLY
+    # ////////////////////////////////////////////////////////////////////////////
+    MIPI_PKTDLY = reg_cfg["MIPI_PKTDLY_CONFIG"][f"{hawk_cfg['WORK_MODE']}"][hawk_cfg['SYS_CLK']][
+        hawk_cfg['MIPI_RATE']] if hawk_cfg["WORK_MODE"] >= 2 \
+        else \
+    reg_cfg["MIPI_PKTDLY_CONFIG"][f"{hawk_cfg['WORK_MODE']}"][hawk_cfg['SYS_CLK']][f'{csru_cfg["out_bin_num"]}'][
+        hawk_cfg['MIPI_RATE']]
+
+    # TDC_DLY_CFG1
+    # ////////////////////////////////////////////////////////////////////////////
+    PLL_OD = ((PLL1_DIV1 & 0x03) >> 0)  # 0~3: 2，4，8，16
+    PHASE_DLY_OPT = 2 ** (PLL_OD + 2) - 1
+
+    # ROI length
+    # ////////////////////////////////////////////////////////////////////////////
+    if hawk_cfg["SCAN_MODE"] == 0:
+        roi_length = (13 + (hawk_cfg["H_VLD_SEG"] + 1) * 6) * (hawk_cfg["V_ROLL_NUM"] + 1)
+    else:
+        roi_length = (13 + (hawk_cfg["H_ROLL_NUM"] + 1) * 6) * (hawk_cfg["V_ROLL_NUM"] + 1)
+
+    # ----------------------------------------------------------------------------------------
+    # Modify the register configuration according to the baseline script.
+    # ----------------------------------------------------------------------------------------
+    csru_datas = PubMethod.read_file(ref_cfg_file)
+    if len(csru_datas) == 0:
+        raise ValueError("The register configuration file is empty, please check。")
+
+    for line in range(len(csru_datas)):
+        _str = csru_datas[line].strip().replace("\n", "").replace("\r", "")  # 去除换行符, 保存时统一保存
+        if _str == '' or _str[0:2] == '//':  # 空行 & 整行注释 场景
+            csru_datas[line] = _str
+            continue
+
+        configs = re.split(",|//", _str)
+        for i in range(len(configs)):
+            configs[i] = configs[i].strip()
+
+        # register_write
+        if configs[0] == regs_write:
+            if len(configs) < 4:
+                raise ValueError(f"Script format error.\n"
+                                 f"line{line}: {_str}")
+            addr = int(configs[addr_index], 16)
+            config_str = configs[addr_index + 1][0:2]
+            register_value = int(config_str, 16)
+
+            # annotation = f" //{', '.join(configs[min_lens:])}" if len(configs) > min_lens else None
+            index = _str.find("//")
+            annotation = _str[index:] if index != -1 else ""
+
+            if addr == reg_cfg["csru_addr"]["SYS_CTRL"]:
+                register_value = (register_value & (0xFF - 0x80)) + (csru_cfg['tx_frame_mode'] << 7)
+                register_value = (register_value & (0xFF - 0x20)) + (hawk_cfg["TRG_I_EN"] << 5)
+                register_value = (register_value & (0xFF - 0x08)) + (hawk_cfg["SCAN_MODE"] << 3)
+                register_value = (register_value & (0xFF - 0x06)) + (hawk_cfg["WORK_MODE"] << 1)
+                register_value = (register_value & (0xFF - 0x01)) + (hawk_cfg["MST_MODE"] << 0)
+            elif addr == reg_cfg["csru_addr"]["V_ROLL_NUM"]:
+                register_value = (register_value & (0xFF - 0x1F)) + (hawk_cfg["V_ROLL_NUM"] << 0)
+            elif addr == reg_cfg["csru_addr"]["H_ROLL_NUM"]:
+                register_value = (register_value & (0xFF - 0x0F)) + (hawk_cfg["H_ROLL_NUM"] << 0)
+                register_value = (register_value & (0xFF - 0xF0)) + (hawk_cfg["H_VLD_SEG"] << 4)
+            elif addr == reg_cfg["csru_addr"]["UPSMP_CFG"]:
+                register_value = (register_value & (0xFF - 0x03)) + (hawk_cfg["UPSMP_MODE"] << 0)
+            elif addr == reg_cfg["csru_addr"]["MIPI_TXDLY"]:
+                register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
+            elif addr == reg_cfg["csru_addr"]["TDC_DLY_CFG1"]:
+                register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
+            else:
+                register_value = PLL0_DIV1 if addr == reg_cfg["csru_addr"]["PLL0_DIV1"] \
+                    else PLL0_DIV2 if addr == reg_cfg["csru_addr"]["PLL0_DIV2"] \
+                    else PLL1_DIV1 if addr == reg_cfg["csru_addr"]["PLL1_DIV1"] \
+                    else PLL1_DIV2 if addr == reg_cfg["csru_addr"]["PLL1_DIV2"] \
+                    else SYSCLK1M_DIVL if addr == reg_cfg["csru_addr"]["SYSCLK1M_DIVL"] \
+                    else SYSCLK1M_DIVH if addr == reg_cfg["csru_addr"]["SYSCLK1M_DIVH"] \
+                    else TXESC_CLKDIV if addr == reg_cfg["csru_addr"]["TXESC_CLKDIV"] \
+                    else MIPIPLL_LPDH if addr == reg_cfg["csru_addr"]["MIPIPLL_LPDH"] \
+                    else MIPIPLL_LPDL if addr == reg_cfg["csru_addr"]["MIPIPLL_LPDL"] \
+                    else MIPIPLL_PPD if addr == reg_cfg["csru_addr"]["MIPIPLL_PPD"] \
+                    else VC0_FLNR_L if addr == reg_cfg["csru_addr"]["VC0_FLNR_L"] \
+                    else VC0_FLNR_H if addr == reg_cfg["csru_addr"]["VC0_FLNR_H"] \
+                    else VC1_FLNR_L if addr == reg_cfg["csru_addr"]["VC1_FLNR_L"] \
+                    else VC1_FLNR_H if addr == reg_cfg["csru_addr"]["VC1_FLNR_H"] \
+                    else VC0_WC_L if addr == reg_cfg["csru_addr"]["VC0_WC_L"] \
+                    else VC0_WC_H if addr == reg_cfg["csru_addr"]["VC0_WC_H"] \
+                    else VC1_WC_L if addr == reg_cfg["csru_addr"]["VC1_WC_L"] \
+                    else VC1_WC_H if addr == reg_cfg["csru_addr"]["VC1_WC_H"] \
+                    else register_value
+            configs[addr_index + 1] = "{:0>2X}".format(register_value)
+            csru_datas[line] = f"{', '.join(configs[0: min_lens])} {annotation}"
+        # roisram_write
+        elif configs[0] == roisram_write:
+            if len(configs) < 5:
+                raise ValueError(f"Script format error.\n"
+                                 f"line{line}: {_str}")
+            configs[3] = "{:0>4X}".format(roi_length)
+            configs[4] = hawk_cfg["roi_name"]
+            csru_datas[line] = ", ".join(configs[0:5])
+            continue
+        else:
+            csru_datas[line] = _str
+
+    PubMethod.data_save(fname=f'{hawk_cfg["reg_name"]}.txt',
+                        data_list=csru_datas,
+                        split='\n',
+                        fd_path=hawk_cfg["fd_path"])
     return
 
 

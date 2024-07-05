@@ -21,6 +21,7 @@ from PySide6.QtCore import QTimer
 from Hawk.HawkGUI_v002.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
 from Hawk.HawkGUI_v002.Hawk01Function import Hawk01Function
+from Hawk.MSKU import MskuPubMethod
 
 
 class CustomToolbar(NavigationToolbar2QT):
@@ -122,15 +123,12 @@ class MaskingWindow(QMainWindow):
         # Sync Signal
         # ///////////////////////////////////////////////////////////////
         self.win_signal_sync = MySignals()
-        self.win_signal_sync.text_signal_1.connect(self.bnt_save_release)
 
         # Masking Data
         # ///////////////////////////////////////////////////////////////
         self.is_playing = False
         self.index = 0
         self._timer = QTimer(self)
-
-
 
         self.initUI()
         self.Operate_bar()
@@ -139,7 +137,7 @@ class MaskingWindow(QMainWindow):
     def initUI(self):
         # 设置界面位置,确保多张图叠加显示位置不同
         # self.setGeometry(100, 100, 658, 602)
-        self.setFixedSize(658, 602)
+        self.setFixedSize(724, 662)
         cursor_pos = QCursor.pos()
         screen = QApplication.screenAt(cursor_pos)
         if screen:
@@ -182,7 +180,26 @@ class MaskingWindow(QMainWindow):
         self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
 
         # print(self.index % len(self.arrays))
-        self.canvas.axes.imshow(self.arrays[self.index % len(self.arrays)])
+        idx = self.index % len(self.arrays)
+        x, y, s = self.roi_data_pkg["coor_info"][idx]
+        _str = f"{s}({x}, {y})"
+        x = x + 5 if x < 610 else 610
+        y = y - 12 if y > 30 else y + 37
+        y = y if y < 565 else 565
+        title = self.canvas.axes.text(x, y, _str, fontdict={
+            'family': 'Times New Roman',  # 标注文本字体
+            'fontsize': 10,  # 文本大小
+            'fontweight': 'bold',  # 字体粗细
+            # 'fontstyle': 'italic',  # 字体风格
+            'color': 'white',  # 文本颜色
+            'backgroundcolor': 'blue',  # 背景颜色
+            'bbox': {
+                'boxstyle': 'round',  # 椭圆外框
+                'edgecolor': 'white',  # 线框颜色
+                'linewidth': 0
+            }
+        })
+        self.canvas.axes.imshow(self.arrays[idx])
         self.canvas.draw()
 
     def dynamic_fig(self):
@@ -215,21 +232,27 @@ class MaskingWindow(QMainWindow):
         self.update_fig()
 
     def roi_data_save(self):
+        """"
+        调用方法保存ROI数据, 由于数据量较大，需要使用多线程执行
+        """
+        dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
+        self.hawk_config["fd_path"] = dir_path
+        self.hawk_config["roi_name"] = "roi_mem"
         logging.info("标定数据保存中....")
         self.btn_save.setEnabled(False)
+
         def threadFunc():
             try:
                 Hawk01Function.ROIDataPackageSave(self.roi_data_pkg, self.hawk_config, save_sel=1)
-                self.win_signal_sync.text_signal_1.emit("数据保存完成...")
             except Exception as e:
-                self.win_signal_sync.text_signal_1.emit(e)
+                logging.fatal(e)
+            self.win_signal_sync.Obj_signal_0.emit(self.btn_save)
         thread = Thread(target=threadFunc)
         thread.start()
         return
 
-    def bnt_save_release(self, info):
-        logging.info(info)
-        self.btn_save.setEnabled(True)
+    def bnt_save_release(self, Obj: QPushButton):
+        Obj.setEnabled(True)
         return
 
     def PlaySwitch_plot(self):
@@ -305,6 +328,8 @@ class MaskingWindow(QMainWindow):
         self.btn_oneforward.clicked.connect(self.Oneforward_plot)
         self.btn_replay.clicked.connect(self.Replay_plog)
         self.btn_save.clicked.connect(self.roi_data_save)
+        self.win_signal_sync.Obj_signal_0.connect(self.bnt_save_release)
+
 
         # self.btn_test = QPushButton("test")
         # self.btn_test.clicked.connect(self.ani.stop)

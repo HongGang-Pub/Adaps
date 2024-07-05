@@ -240,7 +240,7 @@ def RollingArrayCollect(msku_roi_data, cfg, is_save=0, fd_path='.') -> tuple:
         for vroll_cnt in range(v_roll_num + 1):
             per_zone_data = msku_roi_data[vroll_cnt]
             for hroll_cnt in range(h_roll_num + 1):
-                dsp = (hroll_cnt * 2) % 32 + 10
+                dsp = (vroll_cnt*(h_roll_num+1) + hroll_cnt) % ((h_roll_num + 1)*2) + 10
                 index = hroll_cnt * 6
                 per_rolling_data = per_zone_data[index: index + 6]
                 # for per_coor in per_rolling_data:

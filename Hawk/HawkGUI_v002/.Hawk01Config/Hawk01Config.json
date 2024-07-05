@@ -1,25 +1,26 @@
 {
     "FILE_CONFIG": "--------文件相关配置---------",
-    "ref_cfg_file": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input/Ref_RegCfg.txt",
-    "fd_path": "D:/Git/Adaps/Hawk/HawkGUI_v002/Output",
+    "ref_cfg_file": "./Input/Ref_RegCfg.txt",
+    "fd_path": "C:/Users/honggang.li/Downloads/ROI_data",
     "reg_name": "reg_config",
     "roi_name": "roi_mem",
     "REG_CONFIG": "-----------寄存器配置-----------",
     "REF_CLK": "REF_24M",
-    "MST_MODE": 0,
+    "MST_MODE": 1,
     "TRG_I_EN": 1,
-    "TDC_BIN_W": "1.00ns",
-    "SYS_CLK": "250M",
-    "UPSMP_MODE": 3,
+    "TDC_BIN_W": "2.50ns",
+    "SYS_CLK": "200M",
+    "UPSMP_MODE": 0,
     "SCAN_MODE": 0,
     "V_ROLL_NUM": 31,
-    "H_ROLL_NUM": 3,
-    "H_VLD_SEG": 15,
-    "MIPI_RATE": [
-        "0.8G"
-    ],
+    "H_ROLL_NUM": 5,
+    "H_VLD_SEG": 7,
+    "MIPI_RATE": "1.5G",
     "WORK_MODE": [
-        0
+        0,
+        1,
+        2,
+        3
     ],
     "roi_data_format": 1,
     "protocol": "i2c",
@@ -30,15 +31,15 @@
         2,
         3
     ],
-    "Default_ROI_GEN_TYPE": 3,
-    "ROI_SRAM_Include": false,
+    "Default_ROI_GEN_TYPE": 1,
+    "ROI_SRAM_Include": true,
     "SPADISS_Integration": false,
     "instruction": "------部分配置说明-----",
     "config_instruction": {
         "TDC_BIN_W": "0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns",
         "MIPI_RATE": "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
         "roi_data_format": "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
-        "REF_CLK": "FREF_24M or FREF_25M",
+        "REF_CLK": "REF_24M or REF_25M",
         "protocol": "i2c or spi"
     }
 }

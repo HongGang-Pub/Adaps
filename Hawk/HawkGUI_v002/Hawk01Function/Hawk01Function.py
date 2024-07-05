@@ -1,3 +1,7 @@
+import copy
+
+from SelfDefinedPackge import PubMethod
+from Hawk.Common import HawkPubMethod
 from Hawk.MSKU.MSKU_Cali.ROICalibration import ROICalibration
 from Hawk.MSKU.MSKU_GEN import ROIGenerate
 from Hawk.MSKU import MskuPubMethod
@@ -6,13 +10,14 @@ from memory_profiler import profile
 import matplotlib.pyplot as plt
 from SelfDefinedPackge import ArrayPubMethod
 from matplotlib.pyplot import MultipleLocator
-
+import logging
+from SelfDefinedPackge import LogerPubMethod
 
 def MskuRoiGenerateByJson(cfg: dict) -> dict:
     """完全通过Json文件生成 MskuRoi"""
     roi_data_pkg = {}
     msku_roi_mem = ROIGenerate.MskuRoiGenerate(cfg)
-    arrays, acc_spad_array, depth_spad_array, coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg)
+    arrays, acc_spad_array, depth_spad_array, coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg, is_save=0)
     roi_data = RoiMemGenerate(msku_roi_mem, cfg)
     roi_data_pkg["roi_gen_type"] = 0
     roi_data_pkg["roi_data"] = roi_data
@@ -22,14 +27,13 @@ def MskuRoiGenerateByJson(cfg: dict) -> dict:
     roi_data_pkg["depth_spad_array"] = depth_spad_array
     return roi_data_pkg
 
-
 def MskuRoiGenerateByFile(cfg: dict) -> dict:
     """通过手动的标定坐标生成ROI"""
     roi_data_pkg = {}
     cali_data = MskuPubMethod.DirectAccessCaliData(cfg)
     msku_roi_mem = ROICalibration.MskuRoiGenerate(cfg=cfg, cali_data=cali_data)
     roi_data = RoiMemGenerate(msku_roi_mem, cfg)
-    arrays, acc_spad_array, depth_spad_array, coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg)
+    arrays, acc_spad_array, depth_spad_array, coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg, is_save=0)
     roi_data_pkg["roi_gen_type"] = 1
     roi_data_pkg["roi_data"] = roi_data
     roi_data_pkg["arrays"] = arrays
@@ -93,13 +97,16 @@ def ROIDataPackageSave(roi_data_pkg, cfg, save_sel=0):
 
     """
     MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data_pkg["roi_data"], fd_path=cfg["fd_path"])
+    url = f'{cfg["fd_path"]}/{cfg["roi_name"]}.txt'
+    info = LogerPubMethod.create_file_hyperlink(file_type="ROI data", url=url)
+    logging.info(info)
 
     if save_sel == 0:
         return
 
     # ROI masking数据效果保存
     # /////////////////////////////////////////////////
-    img_fp = f'{cfg["fd_path"]}\\image'
+    img_fp = f'{cfg["fd_path"]}/image'
 
     # SPAD阵列保存
     try:
@@ -148,4 +155,42 @@ def ROIDataPackageSave(roi_data_pkg, cfg, save_sel=0):
             plt.imsave(f2, roi_data_pkg["spad_array_3D"])
         except:
             pass
+    url = f'{img_fp}'
+    info = LogerPubMethod.create_file_hyperlink(file_type="Image", url=url)
+    logging.info(info)
     return
+
+
+def ScriptDataSave(hawk01_cfg, reg_cfg):
+    """
+    根据配置生成Hawk01配置脚本
+        hawk_cfg (dict): Hawk 配置集合
+    """
+    __hawk01_cfg__ = copy.deepcopy(hawk01_cfg)
+    __reg_cfg__ = copy.deepcopy(reg_cfg)
+
+    work_mode_q = hawk01_cfg["WORK_MODE"]
+
+    def traverse_dict(d, parent_key=''):
+        for key, value in d.items():
+            full_key = f"{parent_key}.{key}" if parent_key else key
+            if isinstance(value, dict):
+                traverse_dict(value, full_key)
+            else:
+                try:
+                    d[key] = eval(value)
+                except:
+                    pass
+    traverse_dict(d=__reg_cfg__, parent_key='')     # 将reg_config的配置值全部转换为数字类型
+
+    for work_mode in work_mode_q:
+        __hawk01_cfg__["WORK_MODE"] = work_mode
+        __hawk01_cfg__["reg_name"] = hawk01_cfg["reg_name"] if len(work_mode_q) == 0 \
+            else f'Ranging_Mode_{hawk01_cfg["reg_name"]}' if work_mode == 0 \
+            else f'Echo_Mode_{hawk01_cfg["reg_name"]}' if work_mode == 1 \
+            else f'Histogram_Mode_{hawk01_cfg["reg_name"]}' if work_mode == 2 \
+            else f'Gray_Scale_Mode_{hawk01_cfg["reg_name"]}'   # if work_mode == 3 \
+        HawkPubMethod.GenerateHawkRegConfigByJson(hawk_cfg=__hawk01_cfg__, reg_cfg=__reg_cfg__)
+        url = f'{__hawk01_cfg__["fd_path"]}/{__hawk01_cfg__["reg_name"]}.txt'
+        info = LogerPubMethod.create_file_hyperlink(file_type="Script data", url=url)
+        logging.info(info)

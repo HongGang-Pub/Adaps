@@ -1,18 +1,18 @@
 {
     "ROIGenByJson": {
         "seg_hs": 0,
-        "spad_vs": 3,
+        "spad_vs": 0,
         "light_shift": 18,
         "sublight_shift": 3,
         "roi_shape": 0,
-        "v_spad_shift": 1,
-        "h_seg_shift": 0
+        "v_spad_shift": 0,
+        "h_seg_shift": 1
     },
     "ROIGenByFile": {
         "gen_roi_file": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input/1D_ROI_Cali_Data.txt"
     },
     "ROIGenByBase": {
-        "base_roi_file": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input/Ref_RegCfg.txt",
+        "base_roi_file": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input/1D_ROI_Cali_Data.txt",
         "start_roll": 0,
         "end_roll": 31
     },
@@ -22,7 +22,7 @@
         "img_reverse": 0,
         "cali_frm_num": 6,
         "remove_noise": 0,
-        "light_smooth": 1,
+        "light_smooth": 0,
         "config_1D": "-----1D scan_mode配置信息-----",
         "ref_segment": 8,
         "curvature": 2,

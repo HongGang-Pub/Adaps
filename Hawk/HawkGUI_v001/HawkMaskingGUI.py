@@ -342,7 +342,7 @@ def msku_gui():
             cfg['reg_name'] = fname_for_cfg_cmp.get()    # 获取界面上配置脚本文件名
             cfg['roi_name'] = fname_for_roi_cmp.get()       # 获取界面上roi文件名
             GenerateRoiMem(cfg, msku_roi_mem)
-            # reg_config = PubMethod.ReadJsonFile('reg_config.json')
+            # hawk01_register_config = PubMethod.ReadJsonFile('hawk01_register_config.json')
             HawkPubMethod.GenerateHawkRegConfig(cfg)
             _log_update(f"Hawk register config has been saved to: {cfg['fd_path']}/{cfg['reg_name']}.txt",
                         log_type=1)

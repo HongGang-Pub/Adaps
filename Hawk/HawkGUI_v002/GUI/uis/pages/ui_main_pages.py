@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pageslTIsTa.ui'
+## Form generated from reading UI file 'main_pageseRadgM.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.1
 ##
@@ -112,20 +112,6 @@ class Ui_MainPages(object):
 
         self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.MST_MODE_ComboBox)
 
-        self.TRG_I_EN_Label = QLabel(self.RegisterConfig)
-        self.TRG_I_EN_Label.setObjectName(u"TRG_I_EN_Label")
-        self.TRG_I_EN_Label.setMinimumSize(QSize(85, 0))
-        self.TRG_I_EN_Label.setMaximumSize(QSize(85, 16777215))
-        self.TRG_I_EN_Label.setFont(font)
-        self.TRG_I_EN_Label.setFrameShape(QFrame.StyledPanel)
-
-        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.TRG_I_EN_Label)
-
-        self.TRG_I_EN_ComboBox = QComboBox(self.RegisterConfig)
-        self.TRG_I_EN_ComboBox.setObjectName(u"TRG_I_EN_ComboBox")
-
-        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.TRG_I_EN_ComboBox)
-
         self.WORK_MODE_Label = QLabel(self.RegisterConfig)
         self.WORK_MODE_Label.setObjectName(u"WORK_MODE_Label")
         sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
@@ -139,13 +125,27 @@ class Ui_MainPages(object):
         self.WORK_MODE_Label.setFrameShadow(QFrame.Raised)
         self.WORK_MODE_Label.setMargin(0)
 
-        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.WORK_MODE_Label)
+        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.WORK_MODE_Label)
 
         self.WORK_MODE_ComboBox = QComboCheckBox(self.RegisterConfig)
         self.WORK_MODE_ComboBox.setObjectName(u"WORK_MODE_ComboBox")
         self.WORK_MODE_ComboBox.setFont(font1)
 
-        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.WORK_MODE_ComboBox)
+        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.WORK_MODE_ComboBox)
+
+        self.TRG_I_EN_Label = QLabel(self.RegisterConfig)
+        self.TRG_I_EN_Label.setObjectName(u"TRG_I_EN_Label")
+        self.TRG_I_EN_Label.setMinimumSize(QSize(85, 0))
+        self.TRG_I_EN_Label.setMaximumSize(QSize(85, 16777215))
+        self.TRG_I_EN_Label.setFont(font)
+        self.TRG_I_EN_Label.setFrameShape(QFrame.StyledPanel)
+
+        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.TRG_I_EN_Label)
+
+        self.TRG_I_EN_ComboBox = QComboBox(self.RegisterConfig)
+        self.TRG_I_EN_ComboBox.setObjectName(u"TRG_I_EN_ComboBox")
+
+        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.TRG_I_EN_ComboBox)
 
         self.MIPI_RATE_Label = QLabel(self.RegisterConfig)
         self.MIPI_RATE_Label.setObjectName(u"MIPI_RATE_Label")
@@ -159,7 +159,7 @@ class Ui_MainPages(object):
 
         self.formLayout_2.setWidget(5, QFormLayout.LabelRole, self.MIPI_RATE_Label)
 
-        self.MIPI_RATE_ComboBox = QComboCheckBox(self.RegisterConfig)
+        self.MIPI_RATE_ComboBox = QComboBox(self.RegisterConfig)
         self.MIPI_RATE_ComboBox.setObjectName(u"MIPI_RATE_ComboBox")
         self.MIPI_RATE_ComboBox.setFont(font1)
 
@@ -371,8 +371,9 @@ class Ui_MainPages(object):
 
         self.seg_hs_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
         self.seg_hs_spinBox.setObjectName(u"seg_hs_spinBox")
-        self.seg_hs_spinBox.setMinimum(1)
-        self.seg_hs_spinBox.setMaximum(16)
+        self.seg_hs_spinBox.setMinimum(0)
+        self.seg_hs_spinBox.setMaximum(15)
+        self.seg_hs_spinBox.setValue(0)
 
         self.formLayout.setWidget(0, QFormLayout.FieldRole, self.seg_hs_spinBox)
 
@@ -388,8 +389,8 @@ class Ui_MainPages(object):
 
         self.spad_vs_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
         self.spad_vs_spinBox.setObjectName(u"spad_vs_spinBox")
-        self.spad_vs_spinBox.setMinimum(-575)
-        self.spad_vs_spinBox.setMaximum(576)
+        self.spad_vs_spinBox.setMinimum(0)
+        self.spad_vs_spinBox.setMaximum(575)
 
         self.formLayout.setWidget(1, QFormLayout.FieldRole, self.spad_vs_spinBox)
 
@@ -909,59 +910,11 @@ class Ui_MainPages(object):
         self.gridLayout_6 = QGridLayout(self.FileConifg)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
         self.gridLayout_6.setContentsMargins(9, 9, 9, 9)
-        self.base_script_LineEdit = QLineEdit(self.FileConifg)
-        self.base_script_LineEdit.setObjectName(u"base_script_LineEdit")
-        self.base_script_LineEdit.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.base_script_LineEdit.sizePolicy().hasHeightForWidth())
-        self.base_script_LineEdit.setSizePolicy(sizePolicy1)
-        self.base_script_LineEdit.setMinimumSize(QSize(0, 0))
-        self.base_script_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.base_script_LineEdit.setFocusPolicy(Qt.StrongFocus)
-        self.base_script_LineEdit.setReadOnly(True)
+        self.roi_sram_name_Label = QLabel(self.FileConifg)
+        self.roi_sram_name_Label.setObjectName(u"roi_sram_name_Label")
+        self.roi_sram_name_Label.setFont(font)
 
-        self.gridLayout_6.addWidget(self.base_script_LineEdit, 4, 1, 1, 1)
-
-        self.REG_CFG_File_LineEdit = QLineEdit(self.FileConifg)
-        self.REG_CFG_File_LineEdit.setObjectName(u"REG_CFG_File_LineEdit")
-        self.REG_CFG_File_LineEdit.setMinimumSize(QSize(0, 0))
-        self.REG_CFG_File_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.REG_CFG_File_LineEdit.setFont(font)
-
-        self.gridLayout_6.addWidget(self.REG_CFG_File_LineEdit, 1, 1, 1, 1)
-
-        self.ROI_Sram_File_CheckBox = QCheckBox(self.FileConifg)
-        self.ROI_Sram_File_CheckBox.setObjectName(u"ROI_Sram_File_CheckBox")
-
-        self.gridLayout_6.addWidget(self.ROI_Sram_File_CheckBox, 3, 3, 1, 1)
-
-        self.file_save_dir_Button = QPushButton(self.FileConifg)
-        self.file_save_dir_Button.setObjectName(u"file_save_dir_Button")
-        sizePolicy2.setHeightForWidth(self.file_save_dir_Button.sizePolicy().hasHeightForWidth())
-        self.file_save_dir_Button.setSizePolicy(sizePolicy2)
-        self.file_save_dir_Button.setMinimumSize(QSize(90, 0))
-
-        self.gridLayout_6.addWidget(self.file_save_dir_Button, 5, 2, 1, 1)
-
-        self.SPADISS_Integration_CheckBox = QCheckBox(self.FileConifg)
-        self.SPADISS_Integration_CheckBox.setObjectName(u"SPADISS_Integration_CheckBox")
-
-        self.gridLayout_6.addWidget(self.SPADISS_Integration_CheckBox, 5, 3, 1, 1)
-
-        self.REG_CFG_File_Label = QLabel(self.FileConifg)
-        self.REG_CFG_File_Label.setObjectName(u"REG_CFG_File_Label")
-        self.REG_CFG_File_Label.setFont(font)
-
-        self.gridLayout_6.addWidget(self.REG_CFG_File_Label, 1, 0, 1, 1)
-
-        self.base_script_Label = QLabel(self.FileConifg)
-        self.base_script_Label.setObjectName(u"base_script_Label")
-        self.base_script_Label.setMinimumSize(QSize(0, 0))
-        self.base_script_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.base_script_Label.setFont(font1)
-        self.base_script_Label.setFrameShape(QFrame.NoFrame)
-        self.base_script_Label.setFrameShadow(QFrame.Raised)
-
-        self.gridLayout_6.addWidget(self.base_script_Label, 4, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.roi_sram_name_Label, 4, 0, 1, 1)
 
         self.file_save_dir_Label = QLabel(self.FileConifg)
         self.file_save_dir_Label.setObjectName(u"file_save_dir_Label")
@@ -971,44 +924,92 @@ class Ui_MainPages(object):
         self.file_save_dir_Label.setFrameShape(QFrame.NoFrame)
         self.file_save_dir_Label.setFrameShadow(QFrame.Raised)
 
-        self.gridLayout_6.addWidget(self.file_save_dir_Label, 5, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.file_save_dir_Label, 6, 0, 1, 1)
 
-        self.base_script_Button = QPushButton(self.FileConifg)
-        self.base_script_Button.setObjectName(u"base_script_Button")
-        sizePolicy2.setHeightForWidth(self.base_script_Button.sizePolicy().hasHeightForWidth())
-        self.base_script_Button.setSizePolicy(sizePolicy2)
-        self.base_script_Button.setMinimumSize(QSize(90, 0))
+        self.roi_sram_name_LineEdit = QLineEdit(self.FileConifg)
+        self.roi_sram_name_LineEdit.setObjectName(u"roi_sram_name_LineEdit")
+        self.roi_sram_name_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.roi_sram_name_LineEdit.setFont(font)
 
-        self.gridLayout_6.addWidget(self.base_script_Button, 4, 2, 1, 1)
+        self.gridLayout_6.addWidget(self.roi_sram_name_LineEdit, 4, 1, 1, 1)
 
-        self.ROI_SRAM_File_LineEdit = QLineEdit(self.FileConifg)
-        self.ROI_SRAM_File_LineEdit.setObjectName(u"ROI_SRAM_File_LineEdit")
-        self.ROI_SRAM_File_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.ROI_SRAM_File_LineEdit.setFont(font)
+        self.roi_sram_name_CheckBox = QCheckBox(self.FileConifg)
+        self.roi_sram_name_CheckBox.setObjectName(u"roi_sram_name_CheckBox")
 
-        self.gridLayout_6.addWidget(self.ROI_SRAM_File_LineEdit, 3, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.roi_sram_name_CheckBox, 4, 3, 1, 1)
+
+        self.horizontalSpacer_5 = QSpacerItem(30, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+
+        self.gridLayout_6.addItem(self.horizontalSpacer_5, 6, 4, 1, 1)
+
+        self.file_save_dir_Button = QPushButton(self.FileConifg)
+        self.file_save_dir_Button.setObjectName(u"file_save_dir_Button")
+        sizePolicy2.setHeightForWidth(self.file_save_dir_Button.sizePolicy().hasHeightForWidth())
+        self.file_save_dir_Button.setSizePolicy(sizePolicy2)
+        self.file_save_dir_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_6.addWidget(self.file_save_dir_Button, 6, 2, 1, 1)
+
+        self.SPADISS_Integration_CheckBox = QCheckBox(self.FileConifg)
+        self.SPADISS_Integration_CheckBox.setObjectName(u"SPADISS_Integration_CheckBox")
+
+        self.gridLayout_6.addWidget(self.SPADISS_Integration_CheckBox, 6, 3, 1, 1)
 
         self.file_save_dir_LineEdit = QLineEdit(self.FileConifg)
         self.file_save_dir_LineEdit.setObjectName(u"file_save_dir_LineEdit")
         self.file_save_dir_LineEdit.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.file_save_dir_LineEdit.sizePolicy().hasHeightForWidth())
         self.file_save_dir_LineEdit.setSizePolicy(sizePolicy1)
-        self.file_save_dir_LineEdit.setMinimumSize(QSize(300, 0))
+        self.file_save_dir_LineEdit.setMinimumSize(QSize(350, 0))
         self.file_save_dir_LineEdit.setMaximumSize(QSize(500, 16777215))
         self.file_save_dir_LineEdit.setFocusPolicy(Qt.StrongFocus)
-        self.file_save_dir_LineEdit.setReadOnly(True)
+        self.file_save_dir_LineEdit.setReadOnly(False)
 
-        self.gridLayout_6.addWidget(self.file_save_dir_LineEdit, 5, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.file_save_dir_LineEdit, 6, 1, 1, 1)
 
-        self.ROI_SRAM_File_Label = QLabel(self.FileConifg)
-        self.ROI_SRAM_File_Label.setObjectName(u"ROI_SRAM_File_Label")
-        self.ROI_SRAM_File_Label.setFont(font)
+        self.reg_script_name_Label = QLabel(self.FileConifg)
+        self.reg_script_name_Label.setObjectName(u"reg_script_name_Label")
+        self.reg_script_name_Label.setFont(font)
 
-        self.gridLayout_6.addWidget(self.ROI_SRAM_File_Label, 3, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.reg_script_name_Label, 2, 0, 1, 1)
 
-        self.horizontalSpacer_5 = QSpacerItem(50, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        self.reg_script_name_LineEdit = QLineEdit(self.FileConifg)
+        self.reg_script_name_LineEdit.setObjectName(u"reg_script_name_LineEdit")
+        self.reg_script_name_LineEdit.setMinimumSize(QSize(0, 0))
+        self.reg_script_name_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.reg_script_name_LineEdit.setFont(font)
 
-        self.gridLayout_6.addItem(self.horizontalSpacer_5, 5, 4, 1, 1)
+        self.gridLayout_6.addWidget(self.reg_script_name_LineEdit, 2, 1, 1, 1)
+
+        self.reference_script_Label = QLabel(self.FileConifg)
+        self.reference_script_Label.setObjectName(u"reference_script_Label")
+        self.reference_script_Label.setMinimumSize(QSize(0, 0))
+        self.reference_script_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.reference_script_Label.setFont(font1)
+        self.reference_script_Label.setFrameShape(QFrame.NoFrame)
+        self.reference_script_Label.setFrameShadow(QFrame.Raised)
+
+        self.gridLayout_6.addWidget(self.reference_script_Label, 1, 0, 1, 1)
+
+        self.reference_script_LineEdit = QLineEdit(self.FileConifg)
+        self.reference_script_LineEdit.setObjectName(u"reference_script_LineEdit")
+        self.reference_script_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.reference_script_LineEdit.sizePolicy().hasHeightForWidth())
+        self.reference_script_LineEdit.setSizePolicy(sizePolicy1)
+        self.reference_script_LineEdit.setMinimumSize(QSize(0, 0))
+        self.reference_script_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.reference_script_LineEdit.setFocusPolicy(Qt.StrongFocus)
+        self.reference_script_LineEdit.setReadOnly(True)
+
+        self.gridLayout_6.addWidget(self.reference_script_LineEdit, 1, 1, 1, 1)
+
+        self.reference_script_Button = QPushButton(self.FileConifg)
+        self.reference_script_Button.setObjectName(u"reference_script_Button")
+        sizePolicy2.setHeightForWidth(self.reference_script_Button.sizePolicy().hasHeightForWidth())
+        self.reference_script_Button.setSizePolicy(sizePolicy2)
+        self.reference_script_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_6.addWidget(self.reference_script_Button, 1, 2, 1, 1)
 
 
         self.verticalLayout_12.addWidget(self.FileConifg)
@@ -1024,6 +1025,10 @@ class Ui_MainPages(object):
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(9, -1, 9, 9)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer_3, 0, 2, 1, 1)
+
         self.Save = QPushButton(self.Operate)
         self.Save.setObjectName(u"Save")
         sizePolicy1.setHeightForWidth(self.Save.sizePolicy().hasHeightForWidth())
@@ -1034,9 +1039,15 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.Save, 0, 0, 1, 1)
 
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.Test = QPushButton(self.Operate)
+        self.Test.setObjectName(u"Test")
+        sizePolicy1.setHeightForWidth(self.Test.sizePolicy().hasHeightForWidth())
+        self.Test.setSizePolicy(sizePolicy1)
+        self.Test.setMinimumSize(QSize(90, 0))
+        self.Test.setFont(font)
+        self.Test.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.gridLayout.addItem(self.horizontalSpacer_3, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.Test, 0, 1, 1, 1)
 
 
         self.verticalLayout_12.addWidget(self.Operate)
@@ -1653,7 +1664,7 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(3)
+        self.ROIConfig.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -1664,8 +1675,8 @@ class Ui_MainPages(object):
         self.REF_CLK_Label.setText(QCoreApplication.translate("MainPages", u"REF CLK", None))
         self.SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
         self.MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
-        self.TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
         self.WORK_MODE_Label.setText(QCoreApplication.translate("MainPages", u"WORK_MODE", None))
+        self.TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
         self.MIPI_RATE_Label.setText(QCoreApplication.translate("MainPages", u"MIPI RATE", None))
         self.TDC_Bin_Width_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
         self.SCAN_MODE_Label.setText(QCoreApplication.translate("MainPages", u"SCAN_MODE", None))
@@ -1729,19 +1740,20 @@ class Ui_MainPages(object):
         self.ROIZoneConfig.setText(QCoreApplication.translate("MainPages", u"<html><head/><body><p><a href=\"https://www.example.com\"><span style=\" text-decoration: underline; color:#0078d7;\">ZONE INFO</span></a></p></body></html>", None))
         self.ROIView.setText(QCoreApplication.translate("MainPages", u"View", None))
         self.ROISave.setText(QCoreApplication.translate("MainPages", u"Save", None))
-        self.base_script_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
-        self.REG_CFG_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
-        self.ROI_Sram_File_CheckBox.setText(QCoreApplication.translate("MainPages", u"Include", None))
+        self.roi_sram_name_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Name", None))
+        self.file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
+        self.roi_sram_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
+        self.roi_sram_name_CheckBox.setText(QCoreApplication.translate("MainPages", u"Include", None))
         self.file_save_dir_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.SPADISS_Integration_CheckBox.setText(QCoreApplication.translate("MainPages", u"Integration", None))
-        self.REG_CFG_File_Label.setText(QCoreApplication.translate("MainPages", u"REG CFG File", None))
-        self.base_script_Label.setText(QCoreApplication.translate("MainPages", u"Base Script", None))
-        self.file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Dir", None))
-        self.base_script_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.ROI_SRAM_File_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
         self.file_save_dir_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
-        self.ROI_SRAM_File_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM File", None))
+        self.reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Reg Script Name", None))
+        self.reg_script_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
+        self.reference_script_Label.setText(QCoreApplication.translate("MainPages", u"Reference Script", None))
+        self.reference_script_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
+        self.reference_script_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
+        self.Test.setText(QCoreApplication.translate("MainPages", u"Test", None))
         self.title_label_2.setText(QCoreApplication.translate("MainPages", u"Hawk Toolbox", None))
         self.FunctionWindow.setTitle("")
         self.FunctionSelectWin.setTitle(QCoreApplication.translate("MainPages", u"Function Select", None))

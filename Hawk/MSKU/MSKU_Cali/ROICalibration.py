@@ -1,5 +1,7 @@
 import logging
 import os
+import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 from SelfDefinedPackge import PubMethod
@@ -415,6 +417,7 @@ class ROICalibration:
         cali_data = []
         # for index in file_index_list[0:2]:
         for roll_cnt in range(len(file_index_list)):
+            time.sleep(0.05)
             file = f_dict[file_index_list[roll_cnt]]
             f_name = "Roll{}_{}".format(roll_cnt, file_index_list[roll_cnt])
 
