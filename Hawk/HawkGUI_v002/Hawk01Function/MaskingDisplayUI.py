@@ -110,9 +110,6 @@ class MaskingWindow(QMainWindow):
 
         try:
             self.arrays = self.roi_data_pkg["arrays"]
-            if self.roi_data_pkg["roi_gen_type"] == 3:
-                self.arrays.append(self.roi_data_pkg["fusion_image"])
-                self.arrays.append(self.roi_data_pkg["spad_array_3D"])
         except:
             self.arrays = []
             for i in range(5):
@@ -160,9 +157,19 @@ class MaskingWindow(QMainWindow):
         self.control_bar_hlayout = QHBoxLayout(self.control_bar_frame)
 
         # Toolbar
-        # self.figtoolbar = NavigationToolbar(self.canvas, self)  # 创建figure工具栏
-        self.toolbar = CustomToolbar(self.canvas, self)
+        self.toolbar = QFrame()
+        self.toolbar_hlayout = QHBoxLayout(self.toolbar)
+
+        self.img_toolbar = CustomToolbar(self.canvas, self)
+        self.img_sel_ComboBox = QComboBox()
+        img_type = ["Masking", "PCM Image", "PTM Image", "Cali fusion Image"] if self.roi_data_pkg["roi_gen_type"] == 3 \
+            else ["Masking", "PCM Image", "PTM Image"]
+        self.img_sel_ComboBox.addItems(img_type)
+        self.img_sel_ComboBox.setCurrentIndex(0)
+
         self.toolbar.setStyleSheet("")
+        self.toolbar_hlayout.addWidget(self.img_toolbar)
+        self.toolbar_hlayout.addWidget(self.img_sel_ComboBox)
         # self.addToolBar(self.toolbar)
 
         # Display
@@ -173,34 +180,53 @@ class MaskingWindow(QMainWindow):
 
     def update_fig(self):
         self.canvas.axes.cla()
-        # --------------------- 配置刻度 --------------------
-        # self.canvas.fig.tight_layout()
-        # self.canvas.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
-        self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
-        self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
+        if self.img_sel_ComboBox.currentIndex() == 0:   # 动态展示 masking 图片
+            # --------------------- 配置刻度 --------------------
+            # self.canvas.fig.tight_layout()
+            # self.canvas.axes.xaxis.tick_top()  # 设置x坐标轴位置在顶部
+            self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
+            self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
 
-        # print(self.index % len(self.arrays))
-        idx = self.index % len(self.arrays)
-        x, y, s = self.roi_data_pkg["coor_info"][idx]
-        _str = f"{s}({x}, {y})"
-        x = x + 5 if x < 610 else 610
-        y = y - 12 if y > 30 else y + 37
-        y = y if y < 565 else 565
-        title = self.canvas.axes.text(x, y, _str, fontdict={
-            'family': 'Times New Roman',  # 标注文本字体
-            'fontsize': 10,  # 文本大小
-            'fontweight': 'bold',  # 字体粗细
-            # 'fontstyle': 'italic',  # 字体风格
-            'color': 'white',  # 文本颜色
-            'backgroundcolor': 'blue',  # 背景颜色
-            'bbox': {
-                'boxstyle': 'round',  # 椭圆外框
-                'edgecolor': 'white',  # 线框颜色
-                'linewidth': 0
-            }
-        })
-        self.canvas.axes.imshow(self.arrays[idx])
-        self.canvas.draw()
+            # print(self.index % len(self.arrays))
+            idx = self.index % len(self.arrays)
+            x, y, s = self.roi_data_pkg["coor_info"][idx]
+            _str = f"{s}({x}, {y})"
+            x = x + 5 if x < 610 else 610
+            y = y - 12 if y > 30 else y + 37
+            y = y if y < 565 else 565
+            title = self.canvas.axes.text(x, y, _str, fontdict={
+                'family': 'Times New Roman',  # 标注文本字体
+                'fontsize': 10,  # 文本大小
+                'fontweight': 'bold',  # 字体粗细
+                # 'fontstyle': 'italic',  # 字体风格
+                'color': 'white',  # 文本颜色
+                'backgroundcolor': 'blue',  # 背景颜色
+                'bbox': {
+                    'boxstyle': 'round',  # 椭圆外框
+                    'edgecolor': 'white',  # 线框颜色
+                    'linewidth': 0
+                }
+            })
+            self.canvas.axes.imshow(self.arrays[idx])
+            self.canvas.draw()
+        elif self.img_sel_ComboBox.currentIndex() == 1:   # 动态展示 masking 图片
+            # --------------------- 配置刻度 --------------------
+            self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
+            self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
+            self.canvas.axes.imshow(self.roi_data_pkg["acc_spad_array"])
+            self.canvas.draw()
+        elif self.img_sel_ComboBox.currentIndex() == 2:   # 动态展示 masking 图片
+            # --------------------- 配置刻度 --------------------
+            self.canvas.axes.xaxis.set_major_locator(MultipleLocator(16))
+            self.canvas.axes.yaxis.set_major_locator(MultipleLocator(20))
+            self.canvas.axes.imshow(self.roi_data_pkg["depth_spad_array"])
+            self.canvas.draw()
+        elif self.img_sel_ComboBox.currentIndex() == 3:   # 动态展示 masking 图片
+            # --------------------- 配置刻度 --------------------
+            self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
+            self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
+            self.canvas.axes.imshow(self.roi_data_pkg["fusion_image"])
+            self.canvas.draw()
 
     def dynamic_fig(self):
         if self.is_playing:
