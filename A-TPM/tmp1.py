@@ -1,7 +1,7 @@
 data_width_sel = 2
 
-data2 = 0x8607D
-data3 = 0x00c91
+data2 = 0x190189
+data3 = 0x00d9a
 if data_width_sel in [0, 3]:
     echo_start = ((data2 >> 0) & 0xFF) + (((data2 >> 12) & 0x03) << 8)
     peak_index = ((data2 >> 14) & 0x3F) + (((data3 >> 0) & 0x0F) << 6)
