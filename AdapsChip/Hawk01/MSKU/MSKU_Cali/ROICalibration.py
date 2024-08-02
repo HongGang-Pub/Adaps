@@ -624,7 +624,7 @@ class ROICalibration:
             # 按照 pixel进行矫正
             # print(f"--------------- seg: {h_seg_cnt} ---------------")
             correct_pixel_list = ROICalibration.roi_correct(v_pixel_list, cfg["correct_thres"],
-                                                            info=f"segment_{h_seg_cnt}")
+                                                            info=f"SEGMENT[{h_seg_cnt}]")
 
             # 按照矫正的 pixel 对 ROI 进行矫正
             for vroll_cnt in range(0, vroll_num):

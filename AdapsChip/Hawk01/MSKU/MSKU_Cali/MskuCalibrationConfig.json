@@ -1,9 +1,9 @@
 {
 	"?cali_file"	: "标定数据路径(PCM灰度图路径) (请注意使用双斜杠)",
-	"cali_file"		: "C:\\Users\\honggang.li\\Downloads\\B16\\B16\\rawData",
+	"cali_file"		: "C:\\Users\\honggang.li\\Downloads\\B32_ROI_data",
 
-	"fd_path"		: "CaliData",			"?fd_path" 	: "存储的文件路径",
-	"roi_name"		: "roi_mem",			"?roi_name" 	: "存储的ROI Memory文件名",
+	"fd_path"		: "roi_men_B32_TEST",			"?fd_path" 	: "存储的文件路径",
+	"roi_name"		: "roi_mem_B32",			"?roi_name" 	: "存储的ROI Memory文件名",
 
 	"config_reg"   	: "以下值需要与寄存器值保持一致",
 	"SCAN_MODE"  	: 0	,
@@ -12,16 +12,16 @@
 	"H_VLD_SEG"  	: 15,
 
 	"general_config": "通用配置",
-	"is_reverse"	: 0 ,					"?is_reverse"	: "文件读取顺序。是：序号从小到大；否：序号从大到小",
+	"is_reverse"	: 0 ,					"?is_reverse"	: "文件读取顺序。0：序号从小到大；1：序号从大到小",
 	"img_reverse"	: 0 ,					"?img_reverse"	: "img是否需要镜像：0：不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像",
 	"cali_frm_num"	: 4 ,					"?cali_frm_num"	: "使用灰度图中第几帧进行标定",
-	"remove_noise"	: 0 ,					"?remove_noise"	: "是否消除噪点，如果光条明显，噪点相对较弱时，无需配置为1",
+	"remove_noise"	: 1 ,					"?remove_noise"	: "是否消除噪点，如果光条明显，噪点相对较弱时，无需配置为1",
 	"light_smooth"	: 1 ,					"?light_smooth"	: "光条是否进行平滑处理(建议开启)",
 
 	"config_1D"		: "1D scan_mode配置信息",
-	"ref_segment"	: -1,					"?ref_segment"	: "指定基准段用于偏移矫正(int)，若为-1，则以最亮段为基准",
+	"ref_segment"	: 8,					"?ref_segment"	: "指定基准段用于偏移矫正(int)，若为-1，则以最亮段为基准",
 	"curvature"		: 2 ,					"?curvature"	: "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI",
-	"correct_thres" : 5 ,					"?correct_thres": "ROI矫正阈值(以pixel为单位,0则不矫正)",
+	"correct_thres" : 2 ,					"?correct_thres": "ROI矫正阈值(以pixel为单位,0则不矫正)",
 
 	"config_2D"		: "2D scan_mode配置信息",
 	"mode2D"		: 0	,					"?mode2D"		: "0：以光条能量优先；1：以能 Masking的最大光子数优先",
@@ -32,7 +32,7 @@
 
 	"config_zone"	: "除ROI配置信息外其他配置",
 	"?zone_cfg_sel" : "zone_cfg_sel=-1:按顺序读取每一个Zone分区的配置生成ROI_DATA; zone_cfg_sel=0~31:所有分区的Zone配置都使用zone_cfg_sel的配置",
-	"zone_cfg_sel"	: 0,
+	"zone_cfg_sel"	: 1,
 	"zone_cfg_def": {
 		"SUB_EXPOTIME"	: {
 			"Zone0" : 99,"Zone1" : 20,"Zone2" : 40,"Zone3" : 20,"Zone4" : 20,"Zone5" : 10,"Zone6" : 20,"Zone7" : 20,

@@ -1,11 +1,11 @@
 import logging
 import re
 import sys
-from PySide6.QtGui import *
-from PySide6.QtCore import *
-from functools import partial
-from PySide6.QtWidgets import QApplication, QDialog, QLineEdit, QSpinBox, QMessageBox, QHeaderView, QTableWidgetItem
+# IMPORT QT CORE
+# ///////////////////////////////////////////////////////////////
+from AdapsChip.ChipUI.gui.qt_core import *
 
+from functools import partial
 from AdapsChip.ChipUI.gui.uis.pages.ui_roi_zone_config import Ui_ROIZoneConfig
 from SelfDefinedPackge.PubMethod import hex_regex_str
 from SelfDefinedPackge.JsonOperation import JsonFunction
@@ -162,15 +162,15 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
 
     def oncellClicked(self, item):
         """cell 被点击时, 动态计算曝光信息"""
-        print("oncellClicked")
-        print(f"cell_info: row: {item.row()} ,col: {item.column()}")
+        # print("oncellClicked")
+        # print(f"cell_info: row: {item.row()} ,col: {item.column()}")
         col = self.zone_cfg_sel if self.zone_cfg_sel != -1 else item.column()
         self.cal_expose_value(col=col)
 
     def oncurrentCellChanged(self, item):
         """cell 值改变时, 动态计算曝光信息"""
-        print("oncurrentCellChanged")
-        print(f"cell_info: row: {item.row()} ,col: {item.column()}")
+        # print("oncurrentCellChanged")
+        # print(f"cell_info: row: {item.row()} ,col: {item.column()}")
         if self.handling_item_change:  # 检查是否正在处理信号
             return
         self.handling_item_change = True  # 设置处理标志
@@ -267,7 +267,7 @@ if __name__ == '__main__':
     with open(styleFile, 'r') as f:
         qssStyle = f.read()
 
-    HawkConfig = JsonFunction(file_path="../.Hawk01Config/Hawk01Config.json")
+    HawkConfig = JsonFunction(file_path="../../.Hawk01Config/Hawk01Config.json")
     hawk_config = HawkConfig.items
 
     win = ROIZoneConfigWin(hawk_config, qssStyle)

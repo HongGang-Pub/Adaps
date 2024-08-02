@@ -1,9 +1,9 @@
 {
     "FILE_CONFIG": "--------文件相关配置---------",
     "ref_cfg_file": "./Input/Ref_RegCfg.txt",
-    "fd_path": "C:/Users/honggang.li/Downloads/ROI_data123",
+    "fd_path": "D:/Git/Adaps/AdapsChip/Hawk01/MSKU/MSKU_Cali/roi_men_B32_TEST",
     "reg_name": "reg_config",
-    "roi_name": "roi_mem",
+    "roi_name": "roi_mem111",
     "REG_CONFIG": "-----------寄存器配置-----------",
     "REF_CLK": "REF_24M",
     "MST_MODE": 1,
@@ -12,8 +12,8 @@
     "SYS_CLK": "330M",
     "UPSMP_MODE": 3,
     "SCAN_MODE": 0,
-    "V_ROLL_NUM": 22,
-    "H_ROLL_NUM": 3,
+    "V_ROLL_NUM": 31,
+    "H_ROLL_NUM": 15,
     "H_VLD_SEG": 15,
     "MIPI_RATE": "1.5G",
     "WORK_MODE": [

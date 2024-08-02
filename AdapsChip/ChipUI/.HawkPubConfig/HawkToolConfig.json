@@ -1,8 +1,8 @@
 {
     "func_sel": "Dothink PCM Imag",
     "DothinkPCMImagValue": {
-        "script_file": "D:/Program Files/Software/DothinkTester/Script/PCMLightAnalysis/test_pcm_masking_f(x).txt",
-        "mipi_file": "D:/Program Files/Software/DothinkTester/MipiData",
+        "script_file": "",
+        "mipi_file": "",
         "sramdata_path": "D:/Program Files/Software/DothinkTester/SramData",
         "color_bar": "0, 50",
         "image_title": ""

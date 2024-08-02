@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pageseRadgM.ui'
+## Form generated from reading UI file 'main_pagesnwNKoJ.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.1
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -22,7 +22,9 @@ from PySide6.QtWidgets import (QApplication, QButtonGroup, QCheckBox, QComboBox,
     QSpacerItem, QSpinBox, QStackedWidget, QTabWidget,
     QVBoxLayout, QWidget)
 
-from AdapsChip.ChipUI.gui.widgets.py_combo_check_box.py_combo_check import QComboCheckBox
+from AdapsChip.ChipUI.gui.widgets.py_combo_check_box.py_combo_check import ComboCheckBox
+from AdapsChip.ChipUI.gui.widgets.py_nowheel_combobox.py_nowheel_combobox import NoWheelComboBox
+from AdapsChip.ChipUI.gui.widgets.py_nowheel_spinbox.py_nowheel_spinbox import NoWheelSpinBox
 
 class Ui_MainPages(object):
     def setupUi(self, MainPages):
@@ -114,7 +116,7 @@ class Ui_MainPages(object):
 
         self.WORK_MODE_Label = QLabel(self.RegisterConfig)
         self.WORK_MODE_Label.setObjectName(u"WORK_MODE_Label")
-        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.WORK_MODE_Label.sizePolicy().hasHeightForWidth())
@@ -127,7 +129,7 @@ class Ui_MainPages(object):
 
         self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.WORK_MODE_Label)
 
-        self.WORK_MODE_ComboBox = QComboCheckBox(self.RegisterConfig)
+        self.WORK_MODE_ComboBox = ComboCheckBox(self.RegisterConfig)
         self.WORK_MODE_ComboBox.setObjectName(u"WORK_MODE_ComboBox")
         self.WORK_MODE_ComboBox.setFont(font1)
 
@@ -313,7 +315,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_2.addWidget(self.RegisterConfig)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
 
@@ -369,7 +371,7 @@ class Ui_MainPages(object):
 
         self.formLayout.setWidget(0, QFormLayout.LabelRole, self.seg_hs_Label)
 
-        self.seg_hs_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
+        self.seg_hs_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.seg_hs_spinBox.setObjectName(u"seg_hs_spinBox")
         self.seg_hs_spinBox.setMinimum(0)
         self.seg_hs_spinBox.setMaximum(15)
@@ -387,7 +389,7 @@ class Ui_MainPages(object):
 
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.spad_vs_Label)
 
-        self.spad_vs_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
+        self.spad_vs_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.spad_vs_spinBox.setObjectName(u"spad_vs_spinBox")
         self.spad_vs_spinBox.setMinimum(0)
         self.spad_vs_spinBox.setMaximum(575)
@@ -404,7 +406,7 @@ class Ui_MainPages(object):
 
         self.formLayout.setWidget(2, QFormLayout.LabelRole, self.light_shift_Label)
 
-        self.light_shift_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
+        self.light_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.light_shift_spinBox.setObjectName(u"light_shift_spinBox")
         self.light_shift_spinBox.setMinimum(-576)
         self.light_shift_spinBox.setMaximum(576)
@@ -421,7 +423,7 @@ class Ui_MainPages(object):
 
         self.formLayout.setWidget(3, QFormLayout.LabelRole, self.sublight_shift_Label)
 
-        self.sublight_shift_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
+        self.sublight_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.sublight_shift_spinBox.setObjectName(u"sublight_shift_spinBox")
         self.sublight_shift_spinBox.setMinimum(-576)
         self.sublight_shift_spinBox.setMaximum(576)
@@ -438,7 +440,7 @@ class Ui_MainPages(object):
 
         self.formLayout.setWidget(4, QFormLayout.LabelRole, self.ROI_Shape_Light)
 
-        self.ROI_Shape_ComboBox = QComboBox(self.scrollAreaWidgetContents_2)
+        self.ROI_Shape_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_2)
         self.ROI_Shape_ComboBox.addItem("")
         self.ROI_Shape_ComboBox.addItem("")
         self.ROI_Shape_ComboBox.setObjectName(u"ROI_Shape_ComboBox")
@@ -456,7 +458,7 @@ class Ui_MainPages(object):
 
         self.formLayout.setWidget(5, QFormLayout.LabelRole, self.v_spad_shift_Label)
 
-        self.v_spad_shift_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
+        self.v_spad_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.v_spad_shift_spinBox.setObjectName(u"v_spad_shift_spinBox")
         self.v_spad_shift_spinBox.setMinimum(-576)
         self.v_spad_shift_spinBox.setMaximum(576)
@@ -473,7 +475,7 @@ class Ui_MainPages(object):
 
         self.formLayout.setWidget(6, QFormLayout.LabelRole, self.h_seg_shift_Label)
 
-        self.h_seg_shift_spinBox = QSpinBox(self.scrollAreaWidgetContents_2)
+        self.h_seg_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.h_seg_shift_spinBox.setObjectName(u"h_seg_shift_spinBox")
         self.h_seg_shift_spinBox.setMinimum(0)
         self.h_seg_shift_spinBox.setMaximum(15)
@@ -516,7 +518,7 @@ class Ui_MainPages(object):
         self.ROI_File_Load_LineEdit = QLineEdit(self.scrollAreaWidgetContents_3)
         self.ROI_File_Load_LineEdit.setObjectName(u"ROI_File_Load_LineEdit")
         self.ROI_File_Load_LineEdit.setEnabled(True)
-        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.ROI_File_Load_LineEdit.sizePolicy().hasHeightForWidth())
@@ -529,7 +531,7 @@ class Ui_MainPages(object):
 
         self.ROI_File_Load_Button = QPushButton(self.scrollAreaWidgetContents_3)
         self.ROI_File_Load_Button.setObjectName(u"ROI_File_Load_Button")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.ROI_File_Load_Button.sizePolicy().hasHeightForWidth())
@@ -693,7 +695,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(1, QFormLayout.LabelRole, self.img_mirror_Label)
 
-        self.img_mirror_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
+        self.img_mirror_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_6)
         self.img_mirror_ComboBox.addItem("")
         self.img_mirror_ComboBox.addItem("")
         self.img_mirror_ComboBox.addItem("")
@@ -712,7 +714,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(2, QFormLayout.LabelRole, self.remove_noise_Label)
 
-        self.remove_noise_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
+        self.remove_noise_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_6)
         self.remove_noise_ComboBox.addItem("")
         self.remove_noise_ComboBox.addItem("")
         self.remove_noise_ComboBox.setObjectName(u"remove_noise_ComboBox")
@@ -729,7 +731,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(3, QFormLayout.LabelRole, self.light_smooth_Label)
 
-        self.light_smooth_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
+        self.light_smooth_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_6)
         self.light_smooth_ComboBox.addItem("")
         self.light_smooth_ComboBox.addItem("")
         self.light_smooth_ComboBox.setObjectName(u"light_smooth_ComboBox")
@@ -746,7 +748,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(4, QFormLayout.LabelRole, self.curvature_Label)
 
-        self.curvature_SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
+        self.curvature_SpinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_6)
         self.curvature_SpinBox.setObjectName(u"curvature_SpinBox")
         self.curvature_SpinBox.setMinimum(0)
         self.curvature_SpinBox.setMaximum(1000)
@@ -761,7 +763,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(5, QFormLayout.LabelRole, self.correct_thres_Label)
 
-        self.correct_thres_SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
+        self.correct_thres_SpinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_6)
         self.correct_thres_SpinBox.setObjectName(u"correct_thres_SpinBox")
         self.correct_thres_SpinBox.setMinimum(0)
         self.correct_thres_SpinBox.setMaximum(100)
@@ -776,7 +778,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(6, QFormLayout.LabelRole, self.cali_order_Label)
 
-        self.cali_order_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
+        self.cali_order_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_6)
         self.cali_order_ComboBox.addItem("")
         self.cali_order_ComboBox.addItem("")
         self.cali_order_ComboBox.setObjectName(u"cali_order_ComboBox")
@@ -793,7 +795,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(7, QFormLayout.LabelRole, self.cali_frm_num_Label)
 
-        self.cali_frm_num__SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
+        self.cali_frm_num__SpinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_6)
         self.cali_frm_num__SpinBox.setObjectName(u"cali_frm_num__SpinBox")
         self.cali_frm_num__SpinBox.setMinimum(1)
         self.cali_frm_num__SpinBox.setMaximum(10000)
@@ -807,7 +809,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(8, QFormLayout.LabelRole, self.ref_segment_Label)
 
-        self.ref_segment_SpinBox = QSpinBox(self.scrollAreaWidgetContents_6)
+        self.ref_segment_SpinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_6)
         self.ref_segment_SpinBox.setObjectName(u"ref_segment_SpinBox")
         self.ref_segment_SpinBox.setMinimum(0)
         self.ref_segment_SpinBox.setMaximum(16)
@@ -822,7 +824,7 @@ class Ui_MainPages(object):
 
         self.formLayout_7.setWidget(9, QFormLayout.LabelRole, self.mode_2D_Label)
 
-        self.mode_2D_ComboBox = QComboBox(self.scrollAreaWidgetContents_6)
+        self.mode_2D_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_6)
         self.mode_2D_ComboBox.addItem("")
         self.mode_2D_ComboBox.addItem("")
         self.mode_2D_ComboBox.setObjectName(u"mode_2D_ComboBox")
@@ -872,7 +874,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_4.addWidget(self.ROIZoneConfig)
 
-        self.horizontalSpacer_18 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_18 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_4.addItem(self.horizontalSpacer_18)
 
@@ -894,7 +896,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_2.addWidget(self.ROIConfigGroup)
 
-        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_7)
 
@@ -938,7 +940,7 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.roi_sram_name_CheckBox, 4, 3, 1, 1)
 
-        self.horizontalSpacer_5 = QSpacerItem(30, 20, QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_5 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout_6.addItem(self.horizontalSpacer_5, 6, 4, 1, 1)
 
@@ -1025,7 +1027,7 @@ class Ui_MainPages(object):
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(9, -1, 9, 9)
-        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout.addItem(self.horizontalSpacer_3, 0, 2, 1, 1)
 
@@ -1052,7 +1054,7 @@ class Ui_MainPages(object):
 
         self.verticalLayout_12.addWidget(self.Operate)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Ignored)
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Ignored)
 
         self.verticalLayout_12.addItem(self.verticalSpacer)
 
@@ -1092,7 +1094,7 @@ class Ui_MainPages(object):
 
         self.gridLayout_2.addWidget(self.SpadisAppPCMREAD, 0, 1, 1, 1)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout_2.addItem(self.horizontalSpacer, 0, 2, 1, 1)
 
@@ -1136,7 +1138,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout.addWidget(self.select_ComboBox_01)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
@@ -1165,7 +1167,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_6.addWidget(self.select_ComboBox_02)
 
-        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_6.addItem(self.horizontalSpacer_6)
 
@@ -1194,7 +1196,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_7.addWidget(self.select_ComboBox_03)
 
-        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_7.addItem(self.horizontalSpacer_8)
 
@@ -1223,7 +1225,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_8.addWidget(self.general_LineEdit_01)
 
-        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_8.addItem(self.horizontalSpacer_10)
 
@@ -1251,7 +1253,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_9.addWidget(self.general_LineEdit_02)
 
-        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_9.addItem(self.horizontalSpacer_11)
 
@@ -1279,7 +1281,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_10.addWidget(self.general_LineEdit_03)
 
-        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_10.addItem(self.horizontalSpacer_12)
 
@@ -1307,7 +1309,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_11.addWidget(self.general_LineEdit_04)
 
-        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_11.addItem(self.horizontalSpacer_13)
 
@@ -1352,7 +1354,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_16.addWidget(self.file_sel_Button_01)
 
-        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_16.addItem(self.horizontalSpacer_14)
 
@@ -1397,7 +1399,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_17.addWidget(self.file_sel_Button_02)
 
-        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_17.addItem(self.horizontalSpacer_15)
 
@@ -1442,7 +1444,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_18.addWidget(self.file_sel_Button_03)
 
-        self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_18.addItem(self.horizontalSpacer_16)
 
@@ -1487,7 +1489,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_19.addWidget(self.file_sel_Button_04)
 
-        self.horizontalSpacer_17 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_17 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_19.addItem(self.horizontalSpacer_17)
 
@@ -1497,7 +1499,7 @@ class Ui_MainPages(object):
 
         self.verticalLayout_8.addWidget(self.General_Config)
 
-        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.verticalLayout_8.addItem(self.verticalSpacer_3)
 
@@ -1524,7 +1526,7 @@ class Ui_MainPages(object):
 
         self.gridLayout_9.addWidget(self.general_operate_Button_04, 0, 3, 1, 1)
 
-        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout_9.addItem(self.horizontalSpacer_9, 0, 6, 1, 1)
 
@@ -1590,15 +1592,15 @@ class Ui_MainPages(object):
         self.page_2_layout.setContentsMargins(5, 5, 5, 0)
         self.scroll_area = QScrollArea(self.page_3)
         self.scroll_area.setObjectName(u"scroll_area")
-        self.scroll_area.setStyleSheet(u"background: transparent;")
+        self.scroll_area.setStyleSheet(u"")
         self.scroll_area.setFrameShape(QFrame.NoFrame)
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 233, 256))
-        self.contents.setStyleSheet(u"background: transparent;")
+        self.contents.setGeometry(QRect(0, 0, 766, 647))
+        self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -1616,35 +1618,120 @@ class Ui_MainPages(object):
 
         self.description_label = QLabel(self.contents)
         self.description_label.setObjectName(u"description_label")
+        self.description_label.setMaximumSize(QSize(16777215, 80))
         self.description_label.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
         self.description_label.setWordWrap(True)
 
         self.verticalLayout.addWidget(self.description_label)
 
-        self.row_1_layout = QHBoxLayout()
-        self.row_1_layout.setObjectName(u"row_1_layout")
+        self.softsetting = QGroupBox(self.contents)
+        self.softsetting.setObjectName(u"softsetting")
+        self.softsetting.setMinimumSize(QSize(0, 0))
+        self.softsetting.setMaximumSize(QSize(16777215, 16777215))
+        self.softsetting.setStyleSheet(u"font: 16pt \"Microsoft YaHei UI\";")
+        self.verticalLayout_9 = QVBoxLayout(self.softsetting)
+        self.verticalLayout_9.setSpacing(24)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.chip_ID_Group = QFrame(self.softsetting)
+        self.chip_ID_Group.setObjectName(u"chip_ID_Group")
+        self.chip_ID_Group.setLayoutDirection(Qt.LeftToRight)
+        self.chip_ID_Group.setAutoFillBackground(False)
+        self.horizontalLayout_3 = QHBoxLayout(self.chip_ID_Group)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.chip_ID_Label = QLabel(self.chip_ID_Group)
+        self.chip_ID_Label.setObjectName(u"chip_ID_Label")
+        self.chip_ID_Label.setMinimumSize(QSize(140, 0))
+        self.chip_ID_Label.setMaximumSize(QSize(100, 16777215))
+        font5 = QFont()
+        font5.setFamilies([u"Microsoft YaHei UI"])
+        font5.setPointSize(16)
+        font5.setBold(False)
+        font5.setItalic(False)
+        self.chip_ID_Label.setFont(font5)
+        self.chip_ID_Label.setFrameShape(QFrame.NoFrame)
 
-        self.verticalLayout.addLayout(self.row_1_layout)
+        self.horizontalLayout_3.addWidget(self.chip_ID_Label)
 
-        self.row_2_layout = QHBoxLayout()
-        self.row_2_layout.setObjectName(u"row_2_layout")
+        self.chip_ID_ComboBox = QComboBox(self.chip_ID_Group)
+        self.chip_ID_ComboBox.setObjectName(u"chip_ID_ComboBox")
+        self.chip_ID_ComboBox.setMinimumSize(QSize(300, 0))
+        self.chip_ID_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.chip_ID_ComboBox.setFont(font5)
 
-        self.verticalLayout.addLayout(self.row_2_layout)
+        self.horizontalLayout_3.addWidget(self.chip_ID_ComboBox)
 
-        self.row_3_layout = QHBoxLayout()
-        self.row_3_layout.setObjectName(u"row_3_layout")
+        self.horizontalSpacer_19 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.verticalLayout.addLayout(self.row_3_layout)
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_19)
 
-        self.row_4_layout = QVBoxLayout()
-        self.row_4_layout.setObjectName(u"row_4_layout")
 
-        self.verticalLayout.addLayout(self.row_4_layout)
+        self.verticalLayout_9.addWidget(self.chip_ID_Group)
 
-        self.row_5_layout = QVBoxLayout()
-        self.row_5_layout.setObjectName(u"row_5_layout")
+        self.roi_data_format_Group = QFrame(self.softsetting)
+        self.roi_data_format_Group.setObjectName(u"roi_data_format_Group")
+        self.horizontalLayout_20 = QHBoxLayout(self.roi_data_format_Group)
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
+        self.roi_data_format_Label = QLabel(self.roi_data_format_Group)
+        self.roi_data_format_Label.setObjectName(u"roi_data_format_Label")
+        self.roi_data_format_Label.setMinimumSize(QSize(140, 0))
+        self.roi_data_format_Label.setMaximumSize(QSize(100, 16777215))
+        self.roi_data_format_Label.setFont(font5)
+        self.roi_data_format_Label.setFrameShape(QFrame.NoFrame)
 
-        self.verticalLayout.addLayout(self.row_5_layout)
+        self.horizontalLayout_20.addWidget(self.roi_data_format_Label)
+
+        self.roi_data_fromat_ComboBox = QComboBox(self.roi_data_format_Group)
+        self.roi_data_fromat_ComboBox.setObjectName(u"roi_data_fromat_ComboBox")
+        self.roi_data_fromat_ComboBox.setMinimumSize(QSize(300, 0))
+        self.roi_data_fromat_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.roi_data_fromat_ComboBox.setFont(font5)
+
+        self.horizontalLayout_20.addWidget(self.roi_data_fromat_ComboBox)
+
+        self.horizontalSpacer_20 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_20.addItem(self.horizontalSpacer_20)
+
+
+        self.verticalLayout_9.addWidget(self.roi_data_format_Group)
+
+        self.thems_select_Group = QFrame(self.softsetting)
+        self.thems_select_Group.setObjectName(u"thems_select_Group")
+        self.horizontalLayout_21 = QHBoxLayout(self.thems_select_Group)
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
+        self.themes_select_Label = QLabel(self.thems_select_Group)
+        self.themes_select_Label.setObjectName(u"themes_select_Label")
+        self.themes_select_Label.setMinimumSize(QSize(140, 0))
+        self.themes_select_Label.setMaximumSize(QSize(100, 16777215))
+        self.themes_select_Label.setFont(font5)
+        self.themes_select_Label.setFrameShape(QFrame.NoFrame)
+
+        self.horizontalLayout_21.addWidget(self.themes_select_Label)
+
+        self.themes_select_ComboBox = QComboBox(self.thems_select_Group)
+        self.themes_select_ComboBox.setObjectName(u"themes_select_ComboBox")
+        self.themes_select_ComboBox.setMinimumSize(QSize(300, 0))
+        self.themes_select_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.themes_select_ComboBox.setFont(font5)
+
+        self.horizontalLayout_21.addWidget(self.themes_select_ComboBox)
+
+        self.horizontalSpacer_21 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_21.addItem(self.horizontalSpacer_21)
+
+
+        self.verticalLayout_9.addWidget(self.thems_select_Group)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_9.addItem(self.verticalSpacer_2)
+
+
+        self.verticalLayout.addWidget(self.softsetting)
 
         self.scroll_area.setWidget(self.contents)
 
@@ -1664,7 +1751,7 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(0)
+        self.ROIConfig.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -1687,6 +1774,9 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_Label.setText(QCoreApplication.translate("MainPages", u"H_VLD_SEG", None))
         self.H_VLD_SEG_Value.setText(QCoreApplication.translate("MainPages", u"16", None))
         self.seg_hs_Label.setText(QCoreApplication.translate("MainPages", u"seg_hs", None))
+#if QT_CONFIG(whatsthis)
+        self.seg_hs_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
         self.spad_vs_Label.setText(QCoreApplication.translate("MainPages", u"spad_vs", None))
         self.light_shift_Label.setText(QCoreApplication.translate("MainPages", u"light shift", None))
         self.sublight_shift_Label.setText(QCoreApplication.translate("MainPages", u"sublight shift", None))
@@ -1717,12 +1807,12 @@ class Ui_MainPages(object):
         self.img_mirror_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"X-axis and Y-axis mirror", None))
 
         self.remove_noise_Label.setText(QCoreApplication.translate("MainPages", u"remove noise", None))
-        self.remove_noise_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
-        self.remove_noise_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
+        self.remove_noise_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
+        self.remove_noise_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
 
         self.light_smooth_Label.setText(QCoreApplication.translate("MainPages", u"light smooth", None))
-        self.light_smooth_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
-        self.light_smooth_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
+        self.light_smooth_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
+        self.light_smooth_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
 
         self.curvature_Label.setText(QCoreApplication.translate("MainPages", u"curvature", None))
         self.correct_thres_Label.setText(QCoreApplication.translate("MainPages", u"correct thres", None))
@@ -1789,8 +1879,11 @@ class Ui_MainPages(object):
         self.general_operate_Button_01.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.general_operate_Button_03.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.general_operate_Button_06.setText(QCoreApplication.translate("MainPages", u"button", None))
-        self.title_label.setText(QCoreApplication.translate("MainPages", u"Custom Widgets Page", None))
+        self.title_label.setText(QCoreApplication.translate("MainPages", u"Setting", None))
         self.description_label.setText(QCoreApplication.translate("MainPages", u"Here will be all the custom widgets, they will be added over time on this page.\n"
 "I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.", None))
+        self.chip_ID_Label.setText(QCoreApplication.translate("MainPages", u"Chip ID", None))
+        self.roi_data_format_Label.setText(QCoreApplication.translate("MainPages", u"ROI FORMAT", None))
+        self.themes_select_Label.setText(QCoreApplication.translate("MainPages", u"Themes", None))
     # retranslateUi
 

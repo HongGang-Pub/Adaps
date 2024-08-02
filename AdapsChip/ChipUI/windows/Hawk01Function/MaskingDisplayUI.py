@@ -3,23 +3,23 @@ import logging
 import sys
 from threading import Thread
 
-from PySide6.QtGui import QIcon, QCursor
 import numpy as np
 
-from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QFrame
+from PySide6.QtWidgets import QFrame
 # from PySide6.QtGui import QIcon, QScreen, QAction
+# IMPORT QT CORE
+# ///////////////////////////////////////////////////////////////
+from AdapsChip.ChipUI.gui.qt_core import *
+
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.ticker import MultipleLocator
-from AdapsChip.ChipUI.gui.qt_core import *
 from AdapsChip.ChipUI.gui.core.functions import Functions
 from PySide6 import QtWidgets
-from PySide6.QtWidgets import QWidget, QPushButton, QApplication
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
-from AdapsChip.ChipUI.Hawk01Function import Hawk01Function
-from PySide6.QtCore import QTimer
+from AdapsChip.ChipUI.windows.Hawk01Function import Hawk01Function
 
 
 class CustomToolbar(NavigationToolbar2QT):

@@ -1,25 +1,23 @@
 import copy
 import logging
 import gc
-import subprocess
 
+# IMPORT QT CORE
+# ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.gui.qt_core import *
 
 # LOAD UI MAIN
 # ///////////////////////////////////////////////////////////////
-from SelfDefinedPackge import PubMethod
-from AdapsChip.ChipUI.gui.uis.windows.main_window.ui_main import *
-from AdapsChip.ChipUI.Hawk01Function.ROIZoneConfigUI import ROIZoneConfigWin
-from AdapsChip.ChipUI.Hawk01Function.MaskingDisplayUI import MaskingWindow
-from AdapsChip.ChipUI.Hawk01Function import Hawk01Function
+from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
+
+# from AdapsChip.ChipUI.gui.uis.windows.main_window.ui_main import *
+from AdapsChip.ChipUI.windows.Hawk01Function.ROIZoneConfigUI import ROIZoneConfigWin
+from AdapsChip.ChipUI.windows.Hawk01Function.MaskingDisplayUI import MaskingWindow
+from AdapsChip.ChipUI.windows.Hawk01Function import Hawk01Function
 from AdapsChip.Hawk01.Common.ScriptRegConfig import *
-from SelfDefinedPackge import MatplotExtension
 from functools import partial
 from threading import Thread
 from AdapsChip.ChipUI.gui.Signal import MySignals
-
-import objgraph
-from memory_profiler import profile
 
 
 # FUNCTIONS
@@ -30,7 +28,6 @@ class Hawk01MainUI:
         # Load widgets from "gui\uis\main_window\ui_main.py"
         # ///////////////////////////////////////////////////////////////
         self.ui = UI_MainWindow()
-        self.ui.setup_ui(self)
         self.win_signal_sync = MySignals()
 
         # Get config
@@ -481,27 +478,17 @@ class Hawk01MainUI:
         self.ui.load_pages.Save.setEnabled(False)
 
         def threadFunc():
-            # try:
-            #     # 获取界面配置并 merge 所有配置
-            #     # ///////////////////////////////////////////
-            #     Hawk01MainUI.func_get_MainUI_config(self)
-            #     Hawk01MainUI.func_get_roi_config(self)
-            #     Hawk01MainUI.func_merge_hawk_config(self)
-            #     if self.hawk01_config["ROI_SRAM_Include"] == 1:
-            #         Hawk01MainUI.func_roi_save(self)
-            #     Hawk01Function.ScriptDataSave(self.hawk01_config, self.hawk01_register_config)
-            # except Exception as e:
-            #     logging.fatal(e)
-
-            # 获取界面配置并 merge 所有配置
-            # ///////////////////////////////////////////
-            Hawk01MainUI.func_get_MainUI_config(self)
-            Hawk01MainUI.func_get_roi_config(self)
-            Hawk01MainUI.func_merge_hawk_config(self)
-            if self.hawk01_config["ROI_SRAM_Include"] == 1:
-                Hawk01MainUI.func_roi_save(self)
-            Hawk01Function.ScriptDataSave(self.hawk01_config)
-
+            try:
+                # 获取界面配置并 merge 所有配置
+                # ///////////////////////////////////////////
+                Hawk01MainUI.func_get_MainUI_config(self)
+                Hawk01MainUI.func_get_roi_config(self)
+                Hawk01MainUI.func_merge_hawk_config(self)
+                if self.hawk01_config["ROI_SRAM_Include"] == 1:
+                    Hawk01MainUI.func_roi_save(self)
+                Hawk01Function.ScriptDataSave(self.hawk01_config)
+            except Exception as e:
+                logging.fatal(e)
             self.win_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Save)
 
         thread = Thread(target=threadFunc)

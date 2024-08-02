@@ -1,14 +1,12 @@
-import logging
 import os
 import sys
-import threading
 
 sys.path.append(os.path.join(os.getcwd(), "../../"))
 
-
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
-from gui.uis.windows.main_window.functions_main_window import *
+from windows.main_window.functions_main_window import *
+from windows.main_window.setup_main_window import *
 import sys
 from functools import partial
 from SelfDefinedPackge.JsonOperation import JsonFunction
@@ -23,12 +21,12 @@ from gui.core.json_settings import Settings
 # IMPORT PY ONE DARK WINDOWS
 # ///////////////////////////////////////////////////////////////
 # MAIN WINDOW
-from gui.uis.windows.main_window import *
+from AdapsChip.ChipUI.windows.main_window import *
 
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
-from AdapsChip.ChipUI.Hawk01Function.Hawk01MainUI import Hawk01MainUI
-from AdapsChip.ChipUI.HawkToolFunction.HawkToolbox import HawkToolbox
+# from AdapsChip.ChipUI.Hawk01Function.Hawk01MainUI import Hawk01MainUI
+# from AdapsChip.ChipUI.HawkToolFunction.HawkToolbox import HawkToolbox
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from SelfDefinedPackge import MatplotExtension
 from SelfDefinedPackge.LogerPubMethod import *
@@ -46,6 +44,26 @@ from SelfDefinedPackge.LogerPubMethod import *
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        # LOAD SETTINGS
+        # ///////////////////////////////////////////////////////////////
+        settings = Settings()
+        self.settings = settings.items
+
+        # LOAD THEME COLOR
+        # ///////////////////////////////////////////////////////////////
+        themes = Themes()
+        self.themes = themes.items
+
+        if self.settings["theme_name"] == "dark":
+            styleFile = r"gui/themes/page_themes/dark/darkstyle.qss"
+        else:
+            styleFile = r"gui/themes/page_themes/light/lightstyle.qss"
+        try:
+            with open(styleFile, 'r') as f:
+                self.qssStyle = f.read()
+        except:
+            logging.warning("No theme profile found...")
+            self.qssStyle = None
 
         # SETUP MAIN WINDOw
         # Load widgets from "gui\uis\main_window\ui_main.py"
@@ -58,21 +76,6 @@ class MainWindow(QMainWindow):
         self.hide_grips = True  # Show/Hide resize grips
         self.win_signal_sync = MySignals()
 
-        # LOAD SETTINGS
-        # ///////////////////////////////////////////////////////////////
-        settings = Settings()
-        self.settings = settings.items
-
-        if self.settings["theme_name"] == "dark":
-            styleFile = r"gui/themes/page_themes/dark/darkstyle.qss"
-        else:
-            styleFile = r"gui/themes/page_themes/light/lightstyle.qss"
-        try:
-            with open(styleFile, 'r') as f:
-                self.qssStyle = f.read()
-        except:
-            logging.warning("No theme profile found...")
-            self.qssStyle = None
         # 日志记录
         # ///////////////////////////////////////////////////////////////
         self.generate_logger()
@@ -97,8 +100,8 @@ class MainWindow(QMainWindow):
         self.hawk_tool_config = self.HawkToolConfig.items
 
         SetupMainWindow.setup_gui(self)
-        Hawk01MainUI.setup_gui(self)
-        HawkToolbox.setup_gui(self)
+        # Hawk01MainUI.setup_gui(self)
+        # HawkToolbox.setup_gui(self)
 
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
@@ -117,7 +120,7 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 1
-            GuiMainFunctions.set_page(self, self.ui.load_pages.page_1)
+            MainFunctions.set_page(self, self.ui.load_pages.page_1)
 
         # WIDGETS BTN
         elif btn.objectName() == "btn_app_store":
@@ -125,7 +128,7 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 2
-            GuiMainFunctions.set_page(self, self.ui.load_pages.page_2)
+            MainFunctions.set_page(self, self.ui.load_pages.page_2)
 
         # LOAD USER PAGE
         elif btn.objectName() == "btn_settings":
@@ -133,14 +136,13 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 3
-            GuiMainFunctions.set_page(self, self.ui.load_pages.page_3)
+            MainFunctions.set_page(self, self.ui.load_pages.page_3)
         # 设置日志打印控件在设置界面隐藏
         if btn.objectName() == "btn_settings":
             self.ui.log_group.setHidden(True)
         else:
             self.ui.log_group.setHidden(False)
-
-        print(f"Button {btn.objectName()}, clicked!")
+        # print(f"Button {btn.objectName()}, clicked!")
 
     # LEFT MENU BTN IS RELEASED
     # Run function when btn is released

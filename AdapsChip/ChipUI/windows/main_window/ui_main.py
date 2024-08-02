@@ -20,7 +20,7 @@ from AdapsChip.ChipUI.gui.widgets import *
 
 # IMPORT SETUP MAIN WINDOW
 # ///////////////////////////////////////////////////////////////
-from .setup_main_window import *
+# from .setup_main_window import *
 
 # IMPORT MAIN WINDOW PAGES / AND SIDE BOXES FOR APP
 # ///////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ class UI_MainWindow(object):
         else:
             styleFile = r"gui/themes/page_themes/light/lightstyle.qss"
         with open(styleFile, 'r') as f:
-            qssStyle = f.read()
+            self.qssStyle = f.read()
 
         # LOAD THEME COLOR
         # ///////////////////////////////////////////////////////////////
@@ -196,7 +196,7 @@ class UI_MainWindow(object):
         # IMPORT MAIN PAGES TO CONTENT AREA
         self.load_pages = Ui_MainPages()
         self.load_pages.setupUi(self.content_main_pages)
-        self.load_pages.pages.setStyleSheet(qssStyle)
+        self.load_pages.pages.setStyleSheet(self.qssStyle)
 
         # ADD TO LAYOUTS
         self.content_area_layout.addWidget(self.content_main_pages)
@@ -217,7 +217,7 @@ class UI_MainWindow(object):
         self.LogPrintWindow.setOpenLinks(False)
         # self.LogPrintWindow.setReadOnly(False)
         self.log_group_layout.addWidget(self.LogPrintWindow)
-        self.log_group.setStyleSheet(qssStyle)
+        self.log_group.setStyleSheet(self.qssStyle)
 
         # CREDITS / BOTTOM APP FRAME
         # ///////////////////////////////////////////////////////////////

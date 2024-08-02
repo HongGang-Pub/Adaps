@@ -1,7 +1,7 @@
 {
     "ROIGenByJson": {
         "seg_hs": 0,
-        "spad_vs": 71,
+        "spad_vs": 0,
         "light_shift": 18,
         "sublight_shift": 3,
         "roi_shape": 0,
@@ -17,16 +17,16 @@
         "end_roll": 31
     },
     "ROIGenByCali": {
-        "cali_file": "C:/Users/honggang.li/Downloads/B16/B16",
+        "cali_file": "C:/Users/honggang.li/Downloads/B32_ROI_data",
         "is_reverse": 0,
         "img_reverse": 0,
         "cali_frm_num": 6,
-        "remove_noise": 0,
-        "light_smooth": 0,
+        "remove_noise": 1,
+        "light_smooth": 1,
         "config_1D": "-----1D scan_mode配置信息-----",
         "ref_segment": 8,
-        "curvature": 2,
-        "correct_thres": 0,
+        "curvature": 5,
+        "correct_thres": 1,
         "config_2D": "-----2D scan_mode配置信息-----",
         "mode2D": 0,
         "msk_intensity": 80,

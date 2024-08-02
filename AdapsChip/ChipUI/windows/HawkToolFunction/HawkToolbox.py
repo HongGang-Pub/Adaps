@@ -1,13 +1,13 @@
 import SelfDefinedPackge.ArrayPubMethod
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
-from PySide6.QtCore import QRegularExpression
-from PySide6.QtGui import QRegularExpressionValidator
+from AdapsChip.ChipUI.gui.qt_core import *
+
 from SelfDefinedPackge.MyThread import *
 
 # LOAD UI MAIN
 # ///////////////////////////////////////////////////////////////
-from AdapsChip.ChipUI.gui.uis.windows.main_window.ui_main import *
+from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
 from functools import partial
 
 from AdapsChip.Hawk01.PCM import PcmMipiDataDecode
@@ -24,7 +24,6 @@ class HawkToolbox:
         # Load widgets from "gui\uis\main_window\ui_main.py"
         # ///////////////////////////////////////////////////////////////
         self.ui = UI_MainWindow()
-        self.ui.setup_ui(self)
 
         # Get config
         # ///////////////////////////////////////////////////////////////
@@ -92,9 +91,9 @@ class HawkToolbox:
         if func_name == "Dothink PCM Imag":
             HawkToolbox.dothink_pcm_imag_setup_gui(self)
             self.ui.load_pages.DothinkPCMImag.setChecked(True)
-            print("Do Dothink PCM Imag")
+            # print("Do Dothink PCM Imag")
         elif func_name == "Spadis App PCM READ":
-            print("Do Spadis App PCM READ")
+            # print("Do Spadis App PCM READ")
             HawkToolbox.spadis_app_pcm_read_setup_gui(self)
             self.ui.load_pages.SpadisAppPCMREAD.setChecked(True)
         self.hawk_tool_config["func_sel"] = func_name

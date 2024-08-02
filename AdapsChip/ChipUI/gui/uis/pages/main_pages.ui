@@ -126,7 +126,7 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="text">
                 <string>REF CLK</string>
@@ -165,10 +165,10 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
+                <enum>QFrame::Raised</enum>
                </property>
                <property name="text">
                 <string>SYS CLK</string>
@@ -213,7 +213,7 @@
                 </size>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="text">
                 <string>MST_MODE</string>
@@ -247,10 +247,10 @@
                 </size>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
+                <enum>QFrame::Raised</enum>
                </property>
                <property name="text">
                 <string>WORK_MODE</string>
@@ -261,7 +261,7 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QComboCheckBox" name="WORK_MODE_ComboBox">
+              <widget class="ComboCheckBox" name="WORK_MODE_ComboBox">
                <property name="font">
                 <font>
                  <family>Microsoft YaHei UI</family>
@@ -292,7 +292,7 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="text">
                 <string>TRG_I_EN</string>
@@ -330,10 +330,10 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
+                <enum>QFrame::Raised</enum>
                </property>
                <property name="text">
                 <string>MIPI RATE</string>
@@ -372,7 +372,7 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="text">
                 <string>TDC bin width</string>
@@ -407,10 +407,10 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
+                <enum>QFrame::Raised</enum>
                </property>
                <property name="text">
                 <string>SCAN_MODE</string>
@@ -462,10 +462,10 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
+                <enum>QFrame::Raised</enum>
                </property>
                <property name="text">
                 <string>V_ROLL_NUM</string>
@@ -498,7 +498,7 @@
                   <number>1</number>
                  </property>
                  <property name="orientation">
-                  <enum>Qt::Orientation::Horizontal</enum>
+                  <enum>Qt::Horizontal</enum>
                  </property>
                 </widget>
                </item>
@@ -527,7 +527,7 @@
                   <string>32</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -561,10 +561,10 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
+                <enum>QFrame::Raised</enum>
                </property>
                <property name="text">
                 <string>H_ROLL_NUM</string>
@@ -594,7 +594,7 @@
                   <number>1</number>
                  </property>
                  <property name="orientation">
-                  <enum>Qt::Orientation::Horizontal</enum>
+                  <enum>Qt::Horizontal</enum>
                  </property>
                 </widget>
                </item>
@@ -626,7 +626,7 @@
                   <string>1</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -657,10 +657,10 @@
                 </font>
                </property>
                <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
+                <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
+                <enum>QFrame::Raised</enum>
                </property>
                <property name="text">
                 <string>H_VLD_SEG</string>
@@ -687,7 +687,7 @@
                   <number>1</number>
                  </property>
                  <property name="orientation">
-                  <enum>Qt::Orientation::Horizontal</enum>
+                  <enum>Qt::Horizontal</enum>
                  </property>
                 </widget>
                </item>
@@ -716,10 +716,10 @@
                   <string>16</string>
                  </property>
                  <property name="textFormat">
-                  <enum>Qt::TextFormat::MarkdownText</enum>
+                  <enum>Qt::MarkdownText</enum>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -734,10 +734,10 @@
           <item>
            <spacer name="horizontalSpacer_4">
             <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Policy::Minimum</enum>
+             <enum>QSizePolicy::Minimum</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -793,7 +793,7 @@
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>0</number>
+                <number>2</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -882,10 +882,10 @@
                     <string notr="true"/>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::Shape::NoFrame</enum>
+                    <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Shadow::Plain</enum>
+                    <enum>QFrame::Plain</enum>
                    </property>
                    <property name="widgetResizable">
                     <bool>true</bool>
@@ -940,10 +940,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::StyledPanel</enum>
+                        <enum>QFrame::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>seg_hs</string>
@@ -951,7 +951,10 @@
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <widget class="QSpinBox" name="seg_hs_spinBox">
+                      <widget class="NoWheelSpinBox" name="seg_hs_spinBox">
+                       <property name="whatsThis">
+                        <string/>
+                       </property>
                        <property name="minimum">
                         <number>0</number>
                        </property>
@@ -985,10 +988,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::StyledPanel</enum>
+                        <enum>QFrame::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>spad_vs</string>
@@ -996,7 +999,7 @@
                       </widget>
                      </item>
                      <item row="1" column="1">
-                      <widget class="QSpinBox" name="spad_vs_spinBox">
+                      <widget class="NoWheelSpinBox" name="spad_vs_spinBox">
                        <property name="minimum">
                         <number>0</number>
                        </property>
@@ -1027,10 +1030,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::StyledPanel</enum>
+                        <enum>QFrame::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>light shift</string>
@@ -1038,7 +1041,7 @@
                       </widget>
                      </item>
                      <item row="2" column="1">
-                      <widget class="QSpinBox" name="light_shift_spinBox">
+                      <widget class="NoWheelSpinBox" name="light_shift_spinBox">
                        <property name="minimum">
                         <number>-576</number>
                        </property>
@@ -1069,10 +1072,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::StyledPanel</enum>
+                        <enum>QFrame::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>sublight shift</string>
@@ -1080,7 +1083,7 @@
                       </widget>
                      </item>
                      <item row="3" column="1">
-                      <widget class="QSpinBox" name="sublight_shift_spinBox">
+                      <widget class="NoWheelSpinBox" name="sublight_shift_spinBox">
                        <property name="minimum">
                         <number>-576</number>
                        </property>
@@ -1111,10 +1114,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::StyledPanel</enum>
+                        <enum>QFrame::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>ROI shape</string>
@@ -1122,7 +1125,7 @@
                       </widget>
                      </item>
                      <item row="4" column="1">
-                      <widget class="QComboBox" name="ROI_Shape_ComboBox">
+                      <widget class="NoWheelComboBox" name="ROI_Shape_ComboBox">
                        <property name="font">
                         <font>
                          <family>Microsoft YaHei UI</family>
@@ -1164,10 +1167,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::StyledPanel</enum>
+                        <enum>QFrame::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>v_spad_shift</string>
@@ -1175,7 +1178,7 @@
                       </widget>
                      </item>
                      <item row="5" column="1">
-                      <widget class="QSpinBox" name="v_spad_shift_spinBox">
+                      <widget class="NoWheelSpinBox" name="v_spad_shift_spinBox">
                        <property name="minimum">
                         <number>-576</number>
                        </property>
@@ -1206,10 +1209,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::StyledPanel</enum>
+                        <enum>QFrame::StyledPanel</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>h_seg_shift</string>
@@ -1217,7 +1220,7 @@
                       </widget>
                      </item>
                      <item row="6" column="1">
-                      <widget class="QSpinBox" name="h_seg_shift_spinBox">
+                      <widget class="NoWheelSpinBox" name="h_seg_shift_spinBox">
                        <property name="minimum">
                         <number>0</number>
                        </property>
@@ -1249,10 +1252,10 @@
                     <string notr="true"/>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::Shape::NoFrame</enum>
+                    <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Shadow::Plain</enum>
+                    <enum>QFrame::Plain</enum>
                    </property>
                    <property name="widgetResizable">
                     <bool>true</bool>
@@ -1322,7 +1325,7 @@
                           </size>
                          </property>
                          <property name="focusPolicy">
-                          <enum>Qt::FocusPolicy::StrongFocus</enum>
+                          <enum>Qt::StrongFocus</enum>
                          </property>
                          <property name="readOnly">
                           <bool>true</bool>
@@ -1341,7 +1344,7 @@
                           </sizepolicy>
                          </property>
                          <property name="focusPolicy">
-                          <enum>Qt::FocusPolicy::WheelFocus</enum>
+                          <enum>Qt::WheelFocus</enum>
                          </property>
                          <property name="text">
                           <string>Select</string>
@@ -1370,10 +1373,10 @@
                     <string notr="true"/>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::Shape::NoFrame</enum>
+                    <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Shadow::Plain</enum>
+                    <enum>QFrame::Plain</enum>
                    </property>
                    <property name="widgetResizable">
                     <bool>true</bool>
@@ -1443,7 +1446,7 @@
                           </size>
                          </property>
                          <property name="focusPolicy">
-                          <enum>Qt::FocusPolicy::StrongFocus</enum>
+                          <enum>Qt::StrongFocus</enum>
                          </property>
                          <property name="readOnly">
                           <bool>true</bool>
@@ -1462,7 +1465,7 @@
                           </sizepolicy>
                          </property>
                          <property name="focusPolicy">
-                          <enum>Qt::FocusPolicy::WheelFocus</enum>
+                          <enum>Qt::WheelFocus</enum>
                          </property>
                          <property name="text">
                           <string>Select</string>
@@ -1493,16 +1496,16 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>Start Rolling</string>
                        </property>
                        <property name="textFormat">
-                        <enum>Qt::TextFormat::PlainText</enum>
+                        <enum>Qt::PlainText</enum>
                        </property>
                       </widget>
                      </item>
@@ -1528,10 +1531,10 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="frameShadow">
-                        <enum>QFrame::Shadow::Raised</enum>
+                        <enum>QFrame::Raised</enum>
                        </property>
                        <property name="text">
                         <string>End Rolling</string>
@@ -1575,10 +1578,10 @@
                     <string notr="true"/>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::Shape::NoFrame</enum>
+                    <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
-                    <enum>QFrame::Shadow::Plain</enum>
+                    <enum>QFrame::Plain</enum>
                    </property>
                    <property name="widgetResizable">
                     <bool>true</bool>
@@ -1621,7 +1624,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>Cali Filer</string>
@@ -1651,7 +1654,7 @@
                           </size>
                          </property>
                          <property name="focusPolicy">
-                          <enum>Qt::FocusPolicy::StrongFocus</enum>
+                          <enum>Qt::StrongFocus</enum>
                          </property>
                          <property name="readOnly">
                           <bool>true</bool>
@@ -1670,7 +1673,7 @@
                           </sizepolicy>
                          </property>
                          <property name="focusPolicy">
-                          <enum>Qt::FocusPolicy::WheelFocus</enum>
+                          <enum>Qt::WheelFocus</enum>
                          </property>
                          <property name="text">
                           <string>Select</string>
@@ -1689,7 +1692,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>Img Mirror </string>
@@ -1697,7 +1700,7 @@
                       </widget>
                      </item>
                      <item row="1" column="1">
-                      <widget class="QComboBox" name="img_mirror_ComboBox">
+                      <widget class="NoWheelComboBox" name="img_mirror_ComboBox">
                        <property name="minimumSize">
                         <size>
                          <width>150</width>
@@ -1749,7 +1752,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>remove noise</string>
@@ -1757,7 +1760,7 @@
                       </widget>
                      </item>
                      <item row="2" column="1">
-                      <widget class="QComboBox" name="remove_noise_ComboBox">
+                      <widget class="NoWheelComboBox" name="remove_noise_ComboBox">
                        <property name="minimumSize">
                         <size>
                          <width>150</width>
@@ -1799,7 +1802,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>light smooth</string>
@@ -1807,7 +1810,7 @@
                       </widget>
                      </item>
                      <item row="3" column="1">
-                      <widget class="QComboBox" name="light_smooth_ComboBox">
+                      <widget class="NoWheelComboBox" name="light_smooth_ComboBox">
                        <property name="minimumSize">
                         <size>
                          <width>150</width>
@@ -1849,7 +1852,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>curvature</string>
@@ -1857,7 +1860,7 @@
                       </widget>
                      </item>
                      <item row="4" column="1">
-                      <widget class="QSpinBox" name="curvature_SpinBox">
+                      <widget class="NoWheelSpinBox" name="curvature_SpinBox">
                        <property name="minimum">
                         <number>0</number>
                        </property>
@@ -1879,7 +1882,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>correct thres</string>
@@ -1887,7 +1890,7 @@
                       </widget>
                      </item>
                      <item row="5" column="1">
-                      <widget class="QSpinBox" name="correct_thres_SpinBox">
+                      <widget class="NoWheelSpinBox" name="correct_thres_SpinBox">
                        <property name="minimum">
                         <number>0</number>
                        </property>
@@ -1909,7 +1912,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>Cali Order</string>
@@ -1917,7 +1920,7 @@
                       </widget>
                      </item>
                      <item row="6" column="1">
-                      <widget class="QComboBox" name="cali_order_ComboBox">
+                      <widget class="NoWheelComboBox" name="cali_order_ComboBox">
                        <property name="minimumSize">
                         <size>
                          <width>150</width>
@@ -1959,7 +1962,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>cali frm num</string>
@@ -1967,7 +1970,7 @@
                       </widget>
                      </item>
                      <item row="7" column="1">
-                      <widget class="QSpinBox" name="cali_frm_num__SpinBox">
+                      <widget class="NoWheelSpinBox" name="cali_frm_num__SpinBox">
                        <property name="minimum">
                         <number>1</number>
                        </property>
@@ -1986,7 +1989,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>ref segment</string>
@@ -1994,7 +1997,7 @@
                       </widget>
                      </item>
                      <item row="8" column="1">
-                      <widget class="QSpinBox" name="ref_segment_SpinBox">
+                      <widget class="NoWheelSpinBox" name="ref_segment_SpinBox">
                        <property name="minimum">
                         <number>0</number>
                        </property>
@@ -2016,7 +2019,7 @@
                         </font>
                        </property>
                        <property name="frameShape">
-                        <enum>QFrame::Shape::NoFrame</enum>
+                        <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
                         <string>mode 2D</string>
@@ -2024,7 +2027,7 @@
                       </widget>
                      </item>
                      <item row="9" column="1">
-                      <widget class="QComboBox" name="mode_2D_ComboBox">
+                      <widget class="NoWheelComboBox" name="mode_2D_ComboBox">
                        <property name="minimumSize">
                         <size>
                          <width>150</width>
@@ -2152,7 +2155,7 @@ font: 700 9pt &quot;Consolas&quot;;
                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.example.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0078d7;&quot;&gt;ZONE INFO&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
                  <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                  </property>
                  <property name="margin">
                   <number>0</number>
@@ -2165,7 +2168,7 @@ font: 700 9pt &quot;Consolas&quot;;
                <item>
                 <spacer name="horizontalSpacer_18">
                  <property name="orientation">
-                  <enum>Qt::Orientation::Horizontal</enum>
+                  <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -2209,7 +2212,7 @@ font: 700 9pt &quot;Consolas&quot;;
           <item>
            <spacer name="horizontalSpacer_7">
             <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -2284,10 +2287,10 @@ font: 700 9pt &quot;Consolas&quot;;
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Shape::NoFrame</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Shadow::Raised</enum>
+             <enum>QFrame::Raised</enum>
             </property>
             <property name="text">
              <string>File Save Path</string>
@@ -2323,10 +2326,10 @@ font: 700 9pt &quot;Consolas&quot;;
           <item row="6" column="4">
            <spacer name="horizontalSpacer_5">
             <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Policy::MinimumExpanding</enum>
+             <enum>QSizePolicy::MinimumExpanding</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -2386,7 +2389,7 @@ font: 700 9pt &quot;Consolas&quot;;
              </size>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::StrongFocus</enum>
+             <enum>Qt::StrongFocus</enum>
             </property>
             <property name="readOnly">
              <bool>false</bool>
@@ -2456,10 +2459,10 @@ font: 700 9pt &quot;Consolas&quot;;
              </font>
             </property>
             <property name="frameShape">
-             <enum>QFrame::Shape::NoFrame</enum>
+             <enum>QFrame::NoFrame</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Shadow::Raised</enum>
+             <enum>QFrame::Raised</enum>
             </property>
             <property name="text">
              <string>Reference Script</string>
@@ -2490,7 +2493,7 @@ font: 700 9pt &quot;Consolas&quot;;
              </size>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::StrongFocus</enum>
+             <enum>Qt::StrongFocus</enum>
             </property>
             <property name="readOnly">
              <bool>true</bool>
@@ -2540,7 +2543,7 @@ font: 700 9pt &quot;Consolas&quot;;
           <cursorShape>ArrowCursor</cursorShape>
          </property>
          <property name="layoutDirection">
-          <enum>Qt::LayoutDirection::LeftToRight</enum>
+          <enum>Qt::LeftToRight</enum>
          </property>
          <property name="autoFillBackground">
           <bool>false</bool>
@@ -2561,7 +2564,7 @@ font: 700 9pt &quot;Consolas&quot;;
           <item row="0" column="2">
            <spacer name="horizontalSpacer_3">
             <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -2633,10 +2636,10 @@ font: 700 9pt &quot;Consolas&quot;;
        <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
-          <enum>Qt::Orientation::Vertical</enum>
+          <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeType">
-          <enum>QSizePolicy::Policy::Ignored</enum>
+          <enum>QSizePolicy::Ignored</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
@@ -2686,7 +2689,7 @@ font: 700 9pt &quot;Consolas&quot;;
           <string>Hawk Toolbox</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
@@ -2721,7 +2724,7 @@ font: 700 9pt &quot;Consolas&quot;;
              <item row="0" column="2">
               <spacer name="horizontalSpacer">
                <property name="orientation">
-                <enum>Qt::Orientation::Horizontal</enum>
+                <enum>Qt::Horizontal</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
@@ -2765,7 +2768,7 @@ font: 700 9pt &quot;Consolas&quot;;
              <item>
               <widget class="QFrame" name="select_group_01">
                <property name="layoutDirection">
-                <enum>Qt::LayoutDirection::LeftToRight</enum>
+                <enum>Qt::LeftToRight</enum>
                </property>
                <property name="autoFillBackground">
                 <bool>false</bool>
@@ -2804,7 +2807,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    </font>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::Shape::NoFrame</enum>
+                   <enum>QFrame::NoFrame</enum>
                   </property>
                   <property name="text">
                    <string>Select1</string>
@@ -2837,7 +2840,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_2">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -2886,7 +2889,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    </font>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::Shape::NoFrame</enum>
+                   <enum>QFrame::NoFrame</enum>
                   </property>
                   <property name="text">
                    <string>Select1</string>
@@ -2919,7 +2922,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_6">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -2968,7 +2971,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    </font>
                   </property>
                   <property name="frameShape">
-                   <enum>QFrame::Shape::NoFrame</enum>
+                   <enum>QFrame::NoFrame</enum>
                   </property>
                   <property name="text">
                    <string>Select1</string>
@@ -3001,7 +3004,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_8">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3085,7 +3088,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_10">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3166,7 +3169,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_11">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3247,7 +3250,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_12">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3328,7 +3331,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_13">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3380,10 +3383,10 @@ font: 700 9pt &quot;Consolas&quot;;
                      </font>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::Shape::NoFrame</enum>
+                     <enum>QFrame::NoFrame</enum>
                     </property>
                     <property name="frameShadow">
-                     <enum>QFrame::Shadow::Raised</enum>
+                     <enum>QFrame::Raised</enum>
                     </property>
                     <property name="text">
                      <string>File sel</string>
@@ -3408,7 +3411,7 @@ font: 700 9pt &quot;Consolas&quot;;
                      </size>
                     </property>
                     <property name="focusPolicy">
-                     <enum>Qt::FocusPolicy::StrongFocus</enum>
+                     <enum>Qt::StrongFocus</enum>
                     </property>
                     <property name="readOnly">
                      <bool>false</bool>
@@ -3436,7 +3439,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_14">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3488,10 +3491,10 @@ font: 700 9pt &quot;Consolas&quot;;
                      </font>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::Shape::NoFrame</enum>
+                     <enum>QFrame::NoFrame</enum>
                     </property>
                     <property name="frameShadow">
-                     <enum>QFrame::Shadow::Raised</enum>
+                     <enum>QFrame::Raised</enum>
                     </property>
                     <property name="text">
                      <string>File sel</string>
@@ -3516,7 +3519,7 @@ font: 700 9pt &quot;Consolas&quot;;
                      </size>
                     </property>
                     <property name="focusPolicy">
-                     <enum>Qt::FocusPolicy::StrongFocus</enum>
+                     <enum>Qt::StrongFocus</enum>
                     </property>
                     <property name="readOnly">
                      <bool>false</bool>
@@ -3544,7 +3547,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_15">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3596,10 +3599,10 @@ font: 700 9pt &quot;Consolas&quot;;
                      </font>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::Shape::NoFrame</enum>
+                     <enum>QFrame::NoFrame</enum>
                     </property>
                     <property name="frameShadow">
-                     <enum>QFrame::Shadow::Raised</enum>
+                     <enum>QFrame::Raised</enum>
                     </property>
                     <property name="text">
                      <string>File sel</string>
@@ -3624,7 +3627,7 @@ font: 700 9pt &quot;Consolas&quot;;
                      </size>
                     </property>
                     <property name="focusPolicy">
-                     <enum>Qt::FocusPolicy::StrongFocus</enum>
+                     <enum>Qt::StrongFocus</enum>
                     </property>
                     <property name="readOnly">
                      <bool>false</bool>
@@ -3652,7 +3655,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_16">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3704,10 +3707,10 @@ font: 700 9pt &quot;Consolas&quot;;
                      </font>
                     </property>
                     <property name="frameShape">
-                     <enum>QFrame::Shape::NoFrame</enum>
+                     <enum>QFrame::NoFrame</enum>
                     </property>
                     <property name="frameShadow">
-                     <enum>QFrame::Shadow::Raised</enum>
+                     <enum>QFrame::Raised</enum>
                     </property>
                     <property name="text">
                      <string>File sel</string>
@@ -3732,7 +3735,7 @@ font: 700 9pt &quot;Consolas&quot;;
                      </size>
                     </property>
                     <property name="focusPolicy">
-                     <enum>Qt::FocusPolicy::StrongFocus</enum>
+                     <enum>Qt::StrongFocus</enum>
                     </property>
                     <property name="readOnly">
                      <bool>false</bool>
@@ -3760,7 +3763,7 @@ font: 700 9pt &quot;Consolas&quot;;
                 <item>
                  <spacer name="horizontalSpacer_17">
                   <property name="orientation">
-                   <enum>Qt::Orientation::Horizontal</enum>
+                   <enum>Qt::Horizontal</enum>
                   </property>
                   <property name="sizeHint" stdset="0">
                    <size>
@@ -3779,7 +3782,7 @@ font: 700 9pt &quot;Consolas&quot;;
           <item>
            <spacer name="verticalSpacer_3">
             <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
+             <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -3862,7 +3865,7 @@ font: 700 9pt &quot;Consolas&quot;;
           <item row="0" column="6">
            <spacer name="horizontalSpacer_9">
             <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+             <enum>Qt::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -4037,16 +4040,16 @@ font: 700 9pt &quot;Consolas&quot;;
        <item>
         <widget class="QScrollArea" name="scroll_area">
          <property name="styleSheet">
-          <string notr="true">background: transparent;</string>
+          <string notr="true"/>
          </property>
          <property name="frameShape">
-          <enum>QFrame::Shape::NoFrame</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          <enum>Qt::ScrollBarAlwaysOff</enum>
          </property>
          <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+          <enum>Qt::ScrollBarAlwaysOff</enum>
          </property>
          <property name="widgetResizable">
           <bool>true</bool>
@@ -4056,12 +4059,12 @@ font: 700 9pt &quot;Consolas&quot;;
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>233</width>
-            <height>256</height>
+            <width>766</width>
+            <height>647</height>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">background: transparent;</string>
+           <string notr="true"/>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <property name="spacing">
@@ -4096,10 +4099,10 @@ font: 700 9pt &quot;Consolas&quot;;
               <string notr="true">font-size: 16pt</string>
              </property>
              <property name="text">
-              <string>Custom Widgets Page</string>
+              <string>Setting</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
+              <set>Qt::AlignCenter</set>
              </property>
              <property name="buddy">
               <cstring>select_group_01</cstring>
@@ -4108,12 +4111,18 @@ font: 700 9pt &quot;Consolas&quot;;
            </item>
            <item>
             <widget class="QLabel" name="description_label">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>80</height>
+              </size>
+             </property>
              <property name="text">
               <string>Here will be all the custom widgets, they will be added over time on this page.
 I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
@@ -4121,19 +4130,302 @@ I will try to always record a new tutorial when adding a new Widget and updating
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="row_1_layout"/>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="row_2_layout"/>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="row_3_layout"/>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="row_4_layout"/>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="row_5_layout"/>
+            <widget class="QGroupBox" name="softsetting">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 16pt &quot;Microsoft YaHei UI&quot;;</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <property name="spacing">
+               <number>24</number>
+              </property>
+              <item>
+               <widget class="QFrame" name="chip_ID_Group">
+                <property name="layoutDirection">
+                 <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="chip_ID_Label">
+                   <property name="minimumSize">
+                    <size>
+                     <width>140</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>16</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="text">
+                    <string>Chip ID</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="chip_ID_ComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>300</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>16</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_19">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="roi_data_format_Group">
+                <layout class="QHBoxLayout" name="horizontalLayout_20">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="roi_data_format_Label">
+                   <property name="minimumSize">
+                    <size>
+                     <width>140</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>16</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="text">
+                    <string>ROI FORMAT</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="roi_data_fromat_ComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>300</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>16</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_20">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="thems_select_Group">
+                <layout class="QHBoxLayout" name="horizontalLayout_21">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="themes_select_Label">
+                   <property name="minimumSize">
+                    <size>
+                     <width>140</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>16</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="text">
+                    <string>Themes</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="themes_select_ComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>300</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>16</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_21">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
            </item>
           </layout>
          </widget>
@@ -4147,9 +4439,19 @@ I will try to always record a new tutorial when adding a new Widget and updating
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QComboCheckBox</class>
+   <class>ComboCheckBox</class>
    <extends>QComboBox</extends>
-   <header>Hawk.HawkGUI_v002.gui.widgets.py_combo_check_box.py_combo_check</header>
+   <header>AdapsChip.ChipUI.gui.widgets.py_combo_check_box.py_combo_check</header>
+  </customwidget>
+  <customwidget>
+   <class>NoWheelComboBox</class>
+   <extends>QComboBox</extends>
+   <header location="global">AdapsChip.ChipUI.gui.widgets.py_nowheel_combobox.py_nowheel_combobox</header>
+  </customwidget>
+  <customwidget>
+   <class>NoWheelSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header location="global">AdapsChip.ChipUI.gui.widgets.py_nowheel_spinbox.py_nowheel_spinbox</header>
   </customwidget>
  </customwidgets>
  <resources/>
