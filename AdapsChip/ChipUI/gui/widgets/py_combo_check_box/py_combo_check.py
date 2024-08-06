@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QWidget, QComboBox, QLineEdit, QListView,QVBoxLayout,QApplication
-from PySide6.QtGui import QStandardItemModel, QStandardItem, QMouseEvent
-from PySide6.QtCore import Qt
+# IMPORT QT CORE
+# ///////////////////////////////////////////////////////////////
+from AdapsChip.ChipUI.gui.qt_core import *
 import sys
 
 
@@ -14,8 +14,6 @@ def show_text(function):
             l_ = self.vars["listViewModel"].rowCount() - 1
             self.vars["listViewModel"].item(0).setCheckState(
                 Qt.Checked if l == l_ else Qt.Unchecked if l == 0 else Qt.PartiallyChecked)
-            # self.vars["lineEdit"].setText(
-            #     "Select All" if l == l_ else "No Select" if l == 0 else ";".join((item.text() for item in items)))
             self.vars["lineEdit"].setText(
                 "No Select" if l == 0 else "; ".join((item.text() for item in items)))
             self.vars["showTextLock"] = True
@@ -26,7 +24,7 @@ def show_text(function):
     return wrapped
 
 
-class QComboCheckBox(QComboBox):
+class ComboCheckBox(QComboBox):
     class MyListView(QListView):
         def __init__(self, parent: QWidget = None, vars=None):
             super().__init__(parent)
@@ -39,6 +37,22 @@ class QComboCheckBox(QComboBox):
         def mouseDoubleClickEvent(self, event: QMouseEvent):
             self.vars["lock"] = False
             super().mouseDoubleClickEvent(event)
+
+    class LineEditClickFilter(QObject):
+        clicked = Signal(QObject)
+
+        def eventFilter(self, obj, event):
+            if event.type() == QEvent.MouseButtonPress:
+                self.clicked.emit(event)
+                return True
+            return False
+
+    class LineEdit(QLineEdit):
+        clicked = Signal(QObject)  # 定义clicked信号
+
+        def mouseReleaseEvent(self, QMouseEvent):
+            if QMouseEvent.button() == Qt.LeftButton:
+                self.clicked.emit(QMouseEvent)  # 发送clicked信号
 
     def __init__(self, parent: QWidget = None):
         super().__init__(parent)
@@ -55,6 +69,11 @@ class QComboCheckBox(QComboBox):
         self.setLineEdit(self.vars["lineEdit"])
 
         self.activated.connect(self.__show_selected)
+
+        # self.lineedit = self.vars["lineEdit"]
+        # self.click_filter = self.LineEditClickFilter()
+        # self.lineedit.installEventFilter(self.click_filter)
+        # self.click_filter.clicked.connect(self.showPopup)
 
         self.add_item("Select All")
 
@@ -202,7 +221,7 @@ class QComboCheckBox(QComboBox):
         for row in range(1, self.vars["listViewModel"].rowCount()):
             item = self.vars["listViewModel"].item(row)
             if item.checkState() == Qt.Checked:
-                indexs.append(row-1)
+                indexs.append(row - 1)
         return indexs
 
     def is_all(self):
@@ -236,7 +255,7 @@ class UiMainWindow(QWidget):
         super(UiMainWindow, self).__init__()
         self.setWindowTitle('Test')
         self.resize(600, 400)
-        combo = QComboCheckBox()
+        combo = ComboCheckBox()
         combo.add_items(["Python", "Java", "Go", "C++", "JavaScript", "PHP"])
         combo1 = QComboBox()
         combo1.addItems(["1", "2", "3"])
