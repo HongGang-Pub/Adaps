@@ -2323,22 +2323,6 @@ font: 700 9pt &quot;Consolas&quot;;
             </property>
            </widget>
           </item>
-          <item row="6" column="4">
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::MinimumExpanding</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>30</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
           <item row="6" column="2">
            <widget class="QPushButton" name="file_save_dir_Button">
             <property name="sizePolicy">
@@ -2355,13 +2339,6 @@ font: 700 9pt &quot;Consolas&quot;;
             </property>
             <property name="text">
              <string>Select</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="3">
-           <widget class="QCheckBox" name="SPADISS_Integration_CheckBox">
-            <property name="text">
-             <string>Integration</string>
             </property>
            </widget>
           </item>
@@ -2522,6 +2499,22 @@ font: 700 9pt &quot;Consolas&quot;;
             </property>
            </widget>
           </item>
+          <item row="4" column="4">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>30</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
        </item>
@@ -2603,7 +2596,7 @@ font: 700 9pt &quot;Consolas&quot;;
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QPushButton" name="Test">
+           <widget class="QPushButton" name="Open">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -2626,7 +2619,7 @@ font: 700 9pt &quot;Consolas&quot;;
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="text">
-             <string>Test</string>
+             <string>Open</string>
             </property>
            </widget>
           </item>
@@ -4092,40 +4085,23 @@ font: 700 9pt &quot;Consolas&quot;;
              </property>
              <property name="font">
               <font>
-               <pointsize>16</pointsize>
+               <family>Microsoft YaHei UI</family>
+               <pointsize>24</pointsize>
+               <italic>false</italic>
+               <bold>false</bold>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">font-size: 16pt</string>
+              <string notr="true">font: 24pt &quot;Microsoft YaHei UI&quot;;</string>
              </property>
              <property name="text">
               <string>Setting</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
              <property name="buddy">
               <cstring>select_group_01</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="description_label">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>80</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Here will be all the custom widgets, they will be added over time on this page.
-I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignHCenter|Qt::AlignTop</set>
-             </property>
-             <property name="wordWrap">
-              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -4144,7 +4120,7 @@ I will try to always record a new tutorial when adding a new Widget and updating
               </size>
              </property>
              <property name="styleSheet">
-              <string notr="true">font: 16pt &quot;Microsoft YaHei UI&quot;;</string>
+              <string notr="true">font: 12pt &quot;Microsoft YaHei UI&quot;;</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_9">
               <property name="spacing">
@@ -4175,7 +4151,7 @@ I will try to always record a new tutorial when adding a new Widget and updating
                   <widget class="QLabel" name="chip_ID_Label">
                    <property name="minimumSize">
                     <size>
-                     <width>140</width>
+                     <width>100</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -4188,7 +4164,7 @@ I will try to always record a new tutorial when adding a new Widget and updating
                    <property name="font">
                     <font>
                      <family>Microsoft YaHei UI</family>
-                     <pointsize>16</pointsize>
+                     <pointsize>12</pointsize>
                      <italic>false</italic>
                      <bold>false</bold>
                     </font>
@@ -4203,6 +4179,9 @@ I will try to always record a new tutorial when adding a new Widget and updating
                  </item>
                  <item>
                   <widget class="QComboBox" name="chip_ID_ComboBox">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
                    <property name="minimumSize">
                     <size>
                      <width>300</width>
@@ -4218,15 +4197,219 @@ I will try to always record a new tutorial when adding a new Widget and updating
                    <property name="font">
                     <font>
                      <family>Microsoft YaHei UI</family>
-                     <pointsize>16</pointsize>
+                     <pointsize>12</pointsize>
                      <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>Hawk01</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item>
                   <spacer name="horizontalSpacer_19">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="thems_select_Group">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="toolTip">
+                 <string> </string>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_21">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="themes_select_Label">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>12</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="text">
+                    <string>Themes</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="themes_select_ComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>300</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>12</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="toolTip">
+                    <string>Coming soon!</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>light</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>dark</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_21">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="roi_image_save">
+                <layout class="QHBoxLayout" name="horizontalLayout_22">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="roi_image_save_Label">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>12</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="text">
+                    <string>ROI Image</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="roi_image_save_ComboBox">
+                   <property name="minimumSize">
+                    <size>
+                     <width>300</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>300</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <family>Microsoft YaHei UI</family>
+                     <pointsize>12</pointsize>
+                     <italic>false</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Discard</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Save</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_22">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
@@ -4260,7 +4443,7 @@ I will try to always record a new tutorial when adding a new Widget and updating
                   <widget class="QLabel" name="roi_data_format_Label">
                    <property name="minimumSize">
                     <size>
-                     <width>140</width>
+                     <width>100</width>
                      <height>0</height>
                     </size>
                    </property>
@@ -4273,7 +4456,7 @@ I will try to always record a new tutorial when adding a new Widget and updating
                    <property name="font">
                     <font>
                      <family>Microsoft YaHei UI</family>
-                     <pointsize>16</pointsize>
+                     <pointsize>12</pointsize>
                      <italic>false</italic>
                      <bold>false</bold>
                     </font>
@@ -4303,100 +4486,25 @@ I will try to always record a new tutorial when adding a new Widget and updating
                    <property name="font">
                     <font>
                      <family>Microsoft YaHei UI</family>
-                     <pointsize>16</pointsize>
+                     <pointsize>12</pointsize>
                      <italic>false</italic>
                      <bold>false</bold>
                     </font>
                    </property>
+                   <item>
+                    <property name="text">
+                     <string>Byte</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Half-Word</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item>
                   <spacer name="horizontalSpacer_20">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="thems_select_Group">
-                <layout class="QHBoxLayout" name="horizontalLayout_21">
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QLabel" name="themes_select_Label">
-                   <property name="minimumSize">
-                    <size>
-                     <width>140</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>100</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Microsoft YaHei UI</family>
-                     <pointsize>16</pointsize>
-                     <italic>false</italic>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::NoFrame</enum>
-                   </property>
-                   <property name="text">
-                    <string>Themes</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QComboBox" name="themes_select_ComboBox">
-                   <property name="minimumSize">
-                    <size>
-                     <width>300</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>300</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <family>Microsoft YaHei UI</family>
-                     <pointsize>16</pointsize>
-                     <italic>false</italic>
-                     <bold>false</bold>
-                    </font>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_21">
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesnwNKoJ.ui'
+## Form generated from reading UI file 'main_pagesxPemOH.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -940,10 +940,6 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.roi_sram_name_CheckBox, 4, 3, 1, 1)
 
-        self.horizontalSpacer_5 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_6.addItem(self.horizontalSpacer_5, 6, 4, 1, 1)
-
         self.file_save_dir_Button = QPushButton(self.FileConifg)
         self.file_save_dir_Button.setObjectName(u"file_save_dir_Button")
         sizePolicy2.setHeightForWidth(self.file_save_dir_Button.sizePolicy().hasHeightForWidth())
@@ -951,11 +947,6 @@ class Ui_MainPages(object):
         self.file_save_dir_Button.setMinimumSize(QSize(90, 0))
 
         self.gridLayout_6.addWidget(self.file_save_dir_Button, 6, 2, 1, 1)
-
-        self.SPADISS_Integration_CheckBox = QCheckBox(self.FileConifg)
-        self.SPADISS_Integration_CheckBox.setObjectName(u"SPADISS_Integration_CheckBox")
-
-        self.gridLayout_6.addWidget(self.SPADISS_Integration_CheckBox, 6, 3, 1, 1)
 
         self.file_save_dir_LineEdit = QLineEdit(self.FileConifg)
         self.file_save_dir_LineEdit.setObjectName(u"file_save_dir_LineEdit")
@@ -1013,6 +1004,10 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.reference_script_Button, 1, 2, 1, 1)
 
+        self.horizontalSpacer_5 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_6.addItem(self.horizontalSpacer_5, 4, 4, 1, 1)
+
 
         self.verticalLayout_12.addWidget(self.FileConifg)
 
@@ -1041,15 +1036,15 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.Save, 0, 0, 1, 1)
 
-        self.Test = QPushButton(self.Operate)
-        self.Test.setObjectName(u"Test")
-        sizePolicy1.setHeightForWidth(self.Test.sizePolicy().hasHeightForWidth())
-        self.Test.setSizePolicy(sizePolicy1)
-        self.Test.setMinimumSize(QSize(90, 0))
-        self.Test.setFont(font)
-        self.Test.setCursor(QCursor(Qt.PointingHandCursor))
+        self.Open = QPushButton(self.Operate)
+        self.Open.setObjectName(u"Open")
+        sizePolicy1.setHeightForWidth(self.Open.sizePolicy().hasHeightForWidth())
+        self.Open.setSizePolicy(sizePolicy1)
+        self.Open.setMinimumSize(QSize(90, 0))
+        self.Open.setFont(font)
+        self.Open.setCursor(QCursor(Qt.PointingHandCursor))
 
-        self.gridLayout.addWidget(self.Test, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.Open, 0, 1, 1, 1)
 
 
         self.verticalLayout_12.addWidget(self.Operate)
@@ -1609,26 +1604,21 @@ class Ui_MainPages(object):
         self.title_label.setObjectName(u"title_label")
         self.title_label.setMaximumSize(QSize(16777215, 40))
         font4 = QFont()
-        font4.setPointSize(16)
+        font4.setFamilies([u"Microsoft YaHei UI"])
+        font4.setPointSize(24)
+        font4.setBold(False)
+        font4.setItalic(False)
         self.title_label.setFont(font4)
-        self.title_label.setStyleSheet(u"font-size: 16pt")
-        self.title_label.setAlignment(Qt.AlignCenter)
+        self.title_label.setStyleSheet(u"font: 24pt \"Microsoft YaHei UI\";")
+        self.title_label.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout.addWidget(self.title_label)
-
-        self.description_label = QLabel(self.contents)
-        self.description_label.setObjectName(u"description_label")
-        self.description_label.setMaximumSize(QSize(16777215, 80))
-        self.description_label.setAlignment(Qt.AlignHCenter|Qt.AlignTop)
-        self.description_label.setWordWrap(True)
-
-        self.verticalLayout.addWidget(self.description_label)
 
         self.softsetting = QGroupBox(self.contents)
         self.softsetting.setObjectName(u"softsetting")
         self.softsetting.setMinimumSize(QSize(0, 0))
         self.softsetting.setMaximumSize(QSize(16777215, 16777215))
-        self.softsetting.setStyleSheet(u"font: 16pt \"Microsoft YaHei UI\";")
+        self.softsetting.setStyleSheet(u"font: 12pt \"Microsoft YaHei UI\";")
         self.verticalLayout_9 = QVBoxLayout(self.softsetting)
         self.verticalLayout_9.setSpacing(24)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
@@ -1641,11 +1631,11 @@ class Ui_MainPages(object):
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.chip_ID_Label = QLabel(self.chip_ID_Group)
         self.chip_ID_Label.setObjectName(u"chip_ID_Label")
-        self.chip_ID_Label.setMinimumSize(QSize(140, 0))
+        self.chip_ID_Label.setMinimumSize(QSize(100, 0))
         self.chip_ID_Label.setMaximumSize(QSize(100, 16777215))
         font5 = QFont()
         font5.setFamilies([u"Microsoft YaHei UI"])
-        font5.setPointSize(16)
+        font5.setPointSize(12)
         font5.setBold(False)
         font5.setItalic(False)
         self.chip_ID_Label.setFont(font5)
@@ -1654,7 +1644,9 @@ class Ui_MainPages(object):
         self.horizontalLayout_3.addWidget(self.chip_ID_Label)
 
         self.chip_ID_ComboBox = QComboBox(self.chip_ID_Group)
+        self.chip_ID_ComboBox.addItem("")
         self.chip_ID_ComboBox.setObjectName(u"chip_ID_ComboBox")
+        self.chip_ID_ComboBox.setEnabled(False)
         self.chip_ID_ComboBox.setMinimumSize(QSize(300, 0))
         self.chip_ID_ComboBox.setMaximumSize(QSize(300, 16777215))
         self.chip_ID_ComboBox.setFont(font5)
@@ -1668,43 +1660,15 @@ class Ui_MainPages(object):
 
         self.verticalLayout_9.addWidget(self.chip_ID_Group)
 
-        self.roi_data_format_Group = QFrame(self.softsetting)
-        self.roi_data_format_Group.setObjectName(u"roi_data_format_Group")
-        self.horizontalLayout_20 = QHBoxLayout(self.roi_data_format_Group)
-        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
-        self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
-        self.roi_data_format_Label = QLabel(self.roi_data_format_Group)
-        self.roi_data_format_Label.setObjectName(u"roi_data_format_Label")
-        self.roi_data_format_Label.setMinimumSize(QSize(140, 0))
-        self.roi_data_format_Label.setMaximumSize(QSize(100, 16777215))
-        self.roi_data_format_Label.setFont(font5)
-        self.roi_data_format_Label.setFrameShape(QFrame.NoFrame)
-
-        self.horizontalLayout_20.addWidget(self.roi_data_format_Label)
-
-        self.roi_data_fromat_ComboBox = QComboBox(self.roi_data_format_Group)
-        self.roi_data_fromat_ComboBox.setObjectName(u"roi_data_fromat_ComboBox")
-        self.roi_data_fromat_ComboBox.setMinimumSize(QSize(300, 0))
-        self.roi_data_fromat_ComboBox.setMaximumSize(QSize(300, 16777215))
-        self.roi_data_fromat_ComboBox.setFont(font5)
-
-        self.horizontalLayout_20.addWidget(self.roi_data_fromat_ComboBox)
-
-        self.horizontalSpacer_20 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_20.addItem(self.horizontalSpacer_20)
-
-
-        self.verticalLayout_9.addWidget(self.roi_data_format_Group)
-
         self.thems_select_Group = QFrame(self.softsetting)
         self.thems_select_Group.setObjectName(u"thems_select_Group")
+        self.thems_select_Group.setEnabled(False)
         self.horizontalLayout_21 = QHBoxLayout(self.thems_select_Group)
         self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
         self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.themes_select_Label = QLabel(self.thems_select_Group)
         self.themes_select_Label.setObjectName(u"themes_select_Label")
-        self.themes_select_Label.setMinimumSize(QSize(140, 0))
+        self.themes_select_Label.setMinimumSize(QSize(100, 0))
         self.themes_select_Label.setMaximumSize(QSize(100, 16777215))
         self.themes_select_Label.setFont(font5)
         self.themes_select_Label.setFrameShape(QFrame.NoFrame)
@@ -1712,6 +1676,8 @@ class Ui_MainPages(object):
         self.horizontalLayout_21.addWidget(self.themes_select_Label)
 
         self.themes_select_ComboBox = QComboBox(self.thems_select_Group)
+        self.themes_select_ComboBox.addItem("")
+        self.themes_select_ComboBox.addItem("")
         self.themes_select_ComboBox.setObjectName(u"themes_select_ComboBox")
         self.themes_select_ComboBox.setMinimumSize(QSize(300, 0))
         self.themes_select_ComboBox.setMaximumSize(QSize(300, 16777215))
@@ -1725,6 +1691,68 @@ class Ui_MainPages(object):
 
 
         self.verticalLayout_9.addWidget(self.thems_select_Group)
+
+        self.roi_image_save = QFrame(self.softsetting)
+        self.roi_image_save.setObjectName(u"roi_image_save")
+        self.horizontalLayout_22 = QHBoxLayout(self.roi_image_save)
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.horizontalLayout_22.setContentsMargins(0, 0, 0, 0)
+        self.roi_image_save_Label = QLabel(self.roi_image_save)
+        self.roi_image_save_Label.setObjectName(u"roi_image_save_Label")
+        self.roi_image_save_Label.setMinimumSize(QSize(100, 0))
+        self.roi_image_save_Label.setMaximumSize(QSize(100, 16777215))
+        self.roi_image_save_Label.setFont(font5)
+        self.roi_image_save_Label.setFrameShape(QFrame.NoFrame)
+
+        self.horizontalLayout_22.addWidget(self.roi_image_save_Label)
+
+        self.roi_image_save_ComboBox = QComboBox(self.roi_image_save)
+        self.roi_image_save_ComboBox.addItem("")
+        self.roi_image_save_ComboBox.addItem("")
+        self.roi_image_save_ComboBox.setObjectName(u"roi_image_save_ComboBox")
+        self.roi_image_save_ComboBox.setMinimumSize(QSize(300, 0))
+        self.roi_image_save_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.roi_image_save_ComboBox.setFont(font5)
+
+        self.horizontalLayout_22.addWidget(self.roi_image_save_ComboBox)
+
+        self.horizontalSpacer_22 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_22.addItem(self.horizontalSpacer_22)
+
+
+        self.verticalLayout_9.addWidget(self.roi_image_save)
+
+        self.roi_data_format_Group = QFrame(self.softsetting)
+        self.roi_data_format_Group.setObjectName(u"roi_data_format_Group")
+        self.horizontalLayout_20 = QHBoxLayout(self.roi_data_format_Group)
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.horizontalLayout_20.setContentsMargins(0, 0, 0, 0)
+        self.roi_data_format_Label = QLabel(self.roi_data_format_Group)
+        self.roi_data_format_Label.setObjectName(u"roi_data_format_Label")
+        self.roi_data_format_Label.setMinimumSize(QSize(100, 0))
+        self.roi_data_format_Label.setMaximumSize(QSize(100, 16777215))
+        self.roi_data_format_Label.setFont(font5)
+        self.roi_data_format_Label.setFrameShape(QFrame.NoFrame)
+
+        self.horizontalLayout_20.addWidget(self.roi_data_format_Label)
+
+        self.roi_data_fromat_ComboBox = QComboBox(self.roi_data_format_Group)
+        self.roi_data_fromat_ComboBox.addItem("")
+        self.roi_data_fromat_ComboBox.addItem("")
+        self.roi_data_fromat_ComboBox.setObjectName(u"roi_data_fromat_ComboBox")
+        self.roi_data_fromat_ComboBox.setMinimumSize(QSize(300, 0))
+        self.roi_data_fromat_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.roi_data_fromat_ComboBox.setFont(font5)
+
+        self.horizontalLayout_20.addWidget(self.roi_data_fromat_ComboBox)
+
+        self.horizontalSpacer_20 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_20.addItem(self.horizontalSpacer_20)
+
+
+        self.verticalLayout_9.addWidget(self.roi_data_format_Group)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -1751,7 +1779,7 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(3)
+        self.ROIConfig.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -1807,12 +1835,12 @@ class Ui_MainPages(object):
         self.img_mirror_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"X-axis and Y-axis mirror", None))
 
         self.remove_noise_Label.setText(QCoreApplication.translate("MainPages", u"remove noise", None))
-        self.remove_noise_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
-        self.remove_noise_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
+        self.remove_noise_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
+        self.remove_noise_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
 
         self.light_smooth_Label.setText(QCoreApplication.translate("MainPages", u"light smooth", None))
-        self.light_smooth_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
-        self.light_smooth_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
+        self.light_smooth_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
+        self.light_smooth_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
 
         self.curvature_Label.setText(QCoreApplication.translate("MainPages", u"curvature", None))
         self.correct_thres_Label.setText(QCoreApplication.translate("MainPages", u"correct thres", None))
@@ -1835,7 +1863,6 @@ class Ui_MainPages(object):
         self.roi_sram_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
         self.roi_sram_name_CheckBox.setText(QCoreApplication.translate("MainPages", u"Include", None))
         self.file_save_dir_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.SPADISS_Integration_CheckBox.setText(QCoreApplication.translate("MainPages", u"Integration", None))
         self.file_save_dir_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
         self.reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Reg Script Name", None))
         self.reg_script_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
@@ -1843,7 +1870,7 @@ class Ui_MainPages(object):
         self.reference_script_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
         self.reference_script_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
-        self.Test.setText(QCoreApplication.translate("MainPages", u"Test", None))
+        self.Open.setText(QCoreApplication.translate("MainPages", u"Open", None))
         self.title_label_2.setText(QCoreApplication.translate("MainPages", u"Hawk Toolbox", None))
         self.FunctionWindow.setTitle("")
         self.FunctionSelectWin.setTitle(QCoreApplication.translate("MainPages", u"Function Select", None))
@@ -1880,10 +1907,26 @@ class Ui_MainPages(object):
         self.general_operate_Button_03.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.general_operate_Button_06.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.title_label.setText(QCoreApplication.translate("MainPages", u"Setting", None))
-        self.description_label.setText(QCoreApplication.translate("MainPages", u"Here will be all the custom widgets, they will be added over time on this page.\n"
-"I will try to always record a new tutorial when adding a new Widget and updating the project on Patreon before launching on GitHub and GitHub after the public release.", None))
         self.chip_ID_Label.setText(QCoreApplication.translate("MainPages", u"Chip ID", None))
-        self.roi_data_format_Label.setText(QCoreApplication.translate("MainPages", u"ROI FORMAT", None))
+        self.chip_ID_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Hawk01", None))
+
+#if QT_CONFIG(tooltip)
+        self.thems_select_Group.setToolTip("")
+#endif // QT_CONFIG(tooltip)
         self.themes_select_Label.setText(QCoreApplication.translate("MainPages", u"Themes", None))
+        self.themes_select_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"light", None))
+        self.themes_select_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"dark", None))
+
+#if QT_CONFIG(tooltip)
+        self.themes_select_ComboBox.setToolTip(QCoreApplication.translate("MainPages", u"Coming soon!", None))
+#endif // QT_CONFIG(tooltip)
+        self.roi_image_save_Label.setText(QCoreApplication.translate("MainPages", u"ROI Image", None))
+        self.roi_image_save_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Discard", None))
+        self.roi_image_save_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Save", None))
+
+        self.roi_data_format_Label.setText(QCoreApplication.translate("MainPages", u"ROI FORMAT", None))
+        self.roi_data_fromat_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Byte", None))
+        self.roi_data_fromat_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Half-Word", None))
+
     # retranslateUi
 

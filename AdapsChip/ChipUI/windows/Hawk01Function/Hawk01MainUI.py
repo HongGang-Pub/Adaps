@@ -32,6 +32,7 @@ class Hawk01MainUI:
 
         # Get config
         # ///////////////////////////////////////////////////////////////
+        self.soft_config = {}
         self.hawk01_config = {}  # hawk01 general config
         self.hawk01_gui_config = {}  # hawk01 UI config
         self.hawk01_zone_config = {}  # hawk01 Zone config
@@ -147,6 +148,10 @@ class Hawk01MainUI:
         """roi相关的主界面配置"""
         self.ui.load_pages.ROIConfig.setCurrentIndex(self.hawk01_config["Default_ROI_GEN_TYPE"])
 
+        tab_bar = self.ui.load_pages.ROIConfig.tabBar()
+        # 隐藏特定索引的标签页标签
+        tab_bar.setTabVisible(2, False)
+
         # Gen ROI for GUI
         self.ui.load_pages.seg_hs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['seg_hs'])
         self.ui.load_pages.spad_vs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['spad_vs'])
@@ -187,7 +192,7 @@ class Hawk01MainUI:
         # 底部操作绑定
         self.ui.load_pages.ROIView.clicked.connect(partial(Hawk01MainUI.func_roi_view, self))
         self.win_signal_sync.sync_signal_0.connect(partial(Hawk01MainUI.func_open_roi_win, self))
-        # self.ui.load_pages.ROISave.clicked.connect(partial(Hawk01MainUI.func_roi_save, self))  #TODO
+        self.ui.load_pages.ROISave.clicked.connect(partial(Hawk01MainUI.func_ROIUI_save, self))
 
         # ROI data刷新判断初始化
         self.ui_masking_win = {}  # 存储masking_window对象, 便于后续内存销毁
@@ -388,7 +393,8 @@ class Hawk01MainUI:
         self.ui_masking_win[self.MaskingWindowID] = MaskingWindow(title=f"ROI SHOW {self.MaskingWindowID + 1}",
                                                                   ID=self.MaskingWindowID,
                                                                   roi_data_pkg=self.__roi_data_pkg__,
-                                                                  hawk_config=self.__hawk01_config__)
+                                                                  hawk_config=self.__hawk01_config__,
+                                                                  soft_config=self.soft_config)
         self.ui_masking_win[self.MaskingWindowID].setStyleSheet(self.qssStyle)
         self.ui_masking_win[self.MaskingWindowID].win_signal_sync.int_signal_1.connect(
             partial(Hawk01MainUI.func_masking_date_mem_free, self))
@@ -400,7 +406,10 @@ class Hawk01MainUI:
         此函数主要是保存 ROI 数据, 由于数据保存会占用主线程, 建议使用子进程执行
         """
         Hawk01MainUI.func_get_roi_data_pkg(self)
-        Hawk01Function.ROIDataPackageSave(self.__roi_data_pkg__, self.__hawk01_config__, 1)
+        Hawk01Function.ROIDataPackageSave(roi_data_pkg=self.__roi_data_pkg__,
+                                          cfg=self.__hawk01_config__,
+                                          save_sel=self.soft_config["roi_image_save"],
+                                          roi_data_format=self.soft_config["roi_data_format"])
         Hawk01MainUI.func_masking_date_mem_free(self)
         return
 
@@ -434,24 +443,24 @@ class Hawk01MainUI:
         self.ui.load_pages.reg_script_name_LineEdit.setText(self.hawk01_config['reg_name'])
         self.ui.load_pages.roi_sram_name_LineEdit.setText(self.hawk01_config['roi_name'])
         self.ui.load_pages.roi_sram_name_CheckBox.setChecked(self.hawk01_config['ROI_SRAM_Include'])
-        self.ui.load_pages.SPADISS_Integration_CheckBox.setChecked(self.hawk01_config['SPADISS_Integration'])
+        # self.ui.load_pages.SPADISS_Integration_CheckBox.setChecked(self.hawk01_config['SPADISS_Integration'])
 
         self.ui.load_pages.roi_sram_name_CheckBox.stateChanged.connect(
             partial(Hawk01MainUI.func_file_gui_checkBoxChange, self))
-        self.ui.load_pages.SPADISS_Integration_CheckBox.stateChanged.connect(
-            partial(Hawk01MainUI.func_file_gui_checkBoxChange, self))
+        # self.ui.load_pages.SPADISS_Integration_CheckBox.stateChanged.connect(
+        #     partial(Hawk01MainUI.func_file_gui_checkBoxChange, self))
         # 按钮绑定
         self.ui.load_pages.reference_script_Button.clicked.connect(
             partial(Hawk01MainUI.func_reference_script_file_sel, self))
         self.ui.load_pages.file_save_dir_Button.clicked.connect(partial(Hawk01MainUI.func_file_save_dir_sel, self))
         self.ui.load_pages.Save.clicked.connect(partial(Hawk01MainUI.func_mainUI_save, self))  # Save按钮连接保存操作
         self.win_signal_sync.Obj_signal_0.connect(partial(Hawk01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
-        self.ui.load_pages.Test.clicked.connect(partial(Hawk01MainUI.open_folder, self))
+        self.ui.load_pages.Open.clicked.connect(partial(Hawk01MainUI.open_folder, self))
         return
 
     def func_file_gui_checkBoxChange(self, state):
         self.hawk01_config['ROI_SRAM_Include'] = self.ui.load_pages.roi_sram_name_CheckBox.isChecked()
-        self.hawk01_config['SPADISS_Integration'] = self.ui.load_pages.SPADISS_Integration_CheckBox.isChecked()
+        # self.hawk01_config['SPADISS_Integration'] = self.ui.load_pages.SPADISS_Integration_CheckBox.isChecked()
         return
 
     def func_reference_script_file_sel(self):
@@ -469,6 +478,28 @@ class Hawk01MainUI:
             self.ui.load_pages.file_save_dir_LineEdit.setText(dir_path)
             self.hawk01_config['fd_path'] = dir_path
             logging.info(self.hawk01_config['fd_path'])
+
+    def func_ROIUI_save(self):
+        """
+        主界面的保存按钮保存数据: 包含 ROI 数据, Script 数据
+            1. 使用子线程调用保存, 不占用主线程
+        """
+        self.ui.load_pages.ROISave.setEnabled(False)
+
+        def threadFunc():
+            try:
+                # 获取界面配置并 merge 所有配置
+                # ///////////////////////////////////////////
+                Hawk01MainUI.func_get_MainUI_config(self)
+                Hawk01MainUI.func_get_roi_config(self)
+                Hawk01MainUI.func_merge_hawk_config(self)
+                Hawk01MainUI.func_roi_save(self)
+            except Exception as e:
+                logging.fatal(e)
+            self.win_signal_sync.Obj_signal_0.emit(self.ui.load_pages.ROISave)
+
+        thread = Thread(target=threadFunc)
+        thread.start()
 
     def func_mainUI_save(self):
         """

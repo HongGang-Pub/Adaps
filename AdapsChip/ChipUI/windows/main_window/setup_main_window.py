@@ -40,6 +40,7 @@ from .functions_main_window import *
 from .ui_main import UI_MainWindow
 from AdapsChip.ChipUI.windows.Hawk01Function.Hawk01MainUI import Hawk01MainUI
 from AdapsChip.ChipUI.windows.HawkToolFunction.HawkToolbox import HawkToolbox
+from AdapsChip.ChipUI.windows.setting_window.SoftSettingUI import SoftMainUI
 
 
 # PY WINDOW
@@ -64,14 +65,14 @@ class SetupMainWindow:
             "show_top": True,
             "is_active": True
         },
-        {
-            "btn_icon": "icon_workbench.svg",
-            "btn_id": "btn_app_store",
-            "btn_text": "Workbench",
-            "btn_tooltip": "Workbench",
-            "show_top": True,
-            "is_active": False
-        },
+        # {
+        #     "btn_icon": "icon_workbench.svg",
+        #     "btn_id": "btn_app_store",
+        #     "btn_text": "Workbench",
+        #     "btn_tooltip": "Workbench",
+        #     "show_top": True,
+        #     "is_active": False
+        # },
         {
             "btn_icon": "icon_settings.svg",
             "btn_id": "btn_settings",
@@ -163,7 +164,7 @@ class SetupMainWindow:
         HawkToolbox.setup_gui(self)
 
         # PAGE 3
-        # TODO
+        SoftMainUI.setup_gui(self)
 
         # ///////////////////////////////////////////////////////////////
         # END - EXAMPLE CUSTOM WIDGETS

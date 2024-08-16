@@ -195,7 +195,7 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
                                                        "  4. The hexadecimal format is 0x??, such as 0xFF.\n")
 
         self.handling_item_change = False  # 重置处理标志
-        self.cal_expose_value(item.column())
+        self.cal_expose_value(col)
 
     def get_zone_config(self):
         """获取界面配置值"""

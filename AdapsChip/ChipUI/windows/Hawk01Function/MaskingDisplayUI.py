@@ -98,12 +98,13 @@ class DynamicFig(FigureCanvas):
 
 
 class MaskingWindow(QMainWindow):
-    def __init__(self, title="ROI SHOW", ID=0, roi_data_pkg=None, hawk_config=None):
+    def __init__(self, title="ROI SHOW", ID=0, roi_data_pkg=None, hawk_config=None, soft_config=None):
         super().__init__()
         self.setWindowTitle(title)
         self.ID = ID
         self.roi_data_pkg = roi_data_pkg
         self.hawk_config = hawk_config
+        self.soft_config = soft_config
 
         try:
             self.arrays = self.roi_data_pkg["arrays"]
@@ -260,6 +261,8 @@ class MaskingWindow(QMainWindow):
         调用方法保存ROI数据, 由于数据量较大，需要使用多线程执行
         """
         dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
+        if dir_path == "":
+            return
         self.hawk_config["fd_path"] = dir_path
         self.hawk_config["roi_name"] = "roi_mem"
         logging.info("标定数据保存中....")
@@ -267,7 +270,10 @@ class MaskingWindow(QMainWindow):
 
         def threadFunc():
             try:
-                Hawk01Function.ROIDataPackageSave(self.roi_data_pkg, self.hawk_config, save_sel=1)
+                Hawk01Function.ROIDataPackageSave(roi_data_pkg=self.roi_data_pkg,
+                                                  cfg=self.hawk_config,
+                                                  save_sel=self.soft_config["roi_image_save"],
+                                                  roi_data_format=self.soft_config["roi_data_format"])
             except Exception as e:
                 logging.fatal(e)
             self.win_signal_sync.Obj_signal_0.emit(self.btn_save)

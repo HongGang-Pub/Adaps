@@ -1,5 +1,6 @@
 {
-  "chip_id": "Hawk01",
-  "themes": "light",
-  "roi_data_format"	: 1
+    "chip_id": "Hawk01",
+    "themes": "light",
+    "roi_image_save": 1,
+    "roi_data_format": 1
 }

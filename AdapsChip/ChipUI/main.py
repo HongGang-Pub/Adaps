@@ -7,14 +7,14 @@ sys.path.append(os.path.join(os.getcwd(), "../../"))
 # ///////////////////////////////////////////////////////////////
 from windows.main_window.functions_main_window import *
 from windows.main_window.setup_main_window import *
-import sys
 from functools import partial
 from SelfDefinedPackge.JsonOperation import JsonFunction
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.gui.qt_core import *
-# IMPORT SETTINGSpy
+
+# IMPORT SETTINGS
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_settings import Settings
 
@@ -79,6 +79,11 @@ class MainWindow(QMainWindow):
         # 日志记录
         # ///////////////////////////////////////////////////////////////
         self.generate_logger()
+
+        # Load Soft Config
+        # ///////////////////////////////////////////////////////////////
+        self.SoftConfig = JsonFunction(file_path="./SoftConfig.json")
+        self.soft_config = self.SoftConfig.items
 
         # Load Hawk01 Config
         # ///////////////////////////////////////////////////////////////
@@ -167,12 +172,11 @@ class MainWindow(QMainWindow):
         self.timer.start(200)
 
     def closeEvent(self, event):  # TODO
+        self.SoftConfig.serialize()
         # Hawk 01 Config
         self.Hawk01Config.serialize()
-        # self.Hawk01GuiConfig.serialize()
-        # self.Hawk01ZoneConfig.serialize()
         self.Hawk01ROIGenConfig.serialize()
-        # Pub Config
+        # Tool Config
         self.HawkToolConfig.serialize()
         MatplotExtension.fig_close()
 
@@ -180,7 +184,7 @@ class MainWindow(QMainWindow):
 class InitialWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Initial Window")
+        self.setWindowTitle("Open Window")
         self.setFixedSize(300, 100)
         # self.setGeometry(300, 300, 300, 100)
         cursor_pos = QCursor.pos()
