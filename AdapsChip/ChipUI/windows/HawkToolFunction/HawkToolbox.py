@@ -14,6 +14,7 @@ from AdapsChip.Hawk01.PCM import PcmMipiDataDecode
 from AdapsChip.ToolBox import SpadisAppPCMRead
 from AdapsChip.ChipUI.gui.Signal import MySignals
 import logging
+from SelfDefinedPackge.JsonOperation import JsonFunction
 
 
 # FUNCTIONS
@@ -24,13 +25,16 @@ class HawkToolbox:
         # Load widgets from "gui\uis\main_window\ui_main.py"
         # ///////////////////////////////////////////////////////////////
         self.ui = UI_MainWindow()
-
-        # Get config
-        # ///////////////////////////////////////////////////////////////
-        self.hawk_tool_config = {}
+        self.ui.setup_ui(self)
 
     # ///////////////////////////////////////////////////////////////
     def setup_gui(self):
+
+        # Pub Config
+        # ///////////////////////////////////////////////////////////////
+        self.HawkToolConfig = JsonFunction(file_path=".HawkPubConfig/HawkToolConfig.json")
+        self.hawk_tool_config = self.HawkToolConfig.items
+
         self.dothink_signal = MySignals()
 
         # set Hawk Toobbox gui
@@ -260,3 +264,7 @@ class HawkToolbox:
         if dir_path:
             print("选择的目录路径：", dir_path)
         return dir_path
+
+    def closeEvent(self):
+        self.HawkToolConfig.serialize()
+        pass

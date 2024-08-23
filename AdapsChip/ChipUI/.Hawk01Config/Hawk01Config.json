@@ -12,9 +12,9 @@
     "SYS_CLK": "330M",
     "UPSMP_MODE": 3,
     "SCAN_MODE": 0,
-    "V_ROLL_NUM": 8,
+    "V_ROLL_NUM": 31,
     "H_ROLL_NUM": 2,
-    "H_VLD_SEG": 11,
+    "H_VLD_SEG": 1,
     "MIPI_RATE": "1.0G",
     "WORK_MODE": [
         0,
@@ -31,7 +31,7 @@
         2,
         3
     ],
-    "Default_ROI_GEN_TYPE": 0,
+    "Default_ROI_GEN_TYPE": 3,
     "ROI_SRAM_Include": true,
     "instruction": "------部分配置说明-----",
     "config_instruction": {

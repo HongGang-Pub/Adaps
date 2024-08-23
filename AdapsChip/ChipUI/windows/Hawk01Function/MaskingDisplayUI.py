@@ -83,9 +83,9 @@ class DynamicFig(FigureCanvas):
         self.texts = []
 
         # size policy
-        FigureCanvas.setSizePolicy(self,
-                                   QtWidgets.QSizePolicy.Expanding,
-                                   QtWidgets.QSizePolicy.Expanding)
+        # FigureCanvas.setSizePolicy(self,
+        #                            QtWidgets.QSizePolicy.Expanding,
+        #                            QtWidgets.QSizePolicy.Expanding)
 
     def plot_image(self, data, x_ticks_interval=None, y_ticks_interval=None, xlim=None, ylim=None, title=None, xlabel=None, ylabel=None,
                    text_annotations=None):
@@ -157,29 +157,28 @@ class DynamicFig(FigureCanvas):
 
 
 class MaskingWindow(QMainWindow):
-    def __init__(self, title="ROI SHOW", ID=0, roi_data_pkg=None, hawk_config=None, soft_config=None):
+    def __init__(self, title="ROI SHOW", roi_data_pkg=None, hawk_config=None, soft_config=None):
         super().__init__()
         self.setWindowTitle(title)
         self.DEBUG = False
-        self.ID = ID
         self.roi_data_pkg = roi_data_pkg
         self.hawk_config = hawk_config
         self.soft_config = soft_config
         if self.roi_data_pkg is not None:
             self.icon_fd = "gui/images/svg_icons/"
-            self.arrays = self.roi_data_pkg["arrays"]
+            # self.arrays = self.roi_data_pkg["arrays"]
             self.img_type = ["Masking", "PCM Image", "PTM Image", "Cali fusion Image"] \
                 if self.roi_data_pkg["roi_gen_type"] == 3 \
                 else ["Masking", "PCM Image", "PTM Image"]
         else:
             self.DEBUG = True
             self.icon_fd = "../../gui/images/svg_icons/"
-            self.arrays = []
+            arrays = []
             self.img_type = ["Masking"]
             for i in range(10):
-                # arr = np.zeros((576, 768))
                 arr = np.random.rand(576, 768)
-                self.arrays.append(arr)
+                arrays.append(arr)
+                self.roi_data_pkg["arrays"] = arrays
 
         # Sync Signal
         # ///////////////////////////////////////////////////////////////
@@ -204,8 +203,10 @@ class MaskingWindow(QMainWindow):
         screen = QApplication.screenAt(cursor_pos)
         if screen:
             screen_geometry = screen.geometry()
-            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2 + 20 * (self.ID % 10)
-            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 + 20 * (self.ID % 10)
+            # x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2 + 20 * (self.ID % 10)
+            # y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 + 20 * (self.ID % 10)
+            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2
+            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2
             # print(x, y)
             self.move(x, y)
 
@@ -246,7 +247,7 @@ class MaskingWindow(QMainWindow):
     # @profile
     def update_fig(self):
         if self.img_sel_ComboBox.currentIndex() == 0:   # 动态展示 masking 图片
-            idx = self.index % len(self.arrays)
+            idx = self.index % len(self.roi_data_pkg["arrays"])
             if not self.DEBUG:
                 x, y, s = self.roi_data_pkg["coor_info"][idx]
                 _str = f"{s}({x}, {y})"
@@ -256,15 +257,17 @@ class MaskingWindow(QMainWindow):
                 text = [{"x": x, "y": y, "text_annotations": _str}]
             else:
                 text = None
-            self.canvas.plot_image(data=self.arrays[idx],
+            self.canvas.plot_image(data=self.roi_data_pkg["arrays"][idx],
                                    x_ticks_interval=48,
                                    y_ticks_interval=50,
-                                   text_annotations=text
+                                   text_annotations=text,
+                                   # title="Masking"
                                    )
         elif self.img_sel_ComboBox.currentIndex() == 1:   # 动态展示 masking 图片
             self.canvas.plot_image(data=self.roi_data_pkg["acc_spad_array"],
                                    x_ticks_interval=48,
-                                   y_ticks_interval=50
+                                   y_ticks_interval=50,
+                                   # title="PCM"
                                    )
         elif self.img_sel_ComboBox.currentIndex() == 2:   # 动态展示 masking 图片
             self.canvas.plot_image(data=self.roi_data_pkg["depth_spad_array"],
@@ -358,9 +361,9 @@ class MaskingWindow(QMainWindow):
             self.btn_playControl.setIcon(icon)
 
     def closeEvent(self, event):
-        self._timer.stop()
-        self.arrays = []  # 清理内存
-        self.win_signal_sync.int_signal_1.emit(self.ID)     # 同步到主界面, 进行内存释放
+        # self._timer.stop()
+        # self.arrays = []  # 清理内存
+        # self.win_signal_sync.int_signal_1.emit(self.ID)     # 同步到主界面, 进行内存释放
         event.accept()
 
     def Operate_bar(self):

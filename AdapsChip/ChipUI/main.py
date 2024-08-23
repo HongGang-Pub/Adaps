@@ -7,8 +7,7 @@ sys.path.append(os.path.join(os.getcwd(), "../../"))
 # ///////////////////////////////////////////////////////////////
 from windows.main_window.functions_main_window import *
 from windows.main_window.setup_main_window import *
-from functools import partial
-from SelfDefinedPackge.JsonOperation import JsonFunction
+
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -25,19 +24,7 @@ from AdapsChip.ChipUI.windows.main_window import *
 
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
-# from AdapsChip.ChipUI.Hawk01Function.Hawk01MainUI import Hawk01MainUI
-# from AdapsChip.ChipUI.HawkToolFunction.HawkToolbox import HawkToolbox
-from AdapsChip.ChipUI.gui.Signal import MySignals
 from SelfDefinedPackge import MatplotExtension
-from SelfDefinedPackge.LogerPubMethod import *
-
-
-# ADJUST QT FONT DPI FOR HIGHT SCALE AN 4K MONITOR
-# ///////////////////////////////////////////////////////////////
-# os.environ["QT_FONT_DPI"] = "96"
-
-# IF IS 4K MONITOR ENABLE 'os.environ["QT_SCALE_FACTOR"] = "2"'
-
 
 # MAIN WINDOW
 # ///////////////////////////////////////////////////////////////
@@ -74,39 +61,7 @@ class MainWindow(QMainWindow):
         # SETUP MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
         self.hide_grips = True  # Show/Hide resize grips
-        self.win_signal_sync = MySignals()
-
-        # 日志记录
-        # ///////////////////////////////////////////////////////////////
-        self.generate_logger()
-
-        # Load Soft Config
-        # ///////////////////////////////////////////////////////////////
-        self.SoftConfig = JsonFunction(file_path="./SoftConfig.json")
-        self.soft_config = self.SoftConfig.items
-
-        # Load Hawk01 Config
-        # ///////////////////////////////////////////////////////////////
-        self.Hawk01Config = JsonFunction(file_path=".Hawk01Config/Hawk01Config.json")
-        self.Hawk01GuiConfig = JsonFunction(file_path=".Hawk01Config/Hawk01GuiConfig.json")
-        self.Hawk01ZoneConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ZoneConfig.json")
-        self.Hawk01ROIGenConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ROIGenConfig.json")
-        # self.Hawk01RegisterConfig = JsonFunction('.Hawk01Config/Hawk01ScriptRegConfig_Invalid.json')
-
-        self.hawk01_config = self.Hawk01Config.items
-        self.hawk01_gui_config = self.Hawk01GuiConfig.items
-        self.hawk01_zone_config = self.Hawk01ZoneConfig.items
-        self.hawk01_roi_gen_config = self.Hawk01ROIGenConfig.items
-        # self.hawk01_register_config = self.Hawk01RegisterConfig.items
-
-        # Pub Config
-        # ///////////////////////////////////////////////////////////////
-        self.HawkToolConfig = JsonFunction(file_path=".HawkPubConfig/HawkToolConfig.json")
-        self.hawk_tool_config = self.HawkToolConfig.items
-
         SetupMainWindow.setup_gui(self)
-        # Hawk01MainUI.setup_gui(self)
-        # HawkToolbox.setup_gui(self)
 
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
@@ -115,9 +70,6 @@ class MainWindow(QMainWindow):
     def btn_clicked(self):
         # GET BT CLICKED
         btn = SetupMainWindow.setup_btns(self)
-
-        # LEFT MENU
-        # ///////////////////////////////////////////////////////////////
 
         # HOME BTN
         if btn.objectName() == "btn_home":
@@ -149,36 +101,15 @@ class MainWindow(QMainWindow):
             self.ui.log_group.setHidden(False)
         # print(f"Button {btn.objectName()}, clicked!")
 
-    # LEFT MENU BTN IS RELEASED
-    # Run function when btn is released
-    # Check funtion by object name / btn_id
     # ///////////////////////////////////////////////////////////////
     def btn_released(self):
         # GET BT CLICKED
         btn = SetupMainWindow.setup_btns(self)
 
-        # DEBUG
-        print(f"Button {btn.objectName()}, released!")
-
-    def generate_logger(self):
-        """日志记录器"""
-        self.ui.LogPrintWindow.anchorClicked.connect(open_folder)
-
-        self.logger = LogerForMultithreading()
-        self.timer = QTimer()
-        self.timer.timeout.connect(partial(self.logger.update_log_from_logger,
-                                           self.ui.LogPrintWindow,
-                                           self.settings["theme_name"]))
-        self.timer.start(200)
-
     def closeEvent(self, event):  # TODO
-        self.SoftConfig.serialize()
-        # Hawk 01 Config
-        self.Hawk01Config.serialize()
-        self.Hawk01ROIGenConfig.serialize()
-        # Tool Config
-        self.HawkToolConfig.serialize()
+        SetupMainWindow.closeEvent(self)
         MatplotExtension.fig_close()
+        event.accept()
 
 
 class InitialWindow(QMainWindow):

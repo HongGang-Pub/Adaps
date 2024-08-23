@@ -1,8 +1,8 @@
 {
     "ROIGenByJson": {
-        "seg_hs": 1,
-        "spad_vs": 100,
-        "light_shift": 35,
+        "seg_hs": 3,
+        "spad_vs": 30,
+        "light_shift": 30,
         "sublight_shift": 5,
         "roi_shape": 0,
         "v_spad_shift": 0,

@@ -1,84 +1,50 @@
-from PySide6.QtWidgets import QComboBox, QLineEdit, QListWidgetItem, QListWidget, QCheckBox, QApplication, QVBoxLayout, QWidget
 import sys
+import gc
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton
+from PySide6.QtCore import Qt
+from memory_profiler import profile
 
+class LauncherWindow(QMainWindow):
 
-class ComboCheckBox(QComboBox):
-    def __init__(self, items: list):
-        """
-        initial function
-        :param items: the items of the list
-        """
-        super(ComboCheckBox, self).__init__()
-        self.items = ["全选"] + items # items list
-        self.box_list = [] # selected items
-        self.text = QLineEdit() # use to selected items
-        self.state = 0 # use to record state
-        q = QListWidget()
-        for i in range(len(self.items)):
-            self.box_list.append(QCheckBox())
-            self.box_list[i].setText(self.items[i])
-        item = QListWidgetItem(q)
-        q.setItemWidget(item, self.box_list[i])
-        if i == 0:
-            self.box_list[i].stateChanged.connect(self.all_selected)
-        else:
-            self.box_list[i].stateChanged.connect(self.show_selected)
-        q.setStyleSheet("font-size: 20px; font-weight: bold; height: 40px; margin-left: 5px")
-        self.setStyleSheet("width: 300px; height: 50px; font-size: 21px; font-weight: bold")
-        self.text.setReadOnly(True)
-        self.setLineEdit(self.text)
-        self.setModel(q.model())
-        self.setView(q)
-    def all_selected(self):
-        """
-        decide whether to check all
-        :return:
-        """
-        # change state
-        if self.state == 0:
-            self.state = 1
-            for i in range(1, len(self.items)):
-                self.box_list[i].setChecked(True)
-        else:
-            self.state = 0
-            for i in range(1, len(self.items)):
-                self.box_list[i].setChecked(False)
-        self.show_selected()
-
-    def get_selected(self) -> list:
-        """
-        get selected items
-        :return:
-        """
-        ret = []
-        for i in range(1, len(self.items)):
-            if self.box_list[i].isChecked():
-                ret.append(self.box_list[i].text())
-        return ret
-
-    def show_selected(self):
-        """
-        show selected items
-        :return:
-        """
-        self.text.clear()
-        ret = '; '.join(self.get_selected())
-        self.text.setText(ret)
-
-
-class UiMainWindow(QWidget):
     def __init__(self):
-        super(UiMainWindow, self).__init__()
-        self.setWindowTitle('Test')
-        self.resize(600, 400)
-        combo = ComboCheckBox(["Python", "Java", "Go", "C++", "JavaScript", "PHP"])
+        super().__init__()
+
+        # 创建一个按钮，用于打开绘图窗口
+        self.open_plot_button = QPushButton("打开绘图窗口")
+        self.open_plot_button.clicked.connect(self.open_plot_window)
+
         layout = QVBoxLayout()
-        layout.addWidget(combo)
-        self.setLayout(layout)
+        layout.addWidget(self.open_plot_button)
 
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
 
+        self.plot_window = None  # 初始化绘图窗口为None
+
+        self.setWindowTitle("启动器窗口")
+        self.show()
+
+    @profile
+    def open_plot_window(self):
+        if self.plot_window is None:
+            # 导入包含绘图逻辑的 MainWindow 类
+            from tmp1 import MainWindow
+            # 创建 MainWindow 的实例
+            self.plot_window = MainWindow()
+            self.plot_window.setAttribute(Qt.WA_DeleteOnClose)  # 确保关闭时删除对象
+            self.plot_window.show()
+            # 连接关闭事件以清除引用
+            self.plot_window.destroyed.connect(self.on_plot_window_closed)
+
+    @profile
+    def on_plot_window_closed(self):
+        print(1111)
+        self.plot_window = None  # 清除引用，以便垃圾回收
+        gc.collect()  # 强制垃圾回收
+
+# 主程序入口
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ui = UiMainWindow()
-    ui.show()
-    sys.exit(app.exec())
+    launcher = LauncherWindow()
+    app.exec_()

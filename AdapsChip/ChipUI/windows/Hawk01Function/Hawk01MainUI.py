@@ -18,6 +18,8 @@ from AdapsChip.Hawk01.Common.ScriptRegConfig import *
 from functools import partial
 from threading import Thread
 from AdapsChip.ChipUI.gui.Signal import MySignals
+from SelfDefinedPackge.JsonOperation import JsonFunction
+
 from memory_profiler import profile
 import numpy as np
 
@@ -30,22 +32,32 @@ class Hawk01MainUI:
         # Load widgets from "gui\uis\main_window\ui_main.py"
         # ///////////////////////////////////////////////////////////////
         self.ui = UI_MainWindow()
-        self.win_signal_sync = MySignals()
-
-        # Get config
-        # ///////////////////////////////////////////////////////////////
-        self.soft_config = {}
-        self.hawk01_config = {}  # hawk01 general config
-        self.hawk01_gui_config = {}  # hawk01 UI config
-        self.hawk01_zone_config = {}  # hawk01 Zone config
-        self.hawk01_roi_gen_config = {}  # hawk01 ROI config
-        # self.hawk01_register_config = {}  # PubMethod.ReadJsonFile('./.Hawk01Config/Hawk01ScriptRegConfig.json')
+        self.ui.setup_ui(self)
 
     # ///////////////////////////////////////////////////////////////
     # gui initial
     # ///////////////////////////////////////////////////////////////
     def setup_gui(self):
-        """调用各个界面的 setup_gui, 完成界面初始化"""
+        # Load Hawk01 Config
+        # ///////////////////////////////////////////////////////////////
+        self.Hawk01Config = JsonFunction(file_path=".Hawk01Config/Hawk01Config.json")
+        self.Hawk01GuiConfig = JsonFunction(file_path=".Hawk01Config/Hawk01GuiConfig.json")
+        self.Hawk01ZoneConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ZoneConfig.json")
+        self.Hawk01ROIGenConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ROIGenConfig.json")
+        # self.Hawk01RegisterConfig = JsonFunction('.Hawk01Config/Hawk01ScriptRegConfig_Invalid.json')
+
+        self.hawk01_config = self.Hawk01Config.items
+        self.hawk01_gui_config = self.Hawk01GuiConfig.items
+        self.hawk01_zone_config = self.Hawk01ZoneConfig.items
+        self.hawk01_roi_gen_config = self.Hawk01ROIGenConfig.items
+        # self.hawk01_register_config = self.Hawk01RegisterConfig.items
+
+        # All GUI signal sync
+        # ///////////////////////////////////////////////////////////////
+        self.hawk01_main_ui_signal_sync = MySignals()
+
+        # 调用各个界面的 setup_gui, 完成界面初始化
+        # ///////////////////////////////////////////////////////////////
         Hawk01MainUI.setup_script_gui(self)
         Hawk01MainUI.setup_roi_gui(self)
         Hawk01MainUI.setup_zone_gui(self)
@@ -193,11 +205,11 @@ class Hawk01MainUI:
 
         # 底部操作绑定
         self.ui.load_pages.ROIView.clicked.connect(partial(Hawk01MainUI.func_roi_view, self))
-        self.win_signal_sync.sync_signal_0.connect(partial(Hawk01MainUI.func_open_roi_win, self))
+        self.hawk01_main_ui_signal_sync.sync_signal_0.connect(partial(Hawk01MainUI.func_open_roi_win, self))
         self.ui.load_pages.ROISave.clicked.connect(partial(Hawk01MainUI.func_ROIUI_save, self))
 
         # ROI data刷新判断初始化
-        self.ui_masking_win = {}  # 存储masking_window对象, 便于后续内存销毁
+        self.ui_masking_win = None  # 存储masking_window对象, 便于后续内存销毁
         self.MaskingWindowID = 0  # masking_window 标志位,
         self.__pre_roi_gen_type__ = -1  # 上一个bak数据,避免重复执行
         self.__pre_hawk01_config__ = {}  # 上一个配置数据,避免重复执行代码
@@ -350,21 +362,20 @@ class Hawk01MainUI:
     # @profile
     def func_masking_date_mem_free(self, MaskingWindowID=None):
         """图像界面关闭或者销毁时, 释放masking内存"""
-        # logging.info(f"Masking Window {MaskingWindowID} free...")
-        try:
-            self.ui_masking_win[MaskingWindowID].close()
-            del self.ui_masking_win[MaskingWindowID]
-        except:
-            pass
-        if self.ui_masking_win == {}:
-            del self.__roi_data_pkg__
-            self.__pre_roi_gen_type__ = -1
-            self.__pre_hawk01_config__ = {}
-        logging.info(f"mem_free: {self.ui_masking_win}")
+        self.__roi_data_pkg__ = None
+        self.__pre_roi_gen_type__ = -1
+        self.__pre_hawk01_config__ = {}
         gc.collect()
         return
 
-    # @profile()
+    def func_roi_win_free(self):
+        """图像界面关闭或者销毁时, 释放masking内存"""
+        self.ui_masking_win = None
+        Hawk01MainUI.func_masking_date_mem_free(self)
+        gc.collect()
+        return
+
+    # @profile
     def func_roi_view(self):
         """此函数调用子线程生成 roi_data_pkg, 然后 emit func_open_roi_win"""
 
@@ -376,7 +387,7 @@ class Hawk01MainUI:
                 Hawk01MainUI.func_merge_hawk_config(self)
                 # 获取 ROI_DATA_PKG
                 Hawk01MainUI.func_get_roi_data_pkg(self)
-                self.win_signal_sync.sync_signal_0.emit()
+                self.hawk01_main_ui_signal_sync.sync_signal_0.emit()
             except BaseException as e:
                 logging.fatal(e)
 
@@ -391,25 +402,31 @@ class Hawk01MainUI:
         1. 最多支持展示 5 张图片, 若超出5张图片, 自动销毁最早的一张, 并进行内存释放
         """
         logging.info("ROI Masking display...")
-        self.MaskingWindowID = 0 if self.ui_masking_win == {} else self.MaskingWindowID + 1
-        if len(self.ui_masking_win) == 5:
-            min_MaskingWindowID = min(self.ui_masking_win.keys())
-            Hawk01MainUI.func_masking_date_mem_free(self, min_MaskingWindowID)
-        arrays = []
+        # self.MaskingWindowID = 0 if self.ui_masking_win == {} else self.MaskingWindowID + 1
+        # if len(self.ui_masking_win) == 5:
+        #     min_MaskingWindowID = min(self.ui_masking_win.keys())
+        #     Hawk01MainUI.func_masking_date_mem_free(self, min_MaskingWindowID)
+        # arrays = []
         # for i in range(32):
         #     # arr = np.zeros((576, 768))
         #     arr = np.random.rand(576, 768)
         #     arrays.append(arr)
         # self.__roi_data_pkg__["arrays"] = arrays
-        self.ui_masking_win[self.MaskingWindowID] = MaskingWindow(title=f"ROI SHOW {self.MaskingWindowID + 1}",
-                                                                  ID=self.MaskingWindowID,
-                                                                  roi_data_pkg=self.__roi_data_pkg__,
-                                                                  hawk_config=self.__hawk01_config__,
-                                                                  soft_config=self.soft_config)
-        self.ui_masking_win[self.MaskingWindowID].setStyleSheet(self.qssStyle)
-        self.ui_masking_win[self.MaskingWindowID].win_signal_sync.int_signal_1.connect(
-            partial(Hawk01MainUI.func_masking_date_mem_free, self))
-        self.ui_masking_win[self.MaskingWindowID].show()
+        if self.ui_masking_win is None:
+            self.ui_masking_win = MaskingWindow(title=f"ROI SHOW {self.MaskingWindowID + 1}",
+                                                roi_data_pkg=self.__roi_data_pkg__,
+                                                hawk_config=self.__hawk01_config__,
+                                                soft_config=self.soft_config)
+            self.ui_masking_win.setStyleSheet(self.qssStyle)
+            self.ui_masking_win.setAttribute(Qt.WA_DeleteOnClose)
+            self.ui_masking_win.destroyed.connect(partial(Hawk01MainUI.func_roi_win_free, self))
+            self.ui_masking_win.show()
+        else:
+            self.ui_masking_win.roi_data_pkg = self.__roi_data_pkg__
+            self.ui_masking_win.hawk_config = self.__hawk01_config__
+            self.ui_masking_win.soft_config = self.soft_config
+            self.ui_masking_win.activateWindow()
+            self.ui_masking_win.Replay_plog()
         return
 
     def func_roi_save(self):
@@ -465,7 +482,7 @@ class Hawk01MainUI:
             partial(Hawk01MainUI.func_reference_script_file_sel, self))
         self.ui.load_pages.file_save_dir_Button.clicked.connect(partial(Hawk01MainUI.func_file_save_dir_sel, self))
         self.ui.load_pages.Save.clicked.connect(partial(Hawk01MainUI.func_mainUI_save, self))  # Save按钮连接保存操作
-        self.win_signal_sync.Obj_signal_0.connect(partial(Hawk01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
+        self.hawk01_main_ui_signal_sync.Obj_signal_0.connect(partial(Hawk01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
         self.ui.load_pages.Open.clicked.connect(partial(Hawk01MainUI.open_folder, self))
         return
 
@@ -507,7 +524,7 @@ class Hawk01MainUI:
                 Hawk01MainUI.func_roi_save(self)
             except Exception as e:
                 logging.fatal(e)
-            self.win_signal_sync.Obj_signal_0.emit(self.ui.load_pages.ROISave)
+            self.hawk01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.ROISave)
 
         thread = Thread(target=threadFunc)
         thread.start()
@@ -531,7 +548,7 @@ class Hawk01MainUI:
                 Hawk01Function.ScriptDataSave(self.hawk01_config)
             except Exception as e:
                 logging.fatal(e)
-            self.win_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Save)
+            self.hawk01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Save)
 
         thread = Thread(target=threadFunc)
         thread.start()
@@ -575,3 +592,12 @@ class Hawk01MainUI:
         fd, fp = QFileDialog.getSaveFileName(self, "保存文件", "", "*.txt;;All Files(*)")
         logging.info(fd)
         logging.info(fp)
+
+    def closeEvent(self):
+        self.Hawk01Config.serialize()
+        self.Hawk01ROIGenConfig.serialize()
+        try:
+            self.ui_masking_win.close()
+        except:
+            pass
+        pass
