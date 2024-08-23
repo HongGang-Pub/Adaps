@@ -11,10 +11,10 @@
     "TDC_BIN_W": "0.75ns",
     "SYS_CLK": "330M",
     "UPSMP_MODE": 3,
-    "SCAN_MODE": 1,
-    "V_ROLL_NUM": 13,
+    "SCAN_MODE": 0,
+    "V_ROLL_NUM": 8,
     "H_ROLL_NUM": 2,
-    "H_VLD_SEG": 3,
+    "H_VLD_SEG": 11,
     "MIPI_RATE": "1.0G",
     "WORK_MODE": [
         0,

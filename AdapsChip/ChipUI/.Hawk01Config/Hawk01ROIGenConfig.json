@@ -1,9 +1,9 @@
 {
     "ROIGenByJson": {
-        "seg_hs": 2,
+        "seg_hs": 1,
         "spad_vs": 100,
-        "light_shift": 18,
-        "sublight_shift": 3,
+        "light_shift": 35,
+        "sublight_shift": 5,
         "roi_shape": 0,
         "v_spad_shift": 0,
         "h_seg_shift": 4
@@ -25,8 +25,8 @@
         "light_smooth": 1,
         "config_1D": "-----1D scan_mode配置信息-----",
         "ref_segment": 8,
-        "curvature": 5,
-        "correct_thres": 2,
+        "curvature": 0,
+        "correct_thres": 0,
         "config_2D": "-----2D scan_mode配置信息-----",
         "mode2D": 0,
         "msk_intensity": 80,

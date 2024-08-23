@@ -314,7 +314,7 @@ def GenerateHawkRegConfig(hawk_cfg: dict):
             config_str = configs[addr_index + 1][0:2]
             register_value = int(config_str, 16)
 
-            # annotation = f" //{', '.join(configs[min_lens:])}" if len(configs) > min_lens else None
+            # text_annotations = f" //{', '.join(configs[min_lens:])}" if len(configs) > min_lens else None
             index = _str.find("//")
             annotation = _str[index:] if index != -1 else ""
 
@@ -509,7 +509,7 @@ def GenerateHawkRegConfigByJson(hawk_cfg: dict, reg_cfg: dict):
             config_str = configs[addr_index + 1][0:2]
             register_value = int(config_str, 16)
 
-            # annotation = f" //{', '.join(configs[min_lens:])}" if len(configs) > min_lens else None
+            # text_annotations = f" //{', '.join(configs[min_lens:])}" if len(configs) > min_lens else None
             index = _str.find("//")
             annotation = _str[index:] if index != -1 else ""
 

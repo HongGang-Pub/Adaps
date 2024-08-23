@@ -10,9 +10,9 @@ def coor_show():
     # def on_add(sel):
     #     x_val = int(sel.target[0])
     #     y_val = sel.target[1]
-    #     # sel.annotation.xy = (x_val, y_val)
-    #     # print(sel.annotation.xy)
-    #     # sel.annotation.set_text(int(sel.index))
+    #     # sel.text_annotations.xy = (x_val, y_val)
+    #     # print(sel.text_annotations.xy)
+    #     # sel.text_annotations.set_text(int(sel.index))
     return
 
 

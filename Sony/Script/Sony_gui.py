@@ -69,7 +69,7 @@ def msku_gui():
     #         cfg["binFileAnalysisMode"] = 0
     #
     # var = tkinter.BooleanVar()
-    # bin_file_dsp_mode = tkinter.Checkbutton(configs_frame, text="拆分Bin文件", variable=var, command=binFileAnalysisModeSel)
+    # bin_file_dsp_mode = tkinter.Checkbutton(configs_frame, text_annotations="拆分Bin文件", variable=var, command=binFileAnalysisModeSel)
 
     # ---------------------------- 标定文件选择窗口 ----------------------
     def start_bin_validate_input(event):
@@ -322,8 +322,8 @@ def msku_gui():
     # --------------- 隐藏按钮显示 ------------------
     def _hidden_btn(event):
         _log_update("The Debug operation button is displayed.")
-        # reload_btn = tkinter.Button(operate_frame, Button_style, text="RELOAD", command=_reload)
-        # preview0_btn = tkinter.Button(operate_frame, Button_style, text="Preview0", command=_preview_update0)
+        # reload_btn = tkinter.Button(operate_frame, Button_style, text_annotations="RELOAD", command=_reload)
+        # preview0_btn = tkinter.Button(operate_frame, Button_style, text_annotations="Preview0", command=_preview_update0)
         #
         # reload_btn.grid(Button_grid, row=2, column=0)
         # preview0_btn.grid(Button_grid, row=2, column=1)

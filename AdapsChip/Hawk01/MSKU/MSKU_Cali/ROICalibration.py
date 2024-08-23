@@ -187,11 +187,11 @@ class ROICalibration:
         # ///////////////////////////////////////////////////////////////
         v_spad_value = np.max(seg_sum_array, axis=0)
         v_spad_max_index = np.argmax(seg_sum_array, axis=0)
-        ref_segment = np.argmax(v_spad_value) if ref_segment == -1 else ref_segment
 
         # 横向开窗，按照 h_vld_seg，找到亮度最高的段数
         # ///////////////////////////////////////////////////////////////
-        index = np.argmax(v_spad_value) - h_vld_seg
+        ref_segment = np.argmax(v_spad_value) if ref_segment == -1 else ref_segment
+        index = ref_segment - h_vld_seg
         index = index if index > 0 else 0
         # 增加 ini_point 是确保开窗位置包含最大值(开窗较小时有用)
         seg_hs = ROICalibration.OpenWindows(v_spad_value, index, h_vld_seg + 1)
@@ -242,6 +242,8 @@ class ROICalibration:
         # 判断某段标定位置是否偏移过大，如果过大，则会进行校准
         # ///////////////////////////////////////////////////////////////
         h_center = ref_segment - seg_hs
+        # h_center = h_center if h_center <= h_vld_seg else h_vld_seg
+
         # 向前校准
         for cnt in range(0, h_center):
             pre_index = h_center - cnt - 1
@@ -417,6 +419,7 @@ class ROICalibration:
         cali_data = []
         # for index in file_index_list[0:2]:
         for roll_cnt in range(len(file_index_list)):
+            # print("rolling:", roll_cnt)
             time.sleep(0.05)
             file = f_dict[file_index_list[roll_cnt]]
             f_name = "Roll{}_{}".format(roll_cnt, file_index_list[roll_cnt])

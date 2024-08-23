@@ -18,6 +18,8 @@ from AdapsChip.Hawk01.Common.ScriptRegConfig import *
 from functools import partial
 from threading import Thread
 from AdapsChip.ChipUI.gui.Signal import MySignals
+from memory_profiler import profile
+import numpy as np
 
 
 # FUNCTIONS
@@ -350,6 +352,7 @@ class Hawk01MainUI:
         """图像界面关闭或者销毁时, 释放masking内存"""
         # logging.info(f"Masking Window {MaskingWindowID} free...")
         try:
+            self.ui_masking_win[MaskingWindowID].close()
             del self.ui_masking_win[MaskingWindowID]
         except:
             pass
@@ -357,6 +360,7 @@ class Hawk01MainUI:
             del self.__roi_data_pkg__
             self.__pre_roi_gen_type__ = -1
             self.__pre_hawk01_config__ = {}
+        logging.info(f"mem_free: {self.ui_masking_win}")
         gc.collect()
         return
 
@@ -380,6 +384,7 @@ class Hawk01MainUI:
         thread.start()
         return
 
+    # @profile
     def func_open_roi_win(self):
         """
         打开 ROI masking展示界面
@@ -390,6 +395,12 @@ class Hawk01MainUI:
         if len(self.ui_masking_win) == 5:
             min_MaskingWindowID = min(self.ui_masking_win.keys())
             Hawk01MainUI.func_masking_date_mem_free(self, min_MaskingWindowID)
+        arrays = []
+        # for i in range(32):
+        #     # arr = np.zeros((576, 768))
+        #     arr = np.random.rand(576, 768)
+        #     arrays.append(arr)
+        # self.__roi_data_pkg__["arrays"] = arrays
         self.ui_masking_win[self.MaskingWindowID] = MaskingWindow(title=f"ROI SHOW {self.MaskingWindowID + 1}",
                                                                   ID=self.MaskingWindowID,
                                                                   roi_data_pkg=self.__roi_data_pkg__,

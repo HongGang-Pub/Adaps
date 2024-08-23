@@ -1855,7 +1855,7 @@ class Ui_MainPages(object):
         self.mode_2D_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"The number of covered photons is preferred", None))
 
         self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config4ROICali), QCoreApplication.translate("MainPages", u"ROI Cali", None))
-        self.ROIZoneConfig.setText(QCoreApplication.translate("MainPages", u"<html><head/><body><p><a href=\"https://www.example.com\"><span style=\" text-decoration: underline; color:#0078d7;\">ZONE INFO</span></a></p></body></html>", None))
+        self.ROIZoneConfig.setText(QCoreApplication.translate("MainPages", u"<html><head/><body><p><a href=\"https://www.example.com\"><span style=\" text_annotations-decoration: underline; color:#0078d7;\">ZONE INFO</span></a></p></body></html>", None))
         self.ROIView.setText(QCoreApplication.translate("MainPages", u"View", None))
         self.ROISave.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.roi_sram_name_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Name", None))
