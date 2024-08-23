@@ -68,12 +68,12 @@ class DynamicFig(FigureCanvas):
         plt.rcParams['font.sans-serif'] = ['SimHei']
         plt.rcParams['axes.unicode_minus'] = False
 
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        fig.set_facecolor('#f5f5f5')
-        fig.tight_layout()
-        super(DynamicFig, self).__init__(fig)
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        self.fig.set_facecolor('#f5f5f5')
+        super(DynamicFig, self).__init__(self.fig)
+        # self.fig.tight_layout()
 
-        self.axes = fig.add_subplot(111)
+        self.axes = self.fig.add_subplot(111)
         self.axes.xaxis.tick_top()
 
         self.image = None  # Store reference to the image object
@@ -92,6 +92,7 @@ class DynamicFig(FigureCanvas):
         if self.image is None:
             # First time plotting, create the image
             self.image = self.axes.imshow(data, cmap='viridis')
+            # self.fig.tight_layout()
         else:
             # Update the existing image data
             self.image.set_data(data)
@@ -147,7 +148,7 @@ class DynamicFig(FigureCanvas):
                     }
                 )
                 self.texts.append(text_obj)
-
+        # self.fig.tight_layout()
         self.draw()  # Redraw the canvas
 
     def clear_image(self):
@@ -178,6 +179,7 @@ class MaskingWindow(QMainWindow):
             for i in range(10):
                 arr = np.random.rand(576, 768)
                 arrays.append(arr)
+                self.roi_data_pkg = {}
                 self.roi_data_pkg["arrays"] = arrays
 
         # Sync Signal
