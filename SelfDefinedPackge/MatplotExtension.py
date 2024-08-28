@@ -23,7 +23,7 @@ def self_plt_show():
 
 def fig_close():
     for fig in plt.get_fignums():
-        per_fig = plt.figure(fig)
+        per_fig = plt.figure(fig, clear=True)
         plt.close()
         pass
 

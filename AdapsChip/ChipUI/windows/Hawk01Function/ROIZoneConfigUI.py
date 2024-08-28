@@ -22,6 +22,7 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
     def __init__(self, hawk01_zone_config, qssStyle=None):
         super().__init__()
         self.setupUi(self)  # 运行类函数里的setupUi
+        self.setWindowTitle("Hawk01 zone config")
         self.setStyleSheet(qssStyle)
 
         self.return_config_signal = MySignals()

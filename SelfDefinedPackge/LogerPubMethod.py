@@ -49,7 +49,8 @@ class LogerForMultithreading:
 
     def update_log_from_logger(self, log_widget: QTextCursor = None, theme: str = "light"):
         while not self.log_queue.empty():
-            log_theme_for_qplaintextedit = ["#DFE1E2", "yellow", "red"] if theme == "dark" else ["#9DA9B5", "blue", "red"]
+            log_theme_for_qplaintextedit = ["#DFE1E2", "yellow", "red"] if theme == "dark" \
+                else ["#9DA9B5", "#b58900", "red"]
             record = self.log_queue.get()
             message = record.message
             log_type = 2 if record.levelno >= 40 else 1 if record.levelno >= 30 else 0

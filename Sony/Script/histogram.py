@@ -281,7 +281,7 @@ def hist_imag(cfg):
     start_index = cfg["bin_start_index"]
 
     for f in file_list:
-        plt.figure()
+        plt.figure(clear=True)
         title = os.path.splitext(os.path.basename(f))[0]
         plt.title(title)
         data_array = np.zeros((56, 192))

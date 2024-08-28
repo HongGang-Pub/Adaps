@@ -2,6 +2,8 @@ import copy
 import logging
 import gc
 
+import memory_profiler
+
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.gui.qt_core import *
@@ -19,9 +21,6 @@ from functools import partial
 from threading import Thread
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from SelfDefinedPackge.JsonOperation import JsonFunction
-
-from memory_profiler import profile
-import numpy as np
 
 
 # FUNCTIONS
@@ -210,7 +209,7 @@ class Hawk01MainUI:
 
         # ROI data刷新判断初始化
         self.ui_masking_win = None  # 存储masking_window对象, 便于后续内存销毁
-        self.MaskingWindowID = 0  # masking_window 标志位,
+        # self.MaskingWindowID = 0  # masking_window 标志位,
         self.__pre_roi_gen_type__ = -1  # 上一个bak数据,避免重复执行
         self.__pre_hawk01_config__ = {}  # 上一个配置数据,避免重复执行代码
         return
@@ -327,7 +326,6 @@ class Hawk01MainUI:
                          **__hawk01_zone_config__}
         return
 
-    # @profile
     def func_get_roi_data_pkg(self):
         """
         根据 ROI 界面配置生成 roi_data_pkg, 用于后续数据保存和成图展示
@@ -359,8 +357,7 @@ class Hawk01MainUI:
         logging.info("Get the latest ROI Zone config...")
         self.Hawk01ZoneConfig.serialize()
 
-    # @profile
-    def func_masking_date_mem_free(self, MaskingWindowID=None):
+    def func_masking_data_mem_free(self):
         """图像界面关闭或者销毁时, 释放masking内存"""
         self.__roi_data_pkg__ = None
         self.__pre_roi_gen_type__ = -1
@@ -371,14 +368,11 @@ class Hawk01MainUI:
     def func_roi_win_free(self):
         """图像界面关闭或者销毁时, 释放masking内存"""
         self.ui_masking_win = None
-        Hawk01MainUI.func_masking_date_mem_free(self)
-        gc.collect()
+        Hawk01MainUI.func_masking_data_mem_free(self)
         return
 
-    # @profile
     def func_roi_view(self):
         """此函数调用子线程生成 roi_data_pkg, 然后 emit func_open_roi_win"""
-
         def threadFunc():
             try:
                 # 获取界面配置并 merge 所有配置
@@ -395,17 +389,11 @@ class Hawk01MainUI:
         thread.start()
         return
 
-    # @profile
     def func_open_roi_win(self):
         """
         打开 ROI masking展示界面
-        1. 最多支持展示 5 张图片, 若超出5张图片, 自动销毁最早的一张, 并进行内存释放
         """
         logging.info("ROI Masking display...")
-        # self.MaskingWindowID = 0 if self.ui_masking_win == {} else self.MaskingWindowID + 1
-        # if len(self.ui_masking_win) == 5:
-        #     min_MaskingWindowID = min(self.ui_masking_win.keys())
-        #     Hawk01MainUI.func_masking_date_mem_free(self, min_MaskingWindowID)
         # arrays = []
         # for i in range(32):
         #     # arr = np.zeros((576, 768))
@@ -413,7 +401,7 @@ class Hawk01MainUI:
         #     arrays.append(arr)
         # self.__roi_data_pkg__["arrays"] = arrays
         if self.ui_masking_win is None:
-            self.ui_masking_win = MaskingWindow(title=f"ROI SHOW {self.MaskingWindowID + 1}",
+            self.ui_masking_win = MaskingWindow(title=f"Hawk01 roi show",
                                                 roi_data_pkg=self.__roi_data_pkg__,
                                                 hawk_config=self.__hawk01_config__,
                                                 soft_config=self.soft_config)
@@ -422,9 +410,11 @@ class Hawk01MainUI:
             self.ui_masking_win.destroyed.connect(partial(Hawk01MainUI.func_roi_win_free, self))
             self.ui_masking_win.show()
         else:
+            # 如果窗口没有关闭, 则刷新最新的 ROI 数据到窗口, 重新展示
             self.ui_masking_win.roi_data_pkg = self.__roi_data_pkg__
             self.ui_masking_win.hawk_config = self.__hawk01_config__
             self.ui_masking_win.soft_config = self.soft_config
+            self.ui_masking_win.roi_data_sync()
             self.ui_masking_win.activateWindow()
             self.ui_masking_win.Replay_plog()
         return
@@ -438,7 +428,7 @@ class Hawk01MainUI:
                                           cfg=self.__hawk01_config__,
                                           save_sel=self.soft_config["roi_image_save"],
                                           roi_data_format=self.soft_config["roi_data_format"])
-        Hawk01MainUI.func_masking_date_mem_free(self)
+        Hawk01MainUI.func_masking_data_mem_free(self)
         return
 
     # ///////////////////////////////////////////////////////////////

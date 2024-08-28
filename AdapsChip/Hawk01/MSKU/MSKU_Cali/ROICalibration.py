@@ -697,15 +697,15 @@ class ROICalibration:
         msk_intensity = cfg['msk_intensity']
         light_intensity = cfg['light_intensity']
 
-        spad_array_collect = []
+        masking_arrays = []
         if not os.path.exists(fp):
             # 目录不存在，进行创建操作
             os.makedirs(fp)
 
         # 循环对所有图片进行识别，对图片进行融合
         # ///////////////////////////////////////////////////////////////
-        spad_array_3D = np.zeros((576, 768, 3), dtype=np.float32)
-        fusion_image = np.zeros((576, 768), dtype=np.float32)  # 融合所有图片的光条
+        fusion_image_cali_3D_image = np.zeros((576, 768, 3), dtype=np.float32)
+        cali_fusion_image = np.zeros((576, 768), dtype=np.float32)  # 融合所有图片的光条
         fusion_spad_array = np.zeros((576, 768), dtype=np.float32)  # 融合所有开启的SPAD
 
         for vroll_cnt in range(v_roll_num + 1):
@@ -728,22 +728,22 @@ class ROICalibration:
                 # 融合光条和 ROI 数组, 成图展示标定效果
                 sub_spad_array_3D[:, :, 0] = img
                 sub_spad_array_3D[:, :, 2] = spad_array * 0.8
-                spad_array_collect.append(sub_spad_array_3D)
+                masking_arrays.append(sub_spad_array_3D)
                 if is_save:
                     file_path = "{}\\Roll{}_{}.png".format(fp, vroll_cnt, hroll_cnt)
                     plt.imsave(file_path, sub_spad_array_3D)
 
-                fusion_image += img
+                cali_fusion_image += img
                 fusion_spad_array += spad_array
 
         # 对整图数据进行处理，确保可以保存
         # ///////////////////////////////////////////////////////////////
         fusion_spad_array = np.where(fusion_spad_array <= 1, fusion_spad_array, 1)
-        spad_array_3D[:, :, 2] = fusion_spad_array * msk_intensity / 100
+        fusion_image_cali_3D_image[:, :, 2] = fusion_spad_array * msk_intensity / 100
 
-        fusion_image = fusion_image / (fusion_image.max() / 2)  # 光条一般只会重叠一次，因此进行衰减
-        fusion_image = np.where(fusion_image <= 1, fusion_image, 1)
-        spad_array_3D[:, :, 0] = fusion_image * light_intensity / 100
+        cali_fusion_image = cali_fusion_image / (cali_fusion_image.max() / 2)  # 光条一般只会重叠一次，因此进行衰减
+        cali_fusion_image = np.where(cali_fusion_image <= 1, cali_fusion_image, 1)
+        fusion_image_cali_3D_image[:, :, 0] = cali_fusion_image * light_intensity / 100
 
         # 成图或者保存图片
         # plt.figure()
@@ -762,9 +762,9 @@ class ROICalibration:
             f1 = "{}\\{}.png".format(fp, "fusion_imag")
             f2 = "{}\\{}.png".format(fp, "fusion_msku")
             # plt.imsave(f1, fusion_image, vmax=fusion_image.max() / 2)
-            plt.imsave(f1, fusion_image)
-            plt.imsave(f2, spad_array_3D)
-        return spad_array_collect, fusion_image, spad_array_3D
+            plt.imsave(f1, cali_fusion_image)
+            plt.imsave(f2, fusion_image_cali_3D_image)
+        return masking_arrays, cali_fusion_image, fusion_image_cali_3D_image
 
     @staticmethod
     def MskuRoiGenerate(cali_data: list, cfg: dict) -> list:

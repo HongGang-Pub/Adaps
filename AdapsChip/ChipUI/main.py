@@ -115,7 +115,7 @@ class MainWindow(QMainWindow):
 class InitialWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Open Window")
+        self.setWindowTitle("Open...")
         self.setFixedSize(300, 100)
         # self.setGeometry(300, 300, 300, 100)
         cursor_pos = QCursor.pos()

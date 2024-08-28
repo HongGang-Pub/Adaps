@@ -1,12 +1,12 @@
 {
     "ROIGenByJson": {
-        "seg_hs": 3,
-        "spad_vs": 30,
+        "seg_hs": 0,
+        "spad_vs": 100,
         "light_shift": 30,
-        "sublight_shift": 5,
+        "sublight_shift": 3,
         "roi_shape": 0,
         "v_spad_shift": 0,
-        "h_seg_shift": 4
+        "h_seg_shift": 3
     },
     "ROIGenByFile": {
         "gen_roi_file": "D:/Git/Adaps/AdapsChip/ChipUI/Input/1D_ROI_Cali_Data.txt"

@@ -191,17 +191,17 @@ def RollingArrayCollect(msku_roi_data, cfg, is_save=0, fd_path='.') -> tuple:
         2. 所有rolling masking的叠加的二维数组(支持保存);
         3. 所有rolling masking叠加的深度二维数组(支持保存);
     """
-    spad_array = np.zeros((576, 768), dtype=np.float32)
+    masking_array = np.zeros((576, 768), dtype=np.float32)
 
     scan_mode = cfg["SCAN_MODE"]
     v_roll_num = cfg['V_ROLL_NUM']
     h_roll_num = cfg['H_ROLL_NUM']
     h_vld_seg = cfg['H_VLD_SEG']
-    coor_info = []
+    masking_coor_info = []
 
-    spad_array_collect = []
-    acc_spad_array = np.zeros((576, 768), dtype=np.float32)
-    depth_spad_array = np.zeros((192, 256), dtype=np.float32)
+    masking_arrays = []
+    pcm_array = np.zeros((576, 768), dtype=np.float32)
+    ptm_array = np.zeros((192, 256), dtype=np.float32)
 
     if scan_mode == 0:
         for vroll_cnt in range(v_roll_num + 1):
@@ -214,16 +214,16 @@ def RollingArrayCollect(msku_roi_data, cfg, is_save=0, fd_path='.') -> tuple:
                 spad_coor = per_coor % 1024
                 # spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48, :] = np.arrays(
                 #     [dsp, dsp, dsp])
-                spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
-                acc_spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
+                masking_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
+                pcm_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + 1) * 48] = dsp
                 try:
-                    depth_spad_array[spad_coor // 3, seg_num * 16:(seg_num + 1) * 16] = dsp
+                    ptm_array[spad_coor // 3, seg_num * 16:(seg_num + 1) * 16] = dsp
                 except:
                     pass
                 if seg_cnt == 0:
-                    coor_info.append([seg_num * 48, spad_coor, "1D VROll_{}".format(vroll_cnt+1)])
-            spad_array_collect.append(spad_array)
-            spad_array = np.zeros((576, 768))
+                    masking_coor_info.append([seg_num * 48, spad_coor, "1D VROll_{}".format(vroll_cnt+1)])
+            masking_arrays.append(masking_array)
+            masking_array = np.zeros((576, 768))
     else:
         roll_cnt = 0
         for vroll_cnt in range(v_roll_num + 1):
@@ -237,45 +237,45 @@ def RollingArrayCollect(msku_roi_data, cfg, is_save=0, fd_path='.') -> tuple:
                     per_coor = per_rolling_data[seg_cnt]
                     seg_num = per_coor >> 10
                     spad_coor = per_coor % 1024
-                    spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
-                    acc_spad_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
+                    masking_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
+                    pcm_array[spad_coor:spad_coor + 3, seg_num * 48:(seg_num + h_vld_seg + 1) * 48] = dsp
                     try:
-                        depth_spad_array[spad_coor // 3, seg_num * 16:(seg_num + h_vld_seg + 1) * 16] = dsp
+                        ptm_array[spad_coor // 3, seg_num * 16:(seg_num + h_vld_seg + 1) * 16] = dsp
                     except:
                         pass
                     if seg_cnt == 0:
-                        coor_info.append([seg_num * 48, spad_coor, "2D ROll_{}_{}".format(vroll_cnt+1, hroll_cnt+1)])
+                        masking_coor_info.append([seg_num * 48, spad_coor, "2D ROll_{}_{}".format(vroll_cnt+1, hroll_cnt+1)])
                 roll_cnt += 1
-                spad_array_collect.append(spad_array)
-                spad_array = np.zeros((576, 768))
+                masking_arrays.append(masking_array)
+                masking_array = np.zeros((576, 768))
     if is_save:
         # 对 acc_spad_array 和 depth_spad_array进行保存
-        fig = plt.figure()
+        fig = plt.figure(clear=True)
         ax = fig.gca()
         ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
         ax.yaxis.set_major_locator(MultipleLocator(50))
         ax.xaxis.set_major_locator(MultipleLocator(48))
         # ax.imshow(spad_array, cmap="gray")
-        ax.imshow(acc_spad_array)
+        ax.imshow(pcm_array)
         # plt.show()
-        for info in coor_info:
+        for info in masking_coor_info:
             do_mark(info)
         ArrayPubMethod.ArrayImageSave(fname='imag_msku', fd_path=fd_path)
         plt.close()
 
-        fig = plt.figure()
+        fig = plt.figure(clear=True)
         ax = fig.gca()
         ax.xaxis.tick_top()  # 设置x坐标轴位置在顶部
         ax.yaxis.set_major_locator(MultipleLocator(20))
         ax.xaxis.set_major_locator(MultipleLocator(16))
-        ax.imshow(depth_spad_array)
+        ax.imshow(ptm_array)
         # plt.show()
         ArrayPubMethod.ArrayImageSave(fname="imag_depth", fd_path=fd_path)
         plt.close()
 
         # plt.show()
         # plt.imsave("{}/msku_imag.png".format(fd_path), spad_array, dpi=600)
-    return spad_array_collect, acc_spad_array, depth_spad_array, coor_info
+    return masking_arrays, pcm_array, ptm_array, masking_coor_info
 
 
 def animation_img(fig, msku_roi_data, cfg):

@@ -1,12 +1,15 @@
 """GUI 界面增加画布"""
 import gc
 import logging
+import os
 import sys
 from threading import Thread
 
 import numpy as np
 
 from PySide6.QtWidgets import QFrame
+
+import AdapsChip.ChipUI
 # from PySide6.QtGui import QIcon, QScreen, QAction
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -20,7 +23,7 @@ from AdapsChip.ChipUI.gui.core.functions import Functions
 from PySide6 import QtWidgets
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
-from AdapsChip.ChipUI.windows.Hawk01Function import Hawk01Function
+# from AdapsChip.ChipUI.windows.Hawk01Function.Hawk01Function import ROIDataPackageSave
 
 from memory_profiler import profile
 
@@ -77,6 +80,7 @@ class DynamicFig(FigureCanvas):
         self.axes.xaxis.tick_top()
 
         self.image = None  # Store reference to the image object
+        self.colorbar = None
         self.title = None
         self.xlabel = None
         self.ylabel = None
@@ -87,16 +91,20 @@ class DynamicFig(FigureCanvas):
         #                            QtWidgets.QSizePolicy.Expanding,
         #                            QtWidgets.QSizePolicy.Expanding)
 
-    def plot_image(self, data, x_ticks_interval=None, y_ticks_interval=None, xlim=None, ylim=None, title=None, xlabel=None, ylabel=None,
+    def plot_image(self, data, x_ticks_interval=None, y_ticks_interval=None, xlim=None, ylim=None, title=None,
+                   xlabel=None, ylabel=None,
                    text_annotations=None):
         if self.image is None:
             # First time plotting, create the image
             self.image = self.axes.imshow(data, cmap='viridis')
+            # self.colorbar = self.fig.colorbar(self.image, ax=self.axes)
             # self.fig.tight_layout()
         else:
             # Update the existing image data
             self.image.set_data(data)
             self.image.set_extent([0, data.shape[1], data.shape[0], 0])
+            self.image.set_clim(vmin=np.min(data), vmax=np.max(data))
+            # self.colorbar.update_normal(self.image)
 
         # Adjust the aspect ratio and limits based on the image size
         self.axes.set_aspect('auto')  # Set the aspect ratio to auto to accommodate different image sizes
@@ -148,8 +156,12 @@ class DynamicFig(FigureCanvas):
                     }
                 )
                 self.texts.append(text_obj)
-        # self.fig.tight_layout()
+
+    def draw_image(self):
         self.draw()  # Redraw the canvas
+
+    def save_image(self, fp):
+        self.fig.savefig(fp, dpi=200)
 
     def clear_image(self):
         self.axes.clear()  # Clear the axes
@@ -157,30 +169,95 @@ class DynamicFig(FigureCanvas):
         self.draw()  # Redraw the canvas
 
 
+class Hawk01MaskingDynamicFig(DynamicFig):
+    def __init__(self, roi_data_pkg):
+        super().__init__()
+        self.roi_data_pkg = roi_data_pkg
+        self.img_types = ["Masking", "PCM Image", "PTM Image"]
+        if self.roi_data_pkg["roi_gen_type"] == 3:
+            self.img_types.append("Cali fusion Image")
+
+    def update_fig(self, img_type=0, img_index=0):
+        if img_type == 0:  # 动态展示 masking 图片
+            idx = img_index % len(self.roi_data_pkg["masking_arrays"])
+            try:
+                x, y, s = self.roi_data_pkg["masking_coor_info"][idx]
+                _str = f"{s}({x}, {y})"
+                x = x + 5 if x < 610 else 610
+                y = y - 12 if y > 30 else y + 37
+                y = y if y < 565 else 565
+                text = [{"x": x, "y": y, "text_annotations": _str}]
+            except:
+                text = None
+            self.plot_image(data=self.roi_data_pkg["masking_arrays"][idx],
+                            x_ticks_interval=48,
+                            y_ticks_interval=50,
+                            text_annotations=text
+                            )
+        elif img_type == 1:  # PCM 图片
+            self.plot_image(data=self.roi_data_pkg["pcm_array"],
+                            x_ticks_interval=48,
+                            y_ticks_interval=50
+                            )
+        elif img_type == 2:  # PTM 图片
+            self.plot_image(data=self.roi_data_pkg["ptm_array"],
+                            x_ticks_interval=16,
+                            y_ticks_interval=20
+                            )
+        elif img_type == 3:  # 标定合帧图片
+            self.plot_image(data=self.roi_data_pkg["cali_fusion_image"],
+                            x_ticks_interval=48,
+                            y_ticks_interval=50
+                            )
+        else:
+            return
+
+    def roi_img_show(self, img_type=0, img_index=0):
+        self.update_fig(img_type, img_index)
+        self.draw_image()
+
+    def roi_img_save(self, img_fp=""):
+        """"
+        调用方法保存ROI数据, 由于数据量较大，需要使用多线程执行
+        """
+        if not os.path.exists(img_fp):
+            # 目录不存在，进行创建操作
+            os.makedirs(img_fp)  # 使用os.makedirs()方法创建多层目录
+        for _img_type in range(len(self.img_types)):
+            _img_type_name = self.img_types[_img_type]
+            if self.roi_data_pkg["roi_gen_type"] == 3 and _img_type_name == "Masking":
+                for roll_cnt in range(len(self.roi_data_pkg["masking_arrays"])):
+                    x, y, _str = self.roi_data_pkg["masking_coor_info"][roll_cnt]
+                    file_path = "{}\\{}.png".format(img_fp, _str)
+                    self.update_fig(img_type=_img_type, img_index=roll_cnt)
+                    self.save_image(fp=file_path)
+            else:
+                file_path = "{}\\{}.png".format(img_fp, f"{_img_type_name}")
+                self.update_fig(img_type=_img_type)
+                self.save_image(fp=file_path)
+        return
+
+
 class MaskingWindow(QMainWindow):
     def __init__(self, title="ROI SHOW", roi_data_pkg=None, hawk_config=None, soft_config=None):
         super().__init__()
         self.setWindowTitle(title)
-        self.DEBUG = False
         self.roi_data_pkg = roi_data_pkg
         self.hawk_config = hawk_config
         self.soft_config = soft_config
         if self.roi_data_pkg is not None:
             self.icon_fd = "gui/images/svg_icons/"
-            # self.arrays = self.roi_data_pkg["arrays"]
-            self.img_type = ["Masking", "PCM Image", "PTM Image", "Cali fusion Image"] \
-                if self.roi_data_pkg["roi_gen_type"] == 3 \
-                else ["Masking", "PCM Image", "PTM Image"]
+            self.img_types = ["Masking", "PCM Image", "PTM Image"]
+            if self.roi_data_pkg["roi_gen_type"] == 3:
+                self.img_types.append("Cali fusion Image")
         else:
-            self.DEBUG = True
             self.icon_fd = "../../gui/images/svg_icons/"
             arrays = []
-            self.img_type = ["Masking"]
+            self.img_types = ["Masking"]
             for i in range(10):
                 arr = np.random.rand(576, 768)
                 arrays.append(arr)
-                self.roi_data_pkg = {}
-                self.roi_data_pkg["arrays"] = arrays
+                self.roi_data_pkg = {"roi_gen_type": 0, "masking_arrays": arrays}
 
         # Sync Signal
         # ///////////////////////////////////////////////////////////////
@@ -193,9 +270,6 @@ class MaskingWindow(QMainWindow):
         self._timer = QTimer(self)
 
         self.initUI()
-        self.Operate_bar()
-        self.PlaySwitch_plot()
-        self.update_fig()
 
     def initUI(self):
         # 设置界面位置,确保多张图叠加显示位置不同
@@ -218,11 +292,12 @@ class MaskingWindow(QMainWindow):
         self.win_vlayout = QVBoxLayout(self.central_widget)
 
         # Canvas
-        self.canvas = DynamicFig()
+        self.canvas = Hawk01MaskingDynamicFig(self.roi_data_pkg)
 
         # Control bar
         self.control_bar_frame = QFrame()  # 动图操作控制添加到窗口布局中
         self.control_bar_hlayout = QHBoxLayout(self.control_bar_frame)
+        self.control_bar_realize()
 
         # Toolbar
         self.toolbar = QFrame()
@@ -231,61 +306,33 @@ class MaskingWindow(QMainWindow):
         self.img_toolbar = CustomToolbar(self.canvas, self)
         self.img_sel_ComboBox = QComboBox()
 
-        self.img_sel_ComboBox.addItems(self.img_type)
+        self.img_sel_ComboBox.addItems(self.img_types)
         self.img_sel_ComboBox.setCurrentIndex(0)
         self.img_sel_ComboBox.currentIndexChanged.connect(self.update_fig)
 
         self.toolbar.setStyleSheet("")
-        self.toolbar_hlayout.addWidget(self.img_toolbar)
-        self.toolbar_hlayout.addWidget(self.img_sel_ComboBox)
+        self.toolbar_hlayout.addWidget(self.img_toolbar, 5)
+        self.toolbar_hlayout.addWidget(self.img_sel_ComboBox, 1)
         # self.addToolBar(self.toolbar)
 
         # Display
-        self.win_vlayout.addWidget(self.toolbar, 1)  # 画布添加到窗口布局中
+        self.win_vlayout.addWidget(self.toolbar, 1)  # matplotlib工具栏添加到窗口布局中
         self.win_vlayout.addWidget(self.canvas, 15)  # 画布添加到窗口布局中
         self.win_vlayout.addWidget(self.control_bar_frame, 1)
         # self.win_vlayout.addWidget(self.figtoolbar)  # 工具栏添加到窗口布局中
 
-    # @profile
+    def roi_data_sync(self):
+        self.img_types = ["Masking", "PCM Image", "PTM Image"]
+        if self.roi_data_pkg["roi_gen_type"] == 3:
+            self.img_types.append("Cali fusion Image")
+        self.canvas.roi_data_pkg = self.roi_data_pkg
+        self.canvas.img_types = self.img_types
+        self.img_sel_ComboBox.clear()
+        self.img_sel_ComboBox.addItems(self.img_types)
+
     def update_fig(self):
-        if self.img_sel_ComboBox.currentIndex() == 0:   # 动态展示 masking 图片
-            idx = self.index % len(self.roi_data_pkg["arrays"])
-            if not self.DEBUG:
-                x, y, s = self.roi_data_pkg["coor_info"][idx]
-                _str = f"{s}({x}, {y})"
-                x = x + 5 if x < 610 else 610
-                y = y - 12 if y > 30 else y + 37
-                y = y if y < 565 else 565
-                text = [{"x": x, "y": y, "text_annotations": _str}]
-            else:
-                text = None
-            self.canvas.plot_image(data=self.roi_data_pkg["arrays"][idx],
-                                   x_ticks_interval=48,
-                                   y_ticks_interval=50,
-                                   text_annotations=text,
-                                   # title="Masking"
-                                   )
-        elif self.img_sel_ComboBox.currentIndex() == 1:   # 动态展示 masking 图片
-            self.canvas.plot_image(data=self.roi_data_pkg["acc_spad_array"],
-                                   x_ticks_interval=48,
-                                   y_ticks_interval=50,
-                                   # title="PCM"
-                                   )
-        elif self.img_sel_ComboBox.currentIndex() == 2:   # 动态展示 masking 图片
-            self.canvas.plot_image(data=self.roi_data_pkg["depth_spad_array"],
-                                   x_ticks_interval=16,
-                                   y_ticks_interval=20
-                                   )
-        elif self.img_sel_ComboBox.currentIndex() == 3:   # 动态展示 masking 图片
-            # --------------------- 配置刻度 --------------------
-            # self.canvas.axes.xaxis.set_major_locator(MultipleLocator(48))
-            # self.canvas.axes.yaxis.set_major_locator(MultipleLocator(50))
-            self.canvas.plot_image(data=self.roi_data_pkg["fusion_image"],
-                                   x_ticks_interval=48,
-                                   y_ticks_interval=50
-                                   )
-        else:
-            return
+        img_type = self.img_sel_ComboBox.currentIndex()
+        self.canvas.roi_img_show(img_type=img_type, img_index=self.index)
 
     def dynamic_fig(self):
         if self.is_playing and self.img_sel_ComboBox.currentIndex() == 0:
@@ -331,13 +378,15 @@ class MaskingWindow(QMainWindow):
 
         def threadFunc():
             try:
-                Hawk01Function.ROIDataPackageSave(roi_data_pkg=self.roi_data_pkg,
-                                                  cfg=self.hawk_config,
-                                                  save_sel=self.soft_config["roi_image_save"],
-                                                  roi_data_format=self.soft_config["roi_data_format"])
+                AdapsChip.ChipUI.windows.Hawk01Function.Hawk01Function.ROIDataPackageSave(
+                    roi_data_pkg=self.roi_data_pkg,
+                    cfg=self.hawk_config,
+                    save_sel=self.soft_config["roi_image_save"],
+                    roi_data_format=self.soft_config["roi_data_format"])
             except Exception as e:
                 logging.fatal(e)
             self.win_signal_sync.Obj_signal_0.emit(self.btn_save)
+
         thread = Thread(target=threadFunc)
         thread.start()
         return
@@ -362,13 +411,19 @@ class MaskingWindow(QMainWindow):
             icon = QIcon(Functions.set_svg_icon("icon_stop.svg", folder=self.icon_fd))
             self.btn_playControl.setIcon(icon)
 
+    def showEvent(self, event):
+        self.PlaySwitch_plot()
+        self.update_fig()
+        event.accept()
+
     def closeEvent(self, event):
         # self._timer.stop()
         # self.arrays = []  # 清理内存
         # self.win_signal_sync.int_signal_1.emit(self.ID)     # 同步到主界面, 进行内存释放
         event.accept()
 
-    def Operate_bar(self):
+    def control_bar_realize(self):
+        """底部操作界面按钮实现"""
         self.control_bar_frame.setStyleSheet(
             """
             QPushButton {
@@ -420,7 +475,6 @@ class MaskingWindow(QMainWindow):
         self.btn_replay.clicked.connect(self.Replay_plog)
         self.btn_save.clicked.connect(self.roi_data_save)
         self.win_signal_sync.Obj_signal_0.connect(self.bnt_save_release)
-
 
         # self.btn_test = QPushButton("test")
         # self.btn_test.clicked.connect(self.ani.stop)
