@@ -1,8 +1,12 @@
 import copy
 import logging
 import gc
-
+import os.path
+import sys
+from sys import getsizeof as getsize
 import memory_profiler
+import numpy as np
+from pympler import asizeof
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -49,6 +53,7 @@ class Hawk01MainUI:
         self.hawk01_gui_config = self.Hawk01GuiConfig.items
         self.hawk01_zone_config = self.Hawk01ZoneConfig.items
         self.hawk01_roi_gen_config = self.Hawk01ROIGenConfig.items
+        self.soft_config = {}
         # self.hawk01_register_config = self.Hawk01RegisterConfig.items
 
         # All GUI signal sync
@@ -166,8 +171,8 @@ class Hawk01MainUI:
         tab_bar.setTabVisible(2, False)
 
         # Gen ROI for GUI
-        self.ui.load_pages.seg_hs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['seg_hs'])
-        self.ui.load_pages.spad_vs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['spad_vs'])
+        self.ui.load_pages.seg_hs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['seg_hs']+1)
+        self.ui.load_pages.spad_vs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['spad_vs']+1)
         self.ui.load_pages.light_shift_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['light_shift'])
         self.ui.load_pages.sublight_shift_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['sublight_shift'])
         self.ui.load_pages.ROI_Shape_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByJson']['roi_shape'])
@@ -249,8 +254,8 @@ class Hawk01MainUI:
         self.hawk01_config["Default_ROI_GEN_TYPE"] = self.roi_gen_type
         if self.roi_gen_type == 0:  # Gen ROI for GUI
             # 获取配置
-            self.hawk01_roi_gen_config['ROIGenByJson']['seg_hs'] = self.ui.load_pages.seg_hs_spinBox.value()
-            self.hawk01_roi_gen_config['ROIGenByJson']['spad_vs'] = self.ui.load_pages.spad_vs_spinBox.value()
+            self.hawk01_roi_gen_config['ROIGenByJson']['seg_hs'] = self.ui.load_pages.seg_hs_spinBox.value()-1
+            self.hawk01_roi_gen_config['ROIGenByJson']['spad_vs'] = self.ui.load_pages.spad_vs_spinBox.value()-1
             self.hawk01_roi_gen_config['ROIGenByJson']['light_shift'] = self.ui.load_pages.light_shift_spinBox.value()
             self.hawk01_roi_gen_config['ROIGenByJson'][
                 'sublight_shift'] = self.ui.load_pages.sublight_shift_spinBox.value()
@@ -326,6 +331,7 @@ class Hawk01MainUI:
                          **__hawk01_zone_config__}
         return
 
+    # @memory_profiler.profile
     def func_get_roi_data_pkg(self):
         """
         根据 ROI 界面配置生成 roi_data_pkg, 用于后续数据保存和成图展示
@@ -350,6 +356,7 @@ class Hawk01MainUI:
                             Hawk01Function.MskuRoiGenerateByCali(self.__hawk01_config__)
             self.__pre_roi_gen_type__ = self.roi_gen_type
             self.__pre_hawk01_config__ = self.__hawk01_config__
+            # logging.warning(f"Haw01MainUI:self.__roi_data_pkg__:{asizeof.asizeof(self.__roi_data_pkg__)/(1023**2):0.2f}M")
         return
 
     def func_refresh_hawk_config(self):
@@ -357,6 +364,7 @@ class Hawk01MainUI:
         logging.info("Get the latest ROI Zone config...")
         self.Hawk01ZoneConfig.serialize()
 
+    # @memory_profiler.profile
     def func_masking_data_mem_free(self):
         """图像界面关闭或者销毁时, 释放masking内存"""
         self.__roi_data_pkg__ = None
@@ -365,9 +373,14 @@ class Hawk01MainUI:
         gc.collect()
         return
 
+    # @memory_profiler.profile
     def func_roi_win_free(self):
         """图像界面关闭或者销毁时, 释放masking内存"""
-        self.ui_masking_win = None
+        # self.ui_masking_win = None
+        self.ui_masking_win = MaskingWindow(title=f"Hawk01 roi show",
+                                            roi_data_pkg=None,
+                                            hawk_config=None,
+                                            soft_config=None)
         Hawk01MainUI.func_masking_data_mem_free(self)
         return
 
@@ -396,10 +409,9 @@ class Hawk01MainUI:
         logging.info("ROI Masking display...")
         # arrays = []
         # for i in range(32):
-        #     # arr = np.zeros((576, 768))
         #     arr = np.random.rand(576, 768)
         #     arrays.append(arr)
-        # self.__roi_data_pkg__["arrays"] = arrays
+        # self.__roi_data_pkg__["masking_arrays"] = arrays
         if self.ui_masking_win is None:
             self.ui_masking_win = MaskingWindow(title=f"Hawk01 roi show",
                                                 roi_data_pkg=self.__roi_data_pkg__,

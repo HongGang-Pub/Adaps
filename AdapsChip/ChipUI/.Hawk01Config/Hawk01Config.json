@@ -13,7 +13,7 @@
     "UPSMP_MODE": 3,
     "SCAN_MODE": 0,
     "V_ROLL_NUM": 31,
-    "H_ROLL_NUM": 1,
+    "H_ROLL_NUM": 15,
     "H_VLD_SEG": 15,
     "MIPI_RATE": "1.0G",
     "WORK_MODE": [

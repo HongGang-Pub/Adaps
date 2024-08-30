@@ -3,9 +3,13 @@ import gc
 import logging
 import os
 import sys
+import time
 from threading import Thread
 
+import memory_profiler
+from pympler import asizeof
 import numpy as np
+from SelfDefinedPackge import MatplotExtension
 
 from PySide6.QtWidgets import QFrame
 
@@ -24,8 +28,6 @@ from PySide6 import QtWidgets
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
 # from AdapsChip.ChipUI.windows.Hawk01Function.Hawk01Function import ROIDataPackageSave
-
-from memory_profiler import profile
 
 
 class CustomToolbar(NavigationToolbar2QT):
@@ -91,6 +93,7 @@ class DynamicFig(FigureCanvas):
         #                            QtWidgets.QSizePolicy.Expanding,
         #                            QtWidgets.QSizePolicy.Expanding)
 
+    # @memory_profiler.profile
     def plot_image(self, data, x_ticks_interval=None, y_ticks_interval=None, xlim=None, ylim=None, title=None,
                    xlabel=None, ylabel=None,
                    text_annotations=None):
@@ -101,6 +104,9 @@ class DynamicFig(FigureCanvas):
             # self.fig.tight_layout()
         else:
             # Update the existing image data
+            # for artist in self.axes.get_images():
+            #     artist.remove()
+            # self.image = self.axes.imshow(data, cmap='viridis')
             self.image.set_data(data)
             self.image.set_extent([0, data.shape[1], data.shape[0], 0])
             self.image.set_clim(vmin=np.min(data), vmax=np.max(data))
@@ -332,6 +338,7 @@ class MaskingWindow(QMainWindow):
 
     def update_fig(self):
         img_type = self.img_sel_ComboBox.currentIndex()
+        canvas = self.canvas
         self.canvas.roi_img_show(img_type=img_type, img_index=self.index)
 
     def dynamic_fig(self):
@@ -416,10 +423,9 @@ class MaskingWindow(QMainWindow):
         self.update_fig()
         event.accept()
 
+    # @memory_profiler.profile
     def closeEvent(self, event):
-        # self._timer.stop()
-        # self.arrays = []  # 清理内存
-        # self.win_signal_sync.int_signal_1.emit(self.ID)     # 同步到主界面, 进行内存释放
+        self.deleteLater()
         event.accept()
 
     def control_bar_realize(self):
@@ -494,8 +500,65 @@ class MaskingWindow(QMainWindow):
     #     self.ani.start()
 
 
+class InitialWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Open...")
+        self.setFixedSize(300, 100)
+        # self.setGeometry(300, 300, 300, 100)
+        cursor_pos = QCursor.pos()
+        screen = QApplication.screenAt(cursor_pos)
+        if screen:
+            screen_geometry = screen.geometry()
+            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2
+            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 - 50
+            # print(x, y)
+            self.move(x, y)
+
+        layout = QVBoxLayout()
+
+        gc.set_threshold(80 * 1024 * 1024)
+
+        self.label = QLabel("Loading...")
+        self.btn = QPushButton("Open")
+        self.btn.clicked.connect(self.open_main_window)
+
+        layout.addWidget(self.label)
+        layout.addWidget(self.btn)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+        self.main_window = None
+        # QTimer.singleShot(0, self.start_loading)
+
+    # def showEvent(self, event):
+    #     super().showEvent(event)
+    #     QTimer.singleShot(10, self.load_main_window)
+    #
+    # def load_main_window(self):
+    #     # self.label.setText("Loading...")
+    #     # self.main_window = MainWindow()
+    #     QTimer.singleShot(100, self.open_main_window)
+
+    # @memory_profiler.profile
+    def open_main_window(self):
+        if self.main_window is None:
+            self.main_window = MaskingWindow()
+            # self.main_window.setAttribute(Qt.WA_DeleteOnClose)
+            self.main_window.destroyed.connect(self.main_window_free)
+        self.main_window.show()
+        # self.close()
+
+    # @memory_profiler.profile
+    def main_window_free(self):
+        self.main_window = None
+        gc.collect(generation=2)
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    win = MaskingWindow()
+    win = InitialWindow()
     win.show()
     sys.exit(app.exec())

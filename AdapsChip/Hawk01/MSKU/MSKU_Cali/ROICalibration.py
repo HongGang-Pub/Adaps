@@ -663,7 +663,7 @@ class ROICalibration:
         # ///////////////////////////////////////////////////////////////
         file_dict = ROICalibration.get_pcm_file(cfg['cali_file'], cfg["cali_frm_num"])
         if len(file_dict) != roll_num:
-            raise ValueError("文件数据错误：ROI标定需要{}个文件，实际只有{}个文件".format(roll_num, len(file_dict)))
+            raise ValueError("文件数据错误：ROI标定需要{}个文件，实际有{}个文件".format(roll_num, len(file_dict)))
 
         # 标定，返回标定数据
         # ///////////////////////////////////////////////////////////////
