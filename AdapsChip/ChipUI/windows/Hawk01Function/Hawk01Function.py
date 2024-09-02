@@ -115,6 +115,9 @@ def ROIDataPackageSave(roi_data_pkg, cfg, save_sel=0, roi_data_format=1):
 
     canvas = Hawk01MaskingDynamicFig(roi_data_pkg)
     canvas.roi_img_save(img_fp=img_fp)
+
+    # 释放内存
+    canvas.roi_data_pkg = None
     canvas = None
     gc.collect()
 

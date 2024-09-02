@@ -298,6 +298,7 @@ class Hawk01MainUI:
             self.hawk01_roi_gen_config['ROIGenByCali']['mode2D'] = self.ui.load_pages.mode_2D_ComboBox.currentIndex()
         return
 
+    # @memory_profiler.profile
     def func_merge_hawk_config(self):
         """
         根据配置将界面上的config合并起来, 便于后续根据配置生成ROI等内容
@@ -348,7 +349,7 @@ class Hawk01MainUI:
         # 获取 ROI_DATA_PKG, # 如果界面没有更新, 则无需再次执行代码
         # //////////////////////////////////////
         if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__hawk01_config__ != self.__pre_hawk01_config__:
-            logging.info("Get the latest ROI config...")
+            # logging.info("Get the latest ROI config...")
             self.__roi_data_pkg__ = \
                 Hawk01Function.MskuRoiGenerateByJson(self.__hawk01_config__) if self.roi_gen_type == 0 else \
                     Hawk01Function.MskuRoiGenerateByFile(self.__hawk01_config__) if self.roi_gen_type == 1 else \
@@ -361,31 +362,29 @@ class Hawk01MainUI:
 
     def func_refresh_hawk_config(self):
         """从 ROI ZONE config界面获取最新的配置"""
-        logging.info("Get the latest ROI Zone config...")
+        # logging.info("Get the latest ROI Zone config...")
         self.Hawk01ZoneConfig.serialize()
 
     # @memory_profiler.profile
     def func_masking_data_mem_free(self):
         """图像界面关闭或者销毁时, 释放masking内存"""
-        self.__roi_data_pkg__ = None
-        self.__pre_roi_gen_type__ = -1
-        self.__pre_hawk01_config__ = {}
+        if self.ui_masking_win is None:
+            self.__roi_data_pkg__ = None
+            self.__pre_roi_gen_type__ = -1
+            self.__pre_hawk01_config__ = {}
         gc.collect()
         return
 
     # @memory_profiler.profile
     def func_roi_win_free(self):
         """图像界面关闭或者销毁时, 释放masking内存"""
-        # self.ui_masking_win = None
-        self.ui_masking_win = MaskingWindow(title=f"Hawk01 roi show",
-                                            roi_data_pkg=None,
-                                            hawk_config=None,
-                                            soft_config=None)
+        self.ui_masking_win = None
         Hawk01MainUI.func_masking_data_mem_free(self)
         return
 
     def func_roi_view(self):
         """此函数调用子线程生成 roi_data_pkg, 然后 emit func_open_roi_win"""
+        # @memory_profiler.profile
         def threadFunc():
             try:
                 # 获取界面配置并 merge 所有配置
@@ -402,11 +401,12 @@ class Hawk01MainUI:
         thread.start()
         return
 
+    # @memory_profiler.profile
     def func_open_roi_win(self):
         """
         打开 ROI masking展示界面
         """
-        logging.info("ROI Masking display...")
+        # logging.info("ROI Masking display...")
         # arrays = []
         # for i in range(32):
         #     arr = np.random.rand(576, 768)
@@ -418,7 +418,7 @@ class Hawk01MainUI:
                                                 hawk_config=self.__hawk01_config__,
                                                 soft_config=self.soft_config)
             self.ui_masking_win.setStyleSheet(self.qssStyle)
-            self.ui_masking_win.setAttribute(Qt.WA_DeleteOnClose)
+            # self.ui_masking_win.setAttribute(Qt.WA_DeleteOnClose)
             self.ui_masking_win.destroyed.connect(partial(Hawk01MainUI.func_roi_win_free, self))
             self.ui_masking_win.show()
         else:

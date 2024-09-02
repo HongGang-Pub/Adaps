@@ -338,7 +338,6 @@ class MaskingWindow(QMainWindow):
 
     def update_fig(self):
         img_type = self.img_sel_ComboBox.currentIndex()
-        canvas = self.canvas
         self.canvas.roi_img_show(img_type=img_type, img_index=self.index)
 
     def dynamic_fig(self):
@@ -425,6 +424,10 @@ class MaskingWindow(QMainWindow):
 
     # @memory_profiler.profile
     def closeEvent(self, event):
+        self.roi_data_pkg = None
+        self.hawk_config = None
+        self.soft_config = None
+        self.canvas.roi_data_pkg = None
         self.deleteLater()
         event.accept()
 
