@@ -1,13 +1,12 @@
 import os
 import sys
 
-sys.path.append(os.path.join(os.getcwd(), "../../"))
-
+# sys.path.append(os.path.join(os.getcwd(), "../../"))
+os.chdir(os.path.dirname(__file__))
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
 from windows.main_window.functions_main_window import *
 from windows.main_window.setup_main_window import *
-
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -25,6 +24,7 @@ from AdapsChip.ChipUI.windows.main_window import *
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
 from SelfDefinedPackge import MatplotExtension
+
 
 # MAIN WINDOW
 # ///////////////////////////////////////////////////////////////
@@ -153,10 +153,7 @@ class InitialWindow(QMainWindow):
         self.close()
 
 
-# SETTINGS WHEN TO START
-# Set the initial class and also additional parameters of the "QApplication" class
-# ///////////////////////////////////////////////////////////////
-if __name__ == "__main__":
+def main():
     # APPLICATION
     # ///////////////////////////////////////////////////////////////
     app = QApplication(sys.argv)
@@ -172,3 +169,10 @@ if __name__ == "__main__":
     # EXEC APP
     # ///////////////////////////////////////////////////////////////
     sys.exit(app.exec())
+
+
+# SETTINGS WHEN TO START
+# Set the initial class and also additional parameters of the "QApplication" class
+# ///////////////////////////////////////////////////////////////
+if __name__ == "__main__":
+    main()

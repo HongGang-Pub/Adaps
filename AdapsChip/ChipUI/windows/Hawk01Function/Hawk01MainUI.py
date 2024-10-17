@@ -1,12 +1,6 @@
 import copy
 import logging
 import gc
-import os.path
-import sys
-from sys import getsizeof as getsize
-import memory_profiler
-import numpy as np
-from pympler import asizeof
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -20,7 +14,7 @@ from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
 from AdapsChip.ChipUI.windows.Hawk01Function.ROIZoneConfigUI import ROIZoneConfigWin
 from AdapsChip.ChipUI.windows.Hawk01Function.MaskingDisplayUI import MaskingWindow
 from AdapsChip.ChipUI.windows.Hawk01Function import Hawk01Function
-from AdapsChip.Hawk01.Common.ScriptRegConfig import *
+from AdapsChip.Hawk01.Hawk01RegConfig import *
 from functools import partial
 from threading import Thread
 from AdapsChip.ChipUI.gui.Signal import MySignals
@@ -322,17 +316,16 @@ class Hawk01MainUI:
 
         traverse_dict(d=__hawk01_zone_config__, parent_key='')  # 将zone_config的配置值全部转换为数字类型
         self.__hawk01_config__ = \
-            {**self.hawk01_config, **self.hawk01_roi_gen_config['ROIGenByJson'],
-             **__hawk01_zone_config__} if self.roi_gen_type == 0 else \
-                {**self.hawk01_config, **self.hawk01_roi_gen_config['ROIGenByFile'],
-                 **__hawk01_zone_config__} if self.roi_gen_type == 1 else \
-                    {**self.hawk01_config, **self.hawk01_roi_gen_config['ROIGenByBase'],
-                     **__hawk01_zone_config__} if self.roi_gen_type == 2 else \
-                        {**self.hawk01_config, **self.hawk01_roi_gen_config['ROIGenByCali'],
-                         **__hawk01_zone_config__}
+            {**self.hawk01_config,
+             **self.hawk01_roi_gen_config['ROIGenByJson'], **__hawk01_zone_config__} if self.roi_gen_type == 0 \
+            else {**self.hawk01_config,
+                  **self.hawk01_roi_gen_config['ROIGenByFile'], **__hawk01_zone_config__} if self.roi_gen_type == 1 \
+            else {**self.hawk01_config,
+                  **self.hawk01_roi_gen_config['ROIGenByBase'], **__hawk01_zone_config__} if self.roi_gen_type == 2 \
+            else {**self.hawk01_config,
+                  **self.hawk01_roi_gen_config['ROIGenByCali'], **__hawk01_zone_config__}
         return
 
-    # @memory_profiler.profile
     def func_get_roi_data_pkg(self):
         """
         根据 ROI 界面配置生成 roi_data_pkg, 用于后续数据保存和成图展示
@@ -351,10 +344,10 @@ class Hawk01MainUI:
         if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__hawk01_config__ != self.__pre_hawk01_config__:
             # logging.info("Get the latest ROI config...")
             self.__roi_data_pkg__ = \
-                Hawk01Function.MskuRoiGenerateByJson(self.__hawk01_config__) if self.roi_gen_type == 0 else \
-                    Hawk01Function.MskuRoiGenerateByFile(self.__hawk01_config__) if self.roi_gen_type == 1 else \
-                        Hawk01Function.MskuRoiGenerateByBase(self.__hawk01_config__) if self.roi_gen_type == 2 else \
-                            Hawk01Function.MskuRoiGenerateByCali(self.__hawk01_config__)
+                Hawk01Function.MskuRoiGenerateByJson(self.__hawk01_config__) if self.roi_gen_type == 0 \
+                else Hawk01Function.MskuRoiGenerateByFile(self.__hawk01_config__) if self.roi_gen_type == 1 \
+                else Hawk01Function.MskuRoiGenerateByBase(self.__hawk01_config__) if self.roi_gen_type == 2 \
+                else Hawk01Function.MskuRoiGenerateByCali(self.__hawk01_config__)
             self.__pre_roi_gen_type__ = self.roi_gen_type
             self.__pre_hawk01_config__ = self.__hawk01_config__
             # logging.warning(f"Haw01MainUI:self.__roi_data_pkg__:{asizeof.asizeof(self.__roi_data_pkg__)/(1023**2):0.2f}M")
@@ -511,7 +504,7 @@ class Hawk01MainUI:
 
     def func_ROIUI_save(self):
         """
-        主界面的保存按钮保存数据: 包含 ROI 数据, Script 数据
+        ROI界面的保存按钮保存数据: 包含 ROI 数据
             1. 使用子线程调用保存, 不占用主线程
         """
         self.ui.load_pages.ROISave.setEnabled(False)

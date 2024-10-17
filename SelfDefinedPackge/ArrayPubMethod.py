@@ -1,8 +1,5 @@
 import os
 
-import memory_profiler
-import numpy as np
-import matplotlib.pyplot as plt
 from SelfDefinedPackge.MatplotExtension import *
 from matplotlib.ticker import MultipleLocator
 

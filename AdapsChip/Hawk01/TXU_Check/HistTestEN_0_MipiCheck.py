@@ -4,10 +4,8 @@
 
 具体使用方法见 Function >>> pcm_decode()
 """
-import Hawk.Common.MipiPubMethod
-from Hawk.Common import HawkPubMethod
-from Hawk.TXU_Check import TxuPubMethod
-from Hawk.TXU_Check.Config import *
+from AdapsChip.Hawk01.TXU_Check import TxuPubMethod
+from AdapsChip.Hawk01.TXU_Check.Config import *
 
 
 def do_work(script_file: str, mipidata_path: str, subframe_script_file: str, subframe_mipidata_path: str,

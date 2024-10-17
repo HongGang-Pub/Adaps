@@ -1,6 +1,5 @@
 from SelfDefinedPackge import PubMethod
-from Hawk.Common import HawkPubMethod
-from Hawk.Common import MipiPubMethod
+from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
 
 
 def ParseFHRData(file_path, vroll=31, h_vld_seg=15):

@@ -2,10 +2,8 @@
 本文件主要用于hist_test_en=1情况下，对MIPI数据进行精准匹配
 具体使用方法见 Function >>> pcm_decode()
 """
-import Hawk.Common.MipiPubMethod
-from Hawk.Common import HawkPubMethod
-from Hawk.TXU_Check import TxuPubMethod
-from Hawk.TXU_Check.Config import *
+from AdapsChip.Hawk01.TXU_Check import TxuPubMethod
+from AdapsChip.Hawk01.TXU_Check.Config import *
 
 
 def get_script_path(work_mode, tc_name):

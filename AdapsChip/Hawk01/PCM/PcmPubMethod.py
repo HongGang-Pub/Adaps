@@ -1,9 +1,9 @@
-import AdapsChip.Hawk01.Common.HawkPubMethod
-from SelfDefinedPackge import PubMethod
-from AdapsChip.Hawk01.Common import HawkPubMethod, MipiPubMethod
-import numpy as np
 import os
 import logging
+import numpy as np
+import AdapsChip.Hawk01.HawkPubMethod
+from SelfDefinedPackge import PubMethod
+from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
 
 
 def GetPcmDataFromSpadisApp(fp, frame_number=1):
@@ -60,7 +60,7 @@ def GetPcmDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
     v_roll_num = cfg["v_roll_num"]
     h_vld_seg = cfg["h_vld_seg"]
 
-    pkg_num = AdapsChip.Hawk01.Common.HawkPubMethod.CalPkgNum(cfg=cfg)
+    pkg_num = AdapsChip.Hawk01.HawkPubMethod.CalPkgNum(csru_cfg=cfg)
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
     if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):

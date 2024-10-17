@@ -1,6 +1,6 @@
 import numpy as np
 
-from AdapsChip.Hawk01.Common.ScriptRegConfig import csru_addr
+from AdapsChip.Hawk01.Hawk01RegAddr import csru_addr
 from SelfDefinedPackge.PubMethod import *
 from SelfDefinedPackge.PubMethod import read_file
 

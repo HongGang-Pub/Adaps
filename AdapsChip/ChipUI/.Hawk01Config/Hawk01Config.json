@@ -1,8 +1,8 @@
 {
     "FILE_CONFIG": "--------文件相关配置---------",
-    "ref_cfg_file": "C:/Users/honggang.li/Downloads/histogram_wide.txt",
-    "fd_path": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG",
-    "reg_name": "reg_config",
+    "ref_cfg_file": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG/echo_wide_20bin.txt",
+    "fd_path": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG0",
+    "reg_name": "reg_config_20",
     "roi_name": "roi_mem",
     "REG_CONFIG": "-----------寄存器配置-----------",
     "REF_CLK": "REF_24M",
@@ -13,7 +13,7 @@
     "UPSMP_MODE": 3,
     "SCAN_MODE": 0,
     "V_ROLL_NUM": 31,
-    "H_ROLL_NUM": 15,
+    "H_ROLL_NUM": 0,
     "H_VLD_SEG": 15,
     "MIPI_RATE": "1.0G",
     "WORK_MODE": [

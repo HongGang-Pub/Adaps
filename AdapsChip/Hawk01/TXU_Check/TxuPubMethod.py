@@ -1,7 +1,5 @@
-import Hawk.Common.HawkPubMethod
 from SelfDefinedPackge import PubMethod
-from Hawk.Common import HawkPubMethod
-from Hawk.Common import MipiPubMethod
+from AdapsChip.Hawk01 import HawkPubMethod
 
 
 def get_golden_data(f, work_mode, seg_hs, h_vld_seg, v_pixel_out_num, hroll_num, scan_mode, h_seg_shift=4):

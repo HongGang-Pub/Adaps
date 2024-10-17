@@ -1,9 +1,8 @@
-import Hawk.Common.MipiPubMethod
-from Hawk.MSKU import MskuPubMethod
-from SelfDefinedPackge import ArrayPubMethod
-from Hawk.PCM import FhrPubMethod
-from Hawk.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 import numpy as np
+from AdapsChip.Hawk01.MSKU import MskuPubMethod
+from SelfDefinedPackge import ArrayPubMethod
+from AdapsChip.Hawk01.PCM import FhrPubMethod
+from AdapsChip.Hawk01.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 
 
 def do_work():

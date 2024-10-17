@@ -74,6 +74,7 @@ class DynamicFig(FigureCanvas):
         plt.rcParams['axes.unicode_minus'] = False
 
         self.fig = Figure(figsize=(width, height), dpi=dpi)
+        self.fig.subplots_adjust(left=0.075, right=0.945, top=0.92, bottom=0.04, wspace=0.5, hspace=0.5)
         self.fig.set_facecolor('#f5f5f5')
         super(DynamicFig, self).__init__(self.fig)
         # self.fig.tight_layout()

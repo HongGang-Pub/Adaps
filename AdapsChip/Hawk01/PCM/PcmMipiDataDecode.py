@@ -1,6 +1,6 @@
 import os
 
-import AdapsChip.Hawk01.Common.MipiPubMethod
+import AdapsChip.Hawk01.MipiPubMethod
 from SelfDefinedPackge import ArrayPubMethod, LogerPubMethod
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from AdapsChip.Hawk01.PCM import PcmPubMethod
@@ -8,7 +8,7 @@ from AdapsChip.Hawk01.PCM import PcmPubMethod
 
 def get_pcm_array(script_file, mipi_file, sramdata_path):
     # 获取寄存器配置
-    csru_cfg = AdapsChip.Hawk01.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
+    csru_cfg = AdapsChip.Hawk01.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     # 获取 msku roi信息
     zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(csru_cfg)

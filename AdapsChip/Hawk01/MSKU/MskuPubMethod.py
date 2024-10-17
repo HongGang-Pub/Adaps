@@ -1,16 +1,13 @@
 import logging
 import re
+import os
 
-# import matplotlib
-#
-# matplotlib.use('Agg')  # 该模式下绘图无法显示，plt.show()也无法作用
+import numpy as np
 import matplotlib.animation as animation
+import matplotlib.pyplot as plt
 
 from SelfDefinedPackge import PubMethod
-import numpy as np
-import matplotlib.pyplot as plt
 from SelfDefinedPackge import ArrayPubMethod
-import os
 from matplotlib.pyplot import MultipleLocator
 
 

@@ -1,7 +1,8 @@
+import logging
+
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from SelfDefinedPackge import PubMethod
-
-from tkinter import messagebox
+import os
 
 
 def MskuRoiGenerate(cfg):
@@ -102,11 +103,10 @@ def RoiMemGenerate():
 
 if __name__ == '__main__':
     try:
-        info = RoiMemGenerate()
+        RoiMemGenerate()
     except BaseException as log:
         info = repr(log)
-
-    messagebox.showinfo("执行结果", info)
+        logging.fatal(info)
 
     # info = RoiSram.GenerateRoiMem()
     # print(info)

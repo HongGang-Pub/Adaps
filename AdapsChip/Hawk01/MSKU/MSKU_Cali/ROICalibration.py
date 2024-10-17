@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from SelfDefinedPackge import PubMethod
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
-from scipy import signal
+from scipy.signal import convolve2d
 
 
 class ROICalibration:
@@ -78,7 +78,7 @@ class ROICalibration:
         """
         kernel = np.ones((3, 3), dtype=np.uint8)
 
-        res2d = signal.convolve2d(image[:, :, 0], kernel, 'same')
+        res2d = convolve2d(image[:, :, 0], kernel, 'same')
 
         H = image.shape[0]
         W = image.shape[1]

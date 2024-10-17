@@ -1,10 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-import Hawk.Common.MipiPubMethod
 from SelfDefinedPackge import PubMethod
-from Hawk.Common import MipiPubMethod
-from Hawk.Common import HawkPubMethod
+from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
 
 
 def fhr_data2array(data):

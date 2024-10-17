@@ -1,11 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
 import mplcursors
 
 
 def coor_show():
-    cursor = mplcursors.cursor(multiple=True)
+    cursor = mplcursors.cursor(multiple=True, highlight=True)
     # @cursor.connect("add")
     # def on_add(sel):
     #     x_val = int(sel.target[0])

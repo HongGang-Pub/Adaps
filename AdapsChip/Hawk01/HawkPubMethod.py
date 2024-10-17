@@ -1,5 +1,5 @@
 from SelfDefinedPackge import PubMethod
-from .ScriptRegConfig import *
+from .Hawk01RegAddr import *
 import re
 import os
 
@@ -120,19 +120,19 @@ def GetCsruConfig(config_file, protocol="i2c") -> dict:
     return csru_cfg
 
 
-def CalPkgNum(cfg):
+def CalPkgNum(csru_cfg):
     """
     非多帧合一时，一次rolling包的数量
     Args:
-        cfg (dict): 寄存配置信息
+        csru_cfg (dict): 寄存配置信息
 
     Returns:
         int: 非多帧合一时，一次rolling包的数量
     """
 
-    work_mode = cfg["work_mode"]
-    h_vld_seg = cfg["h_vld_seg"]
-    v_pixel_out_num = 6 if cfg["v_pxl_out_num"] == 1 else 1
+    work_mode = csru_cfg["work_mode"]
+    h_vld_seg = csru_cfg["h_vld_seg"]
+    v_pixel_out_num = 6 if csru_cfg["v_pxl_out_num"] == 1 else 1
 
     if work_mode == 2 or work_mode == 3:
         pkg_num = (h_vld_seg + 1) * v_pixel_out_num * 4 + 2
@@ -188,7 +188,7 @@ def CalMipiFlnrAndWC(csru_cfg):
     return int(wc), flnr
 
 
-def GenerateHawkRegConfig(hawk_cfg: dict):
+def GenerateHawkRegConfig(hawk_cfg: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
     """
     本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
     主要包含以下功能:
@@ -199,6 +199,13 @@ def GenerateHawkRegConfig(hawk_cfg: dict):
         5. 根据 hawk_cfg["roi_save_n"] 配置 block_write
     """
 
+    with open(reg_cfg_fp, 'r') as file:
+        content = file.read()
+        local_scope = locals()
+        exec(content, globals(), local_scope)
+        FREQ_Config = local_scope["FREQ_Config"]
+        DIV_CONFIG = local_scope["DIV_CONFIG"]
+        MIPI_PKTDLY_CONFIG = local_scope["MIPI_PKTDLY_CONFIG"]
     # ----------------------------------------------------------------------------------------
     # initial
     # ----------------------------------------------------------------------------------------
@@ -572,6 +579,7 @@ def GenerateHawkRegConfigByJson(hawk_cfg: dict, reg_cfg: dict):
 
 
 if __name__ == '__main__':
-    cfg = PubMethod.ReadJsonFile('..\HawkGUI\ROIConfig.json')
+    cfg = {}
+
     GenerateHawkRegConfig(cfg)
     print("Ending")

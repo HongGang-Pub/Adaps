@@ -1,16 +1,13 @@
 import copy
 
-from AdapsChip.Hawk01.Common import HawkPubMethod
+from AdapsChip.Hawk01 import HawkPubMethod
 from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
 from AdapsChip.Hawk01.MSKU.MSKU_GEN import ROIGenerate
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from AdapsChip.ChipUI.windows.Hawk01Function.MaskingDisplayUI import Hawk01MaskingDynamicFig
 import gc
-import matplotlib.pyplot as plt
-from SelfDefinedPackge import ArrayPubMethod
-from matplotlib.pyplot import MultipleLocator
 import logging
-from SelfDefinedPackge import LogerPubMethod, MatplotExtension
+from SelfDefinedPackge import LogerPubMethod
 
 
 def MskuRoiGenerateByJson(cfg: dict) -> dict:
@@ -157,7 +154,8 @@ def ScriptDataSave(hawk01_cfg):
             else f'Echo_Mode_{hawk01_cfg["reg_name"]}' if work_mode == 1 \
             else f'Histogram_Mode_{hawk01_cfg["reg_name"]}' if work_mode == 2 \
             else f'Gray_Scale_Mode_{hawk01_cfg["reg_name"]}'  # if work_mode == 3 \
-        HawkPubMethod.GenerateHawkRegConfig(hawk_cfg=__hawk01_cfg__)
+        HawkPubMethod.GenerateHawkRegConfig(hawk_cfg=__hawk01_cfg__,
+                                            reg_cfg_fp="../Hawk01/Hawk01RegConfig.py")
         # HawkPubMethod.GenerateHawkRegConfigByJson(hawk_cfg=__hawk01_cfg__, reg_cfg=__reg_cfg__)
         url = f'{__hawk01_cfg__["fd_path"]}/{__hawk01_cfg__["reg_name"]}.txt'
         info = LogerPubMethod.create_file_hyperlink(file_type="Script data", url=url)

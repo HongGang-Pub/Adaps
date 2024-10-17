@@ -1,9 +1,6 @@
-import Hawk.Common.HawkPubMethod
-import Hawk.Common.MipiPubMethod
-from SelfDefinedPackge import PubMethod
-from Hawk.Common import HawkPubMethod
-from Hawk.Common import MipiPubMethod
 import numpy as np
+from SelfDefinedPackge import PubMethod
+from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
 
 
 def GetFhrDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
@@ -26,7 +23,7 @@ def GetFhrDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
 
     # 根据 SPAD_OUT_EN 配置转换为数组样式
     spad_out_en_array = Hawk.Common.MipiPubMethod.SpadOutEn(spad_out_en=cfg["pxl_spad_out_en"])
-    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(cfg=cfg)
+    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(csru_cfg=cfg)
 
     # 获取 MIPI 文件
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
@@ -97,7 +94,7 @@ def GetFhrDataFromDothinker2D(file_path, cfg, msku_roi_mem=[]):
 
     # 根据 SPAD_OUT_EN 配置转换为数组样式
     spad_out_en_array = Hawk.Common.MipiPubMethod.SpadOutEn(spad_out_en=cfg["pxl_spad_out_en"])
-    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(cfg=cfg)
+    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(csru_cfg=cfg)
 
     # 获取 MIPI 文件
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
