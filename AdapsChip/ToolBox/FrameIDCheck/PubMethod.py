@@ -92,7 +92,7 @@ def data_save(fname: str,
     with open(file=file, mode=mode, encoding="utf-8") as f:
         for i in range(0, len(data_list)):
             f.write(str(data_list[i]))
-            # if i < (len(data_list) - 1):
+            # if index < (len(data_list) - 1):
             f.write(split)
         if split != "\n":
             f.write("\n")

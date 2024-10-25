@@ -38,13 +38,13 @@ class Hawk01MainUI:
         # Load Hawk01 Config
         # ///////////////////////////////////////////////////////////////
         self.Hawk01Config = JsonFunction(file_path=".Hawk01Config/Hawk01Config.json")
-        self.Hawk01GuiConfig = JsonFunction(file_path=".Hawk01Config/Hawk01GuiConfig.json")
+        # self.Hawk01GuiConfig = JsonFunction(file_path=".Hawk01Config/Hawk01GuiConfig.json")
         self.Hawk01ZoneConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ZoneConfig.json")
         self.Hawk01ROIGenConfig = JsonFunction(file_path=".Hawk01Config/Hawk01ROIGenConfig.json")
         # self.Hawk01RegisterConfig = JsonFunction('.Hawk01Config/Hawk01ScriptRegConfig_Invalid.json')
 
         self.hawk01_config = self.Hawk01Config.items
-        self.hawk01_gui_config = self.Hawk01GuiConfig.items
+        # self.hawk01_gui_config = self.Hawk01GuiConfig.items
         self.hawk01_zone_config = self.Hawk01ZoneConfig.items
         self.hawk01_roi_gen_config = self.Hawk01ROIGenConfig.items
         self.soft_config = {}
@@ -66,92 +66,106 @@ class Hawk01MainUI:
     # Script config window function
     # ///////////////////////////////////////////////////////////////
     def setup_script_gui(self):
-        """寄存器相关的主界面配置"""
-        # 配置下拉选项
-        self.ui.load_pages.REF_CLK_ComboBox.addItems(self.hawk01_gui_config["REF_CLK"]["show_gui"])
-        self.ui.load_pages.SYS_CLK_ComboBox.addItems(self.hawk01_gui_config["SYS_CLK"]["show_gui"])
-        self.ui.load_pages.MST_MODE_ComboBox.addItems(self.hawk01_gui_config["MST_MODE"]["show_gui"])
-        self.ui.load_pages.TRG_I_EN_ComboBox.addItems(self.hawk01_gui_config["TRG_I_EN"]["show_gui"])
-        self.ui.load_pages.WORK_MODE_ComboBox.add_items(self.hawk01_gui_config["WORK_MODE"]["show_gui"])
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.addItems(self.hawk01_gui_config["TDC_BIN_W"]["show_gui"])
-        self.ui.load_pages.MIPI_RATE_ComboBox.addItems(self.hawk01_gui_config["MIPI_RATE"]["show_gui"])
-        self.ui.load_pages.SCAN_MODE_ComboBox.addItems(self.hawk01_gui_config["SCAN_MODE"]["show_gui"])
+        # ///////////////////////////////////////////////////////////////
+        # 配置初始化, 如果配置文件没有此配置，需要初始化配置文件
+        # ///////////////////////////////////////////////////////////////
+        CONFIG_KEYS = ["REF_CLK", "MST_MODE", "WORK_MODE", "MIPI_RATE", "SYS_CLK", "TDC_BIN_W",
+                       "V_PXL_OUT_NUM", "TRG_I_EN", "MINBIN_THRS", "MAXBIN_THRS", "OUT_BIN_NUM",
+                       "PKS_ECHO_NUM", "SCAN_MODE", "V_ROLL_NUM", "H_ROLL_NUM", "H_VLD_SEG"]
+        for key in CONFIG_KEYS:
+            if not (key in self.hawk01_config):
+                if key == 'WORK_MODE':  # list
+                    self.hawk01_config[key] = [3]   # PCM MODE
+                else:
+                    self.hawk01_config[key] = 0
+        # ///////////////////////////////////////////////////////////////
+        # WORK_MODE: 针对多选下拉项组件, 需要根据原始数据重新刷新下拉选项
+        # ///////////////////////////////////////////////////////////////
+        work_mode_items_num = self.ui.load_pages.WORK_MODE_ComboBox.count()
+        work_mode_items = []
+        for index in range(work_mode_items_num):
+            item_text = self.ui.load_pages.WORK_MODE_ComboBox.itemText(index)
+            work_mode_items.append(item_text)
+        self.ui.load_pages.WORK_MODE_ComboBox.clear_items()
+        self.ui.load_pages.WORK_MODE_ComboBox.add_items(work_mode_items)
 
-        REF_CLK_index = self.hawk01_gui_config["REF_CLK"]["config"].index(self.hawk01_config['REF_CLK'])
-        MST_MODE_index = self.hawk01_gui_config["MST_MODE"]["config"].index(self.hawk01_config['MST_MODE'])
-        TRG_I_EN_index = self.hawk01_gui_config["TRG_I_EN"]["config"].index(self.hawk01_config['TRG_I_EN'])
-        TDC_BIN_W_index = self.hawk01_gui_config["TDC_BIN_W"]["config"].index(self.hawk01_config['TDC_BIN_W'])
-        SYS_CLK_index = 2 - TDC_BIN_W_index % 3
-        SCAN_MODE_index = self.hawk01_gui_config["SCAN_MODE"]["config"].index(self.hawk01_config['SCAN_MODE'])
-        MIPI_RATE_indexs = self.hawk01_gui_config["MIPI_RATE"]["config"].index(self.hawk01_config['MIPI_RATE'])
-        WORK_MODE_indexs = [self.hawk01_gui_config["WORK_MODE"]["config"].index(config) for config in
-                            self.hawk01_config['WORK_MODE']]
+        # ///////////////////////////////////////////////////////////////
+        # 设置初始值
+        # ///////////////////////////////////////////////////////////////
+        self.ui.load_pages.REF_CLK_ComboBox.setCurrentIndex(self.hawk01_config['REF_CLK'])
+        self.ui.load_pages.MST_MODE_ComboBox.setCurrentIndex(self.hawk01_config['MST_MODE'])
+        self.ui.load_pages.WORK_MODE_ComboBox.select_indexs(self.hawk01_config['WORK_MODE'])
+        self.ui.load_pages.MIPI_RATE_ComboBox.setCurrentIndex(self.hawk01_config['MIPI_RATE'])
 
-        # 下拉框设置初始值
-        self.ui.load_pages.REF_CLK_ComboBox.setCurrentIndex(REF_CLK_index)
-        self.ui.load_pages.MST_MODE_ComboBox.setCurrentIndex(MST_MODE_index)
-        self.ui.load_pages.TRG_I_EN_ComboBox.setCurrentIndex(TRG_I_EN_index)
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.setCurrentIndex(TDC_BIN_W_index)
-        self.ui.load_pages.SYS_CLK_ComboBox.setCurrentIndex(SYS_CLK_index)
-        self.ui.load_pages.SCAN_MODE_ComboBox.setCurrentIndex(SCAN_MODE_index)
-        self.ui.load_pages.WORK_MODE_ComboBox.select_indexs(WORK_MODE_indexs)
-        self.ui.load_pages.MIPI_RATE_ComboBox.setCurrentIndex(MIPI_RATE_indexs)
+        self.ui.load_pages.SYS_CLK_ComboBox.setCurrentIndex(self.hawk01_config['SYS_CLK'])
+        self.ui.load_pages.TDC_BIN_W_ComboBox.setCurrentIndex(self.hawk01_config['TDC_BIN_W'])
+        self.ui.load_pages.V_PXL_OUT_NUM_ComboBox.setCurrentIndex(self.hawk01_config['V_PXL_OUT_NUM'])
+        self.ui.load_pages.TRG_I_EN_ComboBox.setCurrentIndex(self.hawk01_config['TRG_I_EN'])
+        self.ui.load_pages.MINBIN_THRS_spinBox.setValue(self.hawk01_config['MINBIN_THRS'])
+        self.ui.load_pages.MAXBIN_THRS_spinBox.setValue(self.hawk01_config['MAXBIN_THRS'])
+        Hawk01MainUI.BIN_THRS_uptate(self, 0)   # 设置 BIN_NUMBER
+        self.ui.load_pages.OUT_BIN_NUM_ComboBox.setCurrentIndex(self.hawk01_config['OUT_BIN_NUM'])
+        self.ui.load_pages.PKS_ECHO_NUM_ComboBox.setCurrentIndex(self.hawk01_config['PKS_ECHO_NUM'])
 
-        # 滚动条设置初始值
+        self.ui.load_pages.SCAN_MODE_ComboBox.setCurrentIndex(self.hawk01_config['SCAN_MODE'])
         self.ui.load_pages.V_ROLL_NUM_Slider.setValue(self.hawk01_config['V_ROLL_NUM'] + 1)
         self.ui.load_pages.H_ROLL_NUM_Slider.setValue(self.hawk01_config['H_ROLL_NUM'] + 1)
         self.ui.load_pages.H_VLD_SEG_Slider.setValue(self.hawk01_config['H_VLD_SEG'] + 1)
 
         # 操作绑定
-        self.ui.load_pages.REF_CLK_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.UPDATE_REF_CLK, self))
-        self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.UPDATE_MST_MODE, self))
-        self.ui.load_pages.TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.UPDATE_TRG_I_EN, self))
-        self.ui.load_pages.WORK_MODE_ComboBox.activated.connect(partial(Hawk01MainUI.UPDATE_WORK_MODE, self))
-        self.ui.load_pages.MIPI_RATE_ComboBox.activated.connect(partial(Hawk01MainUI.UPDATE_MIPI_RATE, self))
-        self.ui.load_pages.TDC_Bin_Width_ComboBox.currentIndexChanged.connect(
-            partial(Hawk01MainUI.UPDATE_TDC_BIN_W, self))
-        self.ui.load_pages.SCAN_MODE_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.UPDATE_SCAN_MODE, self))
-        self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(Hawk01MainUI.UPDATE_V_ROLL_NUM, self))
-        self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(Hawk01MainUI.UPDATE_H_ROLL_NUM, self))
-        self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(Hawk01MainUI.UPDATE_H_VLD_SEG, self))
+        self.ui.load_pages.REF_CLK_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "REF_CLK"))
+        self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "MST_MODE"))
+        self.ui.load_pages.WORK_MODE_ComboBox.activated.connect(partial(Hawk01MainUI.WORK_MODE_update, self))
+        self.ui.load_pages.MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "MIPI_RATE"))
+
+        self.ui.load_pages.TDC_BIN_W_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "TDC_BIN_W"))
+        self.ui.load_pages.V_PXL_OUT_NUM_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "V_PXL_OUT_NUM"))
+        self.ui.load_pages.TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "TRG_I_EN"))
+        self.ui.load_pages.MINBIN_THRS_spinBox.valueChanged.connect(partial(Hawk01MainUI.BIN_THRS_uptate, self))
+        self.ui.load_pages.MAXBIN_THRS_spinBox.valueChanged.connect(partial(Hawk01MainUI.BIN_THRS_uptate, self))
+        self.ui.load_pages.OUT_BIN_NUM_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "OUT_BIN_NUM"))
+        self.ui.load_pages.PKS_ECHO_NUM_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "PKS_ECHO_NUM"))
+
+        self.ui.load_pages.SCAN_MODE_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "SCAN_MODE"))
+        self.ui.load_pages.V_ROLL_NUM_Slider.valueChanged.connect(partial(Hawk01MainUI.V_ROLL_NUM_update, self))
+        self.ui.load_pages.H_ROLL_NUM_Slider.valueChanged.connect(partial(Hawk01MainUI.H_ROLL_NUM_update, self))
+        self.ui.load_pages.H_VLD_SEG_Slider.valueChanged.connect(partial(Hawk01MainUI.H_VLD_SEG_update, self))
         return
 
     # 下拉框值更新
     # ///////////////////////////////////////////////////////////////
-    def UPDATE_REF_CLK(self, i):
-        self.hawk01_config['REF_CLK'] = self.hawk01_gui_config["REF_CLK"]["config"][i]
+    def ComboBox_data_update(self, key, index):
+        self.hawk01_config[key] = index
+        if key == "TDC_BIN_W":
+            SYS_CLK_index = 2 - index % 3
+            self.hawk01_config["SYS_CLK"] = SYS_CLK_index
+            self.hawk01_config["UPSMP_MODE"] = 0b11 if index < 3 else 0b00
+            self.ui.load_pages.SYS_CLK_ComboBox.setCurrentIndex(SYS_CLK_index)
         return
 
-    def UPDATE_WORK_MODE(self, i):
+    def WORK_MODE_update(self, index):
         self.hawk01_config['WORK_MODE'] = self.ui.load_pages.WORK_MODE_ComboBox.get_selected_index()
 
-    def UPDATE_SCAN_MODE(self, i):
-        self.hawk01_config['SCAN_MODE'] = i
+    def BIN_THRS_uptate(self, value):
+        minbin_thrs = self.ui.load_pages.MINBIN_THRS_spinBox.value()
+        maxbin_thrs = self.ui.load_pages.MAXBIN_THRS_spinBox.value()
 
-    def UPDATE_MST_MODE(self, i):
-        self.hawk01_config['MST_MODE'] = i
+        self.ui.load_pages.MINBIN_THRS_spinBox.setMaximum(maxbin_thrs)
+        self.ui.load_pages.MAXBIN_THRS_spinBox.setMinimum(max(minbin_thrs, 1))  # MAXBIN_THRS can't 0
 
-    def UPDATE_TRG_I_EN(self, i):
-        self.hawk01_config['TRG_I_EN'] = i
+        self.hawk01_config["MINBIN_THRS"] = minbin_thrs
+        self.hawk01_config["MAXBIN_THRS"] = maxbin_thrs
+        bin_number = ((maxbin_thrs+1)*2 - minbin_thrs)*2
+        self.ui.load_pages.BIN_NUMBER_Value.setNum(bin_number)
 
-    def UPDATE_MIPI_RATE(self, i):
-        self.hawk01_config['MIPI_RATE'] = self.hawk01_gui_config["MIPI_RATE"]["config"][i]
+    def V_ROLL_NUM_update(self, value):
+        self.hawk01_config['V_ROLL_NUM'] = value - 1
 
-    def UPDATE_TDC_BIN_W(self, i):
-        SYS_CLK_index = 2 - i % 3
-        self.hawk01_config['TDC_BIN_W'] = self.hawk01_gui_config["TDC_BIN_W"]["config"][i]
-        self.hawk01_config['SYS_CLK'] = self.hawk01_gui_config["SYS_CLK"]["config"][SYS_CLK_index]
-        self.hawk01_config['UPSMP_MODE'] = 0b11 if i < 3 else 0b00
-        self.ui.load_pages.SYS_CLK_ComboBox.setCurrentIndex(SYS_CLK_index)
+    def H_ROLL_NUM_update(self, value):
+        self.hawk01_config['H_ROLL_NUM'] = value - 1
 
-    def UPDATE_V_ROLL_NUM(self, num):
-        self.hawk01_config['V_ROLL_NUM'] = num - 1
-
-    def UPDATE_H_ROLL_NUM(self, num):
-        self.hawk01_config['H_ROLL_NUM'] = num - 1
-
-    def UPDATE_H_VLD_SEG(self, num):
-        self.hawk01_config['H_VLD_SEG'] = num - 1
+    def H_VLD_SEG_update(self, value):
+        self.hawk01_config['H_VLD_SEG'] = value - 1
 
     # ///////////////////////////////////////////////////////////////
     # ROI config window function
@@ -251,10 +265,8 @@ class Hawk01MainUI:
             self.hawk01_roi_gen_config['ROIGenByJson']['seg_hs'] = self.ui.load_pages.seg_hs_spinBox.value()-1
             self.hawk01_roi_gen_config['ROIGenByJson']['spad_vs'] = self.ui.load_pages.spad_vs_spinBox.value()-1
             self.hawk01_roi_gen_config['ROIGenByJson']['light_shift'] = self.ui.load_pages.light_shift_spinBox.value()
-            self.hawk01_roi_gen_config['ROIGenByJson'][
-                'sublight_shift'] = self.ui.load_pages.sublight_shift_spinBox.value()
-            self.hawk01_roi_gen_config['ROIGenByJson'][
-                'roi_shape'] = self.ui.load_pages.ROI_Shape_ComboBox.currentIndex()
+            self.hawk01_roi_gen_config['ROIGenByJson']['sublight_shift'] = self.ui.load_pages.sublight_shift_spinBox.value()
+            self.hawk01_roi_gen_config['ROIGenByJson']['roi_shape'] = self.ui.load_pages.ROI_Shape_ComboBox.currentIndex()
             self.hawk01_roi_gen_config['ROIGenByJson']['v_spad_shift'] = self.ui.load_pages.v_spad_shift_spinBox.value()
             self.hawk01_roi_gen_config['ROIGenByJson']['h_seg_shift'] = self.ui.load_pages.h_seg_shift_spinBox.value()
 
@@ -401,7 +413,7 @@ class Hawk01MainUI:
         """
         # logging.info("ROI Masking display...")
         # arrays = []
-        # for i in range(32):
+        # for index in range(32):
         #     arr = np.random.rand(576, 768)
         #     arrays.append(arr)
         # self.__roi_data_pkg__["masking_arrays"] = arrays
@@ -473,8 +485,8 @@ class Hawk01MainUI:
         # self.ui.load_pages.SPADISS_Integration_CheckBox.stateChanged.connect(
         #     partial(Hawk01MainUI.func_file_gui_checkBoxChange, self))
         # 按钮绑定
-        self.ui.load_pages.reference_script_Button.clicked.connect(
-            partial(Hawk01MainUI.func_reference_script_file_sel, self))
+        self.ui.load_pages.reference_script_sel_Button.clicked.connect(partial(Hawk01MainUI.func_reference_script_file_sel, self))
+        self.ui.load_pages.reference_script_parse_Button.clicked.connect(partial(Hawk01MainUI.func_reference_script_parse, self))
         self.ui.load_pages.file_save_dir_Button.clicked.connect(partial(Hawk01MainUI.func_file_save_dir_sel, self))
         self.ui.load_pages.Save.clicked.connect(partial(Hawk01MainUI.func_mainUI_save, self))  # Save按钮连接保存操作
         self.hawk01_main_ui_signal_sync.Obj_signal_0.connect(partial(Hawk01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
@@ -494,6 +506,11 @@ class Hawk01MainUI:
             self.ui.load_pages.reference_script_LineEdit.setText(file)
             self.hawk01_config['ref_cfg_file'] = file
             logging.info(self.hawk01_config['ref_cfg_file'])
+
+    def func_reference_script_parse(self):
+        # Hawk01MainUI.func_merge_hawk_config(self)
+        Hawk01Function.ScriptParse(self.hawk01_config)
+        pass
 
     def func_file_save_dir_sel(self):
         dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
@@ -529,8 +546,14 @@ class Hawk01MainUI:
         主界面的保存按钮保存数据: 包含 ROI 数据, Script 数据
             1. 使用子线程调用保存, 不占用主线程
         """
-        self.ui.load_pages.Save.setEnabled(False)
+        Hawk01MainUI.func_get_MainUI_config(self)
+        Hawk01MainUI.func_get_roi_config(self)
+        Hawk01MainUI.func_merge_hawk_config(self)
+        if self.hawk01_config["ROI_SRAM_Include"] == 1:
+            Hawk01MainUI.func_roi_save(self)
+        Hawk01Function.ScriptDataSave(self.hawk01_config)
 
+        self.ui.load_pages.Save.setEnabled(False)
         def threadFunc():
             try:
                 # 获取界面配置并 merge 所有配置

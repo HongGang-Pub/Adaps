@@ -17,7 +17,7 @@ def data_process(array_lst, coefficient_list, ref_array_idx=0, ref_array_lst=Non
     """
 
     frame_number = len(array_lst)
-    # image_idx = list(i for i in range(frame_number))
+    # image_idx = list(index for index in range(frame_number))
     base_num_list = []
 
     # __array__ = np.zeros((2, 3))
@@ -79,7 +79,7 @@ def data_process(array_lst, coefficient_list, ref_array_idx=0, ref_array_lst=Non
                 symbols = 1 if i < ref_array_idx else 0
                 if bin_number_cnt[i] == -1:
                     spad_bin_number_dict[coefficient][point_cnt][i + 2] = [symbols, array_lst[i][x, y]]
-                    # spad_bin_number_dict[coefficient][point_cnt][i + 2] = array_lst[i][x, y]
+                    # spad_bin_number_dict[coefficient][point_cnt][index + 2] = array_lst[index][x, y]
 
     # title = ["x", "y"] + image_idx
     # title = ["x", "y"] + ["D2"]
@@ -170,7 +170,7 @@ def cmp_data(coefficient, sv11, data, excel_name):
                 coor_list.append([n[0], n[1]])
         all_coor_list.append(coor_list)
     write_list = [element for sublist in all_coor_list for element in sublist]
-    # res = list(set(map(lambda i: tuple(sorted(i)), write_list)))
+    # res = list(set(map(lambda index: tuple(sorted(index)), write_list)))
     # write_list = [list(item) for item in res]
 
     tmp_list = []

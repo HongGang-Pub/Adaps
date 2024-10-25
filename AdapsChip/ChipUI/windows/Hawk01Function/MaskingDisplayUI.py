@@ -180,9 +180,7 @@ class Hawk01MaskingDynamicFig(DynamicFig):
     def __init__(self, roi_data_pkg):
         super().__init__()
         self.roi_data_pkg = roi_data_pkg
-        self.img_types = ["Masking", "PCM Image", "PTM Image"]
-        if self.roi_data_pkg["roi_gen_type"] == 3:
-            self.img_types.append("Cali fusion Image")
+        self.img_types = roi_data_pkg["img_types"]
 
     def update_fig(self, img_type=0, img_index=0):
         if img_type == 0:  # 动态展示 masking 图片
@@ -254,9 +252,7 @@ class MaskingWindow(QMainWindow):
         self.soft_config = soft_config
         if self.roi_data_pkg is not None:
             self.icon_fd = "gui/images/svg_icons/"
-            self.img_types = ["Masking", "PCM Image", "PTM Image"]
-            if self.roi_data_pkg["roi_gen_type"] == 3:
-                self.img_types.append("Cali fusion Image")
+            self.img_types = roi_data_pkg["img_types"]
         else:
             self.icon_fd = "../../gui/images/svg_icons/"
             arrays = []
@@ -329,9 +325,7 @@ class MaskingWindow(QMainWindow):
         # self.win_vlayout.addWidget(self.figtoolbar)  # 工具栏添加到窗口布局中
 
     def roi_data_sync(self):
-        self.img_types = ["Masking", "PCM Image", "PTM Image"]
-        if self.roi_data_pkg["roi_gen_type"] == 3:
-            self.img_types.append("Cali fusion Image")
+        self.img_types = self.roi_data_pkg["img_types"]
         self.canvas.roi_data_pkg = self.roi_data_pkg
         self.canvas.img_types = self.img_types
         self.img_sel_ComboBox.clear()

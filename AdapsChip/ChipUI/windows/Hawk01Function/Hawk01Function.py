@@ -18,6 +18,7 @@ def MskuRoiGenerateByJson(cfg: dict) -> dict:
                                                                                                 is_save=0)
     roi_data = RoiMemGenerate(msku_roi_mem, cfg)
     roi_data_pkg["roi_gen_type"] = 0
+    roi_data_pkg["img_types"] = ["Masking", "PCM Image", "PTM Image"]
     roi_data_pkg["roi_data"] = roi_data
     roi_data_pkg["pcm_array"] = pcm_array
     roi_data_pkg["ptm_array"] = ptm_array
@@ -35,6 +36,7 @@ def MskuRoiGenerateByFile(cfg: dict) -> dict:
     masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg,
                                                                                                 is_save=0)
     roi_data_pkg["roi_gen_type"] = 1
+    roi_data_pkg["img_types"] = ["Masking", "PCM Image", "PTM Image"]
     roi_data_pkg["roi_data"] = roi_data
     roi_data_pkg["pcm_array"] = pcm_array
     roi_data_pkg["ptm_array"] = ptm_array
@@ -47,6 +49,7 @@ def MskuRoiGenerateByFile(cfg: dict) -> dict:
 def MskuRoiGenerateByBase(cfg: dict) -> dict:  # TODO
     roi_data_pkg = {}
     roi_data_pkg["roi_gen_type"] = 2
+    roi_data_pkg["img_types"] = ["Masking", "PCM Image", "PTM Image"]
     return roi_data_pkg
 
 
@@ -62,6 +65,7 @@ def MskuRoiGenerateByCali(cfg: dict) -> dict:  # TODO
     masking_arrays, cali_fusion_image, fusion_image_cali_3D_image = cali_run.CaliResultDisplay(cali_data, light_imags,
                                                                                                cfg, is_save=0)
     roi_data_pkg["roi_gen_type"] = 3
+    roi_data_pkg["img_types"] = ["Masking", "PCM Image", "PTM Image", "Cali fusion Image"]
     roi_data_pkg["roi_data"] = roi_data
     roi_data_pkg["pcm_array"] = pcm_array
     roi_data_pkg["ptm_array"] = ptm_array
@@ -160,3 +164,8 @@ def ScriptDataSave(hawk01_cfg):
         url = f'{__hawk01_cfg__["fd_path"]}/{__hawk01_cfg__["reg_name"]}.txt'
         info = LogerPubMethod.create_file_hyperlink(file_type="Script data", url=url)
         logging.info(info)
+
+
+def ScriptParse(hawk01_cfg):
+    HawkPubMethod.ParseHawkRegConfig(hawk01_cfg)
+

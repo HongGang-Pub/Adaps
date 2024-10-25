@@ -583,7 +583,7 @@ class ROICalibration:
                     continue
                 optimal_blocks = correct_blocks
                 optimal_move_distance = move_distance
-                # print(i, move_distance, is_success)
+                # print(index, move_distance, is_success)
                 # print(optimal_blocks)
         # print(optimal_move_distance)
 

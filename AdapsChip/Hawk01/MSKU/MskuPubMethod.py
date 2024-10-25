@@ -310,7 +310,7 @@ def animation_img(fig, msku_roi_data, cfg):
     #     return im
 
     def update(i):
-        # im.set_data(arrays[i])
+        # im.set_data(arrays[index])
         imgs = ax.imshow(X=arrays[i], cmap="gray")
 
         x, y, s = info[i]
