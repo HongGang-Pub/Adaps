@@ -1,4 +1,5 @@
 import copy
+import os
 
 from AdapsChip.Hawk01 import HawkPubMethod
 from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
@@ -30,7 +31,14 @@ def MskuRoiGenerateByJson(cfg: dict) -> dict:
 def MskuRoiGenerateByFile(cfg: dict) -> dict:
     """通过手动的标定坐标生成ROI"""
     roi_data_pkg = {}
-    cali_data = MskuPubMethod.DirectAccessCaliData(cfg)
+    file = cfg["gen_roi_file"]
+    file_name, file_ext = os.path.splitext(file)
+    if file_ext == ".txt":
+        cali_data = MskuPubMethod.DirectAccessCaliDataByTXT(cfg)
+    elif file_ext in [".csv", ".xls", ".xlsx"]:   # csv
+        cali_data = MskuPubMethod.DirectAccessCaliDataByExcel(cfg)
+    else:
+        raise ValueError("Incorrect file format, not supported for parsing...")
     msku_roi_mem = ROICalibration.MskuRoiGenerate(cfg=cfg, cali_data=cali_data)
     roi_data = RoiMemGenerate(msku_roi_mem, cfg)
     masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, cfg,
@@ -159,7 +167,7 @@ def ScriptDataSave(hawk01_cfg):
             else f'Histogram_Mode_{hawk01_cfg["reg_name"]}' if work_mode == 2 \
             else f'Gray_Scale_Mode_{hawk01_cfg["reg_name"]}'  # if work_mode == 3 \
         HawkPubMethod.GenerateHawkRegConfig(hawk_cfg=__hawk01_cfg__,
-                                            reg_cfg_fp="../Hawk01/Hawk01RegConfig.py")
+                                            reg_cfg_fp=__hawk01_cfg__["Hawk01RegConfigFile"])
         # HawkPubMethod.GenerateHawkRegConfigByJson(hawk_cfg=__hawk01_cfg__, reg_cfg=__reg_cfg__)
         url = f'{__hawk01_cfg__["fd_path"]}/{__hawk01_cfg__["reg_name"]}.txt'
         info = LogerPubMethod.create_file_hyperlink(file_type="Script data", url=url)

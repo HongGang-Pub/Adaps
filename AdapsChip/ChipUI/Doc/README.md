@@ -9,28 +9,35 @@
 # 2. 软件介绍  
 1. 软件界面如下  
 ![软件界面](figs/Software.jpg "Software.jpg")
-1. Config: 
-   1. MST_MODE: 下拉选择，Slave Mode / Master Mode
-   2. WORK_MODE: 下拉选择，Histogram Mode / Echo Mode / Ranging Mode / Gray Scale Mode 
-   3. TRG_I_EN: 下拉选择，Disable / Enable
-   4. TDC bin width：下拉选择，0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns
-   5. MIPI RATE：下拉选择，0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane
-   6. SCAN_MODE: 下拉选择，1D SCAN_MODE / 2D SCAN_MODE
-   7. V_ROLL_NUM: 垂直方向Rolling次数，选择范围: 1~32次
-   8. H_ROLL_NUM: 水平方向ROlling次数，选择范围: 1~16次
-   9. H_VLD_SEG: 每次Rolling打开的段数, 1~16段
-2. Input：
+2. Config: 
+   1. XCLK: PLL_CLKIN 的输出参考时钟，可配置为24M或25M
+   2. MST_MODE: 寄存器配置, 芯片是作为 Slave or Master 
+   3. WORK_MODE: 寄存器配置, 芯片工作模式选择, 可多选, 同时选择所有4种工作模式, 保存时则生成4种模式的系统配置脚本
+   4. MIPI RATE：MIPI 速率配置, 下拉选择，0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane
+   5. SYS_CLK: 系统时钟, TDC bin width配置后自动设置好系统时钟, 系统时钟支持：200M、250M、330M
+   6. TDC bin width：下拉选择，0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns
+   7. V_PXL_NUM: 寄存器配置, V_PXL_OUT_NUM
+   8. TRG_I_EN: 寄存器配置, TRG_I Enable or Disable, 根据硬件设计配置
+   9. MINBIN_TRHS: 寄存器配置, 修改配置时自动计算 BIN_NUMBER
+   10. MAXBIN_TRHS: 寄存器配置, 修改配置时自动计算 BIN_NUMBER
+   11. OUT_BIN_NUM：寄存器配置
+   12. PKS_ECHO_NUM：寄存器配置
+   13. SCAN_MODE: 寄存器配置, Rolling方式，1D or 2D scan_mode
+   14. V_ROLL_NUM: 寄存器配置, 垂直方向Rolling次数，选择范围: 1~32次
+   15. H_ROLL_NUM: 寄存器配置, 水平方向ROlling次数，选择范围: 1~16次(仅 2D scan mode 配置)
+   16. H_VLD_SEG: 寄存器配置, 每次Rolling打开的段数, 1~16段
+3. Input：
    1. Load ROI file：标定文件选择窗口, 默认打开./Input文件夹  
       > 标定文件格式请参看[**标定文件格式说明**](#4-标定文件格式说明)
    2. Sel Config file：基准配置文件选择窗口
       > 程序会根据选择的基准配置文件以及最新的配置信息，自动生成新的寄存器配置脚本  
       > 寄存器配置脚本支持的功能请参看[**寄存器配置生成功能说明**](#6-寄存器配置生成功能说明)
-3. Output:
+4. Output:
    1. REG CFG File：生成的寄存器配置脚本文件名
    2. ROI SRAM File：生成的ROI文件名
-4. Operate:
+5. Operate:
    1. 操作界面分别为预览、保存、日志清除按钮，分别支持相应的功能
-5. Control：  
+6. Control：  
    ![软件界面](figs/PlayerCtrl.jpg "PlayerCtrl.jpg")  
    从左到右，按钮功能依次为：
       - `预览上一帧`

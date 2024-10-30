@@ -3,7 +3,7 @@
     "zone_cfg_sel": 0,
     "zone_cfg_def": {
         "SUB_EXPOTIME": {
-            "Zone0": "99",
+            "Zone0": "2",
             "Zone1": "20",
             "Zone2": "20",
             "Zone3": "20",
@@ -37,7 +37,7 @@
             "Zone31": "20"
         },
         "SUB_IDLETIME": {
-            "Zone0": "1",
+            "Zone0": "0",
             "Zone1": "1",
             "Zone2": "1",
             "Zone3": "1",
@@ -71,7 +71,7 @@
             "Zone31": "1"
         },
         "EXPO_LASPRD": {
-            "Zone0": "10",
+            "Zone0": "0x1D4",
             "Zone1": "200",
             "Zone2": "300",
             "Zone3": "400",
@@ -105,7 +105,7 @@
             "Zone31": "400"
         },
         "EXPO_PLSWC": {
-            "Zone0": "1",
+            "Zone0": "3",
             "Zone1": "5",
             "Zone2": "6",
             "Zone3": "7",
@@ -139,7 +139,7 @@
             "Zone31": "4"
         },
         "EXPO_PLSWF": {
-            "Zone0": "0",
+            "Zone0": "8",
             "Zone1": "1",
             "Zone2": "1",
             "Zone3": "1",

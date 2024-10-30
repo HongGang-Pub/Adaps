@@ -267,17 +267,17 @@ def GenerateHawkRegConfig(hawk_cfg: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
 
     # PLL0 config
     # ////////////////////////////////////////////////////////////////////////////
-    PLL0_ID = FREQ_Config[hawk_cfg['REF_CLK']]["PLL0"][1]["ID"]
-    PLL0_OD = FREQ_Config[hawk_cfg['REF_CLK']]["PLL0"][1]["OD"]
-    PLL0_FB = FREQ_Config[hawk_cfg['REF_CLK']]["PLL0"][1]["FB"]
+    PLL0_ID = FREQ_Config[hawk_cfg['XCLK']]["PLL0"][1]["ID"]
+    PLL0_OD = FREQ_Config[hawk_cfg['XCLK']]["PLL0"][1]["OD"]
+    PLL0_FB = FREQ_Config[hawk_cfg['XCLK']]["PLL0"][1]["FB"]
     PLL0_DIV1 = ((PLL0_ID & 0x0007) << 4) + ((PLL0_OD & 0x0003) << 0)
     PLL0_DIV2 = ((PLL0_FB & 0x00FF) << 0)
 
     # PLL1 config. hawk_cfg['SYS_CLK'] = 330M, 250M, 200M
     # ////////////////////////////////////////////////////////////////////////////
-    PLL1_ID = FREQ_Config[hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["ID"]
-    PLL1_OD = FREQ_Config[hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["OD"]
-    PLL1_FB = FREQ_Config[hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["FB"]
+    PLL1_ID = FREQ_Config[hawk_cfg['XCLK']]["PLL1"][hawk_cfg['SYS_CLK']]["ID"]
+    PLL1_OD = FREQ_Config[hawk_cfg['XCLK']]["PLL1"][hawk_cfg['SYS_CLK']]["OD"]
+    PLL1_FB = FREQ_Config[hawk_cfg['XCLK']]["PLL1"][hawk_cfg['SYS_CLK']]["FB"]
     PLL1_DIV1 = ((PLL1_ID & 0x0007) << 4) + ((PLL1_OD & 0x0003) << 0)
     PLL1_DIV2 = ((PLL1_FB & 0x00FF) << 0)
 
@@ -289,17 +289,19 @@ def GenerateHawkRegConfig(hawk_cfg: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
 
     # MIPI_RATE CONFIG. hawk_cfg["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
     # ////////////////////////////////////////////////////////////////////////////
-    MIPI_NS = FREQ_Config[hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["NS"]
-    MIPI_MS = FREQ_Config[hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["MS"]
-    MIPI_PS = FREQ_Config[hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["PS"]
+    MIPI_NS = FREQ_Config[hawk_cfg['XCLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["NS"]
+    MIPI_MS = FREQ_Config[hawk_cfg['XCLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["MS"]
+    MIPI_PS = FREQ_Config[hawk_cfg['XCLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["PS"]
     MIPIPLL_LPDH = (MIPI_NS & 0xFF00) >> 8
     MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
     MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)
 
     # MIPI_PKTDLY
     # ////////////////////////////////////////////////////////////////////////////
-    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[hawk_cfg['WORK_MODE']][hawk_cfg['SYS_CLK']][hawk_cfg['MIPI_RATE']] if hawk_cfg["WORK_MODE"] >= 2 \
-        else MIPI_PKTDLY_CONFIG[hawk_cfg['WORK_MODE']][hawk_cfg['SYS_CLK']][hawk_cfg["OUT_BIN_NUM"]][hawk_cfg['MIPI_RATE']]
+    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[hawk_cfg['WORK_MODE']][hawk_cfg['SYS_CLK']][hawk_cfg['MIPI_RATE']] if hawk_cfg[
+                                                                                                               "WORK_MODE"] >= 2 \
+        else MIPI_PKTDLY_CONFIG[hawk_cfg['WORK_MODE']][hawk_cfg['SYS_CLK']][hawk_cfg["OUT_BIN_NUM"]][
+        hawk_cfg['MIPI_RATE']]
 
     # TDC_DLY_CFG1
     # ////////////////////////////////////////////////////////////////////////////
@@ -318,8 +320,11 @@ def GenerateHawkRegConfig(hawk_cfg: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
     # ----------------------------------------------------------------------------------------
     csru_datas = PubMethod.read_file(ref_cfg_file)
     if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check。")
+        raise ValueError("The register configuration file is empty, please check.")
 
+    # --------------------------------------------------------
+    # 遍历脚本数据
+    # --------------------------------------------------------
     for line in range(len(csru_datas)):
         _str = csru_datas[line].strip().replace("\n", "").replace("\r", "")  # 去除换行符, 保存时统一保存
         if _str == '' or _str[0:2] == '//':  # 空行 & 整行注释 场景
@@ -353,6 +358,7 @@ def GenerateHawkRegConfig(hawk_cfg: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
             elif addr == csru_addr['V_ROLL_NUM']:
                 register_value = (register_value & (0xFF - 0x1F)) + (hawk_cfg["V_ROLL_NUM"] << 0)
             elif addr == csru_addr['H_ROLL_NUM']:
+                hawk_cfg["H_ROLL_NUM"] = 0 if hawk_cfg["SCAN_MODE"] == 1 else hawk_cfg["H_ROLL_NUM"]
                 register_value = (register_value & (0xFF - 0x0F)) + (hawk_cfg["H_ROLL_NUM"] << 0)
                 register_value = (register_value & (0xFF - 0xF0)) + (hawk_cfg["H_VLD_SEG"] << 4)
             elif addr == csru_addr['UPSMP_CFG']:
@@ -404,6 +410,20 @@ def GenerateHawkRegConfig(hawk_cfg: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
         else:
             csru_datas[line] = _str
 
+    # --------------------------------------------------------
+    # 增加配置说明
+    # --------------------------------------------------------
+    config_instruction = "config_instruction"
+    config_print = "PRINT"
+    if config_instruction in hawk_cfg and config_print in hawk_cfg[config_instruction]:
+        _str = "// "
+        _len = len(hawk_cfg[config_instruction][config_print])
+        for i in range(_len):
+            config = hawk_cfg[config_instruction][config_print][i]
+            if i > 0:
+                _str += "; "
+            _str += f"{config}: {hawk_cfg[config_instruction][config][hawk_cfg[config]]}"
+        csru_datas.insert(0, _str)  # 根据配置，在行首打印配置信息内容
     PubMethod.data_save(fname=f'{hawk_cfg["reg_name"]}.txt',
                         data_list=csru_datas,
                         split='\n',
@@ -425,7 +445,7 @@ def ParseHawkRegConfig(hawk_cfg):
     _str += "\n---------------------------"
     for key, value in csru_cfg.items():
         _str += f"\n   {key} : {value}"
-    logging.debug(_str)
+    logging.INFO_PLUS(_str)
 
     VC0_WC = csru_cfg["VC0_WC_L"] + (csru_cfg["VC0_WC_H"] << 8)
     VC1_WC = csru_cfg["VC1_WC_L"] + (csru_cfg["VC1_WC_H"] << 8)
@@ -504,17 +524,17 @@ def ParseHawkRegConfig(hawk_cfg):
 #
 #     # PLL0 config
 #     # ////////////////////////////////////////////////////////////////////////////
-#     PLL0_ID = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL0"]["250M"]["ID"]
-#     PLL0_OD = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL0"]["250M"]["OD"]
-#     PLL0_FB = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL0"]["250M"]["FB"]
+#     PLL0_ID = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["PLL0"]["250M"]["ID"]
+#     PLL0_OD = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["PLL0"]["250M"]["OD"]
+#     PLL0_FB = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["PLL0"]["250M"]["FB"]
 #     PLL0_DIV1 = ((PLL0_ID & 0x0007) << 4) + ((PLL0_OD & 0x0003) << 0)
 #     PLL0_DIV2 = ((PLL0_FB & 0x00FF) << 0)
 #
 #     # PLL1 config. hawk_cfg['SYS_CLK'] = 330M, 250M, 200M
 #     # ////////////////////////////////////////////////////////////////////////////
-#     PLL1_ID = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["ID"]
-#     PLL1_OD = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["OD"]
-#     PLL1_FB = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["PLL1"][hawk_cfg['SYS_CLK']]["FB"]
+#     PLL1_ID = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["PLL1"][hawk_cfg['SYS_CLK']]["ID"]
+#     PLL1_OD = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["PLL1"][hawk_cfg['SYS_CLK']]["OD"]
+#     PLL1_FB = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["PLL1"][hawk_cfg['SYS_CLK']]["FB"]
 #     PLL1_DIV1 = ((PLL1_ID & 0x0007) << 4) + ((PLL1_OD & 0x0003) << 0)
 #     PLL1_DIV2 = ((PLL1_FB & 0x00FF) << 0)
 #
@@ -526,9 +546,9 @@ def ParseHawkRegConfig(hawk_cfg):
 #
 #     # MIPI_RATE CONFIG. hawk_cfg["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
 #     # ////////////////////////////////////////////////////////////////////////////
-#     MIPI_NS = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["NS"]
-#     MIPI_MS = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["MS"]
-#     MIPI_PS = reg_cfg["FREQ_Config"][hawk_cfg['REF_CLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["PS"]
+#     MIPI_NS = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["NS"]
+#     MIPI_MS = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["MS"]
+#     MIPI_PS = reg_cfg["FREQ_Config"][hawk_cfg['XCLK']]["MIPI"][hawk_cfg['MIPI_RATE']]["PS"]
 #     MIPIPLL_LPDH = (MIPI_NS & 0xFF00) >> 8
 #     MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
 #     MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)

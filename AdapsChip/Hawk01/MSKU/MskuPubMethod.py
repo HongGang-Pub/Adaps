@@ -1,3 +1,4 @@
+import csv
 import logging
 import re
 import os
@@ -5,6 +6,7 @@ import os
 import numpy as np
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
+import xlrd
 
 from SelfDefinedPackge import PubMethod
 from SelfDefinedPackge import ArrayPubMethod
@@ -336,7 +338,7 @@ def animation_img(fig, msku_roi_data, cfg):
     return ani
 
 
-def DirectAccessCaliData(cfg):
+def DirectAccessCaliDataByTXT(cfg):
     """通过读取文件的形式获取 cali_data"""
     ini_cali_datas = PubMethod.read_file(cfg["gen_roi_file"])
 
@@ -398,6 +400,96 @@ def DirectAccessCaliData(cfg):
         for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
             for hroll_cnt in range(0, cfg['H_ROLL_NUM'] + 1):
                 seg_num, start_index = _split_cali_data(frame_cnt)
+                per_img_roi_data.append([seg_num, start_index])
+
+                img_roi_data.append(per_img_roi_data)
+                per_img_roi_data = []
+                frame_cnt += 1
+    return img_roi_data
+
+
+def DirectAccessCaliDataByExcel(cfg):
+    """通过读取文件的形式获取 cali_data"""
+    file = cfg["gen_roi_file"]
+    sheet_sel = cfg["sheet_sel"]
+
+    file_name, file_ext = os.path.splitext(file)
+    cali_datas = []
+    if file_ext == ".csv":
+        with open(file, newline='', encoding="utf-8") as f:
+            datas = csv.reader(f, delimiter=',', quotechar='|')
+            for __data__ in datas:
+                cali_datas.append(__data__)
+    elif file_ext in [".xlsx", ".xls"]:
+        excel_data = xlrd.open_workbook(file)
+        if len(excel_data.sheet_names()) < sheet_sel:
+            raise ValueError("The wrong Excel sheet was selected...")
+        sheet_datas = excel_data.sheet_by_index(sheet_sel)
+        nrows = sheet_datas.nrows
+        for row in range(nrows):
+            cali_datas.append(sheet_datas.row_values(row))
+    else:
+        return
+    cali_datas.pop(0)   # 删除第一行
+    # 校验标定数量是否正确
+    # /////////////////////////////////////////////////////////////////////
+    num = (cfg['V_ROLL_NUM'] + 1) * (cfg['H_ROLL_NUM'] + 1) if cfg['SCAN_MODE'] == 1 else (cfg['V_ROLL_NUM'] + 1)
+    if (len(cali_datas)) < num:  # 标定数量少于配置所需标定数时, 结束程序, 第一行为 Segment 标识数据
+        info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
+                f"{num} cali data are required, but only {len(cali_datas)} cali data are available.")
+        raise ValueError(info)
+    elif (len(cali_datas)) > num:  # 标定数量多余所需标定数时, 打印提示信息, 提示配置信息与标定信息不匹配
+        logging.warning(f"Be careful! The calibration data may not match the register configuration.")
+
+    img_roi_data = []
+    per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
+
+    frame_cnt = 0
+    start_index = 0
+    if cfg['SCAN_MODE'] == 0:
+        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
+            seg_hs = -1
+            per_img_cali_data = cali_datas[frame_cnt]
+            per_img_cali_data.pop(0)    # 删除第一列
+            for i in range(16):     # 找到第一个非 0 数据, 作为 SEG_HS
+                if per_img_cali_data[i] != "":
+                    seg_hs = i
+                    break
+            if seg_hs == -1:
+                raise ValueError(f"Rolling_{frame_cnt} no calibration data ,Please fill in and try again...")
+
+            if seg_hs + cfg['H_VLD_SEG'] > 15:
+                raise ValueError(f"Rolling_{frame_cnt} start with {seg_hs} segment, and depending on the H_VLD_SEG "
+                                 f"configuration, ROI beyond the SPAD_ARRAY.")
+            for seg_cnt in range(0, cfg['H_VLD_SEG'] + 1):
+                seg_num = seg_hs + seg_cnt
+                if per_img_cali_data[seg_num] != "":
+                    try:
+                        start_index = int(per_img_cali_data[seg_num])
+                    except:
+                        raise ValueError("The calibration data formatting error....")
+                per_img_roi_data.append([seg_num, start_index])
+
+            img_roi_data.append(per_img_roi_data)
+            per_img_roi_data = []
+            frame_cnt += 1
+    else:
+        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
+            for hroll_cnt in range(0, cfg['H_ROLL_NUM'] + 1):
+                seg_hs = -1
+                per_img_cali_data = cali_datas[frame_cnt]
+                per_img_cali_data.pop(0)  # 删除第一列
+                for i in range(16):     # 找到第一个非 0 数据, 作为 SEG_HS
+                    if per_img_cali_data[i] != "":
+                        seg_hs = i
+                        break
+                if seg_hs == -1:
+                    raise ValueError(f"Rolling_{frame_cnt} no calibration data ,Please fill in and try again...")
+                seg_num = seg_hs
+                try:
+                    start_index = int(per_img_cali_data[seg_num])
+                except:
+                    raise ValueError("The calibration data formatting error....")
                 per_img_roi_data.append([seg_num, start_index])
 
                 img_roi_data.append(per_img_roi_data)

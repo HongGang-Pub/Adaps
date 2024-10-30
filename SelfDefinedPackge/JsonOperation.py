@@ -36,7 +36,7 @@ class JsonFunction(object):
     def serialize(self):
         # WRITE JSON FILE
         with open(self.file_path, "w", encoding='utf-8') as write:
-            json.dump(self.items, write, indent=4, ensure_ascii=False)
+            json.dump(self.items, write, indent=4, ensure_ascii=False, separators=(",", ": "))
 
     # DESERIALIZE JSON
     # ///////////////////////////////////////////////////////////////

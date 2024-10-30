@@ -1,40 +1,66 @@
 {
     "FILE_CONFIG": "--------文件相关配置---------",
-    "ref_cfg_file": "C:/Users/honggang.li/Downloads/echo_mode_3echo_36bin_reg_vld_224bin_6pixel_readout.txt",
-    "fd_path": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG0",
-    "reg_name": "reg_config_150",
+    "ref_cfg_file": "D:/Git/Adaps/AdapsChip/ChipUI/Input/Ref_RegCfg.txt",
+    "fd_path": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG",
+    "reg_name": "reg_config_new",
     "roi_name": "roi_mem",
     "REG_CONFIG": "-----------寄存器配置-----------",
-    "REF_CLK": 0,
+    "XCLK": 0,
     "MST_MODE": 1,
     "MIPI_RATE": 0,
     "WORK_MODE": [
-        1
+        0,
+        1,
+        2,
+        3
     ],
-    "TRG_I_EN": 1,
+    "TRG_I_EN": 0,
     "TDC_BIN_W": 3,
     "SYS_CLK": 2,
     "UPSMP_MODE": 0,
     "SCAN_MODE": 0,
     "V_ROLL_NUM": 31,
-    "H_ROLL_NUM": 0,
-    "H_VLD_SEG": 6,
-    "V_PXL_OUT_NUM": 0,
+    "H_ROLL_NUM": 2,
+    "H_VLD_SEG": 15,
+    "V_PXL_OUT_NUM": 1,
     "MINBIN_THRS": 0,
-    "MAXBIN_THRS": 150,
+    "MAXBIN_THRS": 167,
     "OUT_BIN_NUM": 0,
     "PKS_ECHO_NUM": 0,
     "roi_data_format": 1,
     "protocol": 0,
     "Soft_Config": "-----软件相关配置-----",
-    "Default_ROI_GEN_TYPE": 3,
+    "Default_ROI_GEN_TYPE": 0,
     "ROI_SRAM_Include": false,
+    "Hawk01RegConfigFile": "./.Hawk01Config/Hawk01RegConfig.py",
     "instruction": "------部分配置说明-----",
     "config_instruction": {
-        "TDC_BIN_W": "0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns",
-        "MIPI_RATE": "0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane",
-        "roi_data_format": "ROI存储格式：0：1byte为1行进行保存, 1:half-word为一行进行保存",
-        "REF_CLK": "REF_24M or REF_25M",
-        "protocol": "0: i2c, 1: spi"
+        "PRINT": [
+            "XCLK",
+            "MIPI_RATE"
+        ],
+        "XCLK": [
+            "24M",
+            "25M"
+        ],
+        "TDC_BIN_W": [
+            "0.75 ns",
+            "1.00 ns,",
+            "1.25 ns",
+            "1.50 ns,",
+            "2.00 ns",
+            "2.50 ns"
+        ],
+        "MIPI_RATE": [
+            "0.8 Gbps/Lane",
+            "1.0 Gbps/Lane",
+            "1.2 Gbps/Lane",
+            "1.5 Gbps/Lane"
+        ],
+        "roi_data_format": "ROI存储格式: 0:1byte为1行进行保存, 1:half-word为一行进行保存",
+        "protocol": [
+            "i2c",
+            "spi"
+        ]
     }
 }

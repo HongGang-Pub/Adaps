@@ -206,8 +206,8 @@ class UI_MainWindow(object):
         self.log_group = QWidget()
         # self.log_group.setTitle(u"Log")
         # self.log_group.setObjectName(u"Layout3")
-        self.log_group.setMinimumSize(QSize(0, 250))
-        self.log_group.setMaximumSize(QSize(16777215, 250))
+        self.log_group.setMinimumSize(QSize(0, 230))
+        self.log_group.setMaximumSize(QSize(16777215, 300))
 
         self.log_group_layout = QVBoxLayout(self.log_group)
         self.log_group_layout.setContentsMargins(9, 9, 9, 9)

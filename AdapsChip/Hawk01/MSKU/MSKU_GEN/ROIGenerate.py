@@ -17,6 +17,7 @@ def MskuRoiGenerate(cfg):
     roi_shape = cfg['roi_shape']
     v_spad_shift = cfg['v_spad_shift']
     h_seg_shitf = cfg['h_seg_shift']
+    roi_retrace = cfg['roi_retrace']
 
     """按照rolling生成与 MSKU 相关的 ROI Data"""
     msku_roi_mem = []
@@ -38,8 +39,6 @@ def MskuRoiGenerate(cfg):
         if scan_mode == 0:  # 1D scan
             # sub_frame_num = v_roll_cnt
             for j in range(0, 6):
-                # _light_vs = light_vs if j >= 1 else 575
-                # sublight_vs = _light_vs + sublight_shift * j
                 sublight_vs = light_vs + sublight_shift * j
                 for seg_num in range(0, h_vld_seg + 1):
                     h_seg_s = seg_hs + seg_num
@@ -51,7 +50,10 @@ def MskuRoiGenerate(cfg):
                         v_spad_c = sublight_vs + v_spad_shift * (h_vld_seg - seg_num)
 
                     v_spad_c = 0 if v_spad_c < 0 else v_spad_c
-                    v_spad_c = 576 if v_spad_c > 575 else v_spad_c
+                    if roi_retrace == 1:
+                        v_spad_c = v_spad_c % 576
+                    elif v_spad_c > 575:
+                        v_spad_c = 576
                     per_rolling_roi_mem.append((int(h_seg_s << 10) + v_spad_c))
         else:  # 2D scan
             for h_roll_cnt in range(0, h_roll_num + 1):

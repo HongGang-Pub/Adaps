@@ -1,35 +1,56 @@
-import numpy as np
-from numba import njit, prange
+# coding=utf-8
+import xlrd
+
+# 打开文件
+data = xlrd.open_workbook(r"C:\Users\honggang.li\Downloads\ROI_dataDEBUG\Spot混仿.xlsx")
+
+# 查看工作表
+data.sheet_names()
+print(type(data.sheet_names()))
+print("sheets：" + str(data.sheet_names()))
+
+# 通过文件名获得工作表,获取工作表1
+# table = data.sheet_by_name('工作表1')
+
+# 打印data.sheet_names()可发现，返回的值为一个列表，通过对列表索引操作获得工作表1
+table = data.sheet_by_index(1)
+
+print(type(table))
+# 获取行数和列数
+# 行数：table.nrows
+# 列数：table.ncols
+print("总行数：" + str(table.nrows))
+print("总列数：" + str(table.ncols))
+
+rows = table.nrows
+for row in range(rows):
+    print(table.row_values(row))
+# 获取整行的值 和整列的值，返回的结果为数组
+# 整行值：table.row_values(start,end)
+# 整列值：table.col_values(start,end)
+# 参数 start 为从第几个开始打印，
+# end为打印到那个位置结束，默认为none
+print("整行值0：" + str(table.row_values(0)))
+print("整行值1：" + str(table.row_values(1)))
+print("整列值：" + str(table.col_values(1)))
+
+# 获取某个单元格的值，例如获取B3单元格值
+cel_B3 = table.cell(3, 2).value
+print(cel_B3)
 
 
-@njit(parallel=True)
-def convolve2d_numba(image, kernel):
-    image_height, image_width = image.shape
-    kernel_height, kernel_width = kernel.shape
-
-    pad_height = kernel_height // 2
-    pad_width = kernel_width // 2
-
-    # 手动填充图像
-    padded_image = np.zeros((image_height + 2 * pad_height, image_width + 2 * pad_width))
-    padded_image[pad_height:pad_height + image_height, pad_width:pad_width + image_width] = image
-
-    output = np.zeros_like(image)
-
-    for i in prange(image_height):
-        for j in prange(image_width):
-            region = padded_image[i:i + kernel_height, j:j + kernel_width]
-            output[i, j] = np.sum(region * kernel)
-
-    return output
-
-
-# 测试
-if __name__ == "__main__":
-    image = np.random.rand(512, 512)
-    kernel = np.array([[1, 0, -1],
-                       [1, 0, -1],
-                       [1, 0, -1]])
-
-    result = convolve2d_numba(image, kernel)
-    print(result.shape)
+# print("====================================================")
+# for i in range(16):
+#     print(i)
+# print("====================================================")
+# import csv
+# import numpy as np
+# with open(r"D:\Project\Hawk\TF3007\1.仿真验证\系统验证\Spot混仿.csv", newline='', encoding="utf-8") as f:
+#     spamreader = csv.reader(f, delimiter=',', quotechar='|')
+#     print(spamreader)
+#     for row in spamreader:
+#         row.pop(0)
+#         print(row)
+        # print(', '.join(row))
+    # data = np.loadtxt(f, str, delimiter=",")
+    # print(data)

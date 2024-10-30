@@ -1,15 +1,17 @@
 {
     "ROIGenByJson": {
         "seg_hs": 0,
-        "spad_vs": 111,
+        "h_seg_shift": 3,
+        "spad_vs": 287,
         "light_shift": 30,
         "sublight_shift": 3,
         "roi_shape": 0,
-        "v_spad_shift": 0,
-        "h_seg_shift": 3
+        "roi_retrace": 0,
+        "v_spad_shift": 0
     },
     "ROIGenByFile": {
-        "gen_roi_file": "D:/Git/Adaps/AdapsChip/ChipUI/Input/1D_ROI_Cali_Data.txt"
+        "gen_roi_file": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG/Spot混仿.xlsx",
+        "sheet_sel": 1
     },
     "ROIGenByBase": {
         "base_roi_file": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input/1D_ROI_Cali_Data.txt",

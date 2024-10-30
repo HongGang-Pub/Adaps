@@ -69,7 +69,7 @@ class Hawk01MainUI:
         # ///////////////////////////////////////////////////////////////
         # 配置初始化, 如果配置文件没有此配置，需要初始化配置文件
         # ///////////////////////////////////////////////////////////////
-        CONFIG_KEYS = ["REF_CLK", "MST_MODE", "WORK_MODE", "MIPI_RATE", "SYS_CLK", "TDC_BIN_W",
+        CONFIG_KEYS = ["XCLK", "MST_MODE", "WORK_MODE", "MIPI_RATE", "SYS_CLK", "TDC_BIN_W",
                        "V_PXL_OUT_NUM", "TRG_I_EN", "MINBIN_THRS", "MAXBIN_THRS", "OUT_BIN_NUM",
                        "PKS_ECHO_NUM", "SCAN_MODE", "V_ROLL_NUM", "H_ROLL_NUM", "H_VLD_SEG"]
         for key in CONFIG_KEYS:
@@ -92,7 +92,7 @@ class Hawk01MainUI:
         # ///////////////////////////////////////////////////////////////
         # 设置初始值
         # ///////////////////////////////////////////////////////////////
-        self.ui.load_pages.REF_CLK_ComboBox.setCurrentIndex(self.hawk01_config['REF_CLK'])
+        self.ui.load_pages.XCLK_ComboBox.setCurrentIndex(self.hawk01_config['XCLK'])
         self.ui.load_pages.MST_MODE_ComboBox.setCurrentIndex(self.hawk01_config['MST_MODE'])
         self.ui.load_pages.WORK_MODE_ComboBox.select_indexs(self.hawk01_config['WORK_MODE'])
         self.ui.load_pages.MIPI_RATE_ComboBox.setCurrentIndex(self.hawk01_config['MIPI_RATE'])
@@ -108,12 +108,13 @@ class Hawk01MainUI:
         self.ui.load_pages.PKS_ECHO_NUM_ComboBox.setCurrentIndex(self.hawk01_config['PKS_ECHO_NUM'])
 
         self.ui.load_pages.SCAN_MODE_ComboBox.setCurrentIndex(self.hawk01_config['SCAN_MODE'])
+        Hawk01MainUI.scan_mode_windows_change(self, self.hawk01_config['SCAN_MODE'])    # 控件隐藏及显示控制
         self.ui.load_pages.V_ROLL_NUM_Slider.setValue(self.hawk01_config['V_ROLL_NUM'] + 1)
         self.ui.load_pages.H_ROLL_NUM_Slider.setValue(self.hawk01_config['H_ROLL_NUM'] + 1)
         self.ui.load_pages.H_VLD_SEG_Slider.setValue(self.hawk01_config['H_VLD_SEG'] + 1)
 
         # 操作绑定
-        self.ui.load_pages.REF_CLK_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "REF_CLK"))
+        self.ui.load_pages.XCLK_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "XCLK"))
         self.ui.load_pages.MST_MODE_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "MST_MODE"))
         self.ui.load_pages.WORK_MODE_ComboBox.activated.connect(partial(Hawk01MainUI.WORK_MODE_update, self))
         self.ui.load_pages.MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(Hawk01MainUI.ComboBox_data_update, self, "MIPI_RATE"))
@@ -141,6 +142,8 @@ class Hawk01MainUI:
             self.hawk01_config["SYS_CLK"] = SYS_CLK_index
             self.hawk01_config["UPSMP_MODE"] = 0b11 if index < 3 else 0b00
             self.ui.load_pages.SYS_CLK_ComboBox.setCurrentIndex(SYS_CLK_index)
+        elif key == "SCAN_MODE":
+            Hawk01MainUI.scan_mode_windows_change(self, index)
         return
 
     def WORK_MODE_update(self, index):
@@ -167,6 +170,24 @@ class Hawk01MainUI:
     def H_VLD_SEG_update(self, value):
         self.hawk01_config['H_VLD_SEG'] = value - 1
 
+    def scan_mode_windows_change(self, index):
+        hidden = True if (index == 0) else False
+        self.ui.load_pages.H_ROLL_NUM_Label.setHidden(hidden)
+        self.ui.load_pages.H_ROLL_NUM_Frame.setHidden(hidden)
+        self.ui.load_pages.h_seg_shift_Label.setHidden(hidden)
+        self.ui.load_pages.h_seg_shift_spinBox.setHidden(hidden)
+        self.ui.load_pages.mode_2D_Label.setHidden(hidden)
+        self.ui.load_pages.mode_2D_ComboBox.setHidden(hidden)
+        pass
+
+    def debug_shortcut_windows_change(self, hidden: bool):
+        self.ui.load_pages.cali_order_Label.setHidden(hidden)
+        self.ui.load_pages.cali_order_ComboBox.setHidden(hidden)
+        self.ui.load_pages.cali_frm_num_Label.setHidden(hidden)
+        self.ui.load_pages.cali_frm_num__SpinBox.setHidden(hidden)
+        self.ui.load_pages.ref_segment_Label.setHidden(hidden)
+        self.ui.load_pages.ref_segment_SpinBox.setHidden(hidden)
+        pass
     # ///////////////////////////////////////////////////////////////
     # ROI config window function
     # ///////////////////////////////////////////////////////////////
@@ -180,45 +201,47 @@ class Hawk01MainUI:
 
         # Gen ROI for GUI
         self.ui.load_pages.seg_hs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['seg_hs']+1)
+        self.ui.load_pages.h_seg_shift_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['h_seg_shift'])
         self.ui.load_pages.spad_vs_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['spad_vs']+1)
         self.ui.load_pages.light_shift_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['light_shift'])
         self.ui.load_pages.sublight_shift_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['sublight_shift'])
         self.ui.load_pages.ROI_Shape_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByJson']['roi_shape'])
+        self.ui.load_pages.ROI_Retrace_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByJson']['roi_retrace'])
         self.ui.load_pages.v_spad_shift_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['v_spad_shift'])
-        self.ui.load_pages.h_seg_shift_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByJson']['h_seg_shift'])
 
         # Gen ROI for cali txt
         self.ui.load_pages.ROI_File_Load_LineEdit.setText(self.hawk01_roi_gen_config['ROIGenByFile']['gen_roi_file'])
+        self.ui.load_pages.Excel_Sheet_sel_spinBox.setValue(self.hawk01_roi_gen_config['ROIGenByFile']['sheet_sel']+1)
         self.ui.load_pages.ROI_File_Load_Button.clicked.connect(partial(Hawk01MainUI.func_roi_load_file, self))
 
         # Gen ROI for Base ROI
-        self.ui.load_pages.base_roi_file_LineEdit.setText(
-            self.hawk01_roi_gen_config['ROIGenByBase']['base_roi_file'])
-        self.ui.load_pages.start_rolling_SpinBox.setValue(
-            self.hawk01_roi_gen_config['ROIGenByBase']['start_roll'] + 1)
+        self.ui.load_pages.base_roi_file_LineEdit.setText(self.hawk01_roi_gen_config['ROIGenByBase']['base_roi_file'])
+        self.ui.load_pages.start_rolling_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByBase']['start_roll'] + 1)
         self.ui.load_pages.End_rolling_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByBase']['end_roll'] + 1)
         self.ui.load_pages.base_roi_file_Button.clicked.connect(partial(Hawk01MainUI.func_base_roi_file, self))
 
         # Gen ROI for cali data
         self.ui.load_pages.cali_file_path_LineEdit.setText(self.hawk01_roi_gen_config['ROIGenByCali']['cali_file'])
         self.ui.load_pages.cali_order_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['is_reverse'])
-        self.ui.load_pages.img_mirror_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['img_reverse'])
+        self.ui.load_pages.img_mirror_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['img_reverse'])
         self.ui.load_pages.cali_frm_num__SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['cali_frm_num'])
-        self.ui.load_pages.remove_noise_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['remove_noise'])
-        self.ui.load_pages.light_smooth_ComboBox.setCurrentIndex(
-            self.hawk01_roi_gen_config['ROIGenByCali']['light_smooth'])
+        self.ui.load_pages.remove_noise_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['remove_noise'])
+        self.ui.load_pages.light_smooth_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['light_smooth'])
         self.ui.load_pages.ref_segment_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['ref_segment'] + 1)
         self.ui.load_pages.curvature_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['curvature'])
         self.ui.load_pages.correct_thres_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['correct_thres'])
         self.ui.load_pages.mode_2D_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['mode2D'])
         self.ui.load_pages.cali_file_path_Button.clicked.connect(partial(Hawk01MainUI.func_roi_cali_folder, self))
+        Hawk01MainUI.debug_shortcut_windows_change(self, True)  # 默认隐藏相关字段
 
         # 底部操作绑定
         self.ui.load_pages.ROIView.clicked.connect(partial(Hawk01MainUI.func_roi_view, self))
         self.hawk01_main_ui_signal_sync.sync_signal_0.connect(partial(Hawk01MainUI.func_open_roi_win, self))
         self.ui.load_pages.ROISave.clicked.connect(partial(Hawk01MainUI.func_ROIUI_save, self))
+
+        # 创建 Ctrl+E 的快捷键, 控制显示隐藏字段
+        debug_shortcut = QShortcut(QKeySequence("Ctrl+E"), self)
+        debug_shortcut.activated.connect(partial(Hawk01MainUI.debug_shortcut_windows_change, self, False))
 
         # ROI data刷新判断初始化
         self.ui_masking_win = None  # 存储masking_window对象, 便于后续内存销毁
@@ -229,7 +252,7 @@ class Hawk01MainUI:
 
     def func_roi_load_file(self):
         file, _ = QFileDialog.getOpenFileName(parent=None, caption='ROI Coor Select', dir='',
-                                              filter='file(*.txt) ;')
+                                              filter='file(*.txt *.csv *.xls *.xlsx) ;')
         if file == "":
             return
         # 选择后缀为.txt
@@ -267,20 +290,19 @@ class Hawk01MainUI:
             self.hawk01_roi_gen_config['ROIGenByJson']['light_shift'] = self.ui.load_pages.light_shift_spinBox.value()
             self.hawk01_roi_gen_config['ROIGenByJson']['sublight_shift'] = self.ui.load_pages.sublight_shift_spinBox.value()
             self.hawk01_roi_gen_config['ROIGenByJson']['roi_shape'] = self.ui.load_pages.ROI_Shape_ComboBox.currentIndex()
+            self.hawk01_roi_gen_config['ROIGenByJson']['roi_retrace'] = self.ui.load_pages.ROI_Retrace_ComboBox.currentIndex()
             self.hawk01_roi_gen_config['ROIGenByJson']['v_spad_shift'] = self.ui.load_pages.v_spad_shift_spinBox.value()
             self.hawk01_roi_gen_config['ROIGenByJson']['h_seg_shift'] = self.ui.load_pages.h_seg_shift_spinBox.value()
 
         elif self.roi_gen_type == 1:  # Gen ROI for cali txt
             # 获取配置
-            self.hawk01_roi_gen_config['ROIGenByFile'][
-                'gen_roi_file'] = self.ui.load_pages.ROI_File_Load_LineEdit.text()
+            self.hawk01_roi_gen_config['ROIGenByFile']['gen_roi_file'] = self.ui.load_pages.ROI_File_Load_LineEdit.text()
+            self.hawk01_roi_gen_config['ROIGenByFile']['sheet_sel'] = self.ui.load_pages.Excel_Sheet_sel_spinBox.value()-1
 
         elif self.roi_gen_type == 2:  # Gen ROI for Base ROI
             # 获取配置
-            self.hawk01_roi_gen_config['ROIGenByBase'][
-                'base_roi_file'] = self.ui.load_pages.base_roi_file_LineEdit.text()
-            self.hawk01_roi_gen_config['ROIGenByBase'][
-                'start_roll'] = self.ui.load_pages.start_rolling_SpinBox.value() - 1
+            self.hawk01_roi_gen_config['ROIGenByBase']['base_roi_file'] = self.ui.load_pages.base_roi_file_LineEdit.text()
+            self.hawk01_roi_gen_config['ROIGenByBase']['start_roll'] = self.ui.load_pages.start_rolling_SpinBox.value() - 1
             self.hawk01_roi_gen_config['ROIGenByBase']['end_roll'] = self.ui.load_pages.End_rolling_SpinBox.value() - 1
         else:
             # elif self.roi_gen_type == 3: # Gen ROI for cali data
@@ -352,8 +374,10 @@ class Hawk01MainUI:
         roi_data_pkg["coor_info"] = coor_info
         """
         # 获取 ROI_DATA_PKG, # 如果界面没有更新, 则无需再次执行代码
+        # 如果 ROI_DATA 根据文件生成, 则有可能是文件改变, 需要再次执行代码
         # //////////////////////////////////////
-        if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__hawk01_config__ != self.__pre_hawk01_config__:
+        if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__hawk01_config__ != self.__pre_hawk01_config__ \
+                or self.roi_gen_type == 1:
             # logging.info("Get the latest ROI config...")
             self.__roi_data_pkg__ = \
                 Hawk01Function.MskuRoiGenerateByJson(self.__hawk01_config__) if self.roi_gen_type == 0 \
@@ -464,7 +488,7 @@ class Hawk01MainUI:
         logging.info("Open ROI zone config window...")
         self.ui_zone_config_win.setModal(True)
         self.ui_zone_config_win.hawk01_SYS_CLK = self.hawk01_config["SYS_CLK"]
-        self.ui_zone_config_win.hawk01_PLL1_OD = FREQ_Config[self.hawk01_config['REF_CLK']]["PLL1"] \
+        self.ui_zone_config_win.hawk01_PLL1_OD = FREQ_Config[self.hawk01_config['XCLK']]["PLL1"] \
             [self.hawk01_config['SYS_CLK']]["OD"]
         self.ui_zone_config_win.show(self.hawk01_zone_config)
 
@@ -546,12 +570,12 @@ class Hawk01MainUI:
         主界面的保存按钮保存数据: 包含 ROI 数据, Script 数据
             1. 使用子线程调用保存, 不占用主线程
         """
-        Hawk01MainUI.func_get_MainUI_config(self)
-        Hawk01MainUI.func_get_roi_config(self)
-        Hawk01MainUI.func_merge_hawk_config(self)
-        if self.hawk01_config["ROI_SRAM_Include"] == 1:
-            Hawk01MainUI.func_roi_save(self)
-        Hawk01Function.ScriptDataSave(self.hawk01_config)
+        # Hawk01MainUI.func_get_MainUI_config(self)
+        # Hawk01MainUI.func_get_roi_config(self)
+        # Hawk01MainUI.func_merge_hawk_config(self)
+        # if self.hawk01_config["ROI_SRAM_Include"] == 1:
+        #     Hawk01MainUI.func_roi_save(self)
+        # Hawk01Function.ScriptDataSave(self.hawk01_config)
 
         self.ui.load_pages.Save.setEnabled(False)
         def threadFunc():
@@ -564,6 +588,7 @@ class Hawk01MainUI:
                 if self.hawk01_config["ROI_SRAM_Include"] == 1:
                     Hawk01MainUI.func_roi_save(self)
                 Hawk01Function.ScriptDataSave(self.hawk01_config)
+                logging.info("Data save complete...")
             except Exception as e:
                 logging.fatal(e)
             self.hawk01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Save)

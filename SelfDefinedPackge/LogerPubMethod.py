@@ -3,6 +3,21 @@ import logging
 import logging.handlers
 import queue
 
+# ///////////////////////////////////////////////////////////////
+# 统一增加一个 INFO_PLUS 日志级别, 用于打印特殊的 INFO 日志
+# ///////////////////////////////////////////////////////////////
+# 定义新的日志级别
+INFO_PLUS = 25  # 比 INFO 的值高，用于打印特殊的 INFO 信息
+logging.addLevelName(INFO_PLUS, "INFO_PLUS")
+
+
+def _INFO_PLUS(msg, *args, **kwargs):
+    if logging.getLogger(__name__).isEnabledFor(INFO_PLUS):
+        logging.log(INFO_PLUS, msg, *args, **kwargs)
+
+
+logging.INFO_PLUS = _INFO_PLUS
+
 
 def LoggingForConsoleFormat():
     logging.basicConfig(level=logging.INFO,
@@ -26,7 +41,7 @@ class LogerForMultithreading:
     此方法仅支持向 QPlainTextEdit 中写入日志
     """
 
-    def __init__(self, name=None, loglevel=logging.DEBUG):
+    def __init__(self, name=None, loglevel=logging.INFO):
         self.logger_name = name
         self.loglevel = loglevel
 
@@ -49,17 +64,17 @@ class LogerForMultithreading:
 
     def update_log_from_logger(self, log_widget: QTextCursor = None, theme: str = "light"):
         while not self.log_queue.empty():
-            log_theme_for_qplaintextedit = ["#0078d7", "#DFE1E2", "yellow", "red"] if theme == "dark" \
-                else ["#0078d7", "#9DA9B5", "#b58900", "red"]
+            log_theme_for_qplaintextedit = ["#DFE1E2", "#0078d7", "yellow", "red"] if theme == "dark" \
+                else ["#9DA9B5", "#0078d7", "#b58900", "red"]
             record = self.log_queue.get()
             message = record.message
             # ERROR:40
             # WARNING:30
+            # INFO_PLUS:25
             # INFO:20
-            # DEBUG:10
             log_type = 3 if record.levelno >= 40 \
                 else 2 if record.levelno >= 30 \
-                else 1 if record.levelno >= 20 \
+                else 1 if record.levelno >= 25 \
                 else 0
 
             color = log_theme_for_qplaintextedit[log_type]

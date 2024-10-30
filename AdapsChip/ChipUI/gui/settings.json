@@ -1,6 +1,6 @@
 {
     "app_name": "Hawk GUI",
-    "version" : "v1.0.0",
+    "version" : "v2.0.0",
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
     "startup_size": [
@@ -8,7 +8,7 @@
         900
     ],
     "minimum_size": [
-        800,
+        1000,
         900
     ],
     "lef_menu_size" : {

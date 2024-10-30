@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesDblfPk.ui'
+## Form generated from reading UI file 'main_pagesrRVvPn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -58,32 +58,32 @@ class Ui_MainPages(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.RegisterConfig = QGroupBox(self.ScriptConfig)
         self.RegisterConfig.setObjectName(u"RegisterConfig")
-        self.RegisterConfig.setMinimumSize(QSize(480, 0))
+        self.RegisterConfig.setMinimumSize(QSize(0, 0))
         self.RegisterConfig.setMaximumSize(QSize(600, 16777215))
         self.formLayout_2 = QFormLayout(self.RegisterConfig)
         self.formLayout_2.setObjectName(u"formLayout_2")
         self.formLayout_2.setVerticalSpacing(8)
         self.formLayout_2.setContentsMargins(9, 9, 9, 9)
-        self.REF_CLK_Label = QLabel(self.RegisterConfig)
-        self.REF_CLK_Label.setObjectName(u"REF_CLK_Label")
-        self.REF_CLK_Label.setFont(font)
-        self.REF_CLK_Label.setFrameShape(QFrame.StyledPanel)
+        self.XCLK_Label = QLabel(self.RegisterConfig)
+        self.XCLK_Label.setObjectName(u"XCLK_Label")
+        self.XCLK_Label.setFont(font)
+        self.XCLK_Label.setFrameShape(QFrame.StyledPanel)
 
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.REF_CLK_Label)
+        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.XCLK_Label)
 
-        self.REF_CLK_ComboBox = QComboBox(self.RegisterConfig)
-        self.REF_CLK_ComboBox.addItem("")
-        self.REF_CLK_ComboBox.addItem("")
-        self.REF_CLK_ComboBox.setObjectName(u"REF_CLK_ComboBox")
-        self.REF_CLK_ComboBox.setMinimumSize(QSize(150, 0))
-        self.REF_CLK_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.XCLK_ComboBox = QComboBox(self.RegisterConfig)
+        self.XCLK_ComboBox.addItem("")
+        self.XCLK_ComboBox.addItem("")
+        self.XCLK_ComboBox.setObjectName(u"XCLK_ComboBox")
+        self.XCLK_ComboBox.setMinimumSize(QSize(150, 0))
+        self.XCLK_ComboBox.setMaximumSize(QSize(350, 16777215))
         font1 = QFont()
         font1.setFamilies([u"Microsoft YaHei UI"])
         font1.setPointSize(9)
         font1.setBold(False)
-        self.REF_CLK_ComboBox.setFont(font1)
+        self.XCLK_ComboBox.setFont(font1)
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.REF_CLK_ComboBox)
+        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.XCLK_ComboBox)
 
         self.MST_MODE_Label = QLabel(self.RegisterConfig)
         self.MST_MODE_Label.setObjectName(u"MST_MODE_Label")
@@ -98,7 +98,7 @@ class Ui_MainPages(object):
         self.MST_MODE_ComboBox.addItem("")
         self.MST_MODE_ComboBox.addItem("")
         self.MST_MODE_ComboBox.setObjectName(u"MST_MODE_ComboBox")
-        self.MST_MODE_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.MST_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
 
         self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.MST_MODE_ComboBox)
 
@@ -123,7 +123,7 @@ class Ui_MainPages(object):
         self.WORK_MODE_ComboBox.addItem("")
         self.WORK_MODE_ComboBox.addItem("")
         self.WORK_MODE_ComboBox.setObjectName(u"WORK_MODE_ComboBox")
-        self.WORK_MODE_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.WORK_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
         self.WORK_MODE_ComboBox.setFont(font1)
 
         self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.WORK_MODE_ComboBox)
@@ -146,35 +146,45 @@ class Ui_MainPages(object):
         self.MIPI_RATE_ComboBox.addItem("")
         self.MIPI_RATE_ComboBox.addItem("")
         self.MIPI_RATE_ComboBox.setObjectName(u"MIPI_RATE_ComboBox")
-        self.MIPI_RATE_ComboBox.setMaximumSize(QSize(300, 16777215))
+        self.MIPI_RATE_ComboBox.setMaximumSize(QSize(350, 16777215))
         self.MIPI_RATE_ComboBox.setFont(font1)
 
         self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.MIPI_RATE_ComboBox)
 
-        self.groupBox = QGroupBox(self.RegisterConfig)
-        self.groupBox.setObjectName(u"groupBox")
-        self.gridLayout = QGridLayout(self.groupBox)
+        self.MoreConfiguration = QGroupBox(self.RegisterConfig)
+        self.MoreConfiguration.setObjectName(u"MoreConfiguration")
+        self.MoreConfiguration.setMinimumSize(QSize(438, 180))
+        self.MoreConfiguration.setMaximumSize(QSize(445, 16777215))
+        self.MoreConfiguration.setStyleSheet(u"")
+        self.gridLayout = QGridLayout(self.MoreConfiguration)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, -1, 0, -1)
-        self.MAXBIN_THRS_spinBox = QSpinBox(self.groupBox)
-        self.MAXBIN_THRS_spinBox.setObjectName(u"MAXBIN_THRS_spinBox")
-        self.MAXBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
-        self.MAXBIN_THRS_spinBox.setMinimum(1)
-        self.MAXBIN_THRS_spinBox.setMaximum(167)
-        self.MAXBIN_THRS_spinBox.setValue(167)
+        self.V_PXL_OUT_NUM_ComboBox = QComboBox(self.MoreConfiguration)
+        self.V_PXL_OUT_NUM_ComboBox.addItem("")
+        self.V_PXL_OUT_NUM_ComboBox.addItem("")
+        self.V_PXL_OUT_NUM_ComboBox.setObjectName(u"V_PXL_OUT_NUM_ComboBox")
 
-        self.gridLayout.addWidget(self.MAXBIN_THRS_spinBox, 2, 5, 1, 1)
+        self.gridLayout.addWidget(self.V_PXL_OUT_NUM_ComboBox, 1, 1, 1, 1)
 
-        self.MINBIN_THRS_Lable = QLabel(self.groupBox)
-        self.MINBIN_THRS_Lable.setObjectName(u"MINBIN_THRS_Lable")
-        self.MINBIN_THRS_Lable.setMinimumSize(QSize(0, 0))
-        self.MINBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
-        self.MINBIN_THRS_Lable.setFont(font)
-        self.MINBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
+        self.TRG_I_EN_Label = QLabel(self.MoreConfiguration)
+        self.TRG_I_EN_Label.setObjectName(u"TRG_I_EN_Label")
+        self.TRG_I_EN_Label.setMinimumSize(QSize(85, 0))
+        self.TRG_I_EN_Label.setMaximumSize(QSize(85, 16777215))
+        self.TRG_I_EN_Label.setFont(font)
+        self.TRG_I_EN_Label.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout.addWidget(self.MINBIN_THRS_Lable, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.TRG_I_EN_Label, 1, 3, 1, 1)
 
-        self.SYS_CLK_Label = QLabel(self.groupBox)
+        self.OUT_BIN_NUM_Lable = QLabel(self.MoreConfiguration)
+        self.OUT_BIN_NUM_Lable.setObjectName(u"OUT_BIN_NUM_Lable")
+        self.OUT_BIN_NUM_Lable.setMinimumSize(QSize(0, 0))
+        self.OUT_BIN_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.OUT_BIN_NUM_Lable.setFont(font)
+        self.OUT_BIN_NUM_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.OUT_BIN_NUM_Lable, 3, 0, 1, 1)
+
+        self.SYS_CLK_Label = QLabel(self.MoreConfiguration)
         self.SYS_CLK_Label.setObjectName(u"SYS_CLK_Label")
         self.SYS_CLK_Label.setFont(font)
         self.SYS_CLK_Label.setFrameShape(QFrame.StyledPanel)
@@ -182,41 +192,16 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.SYS_CLK_Label, 0, 0, 1, 1)
 
-        self.OUT_BIN_NUM_ComboBox = QComboBox(self.groupBox)
-        self.OUT_BIN_NUM_ComboBox.addItem("")
-        self.OUT_BIN_NUM_ComboBox.addItem("")
-        self.OUT_BIN_NUM_ComboBox.setObjectName(u"OUT_BIN_NUM_ComboBox")
+        self.TDC_BIN_W_Label = QLabel(self.MoreConfiguration)
+        self.TDC_BIN_W_Label.setObjectName(u"TDC_BIN_W_Label")
+        self.TDC_BIN_W_Label.setMinimumSize(QSize(0, 0))
+        self.TDC_BIN_W_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.TDC_BIN_W_Label.setFont(font)
+        self.TDC_BIN_W_Label.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout.addWidget(self.OUT_BIN_NUM_ComboBox, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.TDC_BIN_W_Label, 0, 3, 1, 1)
 
-        self.V_PXL_OUT_NUM_ComboBox = QComboBox(self.groupBox)
-        self.V_PXL_OUT_NUM_ComboBox.addItem("")
-        self.V_PXL_OUT_NUM_ComboBox.addItem("")
-        self.V_PXL_OUT_NUM_ComboBox.setObjectName(u"V_PXL_OUT_NUM_ComboBox")
-
-        self.gridLayout.addWidget(self.V_PXL_OUT_NUM_ComboBox, 1, 1, 1, 1)
-
-        self.BIN_NUMBER_Value = QLabel(self.groupBox)
-        self.BIN_NUMBER_Value.setObjectName(u"BIN_NUMBER_Value")
-        self.BIN_NUMBER_Value.setMinimumSize(QSize(25, 25))
-        self.BIN_NUMBER_Value.setMaximumSize(QSize(20, 16777215))
-        self.BIN_NUMBER_Value.setFont(font1)
-        self.BIN_NUMBER_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        self.BIN_NUMBER_Value.setWordWrap(True)
-        self.BIN_NUMBER_Value.setMargin(0)
-
-        self.gridLayout.addWidget(self.BIN_NUMBER_Value, 2, 6, 1, 1)
-
-        self.MAXBIN_THRS_Lable_ = QLabel(self.groupBox)
-        self.MAXBIN_THRS_Lable_.setObjectName(u"MAXBIN_THRS_Lable_")
-        self.MAXBIN_THRS_Lable_.setMinimumSize(QSize(0, 0))
-        self.MAXBIN_THRS_Lable_.setMaximumSize(QSize(16777215, 16777215))
-        self.MAXBIN_THRS_Lable_.setFont(font)
-        self.MAXBIN_THRS_Lable_.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.MAXBIN_THRS_Lable_, 2, 3, 1, 1)
-
-        self.PKS_ECHO_NUM_Lable = QLabel(self.groupBox)
+        self.PKS_ECHO_NUM_Lable = QLabel(self.MoreConfiguration)
         self.PKS_ECHO_NUM_Lable.setObjectName(u"PKS_ECHO_NUM_Lable")
         self.PKS_ECHO_NUM_Lable.setMinimumSize(QSize(0, 0))
         self.PKS_ECHO_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
@@ -225,7 +210,59 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.PKS_ECHO_NUM_Lable, 3, 3, 1, 1)
 
-        self.V_PXL_OUT_NUM_Label = QLabel(self.groupBox)
+        self.MINBIN_THRS_Lable = QLabel(self.MoreConfiguration)
+        self.MINBIN_THRS_Lable.setObjectName(u"MINBIN_THRS_Lable")
+        self.MINBIN_THRS_Lable.setMinimumSize(QSize(0, 0))
+        self.MINBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.MINBIN_THRS_Lable.setFont(font)
+        self.MINBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.MINBIN_THRS_Lable, 2, 0, 1, 1)
+
+        self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout.addItem(self.verticalSpacer_4, 6, 1, 1, 1)
+
+        self.PKS_ECHO_NUM_ComboBox = QComboBox(self.MoreConfiguration)
+        self.PKS_ECHO_NUM_ComboBox.addItem("")
+        self.PKS_ECHO_NUM_ComboBox.addItem("")
+        self.PKS_ECHO_NUM_ComboBox.addItem("")
+        self.PKS_ECHO_NUM_ComboBox.addItem("")
+        self.PKS_ECHO_NUM_ComboBox.addItem("")
+        self.PKS_ECHO_NUM_ComboBox.setObjectName(u"PKS_ECHO_NUM_ComboBox")
+
+        self.gridLayout.addWidget(self.PKS_ECHO_NUM_ComboBox, 3, 5, 1, 1)
+
+        self.TDC_BIN_W_ComboBox = QComboBox(self.MoreConfiguration)
+        self.TDC_BIN_W_ComboBox.addItem("")
+        self.TDC_BIN_W_ComboBox.addItem("")
+        self.TDC_BIN_W_ComboBox.addItem("")
+        self.TDC_BIN_W_ComboBox.addItem("")
+        self.TDC_BIN_W_ComboBox.addItem("")
+        self.TDC_BIN_W_ComboBox.addItem("")
+        self.TDC_BIN_W_ComboBox.setObjectName(u"TDC_BIN_W_ComboBox")
+
+        self.gridLayout.addWidget(self.TDC_BIN_W_ComboBox, 0, 5, 1, 1)
+
+        self.MAXBIN_THRS_spinBox = QSpinBox(self.MoreConfiguration)
+        self.MAXBIN_THRS_spinBox.setObjectName(u"MAXBIN_THRS_spinBox")
+        self.MAXBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
+        self.MAXBIN_THRS_spinBox.setMinimum(1)
+        self.MAXBIN_THRS_spinBox.setMaximum(167)
+        self.MAXBIN_THRS_spinBox.setValue(167)
+
+        self.gridLayout.addWidget(self.MAXBIN_THRS_spinBox, 2, 5, 1, 1)
+
+        self.MAXBIN_THRS_Lable_ = QLabel(self.MoreConfiguration)
+        self.MAXBIN_THRS_Lable_.setObjectName(u"MAXBIN_THRS_Lable_")
+        self.MAXBIN_THRS_Lable_.setMinimumSize(QSize(0, 0))
+        self.MAXBIN_THRS_Lable_.setMaximumSize(QSize(16777215, 16777215))
+        self.MAXBIN_THRS_Lable_.setFont(font)
+        self.MAXBIN_THRS_Lable_.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.MAXBIN_THRS_Lable_, 2, 3, 1, 1)
+
+        self.V_PXL_OUT_NUM_Label = QLabel(self.MoreConfiguration)
         self.V_PXL_OUT_NUM_Label.setObjectName(u"V_PXL_OUT_NUM_Label")
         self.V_PXL_OUT_NUM_Label.setMinimumSize(QSize(85, 0))
         self.V_PXL_OUT_NUM_Label.setMaximumSize(QSize(85, 16777215))
@@ -234,7 +271,7 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.V_PXL_OUT_NUM_Label, 1, 0, 1, 1)
 
-        self.SYS_CLK_ComboBox = QComboBox(self.groupBox)
+        self.SYS_CLK_ComboBox = QComboBox(self.MoreConfiguration)
         self.SYS_CLK_ComboBox.addItem("")
         self.SYS_CLK_ComboBox.addItem("")
         self.SYS_CLK_ComboBox.addItem("")
@@ -246,62 +283,18 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.SYS_CLK_ComboBox, 0, 1, 1, 1)
 
-        self.TDC_BIN_W_Label = QLabel(self.groupBox)
-        self.TDC_BIN_W_Label.setObjectName(u"TDC_BIN_W_Label")
-        self.TDC_BIN_W_Label.setMinimumSize(QSize(0, 0))
-        self.TDC_BIN_W_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.TDC_BIN_W_Label.setFont(font)
-        self.TDC_BIN_W_Label.setFrameShape(QFrame.StyledPanel)
+        self.horizontalSpacer_24 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout.addWidget(self.TDC_BIN_W_Label, 0, 3, 1, 1)
+        self.gridLayout.addItem(self.horizontalSpacer_24, 1, 2, 1, 1)
 
-        self.TRG_I_EN_ComboBox = QComboBox(self.groupBox)
+        self.TRG_I_EN_ComboBox = QComboBox(self.MoreConfiguration)
         self.TRG_I_EN_ComboBox.addItem("")
         self.TRG_I_EN_ComboBox.addItem("")
         self.TRG_I_EN_ComboBox.setObjectName(u"TRG_I_EN_ComboBox")
 
         self.gridLayout.addWidget(self.TRG_I_EN_ComboBox, 1, 5, 1, 1)
 
-        self.OUT_BIN_NUM_Lable = QLabel(self.groupBox)
-        self.OUT_BIN_NUM_Lable.setObjectName(u"OUT_BIN_NUM_Lable")
-        self.OUT_BIN_NUM_Lable.setMinimumSize(QSize(0, 0))
-        self.OUT_BIN_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
-        self.OUT_BIN_NUM_Lable.setFont(font)
-        self.OUT_BIN_NUM_Lable.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.OUT_BIN_NUM_Lable, 3, 0, 1, 1)
-
-        self.TDC_BIN_W_ComboBox = QComboBox(self.groupBox)
-        self.TDC_BIN_W_ComboBox.addItem("")
-        self.TDC_BIN_W_ComboBox.addItem("")
-        self.TDC_BIN_W_ComboBox.addItem("")
-        self.TDC_BIN_W_ComboBox.addItem("")
-        self.TDC_BIN_W_ComboBox.addItem("")
-        self.TDC_BIN_W_ComboBox.addItem("")
-        self.TDC_BIN_W_ComboBox.setObjectName(u"TDC_BIN_W_ComboBox")
-
-        self.gridLayout.addWidget(self.TDC_BIN_W_ComboBox, 0, 5, 1, 1)
-
-        self.PKS_ECHO_NUM_ComboBox = QComboBox(self.groupBox)
-        self.PKS_ECHO_NUM_ComboBox.addItem("")
-        self.PKS_ECHO_NUM_ComboBox.addItem("")
-        self.PKS_ECHO_NUM_ComboBox.addItem("")
-        self.PKS_ECHO_NUM_ComboBox.addItem("")
-        self.PKS_ECHO_NUM_ComboBox.addItem("")
-        self.PKS_ECHO_NUM_ComboBox.setObjectName(u"PKS_ECHO_NUM_ComboBox")
-
-        self.gridLayout.addWidget(self.PKS_ECHO_NUM_ComboBox, 3, 5, 1, 1)
-
-        self.TRG_I_EN_Label = QLabel(self.groupBox)
-        self.TRG_I_EN_Label.setObjectName(u"TRG_I_EN_Label")
-        self.TRG_I_EN_Label.setMinimumSize(QSize(85, 0))
-        self.TRG_I_EN_Label.setMaximumSize(QSize(85, 16777215))
-        self.TRG_I_EN_Label.setFont(font)
-        self.TRG_I_EN_Label.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.TRG_I_EN_Label, 1, 3, 1, 1)
-
-        self.MINBIN_THRS_spinBox = QSpinBox(self.groupBox)
+        self.MINBIN_THRS_spinBox = QSpinBox(self.MoreConfiguration)
         self.MINBIN_THRS_spinBox.setObjectName(u"MINBIN_THRS_spinBox")
         self.MINBIN_THRS_spinBox.setEnabled(True)
         self.MINBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
@@ -311,12 +304,26 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.MINBIN_THRS_spinBox, 2, 1, 1, 1)
 
-        self.horizontalSpacer_24 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.OUT_BIN_NUM_ComboBox = QComboBox(self.MoreConfiguration)
+        self.OUT_BIN_NUM_ComboBox.addItem("")
+        self.OUT_BIN_NUM_ComboBox.addItem("")
+        self.OUT_BIN_NUM_ComboBox.setObjectName(u"OUT_BIN_NUM_ComboBox")
 
-        self.gridLayout.addItem(self.horizontalSpacer_24, 1, 2, 1, 1)
+        self.gridLayout.addWidget(self.OUT_BIN_NUM_ComboBox, 3, 1, 1, 1)
+
+        self.BIN_NUMBER_Value = QLabel(self.MoreConfiguration)
+        self.BIN_NUMBER_Value.setObjectName(u"BIN_NUMBER_Value")
+        self.BIN_NUMBER_Value.setMinimumSize(QSize(25, 25))
+        self.BIN_NUMBER_Value.setMaximumSize(QSize(20, 16777215))
+        self.BIN_NUMBER_Value.setFont(font1)
+        self.BIN_NUMBER_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.BIN_NUMBER_Value.setWordWrap(True)
+        self.BIN_NUMBER_Value.setMargin(0)
+
+        self.gridLayout.addWidget(self.BIN_NUMBER_Value, 2, 6, 1, 1)
 
 
-        self.formLayout_2.setWidget(4, QFormLayout.SpanningRole, self.groupBox)
+        self.formLayout_2.setWidget(4, QFormLayout.SpanningRole, self.MoreConfiguration)
 
 
         self.horizontalLayout_2.addWidget(self.RegisterConfig)
@@ -385,39 +392,13 @@ class Ui_MainPages(object):
 
         self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.H_VLD_SEG_Label)
 
-        self.V_ROLL_NUM_CMP = QHBoxLayout()
-        self.V_ROLL_NUM_CMP.setSpacing(0)
-        self.V_ROLL_NUM_CMP.setObjectName(u"V_ROLL_NUM_CMP")
-        self.V_ROLL_NUM_CMP.setContentsMargins(0, -1, 0, -1)
-        self.V_ROLL_NUM_Slider = QSlider(self.ROIConfigGroup)
-        self.V_ROLL_NUM_Slider.setObjectName(u"V_ROLL_NUM_Slider")
-        self.V_ROLL_NUM_Slider.setMouseTracking(False)
-        self.V_ROLL_NUM_Slider.setMinimum(1)
-        self.V_ROLL_NUM_Slider.setMaximum(32)
-        self.V_ROLL_NUM_Slider.setPageStep(1)
-        self.V_ROLL_NUM_Slider.setOrientation(Qt.Horizontal)
-
-        self.V_ROLL_NUM_CMP.addWidget(self.V_ROLL_NUM_Slider)
-
-        self.V_ROLL_NUM_Value = QLabel(self.ROIConfigGroup)
-        self.V_ROLL_NUM_Value.setObjectName(u"V_ROLL_NUM_Value")
-        self.V_ROLL_NUM_Value.setMinimumSize(QSize(20, 25))
-        self.V_ROLL_NUM_Value.setMaximumSize(QSize(20, 16777215))
-        self.V_ROLL_NUM_Value.setFont(font1)
-        self.V_ROLL_NUM_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        self.V_ROLL_NUM_Value.setWordWrap(True)
-        self.V_ROLL_NUM_Value.setMargin(0)
-
-        self.V_ROLL_NUM_CMP.addWidget(self.V_ROLL_NUM_Value)
-
-
-        self.formLayout_3.setLayout(1, QFormLayout.FieldRole, self.V_ROLL_NUM_CMP)
-
-        self.H_ROLL_CMP = QHBoxLayout()
+        self.H_ROLL_NUM_Frame = QFrame(self.ROIConfigGroup)
+        self.H_ROLL_NUM_Frame.setObjectName(u"H_ROLL_NUM_Frame")
+        self.H_ROLL_CMP = QHBoxLayout(self.H_ROLL_NUM_Frame)
         self.H_ROLL_CMP.setSpacing(0)
         self.H_ROLL_CMP.setObjectName(u"H_ROLL_CMP")
-        self.H_ROLL_CMP.setContentsMargins(0, -1, -1, -1)
-        self.H_ROLL_NUM_Slider = QSlider(self.ROIConfigGroup)
+        self.H_ROLL_CMP.setContentsMargins(0, 0, 0, 0)
+        self.H_ROLL_NUM_Slider = QSlider(self.H_ROLL_NUM_Frame)
         self.H_ROLL_NUM_Slider.setObjectName(u"H_ROLL_NUM_Slider")
         self.H_ROLL_NUM_Slider.setEnabled(True)
         self.H_ROLL_NUM_Slider.setMinimum(1)
@@ -427,7 +408,7 @@ class Ui_MainPages(object):
 
         self.H_ROLL_CMP.addWidget(self.H_ROLL_NUM_Slider)
 
-        self.H_ROLL_NUM_Value = QLabel(self.ROIConfigGroup)
+        self.H_ROLL_NUM_Value = QLabel(self.H_ROLL_NUM_Frame)
         self.H_ROLL_NUM_Value.setObjectName(u"H_ROLL_NUM_Value")
         self.H_ROLL_NUM_Value.setMinimumSize(QSize(20, 25))
         self.H_ROLL_NUM_Value.setMaximumSize(QSize(20, 16777215))
@@ -439,13 +420,45 @@ class Ui_MainPages(object):
         self.H_ROLL_CMP.addWidget(self.H_ROLL_NUM_Value)
 
 
-        self.formLayout_3.setLayout(2, QFormLayout.FieldRole, self.H_ROLL_CMP)
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.H_ROLL_NUM_Frame)
 
-        self.H_VLD_SEG_CMP = QHBoxLayout()
+        self.V_ROLL_NUM_Frame = QFrame(self.ROIConfigGroup)
+        self.V_ROLL_NUM_Frame.setObjectName(u"V_ROLL_NUM_Frame")
+        self.V_ROLL_NUM_CMP = QHBoxLayout(self.V_ROLL_NUM_Frame)
+        self.V_ROLL_NUM_CMP.setSpacing(0)
+        self.V_ROLL_NUM_CMP.setObjectName(u"V_ROLL_NUM_CMP")
+        self.V_ROLL_NUM_CMP.setContentsMargins(0, 0, 0, 0)
+        self.V_ROLL_NUM_Slider = QSlider(self.V_ROLL_NUM_Frame)
+        self.V_ROLL_NUM_Slider.setObjectName(u"V_ROLL_NUM_Slider")
+        self.V_ROLL_NUM_Slider.setMouseTracking(False)
+        self.V_ROLL_NUM_Slider.setMinimum(1)
+        self.V_ROLL_NUM_Slider.setMaximum(32)
+        self.V_ROLL_NUM_Slider.setPageStep(1)
+        self.V_ROLL_NUM_Slider.setOrientation(Qt.Horizontal)
+
+        self.V_ROLL_NUM_CMP.addWidget(self.V_ROLL_NUM_Slider)
+
+        self.V_ROLL_NUM_Value = QLabel(self.V_ROLL_NUM_Frame)
+        self.V_ROLL_NUM_Value.setObjectName(u"V_ROLL_NUM_Value")
+        self.V_ROLL_NUM_Value.setMinimumSize(QSize(20, 25))
+        self.V_ROLL_NUM_Value.setMaximumSize(QSize(20, 16777215))
+        self.V_ROLL_NUM_Value.setFont(font1)
+        self.V_ROLL_NUM_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.V_ROLL_NUM_Value.setWordWrap(True)
+        self.V_ROLL_NUM_Value.setMargin(0)
+
+        self.V_ROLL_NUM_CMP.addWidget(self.V_ROLL_NUM_Value)
+
+
+        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.V_ROLL_NUM_Frame)
+
+        self.H_VLD_SEG_Frame = QFrame(self.ROIConfigGroup)
+        self.H_VLD_SEG_Frame.setObjectName(u"H_VLD_SEG_Frame")
+        self.H_VLD_SEG_CMP = QHBoxLayout(self.H_VLD_SEG_Frame)
         self.H_VLD_SEG_CMP.setSpacing(0)
         self.H_VLD_SEG_CMP.setObjectName(u"H_VLD_SEG_CMP")
-        self.H_VLD_SEG_CMP.setContentsMargins(0, -1, -1, -1)
-        self.H_VLD_SEG_Slider = QSlider(self.ROIConfigGroup)
+        self.H_VLD_SEG_CMP.setContentsMargins(0, 0, 0, 0)
+        self.H_VLD_SEG_Slider = QSlider(self.H_VLD_SEG_Frame)
         self.H_VLD_SEG_Slider.setObjectName(u"H_VLD_SEG_Slider")
         self.H_VLD_SEG_Slider.setMinimum(1)
         self.H_VLD_SEG_Slider.setMaximum(16)
@@ -454,7 +467,7 @@ class Ui_MainPages(object):
 
         self.H_VLD_SEG_CMP.addWidget(self.H_VLD_SEG_Slider)
 
-        self.H_VLD_SEG_Value = QLabel(self.ROIConfigGroup)
+        self.H_VLD_SEG_Value = QLabel(self.H_VLD_SEG_Frame)
         self.H_VLD_SEG_Value.setObjectName(u"H_VLD_SEG_Value")
         self.H_VLD_SEG_Value.setMinimumSize(QSize(20, 25))
         self.H_VLD_SEG_Value.setMaximumSize(QSize(20, 16777215))
@@ -466,7 +479,7 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_CMP.addWidget(self.H_VLD_SEG_Value)
 
 
-        self.formLayout_3.setLayout(3, QFormLayout.FieldRole, self.H_VLD_SEG_CMP)
+        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.H_VLD_SEG_Frame)
 
 
         self.verticalLayout_11.addLayout(self.formLayout_3)
@@ -501,7 +514,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 310, 322))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 332, 328))
         self.formLayout = QFormLayout(self.scrollAreaWidgetContents_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -533,14 +546,14 @@ class Ui_MainPages(object):
         self.spad_vs_Label.setFrameShape(QFrame.StyledPanel)
         self.spad_vs_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.spad_vs_Label)
+        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.spad_vs_Label)
 
         self.spad_vs_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.spad_vs_spinBox.setObjectName(u"spad_vs_spinBox")
         self.spad_vs_spinBox.setMinimum(1)
         self.spad_vs_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.spad_vs_spinBox)
+        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.spad_vs_spinBox)
 
         self.light_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.light_shift_Label.setObjectName(u"light_shift_Label")
@@ -550,14 +563,14 @@ class Ui_MainPages(object):
         self.light_shift_Label.setFrameShape(QFrame.StyledPanel)
         self.light_shift_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.light_shift_Label)
+        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.light_shift_Label)
 
         self.light_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.light_shift_spinBox.setObjectName(u"light_shift_spinBox")
         self.light_shift_spinBox.setMinimum(-576)
         self.light_shift_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.light_shift_spinBox)
+        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.light_shift_spinBox)
 
         self.sublight_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.sublight_shift_Label.setObjectName(u"sublight_shift_Label")
@@ -567,24 +580,24 @@ class Ui_MainPages(object):
         self.sublight_shift_Label.setFrameShape(QFrame.StyledPanel)
         self.sublight_shift_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.sublight_shift_Label)
+        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.sublight_shift_Label)
 
         self.sublight_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.sublight_shift_spinBox.setObjectName(u"sublight_shift_spinBox")
         self.sublight_shift_spinBox.setMinimum(-576)
         self.sublight_shift_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.sublight_shift_spinBox)
+        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.sublight_shift_spinBox)
 
-        self.ROI_Shape_Light = QLabel(self.scrollAreaWidgetContents_2)
-        self.ROI_Shape_Light.setObjectName(u"ROI_Shape_Light")
-        self.ROI_Shape_Light.setMinimumSize(QSize(0, 0))
-        self.ROI_Shape_Light.setMaximumSize(QSize(16777215, 16777215))
-        self.ROI_Shape_Light.setFont(font1)
-        self.ROI_Shape_Light.setFrameShape(QFrame.StyledPanel)
-        self.ROI_Shape_Light.setFrameShadow(QFrame.Raised)
+        self.ROI_Shape_Label = QLabel(self.scrollAreaWidgetContents_2)
+        self.ROI_Shape_Label.setObjectName(u"ROI_Shape_Label")
+        self.ROI_Shape_Label.setMinimumSize(QSize(0, 0))
+        self.ROI_Shape_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.ROI_Shape_Label.setFont(font1)
+        self.ROI_Shape_Label.setFrameShape(QFrame.StyledPanel)
+        self.ROI_Shape_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.ROI_Shape_Light)
+        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.ROI_Shape_Label)
 
         self.ROI_Shape_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_2)
         self.ROI_Shape_ComboBox.addItem("")
@@ -592,7 +605,7 @@ class Ui_MainPages(object):
         self.ROI_Shape_ComboBox.setObjectName(u"ROI_Shape_ComboBox")
         self.ROI_Shape_ComboBox.setFont(font1)
 
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.ROI_Shape_ComboBox)
+        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.ROI_Shape_ComboBox)
 
         self.v_spad_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.v_spad_shift_Label.setObjectName(u"v_spad_shift_Label")
@@ -602,14 +615,14 @@ class Ui_MainPages(object):
         self.v_spad_shift_Label.setFrameShape(QFrame.StyledPanel)
         self.v_spad_shift_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.v_spad_shift_Label)
+        self.formLayout.setWidget(7, QFormLayout.LabelRole, self.v_spad_shift_Label)
 
         self.v_spad_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.v_spad_shift_spinBox.setObjectName(u"v_spad_shift_spinBox")
         self.v_spad_shift_spinBox.setMinimum(-576)
         self.v_spad_shift_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.v_spad_shift_spinBox)
+        self.formLayout.setWidget(7, QFormLayout.FieldRole, self.v_spad_shift_spinBox)
 
         self.h_seg_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.h_seg_shift_Label.setObjectName(u"h_seg_shift_Label")
@@ -619,14 +632,32 @@ class Ui_MainPages(object):
         self.h_seg_shift_Label.setFrameShape(QFrame.StyledPanel)
         self.h_seg_shift_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout.setWidget(6, QFormLayout.LabelRole, self.h_seg_shift_Label)
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.h_seg_shift_Label)
 
         self.h_seg_shift_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_2)
         self.h_seg_shift_spinBox.setObjectName(u"h_seg_shift_spinBox")
         self.h_seg_shift_spinBox.setMinimum(0)
         self.h_seg_shift_spinBox.setMaximum(15)
 
-        self.formLayout.setWidget(6, QFormLayout.FieldRole, self.h_seg_shift_spinBox)
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.h_seg_shift_spinBox)
+
+        self.ROI_Retrace_Label = QLabel(self.scrollAreaWidgetContents_2)
+        self.ROI_Retrace_Label.setObjectName(u"ROI_Retrace_Label")
+        self.ROI_Retrace_Label.setMinimumSize(QSize(0, 0))
+        self.ROI_Retrace_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.ROI_Retrace_Label.setFont(font1)
+        self.ROI_Retrace_Label.setFrameShape(QFrame.StyledPanel)
+        self.ROI_Retrace_Label.setFrameShadow(QFrame.Raised)
+
+        self.formLayout.setWidget(6, QFormLayout.LabelRole, self.ROI_Retrace_Label)
+
+        self.ROI_Retrace_ComboBox = NoWheelComboBox(self.scrollAreaWidgetContents_2)
+        self.ROI_Retrace_ComboBox.addItem("")
+        self.ROI_Retrace_ComboBox.addItem("")
+        self.ROI_Retrace_ComboBox.setObjectName(u"ROI_Retrace_ComboBox")
+        self.ROI_Retrace_ComboBox.setFont(font1)
+
+        self.formLayout.setWidget(6, QFormLayout.FieldRole, self.ROI_Retrace_ComboBox)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents_2)
 
@@ -646,7 +677,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 310, 322))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 332, 328))
         self.formLayout_4 = QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -689,6 +720,24 @@ class Ui_MainPages(object):
 
         self.formLayout_4.setLayout(0, QFormLayout.FieldRole, self.ROI_File_Load_Layout)
 
+        self.Excel_Sheet_sel_Label = QLabel(self.scrollAreaWidgetContents_3)
+        self.Excel_Sheet_sel_Label.setObjectName(u"Excel_Sheet_sel_Label")
+        self.Excel_Sheet_sel_Label.setMinimumSize(QSize(0, 0))
+        self.Excel_Sheet_sel_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Excel_Sheet_sel_Label.setFont(font1)
+        self.Excel_Sheet_sel_Label.setFrameShape(QFrame.StyledPanel)
+        self.Excel_Sheet_sel_Label.setFrameShadow(QFrame.Raised)
+
+        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.Excel_Sheet_sel_Label)
+
+        self.Excel_Sheet_sel_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_3)
+        self.Excel_Sheet_sel_spinBox.setObjectName(u"Excel_Sheet_sel_spinBox")
+        self.Excel_Sheet_sel_spinBox.setMinimum(1)
+        self.Excel_Sheet_sel_spinBox.setMaximum(100)
+        self.Excel_Sheet_sel_spinBox.setValue(1)
+
+        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.Excel_Sheet_sel_spinBox)
+
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_3)
 
         self.verticalLayout_4.addWidget(self.scrollArea_2)
@@ -707,7 +756,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 310, 322))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 332, 328))
         self.formLayout_5 = QFormLayout(self.scrollAreaWidgetContents_4)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -796,7 +845,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 310, 313))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 332, 319))
         self.formLayout_7 = QFormLayout(self.scrollAreaWidgetContents_6)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -1742,7 +1791,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 886, 720))
+        self.contents.setGeometry(QRect(0, 0, 442, 285))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -1922,12 +1971,12 @@ class Ui_MainPages(object):
 #endif // QT_CONFIG(shortcut)
 
         self.retranslateUi(MainPages)
+        self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
         self.H_ROLL_NUM_Slider.valueChanged.connect(self.H_ROLL_NUM_Value.setNum)
         self.H_VLD_SEG_Slider.valueChanged.connect(self.H_VLD_SEG_Value.setNum)
-        self.V_ROLL_NUM_Slider.valueChanged.connect(self.V_ROLL_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(0)
+        self.ROIConfig.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -1935,9 +1984,9 @@ class Ui_MainPages(object):
 
     def retranslateUi(self, MainPages):
         MainPages.setWindowTitle(QCoreApplication.translate("MainPages", u"Form", None))
-        self.REF_CLK_Label.setText(QCoreApplication.translate("MainPages", u"REF CLK", None))
-        self.REF_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"24 M", None))
-        self.REF_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"25 M", None))
+        self.XCLK_Label.setText(QCoreApplication.translate("MainPages", u"XCLK", None))
+        self.XCLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"24 M", None))
+        self.XCLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"25 M", None))
 
         self.MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
         self.MST_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Slave Mode", None))
@@ -1955,34 +2004,22 @@ class Ui_MainPages(object):
         self.MIPI_RATE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.2 Gbps/Lane", None))
         self.MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
 
-        self.groupBox.setTitle("")
-#if QT_CONFIG(tooltip)
-        self.MAXBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(whatsthis)
-        self.MAXBIN_THRS_spinBox.setWhatsThis("")
-#endif // QT_CONFIG(whatsthis)
-        self.MINBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
-        self.SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
-        self.OUT_BIN_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"36 Bin", None))
-        self.OUT_BIN_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"60 Bin", None))
-
+        self.MoreConfiguration.setTitle("")
         self.V_PXL_OUT_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Pixel", None))
         self.V_PXL_OUT_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"6 Pixel", None))
 
-        self.BIN_NUMBER_Value.setText(QCoreApplication.translate("MainPages", u"672", None))
-        self.MAXBIN_THRS_Lable_.setText(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
-        self.PKS_ECHO_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"PKS_ECHO_NUM", None))
-        self.V_PXL_OUT_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_PXL_NUM", None))
-        self.SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"200 M", None))
-        self.SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"250 M", None))
-        self.SYS_CLK_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"330 M", None))
-
-        self.TDC_BIN_W_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
-        self.TRG_I_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
-        self.TRG_I_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
-
+        self.TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
         self.OUT_BIN_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"OUT_BIN_NUM", None))
+        self.SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
+        self.TDC_BIN_W_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
+        self.PKS_ECHO_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"PKS_ECHO_NUM", None))
+        self.MINBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
+        self.PKS_ECHO_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Echo", None))
+        self.PKS_ECHO_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 Echo", None))
+        self.PKS_ECHO_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3 Echo", None))
+        self.PKS_ECHO_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4 Echo", None))
+        self.PKS_ECHO_NUM_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"5 Echo", None))
+
         self.TDC_BIN_W_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.75 ns", None))
         self.TDC_BIN_W_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"1.00 ns", None))
         self.TDC_BIN_W_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.25 ns", None))
@@ -1990,29 +2027,41 @@ class Ui_MainPages(object):
         self.TDC_BIN_W_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"2.00 ns", None))
         self.TDC_BIN_W_ComboBox.setItemText(5, QCoreApplication.translate("MainPages", u"2.50 ns", None))
 
-        self.PKS_ECHO_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Echo", None))
-        self.PKS_ECHO_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 Echo", None))
-        self.PKS_ECHO_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3 Echo", None))
-        self.PKS_ECHO_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4 Echo", None))
-        self.PKS_ECHO_NUM_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"5 Echo", None))
+#if QT_CONFIG(tooltip)
+        self.MAXBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.MAXBIN_THRS_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.MAXBIN_THRS_Lable_.setText(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
+        self.V_PXL_OUT_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_PXL_NUM", None))
+        self.SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"200 M", None))
+        self.SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"250 M", None))
+        self.SYS_CLK_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"330 M", None))
 
-        self.TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
+        self.TRG_I_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
+        self.TRG_I_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
+
 #if QT_CONFIG(tooltip)
         self.MINBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(whatsthis)
         self.MINBIN_THRS_spinBox.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
+        self.OUT_BIN_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"36 Bin", None))
+        self.OUT_BIN_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"60 Bin", None))
+
+        self.BIN_NUMBER_Value.setText(QCoreApplication.translate("MainPages", u"672", None))
         self.SCAN_MODE_Label.setText(QCoreApplication.translate("MainPages", u"SCAN_MODE", None))
-        self.SCAN_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1D SCAN_MOD", None))
-        self.SCAN_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2D SCAN_MOD", None))
+        self.SCAN_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1D SCAN_MODE", None))
+        self.SCAN_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2D SCAN_MODE", None))
 
         self.V_ROLL_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_ROLL_NUM", None))
         self.H_ROLL_NUM_Label.setText(QCoreApplication.translate("MainPages", u"H_ROLL_NUM", None))
         self.H_VLD_SEG_Label.setText(QCoreApplication.translate("MainPages", u"H_VLD_SEG", None))
-        self.V_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"32", None))
         self.H_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"1", None))
-        self.H_VLD_SEG_Value.setText(QCoreApplication.translate("MainPages", u"16", None))
+        self.V_ROLL_NUM_Value.setText(QCoreApplication.translate("MainPages", u"1", None))
+        self.H_VLD_SEG_Value.setText(QCoreApplication.translate("MainPages", u"1", None))
         self.seg_hs_Label.setText(QCoreApplication.translate("MainPages", u"seg_hs", None))
 #if QT_CONFIG(whatsthis)
         self.seg_hs_spinBox.setWhatsThis("")
@@ -2020,16 +2069,24 @@ class Ui_MainPages(object):
         self.spad_vs_Label.setText(QCoreApplication.translate("MainPages", u"spad_vs", None))
         self.light_shift_Label.setText(QCoreApplication.translate("MainPages", u"light shift", None))
         self.sublight_shift_Label.setText(QCoreApplication.translate("MainPages", u"sublight shift", None))
-        self.ROI_Shape_Light.setText(QCoreApplication.translate("MainPages", u"ROI shape", None))
+        self.ROI_Shape_Label.setText(QCoreApplication.translate("MainPages", u"ROI shape", None))
         self.ROI_Shape_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Straight", None))
         self.ROI_Shape_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Curve", None))
 
         self.v_spad_shift_Label.setText(QCoreApplication.translate("MainPages", u"v_spad_shift", None))
         self.h_seg_shift_Label.setText(QCoreApplication.translate("MainPages", u"h_seg_shift", None))
+        self.ROI_Retrace_Label.setText(QCoreApplication.translate("MainPages", u"ROI retrace", None))
+        self.ROI_Retrace_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
+        self.ROI_Retrace_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
+
         self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config1byGUI), QCoreApplication.translate("MainPages", u"ROI GUI", None))
         self.ROI_File_Load_Label.setText(QCoreApplication.translate("MainPages", u"ROI File", None))
-        self.ROI_File_Load_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9ROI\u6807\u5b9a\u6587\u4ef6", None))
+        self.ROI_File_Load_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9ROI\u5750\u6807\u6587\u4ef6\uff0c\u652f\u6301 .txt, .csv, .xls, .xlsx", None))
         self.ROI_File_Load_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.Excel_Sheet_sel_Label.setText(QCoreApplication.translate("MainPages", u"Sheet Sel", None))
+#if QT_CONFIG(whatsthis)
+        self.Excel_Sheet_sel_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
         self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config2byCOOR), QCoreApplication.translate("MainPages", u"ROI COOR", None))
         self.base_roi_file_Label.setText(QCoreApplication.translate("MainPages", u"Base ROI", None))
         self.base_roi_file_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u9700\u8981\u4fee\u6539\u7684ROI\u6587\u4ef6", None))

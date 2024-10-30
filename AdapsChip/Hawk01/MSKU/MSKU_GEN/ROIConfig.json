@@ -11,12 +11,13 @@
 
 	"user_guide2"   : "以下字段功能请查阅user_guide.docx",
 	"seg_hs"	 	: 0 ,
+	"h_seg_shift" 	: 4	,
 	"spad_vs"    	: -17,
 	"light_shift"	: 18,
 	"sublight_shift": 3	,
 	"roi_shape"  	: 0	,
+	"roi_retrace"	: 0 ,
 	"v_spad_shift"	: 0 ,
-	"h_seg_shift" 	: 4	,
 
 	"?zone_cfg_sel" : "zone_cfg_sel=-1:按顺序读取每一个Zone分区的配置生成ROI_DATA; zone_cfg_sel=0~31:所有分区的Zone配置都使用zone_cfg_sel的配置",
 	"zone_cfg_sel"	: 0,
