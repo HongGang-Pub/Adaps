@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import xlrd
+import inflect
 
 from SelfDefinedPackge import PubMethod
 from SelfDefinedPackge import ArrayPubMethod
@@ -373,7 +374,7 @@ def DirectAccessCaliDataByTXT(cfg):
         try:
             _start_index = int(data[1])
             _seg_num = int(data[0]) // 48
-        except:
+        except BaseException as e:
             raise ValueError(f"Calibration data format error.\n"
                              f"line{lines}: {data}")
         if _seg_num > 15:
@@ -413,6 +414,8 @@ def DirectAccessCaliDataByExcel(cfg):
     file = cfg["gen_roi_file"]
     sheet_sel = cfg["sheet_sel"]
 
+    p = inflect.engine()
+
     file_name, file_ext = os.path.splitext(file)
     cali_datas = []
     if file_ext == ".csv":
@@ -422,8 +425,8 @@ def DirectAccessCaliDataByExcel(cfg):
                 cali_datas.append(__data__)
     elif file_ext in [".xlsx", ".xls"]:
         excel_data = xlrd.open_workbook(file)
-        if len(excel_data.sheet_names()) < sheet_sel:
-            raise ValueError("The wrong Excel sheet was selected...")
+        if len(excel_data.sheet_names()) < (sheet_sel+1):
+            raise ValueError(f"Excel doesn't have {p.ordinal(sheet_sel+1)} sheet...")
         sheet_datas = excel_data.sheet_by_index(sheet_sel)
         nrows = sheet_datas.nrows
         for row in range(nrows):
@@ -456,18 +459,18 @@ def DirectAccessCaliDataByExcel(cfg):
                     seg_hs = i
                     break
             if seg_hs == -1:
-                raise ValueError(f"Rolling_{frame_cnt} no calibration data ,Please fill in and try again...")
-
+                raise ValueError(f"The {p.ordinal(frame_cnt)} rolling no calibration data, "
+                                 f"Please fill in and try again...")
             if seg_hs + cfg['H_VLD_SEG'] > 15:
-                raise ValueError(f"Rolling_{frame_cnt} start with {seg_hs} segment, and depending on the H_VLD_SEG "
-                                 f"configuration, ROI beyond the SPAD_ARRAY.")
+                raise ValueError(f"The {p.ordinal(frame_cnt)} rolling start with {seg_hs} segment, "
+                                 f"and depending on the H_VLD_SEG configuration, ROI beyond the SPAD_ARRAY.")
             for seg_cnt in range(0, cfg['H_VLD_SEG'] + 1):
                 seg_num = seg_hs + seg_cnt
                 if per_img_cali_data[seg_num] != "":
                     try:
                         start_index = int(per_img_cali_data[seg_num])
-                    except:
-                        raise ValueError("The calibration data formatting error....")
+                    except BaseException as e:
+                        raise ValueError(f"The calibration data [{per_img_cali_data[seg_num]}] formatting error....")
                 per_img_roi_data.append([seg_num, start_index])
 
             img_roi_data.append(per_img_roi_data)
@@ -484,12 +487,13 @@ def DirectAccessCaliDataByExcel(cfg):
                         seg_hs = i
                         break
                 if seg_hs == -1:
-                    raise ValueError(f"Rolling_{frame_cnt} no calibration data ,Please fill in and try again...")
+                    raise ValueError(f"The {p.ordinal(frame_cnt)} rolling no calibration data, "
+                                     f"Please fill in and try again...")
                 seg_num = seg_hs
                 try:
                     start_index = int(per_img_cali_data[seg_num])
-                except:
-                    raise ValueError("The calibration data formatting error....")
+                except BaseException as e:
+                    raise ValueError(f"The calibration data [{per_img_cali_data[seg_num]}] formatting error....")
                 per_img_roi_data.append([seg_num, start_index])
 
                 img_roi_data.append(per_img_roi_data)

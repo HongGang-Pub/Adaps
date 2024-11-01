@@ -1344,7 +1344,7 @@
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>3</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -1990,7 +1990,7 @@
                       </widget>
                      </item>
                      <item row="1" column="1">
-                      <widget class="NoWheelSpinBox" name="Excel_Sheet_sel_spinBox">
+                      <widget class="QSpinBox" name="Excel_Sheet_sel_spinBox">
                        <property name="whatsThis">
                         <string/>
                        </property>
@@ -2279,7 +2279,7 @@
                         <enum>QFrame::NoFrame</enum>
                        </property>
                        <property name="text">
-                        <string>Cali Filer</string>
+                        <string>Cali File</string>
                        </property>
                       </widget>
                      </item>
@@ -4699,8 +4699,8 @@ font: 700 9pt &quot;Consolas&quot;;
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>442</width>
-            <height>285</height>
+            <width>886</width>
+            <height>720</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -5112,7 +5112,7 @@ font: 700 9pt &quot;Consolas&quot;;
                     <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="text">
-                    <string>ROI FORMAT</string>
+                    <string>ROI Format</string>
                    </property>
                   </widget>
                  </item>
@@ -5145,7 +5145,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    </item>
                    <item>
                     <property name="text">
-                     <string>Half-Word</string>
+                     <string>Half-word</string>
                     </property>
                    </item>
                   </widget>

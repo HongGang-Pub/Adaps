@@ -6,3 +6,4 @@
 #Sony/
 *.pyc
 Software
+/AdapsChip/ChipUI/Output/

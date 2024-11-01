@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesrRVvPn.ui'
+## Form generated from reading UI file 'main_pagesIqfPiB.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -730,7 +730,7 @@ class Ui_MainPages(object):
 
         self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.Excel_Sheet_sel_Label)
 
-        self.Excel_Sheet_sel_spinBox = NoWheelSpinBox(self.scrollAreaWidgetContents_3)
+        self.Excel_Sheet_sel_spinBox = QSpinBox(self.scrollAreaWidgetContents_3)
         self.Excel_Sheet_sel_spinBox.setObjectName(u"Excel_Sheet_sel_spinBox")
         self.Excel_Sheet_sel_spinBox.setMinimum(1)
         self.Excel_Sheet_sel_spinBox.setMaximum(100)
@@ -1791,7 +1791,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 442, 285))
+        self.contents.setGeometry(QRect(0, 0, 886, 720))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -1976,7 +1976,7 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_Slider.valueChanged.connect(self.H_VLD_SEG_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(1)
+        self.ROIConfig.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -2094,7 +2094,7 @@ class Ui_MainPages(object):
         self.start_rolling_Label.setText(QCoreApplication.translate("MainPages", u"Start Rolling", None))
         self.End_rolling_Label.setText(QCoreApplication.translate("MainPages", u"End Rolling", None))
         self.ROIConfig.setTabText(self.ROIConfig.indexOf(self.Config3ROIEdit), QCoreApplication.translate("MainPages", u"ROI Edit", None))
-        self.cali_file_path_Label.setText(QCoreApplication.translate("MainPages", u"Cali Filer", None))
+        self.cali_file_path_Label.setText(QCoreApplication.translate("MainPages", u"Cali File", None))
         self.cali_file_path_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u9700\u8981\u6807\u5b9a\u7684ROI\u6587\u4ef6", None))
         self.cali_file_path_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.img_mirror_Label.setText(QCoreApplication.translate("MainPages", u"Img Mirror ", None))
@@ -2194,9 +2194,9 @@ class Ui_MainPages(object):
         self.roi_image_save_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Discard", None))
         self.roi_image_save_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Save", None))
 
-        self.roi_data_format_Label.setText(QCoreApplication.translate("MainPages", u"ROI FORMAT", None))
+        self.roi_data_format_Label.setText(QCoreApplication.translate("MainPages", u"ROI Format", None))
         self.roi_data_fromat_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Byte", None))
-        self.roi_data_fromat_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Half-Word", None))
+        self.roi_data_fromat_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Half-word", None))
 
     # retranslateUi
 
