@@ -1,56 +1,73 @@
-# coding=utf-8
-import xlrd
+def expand_groups(groups, total_boxes=6):
+    """
+    根据传入的 groups 列表自动扩展分组方案，以确保总箱子数为 total_boxes。
+    如果 groups 的总箱子数超过 total_boxes，则截取多余的部分。
 
-# 打开文件
-data = xlrd.open_workbook(r"C:\Users\honggang.li\Downloads\ROI_dataDEBUG\Spot混仿.xlsx")
+    参数:
+        groups (list): 用户传入的初始分组。
+        total_boxes (int): 总箱子数，默认是6。
 
-# 查看工作表
-data.sheet_names()
-print(type(data.sheet_names()))
-print("sheets：" + str(data.sheet_names()))
+    返回:
+        list: 完整的分组方案，确保总箱子数为 total_boxes。
+    """
+    current_count = sum(groups)
 
-# 通过文件名获得工作表,获取工作表1
-# table = data.sheet_by_name('工作表1')
+    # 如果当前分组总箱子数超过 total_boxes，截取前面的部分使其等于 total_boxes
+    if current_count > total_boxes:
+        trimmed_groups = []
+        box_count = 0
+        for group_size in groups:
+            if box_count + group_size > total_boxes:
+                # 截取最后一组的部分，使总数刚好等于 total_boxes
+                trimmed_groups.append(total_boxes - box_count)
+                break
+            trimmed_groups.append(group_size)
+            box_count += group_size
+        return trimmed_groups
 
-# 打印data.sheet_names()可发现，返回的值为一个列表，通过对列表索引操作获得工作表1
-table = data.sheet_by_index(1)
+    # 如果当前分组已涵盖所有箱子，直接返回
+    if current_count == total_boxes:
+        return groups[:]
 
-print(type(table))
-# 获取行数和列数
-# 行数：table.nrows
-# 列数：table.ncols
-print("总行数：" + str(table.nrows))
-print("总列数：" + str(table.ncols))
+    # 计算剩余箱子数量，并用最后一个组大小填充
+    remaining_boxes = total_boxes - current_count
+    last_group_size = groups[-1]
+    expanded_groups = groups + [last_group_size] * (remaining_boxes // last_group_size)
 
-rows = table.nrows
-for row in range(rows):
-    print(table.row_values(row))
-# 获取整行的值 和整列的值，返回的结果为数组
-# 整行值：table.row_values(start,end)
-# 整列值：table.col_values(start,end)
-# 参数 start 为从第几个开始打印，
-# end为打印到那个位置结束，默认为none
-print("整行值0：" + str(table.row_values(0)))
-print("整行值1：" + str(table.row_values(1)))
-print("整列值：" + str(table.col_values(1)))
+    # 如果有剩余箱子不足以形成一个完整组，单独加一个组
+    if sum(expanded_groups) < total_boxes:
+        expanded_groups.append(total_boxes - sum(expanded_groups))
 
-# 获取某个单元格的值，例如获取B3单元格值
-cel_B3 = table.cell(3, 2).value
-print(cel_B3)
+    return expanded_groups
 
 
-# print("====================================================")
-# for i in range(16):
-#     print(i)
-# print("====================================================")
-# import csv
-# import numpy as np
-# with open(r"D:\Project\Hawk\TF3007\1.仿真验证\系统验证\Spot混仿.csv", newline='', encoding="utf-8") as f:
-#     spamreader = csv.reader(f, delimiter=',', quotechar='|')
-#     print(spamreader)
-#     for row in spamreader:
-#         row.pop(0)
-#         print(row)
-        # print(', '.join(row))
-    # data = np.loadtxt(f, str, delimiter=",")
-    # print(data)
+def calculate_distances(groups):
+    """
+    计算每个箱子的移动距离，组间和组内均有偏移。
+
+    参数:
+        groups (list): 用户传入的初始分组。
+
+    返回:
+        list: 每个箱子移动的距离。
+    """
+    expanded_groups = expand_groups(groups)
+
+    distances = []
+    base_distance = 200  # 组间的初始距离
+    increment = 100  # 每组的距离递增
+    intra_group_offset = 5  # 组内偏移
+
+    for i, group_size in enumerate(expanded_groups):
+        group_distance = base_distance + increment * i  # 每组的初始距离
+        # 为当前组的每个箱子计算偏移量
+        for j in range(group_size):
+            distances.append(group_distance + intra_group_offset * j)
+
+    return distances
+
+
+# 示例调用
+groups = [2, 3, 3]  # 希望的分组数，原本有8个箱子，应自动截取至6个
+distances = calculate_distances(groups)
+print("每个箱子移动的距离:", distances)

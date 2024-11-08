@@ -1,10 +1,11 @@
 from PySide6.QtGui import QColor, QBrush, QTextCursor, QTextCharFormat, QDesktopServices
+from PySide6.QtWidgets import QTextBrowser
 import logging
 import logging.handlers
 import queue
 
 # ///////////////////////////////////////////////////////////////
-# 统一增加一个 INFO_PLUS 日志级别, 用于打印特殊的 INFO 日志
+# 统一增加一个 INFO_PLUS 日志级别, 代码中识别后, 进行特殊处理
 # ///////////////////////////////////////////////////////////////
 # 定义新的日志级别
 INFO_PLUS = 25  # 比 INFO 的值高，用于打印特殊的 INFO 信息
@@ -19,30 +20,45 @@ def _INFO_PLUS(msg, *args, **kwargs):
 logging.INFO_PLUS = _INFO_PLUS
 
 
+# ///////////////////////////////////////////////////////////////
+# 增加一个通用的日志格式化方法
+# ///////////////////////////////////////////////////////////////
 def LoggingForConsoleFormat():
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(filename)s %(levelname)s: %(message)s',
                         datefmt='%Y-%m-%d %H:%M:%S')
 
 
+# ///////////////////////////////////////////////////////////////
+# 超链接打开本地文件
+# ///////////////////////////////////////////////////////////////
 def open_folder(url):
     if url.isLocalFile():
         QDesktopServices.openUrl(url)
 
 
-def create_file_hyperlink(file_type, url):
+# ///////////////////////////////////////////////////////////////
+# 创建 html 格式文件
+# ///////////////////////////////////////////////////////////////
+def create_file_hyperlink(url):
     """针对QTextCursor创建文件路径"""
-    s = f'{file_type} has been save to <a href="file:///{url}" style="color: blue; text-decoration: underline;">{url}</a>\t'
+    s = f'<a href="file:///{url}" style="color: blue; text-decoration: underline;">{url}</a>\t'
     return s
 
 
 class LogerForMultithreading:
     """
-    此方法仅支持向 QPlainTextEdit 中写入日志
+    此方法仅支持向 QTextBrowser 中写入日志
     """
 
-    def __init__(self, name=None, loglevel=logging.INFO):
+    def __init__(self, name=None, loglevel=logging.INFO, themes=None, font="Microsoft YaHei UI"):
         self.logger_name = name
+        self.font = font
+        # 日志主题, 按顺序分别为  INFO:20, INFO_PLUS:25, WARNING:30, ERROR:40
+        self.log_print_color = ["black", "blue", "yellow", "red"]
+        if themes is not None:
+            self.log_print_color = themes["app_color"]["log_output"]
+
         self.loglevel = loglevel
 
         # 创建一个日志器
@@ -54,7 +70,7 @@ class LogerForMultithreading:
         self.queue_handler = logging.handlers.QueueHandler(self.log_queue)
         # self.console_handler = logging.StreamHandler()
 
-        # 创建一个Formatter，用于设置日志的格式
+        # 创建一个Formatter, 用于设置日志的格式
         formatter = logging.Formatter(fmt="%(asctime)s: %(message)s", datefmt='%Y-%m-%d %H:%M:%S')
         self.queue_handler.setFormatter(formatter)
         # self.console_handler.setFormatter(formatter)
@@ -62,22 +78,15 @@ class LogerForMultithreading:
         self.logger.addHandler(self.queue_handler)
         # self.logger.addHandler(self.console_handler)
 
-    def update_log_from_logger(self, log_widget: QTextCursor = None, theme: str = "light"):
+    def update_log_from_logger(self, log_widget: QTextBrowser = None):
         while not self.log_queue.empty():
-            log_theme_for_qplaintextedit = ["#DFE1E2", "#0078d7", "yellow", "red"] if theme == "dark" \
-                else ["#9DA9B5", "#0078d7", "#b58900", "red"]
             record = self.log_queue.get()
-            message = record.message
-            # ERROR:40
-            # WARNING:30
-            # INFO_PLUS:25
-            # INFO:20
-            log_type = 3 if record.levelno >= 40 \
-                else 2 if record.levelno >= 30 \
-                else 1 if record.levelno >= 25 \
+            # INFO:20, INFO_PLUS:25, WARNING:30, ERROR:40
+            log_type = 2 if record.levelno >= 40 \
+                else 1 if record.levelno >= 30 \
                 else 0
-
-            color = log_theme_for_qplaintextedit[log_type]
+            color = self.log_print_color[log_type]
+            message = record.message[21:] if record.levelno == INFO_PLUS else record.message  # 如果是 info_pluse, 去除日志时间信息
 
             cursor = log_widget.textCursor()
             cursor.movePosition(QTextCursor.End)
@@ -85,6 +94,7 @@ class LogerForMultithreading:
             # text_format = log_widget.currentCharFormat()  # 创建TextCharFormat对象 获取当前字文本的字符串格式
             text_format = QTextCharFormat()
             text_format.setForeground(QBrush(QColor(color)))  # 设置字体颜色
+            text_format.setFontFamily(self.font)
             cursor.mergeCharFormat(text_format)  # 追加格式到原有文本
             log_widget.setTextCursor(cursor)
             log_widget.append(message)

@@ -1,22 +1,23 @@
 {
     "ROIGenByJson": {
-        "seg_hs": 0,
+        "seg_hs": 2,
         "h_seg_shift": 3,
         "spad_vs": 0,
         "light_shift": 18,
-        "sublight_shift": 3,
+        "sublight_group": "2",
+        "sublight_shift": 60,
         "roi_shape": 0,
-        "roi_retrace": 0,
+        "roi_retrace": 1,
         "v_spad_shift": 0
     },
     "ROIGenByFile": {
-        "gen_roi_file": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG/coor_data.xlsx",
-        "sheet_sel": 0
+        "cali_file": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG/coor_data.xlsx",
+        "sheet_sel": 98
     },
     "ROIGenByBase": {
-        "base_roi_file": "D:/Git/Adaps/Hawk/HawkGUI_v002/Input/1D_ROI_Cali_Data.txt",
+        "roi_file": "D:/Program Files/Software/SpadisApp/InternalRelease_SpadisApp_v5.2-47-g2ea7/SramData/roi_mem000.txt",
         "start_roll": 0,
-        "end_roll": 31
+        "end_roll": 14
     },
     "ROIGenByCali": {
         "cali_file": "C:/Users/honggang.li/Downloads/B32_ROI_data",
@@ -35,16 +36,16 @@
         "light_intensity": 100,
         "instruction": "------部分配置说明-----",
         "config_instruction": {
-            "is_reverse": "文件读取顺序。是：序号从小到大；否：序号从大到小",
+            "is_reverse": "文件读取顺序。是：序号从小到大; 否：序号从大到小",
             "img_reverse": "img是否需要镜像：0：不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像",
             "cali_frm_num": "使用灰度图中第几帧进行标定",
-            "remove_noise": "是否消除噪点，如果光条明显，噪点相对较弱时，无需配置为1",
+            "remove_noise": "是否消除噪点, 如果光条明显, 噪点相对较弱时, 无需配置为1",
             "light_smooth": "光条是否进行平滑处理(建议开启)",
-            "ref_segment": "指定基准段用于偏移矫正(int)，-1，则以最亮段为基准",
-            "curvature": "相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI",
-            "roi_correct": "1D SCAN_MODE ROI是否需要按照pixel进行矫正：0：否，1：是",
+            "ref_segment": "指定基准段用于偏移矫正(int), -1, 则以最亮段为基准",
+            "curvature": "相邻两段SPAD偏移范围, 超过偏移配置值, 强行矫正标定的ROI",
+            "roi_correct": "1D SCAN_MODE ROI是否需要按照pixel进行矫正：0：否, 1：是",
             "correct_thres": "ROI矫正阈值(以pixel为单位, 0则不矫正)",
-            "mode2D": "0：以光条能量优先；1：以能 Masking的最大光子数优先",
+            "mode2D": "0：以光条能量优先; 1：以能 Masking的最大光子数优先",
             "intensity": "ROI和光条亮度调整0~100"
         }
     }

@@ -1,5 +1,4 @@
 import logging
-import re
 import sys
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -10,13 +9,6 @@ from AdapsChip.ChipUI.gui.uis.pages.ui_roi_zone_config import Ui_ROIZoneConfig
 from SelfDefinedPackge.PubMethod import hex_regex_str
 from SelfDefinedPackge.JsonOperation import JsonFunction
 from AdapsChip.ChipUI.gui.Signal import MySignals
-
-
-class CustomQSB(QSpinBox):
-    def wheelEvent(self, e):
-        if e.type() == QEvent.Wheel:
-            e.ignore()
-
 
 class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
     def __init__(self, hawk01_zone_config, qssStyle=None):

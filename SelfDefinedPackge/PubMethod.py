@@ -152,5 +152,36 @@ def hex_regex_str(bit_width=4):
     return regex_str
 
 
+def get_ordinal(n: int) -> str:
+    # 打印序数词: Ordinal Numbers
+    if 10 <= n % 100 <= 20:
+        suffix = 'th'
+    else:
+        suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')
+    return f"{n}{suffix}"
+
+
+
+def invoking_function(DEBUG: bool, func) -> None:
+    """
+    是否将异常信息进行包裹
+    Args:
+        DEBUG (bool): DEBUG 情况下, 直接在终端打印信息
+        func (函数): 调用函数
+
+    Returns:
+        None
+    """
+    if DEBUG is True:
+        func()
+    else:
+        try:
+            func()
+        except Exception as e:
+            logging.fatal(e)
+    pass
+
+
+
 if __name__ == '__main__':
     print("Hello world.")

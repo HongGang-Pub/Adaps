@@ -9,9 +9,8 @@ from .ui_main import *
 
 # MAIN FUNCTIONS 
 # ///////////////////////////////////////////////////////////////
-from .functions_main_window import *
 from .ui_main import UI_MainWindow
-from AdapsChip.ChipUI.windows.Hawk01Function.Hawk01MainUI import Hawk01MainUI
+from AdapsChip.ChipUI.windows.Hawk01.hawk01_window_setup import Hawk01MainUI
 from AdapsChip.ChipUI.windows.HawkToolFunction.HawkToolbox import HawkToolbox
 from AdapsChip.ChipUI.windows.SoftSettingFunction.SoftSettingUI import SoftMainUI
 
@@ -38,14 +37,14 @@ class SetupMainWindow:
             "show_top": True,
             "is_active": True
         },
-        # {
-        #     "btn_icon": "icon_workbench.svg",
-        #     "btn_id": "btn_app_store",
-        #     "btn_text": "Workbench",
-        #     "btn_tooltip": "Workbench",
-        #     "show_top": True,
-        #     "is_active": False
-        # },
+        {
+            "btn_icon": "icon_workbench.svg",
+            "btn_id": "btn_app_store",
+            "btn_text": "Workbench",
+            "btn_tooltip": "Workbench",
+            "show_top": True,
+            "is_active": False
+        },
         {
             "btn_icon": "icon_settings.svg",
             "btn_id": "btn_settings",
@@ -54,14 +53,14 @@ class SetupMainWindow:
             "show_top": False,
             "is_active": False
         },
-        # {
-        #     "btn_icon": "icon_info.svg",
-        #     "btn_id": "btn_info",
-        #     "btn_text": "Adaps",
-        #     "btn_tooltip": "Adaps",
-        #     "show_top": False,
-        #     "is_active": False
-        # }
+        {
+            "btn_icon": "icon_info.svg",
+            "btn_id": "btn_help",
+            "btn_text": "Help",
+            "btn_tooltip": "Get instructions for use",
+            "show_top": False,
+            "is_active": False
+        }
     ]
 
     # ADD TITLE BAR MENUS
@@ -94,6 +93,8 @@ class SetupMainWindow:
         # LEFT MENUS / GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
         # ///////////////////////////////////////////////////////////////
         # ADD MENUS
+        if not self.settings["TOOL_BOX"]:
+            del SetupMainWindow.add_left_menus[1]
         self.ui.left_menu.add_menus(SetupMainWindow.add_left_menus)
 
         # SET SIGNALS
@@ -162,15 +163,16 @@ class SetupMainWindow:
     # Logger Setting update automatic
     # ///////////////////////////////////////////////////////////////
     def generate_logger(self):
-        """日志记录器"""
-        self.ui.LogPrintWindow.anchorClicked.connect(open_folder)
+        """创建日志记录器"""
+        self.logger = LogerForMultithreading(themes=self.themes, font="Microsoft YaHei UI")
 
-        self.logger = LogerForMultithreading()
+        # 创建定时器, 连接日志输出函数
         self.timer = QTimer()
         self.timer.timeout.connect(partial(self.logger.update_log_from_logger,
-                                           self.ui.LogPrintWindow,
-                                           self.settings["theme_name"]))
+                                           self.ui.LogPrintWindow))
         self.timer.start(200)
+        # 文本超链接操作绑定
+        self.ui.LogPrintWindow.anchorClicked.connect(open_folder)
 
     def closeEvent(self):
         Hawk01MainUI.closeEvent(self)

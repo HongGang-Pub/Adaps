@@ -1,7 +1,8 @@
 import numpy as np
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from SelfDefinedPackge import ArrayPubMethod
-from AdapsChip.Hawk01.PCM import PcmPubMethod
+from AdapsChip.Hawk01.PCM import PcmPubMethod, FhrPubMethod
+from AdapsChip.Hawk01 import MipiPubMethod
 from AdapsChip.Hawk01.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 
 
@@ -13,7 +14,7 @@ def do_work():
         "coefficients": coeff_list,
     }
     # 获取寄存器配置
-    csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
+    hawk01_config = MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     # 获取 msku roi 数据
 
@@ -23,16 +24,16 @@ def do_work():
         data["chip_numbers"].append(chip_number)
         data["axis1"][chip_number] = axis1
 
-        csru_cfg["pxl_spad_out_en"] = 1 << spad_en_cnt
+        hawk01_config["PXL_SPAD_OUT_EN"] = 1 << spad_en_cnt
         mipi_file = r"D:\Software\DothinkTester\MipiData_FHR_Shift35_3_EN{}".format(spad_en_cnt)
 
         fd_path = "FHR_15(35)_OUT_EN"
         excel_name = r'{}\Spad分析.xlsx'.format(fd_path)
         print(mipi_file)
 
-        zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(csru_cfg, f_path=fd_path)
-        _array, _spad_data = PcmPubMethod.GetFhrDataFromDothinker(file_path=mipi_file,
-                                                                  cfg=csru_cfg,
+        zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(hawk01_config, f_path=fd_path)
+        _array, _spad_data = FhrPubMethod.GetFhrDataFromDothinker(file_path=mipi_file,
+                                                                  hawk01_config=hawk01_config,
                                                                   msku_roi_mem=msku_roi_mem)
 
         array = _array

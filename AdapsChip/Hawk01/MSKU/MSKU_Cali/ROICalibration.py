@@ -767,20 +767,21 @@ class ROICalibration:
         return masking_arrays, cali_fusion_image, fusion_image_cali_3D_image
 
     @staticmethod
-    def MskuRoiGenerate(cali_data: list, cfg: dict) -> list:
+    def MskuRoiGenerate(cali_data: list, hawk01_cfg: dict) -> list:
         """
         根据标定数据和相关配置生成 Masking 相关的 ROI Data
         Args:
-            cali_data (list):
-            cfg (dict):
+            cali_data (list): 
+                格式说明: 1) 无论 1D or 2D, 一次 rolling 的数据为一个子集
+            hawk01_cfg (dict):
 
         Returns:
             list: msku_roi_mem
         """
-        scan_mode = cfg['SCAN_MODE']
-        v_roll_num = cfg['V_ROLL_NUM']
-        h_roll_num = cfg['H_ROLL_NUM']
-        # h_vld_seg = csru_cfg['H_VLD_SEG']
+        scan_mode = hawk01_cfg['SCAN_MODE']
+        v_roll_num = hawk01_cfg['V_ROLL_NUM']
+        h_roll_num = hawk01_cfg['H_ROLL_NUM']
+        # h_vld_seg = hawk01_config['H_VLD_SEG']
 
         roll_num = (v_roll_num + 1) if scan_mode == 0 else (h_roll_num + 1) * (v_roll_num + 1)
         if len(cali_data) != roll_num:
@@ -835,7 +836,7 @@ class ROICalibration:
         """
         roi_data = []
         try:
-            msku_roi_mem = ROICalibration.MskuRoiGenerate(cfg=cfg, cali_data=cali_data)
+            msku_roi_mem = ROICalibration.MskuRoiGenerate(hawk01_cfg=cfg, cali_data=cali_data)
         except BaseException as msg:
             raise msg
 

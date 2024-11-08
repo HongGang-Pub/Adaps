@@ -33,6 +33,7 @@ from AdapsChip.ChipUI.gui.uis.columns.ui_right_column import Ui_RightColumn
 # CREDITS
 # ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.gui.widgets.py_credits_bar.py_credits import PyCredits
+from AdapsChip.ChipUI.gui.widgets.py_custommenu_textbrowser import CustomMenuTextBrowser
 
 
 # PY WINDOW
@@ -207,14 +208,15 @@ class UI_MainWindow(object):
         # self.log_group.setTitle(u"Log")
         # self.log_group.setObjectName(u"Layout3")
         self.log_group.setMinimumSize(QSize(0, 230))
-        self.log_group.setMaximumSize(QSize(16777215, 300))
+        self.log_group.setMaximumSize(QSize(16777215, 500))
 
         self.log_group_layout = QVBoxLayout(self.log_group)
         self.log_group_layout.setContentsMargins(9, 9, 9, 9)
 
         # self.LogPrintWindow = QPlainTextEdit()
-        self.LogPrintWindow = QTextBrowser()
+        self.LogPrintWindow = CustomMenuTextBrowser()
         self.LogPrintWindow.setOpenLinks(False)
+        self.LogPrintWindow.setFontFamily("Courier")
         # self.LogPrintWindow.setReadOnly(False)
         self.log_group_layout.addWidget(self.LogPrintWindow)
         self.log_group.setStyleSheet(self.qssStyle)

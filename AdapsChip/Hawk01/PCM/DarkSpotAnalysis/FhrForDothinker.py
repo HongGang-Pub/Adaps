@@ -2,6 +2,7 @@ import numpy as np
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from SelfDefinedPackge import ArrayPubMethod
 from AdapsChip.Hawk01.PCM import FhrPubMethod
+from AdapsChip.Hawk01 import MipiPubMethod
 from AdapsChip.Hawk01.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 
 
@@ -18,14 +19,14 @@ def do_work():
         chip_number: []
     }
     # 获取寄存器配置
-    csru_cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
+    hawk01_config = MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     # 获取 msku roi 数据
-    zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(csru_cfg, f_path=fd_path)
+    zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(hawk01_config, f_path=fd_path)
 
     # 获取 FHR 数据
     array, spad_data = FhrPubMethod.GetFhrDataFromDothinker(file_path=mipi_file,
-                                                            cfg=csru_cfg,
+                                                            hawk01_config=hawk01_config,
                                                             msku_roi_mem=msku_roi_mem)
 
     # 获取黑点

@@ -45,22 +45,22 @@ def GetPcmDataFromSpadisApp(fp, frame_number=1):
     return tmp_array
 
 
-def GetPcmDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
+def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     """
     根据 Dothink 的 MIPI 数据解析 PCM
 
     Args:
         file_path (str): Dothink 抓取的MIPI数据路径
-        cfg(dict): 寄存器配置
+        hawk01_config(dict): 寄存器配置
         msku_roi_mem (list): roi信息
 
     Returns:
         np.arrays: 二维数组
     """
-    v_roll_num = cfg["v_roll_num"]
-    h_vld_seg = cfg["h_vld_seg"]
+    v_roll_num = hawk01_config["V_ROLL_NUM"]
+    h_vld_seg = hawk01_config["H_VLD_SEG"]
 
-    pkg_num = AdapsChip.Hawk01.HawkPubMethod.CalPkgNum(csru_cfg=cfg)
+    pkg_num = AdapsChip.Hawk01.HawkPubMethod.CalPkgNum(hawk01_config=hawk01_config)
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
     if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):

@@ -3,7 +3,7 @@
     "zone_cfg_sel": 0,
     "zone_cfg_def": {
         "SUB_EXPOTIME": {
-            "Zone0": "2",
+            "Zone0": "5",
             "Zone1": "20",
             "Zone2": "20",
             "Zone3": "20",

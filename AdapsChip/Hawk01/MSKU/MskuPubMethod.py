@@ -4,10 +4,9 @@ import re
 import os
 
 import numpy as np
-import matplotlib.animation as animation
+# import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import xlrd
-import inflect
 
 from SelfDefinedPackge import PubMethod
 from SelfDefinedPackge import ArrayPubMethod
@@ -123,63 +122,66 @@ def roi_data_save(f_name, data=None, fd_path=".", roi_data_format=1):
     return
 
 
-def ParseRoiMem(cfg, roi_file=None, f_path=None):
+def ParseRoiMem(hawk01_config, roi_file=None, f_path=None):
     """
     根据寄存器配置解析 ROI 数据
     Args:
-        cfg (寄存器配置相关信息):
+        hawk01_config (寄存器配置相关信息):
         roi_file (str): 指定 ROI 文件路径，为 None 时，从cfg中获取 roi_file
         f_path (str): 解析ROI后 masking 成图效果展示
 
     Returns:
         tuple: zone_roi_mem, msku_roi_mem
     """
-    scan_mode = cfg["scan_mode"]
-    v_roll_num = cfg["v_roll_num"]
-    h_roll_num = cfg["h_roll_num"]
-    h_vld_seg = cfg["h_vld_seg"]
+    scan_mode = hawk01_config["SCAN_MODE"]
+    v_roll_num = hawk01_config["V_ROLL_NUM"]
+    h_roll_num = hawk01_config["H_ROLL_NUM"]
+    h_vld_seg = hawk01_config["H_VLD_SEG"]
 
     if roi_file is None:
-        roi_file = cfg["roi_file"]
-    roi_data = PubMethod.read_file(roi_file)
+        roi_file = hawk01_config["roi_file"]
+    __roi_data__ = PubMethod.read_file(roi_file)
 
+    roi_mem = []
     zone_roi_mem = []
     msku_roi_mem = []
+
+    if len(__roi_data__[0].strip()) == 2:   # Byte
+        for r in range(0, len(__roi_data__)//2):
+            try:
+                roi_data = int(__roi_data__[r*2], 16) + int(__roi_data__[r*2+1], 16) * 256
+                roi_mem.append(roi_data)
+            except BaseException as e:
+                raise ValueError(f"ROI format error:{e}")
+    elif len(__roi_data__[0].strip()) == 4:     # Half-work
+        for r in range(0, len(__roi_data__)):
+            try:
+                roi_data = int(__roi_data__[r], 16)
+                roi_mem.append(roi_data)
+            except BaseException as e:
+                raise ValueError(f"ROI format error:{e}")
+    else:
+        raise ValueError("ROI format error...")
 
     roi_len = h_vld_seg + 1 if scan_mode == 0 else h_roll_num + 1
     zone_len = roi_len * 6 + 13
 
-    if zone_len * (v_roll_num + 1) != len(roi_data):
-        raise ValueError("解析ROI错误，请检查ROI或者v_roll_num、h_roll_num、h_vld_seg等配置!!!")
+    if zone_len * (v_roll_num + 1) != len(roi_mem):
+        raise ValueError("ROI data does not match the register configuration, "
+                         "Please check ROI or SCAN_MODE, V_ROLL_NUM, H_ROLL_NUM, H_VLD_SEG!!!")
 
     for v_roll_cnt in range(v_roll_num + 1):
         seg_coor_st_index = v_roll_cnt * zone_len + 13
 
-        zone_mem = roi_data[seg_coor_st_index - 13:seg_coor_st_index]
-
-        for index in range(len(zone_mem)):
-            zone_mem[index] = int(zone_mem[index], 16)
-
+        zone_mem = roi_mem[seg_coor_st_index - 13:seg_coor_st_index]
         zone_roi_mem.append(zone_mem)
 
-        msku_mem = roi_data[seg_coor_st_index: seg_coor_st_index + zone_len - 13]
-
-        # 转换为 int 数据类型
-        for index in range(len(msku_mem)):
-            msku_mem[index] = int(msku_mem[index], 16)
-
+        msku_mem = roi_mem[seg_coor_st_index: seg_coor_st_index + zone_len - 13]
         msku_roi_mem.append(msku_mem)
-
-    csru_cfg = {
-        "SCAN_MODE": cfg["scan_mode"],
-        "V_ROLL_NUM": cfg["v_roll_num"],
-        "H_ROLL_NUM": cfg["h_roll_num"],
-        "H_VLD_SEG": cfg["h_vld_seg"]
-    }
 
     # 成图展示 masking 效果
     if f_path is not None:
-        RollingArrayCollect(msku_roi_data=msku_roi_mem, cfg=csru_cfg, is_save=1, fd_path=f_path)
+        RollingArrayCollect(msku_roi_data=msku_roi_mem, cfg=hawk01_config, is_save=1, fd_path=f_path)
 
     return zone_roi_mem, msku_roi_mem
 
@@ -278,70 +280,70 @@ def RollingArrayCollect(msku_roi_data, cfg, is_save=0, fd_path='.') -> tuple:
     return masking_arrays, pcm_array, ptm_array, masking_coor_info
 
 
-def animation_img(fig, msku_roi_data, cfg):
-    # ax = plt.gca()
-    # fig = plt.figure()
-    arrays, acc_spad_array, depth_spad_array, info = RollingArrayCollect(msku_roi_data, cfg)
+# def animation_img(fig, msku_roi_data, cfg):
+#     # ax = plt.gca()
+#     # fig = plt.figure()
+#     arrays, acc_spad_array, depth_spad_array, info = RollingArrayCollect(msku_roi_data, cfg)
+#
+#     fig.clf()
+#     ax = fig.add_subplot(111)
+#
+#     # --------------------- 配置刻度 --------------------
+#     x_major_locator = MultipleLocator(48)
+#     # 把x轴的刻度间隔设置为 48，并存在变量里
+#     y_major_locator = MultipleLocator(50)
+#     # 把y轴的刻度间隔设置为 50，并存在变量里
+#
+#     # ax为两条坐标轴的实例
+#     ax.xaxis.set_major_locator(x_major_locator)
+#     ax.yaxis.set_major_locator(y_major_locator)
+#
+#     # --------------------- 配置坐标轴属性刻度 --------------------
+#     ax.xaxis.tick_top()     # 设置x坐标轴位置在顶部
+#     ax.spines['top'].set_color('gray')
+#     ax.spines['top'].set_linewidth(5)
+#     ax.spines['left'].set_color('gray')
+#     ax.spines['left'].set_linewidth(5)
+#     # 将侧轴、顶部轴设置为None
+#     ax.spines['right'].set_color(None)
+#     ax.spines['bottom'].set_color(None)
+#
+#     # im = ax.imshow(X=arrays[0], cmap="gray")
+#
+#     # def init():
+#     #     im.set_data(arrays[0])
+#     #     return im
+#
+#     def update(i):
+#         # im.set_data(arrays[index])
+#         imgs = ax.imshow(X=arrays[i], cmap="gray")
+#
+#         x, y, s = info[i]
+#         title = ax.text(x + 5, y + 3, s, fontdict={
+#             'family': 'Times New Roman',  # 标注文本字体
+#             'fontsize': 10,  # 文本大小
+#             'fontweight': 'bold',  # 字体粗细
+#             # 'fontstyle': 'italic',  # 字体风格
+#             'color': 'white',  # 文本颜色
+#             'backgroundcolor': 'blue',  # 背景颜色
+#             'bbox': {
+#                 'boxstyle': 'round',  # 椭圆外框
+#                 'edgecolor': 'white',  # 线框颜色
+#                 'linewidth': 0
+#             }
+#         })
+#         return [imgs] + [title]
+#
+#     ani = animation.FuncAnimation(fig, update, range(len(arrays)), interval=700, blit=True)
+#
+#     # plt.show()
+#     # plt.close()
+#     return ani
 
-    fig.clf()
-    ax = fig.add_subplot(111)
 
-    # --------------------- 配置刻度 --------------------
-    x_major_locator = MultipleLocator(48)
-    # 把x轴的刻度间隔设置为 48，并存在变量里
-    y_major_locator = MultipleLocator(50)
-    # 把y轴的刻度间隔设置为 50，并存在变量里
-
-    # ax为两条坐标轴的实例
-    ax.xaxis.set_major_locator(x_major_locator)
-    ax.yaxis.set_major_locator(y_major_locator)
-
-    # --------------------- 配置坐标轴属性刻度 --------------------
-    ax.xaxis.tick_top()     # 设置x坐标轴位置在顶部
-    ax.spines['top'].set_color('gray')
-    ax.spines['top'].set_linewidth(5)
-    ax.spines['left'].set_color('gray')
-    ax.spines['left'].set_linewidth(5)
-    # 将侧轴、顶部轴设置为None
-    ax.spines['right'].set_color(None)
-    ax.spines['bottom'].set_color(None)
-
-    # im = ax.imshow(X=arrays[0], cmap="gray")
-
-    # def init():
-    #     im.set_data(arrays[0])
-    #     return im
-
-    def update(i):
-        # im.set_data(arrays[index])
-        imgs = ax.imshow(X=arrays[i], cmap="gray")
-
-        x, y, s = info[i]
-        title = ax.text(x + 5, y + 3, s, fontdict={
-            'family': 'Times New Roman',  # 标注文本字体
-            'fontsize': 10,  # 文本大小
-            'fontweight': 'bold',  # 字体粗细
-            # 'fontstyle': 'italic',  # 字体风格
-            'color': 'white',  # 文本颜色
-            'backgroundcolor': 'blue',  # 背景颜色
-            'bbox': {
-                'boxstyle': 'round',  # 椭圆外框
-                'edgecolor': 'white',  # 线框颜色
-                'linewidth': 0
-            }
-        })
-        return [imgs] + [title]
-
-    ani = animation.FuncAnimation(fig, update, range(len(arrays)), interval=700, blit=True)
-
-    # plt.show()
-    # plt.close()
-    return ani
-
-
-def DirectAccessCaliDataByTXT(cfg):
+def DirectAccessCaliDataByTXT(hawk01_config):
     """通过读取文件的形式获取 cali_data"""
-    ini_cali_datas = PubMethod.read_file(cfg["gen_roi_file"])
+    ini_cali_datas = PubMethod.read_file(hawk01_config["cali_file"])
 
     # 去除单行注释
     # /////////////////////////////////////////////////////////////////////
@@ -357,7 +359,7 @@ def DirectAccessCaliDataByTXT(cfg):
 
     # 校验标定数量是否正确
     # /////////////////////////////////////////////////////////////////////
-    num = (cfg['V_ROLL_NUM'] + 1) * (cfg['H_ROLL_NUM'] + 1) if cfg['SCAN_MODE'] == 1 else (cfg['V_ROLL_NUM'] + 1)
+    num = (hawk01_config['V_ROLL_NUM'] + 1) * (hawk01_config['H_ROLL_NUM'] + 1) if hawk01_config['SCAN_MODE'] == 1 else (hawk01_config['V_ROLL_NUM'] + 1)
     if len(cali_datas) < num:  # 标定数量少于配置所需标定数时, 结束程序
         info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
                 f"{num} cali data are required, but only {len(cali_datas)} cali data are available.")
@@ -387,19 +389,19 @@ def DirectAccessCaliDataByTXT(cfg):
     per_img_roi_data = []  # 存储一张PCM灰度图获取的ROI数据
 
     frame_cnt = 0
-    if cfg['SCAN_MODE'] == 0:
-        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
+    if hawk01_config['SCAN_MODE'] == 0:
+        for vroll_cnt in range(0, hawk01_config['V_ROLL_NUM'] + 1):
             seg_num, start_index = _split_cali_data(frame_cnt)
 
-            for seg_cnt in range(0, cfg['H_VLD_SEG'] + 1):
+            for seg_cnt in range(0, hawk01_config['H_VLD_SEG'] + 1):
                 per_img_roi_data.append([seg_num + seg_cnt, start_index])
 
             img_roi_data.append(per_img_roi_data)
             per_img_roi_data = []
             frame_cnt += 1
     else:
-        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
-            for hroll_cnt in range(0, cfg['H_ROLL_NUM'] + 1):
+        for vroll_cnt in range(0, hawk01_config['V_ROLL_NUM'] + 1):
+            for hroll_cnt in range(0, hawk01_config['H_ROLL_NUM'] + 1):
                 seg_num, start_index = _split_cali_data(frame_cnt)
                 per_img_roi_data.append([seg_num, start_index])
 
@@ -409,12 +411,10 @@ def DirectAccessCaliDataByTXT(cfg):
     return img_roi_data
 
 
-def DirectAccessCaliDataByExcel(cfg):
+def DirectAccessCaliDataByExcel(hawk01_config):
     """通过读取文件的形式获取 cali_data"""
-    file = cfg["gen_roi_file"]
-    sheet_sel = cfg["sheet_sel"]
-
-    p = inflect.engine()
+    file = hawk01_config["cali_file"]
+    sheet_sel = hawk01_config["sheet_sel"]
 
     file_name, file_ext = os.path.splitext(file)
     cali_datas = []
@@ -426,7 +426,7 @@ def DirectAccessCaliDataByExcel(cfg):
     elif file_ext in [".xlsx", ".xls"]:
         excel_data = xlrd.open_workbook(file)
         if len(excel_data.sheet_names()) < (sheet_sel+1):
-            raise ValueError(f"Excel doesn't have {p.ordinal(sheet_sel+1)} sheet...")
+            raise ValueError(f"Excel doesn't have {PubMethod.get_ordinal(sheet_sel+1)} sheet...")
         sheet_datas = excel_data.sheet_by_index(sheet_sel)
         nrows = sheet_datas.nrows
         for row in range(nrows):
@@ -436,7 +436,7 @@ def DirectAccessCaliDataByExcel(cfg):
     cali_datas.pop(0)   # 删除第一行
     # 校验标定数量是否正确
     # /////////////////////////////////////////////////////////////////////
-    num = (cfg['V_ROLL_NUM'] + 1) * (cfg['H_ROLL_NUM'] + 1) if cfg['SCAN_MODE'] == 1 else (cfg['V_ROLL_NUM'] + 1)
+    num = (hawk01_config['V_ROLL_NUM'] + 1) * (hawk01_config['H_ROLL_NUM'] + 1) if hawk01_config['SCAN_MODE'] == 1 else (hawk01_config['V_ROLL_NUM'] + 1)
     if (len(cali_datas)) < num:  # 标定数量少于配置所需标定数时, 结束程序, 第一行为 Segment 标识数据
         info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
                 f"{num} cali data are required, but only {len(cali_datas)} cali data are available.")
@@ -449,8 +449,8 @@ def DirectAccessCaliDataByExcel(cfg):
 
     frame_cnt = 0
     start_index = 0
-    if cfg['SCAN_MODE'] == 0:
-        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
+    if hawk01_config['SCAN_MODE'] == 0:
+        for vroll_cnt in range(0, hawk01_config['V_ROLL_NUM'] + 1):
             seg_hs = -1
             per_img_cali_data = cali_datas[frame_cnt]
             per_img_cali_data.pop(0)    # 删除第一列
@@ -459,12 +459,12 @@ def DirectAccessCaliDataByExcel(cfg):
                     seg_hs = i
                     break
             if seg_hs == -1:
-                raise ValueError(f"The {p.ordinal(frame_cnt)} rolling no calibration data, "
+                raise ValueError(f"The {PubMethod.get_ordinal(frame_cnt+1)} rolling no calibration data, "
                                  f"Please fill in and try again...")
-            if seg_hs + cfg['H_VLD_SEG'] > 15:
-                raise ValueError(f"The {p.ordinal(frame_cnt)} rolling start with {seg_hs} segment, "
+            if seg_hs + hawk01_config['H_VLD_SEG'] > 15:
+                raise ValueError(f"The {PubMethod.get_ordinal(frame_cnt+1)} rolling start with {seg_hs} segment, "
                                  f"and depending on the H_VLD_SEG configuration, ROI beyond the SPAD_ARRAY.")
-            for seg_cnt in range(0, cfg['H_VLD_SEG'] + 1):
+            for seg_cnt in range(0, hawk01_config['H_VLD_SEG'] + 1):
                 seg_num = seg_hs + seg_cnt
                 if per_img_cali_data[seg_num] != "":
                     try:
@@ -477,8 +477,8 @@ def DirectAccessCaliDataByExcel(cfg):
             per_img_roi_data = []
             frame_cnt += 1
     else:
-        for vroll_cnt in range(0, cfg['V_ROLL_NUM'] + 1):
-            for hroll_cnt in range(0, cfg['H_ROLL_NUM'] + 1):
+        for vroll_cnt in range(0, hawk01_config['V_ROLL_NUM'] + 1):
+            for hroll_cnt in range(0, hawk01_config['H_ROLL_NUM'] + 1):
                 seg_hs = -1
                 per_img_cali_data = cali_datas[frame_cnt]
                 per_img_cali_data.pop(0)  # 删除第一列
@@ -487,7 +487,7 @@ def DirectAccessCaliDataByExcel(cfg):
                         seg_hs = i
                         break
                 if seg_hs == -1:
-                    raise ValueError(f"The {p.ordinal(frame_cnt)} rolling no calibration data, "
+                    raise ValueError(f"The {PubMethod.get_ordinal(frame_cnt+1)} rolling no calibration data, "
                                      f"Please fill in and try again...")
                 seg_num = seg_hs
                 try:

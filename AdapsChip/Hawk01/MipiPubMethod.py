@@ -177,21 +177,21 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
     min_lens = 4 if protocol == "i2c" else 3
     block_write = "I2C_Block_Write" if protocol == "i2c" else "SPI_Block_Write"
 
-    csru_cfg = {
-        "tx_frame_mode": 0,
-        "v_pxl_out_num": 1,
-        "scan_mode": 0,
-        "work_mode": 0,
-        "v_roll_num": 31,
-        "h_roll_num": 0,
-        "h_vld_seg": 15,
-        "minbin_thrs": 0,
-        "maxbin_thrs": 167,
-        "one_dt_mode": 0,
-        "out_bin_num": 0,
+    hawk01_config = {
+        "TX_FRAME_MODE": 0,
+        "V_PXL_OUT_NUM": 1,
+        "SCAN_MODE": 0,
+        "WORK_MODE": 0,
+        "V_ROLL_NUM": 31,
+        "H_ROLL_NUM": 0,
+        "H_VLD_SEG": 15,
+        "MINBIN_THRS": 0,
+        "MAXBIN_THRS": 167,
+        "ONE_DT_MODE": 0,
+        "OUT_BIN_NUM": 0,
         "seg_hs": 0,
         "h_seg_shift": 0,
-        "pxl_spad_out_en": 0x1FF,
+        "PXL_SPAD_OUT_EN": 0x1FF,
         "roi_file": ""
     }
 
@@ -217,70 +217,70 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
             if addr == csru_addr['SYS_CTRL']:
                 _sys_ctrl = configs[addr_index + 1].strip()[0:3]
                 sys_ctrl = int(_sys_ctrl, 16)
-                csru_cfg["tx_frame_mode"] = (sys_ctrl & 0x80) >> 7
-                csru_cfg["v_pxl_out_num"] = (sys_ctrl & 0x40) >> 6
-                csru_cfg["scan_mode"] = (sys_ctrl & 0x08) >> 3
-                csru_cfg["work_mode"] = (sys_ctrl & 0x06) >> 1
+                hawk01_config["TX_FRAME_MODE"] = (sys_ctrl & 0x80) >> 7
+                hawk01_config["V_PXL_OUT_NUM"] = (sys_ctrl & 0x40) >> 6
+                hawk01_config["SCAN_MODE"] = (sys_ctrl & 0x08) >> 3
+                hawk01_config["WORK_MODE"] = (sys_ctrl & 0x06) >> 1
 
             if addr == csru_addr['V_ROLL_NUM']:
                 _v_roll_num = configs[addr_index + 1].strip()[0:3]
                 v_roll_num = int(_v_roll_num, 16)
-                csru_cfg["v_roll_num"] = v_roll_num & 0x1F
+                hawk01_config["V_ROLL_NUM"] = v_roll_num & 0x1F
 
             if addr == csru_addr['H_ROLL_NUM']:
                 _h_roll_num = configs[addr_index + 1].strip()[0:3]
                 hroll_num = int(_h_roll_num, 16)
-                csru_cfg["h_roll_num"] = hroll_num & 0x0F
-                csru_cfg["h_vld_seg"] = (hroll_num & 0xF0) >> 4
+                hawk01_config["H_ROLL_NUM"] = hroll_num & 0x0F
+                hawk01_config["H_VLD_SEG"] = (hroll_num & 0xF0) >> 4
 
             if addr == csru_addr['MINBIN_THRS']:
                 _minbin_thrs = configs[addr_index + 1].strip()[0:3]
                 minbin_thrs = int(_minbin_thrs, 16)
-                csru_cfg["minbin_thrs"] = minbin_thrs
+                hawk01_config["MINBIN_THRS"] = minbin_thrs
 
             if addr == csru_addr['MAXBIN_THRS']:
                 _maxbin_thrs = configs[addr_index + 1].strip()[0:3]
                 maxbin_thrs = int(_maxbin_thrs, 16)
-                csru_cfg["maxbin_thrs"] = maxbin_thrs
+                hawk01_config["MAXBIN_THRS"] = maxbin_thrs
 
             if addr == csru_addr['TXU_CFG']:
                 _txu_cfg = configs[addr_index + 1].strip()[0:3]
                 txu_cfg = int(_txu_cfg, 16)
-                csru_cfg["one_dt_mode"] = txu_cfg & 0x01
+                hawk01_config["ONE_DT_MODE"] = txu_cfg & 0x01
             # depthu_cfg1
             if addr == csru_addr['DEPTHU_CFG1']:
                 _depthu_cfg1 = configs[addr_index + 1].strip()[0:3]
                 depthu_cfg1 = int(_depthu_cfg1, 16)
-                csru_cfg["out_bin_num"] = (depthu_cfg1 & 0x10) >> 4
+                hawk01_config["OUT_BIN_NUM"] = (depthu_cfg1 & 0x10) >> 4
 
             if addr == csru_addr['SPAD_CFG1']:
                 _spad_cfg1 = configs[addr_index + 1].strip()[0:3]
                 spad_cfg1 = int(_spad_cfg1, 16)
                 PXL_SPAD_OUT_EN_L = spad_cfg1
-                csru_cfg["pxl_spad_out_en"] = PXL_SPAD_OUT_EN_H * 256 + PXL_SPAD_OUT_EN_L
+                hawk01_config["PXL_SPAD_OUT_EN"] = PXL_SPAD_OUT_EN_H * 256 + PXL_SPAD_OUT_EN_L
 
             if addr == csru_addr['SPAD_CFG2']:
                 _spad_cfg2 = configs[addr_index + 1].strip()[0:3]
                 spad_cfg2 = int(_spad_cfg2, 16)
                 PXL_SPAD_OUT_EN_H = spad_cfg2 >> 7
-                csru_cfg["pxl_spad_out_en"] = PXL_SPAD_OUT_EN_H * 256 + PXL_SPAD_OUT_EN_L
+                hawk01_config["PXL_SPAD_OUT_EN"] = PXL_SPAD_OUT_EN_H * 256 + PXL_SPAD_OUT_EN_L
 
         # seg_hs, h_seg_shift
         if sramdata_path is not None and configs[0] == block_write and len(configs) == min_lens + 1:
             roi_name = configs[min_lens].strip()
             roi_file = "{}\\{}.txt".format(sramdata_path, roi_name)
-            csru_cfg["roi_file"] = roi_file
+            hawk01_config["roi_file"] = roi_file
             with open(roi_file, 'r', encoding='utf-8') as f1:
                 roi_data = f1.readlines()
                 seg_hs = int(roi_data[13], 16) // 1024
-                csru_cfg["seg_hs"] = seg_hs
-                if csru_cfg["scan_mode"] == 1:
+                hawk01_config["seg_hs"] = seg_hs
+                if hawk01_config["scan_mode"] == 1:
                     h_seg_shift = int(roi_data[19], 16) // 1024 - seg_hs
                 else:
                     h_seg_shift = 0
-                csru_cfg["h_seg_shift"] = h_seg_shift
-    logging.warning("寄存器配置信息：\n{}".format(csru_cfg))
-    return csru_cfg
+                hawk01_config["h_seg_shift"] = h_seg_shift
+    logging.warning("寄存器配置信息：\n{}".format(hawk01_config))
+    return hawk01_config
 
 
 def SpadOutEn(spad_out_en):

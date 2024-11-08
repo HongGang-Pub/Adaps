@@ -1344,7 +1344,7 @@
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>3</number>
+                <number>2</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -1601,7 +1601,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="4" column="0">
+                     <item row="5" column="0">
                       <widget class="QLabel" name="sublight_shift_Label">
                        <property name="minimumSize">
                         <size>
@@ -1633,7 +1633,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="4" column="1">
+                     <item row="5" column="1">
                       <widget class="NoWheelSpinBox" name="sublight_shift_spinBox">
                        <property name="minimum">
                         <number>-576</number>
@@ -1643,7 +1643,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="5" column="0">
+                     <item row="6" column="0">
                       <widget class="QLabel" name="ROI_Shape_Label">
                        <property name="minimumSize">
                         <size>
@@ -1675,7 +1675,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="5" column="1">
+                     <item row="6" column="1">
                       <widget class="NoWheelComboBox" name="ROI_Shape_ComboBox">
                        <property name="font">
                         <font>
@@ -1696,7 +1696,7 @@
                        </item>
                       </widget>
                      </item>
-                     <item row="7" column="0">
+                     <item row="8" column="0">
                       <widget class="QLabel" name="v_spad_shift_Label">
                        <property name="minimumSize">
                         <size>
@@ -1728,7 +1728,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="7" column="1">
+                     <item row="8" column="1">
                       <widget class="NoWheelSpinBox" name="v_spad_shift_spinBox">
                        <property name="minimum">
                         <number>-576</number>
@@ -1780,7 +1780,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="6" column="0">
+                     <item row="7" column="0">
                       <widget class="QLabel" name="ROI_Retrace_Label">
                        <property name="minimumSize">
                         <size>
@@ -1812,7 +1812,7 @@
                        </property>
                       </widget>
                      </item>
-                     <item row="6" column="1">
+                     <item row="7" column="1">
                       <widget class="NoWheelComboBox" name="ROI_Retrace_ComboBox">
                        <property name="font">
                         <font>
@@ -1831,6 +1831,75 @@
                          <string>Yes</string>
                         </property>
                        </item>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QLabel" name="sublight_group_Label">
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="font">
+                        <font>
+                         <family>Microsoft YaHei UI</family>
+                         <pointsize>9</pointsize>
+                         <bold>false</bold>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Raised</enum>
+                       </property>
+                       <property name="text">
+                        <string>sublight group</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QLineEdit" name="sublight_group_LineEdit">
+                       <property name="enabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="minimumSize">
+                        <size>
+                         <width>0</width>
+                         <height>0</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>500</width>
+                         <height>16777215</height>
+                        </size>
+                       </property>
+                       <property name="focusPolicy">
+                        <enum>Qt::StrongFocus</enum>
+                       </property>
+                       <property name="text">
+                        <string>1</string>
+                       </property>
+                       <property name="readOnly">
+                        <bool>false</bool>
+                       </property>
+                       <property name="placeholderText">
+                        <string>6行pixel分组方式</string>
+                       </property>
                       </widget>
                      </item>
                     </layout>
@@ -1893,7 +1962,7 @@
                       <number>0</number>
                      </property>
                      <item row="0" column="0">
-                      <widget class="QLabel" name="ROI_File_Load_Label">
+                      <widget class="QLabel" name="Cali_File_Load_Label">
                        <property name="font">
                         <font>
                          <family>Microsoft YaHei UI</family>
@@ -1902,17 +1971,17 @@
                         </font>
                        </property>
                        <property name="text">
-                        <string>ROI File</string>
+                        <string>Cali File</string>
                        </property>
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <layout class="QHBoxLayout" name="ROI_File_Load_Layout">
+                      <layout class="QHBoxLayout" name="Cali_File_Load_Layout">
                        <property name="spacing">
                         <number>9</number>
                        </property>
                        <item>
-                        <widget class="QLineEdit" name="ROI_File_Load_LineEdit">
+                        <widget class="QLineEdit" name="Cali_File_Load_LineEdit">
                          <property name="enabled">
                           <bool>true</bool>
                          </property>
@@ -1940,7 +2009,7 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="ROI_File_Load_Button">
+                        <widget class="QPushButton" name="Cali_File_Load_Button">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -2062,7 +2131,7 @@
                       <number>0</number>
                      </property>
                      <item row="0" column="0">
-                      <widget class="QLabel" name="base_roi_file_Label">
+                      <widget class="QLabel" name="ROI_File_Label">
                        <property name="font">
                         <font>
                          <family>Microsoft YaHei UI</family>
@@ -2071,17 +2140,17 @@
                         </font>
                        </property>
                        <property name="text">
-                        <string>Base ROI</string>
+                        <string>ROI File</string>
                        </property>
                       </widget>
                      </item>
                      <item row="0" column="1">
-                      <layout class="QHBoxLayout" name="base_roi_file_Layout">
+                      <layout class="QHBoxLayout" name="ROI_File_Layout">
                        <property name="spacing">
                         <number>9</number>
                        </property>
                        <item>
-                        <widget class="QLineEdit" name="base_roi_file_LineEdit">
+                        <widget class="QLineEdit" name="ROI_File_LineEdit">
                          <property name="enabled">
                           <bool>true</bool>
                          </property>
@@ -2104,12 +2173,12 @@
                           <bool>true</bool>
                          </property>
                          <property name="placeholderText">
-                          <string>请选择需要修改的ROI文件</string>
+                          <string>请选择需要编辑的ROI文件</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="base_roi_file_Button">
+                        <widget class="QPushButton" name="ROI_File_Button">
                          <property name="sizePolicy">
                           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                            <horstretch>0</horstretch>
@@ -2127,7 +2196,7 @@
                       </layout>
                      </item>
                      <item row="1" column="0">
-                      <widget class="QLabel" name="start_rolling_Label">
+                      <widget class="QLabel" name="Start_Rolling_Label">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -2162,7 +2231,7 @@
                       </widget>
                      </item>
                      <item row="2" column="0">
-                      <widget class="QLabel" name="End_rolling_Label">
+                      <widget class="QLabel" name="End_Rolling_Label">
                        <property name="minimumSize">
                         <size>
                          <width>0</width>
@@ -2194,7 +2263,7 @@
                       </widget>
                      </item>
                      <item row="2" column="1">
-                      <widget class="QSpinBox" name="End_rolling_SpinBox">
+                      <widget class="QSpinBox" name="End_Rolling_SpinBox">
                        <property name="minimum">
                         <number>1</number>
                        </property>
@@ -2204,7 +2273,7 @@
                       </widget>
                      </item>
                      <item row="1" column="1">
-                      <widget class="QSpinBox" name="start_rolling_SpinBox">
+                      <widget class="QSpinBox" name="Start_Rolling_SpinBox">
                        <property name="minimum">
                         <number>1</number>
                        </property>

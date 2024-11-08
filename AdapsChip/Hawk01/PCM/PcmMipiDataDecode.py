@@ -8,14 +8,14 @@ from AdapsChip.Hawk01.PCM import PcmPubMethod
 
 def get_pcm_array(script_file, mipi_file, sramdata_path):
     # 获取寄存器配置
-    csru_cfg = AdapsChip.Hawk01.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
+    hawk01_config = AdapsChip.Hawk01.MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     # 获取 msku roi信息
-    zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(csru_cfg)
+    zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(hawk01_config)
 
     # 获取 pcm spad arrays
     array, spad_data = PcmPubMethod.GetPcmDataFromDothinker(file_path=mipi_file,
-                                                            cfg=csru_cfg,
+                                                            hawk01_config=hawk01_config,
                                                             msku_roi_mem=msku_roi_mem)
     return array
 

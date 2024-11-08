@@ -64,9 +64,9 @@ def msku_gui():
     # -------------------------- BIN_FILE_MODE ----------------------------------
     # def binFileAnalysisModeSel():
     #     if var.get():
-    #         csru_cfg["binFileAnalysisMode"] = 1
+    #         hawk01_config["binFileAnalysisMode"] = 1
     #     else:
-    #         csru_cfg["binFileAnalysisMode"] = 0
+    #         hawk01_config["binFileAnalysisMode"] = 0
     #
     # var = tkinter.BooleanVar()
     # bin_file_dsp_mode = tkinter.Checkbutton(configs_frame, text_annotations="拆分Bin文件", variable=var, command=binFileAnalysisModeSel)
@@ -175,7 +175,7 @@ def msku_gui():
     def _view():
         _get_config()
         histogram.fig_close()
-        # histogram.do_work(csru_cfg)
+        # histogram.do_work(hawk01_config)
         try:
             _log_update(f"作图中...", log_type=0)
             histogram.do_work(cfg)
@@ -186,7 +186,7 @@ def msku_gui():
 
     def _more_view():
         _get_config()
-        # histogram.do_work(csru_cfg)
+        # histogram.do_work(hawk01_config)
         try:
             _log_update(f"作图中...", log_type=0)
             histogram.do_work(cfg)
@@ -214,7 +214,7 @@ def msku_gui():
 
     def _draw_imag():
         _get_config()
-        # histogram.do_work(csru_cfg)
+        # histogram.do_work(hawk01_config)
         try:
             _log_update(f"作图中...", log_type=0)
             histogram.hist_imag(cfg)
@@ -342,17 +342,17 @@ def msku_gui():
         frame_sel.insert(0, cfg['frame_sel'])
         sel_filename.set(cfg["file_sel"][0])
 
-        # if csru_cfg["binFileAnalysisMode"] == 1:
+        # if hawk01_config["binFileAnalysisMode"] == 1:
         #     var.set(True)
         # else:
         #     var.set(False)
 
     # ------------------ 启动初始化 -----------------------
     try:
-        # csru_cfg = PubMethod.ReadJsonFile('config.json')
+        # hawk01_config = PubMethod.ReadJsonFile('config.json')
         configs = JsonFunction(file_path="config.json")
         cfg = configs.items
-        # csru_cfg = {"dsp_mode": True,
+        # hawk01_config = {"dsp_mode": True,
         #        "start_bin": 0,
         #        "end_bin": 1000,
         #        "pixel_sel": "0, 50, 100, 150, 192",

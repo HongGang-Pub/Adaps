@@ -1,29 +1,31 @@
 import os
 import sys
 
+import PySide6.QtCore
+
 # sys.path.append(os.path.join(os.getcwd(), "../../"))
 os.chdir(os.path.dirname(__file__))
 # IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
-from windows.main_window.functions_main_window import *
-from windows.main_window.setup_main_window import *
-
-# IMPORT QT CORE
-# ///////////////////////////////////////////////////////////////
-from AdapsChip.ChipUI.gui.qt_core import *
+# from windows.main_window.main_window_setup import *
 
 # IMPORT SETTINGS
 # ///////////////////////////////////////////////////////////////
 from gui.core.json_settings import Settings
-
-# IMPORT PY ONE DARK WINDOWS
-# ///////////////////////////////////////////////////////////////
-# MAIN WINDOW
-from AdapsChip.ChipUI.windows.main_window import *
+from gui.core.json_themes import Themes
 
 # IMPORT HawkFunction
 # ///////////////////////////////////////////////////////////////
-from SelfDefinedPackge import MatplotExtension
+# from SelfDefinedPackge import MatplotExtension
+from windows.main_window.ui_main import UI_MainWindow
+# from windows.main_window.main_window_functions import MainFunctions
+from windows.main_window.main_window_setup import SetupMainWindow
+from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtGui import QIcon, QDesktopServices
+from PySide6.QtCore import QUrl
+
+
+# from PySide6.QtCore import QTimer
 
 
 # MAIN WINDOW
@@ -35,6 +37,7 @@ class MainWindow(QMainWindow):
         # ///////////////////////////////////////////////////////////////
         settings = Settings()
         self.settings = settings.items
+        self.DEBUG = self.settings["DEBUG"]
 
         # LOAD THEME COLOR
         # ///////////////////////////////////////////////////////////////
@@ -49,7 +52,6 @@ class MainWindow(QMainWindow):
             with open(styleFile, 'r') as f:
                 self.qssStyle = f.read()
         except:
-            logging.warning("No theme profile found...")
             self.qssStyle = None
 
         # SETUP MAIN WINDOw
@@ -63,12 +65,22 @@ class MainWindow(QMainWindow):
         self.hide_grips = True  # Show/Hide resize grips
         SetupMainWindow.setup_gui(self)
 
+        # def excute():
+        #     # SETUP MAIN WINDOW
+        #     # ///////////////////////////////////////////////////////////////
+        #     from windows.main_window.main_window_setup import SetupMainWindow
+        #     SetupMainWindow.setup_gui(self)
+        #     pass
+        # QTimer.singleShot(100, excute)
+
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
     # Check funtion by object name / btn_id
     # ///////////////////////////////////////////////////////////////
     def btn_clicked(self):
         # GET BT CLICKED
+        from windows.main_window.main_window_setup import SetupMainWindow
+        from windows.main_window.main_window_functions import MainFunctions
         btn = SetupMainWindow.setup_btns(self)
 
         # HOME BTN
@@ -78,6 +90,7 @@ class MainWindow(QMainWindow):
 
             # Load Page 1
             MainFunctions.set_page(self, self.ui.load_pages.page_1)
+            self.ui.log_group.setHidden(False)
 
         # WIDGETS BTN
         elif btn.objectName() == "btn_app_store":
@@ -86,6 +99,7 @@ class MainWindow(QMainWindow):
 
             # Load Page 2
             MainFunctions.set_page(self, self.ui.load_pages.page_2)
+            self.ui.log_group.setHidden(False)
 
         # LOAD USER PAGE
         elif btn.objectName() == "btn_settings":
@@ -94,63 +108,26 @@ class MainWindow(QMainWindow):
 
             # Load Page 3
             MainFunctions.set_page(self, self.ui.load_pages.page_3)
-        # 设置日志打印控件在设置界面隐藏
-        if btn.objectName() == "btn_settings":
             self.ui.log_group.setHidden(True)
-        else:
-            self.ui.log_group.setHidden(False)
+
+        elif btn.objectName() == "btn_help":
+            url = "./Doc/README.html"
+            QDesktopServices.openUrl(QUrl.fromLocalFile(url))
+            pass
         # print(f"Button {btn.objectName()}, clicked!")
 
     # ///////////////////////////////////////////////////////////////
     def btn_released(self):
         # GET BT CLICKED
+        from windows.main_window.main_window_setup import SetupMainWindow
         btn = SetupMainWindow.setup_btns(self)
 
     def closeEvent(self, event):  # TODO
+        from windows.main_window.main_window_setup import SetupMainWindow
+        from SelfDefinedPackge import MatplotExtension
         SetupMainWindow.closeEvent(self)
         MatplotExtension.fig_close()
         event.accept()
-
-
-class InitialWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Open...")
-        self.setFixedSize(300, 100)
-        # self.setGeometry(300, 300, 300, 100)
-        cursor_pos = QCursor.pos()
-        screen = QApplication.screenAt(cursor_pos)
-        if screen:
-            screen_geometry = screen.geometry()
-            x = screen_geometry.x() + (screen_geometry.width() - self.width()) // 2
-            y = screen_geometry.y() + (screen_geometry.height() - self.height()) // 2 - 50
-            # print(x, y)
-            self.move(x, y)
-
-        layout = QVBoxLayout()
-
-        self.label = QLabel("Loading...")
-        layout.addWidget(self.label)
-
-        container = QWidget()
-        container.setLayout(layout)
-        self.setCentralWidget(container)
-
-        # QTimer.singleShot(0, self.start_loading)
-
-    def showEvent(self, event):
-        super().showEvent(event)
-        QTimer.singleShot(10, self.load_main_window)
-
-    def load_main_window(self):
-        # self.label.setText("Loading...")
-        # self.main_window = MainWindow()
-        QTimer.singleShot(100, self.open_main_window)
-
-    def open_main_window(self):
-        self.main_window = MainWindow()
-        self.main_window.show()
-        self.close()
 
 
 def main():
@@ -161,7 +138,7 @@ def main():
 
     # SHOW MAIN WINDOW
     # ///////////////////////////////////////////////////////////////
-    window = InitialWindow()
+    window = MainWindow()
     # window = Main
     # Window()
     window.show()

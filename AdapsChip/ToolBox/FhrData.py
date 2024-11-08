@@ -43,7 +43,6 @@ def do_work1():
 
         if len(coor) > 10:
             break
-    return
 
     for index in range(len(histograms)):
         # hist = histograms[index] / len(file)
@@ -65,8 +64,8 @@ def do_work2(file_path, script_file):
     """
     FHR MIPI 数据成直方图
     """
-    cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file)
-    h_vld_seg = cfg["h_vld_seg"]
+    hawk01_config = MipiPubMethod.GetCsruAndROIConfig(script_file)
+    h_vld_seg = hawk01_config["H_VLD_SEG"]
     v_roll = 0  # 第几次v_roll
     h_roll = 0  # 第几次h_roll
     sub_light = 0   # 第几个光条
@@ -75,7 +74,7 @@ def do_work2(file_path, script_file):
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.CalPkgNum(csru_cfg=csru_cfg)
+    # pkg_num = MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
     # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 
@@ -105,7 +104,7 @@ def do_work3(file_path, script_file):
     """
     PHR MIPI 数据成直方图
     """
-    cfg = Hawk.Common.MipiPubMethod.GetCsruAndROIConfig(script_file)
+    hawk01_config = MipiPubMethod.GetCsruAndROIConfig(script_file)
     v_roll = 0  # 第几次v_roll
     h_roll = 0  # 第几次h_roll
     seg_cnt = 0     # 第几段
@@ -113,7 +112,7 @@ def do_work3(file_path, script_file):
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.CalPkgNum(csru_cfg=csru_cfg)
+    # pkg_num = MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
     # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 

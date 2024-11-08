@@ -1,12 +1,12 @@
 {
     "theme_name" : "light_theme",
     "app_color" : {
-        "dark_one" : "#dad9d8",
-        "dark_two" : "#f5f5f5",
-        "dark_three" : "#eae8e7",
-        "dark_four" : "#dedfe0",
-        "bg_one" : "#eae8e7",
-        "bg_two" : "#f5f5f5",
+        "dark_one" : "#dad9d8",             "?dark_one": "左侧导航栏背景色",
+        "dark_two" : "#f5f5f5",             "?dark_two": "左侧导航栏active背景色",
+        "dark_three" : "#eae8e7",           "?dark_three": "左侧导航栏鼠标悬浮颜色",
+        "dark_four" : "#dedfe0",            "?dark_four": "按钮点击颜色",
+        "bg_one" : "#eae8e7",               "?bg_one": "pages背景色",
+        "bg_two" : "#f5f5f5",               "?bt_two": "pages title/ botton背景色",
         "bg_three" : "#EFF1F7",
         "icon_color" : "#6C7C96",
         "icon_hover" : "#6C7C96",
@@ -25,6 +25,7 @@
         "pink" : "#ff007f",
         "green" : "#00ff7f",
         "red" : "#ff5555",
-        "yellow" : "#f1fa8c"
+        "yellow" : "#f1fa8c",
+        "log_output": ["#9DA9B5", "#b58900", "red"],    "?log_color": "INFO, WARNING, ERROR"
     }
 }

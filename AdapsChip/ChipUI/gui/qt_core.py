@@ -22,7 +22,20 @@
 # Property (pyqtProperty), Slot (pyqtSlot), Signal (pyqtSignal)
 # among others.
 # ///////////////////////////////////////////////////////////////
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
-from PySide6.QtSvgWidgets import *
+# from PySide6.QtCore import *
+# from PySide6.QtGui import *
+# from PySide6.QtWidgets import *
+
+from PySide6.QtCore import QTimer, QThread, QSize, QRegularExpression, QEvent, QUrl, QPropertyAnimation, QEasingCurve
+from PySide6.QtCore import QParallelAnimationGroup, QRect, QObject, Signal, QPoint, Property
+
+from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QTableWidgetItem, QGraphicsDropShadowEffect
+from PySide6.QtWidgets import QFrame, QSpinBox, QDialog, QHeaderView, QLineEdit, QTableWidget, QMessageBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QFileDialog, QPushButton
+from PySide6.QtWidgets import QListView, QSpacerItem, QSizePolicy, QTextBrowser, QSizeGrip, QSlider, QCheckBox
+
+from PySide6.QtGui import QRegularExpressionValidator, Qt, QShortcut, QKeySequence, QDesktopServices, QIcon, QAction
+from PySide6.QtGui import QCursor, QColor, QPainter, QFont, QPen, QMouseEvent, QStandardItemModel, QStandardItem
+from PySide6.QtGui import QBrush, QPixmap
+
+from PySide6.QtSvgWidgets import QSvgWidget

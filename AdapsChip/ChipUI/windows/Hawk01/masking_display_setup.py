@@ -3,19 +3,12 @@ import gc
 import logging
 import os
 import sys
-import time
 from threading import Thread
 
-import memory_profiler
-from pympler import asizeof
 import numpy as np
-from SelfDefinedPackge import MatplotExtension
-
-from PySide6.QtWidgets import QFrame
 
 import AdapsChip.ChipUI
-# from PySide6.QtGui import QIcon, QScreen, QAction
-# IMPORT QT CORE
+
 # ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.gui.qt_core import *
 
@@ -24,10 +17,9 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.ticker import MultipleLocator, MaxNLocator
 from AdapsChip.ChipUI.gui.core.functions import Functions
-from PySide6 import QtWidgets
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
-# from AdapsChip.ChipUI.windows.Hawk01Function.Hawk01Function import ROIDataPackageSave
+from SelfDefinedPackge.PubMethod import invoking_function
 
 
 class CustomToolbar(NavigationToolbar2QT):
@@ -244,8 +236,10 @@ class Hawk01MaskingDynamicFig(DynamicFig):
 
 
 class MaskingWindow(QMainWindow):
-    def __init__(self, title="ROI SHOW", roi_data_pkg=None, hawk_config=None, soft_config=None):
+    def __init__(self, title="ROI SHOW", roi_data_pkg=None, hawk_config=None, soft_config=None, DEBUG=False):
         super().__init__()
+        self.DEBUG = DEBUG
+
         self.setWindowTitle(title)
         self.roi_data_pkg = roi_data_pkg
         self.hawk_config = hawk_config
@@ -369,6 +363,12 @@ class MaskingWindow(QMainWindow):
         """"
         调用方法保存ROI数据, 由于数据量较大，需要使用多线程执行
         """
+        def excute():
+            AdapsChip.ChipUI.windows.Hawk01.hawk01_window_functions.ROIDataPackageSave(
+                roi_data_pkg=self.roi_data_pkg,
+                hawk01_config=self.hawk_config,
+                save_sel=self.soft_config["roi_image_save"],
+                roi_data_format=self.soft_config["roi_data_format"])
         dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
         if dir_path == "":
             return
@@ -378,14 +378,7 @@ class MaskingWindow(QMainWindow):
         self.btn_save.setEnabled(False)
 
         def threadFunc():
-            try:
-                AdapsChip.ChipUI.windows.Hawk01Function.Hawk01Function.ROIDataPackageSave(
-                    roi_data_pkg=self.roi_data_pkg,
-                    cfg=self.hawk_config,
-                    save_sel=self.soft_config["roi_image_save"],
-                    roi_data_format=self.soft_config["roi_data_format"])
-            except Exception as e:
-                logging.fatal(e)
+            invoking_function(self.DEBUG, excute)
             self.win_signal_sync.Obj_signal_0.emit(self.btn_save)
 
         thread = Thread(target=threadFunc)

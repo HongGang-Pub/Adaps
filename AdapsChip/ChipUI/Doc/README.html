@@ -368,131 +368,298 @@ code {
 <h1 id="1-readme">1. README</h1>
 <ul>
 <li><a href="#1-readme">1. README</a></li>
-<li><a href="#2-%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D">2. 软件介绍</a></li>
-<li><a href="#3-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">3. 使用方法</a></li>
-<li><a href="#4-%E6%A0%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">4. 标定文件格式说明</a></li>
-<li><a href="#5-roi%E9%85%8D%E7%BD%AE%E6%A0%A1%E9%AA%8C">5. ROI配置校验</a></li>
+<li><a href="#2-%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D">2. 软件介绍</a>
+<ul>
+<li><a href="#21-%E8%BD%AF%E4%BB%B6%E6%95%B4%E4%BD%93%E7%95%8C%E9%9D%A2%E5%A6%82%E4%B8%8B">2.1. 软件整体界面如下</a></li>
+<li><a href="#22-%E9%85%8D%E7%BD%AE%E7%95%8C%E9%9D%A2">2.2 配置界面</a>
+<ul>
+<li><a href="#221-%E5%AF%84%E5%AD%98%E5%99%A8%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D">2.2.1 寄存器相关配置介绍</a></li>
+<li><a href="#222-roi-gen">2.2.2 ROI GEN:</a>
+<ul>
+<li><a href="#2221-roi-gui">2.2.2.1 ROI GUI</a></li>
+<li><a href="#2222-roi-coor">2.2.2.2 ROI COOR</a></li>
+<li><a href="#2223-roi-edit">2.2.2.3 ROI Edit</a></li>
+<li><a href="#2224-roi-cali">2.2.2.4 ROI Cali</a></li>
+<li><a href="#2225-roi-button">2.2.2.5 ROI BUTTON</a></li>
+<li><a href="#223-%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">2.2.3 脚本文件相关配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#23-zone-config%E7%95%8C%E9%9D%A2">2.3 Zone Config界面</a></li>
+<li><a href="#24-roi-show%E7%95%8C%E9%9D%A2">2.4 ROI Show界面</a></li>
+</ul>
+</li>
+<li><a href="#25-%E8%BD%AF%E4%BB%B6%E8%AE%BE%E7%BD%AE%E7%95%8C%E9%9D%A2">2.5 软件设置界面</a></li>
+<li><a href="#3-%E6%A0%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">3. 标定文件格式说明</a>
+<ul>
+<li><a href="#31-txt-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">3.1 txt 文件格式说明</a></li>
+<li><a href="#32-csv--xls--xlsx-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">3.2 csv &amp; xls &amp; xlsx 文件格式说明</a></li>
+</ul>
+</li>
 <li><a href="#6-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E">6. 寄存器配置生成功能说明</a></li>
 </ul>
 <h1 id="2-%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D">2. 软件介绍</h1>
-<ol>
-<li>软件界面如下<br>
-<img src="figs/Software.jpg" alt="软件界面" title="Software.jpg"></li>
-<li>Config:
-<ol>
-<li>MST_MODE: 下拉选择，Slave Mode / Master Mode</li>
-<li>WORK_MODE: 下拉选择，Histogram Mode / Echo Mode / Ranging Mode / Gray Scale Mode</li>
-<li>TRG_I_EN: 下拉选择，Disable / Enable</li>
-<li>TDC bin width：下拉选择，0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns</li>
-<li>MIPI RATE：下拉选择，0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane</li>
-<li>SCAN_MODE: 下拉选择，1D SCAN_MODE / 2D SCAN_MODE</li>
-<li>V_ROLL_NUM: 垂直方向Rolling次数，选择范围: 1~32次</li>
-<li>H_ROLL_NUM: 水平方向ROlling次数，选择范围: 1~16次</li>
-<li>H_VLD_SEG: 每次Rolling打开的段数, 1~16段</li>
-</ol>
-</li>
-<li>Input：
-<ol>
-<li>Load ROI file：标定文件选择窗口, 默认打开./Input文件夹
+<h2 id="21-%E8%BD%AF%E4%BB%B6%E6%95%B4%E4%BD%93%E7%95%8C%E9%9D%A2%E5%A6%82%E4%B8%8B">2.1. 软件整体界面如下</h2>
+<img src="figs/Hawk01_Software.jpg" alt="Hawk01_Software" title="Hawk01_Software" width=500>
+<h2 id="22-%E9%85%8D%E7%BD%AE%E7%95%8C%E9%9D%A2">2.2 配置界面</h2>
+<h3 id="221-%E5%AF%84%E5%AD%98%E5%99%A8%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D">2.2.1 寄存器相关配置介绍</h3>
 <blockquote>
-<p>标定文件格式请参看<a href="#4-%E6%A0%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E"><strong>标定文件格式说明</strong></a></p>
+<p>程序会根据选择的配置, 基于基准脚本, 生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 <a href="#6-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E"><em><strong>寄存器配置生成功能说明</strong></em></a> 进行查看<br>
+<img src="figs/Hawk01_ScriptConfig.jpg" alt="Hawk01_ScriptConfig" title="Hawk01_ScriptConfig"></p>
 </blockquote>
-</li>
-<li>Sel Config file：基准配置文件选择窗口
+<ol>
+<li>XCLK: PLL_CLKIN 的输出参考时钟, 可配置为24M或25M</li>
+<li>MST_MODE: 寄存器配置, 芯片是作为 Slave or Master</li>
+<li>WORK_MODE: 寄存器配置, 芯片工作模式选择, 可多选, 同时选择所有4种工作模式, 保存时则生成4种模式的系统配置脚本</li>
+<li>MIPI RATE: MIPI 速率配置, 下拉选择, 0.8 / 1.0 / 1.2 / 1.5 Gbps/Lane</li>
+<li>SYS_CLK: 系统时钟, TDC bin width配置后自动设置好系统时钟, 系统时钟支持: 200M、250M、330M</li>
+<li>TDC bin width: 下拉选择, 0.75 / 1.00 / 1.25 / 1.50 / 2.00 / 2.50 ns</li>
+<li>V_PXL_NUM: 寄存器配置, V_PXL_OUT_NUM</li>
+<li>TRG_I_EN: 寄存器配置, TRG_I Enable or Disable, 根据硬件设计配置</li>
+<li>MINBIN_TRHS: 寄存器配置, 修改配置时自动计算 BIN_NUMBER</li>
+<li>MAXBIN_TRHS: 寄存器配置, 修改配置时自动计算 BIN_NUMBER</li>
+<li>OUT_BIN_NUM: 寄存器配置</li>
+<li>PKS_ECHO_NUM: 寄存器配置</li>
+<li>SCAN_MODE: 寄存器配置, Rolling方式, 1D or 2D scan_mode</li>
+<li>V_ROLL_NUM: 寄存器配置, 垂直方向Rolling次数, 选择范围: 1~32次</li>
+<li>H_ROLL_NUM: 寄存器配置, 水平方向ROlling次数, 选择范围: 1~16次(仅 2D scan mode 配置)</li>
+<li>H_VLD_SEG: 寄存器配置, 每次Rolling打开的段数, 1~16段</li>
+</ol>
+<h3 id="222-roi-gen">2.2.2 ROI GEN:</h3>
 <blockquote>
-<p>程序会根据选择的基准配置文件以及最新的配置信息，自动生成新的寄存器配置脚本<br>
-寄存器配置脚本支持的功能请参看<a href="#6-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E"><strong>寄存器配置生成功能说明</strong></a></p>
+<p>ROI_GEN 主要用于生成 ROI 数据, 需要搭配 SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG 配置生成 ROI 数据</p>
 </blockquote>
-</li>
-</ol>
-</li>
-<li>Output:
+<h4 id="2221-roi-gui">2.2.2.1 ROI GUI</h4>
+<blockquote>
+<p>根据界面上相关字段配置, 直接生成 ROI 数据<br>
+<img src="figs/Hawk01_ROI_GUI.jpg" alt="Hawk01_ROI_GUI" title="Hawk01_ROI_GUI"></p>
+</blockquote>
 <ol>
-<li>REG CFG File：生成的寄存器配置脚本文件名</li>
-<li>ROI SRAM File：生成的ROI文件名</li>
-</ol>
+<li>
+<p>seg_hs: horizontal starting coordinates, 表示水平方向起始段数, 以segments为单位, 配置值1~16</p>
 </li>
-<li>Operate:
+<li>
+<p>spad_vs: vertical starting coordinates, 表示垂直方向起始坐标, 以spad为单位, 配置值范围: 1~576</p>
+</li>
+<li>
+<p>light shift: 每次v_rolling, 当前光条相对于上一次v_roling光条的偏移spad个数</p>
+</li>
+<li>
+<p>sublight group: 1次 rolling 开启 6 行 pixel, 可以将 6 行 pixel 按需求分组. 使用示例</p>
 <ol>
-<li>操作界面分别为预览、保存、日志清除按钮，分别支持相应的功能</li>
+<li><code>1</code> (1 行 pixel 为 1 组, 共 6 组)</li>
+<li><code>2</code> (2 行 pixel 为 1 组, 共 3 组)</li>
+<li><code>2, 4</code> (共 2 组, 第一组 2 行, 第二组 4行)</li>
+<li><code>1, 3, 2</code> (共 3 组, 第一组 1 行, 第二组 3 行, 第三组 2 行)</li>
+</ol>
+<p><u><em>ps: 组与组之间使用英文逗号分隔</em></u></p>
+</li>
+<li>
+<p>sublight shift: 每次rolling, 会打开6段子光条, 每段子光条与子光条之间偏移的spad个数</p>
+</li>
+<li>
+<p>ROI shape: 光条的形状, 直线或者曲线, 此配置只为展示我们spad多样性, 实际使用以标定的roi为准; （此配置只在1D scan下生效）</p>
+</li>
+<li>
+<p>ROI retrace: 光条纵坐标超过 576 之后, 是否需要绕回</p>
+</li>
+<li>
+<p>v_spad_shift:</p>
+<ol>
+<li>1D scan: 子光条段与段之间在垂直方向上spad的偏移个数</li>
+<li>2D scan: 每次h_rolling, 当前rolling的光条相对前一次rolling的光条在垂直方向上spad的偏移个数</li>
 </ol>
 </li>
-<li>Control：<br>
-<img src="figs/PlayerCtrl.jpg" alt="软件界面" title="PlayerCtrl.jpg"><br>
-从左到右，按钮功能依次为：
+<li>
+<p>h_seg_shift: 此配置只在2D scan下生效, 表示每次h_rolling的起始位置相对与上次rolling的起始位置在水平方向上偏移的段数</p>
+</li>
+</ol>
+<h4 id="2222-roi-coor">2.2.2.2 ROI COOR</h4>
+<blockquote>
+<p>根据给定的 ROI 坐标信息, 生成 ROI 数据<br>
+<img src="figs/Hawk01_ROI_COOR.jpg" alt="Hawk01_ROI_COOR" title="Hawk01_ROI_COOR"></p>
+</blockquote>
+<ol>
+<li>ROI File: ROI 坐标信息文件, 支持 *.txt, *.csv, *.xls, *.xlsx 格式, 程序自动识别文件类型进行解析. *.txt 标定文件格式说明请跳转 <a href="#31-txt-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E"><em><strong>txt 标定文件格式说明</strong></em></a> 进行查看, *.csv, *.xls, *.xlsx 标定文件格式说明请跳转 <a href="#32-csv--xls--xlsx-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E"><em><strong>csv&amp;xls&amp;xlsx 标定文件格式说明</strong></em></a> 进行查看</li>
+<li>Sheet Sel: 当文件格式为 .xls or .xlsx 时, 支持指定 sheet 页, 生成 ROI 数据</li>
+</ol>
+<h4 id="2223-roi-edit">2.2.2.3 ROI Edit</h4>
+<blockquote>
+<p>基于已经生成的 ROI Memory 文件, 解析 &amp; 生成新的 ROI 数据<br>
+<img src="figs/Hawk01_ROI_Edit.jpg" alt="Hawk01_ROI_Edit" title="Hawk01_ROI_Edit"></p>
+</blockquote>
+<ol>
+<li>ROI File: 选择 ROI Memory 数据</li>
+<li>Start Rolling: 截取的起始 Rolling</li>
+<li>End Rolling: 截取的结束 Rolling</li>
+<li><code>View</code>: 查看选择的 ROI File 的 rolling 效果</li>
+<li><code>Save</code>: 保存截取的 ROI 数据</li>
+</ol>
+<h4 id="2224-roi-cali">2.2.2.4 ROI Cali</h4>
+<blockquote>
+<p>该窗口是利用 SpadisApp 采集 Demo ROI 标定数据, 生成 ROI 脚本, 生成的 ROI 脚本用在 Fhr/Phr/Sphr模式<br>
+<img src="figs/Hawk01_ROI_Cali.jpg" alt="Hawk01_ROI_Cali" title="Hawk01_ROI_Cali"></p>
+</blockquote>
+<ol>
+<li>
+<p>Cali File: 选择 ROI 标定数据的目录位置</p>
+</li>
+<li>
+<p>Img Mirror: SpadisApp 采集标定数据时, 存在 X/Y Mirror, 对于标定数据, 需要进行如下处理:</p>
+<ol>
+<li>若采集的数据在 SpadisApp 上未勾选 X/Y Mirror, 则此处选择No mirror</li>
+<li>若采集的数据在 SpadisApp 上勾选了 X Mirror, 则此处选择 X-axis mirror</li>
+<li>若采集的数据在 SpadisApp 上勾选了 Y Mirror, 则此处选择 Y-axis mirror</li>
+<li>若采集的数据在 SpadisApp 上勾选了 X Mirror &amp; Y Mirrorr, 则此处选择 X-axis and Y-axis mirror</li>
+</ol>
+<p><u><em>ps: 建议在使用 SpadisApp 采集 ROI 标定数据时, 在Setting界面去除X/Y Mirror</em></u></p>
+</li>
+<li>
+<p>remove noise: 是否消除噪点, 如果光条明显, 噪点相对较弱时,  则配置为No</p>
+</li>
+<li>
+<p>light smooth: 光条是否进行平滑处理, 建议设置为Yes</p>
+</li>
+<li>
+<p>curvature: 相邻两段SPAD偏移范围, 超过偏移配置值, 强行矫正标定的 ROI</p>
+</li>
+<li>
+<p>correct thres: ROI 矫正阈值(以 pixel 为单位, 0则不矫正)</p>
+</li>
+<li>
+<p>cali Order: 处理 ROI 数据的顺序, 可选配置: 从小到大 or 从大到小---用户无需关注</p>
+</li>
+<li>
+<p>cali frm num: 采集的标定数据有多帧时, 设置从灰度图中第几帧数据开始处理数据---用户无需关注</p>
+</li>
+<li>
+<p>ref segment: 指定基于那一段segment用于偏移矫正(int), 默认0, 则以最亮段为基准---用户无需关注</p>
+</li>
+<li>
+<p>mode 2D: 仅适用于2D scan模式, 0: 以光条能量优先；1: 以能 Masking的最大光子数优先</p>
+</li>
+</ol>
+<h4 id="2225-roi-button">2.2.2.5 ROI BUTTON</h4>
+<img src="figs/Hawk01_ROI_BUTTON.jpg" alt="Hawk01_ROI_BUTTON" title="Hawk01_ROI_BUTTON">
+<ol>
+<li><code>ZONE INFO</code>: 跳转到 ZONE CONFIG 界面, 进行 ROI Memory 其他相关配置. 具体使用说明请跳转 <a href="#23-zone-config%E7%95%8C%E9%9D%A2"><em><strong>ZONE CONFIG界面介绍</strong></em></a> 进行查看</li>
+<li><code>View</code>: 跳转到 ROI Show 界面, 展示当前窗口下配置的 ROI rolling 效果. ROI Show 界面介绍请跳转 <a href="#24-roi-show%E7%95%8C%E9%9D%A2"><em><strong>ROI Show界面介绍</strong></em></a> 进行查看</li>
+<li><code>Save</code>: 保存当前窗口下配置的 ROI 脚本</li>
+</ol>
+<h4 id="223-%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">2.2.3 脚本文件相关配置</h4>
+<img src="figs/Hawk01_ScriptFilesConfig.jpg" alt="Hawk01_ScriptFilesConfig" title="Hawk01_ScriptFilesConfig">
+<ol>
+<li>Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 <a href="#6-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E"><em><strong>寄存器配置生成功能说明</strong></em></a> 进行查看<br>
+<code>Parse</code>: 可以解析所选择脚本的寄存器配置, 同时会校验 MIPI WC &amp; FLNR 配置是否正确</li>
+<li>Reg Script Name: 保存的配置脚本名称
+<ul>
+<li>WORK_MODE 为单选时, 脚本名等于 <code>script_name.txt</code></li>
+<li>WORK_MODE 为多选时, 脚本名等于 <code>work_mode_config_name.txt</code></li>
+</ul>
+</li>
+<li>ROI SRAM Name: 保存的 ROI 脚本名称: <code>roi_mem.txt</code>, 用户可自行修改<br>
+<code>Include</code>: 保存脚本时是否需要根据当前界面配置同步生成 <code>ROI Memory</code> 文件</li>
+<li>File Save Path: 文件保存路径</li>
+<li><code>Save</code>: 保存 <code>寄存器配置脚本</code> 及 <code>ROI Memory</code> 数据</li>
+<li><code>Open</code>: 打开保存的文件夹</li>
+</ol>
+<h2 id="23-zone-config%E7%95%8C%E9%9D%A2">2.3 Zone Config界面</h2>
+<blockquote>
+<p>此界面主要针对非 Masking 相关的 ROI Memory 配置<br>
+<img src="figs/Hawk01_ZoneConfig.jpg" alt="Hawk01_ZoneConfig" title="Hawk01_ZoneConfig"></p>
+</blockquote>
+<ol>
+<li>Laser Period: 根据 Hawk GUI 工具 <code>主界面配置</code> 以及 <code>zone config</code> 界面配置自动计算出的激光重频时间, 无需手动配置</li>
+<li>Laser Pluse Width: 根据 Hawk GUI 工具 <code>主界面配置</code> 以及 <code>zone config</code> 界面配置自动计算出的激光脉宽, 无需手动配置</li>
+<li>Zone Config Sel: 仅在不勾选 <code>Configure each Zone independently</code> 时生效, 所有 Zone 都使用当前指定的 Zone 配置</li>
+<li>Configure each Zone independently: 勾选时, 所有分区的配置都可以单独配置</li>
+<li>Zone Config 界面支持 二进制 / 八进制 / 十进制 / 十六进制 方式输入, 格式分别为: <code>0b??(0b11)</code> / <code>0o??(0o55)</code> / <code>??(100)</code> / <code>0x??(0xFF)</code></li>
+<li>Zone Config 界面会对配置值范围进行校验, 配置须符合寄存器定义</li>
+</ol>
+<h2 id="24-roi-show%E7%95%8C%E9%9D%A2">2.4 ROI Show界面</h2>
+<blockquote>
+<p>此界面主要动态展示 Masking 效果<br>
+<img src="figs/ROIShow.jpg" alt="ROIShow" title="ROIShow"></p>
+</blockquote>
+<ol>
+<li>
+<p>可以在左上角界面选择界面展示内容</p>
+<ul>
+<li>单次 rolling ROI 开启的区域(循环播放)</li>
+<li>PCM 模式下, 所有 rolling 的效果</li>
+<li>PTM 模式下, 所有 rolling 的效果</li>
+</ul>
+</li>
+<li>
+<p>Control Bar, 从左到右, 按钮功能依次为:<br>
+<img src="figs/ROIControlBar.jpg" alt="ROIControlBar" title="ROIControlBar"></p>
 <ul>
 <li><code>预览上一帧</code></li>
-<li><code>向后连续预览</code></li>
-<li><code>停止预览</code></li>
-<li><code>向前连续预览</code></li>
+<li><code>暂停 / 播放</code></li>
 <li><code>预览下一帧</code></li>
+<li><code>重播</code></li>
+<li><code>保存</code></li>
 </ul>
 </li>
 </ol>
-<h1 id="3-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">3. 使用方法</h1>
+<h1 id="25-%E8%BD%AF%E4%BB%B6%E8%AE%BE%E7%BD%AE%E7%95%8C%E9%9D%A2">2.5 软件设置界面</h1>
+<blockquote>
+<p>此界面主要为软件通用配置<br>
+<img src="figs/SoftSetting.jpg" alt="SoftSetting" title="SoftSetting" width =500></p>
+</blockquote>
 <ol>
-<li>根据需求在界面上进行相应的配置</li>
-<li>将标定文件保存在<code>./Input</code>文件夹下</li>
-<li>选择标定文件以及基准配置脚本, 标定文件格式请参看<a href="#4-%E6%A0%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E"><strong>标定文件格式说明</strong></a></li>
-<li>点击预览, 查看Rolling效果</li>
-<li>点击保存, 程序将生成Hawk配置脚本以及相关ROI文件, 文件保存在<code>./Output</code>路径下</li>
-<li>输出文件说明: <code>*.png</code>为整体Rolling效果展示图; <code>*.txt</code>为<code>Hawk配置脚本</code> &amp; <code>ROI标定信息</code>文件<br>
-<em>ps: 点击保存时，保存的ROI文件为左侧预览窗口的Rolling信息。因此, 修改相关配置或重新加载标定文件后, 请先点击预览, 再点击保存</em></li>
+<li>Chip ID: 目前仅支持 Hawk01</li>
+<li>Themes: Not supported yet</li>
+<li>ROI Image: ROI 数据保存时, 是否同步保存 ROI Masking 相关图片(图片内存偏大, 保存时速度较慢)</li>
+<li>ROI Format: ROI 数据保存格式, Half-word or Byte</li>
 </ol>
-<h1 id="4-%E6%A0%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">4. 标定文件格式说明</h1>
+<h1 id="3-%E6%A0%87%E5%AE%9A%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">3. 标定文件格式说明</h1>
+<h2 id="31-txt-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">3.1 txt 文件格式说明</h2>
 <ol>
 <li>
-<p>标定信息仅支持<code>*.txt</code>文件格式</p>
-</li>
-<li>
-<p>每次Rolling需要指定一个坐标, Rolling与Rolling之间的坐标信息需换行配置, 不支持配置在同一行</p>
+<p>每次Rolling需要指定一个坐标(所有 segment 纵坐标相同), Rolling与Rolling之间的坐标信息需换行配置, 不支持配置在同一行</p>
 </li>
 <li>
 <p>坐标配置顺序需按照Rolling顺序依次配置, 如:</p>
 <ol>
-<li>1D SCAN_MODE: V_ROLL_NUM=32 为例，先配置第1次Rolling坐标, 再配置第2次、第3次...<br>
-<img src="figs/1D_SCAN.jpg" alt="软件界面" title="1D SCAN_MODE配置示例"></li>
-<li>2D SCNA_MODE: V_ROLL_NUM=32, H_ROLL_NUM=4 为例:
+<li>1D SCAN_MODE: V_ROLL_NUM=32 为例, 先配置第1次Rolling坐标, 再配置第2次、第3次...<br>
+<img src="figs/Hawk01_1D_SCAN_txt.jpg" alt="1D SCAN_MODE配置示例" title="1D SCAN_MODE配置示例"></li>
+<li>2D SCNA_MODE: V_ROLL_NUM=32, H_ROLL_NUM=4 为例:<br>
+<img src="figs/Hawk01_2D_SCAN_txt.jpg" alt="2D SCAN_MODE配置示例" title="2D SCAN_MODE配置示例">
 <ol>
 <li>配置 vroll=1, hroll=1 简称<code>1-1</code> 的Rolling坐标</li>
 <li>配置 vroll=1, hroll=2 简称<code>1-2</code> 的Rolling坐标</li>
-<li>再依次配置<code>1-3、1-4、2-1、2-2...</code><br>
-<img src="figs/2D_SCAN.jpg" alt="软件界面" title="2D SCAN_MODE配置示例"></li>
+<li>再依次配置<code>1-3、1-4、2-1、2-2...</code></li>
 </ol>
 </li>
 </ol>
 </li>
 <li>
-<p>坐标配置格式：<code>x, y</code>分别为横坐标，纵坐标。支持使用<code>英文/中文</code>的<code>逗号/分号</code> 分隔横纵坐标, 即(<code>,|;|，|；</code>), 禁止使用空格</p>
+<p>坐标配置格式: <code>x, y</code>分别为横坐标, 纵坐标。支持使用<code>英文/中文</code>的<code>逗号/分号</code> 分隔横纵坐标, 即(<code>,|;|, |；</code>), 禁止使用空格</p>
 </li>
 <li>
-<p>代码注释：可使用双斜杠(<code>//</code>)在行尾添加注释或整行注释</p>
-</li>
-</ol>
-<h1 id="5-roi%E9%85%8D%E7%BD%AE%E6%A0%A1%E9%AA%8C">5. ROI配置校验</h1>
-<p>主要包含以下校验：</p>
-<ol>
-<li>
-<p>标定文档格式校验</p>
+<p>Rolling配置需要与 SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG 匹配</p>
 </li>
 <li>
 <p>标定文档数据正确性校验, 如: 坐标是否超过<code>(768, 576)</code>校验</p>
 </li>
 <li>
-<p>标定文档坐标信息条数校验, 坐标信息实际条数应为:</p>
-<pre class="hljs"><code><div><span class="hljs-keyword">if</span> SCAN_MODE == <span class="hljs-string">'1D SCAN_MODE'</span>: 
-   num = V_ROLL_NUM
-<span class="hljs-keyword">else</span>:
-   num = V_ROLL_NUM * H_ROLL_NUM
-</div></code></pre>
-<p>如: 配置<code>SCAN_MODE=1D SCAN_MODE, V_ROLL_NUM=15</code>, 则标定文档至少需要有15条坐标信息</p>
-<ol>
-<li>若标定文档少于15条配置信息, 预览失败</li>
-<li>若标定文档多于15条配置信息，预览成功, 并提示: <code>标定文档可能与寄存器配置不匹配</code></li>
-</ol>
+<p>关于注释: 可使用双斜杠(<code>//</code>)在行尾添加注释或整行注释</p>
 </li>
-<li>
-<p>坐标与配置信息综合合理性校验, 如: 标定信息为<code>(48, 0)</code>, 配置<code>SCAN_MODE=1D SCAN_MODE, H_VLD_SEG=15</code>时, 由于 <code>48 + H_VLD_SEG*48 &gt; 768</code>, 会导致Rolling超边界, 预览失败</p>
+</ol>
+<h2 id="32-csv--xls--xlsx-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E">3.2 csv &amp; xls &amp; xlsx 文件格式说明</h2>
+<ol>
+<li>csv &amp; xls &amp; xlsx 配置格式相同</li>
+<li>坐标配置格式: 在对应 segment 配置纵坐标</li>
+<li>Rolling配置需要与 SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG 匹配</li>
+<li>坐标配置顺序需按照Rolling顺序依次配置, 如:
+<ol>
+<li>1D SCAN_MODE: V_ROLL_NUM=32 为例, 先配置第1次Rolling坐标, 再配置第2次、第3次...<br>
+<img src="figs/Hawk01_1D_SCAN_Excel.jpg" alt="Hawk01_1D_SCAN_Excel配置示例" title="Hawk01_1D_SCAN_Excel配置示例"  width =500></li>
+<li>2D SCNA_MODE: V_ROLL_NUM=32, H_ROLL_NUM=4 为例, 依次配置<code>1-1、1-2、1-3、1-4、2-1、2-2...</code><br>
+<img src="figs/Hawk01_2D_SCAN_Excel.jpg" alt="Hawk01_2D_SCAN_Excel配置示例" title="Hawk01_2D_SCAN_Excel配置示例"  width =500></li>
+</ol>
 </li>
 </ol>
 <h1 id="6-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E">6. 寄存器配置生成功能说明</h1>
@@ -504,6 +671,7 @@ code {
 <li>ROI SRAM Block_write 配置</li>
 <li>MIPI WC &amp; FLNR配置</li>
 <li>V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、WOKR_MODE、SCAN_MODE等寄存器配置</li>
+<li>MINBIN_THRS、MAXBIN_THRS、V_PXL_OUT_NUM、OUT_BIN_NUM、PKS_ECHO_NUM 等寄存器配置</li>
 </ol>
 
 </body>

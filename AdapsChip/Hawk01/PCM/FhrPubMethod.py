@@ -3,13 +3,13 @@ from SelfDefinedPackge import PubMethod
 from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
 
 
-def GetFhrDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
+def GetFhrDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     """
     根据 Dothink 的 MIPI 数据解析 FHR，将 bin 累加成灰度图
 
     Args:
         file_path (str): Dothink 抓取的MIPI数据路径
-        cfg(dict): 寄存器配置
+        hawk01_config(dict): 寄存器配置
         msku_roi_mem (list): roi信息
 
     Returns:
@@ -18,12 +18,12 @@ def GetFhrDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
     spad_array = np.zeros((576, 768))
     spad_data_list = []
 
-    v_roll_num = cfg["v_roll_num"]
-    h_vld_seg = cfg["h_vld_seg"]
+    v_roll_num = hawk01_config["V_ROLL_NUM"]
+    h_vld_seg = hawk01_config["H_VLD_SEG"]
 
     # 根据 SPAD_OUT_EN 配置转换为数组样式
-    spad_out_en_array = Hawk.Common.MipiPubMethod.SpadOutEn(spad_out_en=cfg["pxl_spad_out_en"])
-    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(csru_cfg=cfg)
+    spad_out_en_array = MipiPubMethod.SpadOutEn(spad_out_en=hawk01_config["PXL_SPAD_OUT_EN"])
+    pkg_num = HawkPubMethod.CalPkgNum(hawk01_config=hawk01_config)
 
     # 获取 MIPI 文件
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
@@ -72,13 +72,13 @@ def GetFhrDataFromDothinker(file_path, cfg, msku_roi_mem=[]):
     return spad_array, spad_data
 
 
-def GetFhrDataFromDothinker2D(file_path, cfg, msku_roi_mem=[]):
+def GetFhrDataFromDothinker2D(file_path, hawk01_config, msku_roi_mem=[]):
     """
     根据 Dothink 的 MIPI 数据解析 FHR，将 bin 累加成灰度图
 
     Args:
         file_path (str): Dothink 抓取的MIPI数据路径
-        cfg(dict): 寄存器配置
+        hawk01_config(dict): 寄存器配置
         msku_roi_mem (list): roi信息
 
     Returns:
@@ -87,14 +87,14 @@ def GetFhrDataFromDothinker2D(file_path, cfg, msku_roi_mem=[]):
     spad_array = np.zeros((576, 768))
     spad_data_list = []
 
-    scan_mode = cfg["scan_mode"]
-    v_roll_num = cfg["v_roll_num"]
-    h_roll_num = cfg["h_roll_num"] if scan_mode == 1 else 0
-    h_vld_seg = cfg["h_vld_seg"]
+    scan_mode = hawk01_config["SCAN_MODE"]
+    v_roll_num = hawk01_config["V_ROLL_NUM"]
+    h_roll_num = hawk01_config["H_ROLL_NUM"] if scan_mode == 1 else 0
+    h_vld_seg = hawk01_config["H_VLD_SEG"]
 
     # 根据 SPAD_OUT_EN 配置转换为数组样式
-    spad_out_en_array = Hawk.Common.MipiPubMethod.SpadOutEn(spad_out_en=cfg["pxl_spad_out_en"])
-    pkg_num = Hawk.Common.HawkPubMethod.CalPkgNum(csru_cfg=cfg)
+    spad_out_en_array = MipiPubMethod.SpadOutEn(spad_out_en=hawk01_config["PXL_SPAD_OUT_EN"])
+    pkg_num = HawkPubMethod.CalPkgNum(hawk01_config=hawk01_config)
 
     # 获取 MIPI 文件
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)

@@ -14,6 +14,27 @@
 #
 # ///////////////////////////////////////////////////////////////
 
-# PY SLIDER
+# IMPORT PACKAGES AND MODULES
 # ///////////////////////////////////////////////////////////////
-from . py_slider import PySlider
+import sys
+
+# IMPORT QT CORE
+# ///////////////////////////////////////////////////////////////
+from AdapsChip.ChipUI.gui.qt_core import *
+
+
+class CustomMenuTextBrowser(QTextBrowser):
+    def __init__(self):
+        super().__init__()
+
+    def contextMenuEvent(self, event):
+        # 获取默认右键菜单
+        menu = self.createStandardContextMenu()
+
+        # 添加新的自定义选项
+        clear_action = QAction("Clear", self)
+        clear_action.triggered.connect(self.clear)
+        menu.addAction(clear_action)  # 将新选项添加到菜单中
+
+        # 显示菜单
+        menu.exec(event.globalPos())

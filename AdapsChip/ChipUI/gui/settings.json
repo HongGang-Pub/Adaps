@@ -3,13 +3,15 @@
     "version" : "v2.0.0",
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
+    "DEBUG": false,
+    "TOOL_BOX": true,
     "startup_size": [
         1000,
-        900
+        930
     ],
     "minimum_size": [
-        1000,
-        900
+        900,
+        800
     ],
     "lef_menu_size" : {
         "minimum" : 50,
