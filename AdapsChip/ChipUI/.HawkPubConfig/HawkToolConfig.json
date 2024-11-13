@@ -1,10 +1,10 @@
 {
     "func_sel": "Dothink PCM Imag",
     "DothinkPCMImagValue": {
-        "script_file": "",
-        "mipi_file": "",
+        "script_file": "D:/Program Files/Software/DothinkTester/Script/Gray_Scale_Mode_reg_config.txt",
+        "mipi_file": "C:/Users/honggang.li/Downloads/MipiData",
         "sramdata_path": "D:/Program Files/Software/DothinkTester/SramData",
-        "color_bar": "0, 50",
+        "color_bar": "",
         "image_title": ""
     },
     "SpadisAppPCMREAD": {}

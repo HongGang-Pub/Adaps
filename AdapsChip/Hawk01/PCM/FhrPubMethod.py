@@ -38,7 +38,7 @@ def GetFhrDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
 
     for vroll_cnt in range(v_roll_num + 1):
         file = file_dict[f_index]
-        vroll_num, hroll_num, frame_id = MipiPubMethod.GerMipiFrameInfo(file)
+        frame_id, vroll_num, hroll_num = MipiPubMethod.GerMipiFrameInfo(file)
         seg_hs = msku_roi_mem[vroll_num][0] >> 10
 
         subframe_data = PubMethod.read_file(file)
@@ -110,7 +110,7 @@ def GetFhrDataFromDothinker2D(file_path, hawk01_config, msku_roi_mem=[]):
     for vroll_cnt in range(v_roll_num + 1):
         for hroll_cnt in range(h_roll_num + 1):
             file = file_dict[f_index]
-            vroll_num, hroll_num, frame_id = MipiPubMethod.GerMipiFrameInfo(file)
+            frame_id, vroll_num, hroll_num = MipiPubMethod.GerMipiFrameInfo(file)
 
             seg_hs = msku_roi_mem[vroll_num][hroll_cnt * 6] >> 10
 

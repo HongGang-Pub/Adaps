@@ -33,8 +33,9 @@ def do_work(mipi_file, script_file, sramdata_path, vmin=0, vmax=100):
 if __name__ == '__main__':
     LogerPubMethod.LoggingForConsoleFormat()
 
-    script_file = r"D:\Program Files\Software\DothinkTester\Script\PCMLightAnalysis\test_pcm_masking_1Seg.txt"
-    mipi_file = r"D:\Program Files\Software\DothinkTester\TestData\MipiData_brightlight_masking_1Seg"
+    script_file = r"D:\Program Files\Software\DothinkTester\Script\PCMDarkSpotAnalysis\test_pcm_masking_7Seg.txt"
+    script_file = r"D:\Program Files\Software\DothinkTester\Script\Gray_Scale_Mode_reg_config.txt"
+    mipi_file = r"D:\Program Files\Software\DothinkTester\MipiData"
     sramdata_path = r"D:\Program Files\Software\DothinkTester\SramData"
 
     do_work(mipi_file, script_file, sramdata_path)

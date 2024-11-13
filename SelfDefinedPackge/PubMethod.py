@@ -161,7 +161,6 @@ def get_ordinal(n: int) -> str:
     return f"{n}{suffix}"
 
 
-
 def invoking_function(DEBUG: bool, func) -> None:
     """
     是否将异常信息进行包裹
@@ -180,7 +179,6 @@ def invoking_function(DEBUG: bool, func) -> None:
         except Exception as e:
             logging.fatal(e)
     pass
-
 
 
 if __name__ == '__main__':

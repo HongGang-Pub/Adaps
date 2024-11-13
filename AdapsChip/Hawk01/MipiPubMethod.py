@@ -1,17 +1,21 @@
+import logging
+
 import numpy as np
 
 from AdapsChip.Hawk01.Hawk01RegAddr import csru_addr
 from SelfDefinedPackge.PubMethod import *
 from SelfDefinedPackge.PubMethod import read_file
+from .HawkPubMethod import GetCsruConfig
 
 
-def ChkMipiReliablity(f_dict, pkg_num=None):
+def ChkMipiReliablity(f_dict, pkg_num=None, one_dt_mode=0):
     """
     使用场景：解析 MIPI 包成图或其他时，先 check 是否丢包，丢帧
 
     Args:
         f_dict (dict): 文件名（字典），按照 key 的升序进行校验
         pkg_num (int): 用于 check 是否丢包, 为 None 时不校验包个数
+        one_dt_mode (int): 是否 one_dt_mode
 
     Returns:
         bool: True or False
@@ -37,15 +41,7 @@ def ChkMipiReliablity(f_dict, pkg_num=None):
             # return False
 
         """对subframe_info信息进行读取，check是否丢帧"""
-        subframe_info = subframe_data[-1].split(" ")
-        id_l = int(subframe_info[4], 16)  # data_frame_id L
-        id_h = int(subframe_info[5], 16)  # data_frame_id H
-        # one_dt_mode == 0
-        vroll_num = int(subframe_info[7], 16)  # 5'b cur_vroll_num
-        hroll_num = int(subframe_info[6], 16) % 16
-
-        # 通过Frame_id检查是否丢帧
-        frame_id = id_h * 256 + id_l
+        frame_id, vroll_num, hroll_num = GerMipiFrameInfo(file, one_dt_mode)
 
         if sub_frame_num > 1 and pre_frame_id + 1 != frame_id:
             # raise ValueError("存在丢包：{}->{}, MIPI_{}".format(pre_frame_id, frame_id, f_idx))
@@ -105,27 +101,37 @@ def BinNumberAdd(pkg_data, bin_number=8):
     return pixel_num_list
 
 
-def GerMipiFrameInfo(file):
+def GerMipiFrameInfo(file, one_dt_mode=0):
     """
     获取 MIPI 数据的 Frameinfo信息
 
     Args:
         file (str): MIPI 数据文件
+        one_dt_mode (int): one_dt_mode
 
     Returns:
         list: 返回 Frameinfo 信息
     """
     subframe_data = read_file(file)
-
-    """对subframe_info信息进行读取"""
     subframe_info = subframe_data[-1].split(" ")
-    id_l = int(subframe_info[4], 16)  # data_frame_id L
-    id_h = int(subframe_info[5], 16)  # data_frame_id H
-    vroll_num = int(subframe_info[7], 16)  # 5'b cur_vroll_num
-    hroll_num = int(subframe_info[6], 16) % 16
-    frame_id = id_h * (2 ^ 12) + id_l
+    if one_dt_mode == 0:
+        id_l = int(subframe_info[4], 16)  # data_frame_id L
+        id_h = int(subframe_info[5], 16)  # data_frame_id H
+        # 通过Frame_id检查是否丢帧
+        frame_id = id_h * 256 + id_l
 
-    return vroll_num, hroll_num, frame_id
+        vroll_num = int(subframe_info[7], 16)  # 5'b cur_vroll_num
+        hroll_num = int(subframe_info[6], 16) % 16
+    else:
+        id_l = int(subframe_info[4], 16)  # data_frame_id L
+        id_h = int(subframe_info[5], 16)  # data_frame_id H
+        # 通过Frame_id检查是否丢帧
+        frame_id = id_h * 4096 + id_l
+
+        vroll_num = int(subframe_info[6], 16) >> 6
+        hroll_num = int(subframe_info[6], 16) % 16
+
+    return frame_id, vroll_num, hroll_num
 
 
 def GetSpecificFile(f_dict, v_roll_num, h_roll_num, mode=0):
@@ -146,7 +152,7 @@ def GetSpecificFile(f_dict, v_roll_num, h_roll_num, mode=0):
     for f_idx in file_index_list:
         file = f_dict[f_idx]
 
-        vroll_num, hroll_num, frame_id = GerMipiFrameInfo(file)
+        frame_id, vroll_num, hroll_num = GerMipiFrameInfo(file)
         if mode == 0:
             if v_roll_num == vroll_num and h_roll_num == hroll_num:
                 return vroll_num, hroll_num, f_idx
@@ -173,113 +179,10 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
         dict: 寄存相关配置
     """
     logging.info("获取寄存器配置信息...")
-    addr_index = 2 if protocol == "i2c" else 1
-    min_lens = 4 if protocol == "i2c" else 3
-    block_write = "I2C_Block_Write" if protocol == "i2c" else "SPI_Block_Write"
-
-    hawk01_config = {
-        "TX_FRAME_MODE": 0,
-        "V_PXL_OUT_NUM": 1,
-        "SCAN_MODE": 0,
-        "WORK_MODE": 0,
-        "V_ROLL_NUM": 31,
-        "H_ROLL_NUM": 0,
-        "H_VLD_SEG": 15,
-        "MINBIN_THRS": 0,
-        "MAXBIN_THRS": 167,
-        "ONE_DT_MODE": 0,
-        "OUT_BIN_NUM": 0,
-        "seg_hs": 0,
-        "h_seg_shift": 0,
-        "PXL_SPAD_OUT_EN": 0x1FF,
-        "roi_file": ""
-    }
-
-    csru_datas = read_file(fname=script_file)
-
-    if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check。")
-
-    # 初始化部分变量
-    PXL_SPAD_OUT_EN_L = 0xFF
-    PXL_SPAD_OUT_EN_H = 0x01
-
-    for sub_data in csru_datas:
-        configs = re.split(",|//", sub_data)
-
-        """get_csru_config"""
-        if len(configs) > min_lens:
-            try:
-                addr = int(configs[addr_index].strip(), 16)
-            except:
-                continue
-
-            if addr == csru_addr['SYS_CTRL']:
-                _sys_ctrl = configs[addr_index + 1].strip()[0:3]
-                sys_ctrl = int(_sys_ctrl, 16)
-                hawk01_config["TX_FRAME_MODE"] = (sys_ctrl & 0x80) >> 7
-                hawk01_config["V_PXL_OUT_NUM"] = (sys_ctrl & 0x40) >> 6
-                hawk01_config["SCAN_MODE"] = (sys_ctrl & 0x08) >> 3
-                hawk01_config["WORK_MODE"] = (sys_ctrl & 0x06) >> 1
-
-            if addr == csru_addr['V_ROLL_NUM']:
-                _v_roll_num = configs[addr_index + 1].strip()[0:3]
-                v_roll_num = int(_v_roll_num, 16)
-                hawk01_config["V_ROLL_NUM"] = v_roll_num & 0x1F
-
-            if addr == csru_addr['H_ROLL_NUM']:
-                _h_roll_num = configs[addr_index + 1].strip()[0:3]
-                hroll_num = int(_h_roll_num, 16)
-                hawk01_config["H_ROLL_NUM"] = hroll_num & 0x0F
-                hawk01_config["H_VLD_SEG"] = (hroll_num & 0xF0) >> 4
-
-            if addr == csru_addr['MINBIN_THRS']:
-                _minbin_thrs = configs[addr_index + 1].strip()[0:3]
-                minbin_thrs = int(_minbin_thrs, 16)
-                hawk01_config["MINBIN_THRS"] = minbin_thrs
-
-            if addr == csru_addr['MAXBIN_THRS']:
-                _maxbin_thrs = configs[addr_index + 1].strip()[0:3]
-                maxbin_thrs = int(_maxbin_thrs, 16)
-                hawk01_config["MAXBIN_THRS"] = maxbin_thrs
-
-            if addr == csru_addr['TXU_CFG']:
-                _txu_cfg = configs[addr_index + 1].strip()[0:3]
-                txu_cfg = int(_txu_cfg, 16)
-                hawk01_config["ONE_DT_MODE"] = txu_cfg & 0x01
-            # depthu_cfg1
-            if addr == csru_addr['DEPTHU_CFG1']:
-                _depthu_cfg1 = configs[addr_index + 1].strip()[0:3]
-                depthu_cfg1 = int(_depthu_cfg1, 16)
-                hawk01_config["OUT_BIN_NUM"] = (depthu_cfg1 & 0x10) >> 4
-
-            if addr == csru_addr['SPAD_CFG1']:
-                _spad_cfg1 = configs[addr_index + 1].strip()[0:3]
-                spad_cfg1 = int(_spad_cfg1, 16)
-                PXL_SPAD_OUT_EN_L = spad_cfg1
-                hawk01_config["PXL_SPAD_OUT_EN"] = PXL_SPAD_OUT_EN_H * 256 + PXL_SPAD_OUT_EN_L
-
-            if addr == csru_addr['SPAD_CFG2']:
-                _spad_cfg2 = configs[addr_index + 1].strip()[0:3]
-                spad_cfg2 = int(_spad_cfg2, 16)
-                PXL_SPAD_OUT_EN_H = spad_cfg2 >> 7
-                hawk01_config["PXL_SPAD_OUT_EN"] = PXL_SPAD_OUT_EN_H * 256 + PXL_SPAD_OUT_EN_L
-
-        # seg_hs, h_seg_shift
-        if sramdata_path is not None and configs[0] == block_write and len(configs) == min_lens + 1:
-            roi_name = configs[min_lens].strip()
-            roi_file = "{}\\{}.txt".format(sramdata_path, roi_name)
-            hawk01_config["roi_file"] = roi_file
-            with open(roi_file, 'r', encoding='utf-8') as f1:
-                roi_data = f1.readlines()
-                seg_hs = int(roi_data[13], 16) // 1024
-                hawk01_config["seg_hs"] = seg_hs
-                if hawk01_config["scan_mode"] == 1:
-                    h_seg_shift = int(roi_data[19], 16) // 1024 - seg_hs
-                else:
-                    h_seg_shift = 0
-                hawk01_config["h_seg_shift"] = h_seg_shift
-    logging.warning("寄存器配置信息：\n{}".format(hawk01_config))
+    protocol = 0 if protocol == "i2c" else 1
+    hawk01_config = GetCsruConfig(script_file, protocol=protocol)
+    hawk01_config["roi_file"] = "{}\\{}.txt".format(sramdata_path, hawk01_config["roi_file"])
+    logging.warning("寄存器配置信息：\n  {}".format(hawk01_config))
     return hawk01_config
 
 

@@ -23,7 +23,7 @@ def ParseFHRData(file_path, vroll=31, h_vld_seg=15):
         subframe_data = PubMethod.read_file(file)
 
         # 获取 frame info 信息
-        vroll_num, hroll_num, frame_id = MipiPubMethod.GerMipiFrameInfo(file)
+        frame_id, vroll_num, hroll_num = MipiPubMethod.GerMipiFrameInfo(file)
 
         if vroll_num == 0:
             print("MIPI_{}: frame_id:{}, vroll_num:{}".format(f_idx, frame_id, vroll_num))

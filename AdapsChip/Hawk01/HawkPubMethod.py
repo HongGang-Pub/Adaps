@@ -35,7 +35,7 @@ def GetMipiFile(fd_path):
     return file_dict
 
 
-def GetCsruConfig(config_file, protocol=1) -> dict:
+def GetCsruConfig(config_file, protocol=0) -> dict:
     """
     根据 Hawk01 寄存器配置脚本，获取寄存器配置信息
 

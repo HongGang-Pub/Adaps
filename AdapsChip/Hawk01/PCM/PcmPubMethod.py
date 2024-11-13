@@ -59,11 +59,12 @@ def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     """
     v_roll_num = hawk01_config["V_ROLL_NUM"]
     h_vld_seg = hawk01_config["H_VLD_SEG"]
+    one_dt_mode = hawk01_config["ONE_DT_MODE"]
 
     pkg_num = AdapsChip.Hawk01.HawkPubMethod.CalPkgNum(hawk01_config=hawk01_config)
 
     file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
-    if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
+    if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num, one_dt_mode=one_dt_mode):
         raise ValueError("MiPi数据错误！！！")
 
     vroll_num, hroll_num, f_index = MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)
@@ -77,17 +78,12 @@ def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     # for vroll_cnt in range(3 + 1):
     for vroll_cnt in range(v_roll_num + 1):
         for pcm_sub in range(9):
+            file = file_dict[f_index]
+            frame_id, vroll_num, hroll_num = MipiPubMethod.GerMipiFrameInfo(file, one_dt_mode)
+            subframe_data = PubMethod.read_file(file)
             for sub_light in range(6):
-                file = file_dict[f_index]
-                vroll_num, hroll_num, frame_id = MipiPubMethod.GerMipiFrameInfo(file)
-                subframe_data = PubMethod.read_file(file)
-
                 if pcm_sub == 0 and sub_light == 0:  # 打印日志
-                    # if qt_trigger != None:
-                    #     qt_trigger.emit("MIPI_{}: vroll_num:{}, hroll_num:{}".format(f_index, vroll_num, hroll_num))
-                    # logger = logging.getLogger()
-                    logging.info("MIPI_{:0>5}: vroll_num:{:0>2}, hroll_num:{:0>2}".format(f_index, vroll_num, hroll_num))
-                    # print("MIPI_{}: vroll_num:{}, hroll_num:{}".format(f_index, vroll_num, hroll_num))
+                    logging.info("MIPI_{:0>5}: vroll_num:{:>2}, hroll_num:{:>2}".format(f_index, vroll_num, hroll_num))
                 seg_hs = msku_roi_mem[vroll_num][0] >> 10
 
                 for seg_cnt in range(h_vld_seg + 1):

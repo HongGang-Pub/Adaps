@@ -10,7 +10,7 @@ def ArrayImageSave(fname, fd_path):
             # 目录不存在，进行创建操作
             os.makedirs(fd_path)
         fp = "{}\\{}.png".format(fd_path, fname)
-        f = plt.gcf()  #获取当前图像
+        f = plt.gcf()   # 获取当前图像
         f.savefig(fp, dpi=200)
         f.clear()
 
