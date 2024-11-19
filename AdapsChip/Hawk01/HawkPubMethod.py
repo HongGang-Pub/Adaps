@@ -207,22 +207,22 @@ def CalMipiFlnrAndWC(csru_cfg):
         else:
             sphr_pl_num = 62 * v_pixel_out_num
         wc = sphr_pl_num * 1.5
-        flnr = 8 * (h_vld_seg + 1 + one_dt_mode) * total_roll_num
+        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
     elif work_mode == 1:
         if out_bin_num == 0:
             phr_pl_num = 80 * v_pixel_out_num
         else:
             phr_pl_num = 132 * v_pixel_out_num
         wc = phr_pl_num * 1.5
-        flnr = 8 * (h_vld_seg + 1 + one_dt_mode) * total_roll_num
+        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
     elif work_mode == 2:
         maxbin = (maxbin_thrs + 1) * 2 - 1
         fhr_pl_num = (maxbin - minbin_thrs + 1) * 2 * 4
         wc = fhr_pl_num * 1.5
-        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1) + one_dt_mode) * total_roll_num
+        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
     else:
         wc = 32 * 1.5
-        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1) + one_dt_mode) * total_roll_num
+        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
     return int(wc), flnr
 
 
