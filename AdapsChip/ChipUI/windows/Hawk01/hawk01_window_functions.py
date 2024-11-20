@@ -194,6 +194,6 @@ def ScriptDataSave(hawk01_config):
         logging.info(info)
 
 
-def ScriptParse(hawk01_config):
-    HawkPubMethod.ParseHawkRegConfig(hawk01_config)
+def ScriptParse(hawk01_config, file):
+    HawkPubMethod.ParseHawkRegConfig(file, hawk01_config["protocol"])
 

@@ -143,6 +143,7 @@ class Hawk01MainUI:
     # 下拉框值更新
     # ///////////////////////////////////////////////////////////////
     def combobox_data_update(self, key, index):
+        # logging.info(f"{key} {index}")
         self.hawk01_config[key] = index
         if key == "TDC_BIN_W":
             SYS_CLK_index = 2 - index % 3
@@ -535,14 +536,11 @@ class Hawk01MainUI:
         # self.ui.load_pages.SPADISS_Integration_CheckBox.stateChanged.connect(
         #     partial(Hawk01MainUI.file_gui_checkBoxChange, self))
         # 按钮绑定
-        self.ui.load_pages.reference_script_sel_Button.clicked.connect(
-            partial(Hawk01MainUI.reference_script_file_sel, self))
-        self.ui.load_pages.reference_script_parse_Button.clicked.connect(
-            partial(Hawk01MainUI.reference_script_parse, self))
+        self.ui.load_pages.reference_script_sel_Button.clicked.connect(partial(Hawk01MainUI.reference_script_file_sel, self))
+        self.ui.load_pages.reference_script_parse_Button.clicked.connect(partial(Hawk01MainUI.script_parse, self))
         self.ui.load_pages.file_save_dir_Button.clicked.connect(partial(Hawk01MainUI.file_save_dir_sel, self))
         self.ui.load_pages.Save.clicked.connect(partial(Hawk01MainUI.mainUI_save, self))  # Save按钮连接保存操作
-        self.hawk01_main_ui_signal_sync.Obj_signal_0.connect(
-            partial(Hawk01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
+        self.hawk01_main_ui_signal_sync.Obj_signal_0.connect(partial(Hawk01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
         self.ui.load_pages.Open.clicked.connect(partial(Hawk01MainUI.open_folder, self))
         return
 
@@ -560,10 +558,13 @@ class Hawk01MainUI:
             self.hawk01_config['ref_cfg_file'] = file
             logging.info(self.hawk01_config['ref_cfg_file'])
 
-    def reference_script_parse(self):
+    def script_parse(self):
         # Hawk01MainUI.merge_hawk_config(self)
+        file, _ = QFileDialog.getOpenFileName(parent=None, caption='Base script file select', dir='',
+                                              filter='file(*.txt) ;')
+
         def excute():
-            hawk01_window_functions.ScriptParse(self.hawk01_config)
+            hawk01_window_functions.ScriptParse(self.hawk01_config, file)
         invoking_function(self.DEBUG, excute)
 
     def file_save_dir_sel(self):

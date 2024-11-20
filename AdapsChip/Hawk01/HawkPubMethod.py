@@ -58,6 +58,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         "MINBIN_THRS": 0,
         "MAXBIN_THRS": 167,
         "ONE_DT_MODE": 0,
+        "PKS_ECHO_NUM": 2,
         "OUT_BIN_NUM": 0,
         "MIPI_PKTDLY": 0,
         "VC0_FLNR_L": 0,
@@ -123,6 +124,8 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["ONE_DT_MODE"] = register_value & 0x01
             elif addr == csru_addr['DEPTHU_CFG1']:
                 csru_cfg["OUT_BIN_NUM"] = (register_value & 0x10) >> 4
+            elif addr == csru_addr['DEPTHU_CFG2']:
+                csru_cfg["PKS_ECHO_NUM"] = (register_value & 0x0E) >> 1
             elif addr == csru_addr['MIPIPLL_LPDH']:
                 csru_cfg["MIPI"]["NS"] = (register_value & 0x01) * 256 + csru_cfg["MIPI"]["NS"] % 256
             elif addr == csru_addr['MIPIPLL_LPDL']:
@@ -155,7 +158,8 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             roi_name = configs[4]
             csru_cfg["roi_file"] = roi_name
         else:
-            raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
+            continue
+            # raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
     return csru_cfg
 
 
@@ -388,7 +392,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
             elif addr == csru_addr['DEPTHU_CFG1']:
                 register_value = (register_value & (0xFF - 0x10)) + (hawk01_config["OUT_BIN_NUM"] << 4)
             elif addr == csru_addr['DEPTHU_CFG2']:
-                register_value = (register_value & (0xFF - 0xE0)) + (hawk01_config["PKS_ECHO_NUM"] << 1)
+                register_value = (register_value & (0xFF - 0x0E)) + (hawk01_config["PKS_ECHO_NUM"] << 1)
             elif addr == csru_addr['MIPI_TXDLY']:
                 register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
             elif addr == csru_addr['TDC_DLY_CFG1']:
@@ -426,8 +430,8 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
             csru_datas[line] = ", ".join(configs[0:5])
             continue
         else:
-            raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
-            # csru_datas[line] = _str
+            # raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
+            csru_datas[line] = _str
 
     # --------------------------------------------------------
     # 增加配置说明
@@ -450,14 +454,12 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     return
 
 
-def ParseHawkRegConfig(hawk01_config):
-    ref_cfg_file = hawk01_config["ref_cfg_file"]
-    if not os.path.exists(ref_cfg_file):
+def ParseHawkRegConfig(script_file=None, protocol=0):
+    if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
-    protocol = hawk01_config["protocol"]
 
-    csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
-    _hyper_link = LogerPubMethod.create_file_hyperlink(url=ref_cfg_file)
+    csru_cfg = GetCsruConfig(script_file, protocol)
+    _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
     info = f"Parse {_hyper_link}..."
     logging.info(info)
     _str  = "---------------------------<br>"
