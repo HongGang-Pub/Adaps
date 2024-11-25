@@ -1,73 +1,99 @@
-def expand_groups(groups, total_boxes=6):
-    """
-    根据传入的 groups 列表自动扩展分组方案，以确保总箱子数为 total_boxes。
-    如果 groups 的总箱子数超过 total_boxes，则截取多余的部分。
+WORK_MODE = 2
+SYS_CLK = 330
+MIPI_RATE = 1500
+WC = 448 * 4 * 1.5
+FIFO_THRESHOLD = 0xC0
+BIN_NUMBER = 448
 
-    参数:
-        groups (list): 用户传入的初始分组。
-        total_boxes (int): 总箱子数，默认是6。
-
-    返回:
-        list: 完整的分组方案，确保总箱子数为 total_boxes。
-    """
-    current_count = sum(groups)
-
-    # 如果当前分组总箱子数超过 total_boxes，截取前面的部分使其等于 total_boxes
-    if current_count > total_boxes:
-        trimmed_groups = []
-        box_count = 0
-        for group_size in groups:
-            if box_count + group_size > total_boxes:
-                # 截取最后一组的部分，使总数刚好等于 total_boxes
-                trimmed_groups.append(total_boxes - box_count)
-                break
-            trimmed_groups.append(group_size)
-            box_count += group_size
-        return trimmed_groups
-
-    # 如果当前分组已涵盖所有箱子，直接返回
-    if current_count == total_boxes:
-        return groups[:]
-
-    # 计算剩余箱子数量，并用最后一个组大小填充
-    remaining_boxes = total_boxes - current_count
-    last_group_size = groups[-1]
-    expanded_groups = groups + [last_group_size] * (remaining_boxes // last_group_size)
-
-    # 如果有剩余箱子不足以形成一个完整组，单独加一个组
-    if sum(expanded_groups) < total_boxes:
-        expanded_groups.append(total_boxes - sum(expanded_groups))
-
-    return expanded_groups
+MIPI_PKT_interval_dict = {
+    800: 860,
+    1000: 860,
+    1200: 860,
+    1500: 900,
+}
 
 
-def calculate_distances(groups):
-    """
-    计算每个箱子的移动距离，组间和组内均有偏移。
+raw12 = 12
+fifo_size = 1024 * 32
 
-    参数:
-        groups (list): 用户传入的初始分组。
+TXU_rate = raw12 / (1000 / SYS_CLK)      # unit: bit/ns
+MIPI_rate = 1500 * 4 / 1000     # unit: bit/ns
 
-    返回:
-        list: 每个箱子移动的距离。
-    """
-    expanded_groups = expand_groups(groups)
+package_size = WC * 8   # bit
 
-    distances = []
-    base_distance = 200  # 组间的初始距离
-    increment = 100  # 每组的距离递增
-    intra_group_offset = 5  # 组内偏移
+TXU_PKT_read_t = package_size / TXU_rate
 
-    for i, group_size in enumerate(expanded_groups):
-        group_distance = base_distance + increment * i  # 每组的初始距离
-        # 为当前组的每个箱子计算偏移量
-        for j in range(group_size):
-            distances.append(group_distance + intra_group_offset * j)
+if WORK_MODE == 0:
+    TXU_PKT_interval = (31 + BIN_NUMBER + 27) * (1000 / SYS_CLK)    # ns
+elif WORK_MODE == 1:
+    TXU_PKT_interval = (31 + BIN_NUMBER + 27) * (1000 / SYS_CLK)    # ns
+elif WORK_MODE == 2:
+    TXU_PKT_interval = (24 + 8 * 3) * (1000 / SYS_CLK)
+else:
+    pass
 
-    return distances
+MIPI_PKT_read_t = (package_size + 6 * 8) / MIPI_rate
+
+# Add 20ns: because package_end = 10 ns
+VC0_MIPI_PKT_interval = MIPI_PKT_interval_dict[MIPI_RATE] * 2 + MIPI_PKT_read_t
 
 
-# 示例调用
-groups = [2, 3, 3]  # 希望的分组数，原本有8个箱子，应自动截取至6个
-distances = calculate_distances(groups)
-print("每个箱子移动的距离:", distances)
+def simulate_parallel_fill_with_counts():
+    # 初始化
+    current_fifo_data_size = 0
+
+    total_time = 0
+    txu_read_timer = 0
+    mipi_read_timer = 1
+
+    pkg_number_count = 0
+
+    while current_fifo_data_size < fifo_size:
+        # TXU_read 逻辑
+        total_time += 1   # 增加总时间
+
+        txu_read_timer += 1
+
+        if txu_read_timer <= TXU_PKT_read_t:
+            if txu_read_timer == 1:
+                print(f"total_time: {total_time}")
+                current_fifo_data_size += 4*8   # PH 4 byte
+                pkg_number_count += 1
+
+            current_fifo_data_size += TXU_rate  # 增加注水量
+
+            if txu_read_timer == TXU_PKT_read_t:
+                current_fifo_data_size += 2*8   # PF: 2 byte
+        elif txu_read_timer >= TXU_PKT_read_t + TXU_PKT_interval:
+            txu_read_timer = 0  # 重置 TXU 计时器
+
+        # 检查注满条件
+        if current_fifo_data_size >= fifo_size:
+            break
+
+        # MIPI read 逻辑
+        if total_time <= (VC0_MIPI_PKT_interval + TXU_PKT_read_t):  # The first package is VC1
+            pass
+        else:
+            mipi_read_timer += 1
+            if mipi_read_timer <= MIPI_PKT_read_t:
+                current_fifo_data_size -= MIPI_rate
+            elif mipi_read_timer >= MIPI_PKT_read_t + VC0_MIPI_PKT_interval:
+                mipi_read_timer = 0  # 重置 MIPI 计时器
+
+        # 更新计时器和总时间
+        # if total_time % 10 == 0:
+        #     print(total_time, current_fifo_data_size)
+        # 水量不能低于 0
+        if current_fifo_data_size < 0:
+            print("ERROR: fifo empty...")
+        current_fifo_data_size = max(current_fifo_data_size, 0)
+
+    # 转换总时间为分钟
+    return total_time, pkg_number_count
+
+
+# 运行模拟
+total_t, pkg_number_cnt = simulate_parallel_fill_with_counts()
+print(f"fifo溢出耗时: {total_t:.2f} ns。")
+print(f"fifo溢出包数量为: {pkg_number_cnt} ")
