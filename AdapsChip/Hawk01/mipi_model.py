@@ -10,13 +10,14 @@ precision = 1  # 小数位宽: 精度越大, 仿真越慢, 仿真结果越准确
 # ////////////////////////////////////////////////
 WORK_MODE = 1
 SYS_CLK = 324
-MIPI_RATE = 800
+MIPI_RATE = 1500
 WC = 132 * 1.5
-BIN_NUMBER = 448
+FLNR = 128
+BIN_NUMBER = 480
 PKT_DLY = 0  # unit: ns. 需要根据配置值换算为 ns. 同时配置值存在 -1 的误差, 需要 -1 后再进行单位换算
 
 # ////////////////////////////////////////////////
-# 以下配置为常量,
+# 以下配置为常量
 # ////////////////////////////////////////////////
 # 根据仿真结果获取的包间隔 (unit: ns)
 #   1. 包间隔为 MIPI 寄存器默认配置时的仿真值, 留有一定 margin (40ns), 确保仿真通过时, 硬件实测可以通过
@@ -73,7 +74,7 @@ VC0_MIPI_PKT_interval = round(VC0_MIPI_PKT_interval, precision)
 
 
 # ////////////////////////////////////////////////
-# MIPI 模型
+# MIPI 模型: 此模型仅支持 MIPI 速率小于 TXU 速率场景
 # ////////////////////////////////////////////////
 def mipi_model():
     # 初始化
@@ -85,25 +86,29 @@ def mipi_model():
     mipi_read_timer = 0
 
     pkg_number_count = 0
+    txu_read_time = 0
+    fifo_overflow = True
 
     while current_fifo_data_size < fifo_size:
         # TXU_read 逻辑
         timer = round(timer + timer_step, precision)  # 增加总时间
         txu_read_timer = round(txu_read_timer + timer_step, precision)
 
-        if txu_read_timer <= TXU_PKT_read_t:
-            if txu_read_timer == timer_step:
-                print(f"TXU read package time: {timer}")
-                current_fifo_data_size += 4 * 8  # PH 4 byte
-                pkg_number_count += 1
+        if pkg_number_count < FLNR:
+            if txu_read_timer <= TXU_PKT_read_t:
+                if txu_read_timer == timer_step:
+                    current_fifo_data_size += 4 * 8  # PH 4 byte
 
-            current_fifo_data_size += TXU_rate / (10 ** precision)  # 增加注水量
+                current_fifo_data_size += TXU_rate / (10 ** precision)  # 增加注水量
 
-            if txu_read_timer == TXU_PKT_read_t:
-                current_fifo_data_size += 2 * 8  # PF: 2 byte
-        elif txu_read_timer >= TXU_PKT_read_t + TXU_PKT_interval:
-            txu_read_timer = 0  # 重置 TXU 计时器
-
+                if txu_read_timer == TXU_PKT_read_t:
+                    current_fifo_data_size += 2 * 8  # PF: 2 byte
+                    pkg_number_count += 1
+                    print(f"@ {timer} ns: TXU read package {pkg_number_count} complete...")
+                    if pkg_number_count == FLNR:
+                        txu_read_time = timer
+            elif txu_read_timer >= TXU_PKT_read_t + TXU_PKT_interval:
+                txu_read_timer = 0  # 重置 TXU 计时器
         # 检查注满条件
         if current_fifo_data_size >= fifo_size:
             break
@@ -118,19 +123,18 @@ def mipi_model():
             elif mipi_read_timer >= MIPI_PKT_read_t + VC0_MIPI_PKT_interval:
                 mipi_read_timer = 0  # 重置 MIPI 计时器
 
-        # 更新计时器和总时间
-        # if total_time % 10 == 0:
-        #     print(total_time, current_fifo_data_size)
-        # 水量不能低于 0
-        if current_fifo_data_size < 0:
-            print("ERROR: fifo empty...")
+        if current_fifo_data_size <= 0:
+            print(f"TXU write time: {txu_read_time}ns, MIPI read time: {timer}ns")
+            fifo_overflow = False
+            break
         current_fifo_data_size = max(current_fifo_data_size, 0)
 
+    if fifo_overflow:
+        print(f"fifo溢出耗时: {timer:.2f} ns。")
+        print(f"fifo溢出包数量为: {pkg_number_count} ")
     # 转换总时间为分钟
-    return timer, pkg_number_count
+    return
 
 
-# 运行模拟
-t, pkg_number_cnt = mipi_model()
-print(f"fifo溢出耗时: {t:.2f} ns。")
-print(f"fifo溢出包数量为: {pkg_number_cnt} ")
+if __name__ == '__main__':
+    mipi_model()
