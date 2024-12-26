@@ -162,7 +162,7 @@ def ScriptDataSave(hawk01_config):
     """
     __hawk01_config__ = copy.deepcopy(hawk01_config)
     # __reg_cfg__ = copy.deepcopy(reg_cfg)
-
+    # print(__hawk01_config__)
     work_mode_q = hawk01_config["WORK_MODE"]
 
     def traverse_dict(d, parent_key=''):

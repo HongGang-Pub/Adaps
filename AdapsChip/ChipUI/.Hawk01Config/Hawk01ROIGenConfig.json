@@ -1,14 +1,14 @@
 {
     "ROIGenByJson": {
         "seg_hs": 0,
-        "h_seg_shift": 3,
+        "h_seg_shift": 4,
         "spad_vs": 0,
         "light_shift": 18,
         "sublight_group": "1",
         "sublight_shift": 3,
         "roi_shape": 0,
         "roi_retrace": 1,
-        "v_spad_shift": 0
+        "v_spad_shift": 6
     },
     "ROIGenByFile": {
         "cali_file": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG/coor_data.xlsx",

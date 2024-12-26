@@ -152,6 +152,7 @@ class Hawk01MainUI:
             self.ui.load_pages.SYS_CLK_ComboBox.setCurrentIndex(SYS_CLK_index)
         elif key == "SCAN_MODE":
             Hawk01MainUI.scan_mode_windows_change(self, index)
+        # print(self.hawk01_config[key])
         return
 
     def work_mode_update(self, index):

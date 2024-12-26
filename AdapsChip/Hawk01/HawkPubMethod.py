@@ -274,6 +274,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
 
     WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
     if FLNR >= 8192:
+        logging.warning(f"FLNR {FLNR} is greater than 8192, TX_FRAME_MODE will set 0.")
         hawk01_config['TX_FRAME_MODE'] = 0
         WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
 
@@ -380,7 +381,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
             elif addr == csru_addr['V_ROLL_NUM']:
                 register_value = (register_value & (0xFF - 0x1F)) + (hawk01_config["V_ROLL_NUM"] << 0)
             elif addr == csru_addr['H_ROLL_NUM']:
-                hawk01_config["H_ROLL_NUM"] = 0 if hawk01_config["SCAN_MODE"] == 1 else hawk01_config["H_ROLL_NUM"]
+                hawk01_config["H_ROLL_NUM"] = 0 if hawk01_config["SCAN_MODE"] == 0 else hawk01_config["H_ROLL_NUM"]
                 register_value = (register_value & (0xFF - 0x0F)) + (hawk01_config["H_ROLL_NUM"] << 0)
                 register_value = (register_value & (0xFF - 0xF0)) + (hawk01_config["H_VLD_SEG"] << 4)
             elif addr == csru_addr['UPSMP_CFG']:

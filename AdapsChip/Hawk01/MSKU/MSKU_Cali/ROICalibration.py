@@ -871,12 +871,43 @@ class ROICalibration:
         ROICalibration.RoiMemGenerate(img_roi_datas, cfg)
         return
 
+    @staticmethod
+    def peak_search(mf_data, wd, mean_noise):
+        peak_q = []
+        segments = []
+        current_segment = []
+        no_noise_data = [max(data-mean_noise,0) for data in mf_data]
+        # print(no_noise_data)
+
+        for i, num in enumerate(no_noise_data):
+            if num != 0:
+                current_segment.append((i, num))
+            elif current_segment:
+                segments.append(current_segment)
+                current_segment = []
+
+        if current_segment:
+            segments.append(current_segment)
+
+        results = []
+        for segment in segments:
+            positions, values = zip(*segment)
+            if len(values) < wd:
+                continue
+            max_value = max(values)
+            max_index = positions[values.index(max_value)]
+            results.append({
+                "max_value": max_value,
+                "max_value_position": max_index
+            })
+        sorted_results = sorted(results, key=lambda x: x["max_value"], reverse=True)
+        for i in sorted_results:
+            peak_q.append(i["max_value_position"])
+        print(peak_q)
+        return
+
 
 if __name__ == '__main__':
-    # try:
-    #     logs = do_work('MskuCalibration_cfg.json')
-    # except BaseException as msg:
-    #     logs = msg
     LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
     logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
     cali_run = ROICalibration()

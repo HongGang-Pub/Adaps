@@ -1344,7 +1344,7 @@
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>2</number>
+                <number>3</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -1446,8 +1446,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>332</width>
-                      <height>328</height>
+                      <width>195</width>
+                      <height>237</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout">
@@ -1938,8 +1938,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>332</width>
-                      <height>328</height>
+                      <width>225</width>
+                      <height>52</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_4">
@@ -2503,12 +2503,12 @@
                        </property>
                        <item>
                         <property name="text">
-                         <string>Yes</string>
+                         <string>No</string>
                         </property>
                        </item>
                        <item>
                         <property name="text">
-                         <string>No</string>
+                         <string>Yes</string>
                         </property>
                        </item>
                       </widget>
@@ -2553,12 +2553,12 @@
                        </property>
                        <item>
                         <property name="text">
-                         <string>Yes</string>
+                         <string>No</string>
                         </property>
                        </item>
                        <item>
                         <property name="text">
-                         <string>No</string>
+                         <string>Yes</string>
                         </property>
                        </item>
                       </widget>
@@ -4768,8 +4768,8 @@ font: 700 9pt &quot;Consolas&quot;;
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>886</width>
-            <height>720</height>
+            <width>442</width>
+            <height>285</height>
            </rect>
           </property>
           <property name="styleSheet">

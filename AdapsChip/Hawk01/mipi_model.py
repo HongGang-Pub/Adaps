@@ -99,7 +99,7 @@ def mipi_model():
                 if txu_read_timer == timer_step:
                     current_fifo_data_size += 4 * 8  # PH 4 byte
 
-                current_fifo_data_size += TXU_rate / (10 ** precision)  # 增加注水量
+                current_fifo_data_size += TXU_rate / (10 ** precision)  # 增 加注水量
 
                 if txu_read_timer == TXU_PKT_read_t:
                     current_fifo_data_size += 2 * 8  # PF: 2 byte

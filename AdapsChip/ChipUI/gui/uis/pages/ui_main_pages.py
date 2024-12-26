@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesqVZZip.ui'
+## Form generated from reading UI file 'main_pagesBRzSSL.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -1813,7 +1813,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 886, 720))
+        self.contents.setGeometry(QRect(0, 0, 442, 285))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -1998,7 +1998,7 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_Slider.valueChanged.connect(self.H_VLD_SEG_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(2)
+        self.ROIConfig.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -2129,12 +2129,12 @@ class Ui_MainPages(object):
         self.img_mirror_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"X-axis and Y-axis mirror", None))
 
         self.remove_noise_Label.setText(QCoreApplication.translate("MainPages", u"remove noise", None))
-        self.remove_noise_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
-        self.remove_noise_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
+        self.remove_noise_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
+        self.remove_noise_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
 
         self.light_smooth_Label.setText(QCoreApplication.translate("MainPages", u"light smooth", None))
-        self.light_smooth_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Yes", None))
-        self.light_smooth_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"No", None))
+        self.light_smooth_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
+        self.light_smooth_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
 
         self.curvature_Label.setText(QCoreApplication.translate("MainPages", u"curvature", None))
         self.correct_thres_Label.setText(QCoreApplication.translate("MainPages", u"correct thres", None))
