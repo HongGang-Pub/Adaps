@@ -9,46 +9,69 @@ precision = 1  # 小数位宽: 精度越大, 仿真越慢, 仿真结果越准确
 # 根据配置脚本填写配置值
 # ////////////////////////////////////////////////
 WORK_MODE = 1
-SYS_CLK = 324
-MIPI_RATE = 1500
-WC = 132 * 1.5
+SYS_CLK = 250
+MIPI_RATE = 1000
+WC = 132 * 1.5 * 6
 FLNR = 128
 BIN_NUMBER = 480
 PKT_DLY = 0  # unit: ns. 需要根据配置值换算为 ns. 同时配置值存在 -1 的误差, 需要 -1 后再进行单位换算
 
 # ////////////////////////////////////////////////
-# 以下配置为常量
+# Hawk 基本参数
 # ////////////////////////////////////////////////
-# 根据仿真结果获取的包间隔 (unit: ns)
-#   1. 包间隔为 MIPI 寄存器默认配置时的仿真值, 留有一定 margin (40ns), 确保仿真通过时, 硬件实测可以通过
-#   2. 目前仅提供 SYS_CLk=330, (T_txesc_clk = 19.41M (330M 进行 17 分频)) 的仿真结果
-MIPI_PKT_interval_dict = {
-    # SYS_CLK
-    324: {
-        # MIPI_RATE:
-        800: 1250,
-        1000: 1100,
-        1200: 1010,
-        1500: 900,
-    },
-    330: {
-        # MIPI_RATE:
-        800: 1240,
-        1000: 1070,
-        1200: 980,
-        1500: 900,
-    }
-}
-# Hawk01 设计规格
 RAW12 = 12
 fifo_size = 1024 * 32
+package_size = WC * 8
 
 # ////////////////////////////////////////////////
-# 根据配置进行计算相关数据
+# MIPI & TXU 速率
 # ////////////////////////////////////////////////
-package_size = WC * 8  # bit
 TXU_rate = RAW12 / (1000 / SYS_CLK)  # unit: bit/ns
 MIPI_rate = MIPI_RATE * 4 / 1000  # unit: bit/ns
+
+# ////////////////////////////////////////////////
+# 包间间隔计算(unit: ns)
+# ////////////////////////////////////////////////
+TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 300: 16}
+TXHSByteClkDiv = 8
+
+T_TxClkEsc = 1000 / (SYS_CLK / (TxEscClkDiv_Q[SYS_CLK] + 1))
+T_TxByteClkHS = 1000 / (MIPI_RATE / TXHSByteClkDiv)
+
+DataTxThslpxcnt = 2
+DataTxThsexitCnt = 2
+DataTxThsprepareCnt = 0
+DataTxThszeroCnt = 50
+DataTxThstrailCnt = 17
+
+MIPI_PKT_INTV = ((120 if DataTxThsexitCnt == 0 else 360) +
+                 T_TxClkEsc * DataTxThslpxcnt +
+                 T_TxClkEsc * (DataTxThsprepareCnt+1) +
+                 T_TxByteClkHS * (DataTxThszeroCnt+4) +
+                 T_TxByteClkHS * (DataTxThstrailCnt+1) +
+                 (6*8 + 8) / (MIPI_RATE*4))
+print(f"T_TxClkEsc: {T_TxClkEsc:0.2f}")
+print(f"T_TxByteClkHS: {T_TxByteClkHS:0.2f}")
+print(f"MIPI 包间间隔: {MIPI_PKT_INTV:0.2f}")
+# MIPI_PKT_interval_dict = {
+#     # SYS_CLK
+#     324: {
+#         # MIPI_RATE:
+#         800: 1250,
+#         1000: 1100,
+#         1200: 1010,
+#         1500: 900,
+#     },
+#     330: {
+#         # MIPI_RATE:
+#         800: 1240,
+#         1000: 1070,
+#         1200: 980,
+#         1500: 900,
+#     }
+# }
+# Hawk01 设计规格
+
 
 # 计算 TXU 写 fifo 时间 和 间隔时间
 TXU_PKT_read_t = package_size / TXU_rate
@@ -68,7 +91,8 @@ TXU_PKT_interval = round(TXU_PKT_interval, precision)
 
 # 计算 VC0 MIPI 读出 fifo 时间 和 间隔时间
 MIPI_PKT_read_t = (package_size + 6 * 8) / MIPI_rate
-VC0_MIPI_PKT_interval = MIPI_PKT_interval_dict[SYS_CLK][MIPI_RATE] * 2 + MIPI_PKT_read_t
+# VC0_MIPI_PKT_interval = MIPI_PKT_interval_dict[SYS_CLK][MIPI_RATE] * 2 + MIPI_PKT_read_t
+VC0_MIPI_PKT_interval = MIPI_PKT_INTV * 2 + MIPI_PKT_read_t
 MIPI_PKT_read_t = round(MIPI_PKT_read_t, precision)
 VC0_MIPI_PKT_interval = round(VC0_MIPI_PKT_interval, precision)
 
