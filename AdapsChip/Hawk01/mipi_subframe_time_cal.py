@@ -1,40 +1,62 @@
+#!/usr/bin/env python3
+# _*_ coding: utf-8 _*_
+"""
+=================================================================================================
+@FileName    : mipi_subframe_time.py
+@Author      : honggang_li
+@Email       : honggang.li@adaps-ph.com
+
+@Modify Time       @Author        @Version    @Description
+---------------    -----------    --------    -------------
+2025/1/12 09:00    honggang_li    v1.0        1. WORK_MODE 仅支持 PHR 模式计算, 其他模式待完善;
+                                              2. MIPI 的协议开销计算方式目前仅支持 1.5Gbps/Lane;
+                                              3. csru_cfg 的配置值请与寄存器配置值保持一致;
+                                              4. SYSCLK1M_DIV 根据 SYS_CLk 自动计算, 若需自定义 1M 时
+                                                 钟, 需要手动填写分频系数;
+                                              5. EXPO_TIME & DRV_CH_TIME 时间需手动填写;
+                                              6. 目前算法仅考虑了非多帧和一 & 1D模式
+=================================================================================================
+"""
+
 # ////////////////////////////////////////////////
 # 系统配置
+# 1. 使用方法: 修改相关寄存器配置, 运行脚本, 会自动计算 T_subframe_time
+# 2. 此配置对应的皆是寄存器配置, 可能与实际业务配置有差异
 # ////////////////////////////////////////////////
-import logging
 
 SYS_CLK = 324
 MIPI_RATE = 1500
 EXPO_TIME = 30  # unit: us
 DRV_CH_TIME = 0  # unit: us
 csru_cfg = {
-    "WORK_MODE": 1,
+    "WORK_MODE": 1,  # 目前仅支持 PHR 模式的帧率计算
     "SCAN_MODE": 1,
     "V_ROLL_NUM": 31,
     "H_ROLL_NUM": 0,
     "H_VLD_SEG": 15,
     "MINBIN_THRS": 0,
-    "MAXBIN_THRS": 111,
+    "MAXBIN_THRS": 121,
     "OUT_BIN_NUM": 1,
     "TX_FRAME_MODE": 0,  # 此方法不支持修改此配置
     "ONE_DT_MODE": 0,
     "V_PXL_OUT_NUM": 0,
-    "MIPI_TXDLY": 0,
-    "SUB_IDLETIME": 1,
+    "MIPI_PKTDLY": 0,
+    "SUB_IDLETIME": 0,
     "MIPI_FENDDLY": 0,
     "SYSCLK1M_DIV": (SYS_CLK - 1)
 }
 seg_hs = 0
 
-MIPI_DPHY_cfg = {
+mipi_cfg = {
     "DataTxThslpxcnt": 2,
     "DataTxThsexitCnt": 2,
     "DataTxThsprepareCnt": 0,
     "DataTxThszeroCnt": 50,
     "DataTxThstrailCnt": 17,
 }
+
 MIPI_LANE_NUM = 4
-TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16}
+TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16, 400: 20}
 
 
 # ////////////////////////////////////////////////
@@ -103,11 +125,11 @@ def MipiPKGIntvCAL():
     T_TxClkEsc = 1000 / (SYS_CLK / (TxEscClkDiv_Q[SYS_CLK] + 1))
     T_TxByteClkHS = 1000 / (MIPI_RATE / TXHSByteClkDiv)
 
-    DataTxThslpxcnt = MIPI_DPHY_cfg["DataTxThslpxcnt"]
-    DataTxThsexitCnt = MIPI_DPHY_cfg["DataTxThsexitCnt"]
-    DataTxThsprepareCnt = MIPI_DPHY_cfg["DataTxThsprepareCnt"]
-    DataTxThszeroCnt = MIPI_DPHY_cfg["DataTxThszeroCnt"]
-    DataTxThstrailCnt = MIPI_DPHY_cfg["DataTxThstrailCnt"]
+    DataTxThslpxcnt = mipi_cfg["DataTxThslpxcnt"]
+    DataTxThsexitCnt = mipi_cfg["DataTxThsexitCnt"]
+    DataTxThsprepareCnt = mipi_cfg["DataTxThsprepareCnt"]
+    DataTxThszeroCnt = mipi_cfg["DataTxThszeroCnt"]
+    DataTxThstrailCnt = mipi_cfg["DataTxThstrailCnt"]
 
     MIPI_PKT_INTV = ((120 if DataTxThsexitCnt == 0 else 320) +
                      T_TxClkEsc * DataTxThslpxcnt +
@@ -115,6 +137,10 @@ def MipiPKGIntvCAL():
                      T_TxByteClkHS * (DataTxThszeroCnt + 4) +
                      T_TxByteClkHS * (DataTxThstrailCnt + 1)
                      )
+    # print(T_TxClkEsc * DataTxThslpxcnt)
+    # print(T_TxClkEsc * (DataTxThsprepareCnt + 1))
+    # print(T_TxByteClkHS * (DataTxThszeroCnt + 4))
+    # print(T_TxByteClkHS * (DataTxThstrailCnt + 1))
     print("=======================================")
     print(f"SYS_CLK       : {SYS_CLK:>8} M")
     print(f"MIPI_RATE     : {MIPI_RATE:>8} Gbps/Lane")
@@ -139,7 +165,7 @@ def OnceHistReadAddTxdlyCycCal():
     txu2sysc_path_dly_cyc = 1
     RD_OUT_MIN_GAP = 17
 
-    mipi_txdly = csru_cfg["MIPI_TXDLY"]
+    mipi_pktdly = csru_cfg["MIPI_PKTDLY"]
     maxbin_thrs = csru_cfg["MAXBIN_THRS"]
     minbin_thrs = csru_cfg["MINBIN_THRS"]
     sysclk1m_div = csru_cfg["SYSCLK1M_DIV"] + 1
@@ -162,11 +188,11 @@ def OnceHistReadAddTxdlyCycCal():
         # ////////////////////////////////////////////////
         # mipi_txdly 使用 1M 的时钟, 需要用 sysclk1m_div 进行 cycle 计算
         # ////////////////////////////////////////////////
-        if mipi_txdly > 0:
+        if mipi_pktdly > 0:
             # 若 1M 时钟不是严格的 1us, 则此值可以理解为针对 1M 分频时钟的次数
             rd_out_ind_us_ave = hist_once_read_min_cyc // sysclk1m_div  # unit: us
             rd_out_ind_us_res = hist_once_read_min_cyc % sysclk1m_div  # unit: cycle
-            once_hist_rd_add_txdly_cyc = (rd_out_ind_us_ave + mipi_txdly) * sysclk1m_div
+            once_hist_rd_add_txdly_cyc = (rd_out_ind_us_ave + mipi_pktdly) * sysclk1m_div
         else:
             once_hist_rd_add_txdly_cyc = hist_once_read_min_cyc
         once_hist_rd_add_txdly_Q.append((once_hist_rd_add_txdly_cyc, rd_out_ind_cyc))
@@ -197,12 +223,11 @@ def TSubframReadTimeCal():
     generic_data_mipi_read_cyc = int(T_GenericDataMipiReadTime * SYS_CLK / 1000) + 1
 
     once_hist_rd_add_txdly_Q = OnceHistReadAddTxdlyCycCal()
-    per_seg_pkg_num = FLNR / (csru_cfg["H_VLD_SEG"] + 1)
+    per_seg_pkg_num = FLNR / (csru_cfg["H_VLD_SEG"] + 1)  # TODO: 这里的算法仅考虑了非多帧和一 & 1D模式
     T_mipi_free_cyc = 0
     first_rd_out_ind_cyc = 0
-    case0 = 0
-    case1 = 0
-    for seg_cnt in range(0, csru_cfg["H_VLD_SEG"] + 1):
+    # for seg_cnt in range(csru_cfg["H_VLD_SEG"], -1, -1):  # 这里的写法目的是做 SEG 的倒序, 便于 T_mipi_free_cyc 的计算
+    for seg_cnt in range(0, csru_cfg["H_VLD_SEG"]+1,):
         seg_num = seg_hs + seg_cnt
         group_cnt = seg_num // 4
         once_hist_rd_add_txdly_cyc, rd_out_ind_cyc = once_hist_rd_add_txdly_Q[group_cnt]
@@ -215,10 +240,7 @@ def TSubframReadTimeCal():
         # 当 MIPI传输时间 小于 HIST_RD+TXDLY 的时间时, MIPI_TX 存在一定时间的空闲时间
         # ////////////////////////////////////////////////
         if once_hist_rd_add_txdly_cyc > once_hist_rd_mipi_read_cyc:
-            case0 += 1
-            if case1 > 1:
-                logging.warning("")     # TODO
-            print(f"Group_{group_cnt} mipi free...")
+            print(f"[TXDLY info]: SEG_{seg_num} mipi free...")
             T_mipi_free_cyc += (once_hist_rd_add_txdly_cyc - once_hist_rd_mipi_read_cyc) * per_seg_pkg_num
 
             # 最后一次 HIST 读没有 TXDLY, 因此减去最后一个包传输 mipi_free_cyc
@@ -226,10 +248,10 @@ def TSubframReadTimeCal():
                 last_mipi_free_cyc = once_hist_rd_add_txdly_cyc - once_hist_rd_mipi_read_cyc
                 T_mipi_free_cyc -= last_mipi_free_cyc
         else:
-            case1 += 1
-            if case0 > 1:
-                logging.warning("")     # TODO
-            continue
+            print(f"[TXDLY info]: SEG_{seg_num} mipi busy...")
+            # TODO: Hawk01不存在后面 Group mipi busy ,前面 Group mipi free的场景
+            # T_mipi_free_cyc += (once_hist_rd_add_txdly_cyc - once_hist_rd_mipi_read_cyc) * per_seg_pkg_num
+            # T_mipi_free_cyc = 0 if T_mipi_free_cyc < 0 else T_mipi_free_cyc
 
     T_frame_hist_read_cyc = (first_rd_out_ind_cyc +  # 第一次 HIST_RD 时间
                              once_hist_rd_mipi_read_cyc * FLNR +  # 实际的 MIPI 传输时间

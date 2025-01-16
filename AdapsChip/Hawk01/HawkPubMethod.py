@@ -1,3 +1,4 @@
+import json
 import logging
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
@@ -61,19 +62,23 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         "PKS_ECHO_NUM": 2,
         "OUT_BIN_NUM": 0,
         "MIPI_PKTDLY": 0,
-        "VC0_FLNR_L": 0,
-        "VC0_FLNR_H": 0,
-        "VC1_FLNR_L": 0,
-        "VC1_FLNR_H": 0,
-        "VC0_WC_L": 0,
-        "VC0_WC_H": 0,
-        "VC1_WC_L": 0,
-        "VC1_WC_H": 0,
+        "MIPI_FENDDLY": 0,
+        "SYSCLK1M_DIV": 249,
+        "XCLK1M_DIV": 0,
         "roi_file": "None",
         "MIPI": {
+            "VC0_FLNR": 0,
+            "VC1_FLNR": 0,
+            "VC0_WC": 0,
+            "VC1_WC": 0,
             "NS": 84,
             "MS": 2,
             "PS": 1,
+            "DataTxThslpxcnt": 2,
+            "DataTxThsexitCnt": 2,
+            "DataTxThsprepareCnt": 0,
+            "DataTxThszeroCnt": 50,
+            "DataTxThstrailCnt": 17,
         }
     }
 
@@ -126,31 +131,32 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["OUT_BIN_NUM"] = (register_value & 0x10) >> 4
             elif addr == csru_addr['DEPTHU_CFG2']:
                 csru_cfg["PKS_ECHO_NUM"] = (register_value & 0x0E) >> 1
+            elif addr == csru_addr['MIPI_TXDLY']:
+                csru_cfg["MIPI_PKTDLY"] = register_value & 0x3F
+                csru_cfg["MIPI_FENDDLY"] = (register_value & 0xB0) >> 6
             elif addr == csru_addr['MIPIPLL_LPDH']:
-                csru_cfg["MIPI"]["NS"] = (register_value & 0x01) * 256 + csru_cfg["MIPI"]["NS"] % 256
+                csru_cfg["MIPI"]["NS"] = (csru_cfg["MIPI"]["NS"] & (0xFFFF-0xFF00)) + ((register_value & 0x01) << 8)
             elif addr == csru_addr['MIPIPLL_LPDL']:
-                csru_cfg["MIPI"]["NS"] = (csru_cfg["MIPI"]["NS"] // 256) * 256 + register_value
+                csru_cfg["MIPI"]["NS"] = (csru_cfg["MIPI"]["NS"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['MIPIPLL_PPD']:
                 csru_cfg["MIPI"]["MS"] = (register_value & 0xE0) >> 5
                 csru_cfg["MIPI"]["PS"] = register_value & 0x1F
-            elif addr == csru_addr['MIPI_TXDLY']:
-                csru_cfg["MIPI_PKTDLY"] = register_value & 0x3F
             elif addr == csru_addr['VC0_FLNR_L']:
-                csru_cfg["VC0_FLNR_L"] = register_value
+                csru_cfg["MIPI"]["VC0_FLNR"] = (csru_cfg["MIPI"]["VC0_FLNR"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['VC0_FLNR_H']:
-                csru_cfg["VC0_FLNR_H"] = register_value
+                csru_cfg["MIPI"]["VC0_FLNR"] = (csru_cfg["MIPI"]["VC0_FLNR"] & (0xFFFF-0xFF00)) + (register_value << 8)
             elif addr == csru_addr['VC1_FLNR_L']:
-                csru_cfg["VC1_FLNR_L"] = register_value
+                csru_cfg["MIPI"]["VC1_FLNR"] = (csru_cfg["MIPI"]["VC1_FLNR"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['VC1_FLNR_H']:
-                csru_cfg["VC1_FLNR_H"] = register_value
+                csru_cfg["MIPI"]["VC1_FLNR"] = (csru_cfg["MIPI"]["VC1_FLNR"] & (0xFFFF-0xFF00)) + (register_value << 8)
             elif addr == csru_addr['VC0_WC_L']:
-                csru_cfg["VC0_WC_L"] = register_value
+                csru_cfg["MIPI"]["VC0_WC"] = (csru_cfg["MIPI"]["VC0_WC"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['VC0_WC_H']:
-                csru_cfg["VC0_WC_H"] = register_value
+                csru_cfg["MIPI"]["VC0_WC"] = (csru_cfg["MIPI"]["VC0_WC"] & (0xFFFF-0xFF00)) + (register_value << 8)
             elif addr == csru_addr['VC1_WC_L']:
-                csru_cfg["VC1_WC_L"] = register_value
+                csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['VC1_WC_H']:
-                csru_cfg["VC1_WC_H"] = register_value
+                csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0xFF00)) + (register_value << 8)
         elif configs[0] == roisram_write:
             if len(configs) < 5:
                 raise ValueError(f"Script format error.\n"
@@ -398,13 +404,15 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
                 register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
             elif addr == csru_addr['TDC_DLY_CFG1']:
                 register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
+            elif addr == csru_addr['SYSCLK1M_DIVL']:
+                register_value = SYSCLK1M_DIVL
+            elif addr == csru_addr['SYSCLK1M_DIVH']:
+                register_value = (register_value & (0xFF - 0x01)) + (SYSCLK1M_DIVH << 0)
             else:
                 register_value = PLL0_DIV1 if addr == csru_addr['PLL0_DIV1'] \
                     else PLL0_DIV2 if addr == csru_addr['PLL0_DIV2'] \
                     else PLL1_DIV1 if addr == csru_addr['PLL1_DIV1'] \
                     else PLL1_DIV2 if addr == csru_addr['PLL1_DIV2'] \
-                    else SYSCLK1M_DIVL if addr == csru_addr['SYSCLK1M_DIVL'] \
-                    else SYSCLK1M_DIVH if addr == csru_addr['SYSCLK1M_DIVH'] \
                     else TXESC_CLKDIV if addr == csru_addr['TXESC_CLKDIV'] \
                     else MIPIPLL_LPDH if addr == csru_addr['MIPIPLL_LPDH'] \
                     else MIPIPLL_LPDL if addr == csru_addr['MIPIPLL_LPDL'] \
@@ -465,15 +473,19 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     logging.info(info)
     _str  = "---------------------------<br>"
     _str += "REG_CONFIG<br>"
-    _str += "---------------------------"
-    for key, value in csru_cfg.items():
-        _str += f"<br> {key:<15}: {value}"
+    _str += "---------------------------<br>"
+
+    info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
+
+    _str += info_json
+    # for key, value in csru_cfg.items():
+    #     _str += f"<br> {key:<15}: {value}"
     logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: #0076f6">{_str}</span></p>')
 
-    VC0_WC = csru_cfg["VC0_WC_L"] + (csru_cfg["VC0_WC_H"] << 8)
-    VC1_WC = csru_cfg["VC1_WC_L"] + (csru_cfg["VC1_WC_H"] << 8)
-    VC0_FLNR = csru_cfg["VC0_FLNR_L"] + (csru_cfg["VC0_FLNR_H"] << 8)
-    VC1_FLNR = csru_cfg["VC1_FLNR_L"] + (csru_cfg["VC1_FLNR_H"] << 8)
+    VC0_WC = csru_cfg["MIPI"]["VC0_WC"]
+    VC1_WC = csru_cfg["MIPI"]["VC1_WC"]
+    VC0_FLNR = csru_cfg["MIPI"]["VC0_FLNR"]
+    VC1_FLNR = csru_cfg["MIPI"]["VC1_FLNR"]
 
     WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
     if VC0_WC != WC or VC1_WC != WC or VC0_FLNR != FLNR or VC1_FLNR != FLNR:
@@ -485,7 +497,7 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
         _str  = " FLNR_L : 0x{:0>2X}<br>".format(FLNR_L)
         _str += " FLNR_H : 0x{:0>2X}<br>".format(FLNR_H)
         _str += " WC_L   : 0x{:0>2X}<br>".format(WC_L)
-        _str += " WC_H   : 0x{:0>2X}".format(WC_H)
+        _str += " WC_H   : 0x{:0>2X}    ".format(WC_H)
         logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
     pass
 

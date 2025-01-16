@@ -181,5 +181,44 @@ def invoking_function(DEBUG: bool, func) -> None:
     pass
 
 
+def dict_print_format(data: dict, indent=0, level=0):
+    """
+    递归格式化字典并对齐冒号，同时保留缩进结构
+    Args:
+        data (dict): 输入字典或其他类型数据
+        indent (int): 每一层的缩进空格数
+        level (int): 当前递归层级
+
+    Returns:
+        str: 对齐后的 JSON 字符串
+    """
+    if isinstance(data, dict):
+        # 获取每层键的最大长度
+        max_key_len = max(len(str(key)) for key in data.keys())
+        lines = []
+        for key, value in data.items():
+            # 每层缩进
+            prefix = " " * (level * indent)
+            # 对齐冒号
+            line = f'{prefix}{key}{" " * (max_key_len - len(key))} : '
+            if isinstance(value, (dict, list)):
+                # 嵌套处理
+                nested = dict_print_format(value, indent, level + 1)
+                lines.append(f"{line}{nested}")
+            else:
+                # 值的直接表示
+                value_str = json.dumps(value, ensure_ascii=False)
+                lines.append(f"{line}{value_str}")
+        return "{\n" + ",\n".join(lines) + f"\n{' ' * ((level - 1) * indent)}}}"
+    # elif isinstance(data, list):
+    #     # 处理列表
+    #     prefix = " " * (level * indent)
+    #     items = [dict_print_format(item, indent, level + 1) for item in data]
+    #     return "[\n" + ",\n".join(f"{prefix}{item}" for item in items) + f"\n{' ' * ((level - 1) * indent)}]"
+    else:
+        # 基础数据类型
+        return json.dumps(data, ensure_ascii=False)
+
+
 if __name__ == '__main__':
     print("Hello world.")
