@@ -157,6 +157,14 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['VC1_WC_H']:
                 csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0xFF00)) + (register_value << 8)
+            elif addr == csru_addr["THS_EXIT"]:
+                csru_cfg["MIPI"]["DataTxThsexitCnt"] = register_value
+            elif addr == csru_addr["THS_PREPARE"]:
+                csru_cfg["MIPI"]["DataTxThsprepareCnt"] = register_value
+            elif addr == csru_addr["THS_ZERO"]:
+                csru_cfg["MIPI"]["DataTxThszeroCnt"] = register_value
+            elif addr == csru_addr["THS_TRAIL"]:
+                csru_cfg["MIPI"]["DataTxThstrailCnt"] = register_value
         elif configs[0] == roisram_write:
             if len(configs) < 5:
                 raise ValueError(f"Script format error.\n"

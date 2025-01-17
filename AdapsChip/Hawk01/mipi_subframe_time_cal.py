@@ -6,15 +6,15 @@
 @Author      : honggang_li
 @Email       : honggang.li@adaps-ph.com
 
-@Modify Time       @Author        @Version    @Description
----------------    -----------    --------    -------------
-2025/1/12 09:00    honggang_li    v1.0        1. WORK_MODE 仅支持 PHR 模式计算, 其他模式待完善;
-                                              2. MIPI 的协议开销计算方式目前仅支持 1.5Gbps/Lane;
-                                              3. csru_cfg 的配置值请与寄存器配置值保持一致;
-                                              4. SYSCLK1M_DIV 根据 SYS_CLk 自动计算, 若需自定义 1M 时
-                                                 钟, 需要手动填写分频系数;
-                                              5. EXPO_TIME & DRV_CH_TIME 时间需手动填写;
-                                              6. 目前算法仅考虑了非多帧和一 & 1D模式
+@Modify Time        @Author        @Version    @Description
+----------------    -----------    --------    -------------
+2025/01/12 09:00    honggang_li    v1.0        1. WORK_MODE 仅支持 PHR 模式计算, 其他模式待完善;
+                                               2. MIPI 的协议开销计算方式目前仅支持 1.5Gbps/Lane;
+                                               3. csru_cfg 的配置值请与寄存器配置值保持一致;
+                                               4. SYSCLK1M_DIV 根据 SYS_CLk 自动计算, 若需自定义 1M 时
+                                                  钟, 需要手动填写分频系数;
+                                               5. EXPO_TIME & DRV_CH_TIME 时间需手动填写;
+                                               6. 目前算法仅考虑了非多帧和一 & 1D模式
 =================================================================================================
 """
 
@@ -280,7 +280,7 @@ def TSubframeCal():
     Returns:
         一个 subframe 的帧率; unit: us
     """
-    T_masking_time = (975 - (15 - csru_cfg["H_VLD_SEG"]) * 10) / SYS_CLK
+    T_masking_time = (975 - (15 - csru_cfg["H_VLD_SEG"]) * 60) / SYS_CLK
     T_hist_clear_time = 684 / SYS_CLK
     T_hist_read_time = TSubframReadTimeCal()
     # T_sub_idletime 的计数是 1M 时钟分频系数 * 10

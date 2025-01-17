@@ -18,7 +18,7 @@ from functools import partial
 from threading import Thread
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from SelfDefinedPackge.JsonOperation import JsonFunction
-from SelfDefinedPackge.PubMethod import invoking_function
+from SelfDefinedPackge.PubMethod import func_exec
 
 class Hawk01MainUI:
     def __init__(self):
@@ -451,7 +451,7 @@ class Hawk01MainUI:
             self.hawk01_main_ui_signal_sync.sync_signal_0.emit()
 
         def threadFunc():
-            invoking_function(self.DEBUG, excute)
+            func_exec(self.DEBUG, excute)
 
         thread = Thread(target=threadFunc)
         thread.start()
@@ -566,7 +566,7 @@ class Hawk01MainUI:
 
         def excute():
             hawk01_window_functions.ScriptParse(self.hawk01_config, file)
-        invoking_function(self.DEBUG, excute)
+        func_exec(self.DEBUG, excute)
 
     def file_save_dir_sel(self):
         dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
@@ -592,7 +592,7 @@ class Hawk01MainUI:
         self.ui.load_pages.ROISave.setEnabled(False)
 
         def threadFunc():
-            invoking_function(self.DEBUG, excute)
+            func_exec(self.DEBUG, excute)
             self.hawk01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.ROISave)
 
         thread = Thread(target=threadFunc)
@@ -618,7 +618,7 @@ class Hawk01MainUI:
         self.ui.load_pages.Save.setEnabled(False)
 
         def threadFunc():
-            invoking_function(self.DEBUG, excute)
+            func_exec(self.DEBUG, excute)
             self.hawk01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Save)
 
         thread = Thread(target=threadFunc)

@@ -122,7 +122,7 @@ class MainWindow(QMainWindow):
         from windows.main_window.main_window_setup import SetupMainWindow
         btn = SetupMainWindow.setup_btns(self)
 
-    def closeEvent(self, event):  # TODO
+    def closeEvent(self, event):  # TODO: 这里退出时需要清理其他附属界面
         from windows.main_window.main_window_setup import SetupMainWindow
         from SelfDefinedPackge import MatplotExtension
         SetupMainWindow.closeEvent(self)
@@ -152,4 +152,6 @@ def main():
 # Set the initial class and also additional parameters of the "QApplication" class
 # ///////////////////////////////////////////////////////////////
 if __name__ == "__main__":
+    # import cProfile
+    # cProfile.run("main()", sort="cumulative")
     main()

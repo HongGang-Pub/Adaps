@@ -19,7 +19,7 @@ from matplotlib.ticker import MultipleLocator, MaxNLocator
 from AdapsChip.ChipUI.gui.core.functions import Functions
 from AdapsChip.ChipUI.gui.Signal import MySignals
 from matplotlib.backends.backend_qtagg import NavigationToolbar2QT
-from SelfDefinedPackge.PubMethod import invoking_function
+from SelfDefinedPackge.PubMethod import func_exec
 
 
 class CustomToolbar(NavigationToolbar2QT):
@@ -378,7 +378,7 @@ class MaskingWindow(QMainWindow):
         self.btn_save.setEnabled(False)
 
         def threadFunc():
-            invoking_function(self.DEBUG, excute)
+            func_exec(self.DEBUG, excute)
             self.win_signal_sync.Obj_signal_0.emit(self.btn_save)
 
         thread = Thread(target=threadFunc)

@@ -161,7 +161,7 @@ def get_ordinal(n: int) -> str:
     return f"{n}{suffix}"
 
 
-def invoking_function(DEBUG: bool, func) -> None:
+def func_exec(DEBUG: bool, func) -> None:
     """
     是否将异常信息进行包裹
     Args:
