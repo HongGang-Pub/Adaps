@@ -120,7 +120,7 @@ def MipiFlnrAndWcCal():
     return int(wc), flnr
 
 
-def MipiPKGIntvCAL():
+def MipiPKGIntvCal():
     """
     MIPI 包间协议开销计算
 
@@ -158,15 +158,32 @@ def MipiPKGIntvCAL():
 
 def MipiFIFOReleaseCycCal():
     """
-    计算 MIPI FIFO 释放时间
+    计算 VC0 MIPI FIFO 释放时间(VC0 在 VC1 后面进行传输, 因此计算 MIPI FIFO 额外可以存储的数据时, 以 VC0 的 FIFO 进行计算)
     Returns:
         int: MIPI FIFO 释放时间 (unit: cyc)
     """
     mipi_rate = MIPI_RATE * MIPI_LANE_NUM  # unit: bit/us
     WC, FLNR = MipiFlnrAndWcCal()
-    mipi_fifo_free_size = MIPI_FIFO_SIZE * 32 - WC * 8
+    mipi_fifo_free_size = MIPI_FIFO_SIZE * 32 - WC * 8  # VC0 在 VC1 后面进行传输
     mipi_fifo_free_cyc = int(mipi_fifo_free_size / mipi_rate * SYS_CLK)
     return mipi_fifo_free_cyc
+
+
+def MipiModel():
+    """
+    计算 VC0 的 model
+
+    Returns:
+        float: (unit: us)
+    """
+    mipi_rate = MIPI_RATE * MIPI_LANE_NUM  # unit: bit/us
+
+    WC, FLNR = MipiFlnrAndWcCal()
+
+    MIPI_PKT_INTV = MipiPKGIntvCal()  # unit: ns
+    MIPIPKT_Tx_HS_Data = (WC * 8 + 6 * 8) * 1000 / mipi_rate  # unit: ns
+
+    VC0_MIPI_PKT_interval = MIPI_PKT_INTV * 2 + MIPIPKT_Tx_HS_Data
 
 
 def OnceHistReadAddTxdlyCycCalForFHR():
@@ -270,7 +287,7 @@ def TSubframReadTimeCalForFHR():
 
     MIPIPKT_Tx_HS_Data = (WC * 8 + 6 * 8) * 1000 / (MIPI_RATE * MIPI_LANE_NUM)  # unit: ns
     GENERIC_TX_HS_Data = (40 * 8 + 6 * 8) * 1000 / (MIPI_RATE * MIPI_LANE_NUM)  # unit: ns
-    MIPI_PKT_INTV = MipiPKGIntvCAL()  # unit: ns
+    MIPI_PKT_INTV = MipiPKGIntvCal()  # unit: ns
 
     T_OneHistReadMipiReadTime = (MIPI_PKT_INTV + MIPIPKT_Tx_HS_Data) * 2  # VC0 & VC1 (unit: ns)
     T_GenericDataMipiReadTime = (MIPI_PKT_INTV + GENERIC_TX_HS_Data) * 2 if one_dt_mode == 0 else 0
@@ -321,11 +338,12 @@ def TSubframReadTimeCalForPHR():
     one_dt_mode = csru_cfg["ONE_DT_MODE"]
     sysclk1m_div = csru_cfg["SYSCLK1M_DIV"] + 1
 
+    mipi_rate = MIPI_RATE * MIPI_LANE_NUM  # unit: bit/us
     WC, FLNR = MipiFlnrAndWcCal()
 
-    MIPIPKT_Tx_HS_Data = (WC * 8 + 6 * 8) * 1000 / (MIPI_RATE * MIPI_LANE_NUM)  # unit: ns
-    GENERIC_TX_HS_Data = (40 * 8 + 6 * 8) * 1000 / (MIPI_RATE * MIPI_LANE_NUM)  # unit: ns
-    MIPI_PKT_INTV = MipiPKGIntvCAL()  # unit: ns
+    MIPI_PKT_INTV = MipiPKGIntvCal()  # unit: ns
+    MIPIPKT_Tx_HS_Data = (WC * 8 + 6 * 8) * 1000 / mipi_rate  # unit: ns
+    GENERIC_TX_HS_Data = (40 * 8 + 6 * 8) * 1000 / mipi_rate  # unit: ns
 
     T_OneHistReadMipiReadTime = (MIPI_PKT_INTV + MIPIPKT_Tx_HS_Data) * 2  # VC0 & VC1 (unit: ns)
     T_GenericDataMipiReadTime = (MIPI_PKT_INTV + GENERIC_TX_HS_Data) * 2 if one_dt_mode == 0 else 0
@@ -360,7 +378,7 @@ def TSubframReadTimeCalForPHR():
                 T_mipi_free_cyc -= last_mipi_free_cyc
         else:
             print(f"[TXDLY info]: SEG_{seg_num} mipi busy...")
-            # TODO: Hawk01不存在后面 Group mipi busy ,前面 Group mipi free的场景
+            # TODO: Hawk01不存在后面 Group mipi busy, 前面 Group mipi free的场景
             # T_mipi_free_cyc += (once_hist_rd_add_txdly_cyc - once_hist_rd_mipi_read_cyc) * per_seg_pkg_num
             # T_mipi_free_cyc = 0 if T_mipi_free_cyc < 0 else T_mipi_free_cyc
 
