@@ -33,6 +33,8 @@ csru_addr = {
     "VC0_WC_H": 0x0119,
     "VC1_WC_L": 0x011A,
     "VC1_WC_H": 0x011B,
+    "VC0_THRESHOLD": 0x0150,
+    "VC1_THRESHOLD": 0x0151,
     "THS_EXIT": 0x22B,
     "THS_PREPARE": 0x22C,
     "THS_ZERO": 0x22D,

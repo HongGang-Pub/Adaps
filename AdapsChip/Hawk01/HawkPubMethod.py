@@ -71,6 +71,8 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             "VC1_FLNR": 0,
             "VC0_WC": 0,
             "VC1_WC": 0,
+            "VC0_THRESHOLD": 0xC0,
+            "VC1_THRESHOLD": 0xC0,
             "NS": 84,
             "MS": 2,
             "PS": 1,
@@ -157,6 +159,10 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['VC1_WC_H']:
                 csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0xFF00)) + (register_value << 8)
+            elif addr == csru_addr["VC0_THRESHOLD"]:
+                csru_cfg["MIPI"]["VC0_THRESHOLD"] = register_value
+            elif addr == csru_addr["VC1_THRESHOLD"]:
+                csru_cfg["MIPI"]["VC1_THRESHOLD"] = register_value
             elif addr == csru_addr["THS_EXIT"]:
                 csru_cfg["MIPI"]["DataTxThsexitCnt"] = register_value
             elif addr == csru_addr["THS_PREPARE"]:

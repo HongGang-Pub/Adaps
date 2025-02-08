@@ -20,7 +20,7 @@ PKT_DLY = 0  # unit: ns. 需要根据配置值换算为 ns. 同时配置值存�
 # Hawk 基本参数
 # ////////////////////////////////////////////////
 RAW12 = 12
-fifo_size = 1024 * 32
+MIPI_FIFO_SIZE = 1024 * 32
 package_size = WC * 8
 
 # ////////////////////////////////////////////////
@@ -113,7 +113,7 @@ def mipi_model():
     txu_read_time = 0
     fifo_overflow = True
 
-    while current_fifo_data_size < fifo_size:
+    while current_fifo_data_size < MIPI_FIFO_SIZE:
         # TXU_read 逻辑
         timer = round(timer + timer_step, precision)  # 增加总时间
         txu_read_timer = round(txu_read_timer + timer_step, precision)
@@ -134,7 +134,7 @@ def mipi_model():
             elif txu_read_timer >= TXU_PKT_read_t + TXU_PKT_interval:
                 txu_read_timer = 0  # 重置 TXU 计时器
         # 检查注满条件
-        if current_fifo_data_size >= fifo_size:
+        if current_fifo_data_size >= MIPI_FIFO_SIZE:
             break
 
         # MIPI read 逻辑
