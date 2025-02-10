@@ -150,7 +150,7 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qcheckbox
 --------------------------------------------------------------------------- */
 /*
 QCheckBox {
-  background-color: #ffffff;
+  background-color: #f5f5f5;
   color: #19232D;
   spacing: 4px;
   outline: none;
@@ -210,7 +210,7 @@ QCheckBox::indicator:indeterminate:disabled {
 QCheckBox::indicator:indeterminate:focus, QCheckBox::indicator:indeterminate:hover, QCheckBox::indicator:indeterminate:pressed {
   image: url("gui/themes/page_themes/light/icon/checkbox_indeterminate_focus@2x.png");
 }
-
+*/
 /* QGroupBox --------------------------------------------------------------
 
 https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qgroupbox
@@ -221,8 +221,8 @@ QGroupBox {
   border: 1px solid #C0C4C8;
   border-radius: 4px;
   padding: 2px;
-  margin-top: 6px;
-  margin-bottom: 4px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 QGroupBox::title {
@@ -241,7 +241,7 @@ QGroupBox::indicator {
   height: 14px;
   width: 14px;
 }
-
+/*
 QGroupBox::indicator:unchecked {
   border: none;
   image: url("gui/themes/page_themes/light/icon/checkbox_unchecked.png");
@@ -269,12 +269,13 @@ QGroupBox::indicator:checked:hover, QGroupBox::indicator:checked:focus, QGroupBo
 QGroupBox::indicator:checked:disabled {
   image: url("gui/themes/page_themes/light/icon/checkbox_checked_disabled.png");
 }
-
+*/
 /* QRadioButton -----------------------------------------------------------
 
 https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qradiobutton
 
 --------------------------------------------------------------------------- */
+/*
 QRadioButton {
   background-color: #f5f5f5;
   color: #19232D;
@@ -343,6 +344,7 @@ QRadioButton::indicator:checked:disabled {
   outline: none;
   image: url("gui/themes/page_themes/light/icon/radio_checked_disabled.png");
 }
+*/
 
 /* QMenuBar ---------------------------------------------------------------
 
@@ -430,7 +432,7 @@ QMenu::indicator {
   /* non-exclusive indicator = check box style indicator (see QActionGroup::setExclusive) */
   /* exclusive indicator = radio button style indicator (see QActionGroup::setExclusive) */
 }
-
+/*
 QMenu::indicator:non-exclusive:unchecked {
   image: url("gui/themes/page_themes/light/icon/checkbox_unchecked.png");
 }
@@ -507,6 +509,7 @@ QMenu::right-arrow {
   height: 12px;
   width: 12px;
 }
+*/
 
 /* QAbstractItemView ------------------------------------------------------
 
@@ -1832,7 +1835,7 @@ QTreeView::indicator:checked,
 QListView::indicator:checked,
 QTableView::indicator:checked,
 QColumnView::indicator:checked {
-  image: url("gui/themes/page_themes/light/icon/checkbox_checked.png");
+  /* image: url("gui/themes/page_themes/light/icon/checkbox_checked.png"); */
 }
 
 QTreeView::indicator:checked:hover, QTreeView::indicator:checked:focus, QTreeView::indicator:checked:pressed,
@@ -1845,14 +1848,14 @@ QTableView::indicator:checked:pressed,
 QColumnView::indicator:checked:hover,
 QColumnView::indicator:checked:focus,
 QColumnView::indicator:checked:pressed {
-  image: url("gui/themes/page_themes/light/icon/checkbox_checked_focus.png");
+  /* image: url("gui/themes/page_themes/light/icon/checkbox_checked_focus.png"); */
 }
 
 QTreeView::indicator:unchecked,
 QListView::indicator:unchecked,
 QTableView::indicator:unchecked,
 QColumnView::indicator:unchecked {
-  image: url("gui/themes/page_themes/light/icon/checkbox_unchecked.png");
+  /* image: url("gui/themes/page_themes/light/icon/checkbox_unchecked.png"); */
 }
 
 QTreeView::indicator:unchecked:hover, QTreeView::indicator:unchecked:focus, QTreeView::indicator:unchecked:pressed,
@@ -1865,14 +1868,14 @@ QTableView::indicator:unchecked:pressed,
 QColumnView::indicator:unchecked:hover,
 QColumnView::indicator:unchecked:focus,
 QColumnView::indicator:unchecked:pressed {
-  image: url("gui/themes/page_themes/light/icon/checkbox_unchecked_focus.png");
+  /* image: url("gui/themes/page_themes/light/icon/checkbox_unchecked_focus.png"); */
 }
 
 QTreeView::indicator:indeterminate,
 QListView::indicator:indeterminate,
 QTableView::indicator:indeterminate,
 QColumnView::indicator:indeterminate {
-  image: url("gui/themes/page_themes/light/icon/checkbox_indeterminate.png");
+  /* image: url("gui/themes/page_themes/light/icon/checkbox_indeterminate.png"); */
 }
 
 QTreeView::indicator:indeterminate:hover, QTreeView::indicator:indeterminate:focus, QTreeView::indicator:indeterminate:pressed,
@@ -1885,7 +1888,7 @@ QTableView::indicator:indeterminate:pressed,
 QColumnView::indicator:indeterminate:hover,
 QColumnView::indicator:indeterminate:focus,
 QColumnView::indicator:indeterminate:pressed {
-  image: url("gui/themes/page_themes/light/icon/checkbox_indeterminate_focus.png");
+  /* image: url("gui/themes/page_themes/light/icon/checkbox_indeterminate_focus.png"); */
 }
 
 QTreeView,

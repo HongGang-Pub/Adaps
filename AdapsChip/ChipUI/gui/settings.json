@@ -7,7 +7,7 @@
     "TOOL_BOX": true,
     "startup_size": [
         1000,
-        930
+        870
     ],
     "minimum_size": [
         900,
@@ -29,7 +29,7 @@
     "time_animation" : 500,
     "font" : {
         "family" : "Microsoft YaHei UI",
-        "text_size" : 10,
+        "text_size" : 9,
         "title_size" : 9,
         "title_tips_size": "500 12pt"
     }

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesBRzSSL.ui'
+## Form generated from reading UI file 'main_pagesxlnRgc.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -55,7 +55,7 @@ class Ui_MainPages(object):
         self.ScriptConfig.setObjectName(u"ScriptConfig")
         self.horizontalLayout_2 = QHBoxLayout(self.ScriptConfig)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_2.setContentsMargins(3, 3, 3, 3)
         self.RegisterConfig = QGroupBox(self.ScriptConfig)
         self.RegisterConfig.setObjectName(u"RegisterConfig")
         self.RegisterConfig.setMinimumSize(QSize(0, 0))
@@ -63,9 +63,10 @@ class Ui_MainPages(object):
         self.formLayout_2 = QFormLayout(self.RegisterConfig)
         self.formLayout_2.setObjectName(u"formLayout_2")
         self.formLayout_2.setVerticalSpacing(8)
-        self.formLayout_2.setContentsMargins(9, 9, 9, 9)
+        self.formLayout_2.setContentsMargins(3, 6, 3, 3)
         self.XCLK_Label = QLabel(self.RegisterConfig)
         self.XCLK_Label.setObjectName(u"XCLK_Label")
+        self.XCLK_Label.setMinimumSize(QSize(90, 0))
         self.XCLK_Label.setFont(font)
         self.XCLK_Label.setFrameShape(QFrame.StyledPanel)
 
@@ -87,7 +88,7 @@ class Ui_MainPages(object):
 
         self.MST_MODE_Label = QLabel(self.RegisterConfig)
         self.MST_MODE_Label.setObjectName(u"MST_MODE_Label")
-        self.MST_MODE_Label.setMinimumSize(QSize(85, 0))
+        self.MST_MODE_Label.setMinimumSize(QSize(90, 0))
         self.MST_MODE_Label.setMaximumSize(QSize(85, 16777215))
         self.MST_MODE_Label.setFrameShape(QFrame.StyledPanel)
         self.MST_MODE_Label.setMargin(0)
@@ -109,7 +110,7 @@ class Ui_MainPages(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.WORK_MODE_Label.sizePolicy().hasHeightForWidth())
         self.WORK_MODE_Label.setSizePolicy(sizePolicy)
-        self.WORK_MODE_Label.setMinimumSize(QSize(0, 0))
+        self.WORK_MODE_Label.setMinimumSize(QSize(90, 0))
         self.WORK_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
         self.WORK_MODE_Label.setFrameShape(QFrame.StyledPanel)
         self.WORK_MODE_Label.setFrameShadow(QFrame.Raised)
@@ -132,7 +133,7 @@ class Ui_MainPages(object):
         self.MIPI_RATE_Label.setObjectName(u"MIPI_RATE_Label")
         sizePolicy.setHeightForWidth(self.MIPI_RATE_Label.sizePolicy().hasHeightForWidth())
         self.MIPI_RATE_Label.setSizePolicy(sizePolicy)
-        self.MIPI_RATE_Label.setMinimumSize(QSize(0, 0))
+        self.MIPI_RATE_Label.setMinimumSize(QSize(90, 0))
         self.MIPI_RATE_Label.setMaximumSize(QSize(16777215, 16777215))
         self.MIPI_RATE_Label.setFont(font1)
         self.MIPI_RATE_Label.setFrameShape(QFrame.StyledPanel)
@@ -158,7 +159,7 @@ class Ui_MainPages(object):
         self.MoreConfiguration.setStyleSheet(u"")
         self.gridLayout = QGridLayout(self.MoreConfiguration)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, -1, 0, -1)
+        self.gridLayout.setContentsMargins(0, -1, 3, -1)
         self.V_PXL_OUT_NUM_ComboBox = QComboBox(self.MoreConfiguration)
         self.V_PXL_OUT_NUM_ComboBox.addItem("")
         self.V_PXL_OUT_NUM_ComboBox.addItem("")
@@ -168,7 +169,7 @@ class Ui_MainPages(object):
 
         self.TRG_I_EN_Label = QLabel(self.MoreConfiguration)
         self.TRG_I_EN_Label.setObjectName(u"TRG_I_EN_Label")
-        self.TRG_I_EN_Label.setMinimumSize(QSize(85, 0))
+        self.TRG_I_EN_Label.setMinimumSize(QSize(100, 0))
         self.TRG_I_EN_Label.setMaximumSize(QSize(85, 16777215))
         self.TRG_I_EN_Label.setFont(font)
         self.TRG_I_EN_Label.setFrameShape(QFrame.StyledPanel)
@@ -177,7 +178,7 @@ class Ui_MainPages(object):
 
         self.OUT_BIN_NUM_Lable = QLabel(self.MoreConfiguration)
         self.OUT_BIN_NUM_Lable.setObjectName(u"OUT_BIN_NUM_Lable")
-        self.OUT_BIN_NUM_Lable.setMinimumSize(QSize(0, 0))
+        self.OUT_BIN_NUM_Lable.setMinimumSize(QSize(100, 0))
         self.OUT_BIN_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
         self.OUT_BIN_NUM_Lable.setFont(font)
         self.OUT_BIN_NUM_Lable.setFrameShape(QFrame.StyledPanel)
@@ -186,6 +187,7 @@ class Ui_MainPages(object):
 
         self.SYS_CLK_Label = QLabel(self.MoreConfiguration)
         self.SYS_CLK_Label.setObjectName(u"SYS_CLK_Label")
+        self.SYS_CLK_Label.setMinimumSize(QSize(100, 0))
         self.SYS_CLK_Label.setFont(font)
         self.SYS_CLK_Label.setFrameShape(QFrame.StyledPanel)
         self.SYS_CLK_Label.setFrameShadow(QFrame.Raised)
@@ -194,7 +196,7 @@ class Ui_MainPages(object):
 
         self.TDC_BIN_W_Label = QLabel(self.MoreConfiguration)
         self.TDC_BIN_W_Label.setObjectName(u"TDC_BIN_W_Label")
-        self.TDC_BIN_W_Label.setMinimumSize(QSize(0, 0))
+        self.TDC_BIN_W_Label.setMinimumSize(QSize(100, 0))
         self.TDC_BIN_W_Label.setMaximumSize(QSize(16777215, 16777215))
         self.TDC_BIN_W_Label.setFont(font)
         self.TDC_BIN_W_Label.setFrameShape(QFrame.StyledPanel)
@@ -203,7 +205,7 @@ class Ui_MainPages(object):
 
         self.PKS_ECHO_NUM_Lable = QLabel(self.MoreConfiguration)
         self.PKS_ECHO_NUM_Lable.setObjectName(u"PKS_ECHO_NUM_Lable")
-        self.PKS_ECHO_NUM_Lable.setMinimumSize(QSize(0, 0))
+        self.PKS_ECHO_NUM_Lable.setMinimumSize(QSize(100, 0))
         self.PKS_ECHO_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
         self.PKS_ECHO_NUM_Lable.setFont(font)
         self.PKS_ECHO_NUM_Lable.setFrameShape(QFrame.StyledPanel)
@@ -212,7 +214,7 @@ class Ui_MainPages(object):
 
         self.MINBIN_THRS_Lable = QLabel(self.MoreConfiguration)
         self.MINBIN_THRS_Lable.setObjectName(u"MINBIN_THRS_Lable")
-        self.MINBIN_THRS_Lable.setMinimumSize(QSize(0, 0))
+        self.MINBIN_THRS_Lable.setMinimumSize(QSize(100, 0))
         self.MINBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
         self.MINBIN_THRS_Lable.setFont(font)
         self.MINBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
@@ -255,7 +257,7 @@ class Ui_MainPages(object):
 
         self.MAXBIN_THRS_Lable_ = QLabel(self.MoreConfiguration)
         self.MAXBIN_THRS_Lable_.setObjectName(u"MAXBIN_THRS_Lable_")
-        self.MAXBIN_THRS_Lable_.setMinimumSize(QSize(0, 0))
+        self.MAXBIN_THRS_Lable_.setMinimumSize(QSize(100, 0))
         self.MAXBIN_THRS_Lable_.setMaximumSize(QSize(16777215, 16777215))
         self.MAXBIN_THRS_Lable_.setFont(font)
         self.MAXBIN_THRS_Lable_.setFrameShape(QFrame.StyledPanel)
@@ -264,7 +266,7 @@ class Ui_MainPages(object):
 
         self.V_PXL_OUT_NUM_Label = QLabel(self.MoreConfiguration)
         self.V_PXL_OUT_NUM_Label.setObjectName(u"V_PXL_OUT_NUM_Label")
-        self.V_PXL_OUT_NUM_Label.setMinimumSize(QSize(85, 0))
+        self.V_PXL_OUT_NUM_Label.setMinimumSize(QSize(100, 0))
         self.V_PXL_OUT_NUM_Label.setMaximumSize(QSize(85, 16777215))
         self.V_PXL_OUT_NUM_Label.setFont(font)
         self.V_PXL_OUT_NUM_Label.setFrameShape(QFrame.StyledPanel)
@@ -336,15 +338,16 @@ class Ui_MainPages(object):
         self.ROIConfigGroup.setObjectName(u"ROIConfigGroup")
         self.ROIConfigGroup.setMaximumSize(QSize(400, 16777215))
         self.verticalLayout_11 = QVBoxLayout(self.ROIConfigGroup)
+        self.verticalLayout_11.setSpacing(9)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.verticalLayout_11.setContentsMargins(0, 0, 0, 6)
+        self.verticalLayout_11.setContentsMargins(3, 6, 3, 0)
         self.formLayout_3 = QFormLayout()
         self.formLayout_3.setObjectName(u"formLayout_3")
         self.formLayout_3.setVerticalSpacing(8)
-        self.formLayout_3.setContentsMargins(9, 9, 9, 9)
+        self.formLayout_3.setContentsMargins(9, 0, 9, 9)
         self.SCAN_MODE_Label = QLabel(self.ROIConfigGroup)
         self.SCAN_MODE_Label.setObjectName(u"SCAN_MODE_Label")
-        self.SCAN_MODE_Label.setMinimumSize(QSize(0, 0))
+        self.SCAN_MODE_Label.setMinimumSize(QSize(90, 0))
         self.SCAN_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
         self.SCAN_MODE_Label.setFont(font1)
         self.SCAN_MODE_Label.setFrameShape(QFrame.StyledPanel)
@@ -364,7 +367,7 @@ class Ui_MainPages(object):
 
         self.V_ROLL_NUM_Label = QLabel(self.ROIConfigGroup)
         self.V_ROLL_NUM_Label.setObjectName(u"V_ROLL_NUM_Label")
-        self.V_ROLL_NUM_Label.setMinimumSize(QSize(0, 0))
+        self.V_ROLL_NUM_Label.setMinimumSize(QSize(90, 0))
         self.V_ROLL_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
         self.V_ROLL_NUM_Label.setFont(font1)
         self.V_ROLL_NUM_Label.setFrameShape(QFrame.StyledPanel)
@@ -374,7 +377,7 @@ class Ui_MainPages(object):
 
         self.H_ROLL_NUM_Label = QLabel(self.ROIConfigGroup)
         self.H_ROLL_NUM_Label.setObjectName(u"H_ROLL_NUM_Label")
-        self.H_ROLL_NUM_Label.setMinimumSize(QSize(0, 0))
+        self.H_ROLL_NUM_Label.setMinimumSize(QSize(90, 0))
         self.H_ROLL_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
         self.H_ROLL_NUM_Label.setFont(font1)
         self.H_ROLL_NUM_Label.setFrameShape(QFrame.StyledPanel)
@@ -384,7 +387,7 @@ class Ui_MainPages(object):
 
         self.H_VLD_SEG_Label = QLabel(self.ROIConfigGroup)
         self.H_VLD_SEG_Label.setObjectName(u"H_VLD_SEG_Label")
-        self.H_VLD_SEG_Label.setMinimumSize(QSize(0, 0))
+        self.H_VLD_SEG_Label.setMinimumSize(QSize(90, 0))
         self.H_VLD_SEG_Label.setMaximumSize(QSize(16777215, 16777215))
         self.H_VLD_SEG_Label.setFont(font1)
         self.H_VLD_SEG_Label.setFrameShape(QFrame.StyledPanel)
@@ -496,7 +499,7 @@ class Ui_MainPages(object):
         self.verticalLayout_3 = QVBoxLayout(self.Config1byGUI)
         self.verticalLayout_3.setSpacing(12)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(9, 9, 9, 0)
+        self.verticalLayout_3.setContentsMargins(-1, 9, -1, 0)
         self.scrollArea = QScrollArea(self.Config1byGUI)
         self.scrollArea.setObjectName(u"scrollArea")
         palette = QPalette()
@@ -514,7 +517,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 332, 328))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 201, 237))
         self.formLayout = QFormLayout(self.scrollAreaWidgetContents_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -522,7 +525,7 @@ class Ui_MainPages(object):
         self.formLayout.setContentsMargins(0, 0, 20, 0)
         self.seg_hs_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.seg_hs_Label.setObjectName(u"seg_hs_Label")
-        self.seg_hs_Label.setMinimumSize(QSize(0, 0))
+        self.seg_hs_Label.setMinimumSize(QSize(100, 0))
         self.seg_hs_Label.setMaximumSize(QSize(16777215, 16777215))
         self.seg_hs_Label.setFont(font1)
         self.seg_hs_Label.setFrameShape(QFrame.StyledPanel)
@@ -540,7 +543,7 @@ class Ui_MainPages(object):
 
         self.spad_vs_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.spad_vs_Label.setObjectName(u"spad_vs_Label")
-        self.spad_vs_Label.setMinimumSize(QSize(0, 0))
+        self.spad_vs_Label.setMinimumSize(QSize(100, 0))
         self.spad_vs_Label.setMaximumSize(QSize(16777215, 16777215))
         self.spad_vs_Label.setFont(font1)
         self.spad_vs_Label.setFrameShape(QFrame.StyledPanel)
@@ -557,7 +560,7 @@ class Ui_MainPages(object):
 
         self.light_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.light_shift_Label.setObjectName(u"light_shift_Label")
-        self.light_shift_Label.setMinimumSize(QSize(0, 0))
+        self.light_shift_Label.setMinimumSize(QSize(100, 0))
         self.light_shift_Label.setMaximumSize(QSize(16777215, 16777215))
         self.light_shift_Label.setFont(font1)
         self.light_shift_Label.setFrameShape(QFrame.StyledPanel)
@@ -574,7 +577,7 @@ class Ui_MainPages(object):
 
         self.sublight_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.sublight_shift_Label.setObjectName(u"sublight_shift_Label")
-        self.sublight_shift_Label.setMinimumSize(QSize(0, 0))
+        self.sublight_shift_Label.setMinimumSize(QSize(100, 0))
         self.sublight_shift_Label.setMaximumSize(QSize(16777215, 16777215))
         self.sublight_shift_Label.setFont(font1)
         self.sublight_shift_Label.setFrameShape(QFrame.StyledPanel)
@@ -591,7 +594,7 @@ class Ui_MainPages(object):
 
         self.ROI_Shape_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.ROI_Shape_Label.setObjectName(u"ROI_Shape_Label")
-        self.ROI_Shape_Label.setMinimumSize(QSize(0, 0))
+        self.ROI_Shape_Label.setMinimumSize(QSize(100, 0))
         self.ROI_Shape_Label.setMaximumSize(QSize(16777215, 16777215))
         self.ROI_Shape_Label.setFont(font1)
         self.ROI_Shape_Label.setFrameShape(QFrame.StyledPanel)
@@ -609,7 +612,7 @@ class Ui_MainPages(object):
 
         self.v_spad_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.v_spad_shift_Label.setObjectName(u"v_spad_shift_Label")
-        self.v_spad_shift_Label.setMinimumSize(QSize(0, 0))
+        self.v_spad_shift_Label.setMinimumSize(QSize(100, 0))
         self.v_spad_shift_Label.setMaximumSize(QSize(16777215, 16777215))
         self.v_spad_shift_Label.setFont(font1)
         self.v_spad_shift_Label.setFrameShape(QFrame.StyledPanel)
@@ -626,7 +629,7 @@ class Ui_MainPages(object):
 
         self.h_seg_shift_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.h_seg_shift_Label.setObjectName(u"h_seg_shift_Label")
-        self.h_seg_shift_Label.setMinimumSize(QSize(0, 0))
+        self.h_seg_shift_Label.setMinimumSize(QSize(100, 0))
         self.h_seg_shift_Label.setMaximumSize(QSize(16777215, 16777215))
         self.h_seg_shift_Label.setFont(font1)
         self.h_seg_shift_Label.setFrameShape(QFrame.StyledPanel)
@@ -643,7 +646,7 @@ class Ui_MainPages(object):
 
         self.ROI_Retrace_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.ROI_Retrace_Label.setObjectName(u"ROI_Retrace_Label")
-        self.ROI_Retrace_Label.setMinimumSize(QSize(0, 0))
+        self.ROI_Retrace_Label.setMinimumSize(QSize(100, 0))
         self.ROI_Retrace_Label.setMaximumSize(QSize(16777215, 16777215))
         self.ROI_Retrace_Label.setFont(font1)
         self.ROI_Retrace_Label.setFrameShape(QFrame.StyledPanel)
@@ -661,7 +664,7 @@ class Ui_MainPages(object):
 
         self.sublight_group_Label = QLabel(self.scrollAreaWidgetContents_2)
         self.sublight_group_Label.setObjectName(u"sublight_group_Label")
-        self.sublight_group_Label.setMinimumSize(QSize(0, 0))
+        self.sublight_group_Label.setMinimumSize(QSize(100, 0))
         self.sublight_group_Label.setMaximumSize(QSize(16777215, 16777215))
         self.sublight_group_Label.setFont(font1)
         self.sublight_group_Label.setFrameShape(QFrame.StyledPanel)
@@ -702,7 +705,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 332, 328))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 264, 52))
         self.formLayout_4 = QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -710,7 +713,10 @@ class Ui_MainPages(object):
         self.formLayout_4.setContentsMargins(0, 0, 20, 0)
         self.Cali_File_Load_Label = QLabel(self.scrollAreaWidgetContents_3)
         self.Cali_File_Load_Label.setObjectName(u"Cali_File_Load_Label")
+        self.Cali_File_Load_Label.setMinimumSize(QSize(100, 0))
         self.Cali_File_Load_Label.setFont(font1)
+        self.Cali_File_Load_Label.setFrameShape(QFrame.StyledPanel)
+        self.Cali_File_Load_Label.setFrameShadow(QFrame.Raised)
 
         self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.Cali_File_Load_Label)
 
@@ -744,7 +750,7 @@ class Ui_MainPages(object):
 
         self.Excel_Sheet_sel_Label = QLabel(self.scrollAreaWidgetContents_3)
         self.Excel_Sheet_sel_Label.setObjectName(u"Excel_Sheet_sel_Label")
-        self.Excel_Sheet_sel_Label.setMinimumSize(QSize(0, 0))
+        self.Excel_Sheet_sel_Label.setMinimumSize(QSize(100, 0))
         self.Excel_Sheet_sel_Label.setMaximumSize(QSize(16777215, 16777215))
         self.Excel_Sheet_sel_Label.setFont(font1)
         self.Excel_Sheet_sel_Label.setFrameShape(QFrame.StyledPanel)
@@ -778,7 +784,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 332, 328))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 264, 79))
         self.formLayout_5 = QFormLayout(self.scrollAreaWidgetContents_4)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -786,7 +792,9 @@ class Ui_MainPages(object):
         self.formLayout_5.setContentsMargins(0, 0, 20, 0)
         self.ROI_File_Label = QLabel(self.scrollAreaWidgetContents_4)
         self.ROI_File_Label.setObjectName(u"ROI_File_Label")
+        self.ROI_File_Label.setMinimumSize(QSize(100, 0))
         self.ROI_File_Label.setFont(font1)
+        self.ROI_File_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_5.setWidget(0, QFormLayout.LabelRole, self.ROI_File_Label)
 
@@ -817,10 +825,10 @@ class Ui_MainPages(object):
 
         self.Start_Rolling_Label = QLabel(self.scrollAreaWidgetContents_4)
         self.Start_Rolling_Label.setObjectName(u"Start_Rolling_Label")
-        self.Start_Rolling_Label.setMinimumSize(QSize(0, 0))
+        self.Start_Rolling_Label.setMinimumSize(QSize(100, 0))
         self.Start_Rolling_Label.setMaximumSize(QSize(16777215, 16777215))
         self.Start_Rolling_Label.setFont(font1)
-        self.Start_Rolling_Label.setFrameShape(QFrame.NoFrame)
+        self.Start_Rolling_Label.setFrameShape(QFrame.StyledPanel)
         self.Start_Rolling_Label.setFrameShadow(QFrame.Raised)
         self.Start_Rolling_Label.setTextFormat(Qt.PlainText)
 
@@ -828,10 +836,10 @@ class Ui_MainPages(object):
 
         self.End_Rolling_Label = QLabel(self.scrollAreaWidgetContents_4)
         self.End_Rolling_Label.setObjectName(u"End_Rolling_Label")
-        self.End_Rolling_Label.setMinimumSize(QSize(0, 0))
+        self.End_Rolling_Label.setMinimumSize(QSize(100, 0))
         self.End_Rolling_Label.setMaximumSize(QSize(16777215, 16777215))
         self.End_Rolling_Label.setFont(font1)
-        self.End_Rolling_Label.setFrameShape(QFrame.NoFrame)
+        self.End_Rolling_Label.setFrameShape(QFrame.StyledPanel)
         self.End_Rolling_Label.setFrameShadow(QFrame.Raised)
 
         self.formLayout_5.setWidget(2, QFormLayout.LabelRole, self.End_Rolling_Label)
@@ -867,7 +875,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 332, 319))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 332, 313))
         self.formLayout_7 = QFormLayout(self.scrollAreaWidgetContents_6)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -875,8 +883,9 @@ class Ui_MainPages(object):
         self.formLayout_7.setContentsMargins(0, 0, 20, 0)
         self.cali_file_path_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.cali_file_path_Label.setObjectName(u"cali_file_path_Label")
+        self.cali_file_path_Label.setMinimumSize(QSize(100, 0))
         self.cali_file_path_Label.setFont(font1)
-        self.cali_file_path_Label.setFrameShape(QFrame.NoFrame)
+        self.cali_file_path_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(0, QFormLayout.LabelRole, self.cali_file_path_Label)
 
@@ -907,8 +916,9 @@ class Ui_MainPages(object):
 
         self.img_mirror_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.img_mirror_Label.setObjectName(u"img_mirror_Label")
+        self.img_mirror_Label.setMinimumSize(QSize(100, 0))
         self.img_mirror_Label.setFont(font1)
-        self.img_mirror_Label.setFrameShape(QFrame.NoFrame)
+        self.img_mirror_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(1, QFormLayout.LabelRole, self.img_mirror_Label)
 
@@ -926,8 +936,9 @@ class Ui_MainPages(object):
 
         self.remove_noise_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.remove_noise_Label.setObjectName(u"remove_noise_Label")
+        self.remove_noise_Label.setMinimumSize(QSize(100, 0))
         self.remove_noise_Label.setFont(font1)
-        self.remove_noise_Label.setFrameShape(QFrame.NoFrame)
+        self.remove_noise_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(2, QFormLayout.LabelRole, self.remove_noise_Label)
 
@@ -943,8 +954,9 @@ class Ui_MainPages(object):
 
         self.light_smooth_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.light_smooth_Label.setObjectName(u"light_smooth_Label")
+        self.light_smooth_Label.setMinimumSize(QSize(100, 0))
         self.light_smooth_Label.setFont(font1)
-        self.light_smooth_Label.setFrameShape(QFrame.NoFrame)
+        self.light_smooth_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(3, QFormLayout.LabelRole, self.light_smooth_Label)
 
@@ -960,8 +972,9 @@ class Ui_MainPages(object):
 
         self.curvature_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.curvature_Label.setObjectName(u"curvature_Label")
+        self.curvature_Label.setMinimumSize(QSize(100, 0))
         self.curvature_Label.setFont(font1)
-        self.curvature_Label.setFrameShape(QFrame.NoFrame)
+        self.curvature_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(4, QFormLayout.LabelRole, self.curvature_Label)
 
@@ -975,8 +988,9 @@ class Ui_MainPages(object):
 
         self.correct_thres_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.correct_thres_Label.setObjectName(u"correct_thres_Label")
+        self.correct_thres_Label.setMinimumSize(QSize(100, 0))
         self.correct_thres_Label.setFont(font1)
-        self.correct_thres_Label.setFrameShape(QFrame.NoFrame)
+        self.correct_thres_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(5, QFormLayout.LabelRole, self.correct_thres_Label)
 
@@ -990,8 +1004,9 @@ class Ui_MainPages(object):
 
         self.cali_order_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.cali_order_Label.setObjectName(u"cali_order_Label")
+        self.cali_order_Label.setMinimumSize(QSize(100, 0))
         self.cali_order_Label.setFont(font1)
-        self.cali_order_Label.setFrameShape(QFrame.NoFrame)
+        self.cali_order_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(6, QFormLayout.LabelRole, self.cali_order_Label)
 
@@ -1007,8 +1022,9 @@ class Ui_MainPages(object):
 
         self.cali_frm_num_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.cali_frm_num_Label.setObjectName(u"cali_frm_num_Label")
+        self.cali_frm_num_Label.setMinimumSize(QSize(100, 0))
         self.cali_frm_num_Label.setFont(font1)
-        self.cali_frm_num_Label.setFrameShape(QFrame.NoFrame)
+        self.cali_frm_num_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(7, QFormLayout.LabelRole, self.cali_frm_num_Label)
 
@@ -1021,8 +1037,9 @@ class Ui_MainPages(object):
 
         self.ref_segment_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.ref_segment_Label.setObjectName(u"ref_segment_Label")
+        self.ref_segment_Label.setMinimumSize(QSize(100, 0))
         self.ref_segment_Label.setFont(font1)
-        self.ref_segment_Label.setFrameShape(QFrame.NoFrame)
+        self.ref_segment_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(8, QFormLayout.LabelRole, self.ref_segment_Label)
 
@@ -1036,8 +1053,9 @@ class Ui_MainPages(object):
 
         self.mode_2D_Label = QLabel(self.scrollAreaWidgetContents_6)
         self.mode_2D_Label.setObjectName(u"mode_2D_Label")
+        self.mode_2D_Label.setMinimumSize(QSize(100, 0))
         self.mode_2D_Label.setFont(font1)
-        self.mode_2D_Label.setFrameShape(QFrame.NoFrame)
+        self.mode_2D_Label.setFrameShape(QFrame.StyledPanel)
 
         self.formLayout_7.setWidget(9, QFormLayout.LabelRole, self.mode_2D_Label)
 
@@ -1061,7 +1079,7 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(3, 0, 3, -1)
+        self.horizontalLayout_4.setContentsMargins(3, 0, 3, 3)
         self.ROIZoneConfig = QLabel(self.ROIConfigGroup)
         self.ROIZoneConfig.setObjectName(u"ROIZoneConfig")
         palette1 = QPalette()
@@ -1998,7 +2016,7 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_Slider.valueChanged.connect(self.H_VLD_SEG_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.ROIConfig.setCurrentIndex(0)
+        self.ROIConfig.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainPages)
