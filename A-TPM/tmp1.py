@@ -1,51 +1,31 @@
-MIPI_PKT_interval_dict = {
-    # SYS_CLK
-    324: {
-        # MIPI_RATE:
-        800: 1250,
-        1000: 1100,
-        1200: 1010,
-        1500: 900,
-    },
-    330: {
-        # MIPI_RATE:
-        800: 1240,
-        1000: 1070,
-        1200: 980,
-        1500: 900,
-    }
-}
-
-
-def MIPI_PKT_INTV_CAL(SYS_CLK, MIPI_RATE):
-    TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16}
-    TXHSByteClkDiv = 8
-
-    T_TxClkEsc = 1000 / (SYS_CLK / (TxEscClkDiv_Q[SYS_CLK] + 1))
-    T_TxByteClkHS = 1000 / (MIPI_RATE / TXHSByteClkDiv)
-
-    DataTxThslpxcnt = 2
-    DataTxThsexitCnt = 2
-    DataTxThsprepareCnt = 0
-    DataTxThszeroCnt = 50
-    DataTxThstrailCnt = 17
-
-    MIPI_PKT_INTV = ((120 if DataTxThsexitCnt == 0 else 360) +
-                     T_TxClkEsc * DataTxThslpxcnt +
-                     T_TxClkEsc * (DataTxThsprepareCnt + 1) +
-                     T_TxByteClkHS * (DataTxThszeroCnt + 4) +
-                     T_TxByteClkHS * (DataTxThstrailCnt + 1) +
-                     (6 * 8 + 8) / (MIPI_RATE * 4))
-    print("==================================")
-    print(f"SYS_CLK: {SYS_CLK}, MIPI_RATE: {MIPI_RATE}")
-    print(f"T_TxClkEsc: {T_TxClkEsc:0.2f}")
-    print(f"T_TxByteClkHS: {T_TxByteClkHS:0.2f}")
-    print(f"MIPI 包间间隔: {MIPI_PKT_INTV:0.2f}")
-    return MIPI_PKT_INTV
+def solution(s: str) -> str:
+    # PLEASE DO NOT MODIFY THE FUNCTION SIGNATURE
+    # write code here
+    _s = s.split(".")
+    result = ""
+    l = len(_s[0])
+    for i in range(l):
+        if _s[0][i] == 0:
+            _s[0] = _s[0][1:-1]
+    l = len(_s[0])
+    for i in range(l):
+        if i > 0 and i % 3 == 0:
+            result = f"{_s[0][l-i-1]},{result}"
+        else:
+            result = f"{_s[0][l-i-1]}{result}"
+    if len(_s) == 2:
+        result = f"{result}."
+        l = len(_s[1])
+        for i in range(l):
+            if i > 0 and i % 3 == 0:
+                result = f"{result},{_s[1][i]}"
+            else:
+                result = f"{result}{_s[1][l-i-1]}"
+    print(result)
+    return result
 
 
 if __name__ == '__main__':
-    for SYS_CLK in [250, 324, 330]:
-        for MIPI_RATE in [1000, 1200, 1500]:
-            MIPI_PKT_INTV_CAL(SYS_CLK, MIPI_RATE)
-            pass
+    print(solution("1294512.12412") == '1,294,512.12412')
+    print(solution("0000123456789.99") == '123,456,789.99')
+    print(solution("987654321") == '987,654,321')
