@@ -1,9 +1,9 @@
 .idea
+.venv
+*.pyc
 /HawkGUI
 /HawkGUI_v002
-/venv/
 /SonyGUI
 #Sony/
-*.pyc
 Software
 /AdapsChip/ChipUI/Output/
