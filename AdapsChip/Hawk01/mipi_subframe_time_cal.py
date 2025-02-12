@@ -56,7 +56,7 @@ mipi_cfg = {
     "DataTxThslpxcnt": 2,
     "DataTxThsexitCnt": 2,
     "DataTxThsprepareCnt": 0,
-    "DataTxThszeroCnt": 18,
+    "DataTxThszeroCnt": 19,
     "DataTxThstrailCnt": 12,
 }
 

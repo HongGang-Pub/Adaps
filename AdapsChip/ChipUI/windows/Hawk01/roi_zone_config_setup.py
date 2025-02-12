@@ -10,6 +10,7 @@ from SelfDefinedPackge.PubMethod import hex_regex_str
 from SelfDefinedPackge.JsonOperation import JsonFunction
 from AdapsChip.ChipUI.gui.Signal import MySignals
 
+
 class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
     def __init__(self, hawk01_zone_config, qssStyle=None):
         super().__init__()
@@ -212,8 +213,8 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
         try:
             if not self.ui_initial:
                 return
-            T_sys_clk = 5 if self.hawk01_SYS_CLK == "200M" \
-                else 4 if self.hawk01_SYS_CLK == "250M" \
+            T_sys_clk = 5 if self.hawk01_SYS_CLK == 0 \
+                else 4 if self.hawk01_SYS_CLK == 1 \
                 else 3.03
             T_vco = T_sys_clk / (2 ** (self.hawk01_PLL1_OD + 1))
             EXPO_LASPRD = eval(self.ZoneConfigInputTable.item(2, col).text())
