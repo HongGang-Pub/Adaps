@@ -50,7 +50,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
     csru_cfg = {
         "MST_MODE": 0,
         "WORK_MODE": 0,
-        "TX_FRAME_MODE": 0,
+        "TX_FRM_MODE": 0,
         "V_PXL_OUT_NUM": 1,
         "SCAN_MODE": 0,
         "V_ROLL_NUM": 31,
@@ -113,7 +113,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             register_value = int(config_str, 16)
 
             if addr == csru_addr['SYS_CTRL']:
-                csru_cfg["TX_FRAME_MODE"] = (register_value & 0x80) >> 7
+                csru_cfg["TX_FRM_MODE"] = (register_value & 0x80) >> 7
                 csru_cfg["V_PXL_OUT_NUM"] = (register_value & 0x40) >> 6
                 csru_cfg["SCAN_MODE"] = (register_value & 0x08) >> 3
                 csru_cfg["WORK_MODE"] = (register_value & 0x06) >> 1
@@ -136,6 +136,11 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             elif addr == csru_addr['MIPI_TXDLY']:
                 csru_cfg["MIPI_PKTDLY"] = register_value & 0x3F
                 csru_cfg["MIPI_FENDDLY"] = (register_value & 0xB0) >> 6
+            elif addr == csru_addr['SYSCLK1M_DIVH']:
+                csru_cfg["SYSCLK1M_DIV"] = (csru_cfg["SYSCLK1M_DIV"] & (0xFFFF-0xFF00)) + ((register_value & 0x01) << 8)
+                csru_cfg["XCLK1M_DIV"] = (register_value & 0xFC) >> 2
+            elif addr == csru_addr['SYSCLK1M_DIVL']:
+                csru_cfg["SYSCLK1M_DIV"] = (csru_cfg["SYSCLK1M_DIV"] & (0xFFFF-0x00FF)) + (register_value << 0)
             elif addr == csru_addr['MIPIPLL_LPDH']:
                 csru_cfg["MIPI"]["NS"] = (csru_cfg["MIPI"]["NS"] & (0xFFFF-0xFF00)) + ((register_value & 0x01) << 8)
             elif addr == csru_addr['MIPIPLL_LPDL']:
@@ -195,10 +200,10 @@ def CalPkgNum(hawk01_config):
 
     work_mode = hawk01_config["WORK_MODE"]
     h_vld_seg = hawk01_config["H_VLD_SEG"]
-    v_pixel_out_num = 6 if hawk01_config["V_PXL_OUT_NUM"] == 1 else 1
+    v_pxl_out_num = 6 if hawk01_config["V_PXL_OUT_NUM"] == 1 else 1
 
     if work_mode == 2 or work_mode == 3:
-        pkg_num = (h_vld_seg + 1) * v_pixel_out_num * 4 + 2
+        pkg_num = (h_vld_seg + 1) * v_pxl_out_num * 4 + 2
     else:
         pkg_num = (h_vld_seg + 1) * 16 + 2
     return pkg_num
@@ -213,13 +218,13 @@ def CalMipiFlnrAndWC(csru_cfg):
     minbin_thrs = csru_cfg["MINBIN_THRS"]
     maxbin_thrs = csru_cfg["MAXBIN_THRS"]
     out_bin_num = csru_cfg["OUT_BIN_NUM"]
-    tx_frame_mode = csru_cfg["TX_FRAME_MODE"]
+    tx_frm_mode = csru_cfg["TX_FRM_MODE"]
     one_dt_mode = csru_cfg["ONE_DT_MODE"]
 
-    v_pixel_out_num = 6 if csru_cfg["V_PXL_OUT_NUM"] == 1 else 1
+    v_pxl_out_num = 6 if csru_cfg["V_PXL_OUT_NUM"] == 1 else 1
 
     total_roll_num = 1
-    if tx_frame_mode == 1:
+    if tx_frm_mode == 1:
         if scan_mode == 0:
             total_roll_num = (v_roll_num + 1) if work_mode != 3 else (v_roll_num + 1) * 9
         if scan_mode == 1:
@@ -227,26 +232,26 @@ def CalMipiFlnrAndWC(csru_cfg):
 
     if work_mode == 0:
         if out_bin_num == 0:
-            sphr_pl_num = 38 * v_pixel_out_num
+            sphr_pl_num = 38 * v_pxl_out_num
         else:
-            sphr_pl_num = 62 * v_pixel_out_num
+            sphr_pl_num = 62 * v_pxl_out_num
         wc = sphr_pl_num * 1.5
         flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
     elif work_mode == 1:
         if out_bin_num == 0:
-            phr_pl_num = 80 * v_pixel_out_num
+            phr_pl_num = 80 * v_pxl_out_num
         else:
-            phr_pl_num = 132 * v_pixel_out_num
+            phr_pl_num = 132 * v_pxl_out_num
         wc = phr_pl_num * 1.5
         flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
     elif work_mode == 2:
         maxbin = (maxbin_thrs + 1) * 2 - 1
         fhr_pl_num = (maxbin - minbin_thrs + 1) * 2 * 4
         wc = fhr_pl_num * 1.5
-        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
+        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
     else:
         wc = 32 * 1.5
-        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
+        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
     return int(wc), flnr
 
 
@@ -290,12 +295,12 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     # 将界面上无配置入口的内容同步到 hawk01_config
     csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
     hawk01_config["ONE_DT_MODE"] = csru_cfg["ONE_DT_MODE"]
-    hawk01_config["TX_FRAME_MODE"] = csru_cfg["TX_FRAME_MODE"]
+    hawk01_config["TX_FRM_MODE"] = csru_cfg["TX_FRM_MODE"]
 
     WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
     if FLNR >= 8192:
-        logging.warning(f"FLNR {FLNR} is greater than 8192, TX_FRAME_MODE will set 0.")
-        hawk01_config['TX_FRAME_MODE'] = 0
+        logging.warning(f"FLNR {FLNR} is greater than 8192, TX_FRM_MODE will set 0.")
+        hawk01_config['TX_FRM_MODE'] = 0
         WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
 
     VC0_FLNR_L = (FLNR & 0x00FF) >> 0
@@ -392,7 +397,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
             annotation = _str[index:] if index != -1 else ""
 
             if addr == csru_addr['SYS_CTRL']:
-                register_value = (register_value & (0xFF - 0x80)) + (hawk01_config['TX_FRAME_MODE'] << 7)
+                register_value = (register_value & (0xFF - 0x80)) + (hawk01_config['TX_FRM_MODE'] << 7)
                 register_value = (register_value & (0xFF - 0x40)) + (hawk01_config["V_PXL_OUT_NUM"] << 6)
                 register_value = (register_value & (0xFF - 0x20)) + (hawk01_config["TRG_I_EN"] << 5)
                 register_value = (register_value & (0xFF - 0x08)) + (hawk01_config["SCAN_MODE"] << 3)

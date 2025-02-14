@@ -14,7 +14,7 @@ csru_cfg = {
     "MINBIN_THRS": 0,
     "MAXBIN_THRS": 111,
     "OUT_BIN_NUM": 1,
-    "TX_FRAME_MODE": 0,     # 此方法不支持修改此配置
+    "TX_FRM_MODE": 0,     # 此方法不支持修改此配置
     "ONE_DT_MODE": 0,
     "V_PXL_OUT_NUM": 0,
     "MIPI_TXDLY": 0,
@@ -37,13 +37,13 @@ def MipiFlnrAndWcCal():
     minbin_thrs = csru_cfg["MINBIN_THRS"]
     maxbin_thrs = csru_cfg["MAXBIN_THRS"]
     out_bin_num = csru_cfg["OUT_BIN_NUM"]
-    tx_frame_mode = csru_cfg["TX_FRAME_MODE"]
+    tx_frm_mode = csru_cfg["TX_FRM_MODE"]
     one_dt_mode = csru_cfg["ONE_DT_MODE"]
 
-    v_pixel_out_num = 6 if csru_cfg["V_PXL_OUT_NUM"] == 1 else 1
+    v_pxl_out_num = 6 if csru_cfg["V_PXL_OUT_NUM"] == 1 else 1
 
     total_roll_num = 1
-    if tx_frame_mode == 1:
+    if tx_frm_mode == 1:
         if scan_mode == 0:
             total_roll_num = (v_roll_num + 1) if work_mode != 3 else (v_roll_num + 1) * 9
         if scan_mode == 1:
@@ -51,26 +51,26 @@ def MipiFlnrAndWcCal():
 
     if work_mode == 0:
         if out_bin_num == 0:
-            sphr_pl_num = 38 * v_pixel_out_num
+            sphr_pl_num = 38 * v_pxl_out_num
         else:
-            sphr_pl_num = 62 * v_pixel_out_num
+            sphr_pl_num = 62 * v_pxl_out_num
         wc = sphr_pl_num * 1.5
         flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
     elif work_mode == 1:
         if out_bin_num == 0:
-            phr_pl_num = 80 * v_pixel_out_num
+            phr_pl_num = 80 * v_pxl_out_num
         else:
-            phr_pl_num = 132 * v_pixel_out_num
+            phr_pl_num = 132 * v_pxl_out_num
         wc = phr_pl_num * 1.5
         flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
     elif work_mode == 2:
         maxbin = (maxbin_thrs + 1) * 2 - 1
         fhr_pl_num = (maxbin - minbin_thrs + 1) * 2 * 4
         wc = fhr_pl_num * 1.5
-        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
+        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
     else:
         wc = 32 * 1.5
-        flnr = (v_pixel_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
+        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
     return int(wc), flnr
 
 

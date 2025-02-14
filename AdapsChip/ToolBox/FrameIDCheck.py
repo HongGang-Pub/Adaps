@@ -24,13 +24,13 @@ def get_frame_id(data):
         raise msg
 
 
-def frame_id_chk(file_list, tx_frame_mode=0, roll_num=32):
+def frame_id_chk(file_list, tx_frm_mode=0, roll_num=32):
     """
     读取frame_id判断MIPI是否丢包，并计算丢包率
 
     Args:
         file_list (list): 需要读取frame_id的文件列表
-        tx_frame_mode (int): 是否多帧合一。0：否; 1 or others：是
+        tx_frm_mode (int): 是否多帧合一。0：否; 1 or others：是
         roll_num (int): 多帧合一时，每个image帧存在多少sub帧
 
     Returns:
@@ -55,7 +55,7 @@ def frame_id_chk(file_list, tx_frame_mode=0, roll_num=32):
                 print(msg)
                 raise ValueError("获取frame_id失败。\n\t[file]：{}\n\t[cali_data]: {}".format(file, frame_id_data))
 
-            if tx_frame_mode == 0:
+            if tx_frm_mode == 0:
                 if pkg_num > 1 and pre_frame_id + 1 != frame_id:
                     print("FILE:{}: \033[1;31;40mLoss package: {} -> {}\033[0m".format(file, pre_frame_id, frame_id))
                     err_cnt += 1
@@ -93,7 +93,7 @@ def do_work():
                                     match_filter="frame_info_log",
                                     f_type="frame_id_file")
 
-    frame_id_chk(file_collect, tx_frame_mode=0)
+    frame_id_chk(file_collect, tx_frm_mode=0)
 
 
 if __name__ == '__main__':
