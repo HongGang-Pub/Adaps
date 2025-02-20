@@ -1,4 +1,4 @@
-from PySide6.QtGui import QColor, QBrush, QTextCursor, QTextCharFormat, QDesktopServices
+from PySide6.QtGui import QColor, QBrush, QTextCursor, QTextCharFormat, QDesktopServices, QTextBlockFormat
 from PySide6.QtWidgets import QTextBrowser
 import logging
 import logging.handlers
@@ -96,6 +96,11 @@ class LogerForMultithreading:
             text_format.setForeground(QBrush(QColor(color)))  # 设置字体颜色
             text_format.setFontFamily(self.font)
             cursor.mergeCharFormat(text_format)  # 追加格式到原有文本
+
+            block_format = QTextBlockFormat()
+            block_format.setLineHeight(120, 1)
+            cursor.setBlockFormat(block_format)
+
             log_widget.setTextCursor(cursor)
             log_widget.append(message)
             log_widget.ensureCursorVisible()

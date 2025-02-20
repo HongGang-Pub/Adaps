@@ -490,9 +490,9 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
     info = f"Parse {_hyper_link}..."
     logging.info(info)
-    _str  = "---------------------------<br>"
-    _str += "REG_CONFIG<br>"
-    _str += "---------------------------<br>"
+    _str  = "---------------------------\n"
+    _str += "REG_CONFIG\n"
+    _str += "---------------------------\n"
 
     info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
 
@@ -512,11 +512,11 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
         FLNR_H = (FLNR & 0xFF00) >> 8
         WC_L = (WC & 0x00FF) >> 0
         WC_H = (WC & 0xFF00) >> 8
-        logging.fatal("MIPI WC or FLNR config error!!! It's should be config: ")
-        _str  = " FLNR_L : 0x{:0>2X}<br>".format(FLNR_L)
-        _str += " FLNR_H : 0x{:0>2X}<br>".format(FLNR_H)
-        _str += " WC_L   : 0x{:0>2X}<br>".format(WC_L)
-        _str += " WC_H   : 0x{:0>2X}    ".format(WC_H)
+        _str = "MIPI WC or FLNR config error!!! It's should be config:\n"
+        _str += "  FLNR_L : 0x{:0>2X}\n".format(FLNR_L)
+        _str += "  FLNR_H : 0x{:0>2X}\n".format(FLNR_H)
+        _str += "  WC_L   : 0x{:0>2X}\n".format(WC_L)
+        _str += "  WC_H   : 0x{:0>2X}  ".format(WC_H)
         logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
     pass
 
