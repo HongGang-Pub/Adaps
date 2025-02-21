@@ -295,7 +295,6 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     # 将界面上无配置入口的内容同步到 hawk01_config
     csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
     hawk01_config["ONE_DT_MODE"] = csru_cfg["ONE_DT_MODE"]
-    hawk01_config["TX_FRM_MODE"] = csru_cfg["TX_FRM_MODE"]
 
     WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
     if FLNR >= 8192:
@@ -330,9 +329,10 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
 
     # DIV config
     # ////////////////////////////////////////////////////////////////////////////
-    SYSCLK1M_DIVL = DIV_CONFIG[hawk01_config['SYS_CLK']]["SYSCLK1M_DIVL"]
-    SYSCLK1M_DIVH = DIV_CONFIG[hawk01_config['SYS_CLK']]["SYSCLK1M_DIVH"]
-    TXESC_CLKDIV = DIV_CONFIG[hawk01_config['SYS_CLK']]["TXESC_CLKDIV"]
+    SYSCLK1M_DIVL = (DIV_CONFIG[hawk01_config['SYS_CLK']]["SYSCLK1M_DIV"] & 0x00FF)
+    SYSCLK1M_DIVH = (DIV_CONFIG[hawk01_config['SYS_CLK']]["SYSCLK1M_DIV"] & 0xFF00) >> 8
+    TXESC_CLKDIV = (((DIV_CONFIG[hawk01_config['SYS_CLK']]["TXESC_CLKDIV_DTY"] & 0x07) << 5) +
+                    (DIV_CONFIG[hawk01_config['SYS_CLK']]["TXESC_CLKDIV_CNT"] & 0x1F))
 
     # MIPI_RATE CONFIG. hawk01_config["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
     # ////////////////////////////////////////////////////////////////////////////
