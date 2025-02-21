@@ -14,9 +14,14 @@
                                                4. SYSCLK1M_DIV 根据 SYS_CLk 自动计算, 若需自定义 1M 时
                                                   钟, 需要手动填写分频系数;
                                                5. EXPO_TIME & DRV_CH_TIME 时间需手动填写;
-                                               6. 目前算法仅考虑了非多帧和一 & 1D模式
+                                               6. 目前算法仅考虑了非多帧和一 & 1D模式;
 
-2025/02/08 09:00    honggang_li    v1.1       1. WORK_MODE 增加支持 FHR;
+2025/02/08 09:00    honggang_li    v1.1        1. WORK_MODE 增加支持 FHR;
+
+2025/02/14 09:00    honggang_li    v1.2        1. 重构计算方式, subframe_time 的计算, 不再根据 FLNR 计算, 
+                                                  因为其受到 tx_frm_mode 的影响, 且 generic_data 也受到
+                                                  此配置的影响;
+                                               2. 支持 one_dt_mode 0 / 1 的计算;
 =================================================================================================
 """
 import copy
@@ -28,23 +33,23 @@ import logging
 # 2. 此配置对应的皆是寄存器配置, 可能与实际业务配置有差异
 # ////////////////////////////////////////////////
 
-SYS_CLK = 324
+SYS_CLK = 330
 MIPI_RATE = 1500
 EXPO_TIME = 30  # unit: us
-DRV_CH_TIME = 0  # unit: us
+DRV_CH_TIME = 1  # unit: us
 csru_cfg = {
-    "WORK_MODE": 1,  # 目前仅支持 FHR, PHR 模式的帧率计算
+    "WORK_MODE": 2,  #! 目前仅支持 FHR, PHR 模式的帧率计算
     "SCAN_MODE": 1,
     "V_ROLL_NUM": 31,
     "H_ROLL_NUM": 0,
     "H_VLD_SEG": 15,
     "MINBIN_THRS": 0,
-    "MAXBIN_THRS": 111,
+    "MAXBIN_THRS": 136,
     "OUT_BIN_NUM": 1,
-    "TX_FRM_MODE": 0,  # 此方法不支持修改此配置
+    "TX_FRM_MODE": 0,
     "ONE_DT_MODE": 0,
     "V_PXL_OUT_NUM": 1,
-    "MIPI_PKTDLY": 6,
+    "MIPI_PKTDLY": 11,
     "SUB_IDLETIME": 0,
     "MIPI_FENDDLY": 0,
     "SYSCLK1M_DIV": (SYS_CLK - 1)
@@ -157,7 +162,7 @@ def MipiPKGIntvCal():
     return MIPI_PKT_INTV
 
 
-def OneSubframePerVCPktNumCal(csru_cfg):
+def OneSubframePerVCPktNumCal(csru_cfg: dict):
     """
     计算单次曝光, 不包含 generic_date, 单个 VC 的 纯 HIST 数据的包个数
 
@@ -180,7 +185,7 @@ def OneSubframePerVCPktNumCal(csru_cfg):
     return PER_VC_PKT_NUM
 
 
-def T_mipi_read_time_cal(csru_cfg):
+def T_mipi_read_time_cal(csru_cfg: dict):
     """
     计算单次 HIST 读 MIPI 的读出时间(VC0 + VC1 两个包传输的时间) 以及 generic_data MIPI 的读出时间
 
@@ -206,7 +211,7 @@ def T_mipi_read_time_cal(csru_cfg):
     return once_hist_rd_mipi_read_cyc, generic_data_mipi_read_cyc
 
 
-def MIPI_PKTDLY_Value_Cal(csru_cfg):
+def MIPI_PKTDLY_Value_Cal(csru_cfg: dict):
     """
     初步计算 MIPI_PKT_DLY 的最小值
 
@@ -293,7 +298,8 @@ def MIPI_PKTDLY_Value_Cal(csru_cfg):
         mipi_pktdly = 1 + pktdly_add
     return mipi_pktdly
 
-def T_mipi_trans_cyc_cal(csru_cfg, mipi_pktdly=None):
+
+def T_mipi_trans_cyc_cal(csru_cfg: dict, mipi_pktdly: int = None):
     __csru_cfg__ = copy.deepcopy(csru_cfg)
     work_mode = __csru_cfg__["WORK_MODE"]
     h_vld_seg = __csru_cfg__["H_VLD_SEG"]
@@ -315,7 +321,7 @@ def T_mipi_trans_cyc_cal(csru_cfg, mipi_pktdly=None):
             once_hist_rd_add_txdly_cyc, rd_out_ind_cyc = once_hist_rd_add_txdly_Q[group_cnt]
             T_mipi_trans_cyc += once_hist_rd_add_txdly_cyc * per_seg_pkg_num
             if seg_cnt == h_vld_seg:
-                T_mipi_trans_cyc += once_hist_rd_add_txdly_cyc * (per_seg_pkg_num-1)
+                T_mipi_trans_cyc += once_hist_rd_add_txdly_cyc * (per_seg_pkg_num - 1)
             else:
                 T_mipi_trans_cyc += once_hist_rd_add_txdly_cyc * per_seg_pkg_num
     else:
@@ -323,7 +329,8 @@ def T_mipi_trans_cyc_cal(csru_cfg, mipi_pktdly=None):
 
     return T_mipi_trans_cyc
 
-def OnceHistReadAddTxdlyCycCalForFHR(csru_cfg):
+
+def OnceHistReadAddTxdlyCycCalForFHR(csru_cfg: dict):
     """
     计算 WORK_MODE = FHR, 单次 HIST读 + TXDLY 的实际时间
 
@@ -356,11 +363,10 @@ def OnceHistReadAddTxdlyCycCalForFHR(csru_cfg):
         once_hist_rd_add_txdly_cyc = (rd_out_ind_us_ave + mipi_pktdly) * sysclk1m_div
     else:
         once_hist_rd_add_txdly_cyc = hist_once_read_min_cyc
-
     return once_hist_rd_add_txdly_cyc, rd_out_ind_cyc
 
 
-def OnceHistReadAddTxdlyCycCalForPHR(csru_cfg):
+def OnceHistReadAddTxdlyCycCalForPHR(csru_cfg: dict):
     """
     计算 WORK_MODE = PHR, 单次 HIST读 + TXDLY 的实际时间
 
@@ -409,7 +415,7 @@ def OnceHistReadAddTxdlyCycCalForPHR(csru_cfg):
     return once_hist_rd_add_txdly_Q
 
 
-def TSubframReadTimeCalForFHR(csru_cfg):
+def TSubframReadTimeCalForFHR(csru_cfg: dict):
     """
     计算 RD_OUT_HIST 状态机的时间
 
@@ -442,7 +448,7 @@ def TSubframReadTimeCalForFHR(csru_cfg):
                              once_hist_rd_mipi_read_cyc * PER_VC_PKT_NUM +  # 实际的 MIPI 传输时间
                              T_mipi_free_cyc +  # MIPI 总的空闲时间
                              generic_data_mipi_read_cyc)  # generic package 的传输时间
-
+    print(PER_VC_PKT_NUM, once_hist_rd_add_txdly_cyc * (PER_VC_PKT_NUM - 1), once_hist_rd_add_txdly_cyc)
     # 第一次 HIST 读没有与 1M 时钟对齐, 所以做 1us 的冗余
     T_hist_read_time = T_frame_hist_read_cyc / SYS_CLK + 1  # unit: us
 
@@ -454,7 +460,7 @@ def TSubframReadTimeCalForFHR(csru_cfg):
     return T_hist_read_time
 
 
-def TSubframReadTimeCalForPHR(csru_cfg):
+def TSubframReadTimeCalForPHR(csru_cfg: dict):
     """
     计算 RD_OUT_HIST 状态机的时间
 
@@ -514,7 +520,7 @@ def TSubframReadTimeCalForPHR(csru_cfg):
     return T_hist_read_time
 
 
-def TSubframeCal(csru_cfg):
+def TSubframeCal(csru_cfg: dict):
     """
     计算各个状态的值进行累和
 

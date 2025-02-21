@@ -182,7 +182,7 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
     protocol = 0 if protocol == "i2c" else 1
     hawk01_config = GetCsruConfig(script_file, protocol=protocol)
     hawk01_config["roi_file"] = "{}\\{}.txt".format(sramdata_path, hawk01_config["roi_file"])
-    logging.warning("寄存器配置信息：\n  {}".format(hawk01_config))
+    logging.warning("寄存器配置信息:\n  {}".format(hawk01_config))
     return hawk01_config
 
 
