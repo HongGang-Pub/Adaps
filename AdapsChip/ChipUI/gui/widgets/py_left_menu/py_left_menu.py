@@ -58,7 +58,7 @@ class PyLeftMenu(QWidget):
             icon_path_close="icon_menu_close.svg",
             toggle_text="Hide Menu",
             toggle_tooltip="Show menu",
-            title_tips_size=9,
+            menu_text_size=9,
             family="Segoe UI",
             tips_minimum=50
     ):
@@ -83,7 +83,7 @@ class PyLeftMenu(QWidget):
         self._maximum_width = maximum_width
         self._icon_path = Functions.set_svg_icon(icon_path)
         self._icon_path_close = Functions.set_svg_icon(icon_path_close)
-        self._title_tips_size = title_tips_size
+        self._menu_text_size = menu_text_size
         self._family = family
         self._tips_minimum = tips_minimum
 
@@ -115,7 +115,7 @@ class PyLeftMenu(QWidget):
             text_foreground=self._text_foreground,
             text_active=self._text_active,
             icon_path=icon_path,
-            title_tips_size=self._title_tips_size,
+            menu_text_size=self._menu_text_size,
             family=self._family,
             tips_minimum=tips_minimum
         )
@@ -164,7 +164,7 @@ class PyLeftMenu(QWidget):
                     text_active=self._text_active,
                     icon_path=_btn_icon,
                     is_active=_is_active,
-                    title_tips_size=self._title_tips_size,
+                    menu_text_size=self._menu_text_size,
                     family=self._family,
                     tips_minimum=self._tips_minimum
                 )

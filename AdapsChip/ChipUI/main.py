@@ -84,21 +84,21 @@ class MainWindow(QMainWindow):
         btn = SetupMainWindow.setup_btns(self)
 
         # HOME BTN
-        if btn.objectName() == "btn_home":
+        if btn.objectName() == "btn_hawk01":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 1
-            MainFunctions.set_page(self, self.ui.load_pages.page_1)
+            MainFunctions.set_page(self, self.ui.load_pages.Hawk01)
             self.ui.log_group.setHidden(False)
 
         # WIDGETS BTN
-        elif btn.objectName() == "btn_app_store":
+        elif btn.objectName() == "btn_toolbox":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 2
-            MainFunctions.set_page(self, self.ui.load_pages.page_2)
+            MainFunctions.set_page(self, self.ui.load_pages.Toolbox)
             self.ui.log_group.setHidden(False)
 
         # LOAD USER PAGE
@@ -107,7 +107,7 @@ class MainWindow(QMainWindow):
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 3
-            MainFunctions.set_page(self, self.ui.load_pages.page_3)
+            MainFunctions.set_page(self, self.ui.load_pages.Settings)
             self.ui.log_group.setHidden(True)
 
         elif btn.objectName() == "btn_help":

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesxlnRgc.ui'
+## Form generated from reading UI file 'main_pagescgdSUE.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -43,15 +43,15 @@ class Ui_MainPages(object):
         font.setPointSize(9)
         self.pages.setFont(font)
         self.pages.setStyleSheet(u"")
-        self.page_1 = QWidget()
-        self.page_1.setObjectName(u"page_1")
-        self.page_1.setFont(font)
-        self.page_1.setStyleSheet(u"")
-        self.verticalLayout_12 = QVBoxLayout(self.page_1)
+        self.Hawk01 = QWidget()
+        self.Hawk01.setObjectName(u"Hawk01")
+        self.Hawk01.setFont(font)
+        self.Hawk01.setStyleSheet(u"")
+        self.verticalLayout_12 = QVBoxLayout(self.Hawk01)
         self.verticalLayout_12.setSpacing(6)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.verticalLayout_12.setContentsMargins(5, 5, 5, 0)
-        self.ScriptConfig = QGroupBox(self.page_1)
+        self.ScriptConfig = QGroupBox(self.Hawk01)
         self.ScriptConfig.setObjectName(u"ScriptConfig")
         self.horizontalLayout_2 = QHBoxLayout(self.ScriptConfig)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -517,7 +517,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 201, 237))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 332, 322))
         self.formLayout = QFormLayout(self.scrollAreaWidgetContents_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -705,7 +705,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 264, 52))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 332, 322))
         self.formLayout_4 = QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -784,7 +784,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 264, 79))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 332, 322))
         self.formLayout_5 = QFormLayout(self.scrollAreaWidgetContents_4)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -1139,7 +1139,7 @@ class Ui_MainPages(object):
 
         self.verticalLayout_12.addWidget(self.ScriptConfig)
 
-        self.FileConifg = QGroupBox(self.page_1)
+        self.FileConifg = QGroupBox(self.Hawk01)
         self.FileConifg.setObjectName(u"FileConifg")
         self.FileConifg.setMinimumSize(QSize(300, 0))
         self.FileConifg.setMaximumSize(QSize(16777215, 16777215))
@@ -1290,14 +1290,14 @@ class Ui_MainPages(object):
 
         self.verticalLayout_12.addItem(self.verticalSpacer)
 
-        self.pages.addWidget(self.page_1)
-        self.page_2 = QWidget()
-        self.page_2.setObjectName(u"page_2")
-        self.page_2.setStyleSheet(u"")
-        self.verticalLayout_6 = QVBoxLayout(self.page_2)
+        self.pages.addWidget(self.Hawk01)
+        self.Toolbox = QWidget()
+        self.Toolbox.setObjectName(u"Toolbox")
+        self.Toolbox.setStyleSheet(u"")
+        self.verticalLayout_6 = QVBoxLayout(self.Toolbox)
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.verticalLayout_6.setContentsMargins(5, 5, 5, 0)
-        self.title_label_2 = QLabel(self.page_2)
+        self.title_label_2 = QLabel(self.Toolbox)
         self.title_label_2.setObjectName(u"title_label_2")
         self.title_label_2.setMaximumSize(QSize(16777215, 40))
         font3 = QFont()
@@ -1309,7 +1309,7 @@ class Ui_MainPages(object):
 
         self.verticalLayout_6.addWidget(self.title_label_2)
 
-        self.FunctionWindow = QGroupBox(self.page_2)
+        self.FunctionWindow = QGroupBox(self.Toolbox)
         self.FunctionWindow.setObjectName(u"FunctionWindow")
         self.verticalLayout_8 = QVBoxLayout(self.FunctionWindow)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
@@ -1738,7 +1738,7 @@ class Ui_MainPages(object):
 
         self.verticalLayout_6.addWidget(self.FunctionWindow)
 
-        self.Operate_2 = QGroupBox(self.page_2)
+        self.Operate_2 = QGroupBox(self.Toolbox)
         self.Operate_2.setObjectName(u"Operate_2")
         self.Operate_2.setMinimumSize(QSize(300, 0))
         self.Operate_2.setMaximumSize(QSize(16777215, 16777215))
@@ -1815,14 +1815,14 @@ class Ui_MainPages(object):
 
         self.verticalLayout_6.addWidget(self.Operate_2)
 
-        self.pages.addWidget(self.page_2)
-        self.page_3 = QWidget()
-        self.page_3.setObjectName(u"page_3")
-        self.page_2_layout = QVBoxLayout(self.page_3)
+        self.pages.addWidget(self.Toolbox)
+        self.Settings = QWidget()
+        self.Settings.setObjectName(u"Settings")
+        self.page_2_layout = QVBoxLayout(self.Settings)
         self.page_2_layout.setSpacing(5)
         self.page_2_layout.setObjectName(u"page_2_layout")
         self.page_2_layout.setContentsMargins(5, 5, 5, 0)
-        self.scroll_area = QScrollArea(self.page_3)
+        self.scroll_area = QScrollArea(self.Settings)
         self.scroll_area.setObjectName(u"scroll_area")
         self.scroll_area.setStyleSheet(u"")
         self.scroll_area.setFrameShape(QFrame.NoFrame)
@@ -1831,7 +1831,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 442, 285))
+        self.contents.setGeometry(QRect(0, 0, 886, 720))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -2002,7 +2002,7 @@ class Ui_MainPages(object):
 
         self.page_2_layout.addWidget(self.scroll_area)
 
-        self.pages.addWidget(self.page_3)
+        self.pages.addWidget(self.Settings)
 
         self.verticalLayout_10.addWidget(self.pages)
 

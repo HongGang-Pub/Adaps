@@ -133,10 +133,14 @@ class UI_MainWindow(object):
             text_active=self.themes["app_color"]["text_active"],
             minimum_width=self.settings["lef_menu_size"]["minimum"],
             maximum_width=self.settings["lef_menu_size"]["maximum"],
-            title_tips_size=self.settings["font"]["title_tips_size"],
+            menu_text_size=self.settings["font"]["menu_text_size"],
             family=self.settings["font"]["family"],
             tips_minimum=self.settings["lef_menu_size"]["minimum"]
         )
+        self.left_menu.setStyleSheet(f'''
+                    font: {self.settings["font"]["menu_text_size"]}pt {self.settings["font"]["family"]};
+                    color: {self.themes["app_color"]["text_foreground"]};
+                ''')
         self.left_menu_layout.addWidget(self.left_menu)
 
         # ADD RIGHT WIDGETS

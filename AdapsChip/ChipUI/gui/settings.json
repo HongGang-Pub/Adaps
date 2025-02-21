@@ -15,7 +15,7 @@
     ],
     "lef_menu_size" : {
         "minimum" : 50,
-        "maximum" : 180
+        "maximum" : 150
     },
     "left_menu_content_margins" : 3,
     "left_column_size" : {
@@ -31,6 +31,6 @@
         "family" : "Microsoft YaHei UI",
         "text_size" : 9,
         "title_size" : 9,
-        "title_tips_size": "500 12pt"
+        "menu_text_size": "500 11"
     }
 }

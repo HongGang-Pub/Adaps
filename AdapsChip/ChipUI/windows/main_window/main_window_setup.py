@@ -31,17 +31,17 @@ class SetupMainWindow:
     add_left_menus = [
         {
             "btn_icon": "icon_home.svg",
-            "btn_id": "btn_home",
-            "btn_text": "Home",
-            "btn_tooltip": "Home page",
+            "btn_id": "btn_hawk01",
+            "btn_text": "Hawk01",
+            "btn_tooltip": "Hawk01",
             "show_top": True,
             "is_active": True
         },
         {
             "btn_icon": "icon_workbench.svg",
-            "btn_id": "btn_app_store",
-            "btn_text": "Workbench",
-            "btn_tooltip": "Workbench",
+            "btn_id": "btn_toolbox",
+            "btn_text": "Toolbox",
+            "btn_tooltip": "Toolbox",
             "show_top": True,
             "is_active": False
         },

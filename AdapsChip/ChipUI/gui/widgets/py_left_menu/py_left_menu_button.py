@@ -54,7 +54,7 @@ class PyLeftMenuButton(QPushButton):
             is_active=False,
             is_active_tab=False,
             is_toggle_active=False,
-            title_tips_size=9,
+            menu_text_size=9,
             family="Segoe UI",
             tips_minimum=50
 
@@ -99,7 +99,7 @@ class PyLeftMenuButton(QPushButton):
             dark_one,
             context_color,
             text_foreground,
-            title_tips_size,
+            menu_text_size,
             family
         )
         self.tooltip.hide()
@@ -354,7 +354,7 @@ class _ToolTip(QLabel):
         border-radius: 5px;
         border: 0px solid transparent;
         border-left: 0px solid {_context_color};
-        font: {_title_tips_size} {_family};
+        font: {_menu_text_size}pt {_family};
     }}
     """
 
@@ -365,7 +365,7 @@ class _ToolTip(QLabel):
             dark_one,
             context_color,
             text_foreground,
-            title_tips_size,
+            menu_text_size,
             family
     ):
         QLabel.__init__(self)
@@ -375,7 +375,7 @@ class _ToolTip(QLabel):
             _dark_one=dark_one,
             _context_color=context_color,
             _text_foreground=text_foreground,
-            _title_tips_size=title_tips_size,
+            _menu_text_size=menu_text_size,
             _family=family
         )
         self.setObjectName(u"label_tooltip")
