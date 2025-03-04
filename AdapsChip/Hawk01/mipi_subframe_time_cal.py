@@ -22,6 +22,10 @@
                                                   因为其受到 tx_frm_mode 的影响, 且 generic_data 也受到
                                                   此配置的影响;
                                                2. 支持 one_dt_mode 0 / 1 的计算;
+
+2025/02/14 09:00    honggang_li    v1.3        1. 根据配置自动计算 MIPI_PKTDLY 可配置的最小值(beta 版本);
+                                               2. 暂时放开 WORK_MODE 为 SPHR 的帧率计算, 与 PHR 共用同一
+                                                  套计算逻辑(beta 版本, 未经过仿真验证, 理论上差异不大);
 =================================================================================================
 """
 import copy
@@ -33,23 +37,23 @@ import logging
 # 2. 此配置对应的皆是寄存器配置, 可能与实际业务配置有差异
 # ////////////////////////////////////////////////
 
-SYS_CLK = 330
-MIPI_RATE = 1500
-EXPO_TIME = 30  # unit: us
+SYS_CLK = 250
+MIPI_RATE = 1000
+EXPO_TIME = 1000  # unit: us
 DRV_CH_TIME = 1  # unit: us
 csru_cfg = {
-    "WORK_MODE": 2,  #! 目前仅支持 FHR, PHR 模式的帧率计算
+    "WORK_MODE": 1,  #! 目前支持 FHR, PHR 模式的帧率计算, SPHR 帧率计算属于 beta 版本
     "SCAN_MODE": 1,
     "V_ROLL_NUM": 31,
     "H_ROLL_NUM": 0,
     "H_VLD_SEG": 15,
     "MINBIN_THRS": 0,
-    "MAXBIN_THRS": 136,
+    "MAXBIN_THRS": 167,
     "OUT_BIN_NUM": 1,
     "TX_FRM_MODE": 0,
     "ONE_DT_MODE": 0,
     "V_PXL_OUT_NUM": 1,
-    "MIPI_PKTDLY": 11,
+    "MIPI_PKTDLY": 1,
     "SUB_IDLETIME": 0,
     "MIPI_FENDDLY": 0,
     "SYSCLK1M_DIV": (SYS_CLK - 1)
@@ -62,9 +66,9 @@ mipi_cfg = {
     "DataTxThslpxcnt": 2,
     "DataTxThsexitCnt": 2,
     "DataTxThsprepareCnt": 0,
-    "DataTxThszeroCnt": 19,
-    "DataTxThstrailCnt": 12,
-}
+    "DataTxThszeroCnt": 50,
+    "DataTxThstrailCnt": 17,
+}   # default config: 2, 0, 50, 17
 
 MIPI_LANE_NUM = 4
 TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16, 400: 20}
@@ -296,7 +300,21 @@ def MIPI_PKTDLY_Value_Cal(csru_cfg: dict):
     else:
         pktdly_add = int((T_mipi_min_trans_cyc - T_mipi_trans_cyc_dly1) / sysclk1m_div / PER_VC_PKT_NUM) + 1
         mipi_pktdly = 1 + pktdly_add
+    s = f"[beta] MIPI_PKTDLY Theoretical minimum: {mipi_pktdly}"
+    print_c(s)
     return mipi_pktdly
+
+
+def print_c(data, color=32):
+    """
+    颜色样式打印输出功能
+    :param data: 打印内容
+    :param color: 指定颜色, 默认为绿色(32)
+    :return:
+    """
+    if isinstance(color, int):
+        color = str(color)
+    print(f"\033[1;{color}m{data}\033[0m")
 
 
 def T_mipi_trans_cyc_cal(csru_cfg: dict, mipi_pktdly: int = None):
@@ -311,7 +329,7 @@ def T_mipi_trans_cyc_cal(csru_cfg: dict, mipi_pktdly: int = None):
     if work_mode == 2:
         once_hist_rd_add_txdly_cyc, rd_out_ind_cyc = OnceHistReadAddTxdlyCycCalForFHR(csru_cfg)
         T_mipi_trans_cyc = once_hist_rd_add_txdly_cyc * (PER_VC_PKT_NUM - 1)
-    elif work_mode == 1:
+    elif work_mode == 1 or work_mode == 0:
         T_mipi_trans_cyc = 0
         once_hist_rd_add_txdly_Q = OnceHistReadAddTxdlyCycCalForPHR(csru_cfg)
         per_seg_pkg_num = PER_VC_PKT_NUM / (h_vld_seg + 1)
@@ -563,3 +581,4 @@ def TSubframeCal(csru_cfg: dict):
 
 if __name__ == '__main__':
     subframe_time = TSubframeCal(csru_cfg)
+    MIPI_PKTDLY_Value_Cal(csru_cfg)
