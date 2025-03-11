@@ -9,11 +9,11 @@ precision = 1  # 小数位宽: 精度越大, 仿真越慢, 仿真结果越准确
 # 根据配置脚本填写配置值
 # ////////////////////////////////////////////////
 WORK_MODE = 1
-SYS_CLK = 250
-MIPI_RATE = 1000
-WC = 132 * 1.5 * 6
+SYS_CLK = 324
+MIPI_RATE = 1500
+WC = 132 * 1.5
 FLNR = 128
-BIN_NUMBER = 480
+BIN_NUMBER = 488
 PKT_DLY = 0  # unit: ns. 需要根据配置值换算为 ns. 同时配置值存在 -1 的误差, 需要 -1 后再进行单位换算
 
 # ////////////////////////////////////////////////
@@ -41,8 +41,8 @@ T_TxByteClkHS = 1000 / (MIPI_RATE / TXHSByteClkDiv)
 DataTxThslpxcnt = 2
 DataTxThsexitCnt = 2
 DataTxThsprepareCnt = 0
-DataTxThszeroCnt = 50
-DataTxThstrailCnt = 17
+DataTxThszeroCnt = 19
+DataTxThstrailCnt = 12
 
 MIPI_PKT_INTV = ((120 if DataTxThsexitCnt == 0 else 360) +
                  T_TxClkEsc * DataTxThslpxcnt +
@@ -147,7 +147,7 @@ def mipi_model():
             elif mipi_read_timer >= MIPI_PKT_read_t + VC0_MIPI_PKT_interval:
                 mipi_read_timer = 0  # 重置 MIPI 计时器
 
-        if current_fifo_data_size <= 0:
+        if pkg_number_count == FLNR and current_fifo_data_size <= 0:
             print(f"TXU write time: {txu_read_time}ns, MIPI read time: {timer}ns")
             fifo_overflow = False
             break
@@ -156,7 +156,6 @@ def mipi_model():
     if fifo_overflow:
         print(f"fifo溢出耗时: {timer:.2f} ns。")
         print(f"fifo溢出包数量为: {pkg_number_count} ")
-    # 转换总时间为分钟
     return
 
 

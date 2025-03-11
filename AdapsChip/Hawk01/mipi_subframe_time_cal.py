@@ -37,8 +37,8 @@ import logging
 # 2. 此配置对应的皆是寄存器配置, 可能与实际业务配置有差异
 # ////////////////////////////////////////////////
 
-SYS_CLK = 250
-MIPI_RATE = 1000
+SYS_CLK = 330
+MIPI_RATE = 1500
 EXPO_TIME = 1000  # unit: us
 DRV_CH_TIME = 1  # unit: us
 csru_cfg = {
@@ -68,7 +68,7 @@ mipi_cfg = {
     "DataTxThsprepareCnt": 0,
     "DataTxThszeroCnt": 50,
     "DataTxThstrailCnt": 17,
-}   # default config: 2, 0, 50, 17
+}  # default config: 2, 0, 50, 17
 
 MIPI_LANE_NUM = 4
 TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16, 400: 20}
@@ -157,12 +157,13 @@ def MipiPKGIntvCal():
     # print(T_TxClkEsc * (DataTxThsprepareCnt + 1))
     # print(T_TxByteClkHS * (DataTxThszeroCnt + 4))
     # print(T_TxByteClkHS * (DataTxThstrailCnt + 1))
-    print("=======================================")
-    print(f"SYS_CLK       : {SYS_CLK:>8} M")
-    print(f"MIPI_RATE     : {MIPI_RATE:>8} Gbps/Lane")
-    print(f"T_TxClkEsc    : {T_TxClkEsc:>8.2f} ns")
-    print(f"T_TxByteClkHS : {T_TxByteClkHS:>8.2f} ns")
-    print(f"MIPI_PKT_INTV : {MIPI_PKT_INTV:>8.2f} ns")
+    s = "======================================="
+    # s += f"\nSYS_CLK       : {SYS_CLK:>8} M"
+    # s += f"\nMIPI_RATE     : {MIPI_RATE:>8} Gbps/Lane"
+    # s += f"\nT_TxClkEsc    : {T_TxClkEsc:>8.2f} ns"
+    # s += f"\nT_TxByteClkHS : {T_TxByteClkHS:>8.2f} ns"
+    s += f"\nMIPI_PKT_INTV : {MIPI_PKT_INTV:>8.2f} ns"
+    print_c(s)
     return MIPI_PKT_INTV
 
 
@@ -551,7 +552,7 @@ def TSubframeCal(csru_cfg: dict):
 
     if work_mode == 2:
         T_hist_read_time = TSubframReadTimeCalForFHR(csru_cfg)
-    elif work_mode == 1:
+    elif work_mode == 1 or work_mode == 0:
         T_hist_read_time = TSubframReadTimeCalForPHR(csru_cfg)
     else:
         # logging.warning(f"Subframe_time calculate model is not supported WORK_MODE = {work_mode}...")

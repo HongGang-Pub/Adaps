@@ -1,25 +1,37 @@
-from PySide6.QtWidgets import QApplication, QListWidget, QListWidgetItem
-from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication, QMainWindow, QComboBox, QCheckBox, QVBoxLayout, QWidget, QListView
+from PySide6.QtCore import Qt
 
 
-app = QApplication([])
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-# 创建 QListWidget
-list_widget = QListWidget()
+        # 创建一个 ComboBox
+        self.combo_box = QComboBox(self)
 
-# 添加带图标的 item
-for i in range(5):
-    # 创建 QListWidgetItem
-    item = QListWidgetItem(f"Item {i + 1}")
+        # 创建自定义的 QListView
+        self.combo_box.setView(QListView())
 
-    # 设置图标（这里使用示例路径）
-    icon = QIcon(r"D:\Git\Adaps\AdapsChip\ChipUI\gui\images\svg_icons\icon_file.svg")  # 替换为你的图标路径
-    item.setIcon(icon)
+        # 创建多选的 QCheckBox 项
+        self.combo_box.addItem("选项1")
+        self.combo_box.addItem("选项2")
+        self.combo_box.addItem("选项3")
 
-    # 将 item 添加到 QListWidget
-    list_widget.addItem(item)
+        # 创建一个布局
+        layout = QVBoxLayout()
+        layout.addWidget(self.combo_box)
 
-# 显示 QListWidget
-list_widget.show()
+        # 创建一个 QWidget 并设置为窗口的中央部件
+        central_widget = QWidget()
+        central_widget.setLayout(layout)
+        self.setCentralWidget(central_widget)
 
-app.exec()
+        # 设置窗口标题
+        self.setWindowTitle("下拉多选示例")
+
+
+if __name__ == "__main__":
+    app = QApplication([])
+    window = MainWindow()
+    window.show()
+    app.exec()
