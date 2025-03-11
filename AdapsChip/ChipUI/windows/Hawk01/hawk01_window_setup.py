@@ -576,7 +576,7 @@ class Hawk01MainUI:
         if dir_path:
             self.ui.load_pages.Hawk01_file_save_dir_LineEdit.setText(dir_path)
             self.hawk01_config['fd_path'] = dir_path
-            logging.info(self.hawk01_config['fd_path'])
+            # logging.info(self.hawk01_config['fd_path'])
 
     def roiUI_roi_save(self):
         """

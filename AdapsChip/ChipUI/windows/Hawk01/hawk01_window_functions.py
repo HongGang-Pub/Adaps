@@ -15,7 +15,8 @@ def MskuRoiGenerateByJson(hawk01_config: dict) -> dict:
     """完全通过Json文件生成 MskuRoi"""
     roi_data_pkg = {}
     msku_roi_mem = ROIGenerate.MskuRoiGenerate(hawk01_config)
-    masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, hawk01_config,
+    masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem,
+                                                                                                hawk01_config,
                                                                                                 is_save=0)
     roi_data = RoiMemGenerate(msku_roi_mem, hawk01_config)
     roi_data_pkg["roi_gen_type"] = 0
@@ -35,13 +36,14 @@ def MskuRoiGenerateByFile(hawk01_config: dict) -> dict:
     file_name, file_ext = os.path.splitext(file)
     if file_ext == ".txt":
         cali_data = MskuPubMethod.DirectAccessCaliDataByTXT(hawk01_config)
-    elif file_ext in [".csv", ".xls", ".xlsx"]:   # csv
+    elif file_ext in [".csv", ".xls", ".xlsx"]:  # csv
         cali_data = MskuPubMethod.DirectAccessCaliDataByExcel(hawk01_config)
     else:
         raise ValueError("Incorrect file format, not supported for parsing...")
     msku_roi_mem = ROICalibration.MskuRoiGenerate(hawk01_cfg=hawk01_config, cali_data=cali_data)
     roi_data = RoiMemGenerate(msku_roi_mem, hawk01_config)
-    masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, hawk01_config,
+    masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem,
+                                                                                                hawk01_config,
                                                                                                 is_save=0)
     roi_data_pkg["roi_gen_type"] = 1
     roi_data_pkg["img_types"] = ["Masking", "PCM Image", "PTM Image"]
@@ -62,7 +64,7 @@ def MskuRoiGenerateByROIMEM(hawk01_config: dict) -> dict:
     roi_data = []
     roi_data_pkg = {}
     zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(hawk01_config, roi_file)
-    for vroll_cnt in range(start_roll, end_roll+1):
+    for vroll_cnt in range(start_roll, end_roll + 1):
         per_zone_mem = zone_roi_mem[vroll_cnt] + msku_roi_mem[vroll_cnt]
         roi_data = roi_data + per_zone_mem
     masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem,
@@ -86,7 +88,8 @@ def MskuRoiGenerateByCali(hawk01_config: dict) -> dict:
     cali_data, light_imags = cali_run.GetCaliDataFromPCMImage(hawk01_config)
     msku_roi_mem = ROICalibration.MskuRoiGenerate(hawk01_cfg=hawk01_config, cali_data=cali_data)
     roi_data = RoiMemGenerate(msku_roi_mem, hawk01_config)
-    masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem, hawk01_config)
+    masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem,
+                                                                                                hawk01_config)
     masking_arrays, cali_fusion_image, fusion_image_cali_3D_image = cali_run.CaliResultDisplay(cali_data, light_imags,
                                                                                                hawk01_config, is_save=0)
     roi_data_pkg["roi_gen_type"] = 3
@@ -126,7 +129,8 @@ def ROIDataPackageSave(roi_data_pkg, hawk01_config, save_sel=0, roi_data_format=
     Returns:
 
     """
-    MskuPubMethod.roi_data_save(f_name=hawk01_config["roi_name"], data=roi_data_pkg["roi_data"], fd_path=hawk01_config["fd_path"],
+    MskuPubMethod.roi_data_save(f_name=hawk01_config["roi_name"], data=roi_data_pkg["roi_data"],
+                                fd_path=hawk01_config["fd_path"],
                                 roi_data_format=roi_data_format)
     url = f'{hawk01_config["fd_path"]}/{hawk01_config["roi_name"]}.txt'
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
@@ -179,6 +183,8 @@ def ScriptDataSave(hawk01_config):
     # traverse_dict(d=__reg_cfg__, parent_key='')     # 将reg_config的配置值全部转换为数字类型
 
     for work_mode in work_mode_q:
+        if __hawk01_config__["SCAN_MODE"] == 1 and work_mode == 3:
+            continue
         __hawk01_config__["WORK_MODE"] = work_mode
         __hawk01_config__["reg_name"] = hawk01_config["reg_name"] if len(work_mode_q) == 0 \
             else f'Ranging_Mode_{hawk01_config["reg_name"]}' if work_mode == 0 \
@@ -196,4 +202,3 @@ def ScriptDataSave(hawk01_config):
 
 def ScriptParse(hawk01_config, file):
     HawkPubMethod.ParseHawkRegConfig(file, hawk01_config["protocol"])
-

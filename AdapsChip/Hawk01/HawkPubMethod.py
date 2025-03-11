@@ -501,6 +501,11 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     #     _str += f"<br> {key:<15}: {value}"
     logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: #0076f6">{_str}</span></p>')
 
+    if csru_cfg["SCAN_MODE"] == 1 and csru_cfg["WORK_MODE"] == 3:
+        _str = "ERROR: 2D SCAN_MODE not support Gray Scale Mode!!!"
+        logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
+        return
+
     VC0_WC = csru_cfg["MIPI"]["VC0_WC"]
     VC1_WC = csru_cfg["MIPI"]["VC1_WC"]
     VC0_FLNR = csru_cfg["MIPI"]["VC0_FLNR"]
@@ -512,12 +517,13 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
         FLNR_H = (FLNR & 0xFF00) >> 8
         WC_L = (WC & 0x00FF) >> 0
         WC_H = (WC & 0xFF00) >> 8
-        _str = "MIPI WC or FLNR config error!!! It's should be config:\n"
+        _str = "ERROR: MIPI WC or FLNR config error!!! It's should be config:\n"
         _str += "  FLNR_L : 0x{:0>2X}\n".format(FLNR_L)
         _str += "  FLNR_H : 0x{:0>2X}\n".format(FLNR_H)
         _str += "  WC_L   : 0x{:0>2X}\n".format(WC_L)
         _str += "  WC_H   : 0x{:0>2X}  ".format(WC_H)
         logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
+        return
     pass
 
 
