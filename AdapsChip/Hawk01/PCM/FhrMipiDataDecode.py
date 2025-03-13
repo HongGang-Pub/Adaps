@@ -1,13 +1,13 @@
 from SelfDefinedPackge import PubMethod
-from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
+from AdapsChip.Hawk01 import Hawk01MipiPubMethod, Hawk01PubMethod
 
 
 def ParseFHRData(file_path, vroll=31, h_vld_seg=15):
-    file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
+    file_dict = Hawk01PubMethod.GetMipiFile(fd_path=file_path)
 
     pkg_num = 4 * (h_vld_seg + 1) * 6 + 2
 
-    if not MipiPubMethod.ChkMipiReliablity(file_dict, pkg_num):
+    if not Hawk01MipiPubMethod.ChkMipiReliablity(file_dict, pkg_num):
         raise ValueError("MiPi数据错误！！！")
 
     data = []
@@ -23,15 +23,15 @@ def ParseFHRData(file_path, vroll=31, h_vld_seg=15):
         subframe_data = PubMethod.read_file(file)
 
         # 获取 frame info 信息
-        frame_id, vroll_num, hroll_num = MipiPubMethod.GerMipiFrameInfo(file)
+        frame_id, vroll_num, hroll_num = Hawk01MipiPubMethod.GerMipiFrameInfo(file)
 
         if vroll_num == 0:
             print("MIPI_{}: frame_id:{}, vroll_num:{}".format(f_idx, frame_id, vroll_num))
 
         for vc_num in range((h_vld_seg + 1) * 6 * 2):
             pkg_index = vc_num * 2
-            vc1_pixel_data = MipiPubMethod.PackageSplit(subframe_data[pkg_index])
-            vc0_pixel_data = MipiPubMethod.PackageSplit(subframe_data[pkg_index + 1])
+            vc1_pixel_data = Hawk01MipiPubMethod.PackageSplit(subframe_data[pkg_index])
+            vc0_pixel_data = Hawk01MipiPubMethod.PackageSplit(subframe_data[pkg_index + 1])
             for pixel_cnt in range(4):
                 frame_data.append(vc0_pixel_data[pixel_cnt])
                 frame_data.append(vc1_pixel_data[pixel_cnt])

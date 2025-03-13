@@ -1,4 +1,4 @@
-csru_addr = {
+reg_addr = {
     "SYS_CTRL": 0x0004,
     "V_ROLL_NUM": 0x000D,
     "H_ROLL_NUM": 0x000E,

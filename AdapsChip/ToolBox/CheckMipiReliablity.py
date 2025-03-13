@@ -1,9 +1,9 @@
-from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
+from AdapsChip.Hawk01 import Hawk01MipiPubMethod, Hawk01PubMethod
 
 
 def do_work():
-    file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
-    if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=386):
+    file_dict = Hawk01PubMethod.GetMipiFile(fd_path=file_path)
+    if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=386):
         return
     else:
         print("检查完成！！！")

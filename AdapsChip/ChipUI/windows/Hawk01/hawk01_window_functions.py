@@ -1,7 +1,7 @@
 import copy
 import os
 
-from AdapsChip.Hawk01 import HawkPubMethod
+from AdapsChip.Hawk01 import Hawk01PubMethod
 from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
 from AdapsChip.Hawk01.MSKU.MSKU_GEN import ROIGenerate
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
@@ -191,9 +191,9 @@ def ScriptDataSave(hawk01_config):
             else f'Echo_Mode_{hawk01_config["reg_name"]}' if work_mode == 1 \
             else f'Histogram_Mode_{hawk01_config["reg_name"]}' if work_mode == 2 \
             else f'Gray_Scale_Mode_{hawk01_config["reg_name"]}'  # if work_mode == 3 \
-        HawkPubMethod.GenerateHawkRegConfig(hawk01_config=__hawk01_config__,
+        Hawk01PubMethod.GenerateHawkRegConfig(hawk01_config=__hawk01_config__,
                                             reg_cfg_fp=__hawk01_config__["Hawk01RegConfigFile"])
-        # HawkPubMethod.GenerateHawkRegConfigByJson(hawk01_config=__hawk01_config__, reg_cfg=__reg_cfg__)
+        # Hawk01PubMethod.GenerateHawkRegConfigByJson(hawk01_config=__hawk01_config__, reg_cfg=__reg_cfg__)
         url = f'{__hawk01_config__["fd_path"]}/{__hawk01_config__["reg_name"]}.txt'
         _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
         info = f"Script data has been save to {_hyper_link}"
@@ -201,4 +201,4 @@ def ScriptDataSave(hawk01_config):
 
 
 def ScriptParse(hawk01_config, file):
-    HawkPubMethod.ParseHawkRegConfig(file, hawk01_config["protocol"])
+    Hawk01PubMethod.ParseHawkRegConfig(file, hawk01_config["protocol"])

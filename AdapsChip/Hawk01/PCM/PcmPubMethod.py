@@ -1,9 +1,8 @@
 import os
 import logging
 import numpy as np
-import AdapsChip.Hawk01.HawkPubMethod
 from SelfDefinedPackge import PubMethod
-from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
+from AdapsChip.Hawk01 import Hawk01MipiPubMethod, Hawk01PubMethod
 
 
 def GetPcmDataFromSpadisApp(fp, frame_number=1):
@@ -61,13 +60,13 @@ def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     h_vld_seg = hawk01_config["H_VLD_SEG"]
     one_dt_mode = hawk01_config["ONE_DT_MODE"]
 
-    pkg_num = AdapsChip.Hawk01.HawkPubMethod.CalPkgNum(hawk01_config=hawk01_config)
+    pkg_num = Hawk01PubMethod.CalPkgNum(hawk01_config=hawk01_config)
 
-    file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
-    if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num, one_dt_mode=one_dt_mode):
+    file_dict = Hawk01PubMethod.GetMipiFile(fd_path=file_path)
+    if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num, one_dt_mode=one_dt_mode):
         raise ValueError("MiPi数据错误！！！")
 
-    vroll_num, hroll_num, f_index = MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)
 
     file_index_list = list(file_dict.keys())
     file_index_list.sort()
@@ -79,7 +78,7 @@ def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     for vroll_cnt in range(v_roll_num + 1):
         for pcm_sub in range(9):
             file = file_dict[f_index]
-            frame_id, vroll_num, hroll_num = MipiPubMethod.GerMipiFrameInfo(file, one_dt_mode)
+            frame_id, vroll_num, hroll_num = Hawk01MipiPubMethod.GerMipiFrameInfo(file, one_dt_mode)
             subframe_data = PubMethod.read_file(file)
             for sub_light in range(6):
                 if pcm_sub == 0 and sub_light == 0:  # 打印日志
@@ -101,7 +100,7 @@ def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
                     pkg_index = sub_light * (h_vld_seg + 1) * 4 + seg_cnt * 4
 
                     for per_seg_pkg_cnt in range(1, 5):
-                        pixel_data = MipiPubMethod.BinNumberAdd(subframe_data[pkg_index + per_seg_pkg_cnt - 1])
+                        pixel_data = Hawk01MipiPubMethod.BinNumberAdd(subframe_data[pkg_index + per_seg_pkg_cnt - 1])
                         m = 1 if per_seg_pkg_cnt > 2 else 0
                         n = per_seg_pkg_cnt % 2
                         for pixel_cnt in range(4):

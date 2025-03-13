@@ -112,69 +112,69 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             config_str = configs[addr_index + 1][0:2]
             register_value = int(config_str, 16)
 
-            if addr == csru_addr['SYS_CTRL']:
+            if addr == reg_addr['SYS_CTRL']:
                 csru_cfg["TX_FRM_MODE"] = (register_value & 0x80) >> 7
                 csru_cfg["V_PXL_OUT_NUM"] = (register_value & 0x40) >> 6
                 csru_cfg["SCAN_MODE"] = (register_value & 0x08) >> 3
                 csru_cfg["WORK_MODE"] = (register_value & 0x06) >> 1
                 csru_cfg["MST_MODE"] = (register_value & 0x01) >> 0
-            elif addr == csru_addr['V_ROLL_NUM']:
+            elif addr == reg_addr['V_ROLL_NUM']:
                 csru_cfg["V_ROLL_NUM"] = register_value & 0x1F
-            elif addr == csru_addr['H_ROLL_NUM']:
+            elif addr == reg_addr['H_ROLL_NUM']:
                 csru_cfg["H_ROLL_NUM"] = register_value & 0x0F
                 csru_cfg["H_VLD_SEG"] = (register_value & 0xF0) >> 4
-            elif addr == csru_addr['MINBIN_THRS']:
+            elif addr == reg_addr['MINBIN_THRS']:
                 csru_cfg["MINBIN_THRS"] = register_value
-            elif addr == csru_addr['MAXBIN_THRS']:
+            elif addr == reg_addr['MAXBIN_THRS']:
                 csru_cfg["MAXBIN_THRS"] = register_value
-            elif addr == csru_addr['TXU_CFG']:
+            elif addr == reg_addr['TXU_CFG']:
                 csru_cfg["ONE_DT_MODE"] = register_value & 0x01
-            elif addr == csru_addr['DEPTHU_CFG1']:
+            elif addr == reg_addr['DEPTHU_CFG1']:
                 csru_cfg["OUT_BIN_NUM"] = (register_value & 0x10) >> 4
-            elif addr == csru_addr['DEPTHU_CFG2']:
+            elif addr == reg_addr['DEPTHU_CFG2']:
                 csru_cfg["PKS_ECHO_NUM"] = (register_value & 0x0E) >> 1
-            elif addr == csru_addr['MIPI_TXDLY']:
+            elif addr == reg_addr['MIPI_TXDLY']:
                 csru_cfg["MIPI_PKTDLY"] = register_value & 0x3F
                 csru_cfg["MIPI_FENDDLY"] = (register_value & 0xB0) >> 6
-            elif addr == csru_addr['SYSCLK1M_DIVH']:
+            elif addr == reg_addr['SYSCLK1M_DIVH']:
                 csru_cfg["SYSCLK1M_DIV"] = (csru_cfg["SYSCLK1M_DIV"] & (0xFFFF-0xFF00)) + ((register_value & 0x01) << 8)
                 csru_cfg["XCLK1M_DIV"] = (register_value & 0xFC) >> 2
-            elif addr == csru_addr['SYSCLK1M_DIVL']:
+            elif addr == reg_addr['SYSCLK1M_DIVL']:
                 csru_cfg["SYSCLK1M_DIV"] = (csru_cfg["SYSCLK1M_DIV"] & (0xFFFF-0x00FF)) + (register_value << 0)
-            elif addr == csru_addr['MIPIPLL_LPDH']:
+            elif addr == reg_addr['MIPIPLL_LPDH']:
                 csru_cfg["MIPI"]["NS"] = (csru_cfg["MIPI"]["NS"] & (0xFFFF-0xFF00)) + ((register_value & 0x01) << 8)
-            elif addr == csru_addr['MIPIPLL_LPDL']:
+            elif addr == reg_addr['MIPIPLL_LPDL']:
                 csru_cfg["MIPI"]["NS"] = (csru_cfg["MIPI"]["NS"] & (0xFFFF-0x00FF)) + (register_value << 0)
-            elif addr == csru_addr['MIPIPLL_PPD']:
+            elif addr == reg_addr['MIPIPLL_PPD']:
                 csru_cfg["MIPI"]["MS"] = (register_value & 0xE0) >> 5
                 csru_cfg["MIPI"]["PS"] = register_value & 0x1F
-            elif addr == csru_addr['VC0_FLNR_L']:
+            elif addr == reg_addr['VC0_FLNR_L']:
                 csru_cfg["MIPI"]["VC0_FLNR"] = (csru_cfg["MIPI"]["VC0_FLNR"] & (0xFFFF-0x00FF)) + (register_value << 0)
-            elif addr == csru_addr['VC0_FLNR_H']:
+            elif addr == reg_addr['VC0_FLNR_H']:
                 csru_cfg["MIPI"]["VC0_FLNR"] = (csru_cfg["MIPI"]["VC0_FLNR"] & (0xFFFF-0xFF00)) + (register_value << 8)
-            elif addr == csru_addr['VC1_FLNR_L']:
+            elif addr == reg_addr['VC1_FLNR_L']:
                 csru_cfg["MIPI"]["VC1_FLNR"] = (csru_cfg["MIPI"]["VC1_FLNR"] & (0xFFFF-0x00FF)) + (register_value << 0)
-            elif addr == csru_addr['VC1_FLNR_H']:
+            elif addr == reg_addr['VC1_FLNR_H']:
                 csru_cfg["MIPI"]["VC1_FLNR"] = (csru_cfg["MIPI"]["VC1_FLNR"] & (0xFFFF-0xFF00)) + (register_value << 8)
-            elif addr == csru_addr['VC0_WC_L']:
+            elif addr == reg_addr['VC0_WC_L']:
                 csru_cfg["MIPI"]["VC0_WC"] = (csru_cfg["MIPI"]["VC0_WC"] & (0xFFFF-0x00FF)) + (register_value << 0)
-            elif addr == csru_addr['VC0_WC_H']:
+            elif addr == reg_addr['VC0_WC_H']:
                 csru_cfg["MIPI"]["VC0_WC"] = (csru_cfg["MIPI"]["VC0_WC"] & (0xFFFF-0xFF00)) + (register_value << 8)
-            elif addr == csru_addr['VC1_WC_L']:
+            elif addr == reg_addr['VC1_WC_L']:
                 csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0x00FF)) + (register_value << 0)
-            elif addr == csru_addr['VC1_WC_H']:
+            elif addr == reg_addr['VC1_WC_H']:
                 csru_cfg["MIPI"]["VC1_WC"] = (csru_cfg["MIPI"]["VC1_WC"] & (0xFFFF-0xFF00)) + (register_value << 8)
-            elif addr == csru_addr["VC0_THRESHOLD"]:
+            elif addr == reg_addr["VC0_THRESHOLD"]:
                 csru_cfg["MIPI"]["VC0_THRESHOLD"] = register_value
-            elif addr == csru_addr["VC1_THRESHOLD"]:
+            elif addr == reg_addr["VC1_THRESHOLD"]:
                 csru_cfg["MIPI"]["VC1_THRESHOLD"] = register_value
-            elif addr == csru_addr["THS_EXIT"]:
+            elif addr == reg_addr["THS_EXIT"]:
                 csru_cfg["MIPI"]["DataTxThsexitCnt"] = register_value
-            elif addr == csru_addr["THS_PREPARE"]:
+            elif addr == reg_addr["THS_PREPARE"]:
                 csru_cfg["MIPI"]["DataTxThsprepareCnt"] = register_value
-            elif addr == csru_addr["THS_ZERO"]:
+            elif addr == reg_addr["THS_ZERO"]:
                 csru_cfg["MIPI"]["DataTxThszeroCnt"] = register_value
-            elif addr == csru_addr["THS_TRAIL"]:
+            elif addr == reg_addr["THS_TRAIL"]:
                 csru_cfg["MIPI"]["DataTxThstrailCnt"] = register_value
         elif configs[0] == roisram_write:
             if len(configs) < 5:
@@ -396,54 +396,54 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
             index = _str.find("//")
             annotation = _str[index:] if index != -1 else ""
 
-            if addr == csru_addr['SYS_CTRL']:
+            if addr == reg_addr['SYS_CTRL']:
                 register_value = (register_value & (0xFF - 0x80)) + (hawk01_config['TX_FRM_MODE'] << 7)
                 register_value = (register_value & (0xFF - 0x40)) + (hawk01_config["V_PXL_OUT_NUM"] << 6)
                 register_value = (register_value & (0xFF - 0x20)) + (hawk01_config["TRG_I_EN"] << 5)
                 register_value = (register_value & (0xFF - 0x08)) + (hawk01_config["SCAN_MODE"] << 3)
                 register_value = (register_value & (0xFF - 0x06)) + (hawk01_config["WORK_MODE"] << 1)
                 register_value = (register_value & (0xFF - 0x01)) + (hawk01_config["MST_MODE"] << 0)
-            elif addr == csru_addr['V_ROLL_NUM']:
+            elif addr == reg_addr['V_ROLL_NUM']:
                 register_value = (register_value & (0xFF - 0x1F)) + (hawk01_config["V_ROLL_NUM"] << 0)
-            elif addr == csru_addr['H_ROLL_NUM']:
+            elif addr == reg_addr['H_ROLL_NUM']:
                 hawk01_config["H_ROLL_NUM"] = 0 if hawk01_config["SCAN_MODE"] == 0 else hawk01_config["H_ROLL_NUM"]
                 register_value = (register_value & (0xFF - 0x0F)) + (hawk01_config["H_ROLL_NUM"] << 0)
                 register_value = (register_value & (0xFF - 0xF0)) + (hawk01_config["H_VLD_SEG"] << 4)
-            elif addr == csru_addr['UPSMP_CFG']:
+            elif addr == reg_addr['UPSMP_CFG']:
                 register_value = (register_value & (0xFF - 0x03)) + (hawk01_config["UPSMP_MODE"] << 0)
-            elif addr == csru_addr['MINBIN_THRS']:
+            elif addr == reg_addr['MINBIN_THRS']:
                 register_value = hawk01_config["MINBIN_THRS"]
-            elif addr == csru_addr['MAXBIN_THRS']:
+            elif addr == reg_addr['MAXBIN_THRS']:
                 register_value = hawk01_config["MAXBIN_THRS"]
-            elif addr == csru_addr['DEPTHU_CFG1']:
+            elif addr == reg_addr['DEPTHU_CFG1']:
                 register_value = (register_value & (0xFF - 0x10)) + (hawk01_config["OUT_BIN_NUM"] << 4)
-            elif addr == csru_addr['DEPTHU_CFG2']:
+            elif addr == reg_addr['DEPTHU_CFG2']:
                 register_value = (register_value & (0xFF - 0x0E)) + (hawk01_config["PKS_ECHO_NUM"] << 1)
-            elif addr == csru_addr['MIPI_TXDLY']:
+            elif addr == reg_addr['MIPI_TXDLY']:
                 register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
-            elif addr == csru_addr['TDC_DLY_CFG1']:
+            elif addr == reg_addr['TDC_DLY_CFG1']:
                 register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
-            elif addr == csru_addr['SYSCLK1M_DIVL']:
+            elif addr == reg_addr['SYSCLK1M_DIVL']:
                 register_value = SYSCLK1M_DIVL
-            elif addr == csru_addr['SYSCLK1M_DIVH']:
+            elif addr == reg_addr['SYSCLK1M_DIVH']:
                 register_value = (register_value & (0xFF - 0x01)) + (SYSCLK1M_DIVH << 0)
             else:
-                register_value = PLL0_DIV1 if addr == csru_addr['PLL0_DIV1'] \
-                    else PLL0_DIV2 if addr == csru_addr['PLL0_DIV2'] \
-                    else PLL1_DIV1 if addr == csru_addr['PLL1_DIV1'] \
-                    else PLL1_DIV2 if addr == csru_addr['PLL1_DIV2'] \
-                    else TXESC_CLKDIV if addr == csru_addr['TXESC_CLKDIV'] \
-                    else MIPIPLL_LPDH if addr == csru_addr['MIPIPLL_LPDH'] \
-                    else MIPIPLL_LPDL if addr == csru_addr['MIPIPLL_LPDL'] \
-                    else MIPIPLL_PPD if addr == csru_addr['MIPIPLL_PPD'] \
-                    else VC0_FLNR_L if addr == csru_addr['VC0_FLNR_L'] \
-                    else VC0_FLNR_H if addr == csru_addr['VC0_FLNR_H'] \
-                    else VC1_FLNR_L if addr == csru_addr['VC1_FLNR_L'] \
-                    else VC1_FLNR_H if addr == csru_addr['VC1_FLNR_H'] \
-                    else VC0_WC_L if addr == csru_addr['VC0_WC_L'] \
-                    else VC0_WC_H if addr == csru_addr['VC0_WC_H'] \
-                    else VC1_WC_L if addr == csru_addr['VC1_WC_L'] \
-                    else VC1_WC_H if addr == csru_addr['VC1_WC_H'] \
+                register_value = PLL0_DIV1 if addr == reg_addr['PLL0_DIV1'] \
+                    else PLL0_DIV2 if addr == reg_addr['PLL0_DIV2'] \
+                    else PLL1_DIV1 if addr == reg_addr['PLL1_DIV1'] \
+                    else PLL1_DIV2 if addr == reg_addr['PLL1_DIV2'] \
+                    else TXESC_CLKDIV if addr == reg_addr['TXESC_CLKDIV'] \
+                    else MIPIPLL_LPDH if addr == reg_addr['MIPIPLL_LPDH'] \
+                    else MIPIPLL_LPDL if addr == reg_addr['MIPIPLL_LPDL'] \
+                    else MIPIPLL_PPD if addr == reg_addr['MIPIPLL_PPD'] \
+                    else VC0_FLNR_L if addr == reg_addr['VC0_FLNR_L'] \
+                    else VC0_FLNR_H if addr == reg_addr['VC0_FLNR_H'] \
+                    else VC1_FLNR_L if addr == reg_addr['VC1_FLNR_L'] \
+                    else VC1_FLNR_H if addr == reg_addr['VC1_FLNR_H'] \
+                    else VC0_WC_L if addr == reg_addr['VC0_WC_L'] \
+                    else VC0_WC_H if addr == reg_addr['VC0_WC_H'] \
+                    else VC1_WC_L if addr == reg_addr['VC1_WC_L'] \
+                    else VC1_WC_H if addr == reg_addr['VC1_WC_H'] \
                     else register_value
 
             configs[addr_index + 1] = "{:0>2X}".format(register_value)

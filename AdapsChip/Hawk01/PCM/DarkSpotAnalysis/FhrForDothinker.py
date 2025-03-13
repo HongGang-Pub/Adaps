@@ -2,7 +2,7 @@ import numpy as np
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from SelfDefinedPackge import ArrayPubMethod
 from AdapsChip.Hawk01.PCM import FhrPubMethod
-from AdapsChip.Hawk01 import MipiPubMethod
+from AdapsChip.Hawk01 import Hawk01MipiPubMethod
 from AdapsChip.Hawk01.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 
 
@@ -19,7 +19,7 @@ def do_work():
         chip_number: []
     }
     # 获取寄存器配置
-    hawk01_config = MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
+    hawk01_config = Hawk01MipiPubMethod.GetCsruAndROIConfig(script_file, sramdata_path)
 
     # 获取 msku roi 数据
     zone_roi_mem, msku_roi_mem = MskuPubMethod.ParseRoiMem(hawk01_config, f_path=fd_path)

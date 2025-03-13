@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from SelfDefinedPackge import PubMethod
-from AdapsChip.Hawk01 import MipiPubMethod, HawkPubMethod
+from AdapsChip.Hawk01 import Hawk01MipiPubMethod, Hawk01PubMethod
 
 
 def fhr_data2array(data):
@@ -64,7 +64,7 @@ def do_work2(file_path, script_file):
     """
     FHR MIPI 数据成直方图
     """
-    hawk01_config = MipiPubMethod.GetCsruAndROIConfig(script_file)
+    hawk01_config = Hawk01MipiPubMethod.GetCsruAndROIConfig(script_file)
     h_vld_seg = hawk01_config["H_VLD_SEG"]
     v_roll = 0  # 第几次v_roll
     h_roll = 0  # 第几次h_roll
@@ -72,19 +72,19 @@ def do_work2(file_path, script_file):
     seg_cnt = 0     # 第几段
     per_seg_pkg_cnt = 0  # 第几个包
 
-    file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
+    file_dict = Hawk01PubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
-    # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
+    # pkg_num = Hawk01MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
+    # if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 
-    vroll_num, hroll_num, f_index = MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
 
     file = file_dict[f_index]
     subframe_data = PubMethod.read_file(file)
 
     pkg_index = sub_light * (h_vld_seg + 1) * 4 + seg_cnt * 4
-    pixel_data = MipiPubMethod.PackageSplit(data=subframe_data[pkg_index + per_seg_pkg_cnt],
+    pixel_data = Hawk01MipiPubMethod.PackageSplit(data=subframe_data[pkg_index + per_seg_pkg_cnt],
                                             bin_number=672)
 
     for index in range(len(pixel_data)):
@@ -104,25 +104,25 @@ def do_work3(file_path, script_file):
     """
     PHR MIPI 数据成直方图
     """
-    hawk01_config = MipiPubMethod.GetCsruAndROIConfig(script_file)
+    hawk01_config = Hawk01MipiPubMethod.GetCsruAndROIConfig(script_file)
     v_roll = 0  # 第几次v_roll
     h_roll = 0  # 第几次h_roll
     seg_cnt = 0     # 第几段
     per_seg_pkg_cnt = 0  # 每段第几个包
 
-    file_dict = HawkPubMethod.GetMipiFile(fd_path=file_path)
+    file_dict = Hawk01PubMethod.GetMipiFile(fd_path=file_path)
 
-    # pkg_num = MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
-    # if not MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
+    # pkg_num = Hawk01MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
+    # if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误！！！")
 
-    vroll_num, hroll_num, f_index = MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
 
     file = file_dict[f_index]
     subframe_data = PubMethod.read_file(file)
 
     pkg_index = seg_cnt * 16 + per_seg_pkg_cnt
-    pixel_data = MipiPubMethod.PackageSplit(data=subframe_data[pkg_index],
+    pixel_data = Hawk01MipiPubMethod.PackageSplit(data=subframe_data[pkg_index],
                                             bin_number=80,
                                             pixel_num=6)
 
