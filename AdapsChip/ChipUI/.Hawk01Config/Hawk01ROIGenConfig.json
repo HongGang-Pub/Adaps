@@ -8,7 +8,7 @@
         "sublight_shift": 3,
         "roi_shape": 0,
         "roi_retrace": 1,
-        "v_spad_shift": 6
+        "v_spad_shift": 0
     },
     "ROIGenByFile": {
         "cali_file": "C:/Users/honggang.li/Downloads/ROI_dataDEBUG/coor_data.xlsx",
