@@ -164,14 +164,15 @@ class SetupMainWindow:
     # ///////////////////////////////////////////////////////////////
     def generate_logger(self):
         """创建日志记录器"""
-        self.logger = LogerForMultithreading(themes=self.themes, font="Microsoft YaHei UI")
-
-        # 创建定时器, 连接日志输出函数
-        self.timer = QTimer()
-        self.timer.timeout.connect(partial(self.logger.update_log_from_logger,
-                                           self.ui.LogPrintWindow))
-        self.timer.start(200)
+        # self.logger = LogerForMultithreading(themes=self.themes, font="Microsoft YaHei UI")
+        #
+        # # 创建定时器, 连接日志输出函数
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(partial(self.logger.update_log_from_logger,
+        #                                    self.ui.LogPrintWindow))
+        # self.timer.start(200)
         # 文本超链接操作绑定
+        setup_logging(self.ui.LogPrintWindow)
         self.ui.LogPrintWindow.anchorClicked.connect(open_folder)
 
     def closeEvent(self):

@@ -26,6 +26,6 @@
         "green" : "#00ff7f",
         "red" : "#ff5555",
         "yellow" : "#f1fa8c",
-        "log_output": ["#9DA9B5", "#b58900", "red"],    "?log_color": "INFO, WARNING, ERROR"
+        "logger": ["black", "orange", "red"],    "?logger": "INFO, WARNING, ERROR"
     }
 }

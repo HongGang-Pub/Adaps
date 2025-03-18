@@ -489,7 +489,7 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     csru_cfg = GetCsruConfig(script_file, protocol)
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
     info = f"Parse {_hyper_link}..."
-    logging.info(info)
+    # logging.info(info)
     _str  = "---------------------------\n"
     _str += "REG_CONFIG\n"
     _str += "---------------------------\n"
@@ -497,13 +497,15 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
 
     _str += info_json
-    # for key, value in csru_cfg.items():
-    #     _str += f"<br> {key:<15}: {value}"
-    logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: #0076f6">{_str}</span></p>')
+
+    _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
+    print(f"{info}<br>{_str}")
 
     if csru_cfg["SCAN_MODE"] == 1 and csru_cfg["WORK_MODE"] == 3:
         _str = "ERROR: 2D SCAN_MODE not support Gray Scale Mode!!!"
-        logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
+        _str = LogerPubMethod.create_consolas_str(_str, color="red")
+        print(_str)
+        # logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
         return
 
     VC0_WC = csru_cfg["MIPI"]["VC0_WC"]
@@ -522,7 +524,8 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
         _str += "  FLNR_H : 0x{:0>2X}\n".format(FLNR_H)
         _str += "  WC_L   : 0x{:0>2X}\n".format(WC_L)
         _str += "  WC_H   : 0x{:0>2X}  ".format(WC_H)
-        logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
+        _str = LogerPubMethod.create_consolas_str(_str, color="red")
+        print(_str)
         return
     pass
 
