@@ -5,7 +5,7 @@ from openpyxl.styles import PatternFill, Border, Side
 
 def data_process(array_lst, coefficient_list, ref_array_idx=0, ref_array_lst=None):
     """
-    查找黑点：对数据进行处理，按照要求过滤符合条件的点
+    查找黑点: 对数据进行处理，按照要求过滤符合条件的点
     Args:
         ref_array_lst ():
         array_lst ():
@@ -13,7 +13,7 @@ def data_process(array_lst, coefficient_list, ref_array_idx=0, ref_array_lst=Non
         ref_array_idx ():
 
     Returns:
-        tuple: spad_bin_number_dict: 当前当前array_lst过滤点数据信息； base_num_list：基准值
+        tuple: spad_bin_number_dict: 当前当前array_lst过滤点数据信息； base_num_list: 基准值
     """
 
     frame_number = len(array_lst)

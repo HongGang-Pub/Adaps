@@ -10,7 +10,7 @@ entry = tk.Entry(win, width=20)
 entry.pack(pady=20)
 
 # 创建按钮
-button = tk.Button(win, text="确定", command=lambda: tk.messagebox.showinfo("提示", f"您输入的数字为：{entry.get()}"))
+button = tk.Button(win, text="确定", command=lambda: tk.messagebox.showinfo("提示", f"您输入的数字为: {entry.get()}"))
 button.pack()
 
 # 绑定 Entry 框的键盘事件

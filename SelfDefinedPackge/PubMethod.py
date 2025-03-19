@@ -18,9 +18,9 @@ def get_fp(fd_path: str, mode: int, match_filter: str, regression: int = 0, f_ty
     根据用户自定义的过滤条件，获取指定文件夹下所有符合过滤条件的文件
 
     Args:
-        regression (int): 是否迭代获取当前目录下所有文件夹：0：仅查找当前目录；1：当前目录以及所有子目录
+        regression (int): 是否迭代获取当前目录下所有文件夹: 0: 仅查找当前目录；1: 当前目录以及所有子目录
         fd_path(str): Folder_path
-        mode(int): 0:根据文件名进行匹配; 1:根据文件类型进行匹配，如：.txt, .doc等
+        mode(int): 0:根据文件名进行匹配; 1:根据文件类型进行匹配，如: .txt, .doc等
         match_filter(str): 需要匹配的文件名或则文件类型
         f_type(str): 指定获取文件类型，便于error时打印日志
 
@@ -67,8 +67,8 @@ def data_save(fname: str,
     Args:
         fname(str): filename
         data_list(list): 存储的信息内容
-        split(str): 列表保存时，元素与元素之间的分隔符。可为：无、空格、制表符、换行符等任意字符串
-        is_cover(int): 文件写入方式：0：追加写入；1：覆盖写入
+        split(str): 列表保存时，元素与元素之间的分隔符。可为: 无、空格、制表符、换行符等任意字符串
+        is_cover(int): 文件写入方式: 0: 追加写入；1: 覆盖写入
         fd_path(str): 文件存储路径，若指定文件夹不存在，则创建。若不指定，则默认为当前文件夹
         note(str): 便签，不为None时，打印日志 & 文件路径；否则不打印
 
@@ -86,7 +86,7 @@ def data_save(fname: str,
         if not os.path.exists(fd_path):
             # 目录不存在，进行创建操作
             os.makedirs(fd_path)  # 使用os.makedirs()方法创建多层目录
-        #     print("目录新建成功：" + fd_path)
+        #     print("目录新建成功: " + fd_path)
         # else:
         #     print("文件存储目录: " + fd_path)
     except BaseException as msg:

@@ -1,11 +1,11 @@
 """
 本文件主要通过读取软件存储的frame_id信息, 并check MIPI是否丢包
 
-支持场景：
+支持场景: 
 1)非多帧合一丢帧判断，多帧合一丢 sub帧 & 图像帧判断;
 2)Function >>> frame_id_chk();
 
-Frame_id获取方法：
+Frame_id获取方法: 
 1)见 Function >>> get_frame_id(), 本方法只对一行内容进行解析，获取frame_id;
 2)若文件存储内容/格式发生改变，可仅修改此方法，确保返回的只为frame_id即可;
 """
@@ -30,7 +30,7 @@ def frame_id_chk(file_list, tx_frm_mode=0, roll_num=32):
 
     Args:
         file_list (list): 需要读取frame_id的文件列表
-        tx_frm_mode (int): 是否多帧合一。0：否; 1 or others：是
+        tx_frm_mode (int): 是否多帧合一。0: 否; 1 or others: 是
         roll_num (int): 多帧合一时，每个image帧存在多少sub帧
 
     Returns:
@@ -53,7 +53,7 @@ def frame_id_chk(file_list, tx_frm_mode=0, roll_num=32):
                 frame_id = get_frame_id(frame_id_data)
             except BaseException as msg:
                 print(msg)
-                raise ValueError("获取frame_id失败。\n\t[file]：{}\n\t[cali_data]: {}".format(file, frame_id_data))
+                raise ValueError("获取frame_id失败。\n\t[file]: {}\n\t[cali_data]: {}".format(file, frame_id_data))
 
             if tx_frm_mode == 0:
                 if pkg_num > 1 and pre_frame_id + 1 != frame_id:

@@ -1,5 +1,5 @@
 FREQ_Config = {
-    # XCLK：24M
+    # XCLK: 24M
     0: {
         "PLL0": {
             1: {"ID": 3, "FB": 250, "OD": 2},   # 250M
@@ -16,7 +16,7 @@ FREQ_Config = {
             3: {"NS": 125, "MS": 2, "PS": 1},   # 1.5G
         }
     },
-    # XCLK：25M
+    # XCLK: 25M
     1: {
         "PLL0": {
             1: {"ID": 2, "FB": 160, "OD": 2},   # 250M

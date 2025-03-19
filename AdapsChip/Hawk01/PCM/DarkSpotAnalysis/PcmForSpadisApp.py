@@ -32,7 +32,7 @@ def do_work(fd_path: str, chip_numbers, axis1, coeff_list, ref_ax: float = 0, ):
                 # 按照文件为单位读取数据
                 fp = os.path.join(fd_path, file_name)
 
-                print("处理PCM数据：", fp)
+                print("处理PCM数据: ", fp)
                 # 获取 PCM 数据
                 _array_ = PcmPubMethod.GetPcmDataFromSpadisApp(fp, frame_number=1)
 

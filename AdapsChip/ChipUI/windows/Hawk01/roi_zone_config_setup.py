@@ -198,7 +198,7 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
             self.zone_cfg_sel, self.zone_cfg_sel + 1)
         for row in range(self.table_row):
             for col in range(col_lower, col_upper):
-                # print("获取数据：", row, col)
+                # print("获取数据: ", row, col)
                 _str = self.ZoneConfigInputTable.item(row, col).text()
                 if row < 7:
                     self.hawk01_zone_config["zone_cfg_def"][f"{self.row_type[row]}"][f"Zone{col}"] = _str

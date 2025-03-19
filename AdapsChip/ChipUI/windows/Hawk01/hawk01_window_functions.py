@@ -124,7 +124,7 @@ def ROIDataPackageSave(roi_data_pkg, hawk01_config, save_sel=0, roi_data_format=
         roi_data_pkg (dict): 包含生成ROI的所有必要信息
         hawk01_config (dict): Hawk 配置集合
         save_sel (int): 0: 仅保存ROI数据,1: 保存ROI数据和图片数据
-        roi_data_format (int): ROI存储格式：0：byte对齐, 1: half-word对齐
+        roi_data_format (int): ROI存储格式: 0: byte对齐, 1: half-word对齐
 
     Returns:
 

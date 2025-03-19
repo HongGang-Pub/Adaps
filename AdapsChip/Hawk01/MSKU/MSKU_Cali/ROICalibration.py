@@ -25,7 +25,7 @@ class ROICalibration:
             frame_num (int): 采用第几帧数据进行标定
 
         Returns:
-            dict: type(dict): {索引：文件路径}
+            dict: type(dict): {索引: 文件路径}
         """
         f1 = PubMethod.get_fp(fd_path=fp, mode=0, match_filter='GrayImage', regression=1, f_type="PCM Imag")
         get_frame_cnt = 1
@@ -238,7 +238,7 @@ class ROICalibration:
                         break
             start_index_list.append(start_index)
 
-        # 校准：根据 基准段 & 设置的曲率（spad步径）
+        # 校准: 根据 基准段 & 设置的曲率（spad步径）
         # 判断某段标定位置是否偏移过大，如果过大，则会进行校准
         # ///////////////////////////////////////////////////////////////
         h_center = ref_segment - seg_hs
@@ -283,7 +283,7 @@ class ROICalibration:
         Args:
             img (np.ndarray): image
             h_vld_seg (int): 寄存器配置
-            mode (int): 2D Scan Mode标定模式：0：以光条能量优先；1：以能 Masking的最大光子数优先
+            mode (int): 2D Scan Mode标定模式: 0: 以光条能量优先；1: 以能 Masking的最大光子数优先
 
         Returns:
             list: 返回 ROI 标定数据
@@ -343,7 +343,7 @@ class ROICalibration:
             curvature (int): 相邻两段SPAD偏移范围，超过偏移配置值，强行矫正标定的ROI
             noise_filter (int): 是否进行噪点消除
             mode2D (int):2D Scan mode标定方式
-            img_reverse (int): img是否需要镜像：0：不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像
+            img_reverse (int): img是否需要镜像: 0: 不镜像; 1: x轴镜像; 2: y轴镜像 3: x+y轴镜像
             light_smooth (int): 数据是否需要平滑处理
 
         Returns:
@@ -446,7 +446,7 @@ class ROICalibration:
         """
         Hawk 按照18行 spad 规格进行矫正 (只对横坐标进行矫正)
         Args:
-            A (list): 基准数据, 数据格式：[[0, 0], [1, 0], [2, 0], [3, 0], ...]
+            A (list): 基准数据, 数据格式: [[0, 0], [1, 0], [2, 0], [3, 0], ...]
             B (list): 需矫正数据, 数据格式同 A
             precision (int): 矫正精度(spad为单位)
 
@@ -600,7 +600,7 @@ class ROICalibration:
             cfg (int): 配置信息
 
         Returns:
-            list：矫正后的 ROI 数据
+            list: 矫正后的 ROI 数据
         """
         correct_roi_data = roi_data
 
@@ -655,7 +655,7 @@ class ROICalibration:
         # ///////////////////////////////////////////////////////////////
         if v_roll_num > 31 or h_roll_num > 15 or h_vld_seg > 15:
             raise ValueError(
-                "寄存器相关值配置错误：v_roll_num:{}, v_roll_num:{}, h_vld_seg:{}".
+                "寄存器相关值配置错误: v_roll_num:{}, v_roll_num:{}, h_vld_seg:{}".
                 format(v_roll_num, h_roll_num, h_vld_seg))
         roll_num = (v_roll_num + 1) if scan_mode == 0 else (h_roll_num + 1) * (v_roll_num + 1)
 
@@ -663,7 +663,7 @@ class ROICalibration:
         # ///////////////////////////////////////////////////////////////
         file_dict = ROICalibration.get_pcm_file(cfg['cali_file'], cfg["cali_frm_num"])
         if len(file_dict) != roll_num:
-            raise ValueError("文件数据错误：ROI标定需要{}个文件，实际有{}个文件".format(roll_num, len(file_dict)))
+            raise ValueError("文件数据错误: ROI标定需要{}个文件，实际有{}个文件".format(roll_num, len(file_dict)))
 
         # 标定，返回标定数据
         # ///////////////////////////////////////////////////////////////
@@ -712,7 +712,7 @@ class ROICalibration:
             for hroll_cnt in range(h_roll_num + 1):
                 roll_cnt = vroll_cnt * (h_roll_num + 1) + hroll_cnt
                 sub_spad_array_3D = np.zeros((576, 768, 3), dtype=np.float32)
-                spad_array = np.zeros((576, 768), dtype=np.float32)  # 展示masking效果：使用标定算法找到的ROI开启的spad，此矩阵对应位置会被打开
+                spad_array = np.zeros((576, 768), dtype=np.float32)  # 展示masking效果: 使用标定算法找到的ROI开启的spad，此矩阵对应位置会被打开
 
                 # 光条二维数组
                 img = ligth_imags[roll_cnt]

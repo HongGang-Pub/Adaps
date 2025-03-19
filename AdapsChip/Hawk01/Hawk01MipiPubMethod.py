@@ -10,7 +10,7 @@ from .Hawk01PubMethod import GetCsruConfig
 
 def ChkMipiReliablity(f_dict, pkg_num=None, one_dt_mode=0):
     """
-    使用场景：解析 MIPI 包成图或其他时，先 check 是否丢包，丢帧
+    使用场景: 解析 MIPI 包成图或其他时，先 check 是否丢包，丢帧
 
     Args:
         f_dict (dict): 文件名（字典），按照 key 的升序进行校验
@@ -35,8 +35,8 @@ def ChkMipiReliablity(f_dict, pkg_num=None, one_dt_mode=0):
 
         # 校验包是否为空
         if pkg_num is not None and actual_pkg_num != pkg_num:
-            # raise ValueError("数据存在丢包：{}".format(file))
-            logging.error("数据存在丢包：{}:实际包数量:{}; 期待包个数:{}".format(file, actual_pkg_num, pkg_num))
+            # raise ValueError("数据存在丢包: {}".format(file))
+            logging.error("数据存在丢包: {}:实际包数量:{}; 期待包个数:{}".format(file, actual_pkg_num, pkg_num))
             error = 1
             # return False
 
@@ -44,8 +44,8 @@ def ChkMipiReliablity(f_dict, pkg_num=None, one_dt_mode=0):
         frame_id, vroll_num, hroll_num = GerMipiFrameInfo(file, one_dt_mode)
 
         if sub_frame_num > 1 and pre_frame_id + 1 != frame_id:
-            # raise ValueError("存在丢包：{}->{}, MIPI_{}".format(pre_frame_id, frame_id, f_idx))
-            logging.error("存在丢帧：{} -> {}：MIPI_{}".format(pre_frame_id, frame_id, f_idx))
+            # raise ValueError("存在丢包: {}->{}, MIPI_{}".format(pre_frame_id, frame_id, f_idx))
+            logging.error("存在丢帧: {} -> {}: MIPI_{}".format(pre_frame_id, frame_id, f_idx))
             # return False
             pre_frame_id = frame_id
             error = 1
@@ -141,7 +141,7 @@ def GetSpecificFile(f_dict, v_roll_num, h_roll_num, mode=0):
         f_dict (dict): 文件，按照 key 的升序查找符合条件的 mipi 文件
         v_roll_num (int): 需要查找的 v_roll_num
         h_roll_num (int): 需要查找的 h_roll_num
-        mode (int): 0: vroll & hroll都相等的；1：vroll相等的；2：hroll相等的；3：不检查，直接返回
+        mode (int): 0: vroll & hroll都相等的；1: vroll相等的；2: hroll相等的；3: 不检查，直接返回
 
     Returns:
 

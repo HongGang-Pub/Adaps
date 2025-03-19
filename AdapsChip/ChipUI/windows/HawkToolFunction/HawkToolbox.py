@@ -262,7 +262,7 @@ class HawkToolbox:
     def Select_single_directory(self, title: str):
         dir_path = QFileDialog.getExistingDirectory(self, title, "", QFileDialog.ShowDirsOnly)
         if dir_path:
-            print("选择的目录路径：", dir_path)
+            print("选择的目录路径: ", dir_path)
         return dir_path
 
     def closeEvent(self):

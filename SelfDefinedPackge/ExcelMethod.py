@@ -60,7 +60,7 @@ def save_excel(fname: str, sheet_name: str, data_list: list, fd_path: str, note:
         return
 
     if note:
-        print("{}，文件路径为： {}".format(note, file))
+        print("{}，文件路径为:  {}".format(note, file))
     return file
 
     # data_statistics.append("{:>3}\t{:>3}".format(r, c))

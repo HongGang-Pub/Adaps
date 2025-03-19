@@ -25,7 +25,7 @@ def GetMipiFile(fd_path):
     file_index_list = []
     for index in range(len(file_list)):
         sublist_file = file_list[index].split("-")
-        # 针对度信抓包MIPI文件命名格式：mipidata-index-xxxxxxxxx.txt，字典格式为：{index: mipidata_path}
+        # 针对度信抓包MIPI文件命名格式: mipidata-index-xxxxxxxxx.txt，字典格式为: {index: mipidata_path}
         if len(sublist_file) >= 3:
             file_index = int(file_list[index].split("-")[-2])
             file_dict[file_index] = file_list[index]

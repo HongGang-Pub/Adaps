@@ -361,7 +361,7 @@ def DirectAccessCaliDataByTXT(hawk01_config):
     # /////////////////////////////////////////////////////////////////////
     num = (hawk01_config['V_ROLL_NUM'] + 1) * (hawk01_config['H_ROLL_NUM'] + 1) if hawk01_config['SCAN_MODE'] == 1 else (hawk01_config['V_ROLL_NUM'] + 1)
     if len(cali_datas) < num:  # 标定数量少于配置所需标定数时, 结束程序
-        info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
+        info = (f"Preview failed! Log: Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
                 f"{num} cali data are required, but only {len(cali_datas)} cali data are available.")
         raise ValueError(info)
     elif len(cali_datas) > num:  # 标定数量多余所需标定数时, 打印提示信息, 提示配置信息与标定信息不匹配
@@ -438,7 +438,7 @@ def DirectAccessCaliDataByExcel(hawk01_config):
     # /////////////////////////////////////////////////////////////////////
     num = (hawk01_config['V_ROLL_NUM'] + 1) * (hawk01_config['H_ROLL_NUM'] + 1) if hawk01_config['SCAN_MODE'] == 1 else (hawk01_config['V_ROLL_NUM'] + 1)
     if (len(cali_datas)) < num:  # 标定数量少于配置所需标定数时, 结束程序, 第一行为 Segment 标识数据
-        info = (f"Preview failed! Log：Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
+        info = (f"Preview failed! Log: Based on the configuration information of V_ROLL_NUM & H_ROLL_NUM, "
                 f"{num} cali data are required, but only {len(cali_datas)} cali data are available.")
         raise ValueError(info)
     elif (len(cali_datas)) > num:  # 标定数量多余所需标定数时, 打印提示信息, 提示配置信息与标定信息不匹配

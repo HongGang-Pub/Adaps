@@ -403,17 +403,17 @@ code {
 </ul>
 <h1 id="2-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">2. 使用方法</h1>
 <ol>
-<li>编辑MskuCalibrationConfig.json配置文件，配置相关信息：
+<li>编辑MskuCalibrationConfig.json配置文件，配置相关信息: 
 <ol>
-<li><code>fd_path</code>：PCM灰度图.raw格式文件路径，数据获取方式&amp;修改，请查看<a href="#51-pcm%E7%81%B0%E5%BA%A6%E5%9B%BE%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96"><strong>pcm灰度图数据获取</strong></a></li>
-<li><code>file_path</code>：生成的数据存储路径</li>
-<li><code>roi_name</code>：生成的ROI文件名</li>
-<li>寄存器相关配置：SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、zone_cfg_def</li>
-<li>标定方式相关配置：is_reverse、remove_noise、curvature、mode2D等（使用方法请参考配置文件相关注释）</li>
+<li><code>fd_path</code>: PCM灰度图.raw格式文件路径，数据获取方式&amp;修改，请查看<a href="#51-pcm%E7%81%B0%E5%BA%A6%E5%9B%BE%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96"><strong>pcm灰度图数据获取</strong></a></li>
+<li><code>file_path</code>: 生成的数据存储路径</li>
+<li><code>roi_name</code>: 生成的ROI文件名</li>
+<li>寄存器相关配置: SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、zone_cfg_def</li>
+<li>标定方式相关配置: is_reverse、remove_noise、curvature、mode2D等（使用方法请参考配置文件相关注释）</li>
 </ol>
 </li>
 <li>配置文件编辑完成后，执行ROICalibration.py文件进行标定<br>
-<em>ps: Python第三方依赖包：numpy、matplotlib等</em></li>
+<em>ps: Python第三方依赖包: numpy、matplotlib等</em></li>
 </ol>
 <h1 id="3-%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">3. 文件说明</h1>
 <h2 id="31-pubmethodpy">3.1. PubMethod.py</h2>
@@ -437,16 +437,16 @@ code {
 <ul>
 <li>文件标定顺序支持正序或倒叙(ROI按照文件标定顺序生成ROI)</li>
 <li>支持噪点消除功能，标定PCM图像质量较差时，建议开启</li>
-<li>关于1D SCAN_MODE：
+<li>关于1D SCAN_MODE: 
 <ul>
 <li>支持任意H_VLD_SEG配置扫描</li>
 <li>支持标定矫正，相邻两段标定的ROI超过偏移配置值，可进行ROI标定矫正</li>
 </ul>
 </li>
-<li>关于2D SCAN_MODE：
+<li>关于2D SCAN_MODE: 
 <ul>
 <li>支持任意H_VLD_SEG配置扫描</li>
-<li>支持两种标定方式：1) 按照光中心区域标定；2) 按照可获取最大光子数进行标定</li>
+<li>支持两种标定方式: 1) 按照光中心区域标定；2) 按照可获取最大光子数进行标定</li>
 </ul>
 </li>
 <li>支持将单次标定的ROI与光条融合为一张图，成图Check标定是否正确</li>
@@ -454,7 +454,7 @@ code {
 <li>支持ROI文件生成起始ROLL定义，支持类Lumotive使用SSYNC控制激光发射场景</li>
 <li>支持将生成的ROI标定文件成图，Check ROI文件生成是否正确</li>
 <li>支持32 Zone分区曝光时间、重频周期、Kernel等config配置不同</li>
-<li>使用方法请查阅：MskuCalibrationConfig.json相关注释</li>
+<li>使用方法请查阅: MskuCalibrationConfig.json相关注释</li>
 </ul>
 <h1 id="5-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">5. 代码实现</h1>
 <h2 id="51-pcm%E7%81%B0%E5%BA%A6%E5%9B%BE%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96">5.1. PCM灰度图数据获取</h2>
@@ -507,7 +507,7 @@ f_dict = {  <span class="hljs-number">0</span>:<span class="hljs-string">"./roll
 <li>对<code>seg_sum_array</code>按列找到最大值<code>v_spad_value</code> &amp; 最大位置索引<code>v_spad_max_index</code>（最大值视作光最强，索引视作段光条中心点）【1*16的矩阵】</li>
 <li>根据<code>H_VLD_SEG</code>配置对<code>v_spad_value</code>进行开窗，在16段中获取光条最亮的段</li>
 <li>对于获取的段，对<code>v_spad_max_index</code>进行开窗，获取每段光条的位置（开窗大小为18，固定开启18行spad）</li>
-<li>以最亮的段为基准，对其他标定的段，增加矫正功能：相邻两段标定的SPAD超过偏移配置值，强行矫正标定的ROI</li>
+<li>以最亮的段为基准，对其他标定的段，增加矫正功能: 相邻两段标定的SPAD超过偏移配置值，强行矫正标定的ROI</li>
 </ol>
 <h2 id="54-2d-scan-mode%E6%A0%87%E5%AE%9A%E5%AE%9E%E7%8E%B0%E9%80%BB%E8%BE%91">5.4. 2D SCAN MODE标定实现逻辑</h2>
 <ol>
@@ -520,22 +520,22 @@ f_dict = {  <span class="hljs-number">0</span>:<span class="hljs-string">"./roll
 <h1 id="6-%E7%94%9F%E6%88%90%E6%96%87%E4%BB%B6%E8%AF%B4%E6%98%8E">6. 生成文件说明</h1>
 <h2 id="61-%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%E6%A0%87%E5%AE%9A%E6%95%88%E6%9E%9C%E5%9B%BE">6.1. 单个文件标定效果图</h2>
 <ol>
-<li>文件名：Roll{0}_{1}.png，其中<code>{0}</code>为rolling计数，<code>{1}</code>为文件的key<br>
+<li>文件名: Roll{0}_{1}.png，其中<code>{0}</code>为rolling计数，<code>{1}</code>为文件的key<br>
 <img src="./figs/Roll10_329.0.png" alt="单个文件标定效果图" title="Roll10_329.0.png"></li>
 </ol>
 <h2 id="62-%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%89%E6%9D%A1%E8%9E%8D%E5%92%8C%E5%9B%BE">6.2. 所有文件的光条融和图</h2>
 <ol>
-<li>文件名： fusion_imag.png<br>
+<li>文件名:  fusion_imag.png<br>
 <img src="./figs/fusion_imag.png" alt="所有文件的光条融合" title="fusion_imag.png"></li>
 </ol>
 <h2 id="63-%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E6%A0%87%E5%AE%9A%E6%95%88%E6%9E%9C%E5%9B%BE%E7%9A%84%E8%9E%8D%E5%90%88">6.3. 所有文件标定效果图的融合</h2>
 <ol>
-<li>文件名： fusion_msku.png<br>
+<li>文件名:  fusion_msku.png<br>
 <img src="./figs/fusion_msku.png" alt="所有文件的光条融合" title="fusion_msku.png"></li>
 </ol>
 <h2 id="64-masking%E6%95%88%E6%9E%9C%E5%9B%BE">6.4. Masking效果图</h2>
 <ol>
-<li>文件名：msku_imag.png，生成ROI文件的Masking效果图<br>
+<li>文件名: msku_imag.png，生成ROI文件的Masking效果图<br>
 <img src="./figs/msku_imag.png" alt="所有文件的光条融合" title="msku_imag.png"></li>
 </ol>
 <h2 id="65-roi-data">6.5. ROI Data</h2>
@@ -547,7 +547,7 @@ f_dict = {  <span class="hljs-number">0</span>:<span class="hljs-string">"./roll
 <li>ROI标定仅支持每次连续开启18行SPAD，即1个大光条6个子光条紧挨的标定方式</li>
 <li>ROI标定每次固定开启18行SPAD，未支持光条在垂直方向超边界场景</li>
 <li>2D Scan mode，ROI标定固定开启指定H_VLD_SEG段数，未支持光条水平方向超边界场景</li>
-<li>Python第三方依赖包：numpy、matplotlib等</li>
+<li>Python第三方依赖包: numpy、matplotlib等</li>
 </ul>
 
 </body>

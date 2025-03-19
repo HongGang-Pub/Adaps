@@ -181,7 +181,7 @@ def msku_gui():
             histogram.do_work(cfg)
             return
         except BaseException as e:
-            _log_update(f"View failure! Log：{e}", log_type=2)
+            _log_update(f"View failure! Log: {e}", log_type=2)
             return
 
     def _more_view():
@@ -192,7 +192,7 @@ def msku_gui():
             histogram.do_work(cfg)
             return
         except BaseException as e:
-            _log_update(f"View failure! Log：{e}", log_type=2)
+            _log_update(f"View failure! Log: {e}", log_type=2)
             return
 
     def _close_fig():
@@ -200,7 +200,7 @@ def msku_gui():
             histogram.fig_close()
             _log_update(f"图片全部关闭", log_type=0)
         except BaseException as e:
-            _log_update(f"Close figure failure! Log：{e}", log_type=2)
+            _log_update(f"Close figure failure! Log: {e}", log_type=2)
             return
 
     def _save_fig():
@@ -209,7 +209,7 @@ def msku_gui():
             histogram.fig_save()
             _log_update(f"保存成功...", log_type=0)
         except BaseException as e:
-            _log_update(f"Save figure failure! Log：{e}", log_type=2)
+            _log_update(f"Save figure failure! Log: {e}", log_type=2)
             return
 
     def _draw_imag():
@@ -220,7 +220,7 @@ def msku_gui():
             histogram.hist_imag(cfg)
             return
         except BaseException as e:
-            _log_update(f"View failure! Log：{e}", log_type=2)
+            _log_update(f"View failure! Log: {e}", log_type=2)
             return
 
     # ------------------------ Log Clear ------------------------
