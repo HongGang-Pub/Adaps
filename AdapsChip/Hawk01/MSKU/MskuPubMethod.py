@@ -40,7 +40,7 @@ def ZonesConfigGenerate(cfg):
             kernel_sel = "Zone_{}_MF_KN".format(v_roll_cnt)
 
         if len(cfg['zone_cfg_def'][kernel_sel]) != 16:
-            raise ValueError("Kernel:{} config Error！".format(kernel_sel))
+            raise ValueError("Kernel:{} config Error!".format(kernel_sel))
 
         for i in range(0, 8):
             kernel.append(

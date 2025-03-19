@@ -275,7 +275,7 @@ def hist_imag(cfg):
     if f_base_type == ".bin":
         pass
     else:
-        raise ValueError("只有 bin 类型的文件可以成图！")
+        raise ValueError("只有 bin 类型的文件可以成图!")
 
     file_list = cfg["file_sel"]
     start_index = cfg["bin_start_index"]
@@ -317,7 +317,7 @@ def do_work(cfg):
     elif f_base_type == ".bin":
         hist_img_forRaw(cfg)
     else:
-        raise ValueError("选择的文件类型错误！")
+        raise ValueError("选择的文件类型错误!")
 
 
 if __name__ == '__main__':

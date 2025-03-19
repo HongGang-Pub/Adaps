@@ -28,7 +28,7 @@ def GetFhrDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     # 获取 MIPI 文件
     file_dict = Hawk01PubMethod.GetMipiFile(fd_path=file_path)
     if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
-        raise ValueError("MiPi数据错误！！！")
+        raise ValueError("MiPi数据错误!!!")
 
     # 获取满足条件的文件索引
     vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)
@@ -99,7 +99,7 @@ def GetFhrDataFromDothinker2D(file_path, hawk01_config, msku_roi_mem=[]):
     # 获取 MIPI 文件
     file_dict = Hawk01PubMethod.GetMipiFile(fd_path=file_path)
     if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
-        raise ValueError("MiPi数据错误！！！")
+        raise ValueError("MiPi数据错误!!!")
 
     # 获取满足条件的文件索引
     vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)

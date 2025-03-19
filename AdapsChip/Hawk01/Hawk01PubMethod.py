@@ -19,7 +19,7 @@ def GetMipiFile(fd_path):
 
     file_list = PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt", f_type="Get MIPI File")
     if len(file_list) == 0:
-        raise ValueError("未从指定目录下获取到MIPI文件！！！")
+        raise ValueError("未从指定目录下获取到MIPI文件!!!")
 
     file_dict = {}
     file_index_list = []

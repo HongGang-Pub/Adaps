@@ -8,7 +8,7 @@ def ParseFHRData(file_path, vroll=31, h_vld_seg=15):
     pkg_num = 4 * (h_vld_seg + 1) * 6 + 2
 
     if not Hawk01MipiPubMethod.ChkMipiReliablity(file_dict, pkg_num):
-        raise ValueError("MiPi数据错误！！！")
+        raise ValueError("MiPi数据错误!!!")
 
     data = []
     frame_data = []

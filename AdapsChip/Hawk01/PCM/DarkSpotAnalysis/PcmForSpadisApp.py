@@ -45,7 +45,7 @@ def do_work(fd_path: str, chip_numbers, axis1, coeff_list, ref_ax: float = 0, ):
                                                                                           ref_array_idx=ref_array_index)
 
         DarkMethod.write_excel(data, excel_name)
-        print("数据处理完成！！！")
+        print("数据处理完成!!!")
     return
 
 

@@ -40,7 +40,7 @@ def do_work():
     ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title], fd_path=fd_path, fname="PCM")
     DarkMethod.write_excel(data, excel_name)
 
-    print("数据处理完成！！！")
+    print("数据处理完成!!!")
     return
 
 

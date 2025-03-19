@@ -106,7 +106,7 @@ def msku_gui():
         else:
             # 如果不是数字或允许的字符，则禁止输入并弹出提示框
             # check_input(content)
-            # tkinter.messagebox.showwarning("警告", "请输入数字！")
+            # tkinter.messagebox.showwarning("警告", "请输入数字!")
             return "break"
 
     pixel_sel = tkinter.Entry(configs_frame, relief="solid", width=26)
@@ -120,7 +120,7 @@ def msku_gui():
         else:
             # 如果不是数字或允许的字符，则禁止输入并弹出提示框
             # check_input(content)
-            # tkinter.messagebox.showwarning("警告", "请输入数字！")
+            # tkinter.messagebox.showwarning("警告", "请输入数字!")
             return "break"
 
     pixel_sel = tkinter.Entry(configs_frame, relief="solid", width=26)
@@ -134,7 +134,7 @@ def msku_gui():
         else:
             # 如果不是数字或允许的字符，则禁止输入并弹出提示框
             # check_input(content)
-            # tkinter.messagebox.showwarning("警告", "请输入数字！")
+            # tkinter.messagebox.showwarning("警告", "请输入数字!")
             return "break"
 
     frame_sel = tkinter.Entry(configs_frame, relief="solid", width=26)

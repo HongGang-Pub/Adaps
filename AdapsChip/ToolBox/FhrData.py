@@ -76,7 +76,7 @@ def do_work2(file_path, script_file):
 
     # pkg_num = Hawk01MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
     # if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
-    #     raise ValueError("MiPi数据错误！！！")
+    #     raise ValueError("MiPi数据错误!!!")
 
     vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
 
@@ -114,7 +114,7 @@ def do_work3(file_path, script_file):
 
     # pkg_num = Hawk01MipiPubMethod.CalPkgNum(hawk01_config=hawk01_config)
     # if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
-    #     raise ValueError("MiPi数据错误！！！")
+    #     raise ValueError("MiPi数据错误!!!")
 
     vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
 

@@ -35,6 +35,6 @@ def check_input(content):
     if not content.isdigit():
         # 如果输入的不是数字，则删除最后一个字符并弹出提示框
         entry.delete(len(content) - 1, tk.END)
-        tk.messagebox.showwarning("警告", "请输入数字！")
+        tk.messagebox.showwarning("警告", "请输入数字!")
 
 win.mainloop()
