@@ -1,3 +1,4 @@
+import datetime
 import sys
 
 from PySide6.QtGui import QColor, QBrush, QTextCursor, QTextCharFormat, QDesktopServices, QTextBlockFormat
@@ -44,7 +45,7 @@ def open_folder(url):
 # ///////////////////////////////////////////////////////////////
 def create_file_hyperlink(url):
     """针对QTextCursor创建文件路径"""
-    s = f'<a href="file:///{url}" style="color: blue; text-decoration: underline;">{url}</a>\t'
+    s = f'<a href="file:///{url}" style="color: blue; text-decoration: underline;">{url}</a>&#32;'
     return s
 
 
@@ -74,25 +75,31 @@ class LogerForMultithreading:
         self.loglevel = loglevel
 
         # 创建一个日志器
-        self.logger = logging.getLogger(self.logger_name)
-        self.logger.setLevel(self.loglevel)
-
+        self.root_logger = logging.getLogger(self.logger_name)
+        self.root_logger.setLevel(self.loglevel)
         # 创建一个队列对象，用于存储日志消息
-        self.log_queue = queue.Queue()
-        self.queue_handler = logging.handlers.QueueHandler(self.log_queue)
-        # self.console_handler = logging.StreamHandler()
 
-        # 创建一个Formatter, 用于设置日志的格式
-        formatter = logging.Formatter(fmt="%(asctime)s: %(message)s", datefmt='%Y-%m-%d %H:%M:%S')
-        self.queue_handler.setFormatter(formatter)
-        # self.console_handler.setFormatter(formatter)
+        # 1️⃣ 添加 GUI Handler
+        self.LOG_QUEUE = queue.Queue()
+        self.gui_handler = logging.handlers.QueueHandler(self.LOG_QUEUE)
+        self.gui_handler.setLevel(logging.INFO)
+        self.gui_handler.setFormatter(logging.Formatter(fmt="%(asctime)s: %(message)s", datefmt='%Y-%m-%d %H:%M:%S'))
+        self.root_logger.addHandler(self.gui_handler)
 
-        self.logger.addHandler(self.queue_handler)
-        # self.logger.addHandler(self.console_handler)
+        # 2️⃣ 添加文件 Handler
+        self.LOG_FILE = f"application_{datetime.datetime.now().strftime('%Y-%m-%d')}.log"
+        self.file_handler = logging.FileHandler(self.LOG_FILE, encoding="utf-8")
+        self.file_handler.setLevel(logging.INFO)
+        self.file_handler.setFormatter(logging.Formatter("%(asctime)s - [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"))
+        self.root_logger.addHandler(self.file_handler)
+
+        # 3️⃣ 重定向 stdout 和 stderr
+        sys.stdout = LoggerStream(logging.INFO)
+        sys.stderr = LoggerStream(logging.ERROR)
 
     def update_log_from_logger(self, log_widget: QTextBrowser = None):
-        while not self.log_queue.empty():
-            record = self.log_queue.get()
+        while not self.LOG_QUEUE.empty():
+            record = self.LOG_QUEUE.get()
             # INFO:20, INFO_PLUS:25, WARNING:30, ERROR:40
             log_type = 2 if record.levelno >= 40 \
                 else 1 if record.levelno >= 30 \
@@ -119,8 +126,6 @@ class LogerForMultithreading:
 
 
 # ==============================================================================
-LOG_FILE = "application.log"
-
 
 # 自定义 Handler，将日志输出到 QTextBrowser
 class QTextBrowserHandler(logging.Handler):
@@ -175,10 +180,11 @@ def setup_logging(text_browser: QTextBrowser):
 
     # 1️⃣ 添加 GUI Handler
     gui_handler = QTextBrowserHandler(text_browser)
-    gui_handler.setFormatter(logging.Formatter("%(asctime)s - [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"))
+    gui_handler.setFormatter(logging.Formatter("%(asctime)s: %(message)s", "%Y-%m-%d %H:%M:%S"))
     root_logger.addHandler(gui_handler)
 
     # 2️⃣ 添加文件 Handler
+    LOG_FILE = f"application_{datetime.datetime.now().strftime('%Y-%m-%d')}.log"
     file_handler = logging.FileHandler(LOG_FILE, encoding="utf-8")
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(logging.Formatter("%(asctime)s - [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"))

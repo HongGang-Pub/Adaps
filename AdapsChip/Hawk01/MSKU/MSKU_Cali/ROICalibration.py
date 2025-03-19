@@ -379,7 +379,7 @@ class ROICalibration:
         else:
             per_img_roi_data = self.SCANMODE_2D(img, h_vld_seg, mode=mode2D)
 
-        logging.info("完成 {} 图像识别！！！".format(img_name))
+        print("完成 {} 图像识别！！！".format(img_name))
         return per_img_roi_data
 
     def GetRoiDataFromAllImags(self, f_dict: dict, cfg: dict) -> list:
@@ -853,7 +853,7 @@ class ROICalibration:
 
         MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"])
 
-        logging.info("ROI 生成完成！！！")
+        print("ROI 生成完成！！！")
         return
 
     def do_work(self, config_file):
@@ -863,7 +863,7 @@ class ROICalibration:
 
         # 保存标定效果图片
         # ///////////////////////////////////////////////////////////////
-        logging.info("标定信息保存中...")
+        print("标定信息保存中...")
         ROICalibration.CaliResultDisplay(img_roi_datas, light_imags, cfg, 1)
 
         # 生成ROI Data

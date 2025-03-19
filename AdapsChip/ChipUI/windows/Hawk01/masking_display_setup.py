@@ -374,7 +374,7 @@ class MaskingWindow(QMainWindow):
             return
         self.hawk_config["fd_path"] = dir_path
         self.hawk_config["roi_name"] = "roi_mem"
-        logging.info("标定数据保存中....")
+        print("Saving....")
         self.btn_save.setEnabled(False)
 
         def threadFunc():

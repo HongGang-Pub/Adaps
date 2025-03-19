@@ -20,7 +20,7 @@ def ChkMipiReliablity(f_dict, pkg_num=None, one_dt_mode=0):
     Returns:
         bool: True or False
     """
-    logging.info("MIPI 数据包检查...")
+    print("MIPI 数据包检查...")
     error = 0
     sub_frame_num = 0
 
@@ -178,7 +178,7 @@ def GetCsruAndROIConfig(script_file, sramdata_path=None, protocol="i2c") -> dict
     Returns:
         dict: 寄存相关配置
     """
-    logging.info("获取寄存器配置信息...")
+    print("获取寄存器配置信息...")
     protocol = 0 if protocol == "i2c" else 1
     hawk01_config = GetCsruConfig(script_file, protocol=protocol)
     hawk01_config["roi_file"] = "{}\\{}.txt".format(sramdata_path, hawk01_config["roi_file"])

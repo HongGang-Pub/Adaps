@@ -489,7 +489,7 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     csru_cfg = GetCsruConfig(script_file, protocol)
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
     info = f"Parse {_hyper_link}..."
-    # logging.info(info)
+    # print(info)
     _str  = "---------------------------\n"
     _str += "REG_CONFIG\n"
     _str += "---------------------------\n"

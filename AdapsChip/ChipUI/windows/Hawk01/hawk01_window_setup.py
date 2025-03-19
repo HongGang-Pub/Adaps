@@ -146,7 +146,7 @@ class Hawk01MainUI:
     # 下拉框值更新
     # ///////////////////////////////////////////////////////////////
     def combobox_data_update(self, key, index):
-        # logging.info(f"{key} {index}")
+        # print(f"{key} {index}")
         self.hawk01_config[key] = index
         if key == "TDC_BIN_W":
             SYS_CLK_index = 2 - index % 3
@@ -407,7 +407,7 @@ class Hawk01MainUI:
         # //////////////////////////////////////
         if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__hawk01_config__ != self.__pre_hawk01_config__ \
                 or self.roi_gen_type == 1:
-            # logging.info("Get the latest ROI config...")
+            # print("Get the latest ROI config...")
             self.__roi_data_pkg__ = \
                 hawk01_window_functions.MskuRoiGenerateByJson(self.__hawk01_config__) if self.roi_gen_type == 0 \
                     else hawk01_window_functions.MskuRoiGenerateByFile(self.__hawk01_config__) if self.roi_gen_type == 1 \
@@ -421,7 +421,7 @@ class Hawk01MainUI:
 
     def refresh_hawk_config(self):
         """从 ROI ZONE config界面获取最新的配置"""
-        # logging.info("Get the latest ROI Zone config...")
+        # print("Get the latest ROI Zone config...")
         self.Hawk01ZoneConfig.serialize()
 
     # @memory_profiler.profile
@@ -465,7 +465,7 @@ class Hawk01MainUI:
         """
         打开 ROI masking展示界面
         """
-        # logging.info("ROI Masking display...")
+        # print("ROI Masking display...")
         # arrays = []
         # for index in range(32):
         #     arr = np.random.rand(576, 768)
@@ -516,7 +516,7 @@ class Hawk01MainUI:
 
     def open_roizone_config_win(self, url):
         """打开 ROI Zone config 界面"""
-        logging.info("Open ROI zone config window...")
+        print("Open ROI zone config window...")
         self.ui_zone_config_win.setModal(True)
         self.ui_zone_config_win.hawk01_SYS_CLK = self.hawk01_config["SYS_CLK"]
         self.ui_zone_config_win.hawk01_PLL1_OD = FREQ_Config[self.hawk01_config['XCLK']]["PLL1"] \
@@ -560,7 +560,7 @@ class Hawk01MainUI:
             # 选择后缀为.txt
             self.ui.load_pages.Hawk01_reference_script_LineEdit.setText(file)
             self.hawk01_config['ref_cfg_file'] = file
-            logging.info(self.hawk01_config['ref_cfg_file'])
+            print(self.hawk01_config['ref_cfg_file'])
 
     def script_parse(self):
         # Hawk01MainUI.merge_hawk_config(self)
@@ -576,7 +576,7 @@ class Hawk01MainUI:
         if dir_path:
             self.ui.load_pages.Hawk01_file_save_dir_LineEdit.setText(dir_path)
             self.hawk01_config['fd_path'] = dir_path
-            # logging.info(self.hawk01_config['fd_path'])
+            # print(self.hawk01_config['fd_path'])
 
     def roiUI_roi_save(self):
         """
@@ -616,7 +616,7 @@ class Hawk01MainUI:
             if self.hawk01_config["ROI_SRAM_Include"] == 1:
                 Hawk01MainUI.roi_save(self)
             hawk01_window_functions.ScriptDataSave(self.hawk01_config)
-            logging.info("Data save complete...")
+            print("Data save complete...")
 
         self.ui.load_pages.Hawk01_Save.setEnabled(False)
 
@@ -652,20 +652,20 @@ class Hawk01MainUI:
 
     def saveImage(self):  # 保存图片到本地
         fd, type = QFileDialog.getSaveFileName(self, "保存图片", "", "*.jpg;;*.png;;All Files(*)")
-        logging.info(fd)
+        print(fd)
 
     def openDirectory(self):  # 打开文件夹（目录）
         fd = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
-        logging.info(fd)
+        print(fd)
 
     def openTextFile(self):  # 选择文本文件上传
         fd, fp = QFileDialog.getOpenFileName(self, "选择文件", "", "*.txt;;All Files(*)")
-        logging.info(fd)
+        print(fd)
 
     def saveTextFile(self):  # 保存文本文件
         fd, fp = QFileDialog.getSaveFileName(self, "保存文件", "", "*.txt;;All Files(*)")
-        logging.info(fd)
-        logging.info(fp)
+        print(fd)
+        print(fp)
 
     def closeEvent(self):
         self.Hawk01Config.serialize()

@@ -82,7 +82,7 @@ def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
             subframe_data = PubMethod.read_file(file)
             for sub_light in range(6):
                 if pcm_sub == 0 and sub_light == 0:  # 打印日志
-                    logging.info("MIPI_{:0>5}: vroll_num:{:>2}, hroll_num:{:>2}".format(f_index, vroll_num, hroll_num))
+                    print("MIPI_{:0>5}: vroll_num:{:>2}, hroll_num:{:>2}".format(f_index, vroll_num, hroll_num))
                 seg_hs = msku_roi_mem[vroll_num][0] >> 10
 
                 for seg_cnt in range(h_vld_seg + 1):

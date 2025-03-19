@@ -177,7 +177,7 @@ def func_exec(DEBUG: bool, func) -> None:
         try:
             func()
         except Exception as e:
-            logging.fatal(e)
+            logging.error(e)
     pass
 
 

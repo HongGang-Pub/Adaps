@@ -135,7 +135,7 @@ def ROIDataPackageSave(roi_data_pkg, hawk01_config, save_sel=0, roi_data_format=
     url = f'{hawk01_config["fd_path"]}/{hawk01_config["roi_name"]}.txt'
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
     info = f"ROI data has been save to {_hyper_link}"
-    logging.info(info)
+    print(info)
 
     if save_sel == 0:
         return
@@ -155,7 +155,7 @@ def ROIDataPackageSave(roi_data_pkg, hawk01_config, save_sel=0, roi_data_format=
     url = f'{img_fp}'
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
     info = f"Image data has been save to {_hyper_link}"
-    logging.info(info)
+    print(info)
     return
 
 
@@ -197,7 +197,7 @@ def ScriptDataSave(hawk01_config):
         url = f'{__hawk01_config__["fd_path"]}/{__hawk01_config__["reg_name"]}.txt'
         _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
         info = f"Script data has been save to {_hyper_link}"
-        logging.info(info)
+        print(info)
 
 
 def ScriptParse(hawk01_config, file):
