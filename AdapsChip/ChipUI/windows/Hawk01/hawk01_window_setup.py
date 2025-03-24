@@ -67,9 +67,13 @@ class Hawk01MainUI:
         # ///////////////////////////////////////////////////////////////
         # 配置初始化, 如果配置文件没有此配置，需要初始化配置文件
         # ///////////////////////////////////////////////////////////////
-        CONFIG_KEYS = ["XCLK", "MST_MODE", "TX_FRM_MODE", "WORK_MODE", "MIPI_RATE", "SYS_CLK", "TDC_BIN_W",
-                       "V_PXL_OUT_NUM", "TRG_I_EN", "MINBIN_THRS", "MAXBIN_THRS", "OUT_BIN_NUM",
-                       "PKS_ECHO_NUM", "SCAN_MODE", "V_ROLL_NUM", "H_ROLL_NUM", "H_VLD_SEG"]
+        CONFIG_KEYS = ["XCLK", "MST_MODE", "WORK_MODE", "MIPI_RATE",
+                       "SYS_CLK", "TDC_BIN_W",
+                       "TX_FRM_MODE", "ONE_DT_MODE",
+                       "V_PXL_OUT_NUM", "TRG_I_EN",
+                       "MINBIN_THRS", "MAXBIN_THRS",
+                       "OUT_BIN_NUM", "PKS_ECHO_NUM",
+                       "SCAN_MODE", "V_ROLL_NUM", "H_ROLL_NUM", "H_VLD_SEG"]
         for key in CONFIG_KEYS:
             if not (key in self.hawk01_config):
                 if key == 'WORK_MODE':  # list
@@ -93,6 +97,7 @@ class Hawk01MainUI:
         self.ui.load_pages.Hawk01_XCLK_ComboBox.setCurrentIndex(self.hawk01_config['XCLK'])
         self.ui.load_pages.Hawk01_MST_MODE_ComboBox.setCurrentIndex(self.hawk01_config['MST_MODE'])
         self.ui.load_pages.Hawk01_TX_FRM_MODE_ComboBox.setCurrentIndex(self.hawk01_config['TX_FRM_MODE'])
+        self.ui.load_pages.Hawk01_ONE_DT_MODE_ComboBox.setCurrentIndex(self.hawk01_config['ONE_DT_MODE'])
         self.ui.load_pages.Hawk01_WORK_MODE_ComboBox.select_indexs(self.hawk01_config['WORK_MODE'])
         self.ui.load_pages.Hawk01_MIPI_RATE_ComboBox.setCurrentIndex(self.hawk01_config['MIPI_RATE'])
 
@@ -119,6 +124,8 @@ class Hawk01MainUI:
             partial(Hawk01MainUI.combobox_data_update, self, "MST_MODE"))
         self.ui.load_pages.Hawk01_TX_FRM_MODE_ComboBox.currentIndexChanged.connect(
             partial(Hawk01MainUI.combobox_data_update, self, "TX_FRM_MODE"))
+        self.ui.load_pages.Hawk01_ONE_DT_MODE_ComboBox.currentIndexChanged.connect(
+            partial(Hawk01MainUI.combobox_data_update, self, "ONE_DT_MODE"))
         self.ui.load_pages.Hawk01_WORK_MODE_ComboBox.activated.connect(partial(Hawk01MainUI.work_mode_update, self))
         self.ui.load_pages.Hawk01_MIPI_RATE_ComboBox.currentIndexChanged.connect(
             partial(Hawk01MainUI.combobox_data_update, self, "MIPI_RATE"))

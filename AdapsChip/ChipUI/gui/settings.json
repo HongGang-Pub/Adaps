@@ -1,6 +1,6 @@
 {
     "app_name": "Hawk GUI",
-    "version" : "v2.0.2",
+    "version" : "v2.0.3",
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
     "DEBUG": false,

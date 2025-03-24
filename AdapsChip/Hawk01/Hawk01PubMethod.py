@@ -106,8 +106,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         # register_write
         if configs[0] == regs_write:
             if len(configs) < min_lens:
-                raise ValueError(f"Script format error.\n"
-                                 f"line{line+1}: {_str}")
+                raise ValueError(f"Script format error: line{line+1}: {_str}")
             addr = int(configs[addr_index], 16)
             config_str = configs[addr_index + 1][0:2]
             register_value = int(config_str, 16)
@@ -178,8 +177,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["MIPI"]["DataTxThstrailCnt"] = register_value
         elif configs[0] == roisram_write:
             if len(configs) < 5:
-                raise ValueError(f"Script format error.\n"
-                                 f"line{line+1}: {_str}")
+                raise ValueError(f"Script format error: line{line+1}: {_str}")
             roi_name = configs[4]
             csru_cfg["roi_file"] = roi_name
         else:
@@ -266,6 +264,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
         5. 根据 hawk01_config["roi_save_n"] 配置 block_write
     """
 
+    # 从本地配置文件获取频率等配置信息
     with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
         content = file.read()
         local_scope = locals()
@@ -293,14 +292,14 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     # MIPI FLNR & WC
     # ////////////////////////////////////////////////////////////////////////////
     # 将界面上无配置入口的内容同步到 hawk01_config
-    csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
-    hawk01_config["ONE_DT_MODE"] = csru_cfg["ONE_DT_MODE"]
+    # csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
+    # hawk01_config["ONE_DT_MODE"] = csru_cfg["ONE_DT_MODE"]    # 修改从UI界面获取, 不再从脚本中获取
 
     WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
     if FLNR >= 8192:
         logging.warning(f"FLNR {FLNR} is greater than 8192, TX_FRM_MODE will set 0.")
         hawk01_config['TX_FRM_MODE'] = 0
-        WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+        WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
 
     VC0_FLNR_L = (FLNR & 0x00FF) >> 0
     VC0_FLNR_H = (FLNR & 0xFF00) >> 8
@@ -346,8 +345,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     # MIPI_PKTDLY
     # ////////////////////////////////////////////////////////////////////////////
     MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[hawk01_config['WORK_MODE']][hawk01_config['SYS_CLK']][
-        hawk01_config['MIPI_RATE']] if hawk01_config[
-                                           "WORK_MODE"] >= 2 \
+        hawk01_config['MIPI_RATE']] if hawk01_config["WORK_MODE"] >= 2 \
         else MIPI_PKTDLY_CONFIG[hawk01_config['WORK_MODE']][hawk01_config['SYS_CLK']][hawk01_config["OUT_BIN_NUM"]][
         hawk01_config['MIPI_RATE']]
 
@@ -369,6 +367,18 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     csru_datas = PubMethod.read_file(ref_cfg_file)
     if len(csru_datas) == 0:
         raise ValueError("The register configuration file is empty, please check.")
+
+    config_flag = {
+        "SYS_CTRL": 0,
+        "V_ROLL_NUM": 0,
+        "H_ROLL_NUM": 0,
+        "MINBIN_THRS": 0,
+        "MAXBIN_THRS": 0,
+        "TXU_CFG": 0,
+        "DEPTHU_CFG1": 0,
+        "DEPTHU_CFG2": 0,
+        "MIPI_TXDLY": 0
+    }
 
     # --------------------------------------------------------
     # 遍历脚本数据
@@ -403,24 +413,35 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
                 register_value = (register_value & (0xFF - 0x08)) + (hawk01_config["SCAN_MODE"] << 3)
                 register_value = (register_value & (0xFF - 0x06)) + (hawk01_config["WORK_MODE"] << 1)
                 register_value = (register_value & (0xFF - 0x01)) + (hawk01_config["MST_MODE"] << 0)
+                config_flag['SYS_CTRL'] = 1
             elif addr == reg_addr['V_ROLL_NUM']:
                 register_value = (register_value & (0xFF - 0x1F)) + (hawk01_config["V_ROLL_NUM"] << 0)
+                config_flag['V_ROLL_NUM'] = 1
             elif addr == reg_addr['H_ROLL_NUM']:
                 hawk01_config["H_ROLL_NUM"] = 0 if hawk01_config["SCAN_MODE"] == 0 else hawk01_config["H_ROLL_NUM"]
                 register_value = (register_value & (0xFF - 0x0F)) + (hawk01_config["H_ROLL_NUM"] << 0)
                 register_value = (register_value & (0xFF - 0xF0)) + (hawk01_config["H_VLD_SEG"] << 4)
+                config_flag['H_ROLL_NUM'] = 1
             elif addr == reg_addr['UPSMP_CFG']:
                 register_value = (register_value & (0xFF - 0x03)) + (hawk01_config["UPSMP_MODE"] << 0)
+            elif addr == reg_addr['TXU_CFG']:
+                register_value = (register_value & (0xFF - 0x01)) + (hawk01_config["ONE_DT_MODE"] << 0)
+                config_flag['TXU_CFG'] = 1
             elif addr == reg_addr['MINBIN_THRS']:
                 register_value = hawk01_config["MINBIN_THRS"]
+                config_flag['MINBIN_THRS'] = 1
             elif addr == reg_addr['MAXBIN_THRS']:
                 register_value = hawk01_config["MAXBIN_THRS"]
+                config_flag['MAXBIN_THRS'] = 1
             elif addr == reg_addr['DEPTHU_CFG1']:
                 register_value = (register_value & (0xFF - 0x10)) + (hawk01_config["OUT_BIN_NUM"] << 4)
+                config_flag['DEPTHU_CFG1'] = 1
             elif addr == reg_addr['DEPTHU_CFG2']:
                 register_value = (register_value & (0xFF - 0x0E)) + (hawk01_config["PKS_ECHO_NUM"] << 1)
+                config_flag['DEPTHU_CFG2'] = 1
             elif addr == reg_addr['MIPI_TXDLY']:
                 register_value = (register_value & (0xFF - 0x3F)) + (MIPI_PKTDLY << 0)
+                config_flag['MIPI_TXDLY'] = 1
             elif addr == reg_addr['TDC_DLY_CFG1']:
                 register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
             elif addr == reg_addr['SYSCLK1M_DIVL']:
@@ -460,6 +481,10 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
         else:
             # raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
             csru_datas[line] = _str
+    for key, value in config_flag.items():
+        if value == 0:
+            logging.warning(f"The reference script no {key} ( {reg_addr[key]:0>4X} ) configuration line, "
+                            f"which may make the generated script incorrect.")
 
     # --------------------------------------------------------
     # 增加配置说明

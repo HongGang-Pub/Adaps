@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagespxHsLg.ui'
+## Form generated from reading UI file 'main_pagesVewBgn.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -115,7 +115,7 @@ class Ui_MainPages(object):
         self.Hawk01_WORK_MODE_Label.setFrameShadow(QFrame.Raised)
         self.Hawk01_WORK_MODE_Label.setMargin(0)
 
-        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.Hawk01_WORK_MODE_Label)
+        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.Hawk01_WORK_MODE_Label)
 
         self.Hawk01_WORK_MODE_ComboBox = ComboCheckBox(self.Hawk01_RegisterConfig)
         self.Hawk01_WORK_MODE_ComboBox.addItem("")
@@ -126,7 +126,7 @@ class Ui_MainPages(object):
         self.Hawk01_WORK_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
         self.Hawk01_WORK_MODE_ComboBox.setFont(font1)
 
-        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.Hawk01_WORK_MODE_ComboBox)
+        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.Hawk01_WORK_MODE_ComboBox)
 
         self.Hawk01_MIPI_RATE_Label = QLabel(self.Hawk01_RegisterConfig)
         self.Hawk01_MIPI_RATE_Label.setObjectName(u"Hawk01_MIPI_RATE_Label")
@@ -138,7 +138,7 @@ class Ui_MainPages(object):
         self.Hawk01_MIPI_RATE_Label.setFrameShape(QFrame.StyledPanel)
         self.Hawk01_MIPI_RATE_Label.setFrameShadow(QFrame.Raised)
 
-        self.formLayout_2.setWidget(4, QFormLayout.LabelRole, self.Hawk01_MIPI_RATE_Label)
+        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.Hawk01_MIPI_RATE_Label)
 
         self.Hawk01_MIPI_RATE_ComboBox = QComboBox(self.Hawk01_RegisterConfig)
         self.Hawk01_MIPI_RATE_ComboBox.addItem("")
@@ -149,7 +149,7 @@ class Ui_MainPages(object):
         self.Hawk01_MIPI_RATE_ComboBox.setMaximumSize(QSize(350, 16777215))
         self.Hawk01_MIPI_RATE_ComboBox.setFont(font1)
 
-        self.formLayout_2.setWidget(4, QFormLayout.FieldRole, self.Hawk01_MIPI_RATE_ComboBox)
+        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.Hawk01_MIPI_RATE_ComboBox)
 
         self.Hawk01_MoreConfiguration = QGroupBox(self.Hawk01_RegisterConfig)
         self.Hawk01_MoreConfiguration.setObjectName(u"Hawk01_MoreConfiguration")
@@ -159,48 +159,14 @@ class Ui_MainPages(object):
         self.gridLayout = QGridLayout(self.Hawk01_MoreConfiguration)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, -1, 3, -1)
-        self.Hawk01_V_PXL_OUT_NUM_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
-        self.Hawk01_V_PXL_OUT_NUM_ComboBox.addItem("")
-        self.Hawk01_V_PXL_OUT_NUM_ComboBox.addItem("")
-        self.Hawk01_V_PXL_OUT_NUM_ComboBox.setObjectName(u"Hawk01_V_PXL_OUT_NUM_ComboBox")
-
-        self.gridLayout.addWidget(self.Hawk01_V_PXL_OUT_NUM_ComboBox, 1, 1, 1, 1)
-
         self.Hawk01_TRG_I_EN_Label = QLabel(self.Hawk01_MoreConfiguration)
         self.Hawk01_TRG_I_EN_Label.setObjectName(u"Hawk01_TRG_I_EN_Label")
         self.Hawk01_TRG_I_EN_Label.setMinimumSize(QSize(100, 0))
-        self.Hawk01_TRG_I_EN_Label.setMaximumSize(QSize(85, 16777215))
+        self.Hawk01_TRG_I_EN_Label.setMaximumSize(QSize(16777215, 16777215))
         self.Hawk01_TRG_I_EN_Label.setFont(font)
         self.Hawk01_TRG_I_EN_Label.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout.addWidget(self.Hawk01_TRG_I_EN_Label, 1, 3, 1, 1)
-
-        self.Hawk01_OUT_BIN_NUM_Lable = QLabel(self.Hawk01_MoreConfiguration)
-        self.Hawk01_OUT_BIN_NUM_Lable.setObjectName(u"Hawk01_OUT_BIN_NUM_Lable")
-        self.Hawk01_OUT_BIN_NUM_Lable.setMinimumSize(QSize(100, 0))
-        self.Hawk01_OUT_BIN_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
-        self.Hawk01_OUT_BIN_NUM_Lable.setFont(font)
-        self.Hawk01_OUT_BIN_NUM_Lable.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.Hawk01_OUT_BIN_NUM_Lable, 3, 0, 1, 1)
-
-        self.Hawk01_SYS_CLK_Label = QLabel(self.Hawk01_MoreConfiguration)
-        self.Hawk01_SYS_CLK_Label.setObjectName(u"Hawk01_SYS_CLK_Label")
-        self.Hawk01_SYS_CLK_Label.setMinimumSize(QSize(100, 0))
-        self.Hawk01_SYS_CLK_Label.setFont(font)
-        self.Hawk01_SYS_CLK_Label.setFrameShape(QFrame.StyledPanel)
-        self.Hawk01_SYS_CLK_Label.setFrameShadow(QFrame.Raised)
-
-        self.gridLayout.addWidget(self.Hawk01_SYS_CLK_Label, 0, 0, 1, 1)
-
-        self.Hawk01_PKS_ECHO_NUM_Lable = QLabel(self.Hawk01_MoreConfiguration)
-        self.Hawk01_PKS_ECHO_NUM_Lable.setObjectName(u"Hawk01_PKS_ECHO_NUM_Lable")
-        self.Hawk01_PKS_ECHO_NUM_Lable.setMinimumSize(QSize(100, 0))
-        self.Hawk01_PKS_ECHO_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
-        self.Hawk01_PKS_ECHO_NUM_Lable.setFont(font)
-        self.Hawk01_PKS_ECHO_NUM_Lable.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.Hawk01_PKS_ECHO_NUM_Lable, 3, 3, 1, 1)
+        self.gridLayout.addWidget(self.Hawk01_TRG_I_EN_Label, 2, 3, 1, 1)
 
         self.Hawk01_MINBIN_THRS_Lable = QLabel(self.Hawk01_MoreConfiguration)
         self.Hawk01_MINBIN_THRS_Lable.setObjectName(u"Hawk01_MINBIN_THRS_Lable")
@@ -209,11 +175,115 @@ class Ui_MainPages(object):
         self.Hawk01_MINBIN_THRS_Lable.setFont(font)
         self.Hawk01_MINBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout.addWidget(self.Hawk01_MINBIN_THRS_Lable, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.Hawk01_MINBIN_THRS_Lable, 3, 0, 1, 1)
+
+        self.Hawk01_MAXBIN_THRS_spinBox = QSpinBox(self.Hawk01_MoreConfiguration)
+        self.Hawk01_MAXBIN_THRS_spinBox.setObjectName(u"Hawk01_MAXBIN_THRS_spinBox")
+        self.Hawk01_MAXBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
+        self.Hawk01_MAXBIN_THRS_spinBox.setMinimum(1)
+        self.Hawk01_MAXBIN_THRS_spinBox.setMaximum(167)
+        self.Hawk01_MAXBIN_THRS_spinBox.setValue(167)
+
+        self.gridLayout.addWidget(self.Hawk01_MAXBIN_THRS_spinBox, 3, 5, 1, 1)
+
+        self.Hawk01_V_PXL_OUT_NUM_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
+        self.Hawk01_V_PXL_OUT_NUM_ComboBox.addItem("")
+        self.Hawk01_V_PXL_OUT_NUM_ComboBox.addItem("")
+        self.Hawk01_V_PXL_OUT_NUM_ComboBox.setObjectName(u"Hawk01_V_PXL_OUT_NUM_ComboBox")
+
+        self.gridLayout.addWidget(self.Hawk01_V_PXL_OUT_NUM_ComboBox, 2, 1, 1, 1)
+
+        self.Hawk01_PKS_ECHO_NUM_Lable = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_PKS_ECHO_NUM_Lable.setObjectName(u"Hawk01_PKS_ECHO_NUM_Lable")
+        self.Hawk01_PKS_ECHO_NUM_Lable.setMinimumSize(QSize(100, 0))
+        self.Hawk01_PKS_ECHO_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.Hawk01_PKS_ECHO_NUM_Lable.setFont(font)
+        self.Hawk01_PKS_ECHO_NUM_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.Hawk01_PKS_ECHO_NUM_Lable, 4, 3, 1, 1)
+
+        self.Hawk01_V_PXL_OUT_NUM_Label = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_V_PXL_OUT_NUM_Label.setObjectName(u"Hawk01_V_PXL_OUT_NUM_Label")
+        self.Hawk01_V_PXL_OUT_NUM_Label.setMinimumSize(QSize(100, 0))
+        self.Hawk01_V_PXL_OUT_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Hawk01_V_PXL_OUT_NUM_Label.setFont(font)
+        self.Hawk01_V_PXL_OUT_NUM_Label.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.Hawk01_V_PXL_OUT_NUM_Label, 2, 0, 1, 1)
+
+        self.Hawk01_TDC_BIN_W_Label = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_TDC_BIN_W_Label.setObjectName(u"Hawk01_TDC_BIN_W_Label")
+        self.Hawk01_TDC_BIN_W_Label.setMinimumSize(QSize(100, 0))
+        self.Hawk01_TDC_BIN_W_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Hawk01_TDC_BIN_W_Label.setFont(font)
+        self.Hawk01_TDC_BIN_W_Label.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.Hawk01_TDC_BIN_W_Label, 0, 3, 1, 1)
+
+        self.Hawk01_BIN_NUMBER_Value = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_BIN_NUMBER_Value.setObjectName(u"Hawk01_BIN_NUMBER_Value")
+        self.Hawk01_BIN_NUMBER_Value.setMinimumSize(QSize(28, 25))
+        self.Hawk01_BIN_NUMBER_Value.setMaximumSize(QSize(20, 16777215))
+        self.Hawk01_BIN_NUMBER_Value.setFont(font1)
+        self.Hawk01_BIN_NUMBER_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.Hawk01_BIN_NUMBER_Value.setWordWrap(True)
+        self.Hawk01_BIN_NUMBER_Value.setMargin(0)
+
+        self.gridLayout.addWidget(self.Hawk01_BIN_NUMBER_Value, 3, 6, 1, 1)
+
+        self.Hawk01_OUT_BIN_NUM_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
+        self.Hawk01_OUT_BIN_NUM_ComboBox.addItem("")
+        self.Hawk01_OUT_BIN_NUM_ComboBox.addItem("")
+        self.Hawk01_OUT_BIN_NUM_ComboBox.setObjectName(u"Hawk01_OUT_BIN_NUM_ComboBox")
+
+        self.gridLayout.addWidget(self.Hawk01_OUT_BIN_NUM_ComboBox, 4, 1, 1, 1)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout.addItem(self.verticalSpacer_4, 6, 1, 1, 1)
+        self.gridLayout.addItem(self.verticalSpacer_4, 7, 1, 1, 1)
+
+        self.Hawk01_TDC_BIN_W_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
+        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
+        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
+        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
+        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
+        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
+        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
+        self.Hawk01_TDC_BIN_W_ComboBox.setObjectName(u"Hawk01_TDC_BIN_W_ComboBox")
+
+        self.gridLayout.addWidget(self.Hawk01_TDC_BIN_W_ComboBox, 0, 5, 1, 1)
+
+        self.Hawk01_MAXBIN_THRS_Lable_ = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_MAXBIN_THRS_Lable_.setObjectName(u"Hawk01_MAXBIN_THRS_Lable_")
+        self.Hawk01_MAXBIN_THRS_Lable_.setMinimumSize(QSize(100, 0))
+        self.Hawk01_MAXBIN_THRS_Lable_.setMaximumSize(QSize(16777215, 16777215))
+        self.Hawk01_MAXBIN_THRS_Lable_.setFont(font)
+        self.Hawk01_MAXBIN_THRS_Lable_.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.Hawk01_MAXBIN_THRS_Lable_, 3, 3, 1, 1)
+
+        self.Hawk01_MINBIN_THRS_spinBox = QSpinBox(self.Hawk01_MoreConfiguration)
+        self.Hawk01_MINBIN_THRS_spinBox.setObjectName(u"Hawk01_MINBIN_THRS_spinBox")
+        self.Hawk01_MINBIN_THRS_spinBox.setEnabled(True)
+        self.Hawk01_MINBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
+        self.Hawk01_MINBIN_THRS_spinBox.setMinimum(0)
+        self.Hawk01_MINBIN_THRS_spinBox.setMaximum(255)
+        self.Hawk01_MINBIN_THRS_spinBox.setValue(0)
+
+        self.gridLayout.addWidget(self.Hawk01_MINBIN_THRS_spinBox, 3, 1, 1, 1)
+
+        self.horizontalSpacer_24 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer_24, 2, 2, 1, 1)
+
+        self.Hawk01_OUT_BIN_NUM_Lable = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_OUT_BIN_NUM_Lable.setObjectName(u"Hawk01_OUT_BIN_NUM_Lable")
+        self.Hawk01_OUT_BIN_NUM_Lable.setMinimumSize(QSize(100, 0))
+        self.Hawk01_OUT_BIN_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.Hawk01_OUT_BIN_NUM_Lable.setFont(font)
+        self.Hawk01_OUT_BIN_NUM_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout.addWidget(self.Hawk01_OUT_BIN_NUM_Lable, 4, 0, 1, 1)
 
         self.Hawk01_PKS_ECHO_NUM_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
         self.Hawk01_PKS_ECHO_NUM_ComboBox.addItem("")
@@ -223,34 +293,16 @@ class Ui_MainPages(object):
         self.Hawk01_PKS_ECHO_NUM_ComboBox.addItem("")
         self.Hawk01_PKS_ECHO_NUM_ComboBox.setObjectName(u"Hawk01_PKS_ECHO_NUM_ComboBox")
 
-        self.gridLayout.addWidget(self.Hawk01_PKS_ECHO_NUM_ComboBox, 3, 5, 1, 1)
+        self.gridLayout.addWidget(self.Hawk01_PKS_ECHO_NUM_ComboBox, 4, 5, 1, 1)
 
-        self.Hawk01_MAXBIN_THRS_spinBox = QSpinBox(self.Hawk01_MoreConfiguration)
-        self.Hawk01_MAXBIN_THRS_spinBox.setObjectName(u"Hawk01_MAXBIN_THRS_spinBox")
-        self.Hawk01_MAXBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
-        self.Hawk01_MAXBIN_THRS_spinBox.setMinimum(1)
-        self.Hawk01_MAXBIN_THRS_spinBox.setMaximum(167)
-        self.Hawk01_MAXBIN_THRS_spinBox.setValue(167)
+        self.Hawk01_SYS_CLK_Label = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_SYS_CLK_Label.setObjectName(u"Hawk01_SYS_CLK_Label")
+        self.Hawk01_SYS_CLK_Label.setMinimumSize(QSize(100, 0))
+        self.Hawk01_SYS_CLK_Label.setFont(font)
+        self.Hawk01_SYS_CLK_Label.setFrameShape(QFrame.StyledPanel)
+        self.Hawk01_SYS_CLK_Label.setFrameShadow(QFrame.Raised)
 
-        self.gridLayout.addWidget(self.Hawk01_MAXBIN_THRS_spinBox, 2, 5, 1, 1)
-
-        self.Hawk01_MAXBIN_THRS_Lable_ = QLabel(self.Hawk01_MoreConfiguration)
-        self.Hawk01_MAXBIN_THRS_Lable_.setObjectName(u"Hawk01_MAXBIN_THRS_Lable_")
-        self.Hawk01_MAXBIN_THRS_Lable_.setMinimumSize(QSize(100, 0))
-        self.Hawk01_MAXBIN_THRS_Lable_.setMaximumSize(QSize(16777215, 16777215))
-        self.Hawk01_MAXBIN_THRS_Lable_.setFont(font)
-        self.Hawk01_MAXBIN_THRS_Lable_.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.Hawk01_MAXBIN_THRS_Lable_, 2, 3, 1, 1)
-
-        self.Hawk01_V_PXL_OUT_NUM_Label = QLabel(self.Hawk01_MoreConfiguration)
-        self.Hawk01_V_PXL_OUT_NUM_Label.setObjectName(u"Hawk01_V_PXL_OUT_NUM_Label")
-        self.Hawk01_V_PXL_OUT_NUM_Label.setMinimumSize(QSize(100, 0))
-        self.Hawk01_V_PXL_OUT_NUM_Label.setMaximumSize(QSize(85, 16777215))
-        self.Hawk01_V_PXL_OUT_NUM_Label.setFont(font)
-        self.Hawk01_V_PXL_OUT_NUM_Label.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.Hawk01_V_PXL_OUT_NUM_Label, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.Hawk01_SYS_CLK_Label, 0, 0, 1, 1)
 
         self.Hawk01_SYS_CLK_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
         self.Hawk01_SYS_CLK_ComboBox.addItem("")
@@ -264,84 +316,49 @@ class Ui_MainPages(object):
 
         self.gridLayout.addWidget(self.Hawk01_SYS_CLK_ComboBox, 0, 1, 1, 1)
 
-        self.horizontalSpacer_24 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout.addItem(self.horizontalSpacer_24, 1, 2, 1, 1)
-
         self.Hawk01_TRG_I_EN_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
         self.Hawk01_TRG_I_EN_ComboBox.addItem("")
         self.Hawk01_TRG_I_EN_ComboBox.addItem("")
         self.Hawk01_TRG_I_EN_ComboBox.setObjectName(u"Hawk01_TRG_I_EN_ComboBox")
 
-        self.gridLayout.addWidget(self.Hawk01_TRG_I_EN_ComboBox, 1, 5, 1, 1)
+        self.gridLayout.addWidget(self.Hawk01_TRG_I_EN_ComboBox, 2, 5, 1, 1)
 
-        self.Hawk01_MINBIN_THRS_spinBox = QSpinBox(self.Hawk01_MoreConfiguration)
-        self.Hawk01_MINBIN_THRS_spinBox.setObjectName(u"Hawk01_MINBIN_THRS_spinBox")
-        self.Hawk01_MINBIN_THRS_spinBox.setEnabled(True)
-        self.Hawk01_MINBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
-        self.Hawk01_MINBIN_THRS_spinBox.setMinimum(0)
-        self.Hawk01_MINBIN_THRS_spinBox.setMaximum(255)
-        self.Hawk01_MINBIN_THRS_spinBox.setValue(0)
-
-        self.gridLayout.addWidget(self.Hawk01_MINBIN_THRS_spinBox, 2, 1, 1, 1)
-
-        self.Hawk01_OUT_BIN_NUM_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
-        self.Hawk01_OUT_BIN_NUM_ComboBox.addItem("")
-        self.Hawk01_OUT_BIN_NUM_ComboBox.addItem("")
-        self.Hawk01_OUT_BIN_NUM_ComboBox.setObjectName(u"Hawk01_OUT_BIN_NUM_ComboBox")
-
-        self.gridLayout.addWidget(self.Hawk01_OUT_BIN_NUM_ComboBox, 3, 1, 1, 1)
-
-        self.Hawk01_BIN_NUMBER_Value = QLabel(self.Hawk01_MoreConfiguration)
-        self.Hawk01_BIN_NUMBER_Value.setObjectName(u"Hawk01_BIN_NUMBER_Value")
-        self.Hawk01_BIN_NUMBER_Value.setMinimumSize(QSize(25, 25))
-        self.Hawk01_BIN_NUMBER_Value.setMaximumSize(QSize(20, 16777215))
-        self.Hawk01_BIN_NUMBER_Value.setFont(font1)
-        self.Hawk01_BIN_NUMBER_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        self.Hawk01_BIN_NUMBER_Value.setWordWrap(True)
-        self.Hawk01_BIN_NUMBER_Value.setMargin(0)
-
-        self.gridLayout.addWidget(self.Hawk01_BIN_NUMBER_Value, 2, 6, 1, 1)
-
-        self.Hawk01_TDC_BIN_W_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
-        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
-        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
-        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
-        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
-        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
-        self.Hawk01_TDC_BIN_W_ComboBox.addItem("")
-        self.Hawk01_TDC_BIN_W_ComboBox.setObjectName(u"Hawk01_TDC_BIN_W_ComboBox")
-
-        self.gridLayout.addWidget(self.Hawk01_TDC_BIN_W_ComboBox, 0, 5, 1, 1)
-
-        self.Hawk01_TDC_BIN_W_Label = QLabel(self.Hawk01_MoreConfiguration)
-        self.Hawk01_TDC_BIN_W_Label.setObjectName(u"Hawk01_TDC_BIN_W_Label")
-        self.Hawk01_TDC_BIN_W_Label.setMinimumSize(QSize(100, 0))
-        self.Hawk01_TDC_BIN_W_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Hawk01_TDC_BIN_W_Label.setFont(font)
-        self.Hawk01_TDC_BIN_W_Label.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout.addWidget(self.Hawk01_TDC_BIN_W_Label, 0, 3, 1, 1)
-
-
-        self.formLayout_2.setWidget(5, QFormLayout.SpanningRole, self.Hawk01_MoreConfiguration)
-
-        self.Hawk01_TX_FRM_MODE_Label = QLabel(self.Hawk01_RegisterConfig)
+        self.Hawk01_TX_FRM_MODE_Label = QLabel(self.Hawk01_MoreConfiguration)
         self.Hawk01_TX_FRM_MODE_Label.setObjectName(u"Hawk01_TX_FRM_MODE_Label")
         self.Hawk01_TX_FRM_MODE_Label.setMinimumSize(QSize(100, 0))
-        self.Hawk01_TX_FRM_MODE_Label.setMaximumSize(QSize(85, 16777215))
+        self.Hawk01_TX_FRM_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
         self.Hawk01_TX_FRM_MODE_Label.setFrameShape(QFrame.StyledPanel)
         self.Hawk01_TX_FRM_MODE_Label.setMargin(0)
 
-        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.Hawk01_TX_FRM_MODE_Label)
+        self.gridLayout.addWidget(self.Hawk01_TX_FRM_MODE_Label, 1, 0, 1, 1)
 
-        self.Hawk01_TX_FRM_MODE_ComboBox = QComboBox(self.Hawk01_RegisterConfig)
+        self.Hawk01_TX_FRM_MODE_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
         self.Hawk01_TX_FRM_MODE_ComboBox.addItem("")
         self.Hawk01_TX_FRM_MODE_ComboBox.addItem("")
         self.Hawk01_TX_FRM_MODE_ComboBox.setObjectName(u"Hawk01_TX_FRM_MODE_ComboBox")
         self.Hawk01_TX_FRM_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
 
-        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.Hawk01_TX_FRM_MODE_ComboBox)
+        self.gridLayout.addWidget(self.Hawk01_TX_FRM_MODE_ComboBox, 1, 1, 1, 1)
+
+        self.Hawk01_ONE_DT_MODE_Label = QLabel(self.Hawk01_MoreConfiguration)
+        self.Hawk01_ONE_DT_MODE_Label.setObjectName(u"Hawk01_ONE_DT_MODE_Label")
+        self.Hawk01_ONE_DT_MODE_Label.setMinimumSize(QSize(100, 0))
+        self.Hawk01_ONE_DT_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Hawk01_ONE_DT_MODE_Label.setFrameShape(QFrame.StyledPanel)
+        self.Hawk01_ONE_DT_MODE_Label.setMargin(0)
+
+        self.gridLayout.addWidget(self.Hawk01_ONE_DT_MODE_Label, 1, 3, 1, 1)
+
+        self.Hawk01_ONE_DT_MODE_ComboBox = QComboBox(self.Hawk01_MoreConfiguration)
+        self.Hawk01_ONE_DT_MODE_ComboBox.addItem("")
+        self.Hawk01_ONE_DT_MODE_ComboBox.addItem("")
+        self.Hawk01_ONE_DT_MODE_ComboBox.setObjectName(u"Hawk01_ONE_DT_MODE_ComboBox")
+        self.Hawk01_ONE_DT_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
+
+        self.gridLayout.addWidget(self.Hawk01_ONE_DT_MODE_ComboBox, 1, 5, 1, 1)
+
+
+        self.formLayout_2.setWidget(4, QFormLayout.SpanningRole, self.Hawk01_MoreConfiguration)
 
 
         self.horizontalLayout_2.addWidget(self.Hawk01_RegisterConfig)
@@ -533,7 +550,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 348, 410))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 341, 410))
         self.formLayout = QFormLayout(self.scrollAreaWidgetContents_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -721,7 +738,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 348, 410))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 341, 410))
         self.formLayout_4 = QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -800,7 +817,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 348, 410))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 341, 410))
         self.formLayout_5 = QFormLayout(self.scrollAreaWidgetContents_4)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -891,7 +908,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 348, 401))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 341, 401))
         self.formLayout_7 = QFormLayout(self.scrollAreaWidgetContents_6)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -1339,32 +1356,6 @@ class Ui_MainPages(object):
 
         self.formLayout_6.setWidget(0, QFormLayout.FieldRole, self.Swan01_XCLK_ComboBox)
 
-        self.Swan01_MST_MODE_Label = QLabel(self.Swan01_RegisterConfig)
-        self.Swan01_MST_MODE_Label.setObjectName(u"Swan01_MST_MODE_Label")
-        self.Swan01_MST_MODE_Label.setMinimumSize(QSize(100, 0))
-        self.Swan01_MST_MODE_Label.setMaximumSize(QSize(85, 16777215))
-        self.Swan01_MST_MODE_Label.setFrameShape(QFrame.StyledPanel)
-        self.Swan01_MST_MODE_Label.setMargin(0)
-
-        self.formLayout_6.setWidget(1, QFormLayout.LabelRole, self.Swan01_MST_MODE_Label)
-
-        self.Swan01_MST_MODE_ComboBox = QComboBox(self.Swan01_RegisterConfig)
-        self.Swan01_MST_MODE_ComboBox.addItem("")
-        self.Swan01_MST_MODE_ComboBox.addItem("")
-        self.Swan01_MST_MODE_ComboBox.setObjectName(u"Swan01_MST_MODE_ComboBox")
-        self.Swan01_MST_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
-
-        self.formLayout_6.setWidget(1, QFormLayout.FieldRole, self.Swan01_MST_MODE_ComboBox)
-
-        self.Swan01_TX_FRM_MODE_Label = QLabel(self.Swan01_RegisterConfig)
-        self.Swan01_TX_FRM_MODE_Label.setObjectName(u"Swan01_TX_FRM_MODE_Label")
-        self.Swan01_TX_FRM_MODE_Label.setMinimumSize(QSize(100, 0))
-        self.Swan01_TX_FRM_MODE_Label.setMaximumSize(QSize(85, 16777215))
-        self.Swan01_TX_FRM_MODE_Label.setFrameShape(QFrame.StyledPanel)
-        self.Swan01_TX_FRM_MODE_Label.setMargin(0)
-
-        self.formLayout_6.setWidget(2, QFormLayout.LabelRole, self.Swan01_TX_FRM_MODE_Label)
-
         self.Swan01_WORK_MODE_Label = QLabel(self.Swan01_RegisterConfig)
         self.Swan01_WORK_MODE_Label.setObjectName(u"Swan01_WORK_MODE_Label")
         sizePolicy.setHeightForWidth(self.Swan01_WORK_MODE_Label.sizePolicy().hasHeightForWidth())
@@ -1375,7 +1366,7 @@ class Ui_MainPages(object):
         self.Swan01_WORK_MODE_Label.setFrameShadow(QFrame.Raised)
         self.Swan01_WORK_MODE_Label.setMargin(0)
 
-        self.formLayout_6.setWidget(3, QFormLayout.LabelRole, self.Swan01_WORK_MODE_Label)
+        self.formLayout_6.setWidget(1, QFormLayout.LabelRole, self.Swan01_WORK_MODE_Label)
 
         self.Swan01_WORK_MODE_ComboBox = ComboCheckBox(self.Swan01_RegisterConfig)
         self.Swan01_WORK_MODE_ComboBox.addItem("")
@@ -1386,30 +1377,7 @@ class Ui_MainPages(object):
         self.Swan01_WORK_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
         self.Swan01_WORK_MODE_ComboBox.setFont(font1)
 
-        self.formLayout_6.setWidget(3, QFormLayout.FieldRole, self.Swan01_WORK_MODE_ComboBox)
-
-        self.Swan01_MIPI_RATE_Label = QLabel(self.Swan01_RegisterConfig)
-        self.Swan01_MIPI_RATE_Label.setObjectName(u"Swan01_MIPI_RATE_Label")
-        sizePolicy.setHeightForWidth(self.Swan01_MIPI_RATE_Label.sizePolicy().hasHeightForWidth())
-        self.Swan01_MIPI_RATE_Label.setSizePolicy(sizePolicy)
-        self.Swan01_MIPI_RATE_Label.setMinimumSize(QSize(100, 0))
-        self.Swan01_MIPI_RATE_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_MIPI_RATE_Label.setFont(font1)
-        self.Swan01_MIPI_RATE_Label.setFrameShape(QFrame.StyledPanel)
-        self.Swan01_MIPI_RATE_Label.setFrameShadow(QFrame.Raised)
-
-        self.formLayout_6.setWidget(4, QFormLayout.LabelRole, self.Swan01_MIPI_RATE_Label)
-
-        self.Swan01_MIPI_RATE_ComboBox = QComboBox(self.Swan01_RegisterConfig)
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.setObjectName(u"Swan01_MIPI_RATE_ComboBox")
-        self.Swan01_MIPI_RATE_ComboBox.setMaximumSize(QSize(350, 16777215))
-        self.Swan01_MIPI_RATE_ComboBox.setFont(font1)
-
-        self.formLayout_6.setWidget(4, QFormLayout.FieldRole, self.Swan01_MIPI_RATE_ComboBox)
+        self.formLayout_6.setWidget(1, QFormLayout.FieldRole, self.Swan01_WORK_MODE_ComboBox)
 
         self.Swan01_MoreConfiguration = QGroupBox(self.Swan01_RegisterConfig)
         self.Swan01_MoreConfiguration.setObjectName(u"Swan01_MoreConfiguration")
@@ -1419,21 +1387,14 @@ class Ui_MainPages(object):
         self.gridLayout_3 = QGridLayout(self.Swan01_MoreConfiguration)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setContentsMargins(0, -1, 3, -1)
-        self.Swan01_V_PXL_OUT_NUM_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
-        self.Swan01_V_PXL_OUT_NUM_ComboBox.addItem("")
-        self.Swan01_V_PXL_OUT_NUM_ComboBox.addItem("")
-        self.Swan01_V_PXL_OUT_NUM_ComboBox.setObjectName(u"Swan01_V_PXL_OUT_NUM_ComboBox")
-
-        self.gridLayout_3.addWidget(self.Swan01_V_PXL_OUT_NUM_ComboBox, 1, 1, 1, 1)
-
         self.Swan01_TRG_I_EN_Label = QLabel(self.Swan01_MoreConfiguration)
         self.Swan01_TRG_I_EN_Label.setObjectName(u"Swan01_TRG_I_EN_Label")
         self.Swan01_TRG_I_EN_Label.setMinimumSize(QSize(100, 0))
-        self.Swan01_TRG_I_EN_Label.setMaximumSize(QSize(85, 16777215))
+        self.Swan01_TRG_I_EN_Label.setMaximumSize(QSize(16777215, 16777215))
         self.Swan01_TRG_I_EN_Label.setFont(font)
         self.Swan01_TRG_I_EN_Label.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout_3.addWidget(self.Swan01_TRG_I_EN_Label, 1, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_TRG_I_EN_Label, 2, 3, 1, 1)
 
         self.Swan01_OUT_BIN_NUM_Lable = QLabel(self.Swan01_MoreConfiguration)
         self.Swan01_OUT_BIN_NUM_Lable.setObjectName(u"Swan01_OUT_BIN_NUM_Lable")
@@ -1442,7 +1403,167 @@ class Ui_MainPages(object):
         self.Swan01_OUT_BIN_NUM_Lable.setFont(font)
         self.Swan01_OUT_BIN_NUM_Lable.setFrameShape(QFrame.StyledPanel)
 
-        self.gridLayout_3.addWidget(self.Swan01_OUT_BIN_NUM_Lable, 3, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_OUT_BIN_NUM_Lable, 6, 0, 1, 1)
+
+        self.Swan01_PKS_ECHO_NUM_Lable = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_PKS_ECHO_NUM_Lable.setObjectName(u"Swan01_PKS_ECHO_NUM_Lable")
+        self.Swan01_PKS_ECHO_NUM_Lable.setMinimumSize(QSize(100, 0))
+        self.Swan01_PKS_ECHO_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_PKS_ECHO_NUM_Lable.setFont(font)
+        self.Swan01_PKS_ECHO_NUM_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout_3.addWidget(self.Swan01_PKS_ECHO_NUM_Lable, 6, 3, 1, 1)
+
+        self.Swan01_PKS_ECHO_NUM_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
+        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
+        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
+        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
+        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
+        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
+        self.Swan01_PKS_ECHO_NUM_ComboBox.setObjectName(u"Swan01_PKS_ECHO_NUM_ComboBox")
+
+        self.gridLayout_3.addWidget(self.Swan01_PKS_ECHO_NUM_ComboBox, 6, 5, 1, 1)
+
+        self.Swan01_OUT_BIN_NUM_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
+        self.Swan01_OUT_BIN_NUM_ComboBox.addItem("")
+        self.Swan01_OUT_BIN_NUM_ComboBox.addItem("")
+        self.Swan01_OUT_BIN_NUM_ComboBox.setObjectName(u"Swan01_OUT_BIN_NUM_ComboBox")
+
+        self.gridLayout_3.addWidget(self.Swan01_OUT_BIN_NUM_ComboBox, 6, 1, 1, 1)
+
+        self.Swan01_NS_MINBIN_THRS_Lable = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_NS_MINBIN_THRS_Lable.setObjectName(u"Swan01_NS_MINBIN_THRS_Lable")
+        self.Swan01_NS_MINBIN_THRS_Lable.setMinimumSize(QSize(100, 0))
+        self.Swan01_NS_MINBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_NS_MINBIN_THRS_Lable.setFont(font)
+        self.Swan01_NS_MINBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout_3.addWidget(self.Swan01_NS_MINBIN_THRS_Lable, 5, 0, 1, 1)
+
+        self.Swan01_HIST_MINBIN_THRS_Lable = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_HIST_MINBIN_THRS_Lable.setObjectName(u"Swan01_HIST_MINBIN_THRS_Lable")
+        self.Swan01_HIST_MINBIN_THRS_Lable.setMinimumSize(QSize(100, 0))
+        self.Swan01_HIST_MINBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_HIST_MINBIN_THRS_Lable.setFont(font)
+        self.Swan01_HIST_MINBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout_3.addWidget(self.Swan01_HIST_MINBIN_THRS_Lable, 4, 0, 1, 1)
+
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_3.addItem(self.verticalSpacer_5, 9, 1, 1, 1)
+
+        self.Swan01_HIST_MINBIN_THRS_spinBox = QSpinBox(self.Swan01_MoreConfiguration)
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setObjectName(u"Swan01_HIST_MINBIN_THRS_spinBox")
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setEnabled(True)
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setMinimum(0)
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setMaximum(255)
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setValue(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_HIST_MINBIN_THRS_spinBox, 4, 1, 1, 1)
+
+        self.Swan01_TRG_I_EN_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
+        self.Swan01_TRG_I_EN_ComboBox.addItem("")
+        self.Swan01_TRG_I_EN_ComboBox.addItem("")
+        self.Swan01_TRG_I_EN_ComboBox.setObjectName(u"Swan01_TRG_I_EN_ComboBox")
+
+        self.gridLayout_3.addWidget(self.Swan01_TRG_I_EN_ComboBox, 2, 5, 1, 1)
+
+        self.Swan01_BIN_NUMBER_Value = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_BIN_NUMBER_Value.setObjectName(u"Swan01_BIN_NUMBER_Value")
+        self.Swan01_BIN_NUMBER_Value.setMinimumSize(QSize(28, 25))
+        self.Swan01_BIN_NUMBER_Value.setMaximumSize(QSize(20, 16777215))
+        self.Swan01_BIN_NUMBER_Value.setFont(font1)
+        self.Swan01_BIN_NUMBER_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
+        self.Swan01_BIN_NUMBER_Value.setWordWrap(True)
+        self.Swan01_BIN_NUMBER_Value.setMargin(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_BIN_NUMBER_Value, 4, 6, 1, 1)
+
+        self.Swan01_NS_MAXBIN_THRS_Lable = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_NS_MAXBIN_THRS_Lable.setObjectName(u"Swan01_NS_MAXBIN_THRS_Lable")
+        self.Swan01_NS_MAXBIN_THRS_Lable.setMinimumSize(QSize(100, 0))
+        self.Swan01_NS_MAXBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_NS_MAXBIN_THRS_Lable.setFont(font)
+        self.Swan01_NS_MAXBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout_3.addWidget(self.Swan01_NS_MAXBIN_THRS_Lable, 5, 3, 1, 1)
+
+        self.Swan01_NS_MINBIN_THRS_spinBox = QSpinBox(self.Swan01_MoreConfiguration)
+        self.Swan01_NS_MINBIN_THRS_spinBox.setObjectName(u"Swan01_NS_MINBIN_THRS_spinBox")
+        self.Swan01_NS_MINBIN_THRS_spinBox.setEnabled(True)
+        self.Swan01_NS_MINBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
+        self.Swan01_NS_MINBIN_THRS_spinBox.setMinimum(0)
+        self.Swan01_NS_MINBIN_THRS_spinBox.setMaximum(255)
+        self.Swan01_NS_MINBIN_THRS_spinBox.setValue(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_NS_MINBIN_THRS_spinBox, 5, 1, 1, 1)
+
+        self.Swan01_HIST_MAXBIN_THRS_Lable = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_HIST_MAXBIN_THRS_Lable.setObjectName(u"Swan01_HIST_MAXBIN_THRS_Lable")
+        self.Swan01_HIST_MAXBIN_THRS_Lable.setMinimumSize(QSize(100, 0))
+        self.Swan01_HIST_MAXBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_HIST_MAXBIN_THRS_Lable.setFont(font)
+        self.Swan01_HIST_MAXBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
+
+        self.gridLayout_3.addWidget(self.Swan01_HIST_MAXBIN_THRS_Lable, 4, 3, 1, 1)
+
+        self.Swan01_NS_MAXBIN_THRS_spinBox = QSpinBox(self.Swan01_MoreConfiguration)
+        self.Swan01_NS_MAXBIN_THRS_spinBox.setObjectName(u"Swan01_NS_MAXBIN_THRS_spinBox")
+        self.Swan01_NS_MAXBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
+        self.Swan01_NS_MAXBIN_THRS_spinBox.setMinimum(1)
+        self.Swan01_NS_MAXBIN_THRS_spinBox.setMaximum(255)
+        self.Swan01_NS_MAXBIN_THRS_spinBox.setValue(255)
+
+        self.gridLayout_3.addWidget(self.Swan01_NS_MAXBIN_THRS_spinBox, 5, 5, 1, 1)
+
+        self.Swan01_MST_MODE_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
+        self.Swan01_MST_MODE_ComboBox.addItem("")
+        self.Swan01_MST_MODE_ComboBox.addItem("")
+        self.Swan01_MST_MODE_ComboBox.setObjectName(u"Swan01_MST_MODE_ComboBox")
+        self.Swan01_MST_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
+
+        self.gridLayout_3.addWidget(self.Swan01_MST_MODE_ComboBox, 1, 1, 1, 1)
+
+        self.Swan01_HIST_MAXBIN_THRS_spinBox = QSpinBox(self.Swan01_MoreConfiguration)
+        self.Swan01_HIST_MAXBIN_THRS_spinBox.setObjectName(u"Swan01_HIST_MAXBIN_THRS_spinBox")
+        self.Swan01_HIST_MAXBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
+        self.Swan01_HIST_MAXBIN_THRS_spinBox.setMinimum(1)
+        self.Swan01_HIST_MAXBIN_THRS_spinBox.setMaximum(255)
+        self.Swan01_HIST_MAXBIN_THRS_spinBox.setValue(255)
+
+        self.gridLayout_3.addWidget(self.Swan01_HIST_MAXBIN_THRS_spinBox, 4, 5, 1, 1)
+
+        self.horizontalSpacer_25 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_3.addItem(self.horizontalSpacer_25, 2, 2, 1, 1)
+
+        self.Swan01_TX_FRM_MODE_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
+        self.Swan01_TX_FRM_MODE_ComboBox.addItem("")
+        self.Swan01_TX_FRM_MODE_ComboBox.addItem("")
+        self.Swan01_TX_FRM_MODE_ComboBox.setObjectName(u"Swan01_TX_FRM_MODE_ComboBox")
+        self.Swan01_TX_FRM_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
+
+        self.gridLayout_3.addWidget(self.Swan01_TX_FRM_MODE_ComboBox, 1, 5, 1, 1)
+
+        self.Swan01_MST_MODE_Label = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_MST_MODE_Label.setObjectName(u"Swan01_MST_MODE_Label")
+        self.Swan01_MST_MODE_Label.setMinimumSize(QSize(100, 0))
+        self.Swan01_MST_MODE_Label.setMaximumSize(QSize(85, 16777215))
+        self.Swan01_MST_MODE_Label.setFrameShape(QFrame.StyledPanel)
+        self.Swan01_MST_MODE_Label.setMargin(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_MST_MODE_Label, 1, 0, 1, 1)
+
+        self.Swan01_TX_FRM_MODE_Label = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_TX_FRM_MODE_Label.setObjectName(u"Swan01_TX_FRM_MODE_Label")
+        self.Swan01_TX_FRM_MODE_Label.setMinimumSize(QSize(100, 0))
+        self.Swan01_TX_FRM_MODE_Label.setMaximumSize(QSize(85, 16777215))
+        self.Swan01_TX_FRM_MODE_Label.setFrameShape(QFrame.StyledPanel)
+        self.Swan01_TX_FRM_MODE_Label.setMargin(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_TX_FRM_MODE_Label, 1, 3, 1, 1)
 
         self.Swan01_SYS_CLK_Label = QLabel(self.Swan01_MoreConfiguration)
         self.Swan01_SYS_CLK_Label.setObjectName(u"Swan01_SYS_CLK_Label")
@@ -1453,126 +1574,61 @@ class Ui_MainPages(object):
 
         self.gridLayout_3.addWidget(self.Swan01_SYS_CLK_Label, 0, 0, 1, 1)
 
-        self.Swan01_PKS_ECHO_NUM_Lable = QLabel(self.Swan01_MoreConfiguration)
-        self.Swan01_PKS_ECHO_NUM_Lable.setObjectName(u"Swan01_PKS_ECHO_NUM_Lable")
-        self.Swan01_PKS_ECHO_NUM_Lable.setMinimumSize(QSize(100, 0))
-        self.Swan01_PKS_ECHO_NUM_Lable.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_PKS_ECHO_NUM_Lable.setFont(font)
-        self.Swan01_PKS_ECHO_NUM_Lable.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout_3.addWidget(self.Swan01_PKS_ECHO_NUM_Lable, 3, 3, 1, 1)
-
-        self.Swan01_MINBIN_THRS_Lable = QLabel(self.Swan01_MoreConfiguration)
-        self.Swan01_MINBIN_THRS_Lable.setObjectName(u"Swan01_MINBIN_THRS_Lable")
-        self.Swan01_MINBIN_THRS_Lable.setMinimumSize(QSize(100, 0))
-        self.Swan01_MINBIN_THRS_Lable.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_MINBIN_THRS_Lable.setFont(font)
-        self.Swan01_MINBIN_THRS_Lable.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout_3.addWidget(self.Swan01_MINBIN_THRS_Lable, 2, 0, 1, 1)
-
-        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_3.addItem(self.verticalSpacer_5, 6, 1, 1, 1)
-
-        self.Swan01_PKS_ECHO_NUM_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
-        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
-        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
-        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
-        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
-        self.Swan01_PKS_ECHO_NUM_ComboBox.addItem("")
-        self.Swan01_PKS_ECHO_NUM_ComboBox.setObjectName(u"Swan01_PKS_ECHO_NUM_ComboBox")
-
-        self.gridLayout_3.addWidget(self.Swan01_PKS_ECHO_NUM_ComboBox, 3, 5, 1, 1)
-
-        self.Swan01_MAXBIN_THRS_spinBox = QSpinBox(self.Swan01_MoreConfiguration)
-        self.Swan01_MAXBIN_THRS_spinBox.setObjectName(u"Swan01_MAXBIN_THRS_spinBox")
-        self.Swan01_MAXBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
-        self.Swan01_MAXBIN_THRS_spinBox.setMinimum(1)
-        self.Swan01_MAXBIN_THRS_spinBox.setMaximum(167)
-        self.Swan01_MAXBIN_THRS_spinBox.setValue(167)
-
-        self.gridLayout_3.addWidget(self.Swan01_MAXBIN_THRS_spinBox, 2, 5, 1, 1)
-
-        self.Swan01_MAXBIN_THRS_Lable_ = QLabel(self.Swan01_MoreConfiguration)
-        self.Swan01_MAXBIN_THRS_Lable_.setObjectName(u"Swan01_MAXBIN_THRS_Lable_")
-        self.Swan01_MAXBIN_THRS_Lable_.setMinimumSize(QSize(100, 0))
-        self.Swan01_MAXBIN_THRS_Lable_.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_MAXBIN_THRS_Lable_.setFont(font)
-        self.Swan01_MAXBIN_THRS_Lable_.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout_3.addWidget(self.Swan01_MAXBIN_THRS_Lable_, 2, 3, 1, 1)
-
-        self.Swan01_V_PXL_OUT_NUM_Label = QLabel(self.Swan01_MoreConfiguration)
-        self.Swan01_V_PXL_OUT_NUM_Label.setObjectName(u"Swan01_V_PXL_OUT_NUM_Label")
-        self.Swan01_V_PXL_OUT_NUM_Label.setMinimumSize(QSize(100, 0))
-        self.Swan01_V_PXL_OUT_NUM_Label.setMaximumSize(QSize(85, 16777215))
-        self.Swan01_V_PXL_OUT_NUM_Label.setFont(font)
-        self.Swan01_V_PXL_OUT_NUM_Label.setFrameShape(QFrame.StyledPanel)
-
-        self.gridLayout_3.addWidget(self.Swan01_V_PXL_OUT_NUM_Label, 1, 0, 1, 1)
-
         self.Swan01_SYS_CLK_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
         self.Swan01_SYS_CLK_ComboBox.addItem("")
         self.Swan01_SYS_CLK_ComboBox.addItem("")
-        self.Swan01_SYS_CLK_ComboBox.addItem("")
         self.Swan01_SYS_CLK_ComboBox.setObjectName(u"Swan01_SYS_CLK_ComboBox")
-        self.Swan01_SYS_CLK_ComboBox.setEnabled(False)
+        self.Swan01_SYS_CLK_ComboBox.setEnabled(True)
         self.Swan01_SYS_CLK_ComboBox.setMinimumSize(QSize(10, 0))
         self.Swan01_SYS_CLK_ComboBox.setFont(font1)
         self.Swan01_SYS_CLK_ComboBox.setEditable(False)
 
         self.gridLayout_3.addWidget(self.Swan01_SYS_CLK_ComboBox, 0, 1, 1, 1)
 
-        self.horizontalSpacer_25 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+        self.Swan01_MIPI_RATE_Label = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_MIPI_RATE_Label.setObjectName(u"Swan01_MIPI_RATE_Label")
+        sizePolicy.setHeightForWidth(self.Swan01_MIPI_RATE_Label.sizePolicy().hasHeightForWidth())
+        self.Swan01_MIPI_RATE_Label.setSizePolicy(sizePolicy)
+        self.Swan01_MIPI_RATE_Label.setMinimumSize(QSize(100, 0))
+        self.Swan01_MIPI_RATE_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_MIPI_RATE_Label.setFont(font1)
+        self.Swan01_MIPI_RATE_Label.setFrameShape(QFrame.StyledPanel)
+        self.Swan01_MIPI_RATE_Label.setFrameShadow(QFrame.Raised)
 
-        self.gridLayout_3.addItem(self.horizontalSpacer_25, 1, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_MIPI_RATE_Label, 0, 3, 1, 1)
 
-        self.Swan01_TRG_I_EN_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
-        self.Swan01_TRG_I_EN_ComboBox.addItem("")
-        self.Swan01_TRG_I_EN_ComboBox.addItem("")
-        self.Swan01_TRG_I_EN_ComboBox.setObjectName(u"Swan01_TRG_I_EN_ComboBox")
+        self.Swan01_MIPI_RATE_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.setObjectName(u"Swan01_MIPI_RATE_ComboBox")
+        self.Swan01_MIPI_RATE_ComboBox.setMaximumSize(QSize(350, 16777215))
+        self.Swan01_MIPI_RATE_ComboBox.setFont(font1)
 
-        self.gridLayout_3.addWidget(self.Swan01_TRG_I_EN_ComboBox, 1, 5, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_MIPI_RATE_ComboBox, 0, 5, 1, 1)
 
-        self.Swan01_MINBIN_THRS_spinBox = QSpinBox(self.Swan01_MoreConfiguration)
-        self.Swan01_MINBIN_THRS_spinBox.setObjectName(u"Swan01_MINBIN_THRS_spinBox")
-        self.Swan01_MINBIN_THRS_spinBox.setEnabled(True)
-        self.Swan01_MINBIN_THRS_spinBox.setMinimumSize(QSize(60, 0))
-        self.Swan01_MINBIN_THRS_spinBox.setMinimum(0)
-        self.Swan01_MINBIN_THRS_spinBox.setMaximum(255)
-        self.Swan01_MINBIN_THRS_spinBox.setValue(0)
+        self.Swan01_PXL_BINN_SEL_Label = QLabel(self.Swan01_MoreConfiguration)
+        self.Swan01_PXL_BINN_SEL_Label.setObjectName(u"Swan01_PXL_BINN_SEL_Label")
+        self.Swan01_PXL_BINN_SEL_Label.setMinimumSize(QSize(100, 0))
+        self.Swan01_PXL_BINN_SEL_Label.setMaximumSize(QSize(85, 16777215))
+        self.Swan01_PXL_BINN_SEL_Label.setFrameShape(QFrame.StyledPanel)
+        self.Swan01_PXL_BINN_SEL_Label.setMargin(0)
 
-        self.gridLayout_3.addWidget(self.Swan01_MINBIN_THRS_spinBox, 2, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_PXL_BINN_SEL_Label, 2, 0, 1, 1)
 
-        self.Swan01_OUT_BIN_NUM_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
-        self.Swan01_OUT_BIN_NUM_ComboBox.addItem("")
-        self.Swan01_OUT_BIN_NUM_ComboBox.addItem("")
-        self.Swan01_OUT_BIN_NUM_ComboBox.setObjectName(u"Swan01_OUT_BIN_NUM_ComboBox")
+        self.Swan01_PXL_BINN_SEL_ComboBox = QComboBox(self.Swan01_MoreConfiguration)
+        self.Swan01_PXL_BINN_SEL_ComboBox.addItem("")
+        self.Swan01_PXL_BINN_SEL_ComboBox.addItem("")
+        self.Swan01_PXL_BINN_SEL_ComboBox.addItem("")
+        self.Swan01_PXL_BINN_SEL_ComboBox.addItem("")
+        self.Swan01_PXL_BINN_SEL_ComboBox.setObjectName(u"Swan01_PXL_BINN_SEL_ComboBox")
+        self.Swan01_PXL_BINN_SEL_ComboBox.setMaximumSize(QSize(350, 16777215))
 
-        self.gridLayout_3.addWidget(self.Swan01_OUT_BIN_NUM_ComboBox, 3, 1, 1, 1)
-
-        self.Swan01_BIN_NUMBER_Value = QLabel(self.Swan01_MoreConfiguration)
-        self.Swan01_BIN_NUMBER_Value.setObjectName(u"Swan01_BIN_NUMBER_Value")
-        self.Swan01_BIN_NUMBER_Value.setMinimumSize(QSize(25, 25))
-        self.Swan01_BIN_NUMBER_Value.setMaximumSize(QSize(20, 16777215))
-        self.Swan01_BIN_NUMBER_Value.setFont(font1)
-        self.Swan01_BIN_NUMBER_Value.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
-        self.Swan01_BIN_NUMBER_Value.setWordWrap(True)
-        self.Swan01_BIN_NUMBER_Value.setMargin(0)
-
-        self.gridLayout_3.addWidget(self.Swan01_BIN_NUMBER_Value, 2, 6, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_PXL_BINN_SEL_ComboBox, 2, 1, 1, 1)
 
 
-        self.formLayout_6.setWidget(5, QFormLayout.SpanningRole, self.Swan01_MoreConfiguration)
-
-        self.Swan01_TX_FRM_MODE_ComboBox = QComboBox(self.Swan01_RegisterConfig)
-        self.Swan01_TX_FRM_MODE_ComboBox.addItem("")
-        self.Swan01_TX_FRM_MODE_ComboBox.addItem("")
-        self.Swan01_TX_FRM_MODE_ComboBox.setObjectName(u"Swan01_TX_FRM_MODE_ComboBox")
-        self.Swan01_TX_FRM_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
-
-        self.formLayout_6.setWidget(2, QFormLayout.FieldRole, self.Swan01_TX_FRM_MODE_ComboBox)
+        self.formLayout_6.setWidget(2, QFormLayout.SpanningRole, self.Swan01_MoreConfiguration)
 
 
         self.horizontalLayout_23.addWidget(self.Swan01_RegisterConfig)
@@ -1762,7 +1818,7 @@ class Ui_MainPages(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 330, 392))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 341, 410))
         self.formLayout_9 = QFormLayout(self.scrollAreaWidgetContents_5)
         self.formLayout_9.setObjectName(u"formLayout_9")
         self.formLayout_9.setHorizontalSpacing(10)
@@ -1947,7 +2003,7 @@ class Ui_MainPages(object):
         self.scrollArea_6.setWidgetResizable(True)
         self.scrollAreaWidgetContents_7 = QWidget()
         self.scrollAreaWidgetContents_7.setObjectName(u"scrollAreaWidgetContents_7")
-        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 330, 392))
+        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 264, 52))
         self.formLayout_10 = QFormLayout(self.scrollAreaWidgetContents_7)
         self.formLayout_10.setObjectName(u"formLayout_10")
         self.formLayout_10.setHorizontalSpacing(10)
@@ -2023,7 +2079,7 @@ class Ui_MainPages(object):
         self.scrollArea_7.setWidgetResizable(True)
         self.scrollAreaWidgetContents_8 = QWidget()
         self.scrollAreaWidgetContents_8.setObjectName(u"scrollAreaWidgetContents_8")
-        self.scrollAreaWidgetContents_8.setGeometry(QRect(0, 0, 330, 392))
+        self.scrollAreaWidgetContents_8.setGeometry(QRect(0, 0, 264, 79))
         self.formLayout_11 = QFormLayout(self.scrollAreaWidgetContents_8)
         self.formLayout_11.setObjectName(u"formLayout_11")
         self.formLayout_11.setHorizontalSpacing(10)
@@ -2114,7 +2170,7 @@ class Ui_MainPages(object):
         self.scrollArea_8.setWidgetResizable(True)
         self.scrollAreaWidgetContents_9 = QWidget()
         self.scrollAreaWidgetContents_9.setObjectName(u"scrollAreaWidgetContents_9")
-        self.scrollAreaWidgetContents_9.setGeometry(QRect(0, 0, 330, 383))
+        self.scrollAreaWidgetContents_9.setGeometry(QRect(0, 0, 280, 268))
         self.formLayout_12 = QFormLayout(self.scrollAreaWidgetContents_9)
         self.formLayout_12.setObjectName(u"formLayout_12")
         self.formLayout_12.setHorizontalSpacing(10)
@@ -3056,7 +3112,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 882, 784))
+        self.contents.setGeometry(QRect(0, 0, 442, 285))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -3271,45 +3327,24 @@ class Ui_MainPages(object):
         self.Hawk01_MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
 
         self.Hawk01_MoreConfiguration.setTitle("")
-        self.Hawk01_V_PXL_OUT_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Pixel", None))
-        self.Hawk01_V_PXL_OUT_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"6 Pixel", None))
-
         self.Hawk01_TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
-        self.Hawk01_OUT_BIN_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"OUT_BIN_NUM", None))
-        self.Hawk01_SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
-        self.Hawk01_PKS_ECHO_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"PKS_ECHO_NUM", None))
         self.Hawk01_MINBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
-        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Echo", None))
-        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 Echo", None))
-        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3 Echo", None))
-        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4 Echo", None))
-        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"5 Echo", None))
-
 #if QT_CONFIG(tooltip)
         self.Hawk01_MAXBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(whatsthis)
         self.Hawk01_MAXBIN_THRS_spinBox.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
-        self.Hawk01_MAXBIN_THRS_Lable_.setText(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
+        self.Hawk01_V_PXL_OUT_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Pixel", None))
+        self.Hawk01_V_PXL_OUT_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"6 Pixel", None))
+
+        self.Hawk01_PKS_ECHO_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"PKS_ECHO_NUM", None))
         self.Hawk01_V_PXL_OUT_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_PXL_NUM", None))
-        self.Hawk01_SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"200 M", None))
-        self.Hawk01_SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"250 M", None))
-        self.Hawk01_SYS_CLK_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"330 M", None))
-
-        self.Hawk01_TRG_I_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
-        self.Hawk01_TRG_I_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
-
-#if QT_CONFIG(tooltip)
-        self.Hawk01_MINBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(whatsthis)
-        self.Hawk01_MINBIN_THRS_spinBox.setWhatsThis("")
-#endif // QT_CONFIG(whatsthis)
+        self.Hawk01_TDC_BIN_W_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
+        self.Hawk01_BIN_NUMBER_Value.setText(QCoreApplication.translate("MainPages", u"672", None))
         self.Hawk01_OUT_BIN_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"36 Bin", None))
         self.Hawk01_OUT_BIN_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"60 Bin", None))
 
-        self.Hawk01_BIN_NUMBER_Value.setText(QCoreApplication.translate("MainPages", u"672", None))
         self.Hawk01_TDC_BIN_W_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.75 ns", None))
         self.Hawk01_TDC_BIN_W_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"1.00 ns", None))
         self.Hawk01_TDC_BIN_W_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.25 ns", None))
@@ -3317,10 +3352,35 @@ class Ui_MainPages(object):
         self.Hawk01_TDC_BIN_W_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"2.00 ns", None))
         self.Hawk01_TDC_BIN_W_ComboBox.setItemText(5, QCoreApplication.translate("MainPages", u"2.50 ns", None))
 
-        self.Hawk01_TDC_BIN_W_Label.setText(QCoreApplication.translate("MainPages", u"TDC bin width", None))
+        self.Hawk01_MAXBIN_THRS_Lable_.setText(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
+#if QT_CONFIG(tooltip)
+        self.Hawk01_MINBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.Hawk01_MINBIN_THRS_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.Hawk01_OUT_BIN_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"OUT_BIN_NUM", None))
+        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Echo", None))
+        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 Echo", None))
+        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3 Echo", None))
+        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4 Echo", None))
+        self.Hawk01_PKS_ECHO_NUM_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"5 Echo", None))
+
+        self.Hawk01_SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
+        self.Hawk01_SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"200 M", None))
+        self.Hawk01_SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"250 M", None))
+        self.Hawk01_SYS_CLK_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"330 M", None))
+
+        self.Hawk01_TRG_I_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
+        self.Hawk01_TRG_I_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
+
         self.Hawk01_TX_FRM_MODE_Label.setText(QCoreApplication.translate("MainPages", u"TX_FRM_MODE", None))
         self.Hawk01_TX_FRM_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Sub-frame", None))
         self.Hawk01_TX_FRM_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Imag-frame", None))
+
+        self.Hawk01_ONE_DT_MODE_Label.setText(QCoreApplication.translate("MainPages", u"ONE_DT_MODE", None))
+        self.Hawk01_ONE_DT_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No", None))
+        self.Hawk01_ONE_DT_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
 
         self.Hawk01_SCAN_MODE_Label.setText(QCoreApplication.translate("MainPages", u"SCAN_MODE", None))
         self.Hawk01_SCAN_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1D SCAN_MODE", None))
@@ -3418,16 +3478,68 @@ class Ui_MainPages(object):
         self.Swan01_XCLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"24 M", None))
         self.Swan01_XCLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"25 M", None))
 
-        self.Swan01_MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
-        self.Swan01_MST_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Slave Mode", None))
-        self.Swan01_MST_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Master Mode", None))
-
-        self.Swan01_TX_FRM_MODE_Label.setText(QCoreApplication.translate("MainPages", u"TX_FRM_MODE", None))
         self.Swan01_WORK_MODE_Label.setText(QCoreApplication.translate("MainPages", u"WORK_MODE", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Ranging Mode", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Echo Mode", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"Histogram Mode", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"Gray Scale Mode", None))
+
+        self.Swan01_MoreConfiguration.setTitle("")
+        self.Swan01_TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
+        self.Swan01_OUT_BIN_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"OUT_BIN_NUM", None))
+        self.Swan01_PKS_ECHO_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"PKS_ECHO_NUM", None))
+        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Echo", None))
+        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 Echo", None))
+        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3 Echo", None))
+        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4 Echo", None))
+        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"5 Echo", None))
+
+        self.Swan01_OUT_BIN_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"36 Bin", None))
+        self.Swan01_OUT_BIN_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"60 Bin", None))
+
+        self.Swan01_NS_MINBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"NS_MINBIN_THRS", None))
+        self.Swan01_HIST_MINBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"HIST_MINBIN_THRS", None))
+#if QT_CONFIG(tooltip)
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.Swan01_HIST_MINBIN_THRS_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.Swan01_TRG_I_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
+        self.Swan01_TRG_I_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
+
+        self.Swan01_BIN_NUMBER_Value.setText(QCoreApplication.translate("MainPages", u"2048", None))
+        self.Swan01_NS_MAXBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"NS_MAXBIN_THRS", None))
+#if QT_CONFIG(tooltip)
+        self.Swan01_NS_MINBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.Swan01_NS_MINBIN_THRS_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.Swan01_HIST_MAXBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"HIST_MAXBIN_THRS", None))
+#if QT_CONFIG(tooltip)
+        self.Swan01_NS_MAXBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.Swan01_NS_MAXBIN_THRS_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.Swan01_MST_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Slave Mode", None))
+        self.Swan01_MST_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Master Mode", None))
+
+#if QT_CONFIG(tooltip)
+        self.Swan01_HIST_MAXBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.Swan01_HIST_MAXBIN_THRS_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.Swan01_TX_FRM_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Sub-frame", None))
+        self.Swan01_TX_FRM_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Imag-frame", None))
+
+        self.Swan01_MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
+        self.Swan01_TX_FRM_MODE_Label.setText(QCoreApplication.translate("MainPages", u"TX_FRM_MODE", None))
+        self.Swan01_SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
+        self.Swan01_SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"330 M", None))
+        self.Swan01_SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"400 M", None))
 
         self.Swan01_MIPI_RATE_Label.setText(QCoreApplication.translate("MainPages", u"MIPI RATE", None))
         self.Swan01_MIPI_RATE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.8 Gbps/Lane", None))
@@ -3435,48 +3547,11 @@ class Ui_MainPages(object):
         self.Swan01_MIPI_RATE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.2 Gbps/Lane", None))
         self.Swan01_MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
 
-        self.Swan01_MoreConfiguration.setTitle("")
-        self.Swan01_V_PXL_OUT_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Pixel", None))
-        self.Swan01_V_PXL_OUT_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"6 Pixel", None))
-
-        self.Swan01_TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
-        self.Swan01_OUT_BIN_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"OUT_BIN_NUM", None))
-        self.Swan01_SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
-        self.Swan01_PKS_ECHO_NUM_Lable.setText(QCoreApplication.translate("MainPages", u"PKS_ECHO_NUM", None))
-        self.Swan01_MINBIN_THRS_Lable.setText(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
-        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 Echo", None))
-        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 Echo", None))
-        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3 Echo", None))
-        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4 Echo", None))
-        self.Swan01_PKS_ECHO_NUM_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"5 Echo", None))
-
-#if QT_CONFIG(tooltip)
-        self.Swan01_MAXBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(whatsthis)
-        self.Swan01_MAXBIN_THRS_spinBox.setWhatsThis("")
-#endif // QT_CONFIG(whatsthis)
-        self.Swan01_MAXBIN_THRS_Lable_.setText(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
-        self.Swan01_V_PXL_OUT_NUM_Label.setText(QCoreApplication.translate("MainPages", u"V_PXL_NUM", None))
-        self.Swan01_SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"200 M", None))
-        self.Swan01_SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"250 M", None))
-        self.Swan01_SYS_CLK_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"330 M", None))
-
-        self.Swan01_TRG_I_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
-        self.Swan01_TRG_I_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
-
-#if QT_CONFIG(tooltip)
-        self.Swan01_MINBIN_THRS_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(whatsthis)
-        self.Swan01_MINBIN_THRS_spinBox.setWhatsThis("")
-#endif // QT_CONFIG(whatsthis)
-        self.Swan01_OUT_BIN_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"36 Bin", None))
-        self.Swan01_OUT_BIN_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"60 Bin", None))
-
-        self.Swan01_BIN_NUMBER_Value.setText(QCoreApplication.translate("MainPages", u"672", None))
-        self.Swan01_TX_FRM_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Sub-frame", None))
-        self.Swan01_TX_FRM_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Imag-frame", None))
+        self.Swan01_PXL_BINN_SEL_Label.setText(QCoreApplication.translate("MainPages", u"PXL_BINN_SEL", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No pixel binning", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 pixel binning", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"4 pixel binning", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"2 pixel slide binning", None))
 
         self.Swan01_SCAN_MODE_Label.setText(QCoreApplication.translate("MainPages", u"SCAN_MODE", None))
         self.Swan01_SCAN_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1D SCAN_MODE", None))

@@ -192,7 +192,7 @@ def ScriptDataSave(hawk01_config):
             else f'Histogram_Mode_{hawk01_config["reg_name"]}' if work_mode == 2 \
             else f'Gray_Scale_Mode_{hawk01_config["reg_name"]}'  # if work_mode == 3 \
         Hawk01PubMethod.GenerateHawkRegConfig(hawk01_config=__hawk01_config__,
-                                            reg_cfg_fp=__hawk01_config__["Hawk01RegConfigFile"])
+                                              reg_cfg_fp=__hawk01_config__["Hawk01RegConfigFile"])
         # Hawk01PubMethod.GenerateHawkRegConfigByJson(hawk01_config=__hawk01_config__, reg_cfg=__reg_cfg__)
         url = f'{__hawk01_config__["fd_path"]}/{__hawk01_config__["reg_name"]}.txt'
         _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
