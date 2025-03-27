@@ -20,7 +20,7 @@ from gui.core.json_themes import Themes
 from windows.main_window.ui_main import UI_MainWindow
 # from windows.main_window.main_window_functions import MainFunctions
 from windows.main_window.main_window_setup import SetupMainWindow
-from PySide6.QtWidgets import QMainWindow, QApplication
+from PySide6.QtWidgets import QMainWindow, QApplication, QStyleFactory
 from PySide6.QtGui import QIcon, QDesktopServices
 from PySide6.QtCore import QUrl
 
@@ -135,6 +135,8 @@ def main():
     # ///////////////////////////////////////////////////////////////
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("gui/icon.ico"))
+    app.setStyle(QStyleFactory.create('windowsvista'))
+
 
     # SHOW MAIN WINDOW
     # ///////////////////////////////////////////////////////////////

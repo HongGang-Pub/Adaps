@@ -5,8 +5,8 @@ import sys
 os.chdir(os.path.dirname(__file__))
 # IMPORT PACKAGES AND MODULES
 
-from PySide6.QtWidgets import QMainWindow, QApplication, QVBoxLayout, QLabel, QWidget
-from PySide6.QtGui import QCursor, QIcon
+from PySide6.QtWidgets import QMainWindow, QApplication, QVBoxLayout, QLabel, QWidget, QStyleFactory
+from PySide6.QtGui import QCursor, QIcon, QPalette
 from PySide6.QtCore import QTimer
 import sys
 
@@ -58,6 +58,13 @@ def main():
     # ///////////////////////////////////////////////////////////////
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("gui/icon.ico"))
+
+    app.setStyle(QStyleFactory.create('windowsvista'))
+
+    # palette = app.palette()
+    # color_mode = palette.color(QPalette.Window).name()
+    # print(f"当前系统颜色模式: {color_mode}")
+    # print(QStyleFactory.keys())
 
     # SHOW MAIN WINDOW
     # ///////////////////////////////////////////////////////////////
