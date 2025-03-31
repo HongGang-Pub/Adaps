@@ -29,6 +29,7 @@
 =================================================================================================
 """
 import copy
+import math
 
 # ////////////////////////////////////////////////
 # 系统配置
@@ -42,16 +43,16 @@ EXPO_TIME = 1000  # unit: us
 DRV_CH_TIME = 1  # unit: us
 csru_cfg = {
     "WORK_MODE": 1,  #! 目前支持 FHR, PHR 模式的帧率计算, SPHR 帧率计算属于 beta 版本
-    "SCAN_MODE": 1,
-    "V_ROLL_NUM": 31,
+    "SCAN_MODE": 0,
+    "V_ROLL_NUM": 1,
     "H_ROLL_NUM": 0,
-    "H_VLD_SEG": 15,
+    "H_VLD_SEG": 12,
     "MINBIN_THRS": 0,
-    "MAXBIN_THRS": 167,
-    "OUT_BIN_NUM": 1,
+    "MAXBIN_THRS": 110,
+    "OUT_BIN_NUM": 0,
     "TX_FRM_MODE": 0,
     "ONE_DT_MODE": 0,
-    "V_PXL_OUT_NUM": 1,
+    "V_PXL_OUT_NUM": 0,
     "MIPI_PKTDLY": 1,
     "SUB_IDLETIME": 0,
     "MIPI_FENDDLY": 0,
@@ -110,22 +111,22 @@ def MipiFlnrAndWcCal(csru_cfg):
         else:
             sphr_pl_num = 62 * v_pxl_out_num
         wc = sphr_pl_num * 1.5
-        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
+        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode * total_roll_num
     elif work_mode == 1:
         if out_bin_num == 0:
             phr_pl_num = 80 * v_pxl_out_num
         else:
             phr_pl_num = 132 * v_pxl_out_num
         wc = phr_pl_num * 1.5
-        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode
+        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode * total_roll_num
     elif work_mode == 2:
         maxbin = (maxbin_thrs + 1) * 2 - 1
         fhr_pl_num = (maxbin - minbin_thrs + 1) * 2 * 4
         wc = fhr_pl_num * 1.5
-        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
+        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode * total_roll_num
     else:
         wc = 32 * 1.5
-        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode
+        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode * total_roll_num
     return int(wc), flnr
 
 
@@ -203,8 +204,8 @@ def T_mipi_read_time_cal(csru_cfg: dict):
     WC, FLNR = MipiFlnrAndWcCal(csru_cfg)
 
     MIPI_PKT_INTV = MipiPKGIntvCal()  # unit: ns
-    MIPIPKT_Tx_HS_Data = (WC * 8 + 6 * 8) * 1000 / mipi_rate  # unit: ns
-    GENERIC_TX_HS_Data = (40 * 8 + 6 * 8) * 1000 / (MIPI_RATE * MIPI_LANE_NUM) if one_dt_mode == 0 \
+    MIPIPKT_Tx_HS_Data = (MIPI_LANE_NUM + 4 + WC + 2) * 8 * 1000 / mipi_rate  # unit: ns
+    GENERIC_TX_HS_Data = (MIPI_LANE_NUM + 4 + 40 + 2) * 8 * 1000 / mipi_rate if one_dt_mode == 0 \
         else MIPIPKT_Tx_HS_Data  # unit: ns
 
     T_OneHistReadMipiReadTime = (MIPI_PKT_INTV + MIPIPKT_Tx_HS_Data) * 2  # VC0 & VC1 (unit: ns)
@@ -258,8 +259,8 @@ def MIPI_PKTDLY_Value_Cal(csru_cfg: dict):
     T_mipi_trans_cyc_dly0 = T_mipi_trans_cyc_cal(csru_cfg, mipi_pktdly=0)
     T_mipi_trans_cyc_dly1 = T_mipi_trans_cyc_cal(csru_cfg, mipi_pktdly=1)
 
-    if tx_frm_mode == 0 and one_dt_mode == 1:
-        # 非多帧合一, 且 one_date_type 的情况下, 加上 generic_data 的包
+    if one_dt_mode == 1:
+        # one_data_type 的情况下, 加上 generic_data 的包
         # one_dt_mode = 0 时, fifo 计算不用考虑 generic_data 的包
         PER_VC_PKT_NUM += 1
         T_mipi_trans_cyc_dly0 += txu_rd_cyc
@@ -298,7 +299,7 @@ def MIPI_PKTDLY_Value_Cal(csru_cfg: dict):
     elif T_mipi_min_trans_cyc < T_mipi_trans_cyc_dly1:
         mipi_pktdly = 1
     else:
-        pktdly_add = int((T_mipi_min_trans_cyc - T_mipi_trans_cyc_dly1) / sysclk1m_div / PER_VC_PKT_NUM) + 1
+        pktdly_add = math.ceil((T_mipi_min_trans_cyc - T_mipi_trans_cyc_dly1) / sysclk1m_div / PER_VC_PKT_NUM)
         mipi_pktdly = 1 + pktdly_add
     s = f"[beta] MIPI_PKTDLY Theoretical minimum: {mipi_pktdly}"
     print_c(s)
@@ -327,11 +328,11 @@ def T_mipi_trans_cyc_cal(csru_cfg: dict, mipi_pktdly: int = None):
     if mipi_pktdly is not None:
         __csru_cfg__["MIPI_PKTDLY"] = mipi_pktdly
     if work_mode == 2:
-        once_hist_rd_add_txdly_cyc, rd_out_ind_cyc = OnceHistReadAddTxdlyCycCalForFHR(csru_cfg)
+        once_hist_rd_add_txdly_cyc, rd_out_ind_cyc = OnceHistReadAddTxdlyCycCalForFHR(__csru_cfg__)
         T_mipi_trans_cyc = once_hist_rd_add_txdly_cyc * (PER_VC_PKT_NUM - 1)
     elif work_mode == 1 or work_mode == 0:
         T_mipi_trans_cyc = 0
-        once_hist_rd_add_txdly_Q = OnceHistReadAddTxdlyCycCalForPHR(csru_cfg)
+        once_hist_rd_add_txdly_Q = OnceHistReadAddTxdlyCycCalForPHR(__csru_cfg__)
         per_seg_pkg_num = PER_VC_PKT_NUM / (h_vld_seg + 1)
         for seg_cnt in range(0, h_vld_seg + 1, ):
             seg_num = seg_hs + seg_cnt
@@ -429,7 +430,6 @@ def OnceHistReadAddTxdlyCycCalForPHR(csru_cfg: dict):
         else:
             once_hist_rd_add_txdly_cyc = hist_once_read_min_cyc
         once_hist_rd_add_txdly_Q.append((once_hist_rd_add_txdly_cyc, rd_out_ind_cyc))
-
     return once_hist_rd_add_txdly_Q
 
 

@@ -54,8 +54,11 @@ class UI_MainWindow(object):
             styleFile = r"gui/themes/page_themes/dark/darkstyle.qss"
         else:
             styleFile = r"gui/themes/page_themes/light/lightstyle.qss"
-        with open(styleFile, 'r') as f:
-            self.qssStyle = f.read()
+        try:
+            with open(styleFile, 'r') as f:
+                self.qssStyle = f.read()
+        except:
+            self.qssStyle = None
 
         # LOAD THEME COLOR
         # ///////////////////////////////////////////////////////////////

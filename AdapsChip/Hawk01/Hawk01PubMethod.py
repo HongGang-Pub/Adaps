@@ -338,7 +338,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     MIPI_NS = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["NS"]
     MIPI_MS = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["MS"]
     MIPI_PS = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["PS"]
-    MIPIPLL_LPDH = (MIPI_NS & 0xFF00) >> 8
+    MIPIPLL_LPDH = (MIPI_NS & 0x0100) >> 8
     MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
     MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)
 
