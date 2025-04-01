@@ -1,0 +1,46 @@
+FREQ_Config = {
+    # XCLK: 24M
+    0: {
+        "PLL0": {
+            0: {"ID": 3, "FB": 250, "OD": 2},   # 250M
+        },
+        "PLL1": {
+            0: {"ID": 3, "FB": 125, "OD": 0},   # 500M
+        },
+        "PLL2": {
+            0: {"ID": 2, "FB":  55, "OD": 0},   # 330M
+            1: {"ID": 3, "FB": 100, "OD": 0},   # 400M
+        },
+        "MIPI": {
+            0: {"NS": 200, "MS": 3, "PS": 2},   # 0.8G
+            1: {"NS":  84, "MS": 2, "PS": 1},   # 1.0G
+            2: {"NS": 100, "MS": 2, "PS": 1},   # 1.2G
+            3: {"NS": 125, "MS": 2, "PS": 1},   # 1.5G
+        }
+    },
+    # XCLK: 25M
+    1: {
+        "PLL0": {
+            0: {"ID": 2, "FB": 160, "OD": 2},   # 250M
+        },
+        "PLL1": {
+            0: {"ID": 1, "FB":  40, "OD": 0},   # 500M
+        },
+        "PLL2": {
+            0: {"ID": 3, "FB":  80, "OD": 0},    # 330M
+            1: {"ID": 2, "FB":  64, "OD": 0},    # 400M
+        },
+        "MIPI": {
+            0: {"NS": 192, "MS": 3, "PS": 2},   # 0.8G
+            1: {"NS":  80, "MS": 2, "PS": 1},   # 1.0G
+            2: {"NS":  96, "MS": 2, "PS": 1},   # 1.2G
+            3: {"NS": 120, "MS": 2, "PS": 1},   # 1.5G
+        }
+    }
+}
+
+DIV_CONFIG = {
+    # 系统频率
+    0: {"SYSCLK1M_DIV": 329, "SYSCLK10M_DIV": 32, "TXESC_CLKDIV_DTY":  7, "TXESC_CLKDIV_CNT": 16},   # 330M
+    1: {"SYSCLK1M_DIV": 399, "SYSCLK10M_DIV": 39, "TXESC_CLKDIV_DTY": 10, "TXESC_CLKDIV_CNT": 20},   # 400M
+}

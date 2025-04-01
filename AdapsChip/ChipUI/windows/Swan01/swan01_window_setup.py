@@ -1,0 +1,816 @@
+import copy
+import logging
+import gc
+
+# IMPORT QT CORE
+# ///////////////////////////////////////////////////////////////
+from AdapsChip.ChipUI.gui.qt_core import *
+
+# LOAD UI MAIN
+# ///////////////////////////////////////////////////////////////
+from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
+
+from AdapsChip.ChipUI.windows.Swan01 import swan01_window_functions
+from AdapsChip.Swan01.Swan01RegConfig import *
+from functools import partial
+from threading import Thread
+from AdapsChip.ChipUI.gui.Signal import MySignals
+from SelfDefinedPackge.JsonOperation import JsonFunction
+from SelfDefinedPackge.PubMethod import func_exec
+
+
+class Swan01MainUI:
+    def __init__(self):
+        super().__init__()
+        # SETUP MAIN WINDOw
+        # Load widgets from "gui\uis\main_window\ui_main.py"
+        # ///////////////////////////////////////////////////////////////
+        self.ui = UI_MainWindow()
+        self.ui.setup_ui(self)
+
+    # ///////////////////////////////////////////////////////////////
+    # gui initial
+    # ///////////////////////////////////////////////////////////////
+    def setup_gui(self):
+        self.Swan01Config = JsonFunction(file_path=".Swan01Config/Swan01Config.json")
+        self.swan01_config = self.Swan01Config.items
+        Swan01MainUI.setup_script_gui(self)
+        return
+        # Load Swan01 Config
+        # ///////////////////////////////////////////////////////////////
+        self.Swan01Config = JsonFunction(file_path=".Swan01Config/Swan01Config.json")
+        # self.Swan01GuiConfig = JsonFunction(file_path=".Swan01Config/Swan01GuiConfig.json")
+        self.Swan01ZoneConfig = JsonFunction(file_path=".Swan01Config/Swan01ZoneConfig.json")
+        self.Swan01ROIGenConfig = JsonFunction(file_path=".Swan01Config/Swan01ROIGenConfig.json")
+        # self.Swan01RegisterConfig = JsonFunction('.Swan01Config/Swan01ScriptRegConfig_Invalid.json')
+
+        self.swan01_config = self.Swan01Config.items
+        # self.swan01_gui_config = self.Swan01GuiConfig.items
+        self.swan01_zone_config = self.Swan01ZoneConfig.items
+        self.swan01_roi_gen_config = self.Swan01ROIGenConfig.items
+        self.soft_config = {}
+        # self.swan01_register_config = self.Swan01RegisterConfig.items
+
+        # All GUI signal sync
+        # ///////////////////////////////////////////////////////////////
+        self.swan01_main_ui_signal_sync = MySignals()
+
+        # 调用各个界面的 setup_gui, 完成界面初始化
+        # ///////////////////////////////////////////////////////////////
+        Swan01MainUI.setup_script_gui(self)
+        Swan01MainUI.setup_roi_gui(self)
+        Swan01MainUI.setup_zone_gui(self)
+        Swan01MainUI.setup_file_gui(self)
+        return
+
+    # ///////////////////////////////////////////////////////////////
+    # Script config window function
+    # ///////////////////////////////////////////////////////////////
+    def setup_script_gui(self):
+        # ///////////////////////////////////////////////////////////////
+        # 配置初始化, 如果配置文件没有此配置, 需要初始化配置文件
+        # ///////////////////////////////////////////////////////////////
+        CONFIG_KEYS = []
+        for key in CONFIG_KEYS:
+            if not (key in self.swan01_config):
+                if key == 'WORK_MODE':  # list
+                    self.swan01_config[key] = [3]  # PCM MODE
+                else:
+                    self.swan01_config[key] = 0
+
+        # ///////////////////////////////////////////////////////////////
+        # Swan01_ANGLE_GRPx_SLOT_NUM_spinBox 不显示箭头
+        # ///////////////////////////////////////////////////////////////
+        self.ui.load_pages.Swan01_ANGLE_GRP0_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_ANGLE_GRP1_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_ANGLE_GRP2_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_ANGLE_GRP3_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_ANGLE_GRP4_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_ANGLE_GRP5_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_ANGLE_GRP6_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_ANGLE_GRP7_SLOT_NUM_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+        self.ui.load_pages.Swan01_NS_MAXBIN_THRS_spinBox.setButtonSymbols(QSpinBox.NoButtons)
+
+        # ///////////////////////////////////////////////////////////////
+        # WORK_MODE: 针对多选下拉项组件, 需要根据原始数据重新刷新下拉选项
+        # ///////////////////////////////////////////////////////////////
+        work_mode_items_num = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.count()
+        work_mode_items = []
+        for index in range(work_mode_items_num):
+            item_text = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.itemText(index)
+            work_mode_items.append(item_text)
+        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.clear_items()
+        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.add_items(work_mode_items)
+
+        # ///////////////////////////////////////////////////////////////
+        # 设置初始值
+        # ///////////////////////////////////////////////////////////////
+        # -------------------------------------------
+        # SYSC
+        # -------------------------------------------
+        self.ui.load_pages.Swan01_XCLK_ComboBox.setCurrentIndex(self.swan01_config['XCLK'])
+        self.ui.load_pages.Swan01_SYS_CLK_ComboBox.setCurrentIndex(self.swan01_config['SYS_CLK'])
+        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.select_indexs(self.swan01_config['WORK_MODE'])
+        self.ui.load_pages.Swan01_MIPI_RATE_ComboBox.setCurrentIndex(self.swan01_config['MIPI_RATE'])
+        self.ui.load_pages.Swan01_MST_MODE_ComboBox.setCurrentIndex(self.swan01_config['MST_MODE'])
+        self.ui.load_pages.Swan01_SYNC_POL_ComboBox.setCurrentIndex(self.swan01_config['SYNC_POL'])
+        self.ui.load_pages.Swan01_FRM_SLOT_NUM_spinBox.setValue(self.swan01_config['FRM_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_SEG_NUM_Slider.setValue(self.swan01_config['SEG_NUM'])
+        self.ui.load_pages.Swan01_TRG_I_EN_ComboBox.setCurrentIndex(self.swan01_config['TRG_I_EN'])
+        self.ui.load_pages.Swan01_FLEX_SHOT_EN_ComboBox.setCurrentIndex(self.swan01_config['FLEX_SHOT_EN'])
+
+        self.ui.load_pages.Swan01_ANGLE_GRP_SW_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP_SW_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP0_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP0_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP1_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP1_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP2_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP2_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP3_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP3_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP4_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP4_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP5_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP5_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP6_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP6_SLOT_NUM']+1)
+        self.ui.load_pages.Swan01_ANGLE_GRP7_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP7_SLOT_NUM']+1)
+
+        # -------------------------------------------
+        # HIST
+        # -------------------------------------------
+        self.ui.load_pages.Swan01_HIST_MINBIN_THRS_spinBox.setValue(self.swan01_config['HIST_MINBIN_THRS'])
+        self.ui.load_pages.Swan01_HIST_MAXBIN_THRS_spinBox.setValue(self.swan01_config['HIST_MAXBIN_THRS'])
+        self.ui.load_pages.Swan01_NS_MINBIN_THRS_spinBox.setValue(self.swan01_config['NS_MINBIN_THRS'])
+        self.ui.load_pages.Swan01_NS_MAXBIN_THRS_spinBox.setValue(self.swan01_config['NS_MAXBIN_THRS'])
+        self.ui.load_pages.Swan01_NS_CAL_SEG_NUM_SET_spinBox.setValue(
+            (self.swan01_config['NS_MAXBIN_THRS']-self.swan01_config['NS_MINBIN_THRS']+1)//32)
+        self.ui.load_pages.Swan01_HIST_BINFULL_THRS_spinBox.setValue(self.swan01_config['HIST_BINFULL_THRS'])
+        self.ui.load_pages.Swan01_SPOT_MON_MINBIN_THRS_spinBox.setValue(self.swan01_config['SPOT_MON_MINBIN_THRS'])
+
+        self.ui.load_pages.Swan01_INTF_DET_EN_ComboBox.setCurrentIndex(self.swan01_config['INTF_DET_EN'])
+        self.ui.load_pages.Swan01_INTF_HIST_MODE_ComboBox.setCurrentIndex(self.swan01_config['INTF_HIST_MODE'])
+        self.ui.load_pages.Swan01_BIN_WIDTH_SEL_ComboBox.setCurrentIndex(self.swan01_config['BIN_WIDTH_SEL'])
+        self.ui.load_pages.Swan01_BIN_WIDTH_MODE_ComboBox.setCurrentIndex(self.swan01_config['BIN_WIDTH_MODE'])
+
+        Swan01MainUI.hist_info_update(self, 0)  # 设置 BIN_NUMBER
+
+        # -------------------------------------------
+        # DSP
+        # -------------------------------------------
+        self.ui.load_pages.Swan01_OUT_NUMBIN_MODE_ComboBox.setCurrentIndex(self.swan01_config['OUT_NUMBIN_MODE'])
+        self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_spinBox.setValue(self.swan01_config['OUT_TOTALBIN_NUM'])
+        self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setCurrentIndex(self.swan01_config['OUT_ECHO_NUM'])
+        self.ui.load_pages.Swan01_OUT_ECHOBIN_NUM_spinBox.setValue(self.swan01_config['OUT_ECHOBIN_NUM'])
+
+        self.ui.load_pages.Swan01_OUT_FIR_RAW_SEL_ComboBox.setCurrentIndex(self.swan01_config['OUT_FIR_RAW_SEL'])
+        self.ui.load_pages.Swan01_OUT_INTF_HIST_SEL_ComboBox.setCurrentIndex(self.swan01_config['OUT_INTF_HIST_SEL'])
+        self.ui.load_pages.Swan01_OUT_ECHOBIN_MODE_ComboBox.setCurrentIndex(self.swan01_config['OUT_ECHOBIN_MODE'])
+        self.ui.load_pages.Swan01_OUT_OVFL_FLAT_EN_ComboBox.setCurrentIndex(self.swan01_config['OUT_OVFL_FLAT_EN'])
+
+        self.ui.load_pages.Swan01_FWHM_HALF_COEF_spinBox.setValue(self.swan01_config['FWHM_HALF_COEF'])
+        self.ui.load_pages.Swan01_FWHM_SEARCH_NUM_spinBox.setValue(self.swan01_config['FWHM_SEARCH_NUM'])
+        self.ui.load_pages.Swan01_ECHO_ORDER_NEAR_NUM_spinBox.setValue(self.swan01_config['ECHO_ORDER_NEAR_NUM'])
+
+        Swan01MainUI.out_totalbin_num_windows_change(self, self.swan01_config['OUT_TOTALBIN_NUM'])  # 控件隐藏及显示控制
+        Swan01MainUI.out_fir_raw_sel_windows_change(self, self.swan01_config['OUT_FIR_RAW_SEL'])
+        Swan01MainUI.dsp_info_update(self, 0)
+
+        # -------------------------------------------
+        # TXU
+        # -------------------------------------------
+        self.ui.load_pages.Swan01_TX_FRM_MODE_ComboBox.setCurrentIndex(self.swan01_config['TX_FRM_MODE'])
+        self.ui.load_pages.Swan01_ONE_DT_MODE_ComboBox.setCurrentIndex(self.swan01_config['ONE_DT_MODE'])
+        self.ui.load_pages.Swan01_DATA_WIDTH_SEL_ComboBox.setCurrentIndex(self.swan01_config['DATA_WIDTH_SEL'])
+        self.ui.load_pages.Swan01_PKT_CHKSUM_EN_ComboBox.setCurrentIndex(self.swan01_config['PKT_CHKSUM_EN'])
+        self.ui.load_pages.Swan01_PXL_BINN_SEL_ComboBox.setCurrentIndex(self.swan01_config['PXL_BINN_SEL'])
+        self.ui.load_pages.Swan01_PXL_PACK_SEL_ComboBox.setCurrentIndex(self.swan01_config['PXL_PACK_SEL'])
+
+        # ///////////////////////////////////////////////////////////////
+        # 操作绑定
+        # ///////////////////////////////////////////////////////////////
+        self.ui.load_pages.Swan01_XCLK_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'XCLK'))
+        self.ui.load_pages.Swan01_SYS_CLK_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'SYS_CLK'))
+        self.ui.load_pages.Hawk01_WORK_MODE_ComboBox.activated.connect(partial(Swan01MainUI.work_mode_update, self))
+        self.ui.load_pages.Swan01_MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'MIPI_RATE'))
+        self.ui.load_pages.Swan01_MST_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'MST_MODE'))
+        self.ui.load_pages.Swan01_SYNC_POL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'SYNC_POL'))
+        self.ui.load_pages.Swan01_FRM_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'FRM_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_SEG_NUM_Slider.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'SEG_NUM', 0))
+        self.ui.load_pages.Swan01_TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'TRG_I_EN'))
+        self.ui.load_pages.Swan01_FLEX_SHOT_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'FLEX_SHOT_EN'))
+
+        self.ui.load_pages.Swan01_ANGLE_GRP_SW_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP_SW_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP0_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP0_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP1_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP1_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP2_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP2_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP3_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP3_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP4_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP4_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP5_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP5_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP6_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP6_SLOT_NUM', -1))
+        self.ui.load_pages.Swan01_ANGLE_GRP7_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP7_SLOT_NUM', -1))
+
+        # -------------------------------------------
+        # HIST
+        # -------------------------------------------
+        self.ui.load_pages.Swan01_HIST_MINBIN_THRS_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "HIST_MINBIN_THRS", 0))
+        self.ui.load_pages.Swan01_HIST_MAXBIN_THRS_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "HIST_MAXBIN_THRS", 0))
+        self.ui.load_pages.Swan01_NS_MINBIN_THRS_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "NS_MINBIN_THRS", 0))
+        # self.ui.load_pages.Swan01_NS_MAXBIN_THRS_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "NS_MAXBIN_THRS", 0))
+        self.ui.load_pages.Swan01_NS_CAL_SEG_NUM_SET_spinBox.valueChanged.connect(partial(Swan01MainUI.hist_info_update, self))
+        self.ui.load_pages.Swan01_HIST_BINFULL_THRS_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "HIST_BINFULL_THRS", 0))
+        self.ui.load_pages.Swan01_SPOT_MON_MINBIN_THRS_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "SPOT_MON_MINBIN_THRS", 0))
+
+        self.ui.load_pages.Swan01_INTF_DET_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'INTF_DET_EN'))
+        self.ui.load_pages.Swan01_INTF_HIST_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'INTF_HIST_MODE'))
+        self.ui.load_pages.Swan01_BIN_WIDTH_SEL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'BIN_WIDTH_SEL'))
+        self.ui.load_pages.Swan01_BIN_WIDTH_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'BIN_WIDTH_MODE'))
+
+        # -------------------------------------------
+        # DSP
+        # -------------------------------------------
+        self.ui.load_pages.Swan01_OUT_NUMBIN_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "OUT_NUMBIN_MODE"))
+        self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "OUT_TOTALBIN_NUM", 0))
+        self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "OUT_ECHO_NUM"))
+        self.ui.load_pages.Swan01_OUT_ECHOBIN_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "OUT_ECHOBIN_NUM", 0))
+
+        self.ui.load_pages.Swan01_OUT_FIR_RAW_SEL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'OUT_FIR_RAW_SEL'))
+        self.ui.load_pages.Swan01_OUT_INTF_HIST_SEL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'OUT_INTF_HIST_SEL'))
+        self.ui.load_pages.Swan01_OUT_ECHOBIN_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'OUT_ECHOBIN_MODE'))
+        self.ui.load_pages.Swan01_OUT_OVFL_FLAT_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'OUT_OVFL_FLAT_EN'))
+
+        self.ui.load_pages.Swan01_FWHM_HALF_COEF_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'FWHM_HALF_COEF', 0))
+        self.ui.load_pages.Swan01_FWHM_SEARCH_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "FWHM_SEARCH_NUM", 0))
+        self.ui.load_pages.Swan01_ECHO_ORDER_NEAR_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ECHO_ORDER_NEAR_NUM', 0))
+        return
+
+    # 下拉框值更新
+    # ///////////////////////////////////////////////////////////////
+    def combobox_data_update(self, key, index):
+        # print(f"{key} {value}")
+        self.swan01_config[key] = index
+        if key == "OUT_NUMBIN_MODE":
+            Swan01MainUI.out_totalbin_num_windows_change(self, index)
+        elif key == "OUT_FIR_RAW_SEL":
+            Swan01MainUI.out_fir_raw_sel_windows_change(self, index)
+        # print(self.swan01_config[key])
+        return
+
+    # Spinbox & Slider值更新
+    # ///////////////////////////////////////////////////////////////
+    def value_data_update(self, key, value_shift, value):
+        print(f"{key} {value+value_shift}")
+        self.swan01_config[key] = value + value_shift
+
+        if key in ["OUT_TOTALBIN_NUM", "OUT_ECHOBIN_NUM", "FWHM_SEARCH_NUM"]:
+            Swan01MainUI.dsp_info_update(self, value)
+        elif key in ["HIST_MINBIN_THRS", "HIST_MAXBIN_THRS", "NS_MINBIN_THRS", "NS_MAXBIN_THRS", "SPOT_MON_MINBIN_THRS"]:
+            Swan01MainUI.hist_info_update(self, value)
+        return
+
+    def work_mode_update(self, index):
+        self.swan01_config['WORK_MODE'] = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.get_selected_index()
+
+    def hist_info_update(self, value):
+        hist_minbin_thrs = self.swan01_config["HIST_MINBIN_THRS"]
+        hist_maxbin_thrs = self.swan01_config["HIST_MAXBIN_THRS"]
+        ns_minbin_thrs = self.swan01_config["NS_MINBIN_THRS"]
+        ns_cal_seg_num = self.ui.load_pages.Swan01_NS_CAL_SEG_NUM_SET_spinBox.value()
+
+        # bin_number 最小值为 256
+        hist_maxbin_min_value = hist_minbin_thrs + 32 - 1   # hist_maxbin_thrs 的最小值
+        hist_minbin_max_value = hist_maxbin_thrs - 32 + 1   # hist_minbin_thrs 的最大值
+
+        ns_minbin_thrs_min_value = hist_minbin_thrs         # ns_minbin_thrs 的最小值
+        ns_minbin_thrs_max_value = hist_minbin_max_value    # ns_minbin_thrs 的最大值
+        ns_minbin_thrs = min(ns_minbin_thrs, hist_minbin_max_value)
+
+        bin_number = (hist_maxbin_thrs - hist_minbin_thrs + 1) * 8      # 计算BIN_NUMBER
+        ns_bin_number = (hist_maxbin_thrs - ns_minbin_thrs + 1) * 8     # 计算 Noise BIN_NUMBER
+
+        ns_cal_seg_num_max_value = ns_bin_number // 256     # 计算 Noise 计算可以设置的最大段数
+
+        ns_cal_seg_num = min(ns_cal_seg_num, ns_cal_seg_num_max_value)
+        ns_maxbin_thrs = 32 * ns_cal_seg_num + ns_minbin_thrs - 1
+
+        # 设置 HIST_MINBIN_THRS, HIST_MAXBIN_THRS 的交互
+        self.ui.load_pages.Swan01_HIST_MINBIN_THRS_spinBox.setMaximum(hist_minbin_max_value)
+        self.ui.load_pages.Swan01_HIST_MAXBIN_THRS_spinBox.setMinimum(hist_maxbin_min_value)  # MAXBIN_THRS can't 0
+
+        # 设置 NS_MINBIN_THRS, NS_MAXBIN_THRS 的交互
+        self.ui.load_pages.Swan01_NS_MINBIN_THRS_spinBox.setMinimum(ns_minbin_thrs_min_value)
+        self.ui.load_pages.Swan01_NS_MINBIN_THRS_spinBox.setMaximum(ns_minbin_thrs_max_value)
+        self.ui.load_pages.Swan01_NS_CAL_SEG_NUM_SET_spinBox.setMaximum(ns_cal_seg_num_max_value)
+
+        # 更新 bin_number
+        self.ui.load_pages.Swan01_BIN_NUMBER_Value.setNum(bin_number)
+
+        # 更新 NS_MAXBIN_THRS (此值不通过 SpinBox 进行设置, 后端自行计算后填值)
+        self.ui.load_pages.Swan01_NS_MAXBIN_THRS_spinBox.setValue(ns_maxbin_thrs)
+        self.swan01_config["NS_MAXBIN_THRS"] = ns_maxbin_thrs
+        return
+
+    def dsp_info_update(self, value):
+        out_totalbin_num = self.swan01_config["OUT_TOTALBIN_NUM"]
+        out_echobin_num = self.swan01_config["OUT_ECHOBIN_NUM"]
+        fwhm_search_num = self.swan01_config["FWHM_SEARCH_NUM"]
+
+        total_bin_number = out_totalbin_num * 2
+        echobin_num = out_echobin_num * 2
+        fwhm_search_num_act = (fwhm_search_num+1) * 2
+        self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_Value.setNum(total_bin_number)
+        self.ui.load_pages.Swan01_OUT_ECHOBIN_NUM_Value.setNum(echobin_num)
+        self.ui.load_pages.Swan01_FWHM_SEARCH_NUM_Value.setNum(fwhm_search_num_act)
+        return
+
+    def out_totalbin_num_windows_change(self, index):
+        Enable = True if (index == 0) else False
+        self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_spinBox.setEnabled(Enable)
+        self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setEnabled(not Enable)
+        self.ui.load_pages.Swan01_OUT_ECHOBIN_NUM_spinBox.setEnabled(not Enable)
+        pass
+
+    def out_fir_raw_sel_windows_change(self, index):
+        Enable = True if (index == 0) else False
+        self.ui.load_pages.Swan01_OUT_INTF_HIST_SEL_ComboBox.setEnabled(Enable)
+
+        if not Enable:
+            self.ui.load_pages.Swan01_OUT_INTF_HIST_SEL_ComboBox.setCurrentIndex(0)
+        pass
+
+    def debug_shortcut_windows_change(self, hidden: bool):
+        self.ui.load_pages.Swan01_cali_order_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_cali_order_ComboBox.setHidden(hidden)
+        self.ui.load_pages.Swan01_cali_frm_num_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_cali_frm_num__SpinBox.setHidden(hidden)
+        self.ui.load_pages.Swan01_ref_segment_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_ref_segment_SpinBox.setHidden(hidden)
+        pass
+
+    # ///////////////////////////////////////////////////////////////
+    # ROI config window function
+    # ///////////////////////////////////////////////////////////////
+    def setup_roi_gui(self):
+        """roi相关的主界面配置"""
+        self.ui.load_pages.Swan01_ROIConfig.setCurrentIndex(self.swan01_config["Default_ROI_GEN_TYPE"])
+
+        tab_bar = self.ui.load_pages.Swan01_ROIConfig.tabBar()
+        # 隐藏特定索引的标签页标签
+        # tab_bar.setTabVisible(2, False)
+
+        # Gen ROI for GUI
+        self.ui.load_pages.Swan01_seg_hs_spinBox.setValue(self.swan01_roi_gen_config['ROIGenByJson']['seg_hs'] + 1)
+        self.ui.load_pages.Swan01_h_seg_shift_spinBox.setValue(self.swan01_roi_gen_config['ROIGenByJson']['h_seg_shift'])
+        self.ui.load_pages.Swan01_spad_vs_spinBox.setValue(self.swan01_roi_gen_config['ROIGenByJson']['spad_vs'] + 1)
+        self.ui.load_pages.Swan01_light_shift_spinBox.setValue(self.swan01_roi_gen_config['ROIGenByJson']['light_shift'])
+        self.ui.load_pages.Swan01_sublight_group_LineEdit.setText(self.swan01_roi_gen_config['ROIGenByJson']['sublight_group'])
+        self.ui.load_pages.Swan01_sublight_shift_spinBox.setValue(self.swan01_roi_gen_config['ROIGenByJson']['sublight_shift'])
+        self.ui.load_pages.Swan01_ROI_Shape_ComboBox.setCurrentIndex(self.swan01_roi_gen_config['ROIGenByJson']['roi_shape'])
+        self.ui.load_pages.Swan01_ROI_Retrace_ComboBox.setCurrentIndex(self.swan01_roi_gen_config['ROIGenByJson']['roi_retrace'])
+        self.ui.load_pages.Swan01_v_spad_shift_spinBox.setValue(self.swan01_roi_gen_config['ROIGenByJson']['v_spad_shift'])
+
+        # Gen ROI for cali txt
+        self.ui.load_pages.Swan01_Cali_File_Load_LineEdit.setText(self.swan01_roi_gen_config['ROIGenByFile']['cali_file'])
+        self.ui.load_pages.Swan01_Excel_Sheet_sel_spinBox.setValue(self.swan01_roi_gen_config['ROIGenByFile']['sheet_sel'] + 1)
+        self.ui.load_pages.Swan01_Cali_File_Load_Button.clicked.connect(partial(Swan01MainUI.cali_file_select, self))
+
+        # Gen ROI for Base ROI
+        self.ui.load_pages.Swan01_ROI_File_LineEdit.setText(self.swan01_roi_gen_config['ROIGenByBase']['roi_file'])
+        self.ui.load_pages.Swan01_Start_Rolling_SpinBox.setValue(self.swan01_roi_gen_config['ROIGenByBase']['start_roll'] + 1)
+        self.ui.load_pages.Swan01_End_Rolling_SpinBox.setValue(self.swan01_roi_gen_config['ROIGenByBase']['end_roll'] + 1)
+        self.ui.load_pages.Swan01_ROI_File_Button.clicked.connect(partial(Swan01MainUI.roi_file_select, self))
+
+        # Gen ROI for cali data
+        self.ui.load_pages.Swan01_cali_file_path_LineEdit.setText(self.swan01_roi_gen_config['ROIGenByCali']['cali_file'])
+        self.ui.load_pages.Swan01_cali_order_ComboBox.setCurrentIndex(self.swan01_roi_gen_config['ROIGenByCali']['is_reverse'])
+        self.ui.load_pages.Swan01_img_mirror_ComboBox.setCurrentIndex(
+            self.swan01_roi_gen_config['ROIGenByCali']['img_reverse'])
+        self.ui.load_pages.Swan01_cali_frm_num__SpinBox.setValue(self.swan01_roi_gen_config['ROIGenByCali']['cali_frm_num'])
+        self.ui.load_pages.Swan01_remove_noise_ComboBox.setCurrentIndex(
+            self.swan01_roi_gen_config['ROIGenByCali']['remove_noise'])
+        self.ui.load_pages.Swan01_light_smooth_ComboBox.setCurrentIndex(
+            self.swan01_roi_gen_config['ROIGenByCali']['light_smooth'])
+        self.ui.load_pages.Swan01_ref_segment_SpinBox.setValue(self.swan01_roi_gen_config['ROIGenByCali']['ref_segment'] + 1)
+        self.ui.load_pages.Swan01_curvature_SpinBox.setValue(self.swan01_roi_gen_config['ROIGenByCali']['curvature'])
+        self.ui.load_pages.Swan01_correct_thres_SpinBox.setValue(self.swan01_roi_gen_config['ROIGenByCali']['correct_thres'])
+        self.ui.load_pages.Swan01_mode_2D_ComboBox.setCurrentIndex(self.swan01_roi_gen_config['ROIGenByCali']['mode2D'])
+        self.ui.load_pages.Swan01_cali_file_path_Button.clicked.connect(partial(Swan01MainUI.roi_cali_folder_select, self))
+        Swan01MainUI.debug_shortcut_windows_change(self, True)  # 默认隐藏相关字段
+
+        # 底部操作绑定
+        self.ui.load_pages.Swan01_ROIView.clicked.connect(partial(Swan01MainUI.roi_view, self))
+        self.swan01_main_ui_signal_sync.sync_signal_0.connect(partial(Swan01MainUI.open_roi_win, self))
+        self.ui.load_pages.Swan01_ROISave.clicked.connect(partial(Swan01MainUI.roiUI_roi_save, self))
+
+        # 创建 Ctrl+E 的快捷键, 控制显示隐藏字段
+        debug_shortcut = QShortcut(QKeySequence("Ctrl+E"), self)
+        debug_shortcut.activated.connect(partial(Swan01MainUI.debug_shortcut_windows_change, self, False))
+
+        # 特殊字段限制输入格式
+        reg = QRegularExpression('[0-9, ]+$')
+        validator = QRegularExpressionValidator(reg)
+        self.ui.load_pages.Swan01_sublight_group_LineEdit.setValidator(validator)
+
+        # ROI data刷新判断初始化
+        self.ui_masking_win = None  # 存储masking_window对象, 便于后续内存销毁
+        # self.MaskingWindowID = 0  # masking_window 标志位,
+        self.__pre_roi_gen_type__ = -1  # 上一个bak数据,避免重复执行
+        self.__pre_swan01_config__ = {}  # 上一个配置数据,避免重复执行代码
+        return
+
+    def cali_file_select(self):
+        file, _ = QFileDialog.getOpenFileName(parent=None, caption='ROI cali data select', dir='',
+                                              filter='file(*.txt *.csv *.xls *.xlsx) ;')
+        if file == "":
+            return
+        # 选择后缀为.txt
+        self.ui.load_pages.Swan01_Cali_File_Load_LineEdit.setText(file)
+        self.swan01_roi_gen_config['ROIGenByFile']['cali_file'] = file
+        return
+
+    def roi_file_select(self):
+        file, _ = QFileDialog.getOpenFileName(parent=None, caption='ROI select', dir='',
+                                              filter='file(*.txt) ;')
+        if file == "":
+            return
+        # 选择后缀为.txt
+        self.ui.load_pages.Swan01_ROI_File_LineEdit.setText(file)
+        self.swan01_roi_gen_config['ROIGenByBase']['roi_file'] = file
+        return
+
+    def roi_cali_folder_select(self):
+        fd = QFileDialog.getExistingDirectory(self, "Select Cali File", "")
+        if fd == "":
+            return
+        # 选择后缀为.txt
+        self.ui.load_pages.Swan01_cali_file_path_LineEdit.setText(fd)
+        self.swan01_roi_gen_config['ROIGenByCali']['cali_file'] = fd
+        return
+
+    def get_roi_gui_config(self):
+        """获取 ROI GEN CONFIG(仅获取当前 GEN 类型的配置信息)"""
+        self.roi_gen_type = self.ui.load_pages.Swan01_ROIConfig.currentIndex()
+        self.swan01_config["Default_ROI_GEN_TYPE"] = self.roi_gen_type
+        if self.roi_gen_type == 0:  # Gen ROI for GUI
+            # 获取配置
+            self.swan01_roi_gen_config['ROIGenByJson']['seg_hs'] = self.ui.load_pages.Swan01_seg_hs_spinBox.value() - 1
+            self.swan01_roi_gen_config['ROIGenByJson']['spad_vs'] = self.ui.load_pages.Swan01_spad_vs_spinBox.value() - 1
+            self.swan01_roi_gen_config['ROIGenByJson']['light_shift'] = self.ui.load_pages.Swan01_light_shift_spinBox.value()
+            self.swan01_roi_gen_config['ROIGenByJson'][
+                'sublight_group'] = self.ui.load_pages.Swan01_sublight_group_LineEdit.text()
+            self.swan01_roi_gen_config['ROIGenByJson'][
+                'sublight_shift'] = self.ui.load_pages.Swan01_sublight_shift_spinBox.value()
+            self.swan01_roi_gen_config['ROIGenByJson'][
+                'roi_shape'] = self.ui.load_pages.Swan01_ROI_Shape_ComboBox.currentIndex()
+            self.swan01_roi_gen_config['ROIGenByJson'][
+                'roi_retrace'] = self.ui.load_pages.Swan01_ROI_Retrace_ComboBox.currentIndex()
+            self.swan01_roi_gen_config['ROIGenByJson']['v_spad_shift'] = self.ui.load_pages.Swan01_v_spad_shift_spinBox.value()
+            self.swan01_roi_gen_config['ROIGenByJson']['h_seg_shift'] = self.ui.load_pages.Swan01_h_seg_shift_spinBox.value()
+
+        elif self.roi_gen_type == 1:  # Gen ROI for cali txt
+            # 获取配置
+            self.swan01_roi_gen_config['ROIGenByFile']['cali_file'] = self.ui.load_pages.Swan01_Cali_File_Load_LineEdit.text()
+            self.swan01_roi_gen_config['ROIGenByFile'][
+                'sheet_sel'] = self.ui.load_pages.Swan01_Excel_Sheet_sel_spinBox.value() - 1
+
+        elif self.roi_gen_type == 2:  # Gen ROI for Base ROI
+            # 获取配置
+            self.swan01_roi_gen_config['ROIGenByBase']['roi_file'] = self.ui.load_pages.Swan01_ROI_File_LineEdit.text()
+            self.swan01_roi_gen_config['ROIGenByBase'][
+                'start_roll'] = self.ui.load_pages.Swan01_Start_Rolling_SpinBox.value() - 1
+            self.swan01_roi_gen_config['ROIGenByBase']['end_roll'] = self.ui.load_pages.Swan01_End_Rolling_SpinBox.value() - 1
+        else:
+            # elif self.roi_gen_type == 3: # Gen ROI for cali data
+            # 获取配置
+            self.swan01_roi_gen_config['ROIGenByCali']['cali_file'] = self.ui.load_pages.Swan01_cali_file_path_LineEdit.text()
+            self.swan01_roi_gen_config['ROIGenByCali'][
+                'is_reverse'] = self.ui.load_pages.Swan01_cali_order_ComboBox.currentIndex()
+            self.swan01_roi_gen_config['ROIGenByCali'][
+                'img_reverse'] = self.ui.load_pages.Swan01_img_mirror_ComboBox.currentIndex()
+            self.swan01_roi_gen_config['ROIGenByCali'][
+                'cali_frm_num'] = self.ui.load_pages.Swan01_cali_frm_num__SpinBox.value()
+            self.swan01_roi_gen_config['ROIGenByCali'][
+                'remove_noise'] = self.ui.load_pages.Swan01_remove_noise_ComboBox.currentIndex()
+            self.swan01_roi_gen_config['ROIGenByCali'][
+                'light_smooth'] = self.ui.load_pages.Swan01_light_smooth_ComboBox.currentIndex()
+            self.swan01_roi_gen_config['ROIGenByCali'][
+                'ref_segment'] = self.ui.load_pages.Swan01_ref_segment_SpinBox.value() - 1
+            self.swan01_roi_gen_config['ROIGenByCali']['curvature'] = self.ui.load_pages.Swan01_curvature_SpinBox.value()
+            self.swan01_roi_gen_config['ROIGenByCali'][
+                'correct_thres'] = self.ui.load_pages.Swan01_correct_thres_SpinBox.value()
+            self.swan01_roi_gen_config['ROIGenByCali']['mode2D'] = self.ui.load_pages.Swan01_mode_2D_ComboBox.currentIndex()
+        return
+
+    # @memory_profiler.profile
+    def merge_swan_config(self):
+        """
+        根据配置将界面上的config合并起来, 便于后续根据配置生成ROI等内容
+        __swan01_config__: 用于生成 脚本配置&ROI 的总的 config
+        """
+        __swan01_zone_config__ = copy.deepcopy(self.swan01_zone_config)
+
+        def traverse_dict(d, parent_key=''):
+            for key, value in d.items():
+                full_key = f"{parent_key}.{key}" if parent_key else key
+                if isinstance(value, dict):
+                    traverse_dict(value, full_key)
+                else:
+                    try:
+                        if isinstance(value, str):
+                            d[key] = eval(value)
+                        elif isinstance(value, list):
+                            d[key] = [eval(s) for s in value]
+                    except:
+                        pass
+
+        traverse_dict(d=__swan01_zone_config__, parent_key='')  # 将zone_config的配置值全部转换为数字类型
+        self.__swan01_config__ = \
+            {**self.swan01_config,
+             **self.swan01_roi_gen_config['ROIGenByJson'], **__swan01_zone_config__} if self.roi_gen_type == 0 \
+                else {**self.swan01_config,
+                      **self.swan01_roi_gen_config['ROIGenByFile'], **__swan01_zone_config__} if self.roi_gen_type == 1 \
+                else {**self.swan01_config,
+                      **self.swan01_roi_gen_config['ROIGenByBase'], **__swan01_zone_config__} if self.roi_gen_type == 2 \
+                else {**self.swan01_config,
+                      **self.swan01_roi_gen_config['ROIGenByCali'], **__swan01_zone_config__}
+        return
+
+    def get_roi_data_pkg(self):
+        """
+        根据 ROI 界面配置生成 roi_data_pkg, 用于后续数据保存和成图展示
+        由于标定较为缓慢, 可能占用主进程, 建议使用子进程进行调用
+        roi_data_pkg["roi_gen_type"] = 3
+        roi_data_pkg["roi_data_pkg"] = roi_data
+        roi_data_pkg["arrays"] = arrays
+        roi_data_pkg["fusion_image"] = fusion_image
+        roi_data_pkg["spad_array_3D"] = spad_array_3D
+        roi_data_pkg["acc_spad_array"] = acc_spad_array
+        roi_data_pkg["depth_spad_array"] = depth_spad_array
+        roi_data_pkg["coor_info"] = coor_info
+        """
+        # 获取 ROI_DATA_PKG, # 如果界面没有更新, 则无需再次执行代码
+        # 如果 ROI_DATA 根据文件生成, 则有可能是文件改变, 需要再次执行代码
+        # //////////////////////////////////////
+        if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__swan01_config__ != self.__pre_swan01_config__ \
+                or self.roi_gen_type == 1:
+            # print("Get the latest ROI config...")
+            self.__roi_data_pkg__ = \
+                swan01_window_functions.MskuRoiGenerateByJson(self.__swan01_config__) if self.roi_gen_type == 0 \
+                    else swan01_window_functions.MskuRoiGenerateByFile(self.__swan01_config__) if self.roi_gen_type == 1 \
+                    else swan01_window_functions.MskuRoiGenerateByROIMEM(
+                    self.__swan01_config__) if self.roi_gen_type == 2 \
+                    else swan01_window_functions.MskuRoiGenerateByCali(self.__swan01_config__)
+            self.__pre_roi_gen_type__ = self.roi_gen_type
+            self.__pre_swan01_config__ = self.__swan01_config__
+            # logging.warning(f"Haw01MainUI:self.__roi_data_pkg__:{asizeof.asizeof(self.__roi_data_pkg__)/(1023**2):0.2f}M")
+        return
+
+    def refresh_swan_config(self):
+        """从 ROI ZONE config界面获取最新的配置"""
+        # print("Get the latest ROI Zone config...")
+        self.Swan01ZoneConfig.serialize()
+
+    # @memory_profiler.profile
+    def masking_data_mem_free(self):
+        """图像界面关闭或者销毁时, 释放masking内存"""
+        if self.ui_masking_win is None:
+            self.__roi_data_pkg__ = None
+            self.__pre_roi_gen_type__ = -1
+            self.__pre_swan01_config__ = {}
+        gc.collect()
+        return
+
+    # @memory_profiler.profile
+    def roi_win_free(self):
+        """图像界面关闭或者销毁时, 释放masking内存"""
+        self.ui_masking_win = None
+        Swan01MainUI.masking_data_mem_free(self)
+        return
+
+    def roi_view(self):
+        """此函数调用子线程生成 roi_data_pkg, 然后 emit open_roi_win"""
+
+        def excute():
+            # 获取界面配置并 merge 所有配置
+            # ///////////////////////////////////////////
+            Swan01MainUI.get_roi_gui_config(self)
+            Swan01MainUI.merge_swan_config(self)
+            # 获取 ROI_DATA_PKG
+            Swan01MainUI.get_roi_data_pkg(self)
+            self.swan01_main_ui_signal_sync.sync_signal_0.emit()
+
+        def threadFunc():
+            func_exec(self.DEBUG, excute)
+
+        thread = Thread(target=threadFunc)
+        thread.start()
+        return
+
+    # @memory_profiler.profile
+    def open_roi_win(self):
+        """
+        打开 ROI masking展示界面
+        """
+        # print("ROI Masking display...")
+        # arrays = []
+        # for value in range(32):
+        #     arr = np.random.rand(576, 768)
+        #     arrays.append(arr)
+        # self.__roi_data_pkg__["masking_arrays"] = arrays
+        if self.ui_masking_win is None:
+            self.ui_masking_win = MaskingWindow(title=f"Swan01 roi show",
+                                                roi_data_pkg=self.__roi_data_pkg__,
+                                                swan_config=self.__swan01_config__,
+                                                soft_config=self.soft_config,
+                                                DEBUG=self.DEBUG)
+            self.ui_masking_win.setStyleSheet(self.qssStyle)
+            # self.ui_masking_win.setAttribute(Qt.WA_DeleteOnClose)
+            self.ui_masking_win.destroyed.connect(partial(Swan01MainUI.roi_win_free, self))
+            self.ui_masking_win.show()
+        else:
+            # 如果窗口没有关闭, 则刷新最新的 ROI 数据到窗口, 重新展示
+            self.ui_masking_win.roi_data_pkg = self.__roi_data_pkg__
+            self.ui_masking_win.swan_config = self.__swan01_config__
+            self.ui_masking_win.soft_config = self.soft_config
+            self.ui_masking_win.roi_data_sync()
+            self.ui_masking_win.activateWindow()
+            self.ui_masking_win.Replay_plog()
+        return
+
+    def roi_save(self):
+        """
+        此函数主要是保存 ROI 数据, 由于数据保存会占用主线程, 建议使用子进程执行
+        """
+        Swan01MainUI.get_roi_data_pkg(self)
+        swan01_window_functions.ROIDataPackageSave(roi_data_pkg=self.__roi_data_pkg__,
+                                                   swan01_config=self.__swan01_config__,
+                                                   save_sel=self.soft_config["roi_image_save"],
+                                                   roi_data_format=self.soft_config["roi_data_format"])
+        Swan01MainUI.masking_data_mem_free(self)
+        return
+
+    # ///////////////////////////////////////////////////////////////
+    # ZONE config window function
+    # ///////////////////////////////////////////////////////////////
+    def setup_zone_gui(self):
+        # Instans ROI_Zone_Config Win
+        self.ui_zone_config_win = ROIZoneConfigWin(self.swan01_zone_config, self.qssStyle)
+        self.ui.load_pages.Swan01_ROIZoneConfig.linkActivated.connect(partial(Swan01MainUI.open_roizone_config_win, self))
+        self.ui_zone_config_win.return_config_signal.sync_signal_0.connect(
+            partial(Swan01MainUI.refresh_swan_config, self))
+        return
+
+    def open_roizone_config_win(self, url):
+        """打开 ROI Zone config 界面"""
+        print("Open ROI zone config window...")
+        self.ui_zone_config_win.setModal(True)
+        self.ui_zone_config_win.swan01_SYS_CLK = self.swan01_config["SYS_CLK"]
+        self.ui_zone_config_win.swan01_PLL1_OD = FREQ_Config[self.swan01_config['XCLK']]["PLL1"] \
+            [self.swan01_config['SYS_CLK']]["OD"]
+        self.ui_zone_config_win.show(self.swan01_zone_config)
+
+    # ///////////////////////////////////////////////////////////////
+    # FILE config window function
+    # ///////////////////////////////////////////////////////////////
+    def setup_file_gui(self):
+        """ FILE config 界面GUI配置"""
+        self.ui.load_pages.Swan01_reference_script_LineEdit.setText(self.swan01_config['ref_cfg_file'])
+        self.ui.load_pages.Swan01_file_save_dir_LineEdit.setText(self.swan01_config['fd_path'])
+        self.ui.load_pages.Swan01_reg_script_name_LineEdit.setText(self.swan01_config['reg_name'])
+        self.ui.load_pages.Swan01_roi_sram_name_LineEdit.setText(self.swan01_config['roi_name'])
+        self.ui.load_pages.Swan01_roi_sram_name_CheckBox.setChecked(self.swan01_config['ROI_SRAM_Include'])
+        # self.ui.load_pages.Swan01_SPADISS_Integration_CheckBox.setChecked(self.swan01_config['SPADISS_Integration'])
+
+        self.ui.load_pages.Swan01_roi_sram_name_CheckBox.stateChanged.connect(
+            partial(Swan01MainUI.file_gui_checkBoxChange, self))
+        # self.ui.load_pages.Swan01_SPADISS_Integration_CheckBox.stateChanged.connect(
+        #     partial(Swan01MainUI.file_gui_checkBoxChange, self))
+        # 按钮绑定
+        self.ui.load_pages.Swan01_reference_script_sel_Button.clicked.connect(partial(Swan01MainUI.reference_script_file_sel, self))
+        self.ui.load_pages.Swan01_reference_script_parse_Button.clicked.connect(partial(Swan01MainUI.script_parse, self))
+        self.ui.load_pages.Swan01_file_save_dir_Button.clicked.connect(partial(Swan01MainUI.file_save_dir_sel, self))
+        self.ui.load_pages.Swan01_Save.clicked.connect(partial(Swan01MainUI.mainUI_save, self))  # Save按钮连接保存操作
+        self.swan01_main_ui_signal_sync.Obj_signal_0.connect(partial(Swan01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
+        self.ui.load_pages.Swan01_Open.clicked.connect(partial(Swan01MainUI.open_folder, self))
+        return
+
+    def file_gui_checkBoxChange(self, state):
+        self.swan01_config['ROI_SRAM_Include'] = self.ui.load_pages.Swan01_roi_sram_name_CheckBox.isChecked()
+        # self.swan01_config['SPADISS_Integration'] = self.ui.load_pages.Swan01_SPADISS_Integration_CheckBox.isChecked()
+        return
+
+    def reference_script_file_sel(self):
+        file, _ = QFileDialog.getOpenFileName(parent=None, caption='Base script file select', dir='',
+                                              filter='file(*.txt) ;')
+        if file:
+            # 选择后缀为.txt
+            self.ui.load_pages.Swan01_reference_script_LineEdit.setText(file)
+            self.swan01_config['ref_cfg_file'] = file
+            print(self.swan01_config['ref_cfg_file'])
+
+    def script_parse(self):
+        # Swan01MainUI.merge_swan_config(self)
+        file, _ = QFileDialog.getOpenFileName(parent=None, caption='Base script file select', dir='',
+                                              filter='file(*.txt) ;')
+
+        def excute():
+            swan01_window_functions.ScriptParse(self.swan01_config, file)
+        func_exec(self.DEBUG, excute)
+
+    def file_save_dir_sel(self):
+        dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
+        if dir_path:
+            self.ui.load_pages.Swan01_file_save_dir_LineEdit.setText(dir_path)
+            self.swan01_config['fd_path'] = dir_path
+            # print(self.swan01_config['fd_path'])
+
+    def roiUI_roi_save(self):
+        """
+        ROI界面的保存按钮保存数据: 包含 ROI 数据
+            1. 使用子线程调用保存, 不占用主线程
+        """
+
+        def excute():
+            # 获取界面配置并 merge 所有配置
+            # ///////////////////////////////////////////
+            Swan01MainUI.get_mainUI_config(self)
+            Swan01MainUI.get_roi_gui_config(self)
+            Swan01MainUI.merge_swan_config(self)
+            Swan01MainUI.roi_save(self)
+
+        self.ui.load_pages.Swan01_ROISave.setEnabled(False)
+
+        def threadFunc():
+            func_exec(self.DEBUG, excute)
+            self.swan01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Swan01_ROISave)
+
+        thread = Thread(target=threadFunc)
+        thread.start()
+
+    def mainUI_save(self):
+        """
+        主界面的保存按钮保存数据: 包含 ROI 数据, Script 数据
+            1. 使用子线程调用保存, 不占用主线程
+        """
+
+        def excute():
+            # 获取界面配置并 merge 所有配置
+            # ///////////////////////////////////////////
+            Swan01MainUI.get_mainUI_config(self)
+            Swan01MainUI.get_roi_gui_config(self)
+            Swan01MainUI.merge_swan_config(self)
+            if self.swan01_config["ROI_SRAM_Include"] == 1:
+                Swan01MainUI.roi_save(self)
+            swan01_window_functions.ScriptDataSave(self.swan01_config)
+            print("Data save complete...")
+
+        self.ui.load_pages.Swan01_Save.setEnabled(False)
+
+        def threadFunc():
+            func_exec(self.DEBUG, excute)
+            self.swan01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Swan01_Save)
+
+        thread = Thread(target=threadFunc)
+        thread.start()
+
+    def func_btn_release(self, Obj: QPushButton):
+        Obj.setEnabled(True)
+        return
+
+    def open_folder(self):
+        # 获取用户选择的文件夹路径
+        folder_path = self.swan01_config['fd_path']
+        if folder_path:
+            # 打开文件夹
+            QDesktopServices.openUrl(QUrl.fromLocalFile(folder_path))
+
+    def get_mainUI_config(self):
+        self.swan01_config['ref_cfg_file'] = self.ui.load_pages.Swan01_reference_script_LineEdit.text()
+        self.swan01_config['reg_name'] = self.ui.load_pages.Swan01_reg_script_name_LineEdit.text()
+        self.swan01_config['roi_name'] = self.ui.load_pages.Swan01_roi_sram_name_LineEdit.text()
+        self.swan01_config['fd_path'] = self.ui.load_pages.Swan01_file_save_dir_LineEdit.text()
+
+    # ///////////////////////////////////////////////////////////////
+    # 通用函数
+    # ///////////////////////////////////////////////////////////////
+    # 文件选择对话框
+    # ///////////////////////////////////////////////////////////////
+
+    def saveImage(self):  # 保存图片到本地
+        fd, type = QFileDialog.getSaveFileName(self, "保存图片", "", "*.jpg;;*.png;;All Files(*)")
+        print(fd)
+
+    def openDirectory(self):  # 打开文件夹（目录）
+        fd = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
+        print(fd)
+
+    def openTextFile(self):  # 选择文本文件上传
+        fd, fp = QFileDialog.getOpenFileName(self, "选择文件", "", "*.txt;;All Files(*)")
+        print(fd)
+
+    def saveTextFile(self):  # 保存文本文件
+        fd, fp = QFileDialog.getSaveFileName(self, "保存文件", "", "*.txt;;All Files(*)")
+        print(fd)
+        print(fp)
+
+    def closeEvent(self):
+        self.Swan01Config.serialize()
+        self.Swan01ROIGenConfig.serialize()
+        try:
+            self.ui_masking_win.close()
+        except:
+            pass
+        pass
