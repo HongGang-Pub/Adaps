@@ -11,6 +11,7 @@ from .ui_main import *
 # ///////////////////////////////////////////////////////////////
 from .ui_main import UI_MainWindow
 from AdapsChip.ChipUI.windows.Hawk01.hawk01_window_setup import Hawk01MainUI
+from AdapsChip.ChipUI.windows.Swan01.swan01_window_setup import Swan01MainUI
 from AdapsChip.ChipUI.windows.HawkToolFunction.HawkToolbox import HawkToolbox
 from AdapsChip.ChipUI.windows.SoftSettingFunction.SoftSettingUI import SoftMainUI
 
@@ -136,6 +137,9 @@ class SetupMainWindow:
         # ///////////////////////////////////////////////////////////////
         # PAGE 1 - ADD LOGO TO MAIN PAGE
         Hawk01MainUI.setup_gui(self)
+
+        # PAGE 2 - ADD LOGO TO MAIN PAGE
+        Swan01MainUI.setup_gui(self)
 
         # PAGE 2
         HawkToolbox.setup_gui(self)

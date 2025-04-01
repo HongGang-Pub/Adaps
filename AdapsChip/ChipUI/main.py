@@ -137,7 +137,6 @@ def main():
     app.setWindowIcon(QIcon("gui/icon.ico"))
     app.setStyle(QStyleFactory.create('windowsvista'))
 
-
     # SHOW MAIN WINDOW
     # ///////////////////////////////////////////////////////////////
     window = MainWindow()

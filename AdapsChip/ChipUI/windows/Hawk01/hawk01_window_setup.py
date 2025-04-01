@@ -65,7 +65,7 @@ class Hawk01MainUI:
     # ///////////////////////////////////////////////////////////////
     def setup_script_gui(self):
         # ///////////////////////////////////////////////////////////////
-        # 配置初始化, 如果配置文件没有此配置，需要初始化配置文件
+        # 配置初始化, 如果配置文件没有此配置, 需要初始化配置文件
         # ///////////////////////////////////////////////////////////////
         CONFIG_KEYS = ["XCLK", "MST_MODE", "WORK_MODE", "MIPI_RATE",
                        "SYS_CLK", "TDC_BIN_W",
@@ -107,7 +107,7 @@ class Hawk01MainUI:
         self.ui.load_pages.Hawk01_TRG_I_EN_ComboBox.setCurrentIndex(self.hawk01_config['TRG_I_EN'])
         self.ui.load_pages.Hawk01_MINBIN_THRS_spinBox.setValue(self.hawk01_config['MINBIN_THRS'])
         self.ui.load_pages.Hawk01_MAXBIN_THRS_spinBox.setValue(self.hawk01_config['MAXBIN_THRS'])
-        Hawk01MainUI.bin_thrs_uptate(self, 0)  # 设置 BIN_NUMBER
+        Hawk01MainUI.bin_thrs_update(self, 0)  # 设置 BIN_NUMBER
         self.ui.load_pages.Hawk01_OUT_BIN_NUM_ComboBox.setCurrentIndex(self.hawk01_config['OUT_BIN_NUM'])
         self.ui.load_pages.Hawk01_PKS_ECHO_NUM_ComboBox.setCurrentIndex(self.hawk01_config['PKS_ECHO_NUM'])
 
@@ -136,8 +136,8 @@ class Hawk01MainUI:
             partial(Hawk01MainUI.combobox_data_update, self, "V_PXL_OUT_NUM"))
         self.ui.load_pages.Hawk01_TRG_I_EN_ComboBox.currentIndexChanged.connect(
             partial(Hawk01MainUI.combobox_data_update, self, "TRG_I_EN"))
-        self.ui.load_pages.Hawk01_MINBIN_THRS_spinBox.valueChanged.connect(partial(Hawk01MainUI.bin_thrs_uptate, self))
-        self.ui.load_pages.Hawk01_MAXBIN_THRS_spinBox.valueChanged.connect(partial(Hawk01MainUI.bin_thrs_uptate, self))
+        self.ui.load_pages.Hawk01_MINBIN_THRS_spinBox.valueChanged.connect(partial(Hawk01MainUI.bin_thrs_update, self))
+        self.ui.load_pages.Hawk01_MAXBIN_THRS_spinBox.valueChanged.connect(partial(Hawk01MainUI.bin_thrs_update, self))
         self.ui.load_pages.Hawk01_OUT_BIN_NUM_ComboBox.currentIndexChanged.connect(
             partial(Hawk01MainUI.combobox_data_update, self, "OUT_BIN_NUM"))
         self.ui.load_pages.Hawk01_PKS_ECHO_NUM_ComboBox.currentIndexChanged.connect(
@@ -168,7 +168,7 @@ class Hawk01MainUI:
     def work_mode_update(self, index):
         self.hawk01_config['WORK_MODE'] = self.ui.load_pages.Hawk01_WORK_MODE_ComboBox.get_selected_index()
 
-    def bin_thrs_uptate(self, value):
+    def bin_thrs_update(self, value):
         minbin_thrs = self.ui.load_pages.Hawk01_MINBIN_THRS_spinBox.value()
         maxbin_thrs = self.ui.load_pages.Hawk01_MAXBIN_THRS_spinBox.value()
 
