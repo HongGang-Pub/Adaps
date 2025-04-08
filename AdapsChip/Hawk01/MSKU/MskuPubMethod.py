@@ -2,6 +2,7 @@ import csv
 import logging
 import re
 import os
+import openpyxl
 
 import numpy as np
 # import matplotlib.animation as animation
@@ -422,15 +423,28 @@ def DirectAccessCaliDataByExcel(hawk01_config):
         with open(file, newline='', encoding="utf-8") as f:
             datas = csv.reader(f, delimiter=',', quotechar='|')
             for __data__ in datas:
-                cali_datas.append(__data__)
+                cali_datas.append(__data__[1:])
     elif file_ext in [".xlsx", ".xls"]:
-        excel_data = xlrd.open_workbook(file)
-        if len(excel_data.sheet_names()) < (sheet_sel+1):
+        # wb = xlrd.open_workbook(file)
+        # if len(wb.sheet_names()) < (sheet_sel+1):
+        #     raise ValueError(f"Excel doesn't have {PubMethod.get_ordinal(sheet_sel+1)} sheet...")
+        # sheet = wb.sheet_by_index(sheet_sel)
+        # nrows = sheet.nrows
+        # for row in range(nrows):
+        #     __data__ = sheet.row_values(row)
+        #     cali_datas.append(__data__[1:])
+            
+        # Used openpyxl to read the excel file, xlrd is not support .xlsx file
+        # https://openpyxl.readthedocs.io/en/stable/changes.html#xlrd-support
+        wb = openpyxl.load_workbook(file)
+
+        if len(wb.sheetnames) < (sheet_sel+1):
             raise ValueError(f"Excel doesn't have {PubMethod.get_ordinal(sheet_sel+1)} sheet...")
-        sheet_datas = excel_data.sheet_by_index(sheet_sel)
-        nrows = sheet_datas.nrows
-        for row in range(nrows):
-            cali_datas.append(sheet_datas.row_values(row))
+        sheet = wb.worksheets[sheet_sel]
+
+        for row_value in sheet.iter_rows(values_only=True):
+            __data__ = list(cell if cell is not None else "" for cell in row_value)
+            cali_datas.append(__data__[1:])
     else:
         return
     cali_datas.pop(0)   # 删除第一行
@@ -453,7 +467,6 @@ def DirectAccessCaliDataByExcel(hawk01_config):
         for vroll_cnt in range(0, hawk01_config['V_ROLL_NUM'] + 1):
             seg_hs = -1
             per_img_cali_data = cali_datas[frame_cnt]
-            per_img_cali_data.pop(0)    # 删除第一列
             for i in range(16):     # 找到第一个非 0 数据, 作为 SEG_HS
                 if per_img_cali_data[i] != "":
                     seg_hs = i
@@ -481,7 +494,6 @@ def DirectAccessCaliDataByExcel(hawk01_config):
             for hroll_cnt in range(0, hawk01_config['H_ROLL_NUM'] + 1):
                 seg_hs = -1
                 per_img_cali_data = cali_datas[frame_cnt]
-                per_img_cali_data.pop(0)  # 删除第一列
                 for i in range(16):     # 找到第一个非 0 数据, 作为 SEG_HS
                     if per_img_cali_data[i] != "":
                         seg_hs = i
