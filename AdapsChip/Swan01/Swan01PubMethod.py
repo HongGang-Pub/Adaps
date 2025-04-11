@@ -216,7 +216,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             # TXU
             elif addr == reg_addr['TXU_CFG']:
                 csru_cfg["PTK_CHKSUM_EN"] = (register_value & 0x10) >> 4
-                csru_cfg["ONE_DT_MODE"] = (register_value & 0x80) >> 3
+                csru_cfg["ONE_DT_MODE"] = (register_value & 0x08) >> 3
                 csru_cfg["DATA_WIDTH_SEL"] = (register_value & 0x01) >> 0
             elif addr == reg_addr['MIPI_PKT_PL_NUM_L']:
                 csru_cfg["MIPI_PKT_PL_NUM"] = (csru_cfg["MIPI_PKT_PL_NUM"] & (0xFFFF - 0x00FF)) + (register_value << 0)
@@ -1073,6 +1073,10 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 register_value = swan01_config["DataTxThszeroCnt"] & 0xFF
             elif addr == reg_addr['THS_TRAIL']:
                 register_value = swan01_config["DataTxThstrailCnt"] & 0xFF
+            elif addr == reg_addr['SYSCLK1M_DIVL']:
+                register_value = SYSCLK1M_DIVL
+            elif addr == reg_addr['SYSCLK1M_DIVH']:
+                register_value = (register_value & (0xFF - 0x01)) + (SYSCLK1M_DIVH << 0)
             else:
                 register_value = MIPI_PKTDLY1_CYC_L if addr == reg_addr['MIPI_TXDLY1'] \
                     else MIPI_PKTDLY1_CYC_H if addr == reg_addr['MIPI_TXDLY2'] \
@@ -1082,8 +1086,6 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                     else MIPI_PKTDLY3_CYC_H if addr == reg_addr['MIPI_TXDLY6'] \
                     else MIPI_FSDLY_CYC_L if addr == reg_addr['MIPI_TXDLY7'] \
                     else MIPI_FSDLY_CYC_H if addr == reg_addr['MIPI_TXDLY8'] \
-                    else SYSCLK1M_DIVL if addr == reg_addr['SYSCLK1M_DIVL'] \
-                    else SYSCLK1M_DIVH if addr == reg_addr['SYSCLK1M_DIVH'] \
                     else TXESC_CLKDIV1 if addr == reg_addr['TXESC_CLKDIV1'] \
                     else TXESC_CLKDIV2 if addr == reg_addr['TXESC_CLKDIV2'] \
                     else PLL0_DIV1 if addr == reg_addr['PLL0_DIV1'] \

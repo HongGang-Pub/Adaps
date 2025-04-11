@@ -164,7 +164,7 @@ def ParseRoiMem(hawk01_config, roi_file=None, f_path=None):
                 roi_mem.append(roi_data)
             except BaseException as e:
                 raise ValueError(f"ROI format error:{e}")
-    elif len(__roi_data__[0].strip()) == 4:     # Half-work
+    elif len(__roi_data__[0].strip()) == 4:     # Half-word
         for r in range(0, len(__roi_data__)):
             try:
                 roi_data = int(__roi_data__[r], 16)
