@@ -229,27 +229,19 @@ def CalMipiFlnrAndWC(csru_cfg):
             total_roll_num = (v_roll_num + 1) * (h_roll_num + 1)
 
     if work_mode == 0:
-        if out_bin_num == 0:
-            sphr_pl_num = 38 * v_pxl_out_num
-        else:
-            sphr_pl_num = 62 * v_pxl_out_num
-        wc = sphr_pl_num * 1.5
-        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode * total_roll_num
+        PL = 38 * v_pxl_out_num if out_bin_num == 0 else 62 * v_pxl_out_num
+        PKT_NUM = 8 * (h_vld_seg + 1)   # 一次 rolling 的 Pixel PKT 数量
     elif work_mode == 1:
-        if out_bin_num == 0:
-            phr_pl_num = 80 * v_pxl_out_num
-        else:
-            phr_pl_num = 132 * v_pxl_out_num
-        wc = phr_pl_num * 1.5
-        flnr = 8 * (h_vld_seg + 1) * total_roll_num + one_dt_mode * total_roll_num
+        PL = 80 * v_pxl_out_num if out_bin_num == 0 else 132 * v_pxl_out_num
+        PKT_NUM = 8 * (h_vld_seg + 1)
     elif work_mode == 2:
-        maxbin = (maxbin_thrs + 1) * 2 - 1
-        fhr_pl_num = (maxbin - minbin_thrs + 1) * 2 * 4
-        wc = fhr_pl_num * 1.5
-        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode * total_roll_num
+        PL = ((maxbin_thrs+1) * 4 - minbin_thrs * 2) * 4
+        PKT_NUM = 2 * (h_vld_seg + 1) * v_pxl_out_num
     else:
-        wc = 32 * 1.5
-        flnr = (v_pxl_out_num * 2 * (h_vld_seg + 1)) * total_roll_num + one_dt_mode * total_roll_num
+        PL = 8 * 4
+        PKT_NUM = 2 * (h_vld_seg + 1) * v_pxl_out_num
+    wc = PL * 1.5
+    flnr = (PKT_NUM + one_dt_mode) * total_roll_num
     return int(wc), flnr
 
 
