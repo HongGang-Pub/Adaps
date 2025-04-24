@@ -22,6 +22,7 @@ def save_excel(fname: str, sheet_name: str, data_list: list, fd_path: str, note:
     if not os.path.exists(fd_path):
         # 目录不存在，进行创建操作
         os.makedirs(fd_path)
+    state = True
     if os.path.exists(file):
         while state:
             try:

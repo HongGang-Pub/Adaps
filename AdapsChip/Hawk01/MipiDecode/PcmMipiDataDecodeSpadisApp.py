@@ -14,7 +14,7 @@ import numpy as np
 
 def GetMipiFileSpadisAppOfflineData(fd_path):
     """
-    针对 Dothinker 获取MIPI文件，并按index生成字典，使能顺序读取文件进行数据比对
+    针对 SpadisApp 获取MIPI文件，并按index生成字典，使能顺序读取文件进行数据比对
 
     Args:
         fd_path: MIPI Data folder dir

@@ -31,7 +31,7 @@ def GetFhrDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
         raise ValueError("MiPi数据错误!!!")
 
     # 获取满足条件的文件索引
-    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificMipiFile(f_dict=file_dict, h_roll_num=0)
 
     file_index_list = list(file_dict.keys())
     file_index_list.sort()
@@ -54,7 +54,7 @@ def GetFhrDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
 
                 for per_seg_pkg_cnt in range(1, 5):
                     pixel_data = Hawk01MipiPubMethod.BinNumberAdd(pkg_data=subframe_data[pkg_index + per_seg_pkg_cnt - 1],
-                                                            bin_number=672)
+                                                                  bin_number=672)
                     spad_data_list.extend(pixel_data)
 
                     m = 1 if per_seg_pkg_cnt > 2 else 0
@@ -102,7 +102,7 @@ def GetFhrDataFromDothinker2D(file_path, hawk01_config, msku_roi_mem=[]):
         raise ValueError("MiPi数据错误!!!")
 
     # 获取满足条件的文件索引
-    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificMipiFile(f_dict=file_dict, h_roll_num=0)
 
     file_index_list = list(file_dict.keys())
     file_index_list.sort()
@@ -133,7 +133,7 @@ def GetFhrDataFromDothinker2D(file_path, hawk01_config, msku_roi_mem=[]):
 
                     for per_seg_pkg_cnt in range(1, 5):
                         pixel_data = Hawk01MipiPubMethod.BinNumberAdd(pkg_data=subframe_data[pkg_index + per_seg_pkg_cnt - 1],
-                                                                bin_number=672)
+                                                                      bin_number=672)
                         spad_data_list.extend(pixel_data)
 
                         m = 1 if per_seg_pkg_cnt > 2 else 0

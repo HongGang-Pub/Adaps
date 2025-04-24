@@ -10,7 +10,7 @@ from SelfDefinedPackge.MyThread import *
 from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
 from functools import partial
 
-from AdapsChip.Hawk01.PCM import PcmMipiDataDecode
+from AdapsChip.Hawk01.MipiDecode import PcmMipiDataDecode
 from AdapsChip.ToolBox import SpadisAppPCMRead
 from AdapsChip.ChipUI.gui.Signal import MySignals
 import logging

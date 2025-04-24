@@ -1,6 +1,6 @@
 import os
-from AdapsChip.Hawk01.PCM import PcmPubMethod
-from AdapsChip.Hawk01.PCM.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
+from AdapsChip.Hawk01.MipiDecode import PcmPubMethod
+from AdapsChip.Hawk01.MipiDecode.DarkSpotAnalysis import DarkSpotAnalysisPubMethod as DarkMethod
 
 
 def do_work(fd_path: str, chip_numbers, axis1, coeff_list, ref_ax: float = 0, ):

@@ -3,7 +3,7 @@ import os
 from AdapsChip.Hawk01 import Hawk01MipiPubMethod
 from SelfDefinedPackge import ArrayPubMethod, LogerPubMethod
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
-from AdapsChip.Hawk01.PCM import PcmPubMethod
+from AdapsChip.Hawk01.MipiDecode import PcmPubMethod
 
 
 def get_pcm_array(script_file, mipi_file, sramdata_path):
@@ -27,15 +27,18 @@ def do_work(mipi_file, script_file, sramdata_path, vmin=0, vmax=100):
     # ArrayImageSave(fname="arrays", fd_path="figs")
     name = os.path.basename(mipi_file)  # 文件名 (包含后缀) ps: file_i 为文件绝对路径
     title = os.path.splitext(name)[0]  # 分割文件名和后缀
-    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=[title], vmin=vmin, vmax=vmax)
+    ArrayPubMethod.ArrayImage(array_lst=[array], title_list=None, vmin=vmin, vmax=vmax)
 
 
 if __name__ == '__main__':
     LogerPubMethod.LoggingForConsoleFormat()
 
-    script_file = r"D:\Program Files\Software\DothinkTester\Script\PCMDarkSpotAnalysis\test_pcm_masking_7Seg.txt"
-    script_file = r"D:\Program Files\Software\DothinkTester\Script\Gray_Scale_Mode_reg_config.txt"
-    mipi_file = r"D:\Program Files\Software\DothinkTester\MipiData"
-    sramdata_path = r"D:\Program Files\Software\DothinkTester\SramData"
+    script_f = r"D:\Program Files\Software\DothinkTester\Script\PCMLightAnalysis\test_pcm_spad_test_mode0.txt"
+    mipi_fp = r"D:\Program Files\Software\DothinkTester\MipiData"
+    sramdata_fp = r"D:\Program Files\Software\DothinkTester\SramData"
+    do_work(mipi_file=mipi_fp,
+            script_file=script_f,
+            sramdata_path=sramdata_fp,
+            vmin=600,
+            vmax=700)
 
-    do_work(mipi_file, script_file, sramdata_path)

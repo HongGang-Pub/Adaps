@@ -39,6 +39,5 @@ if __name__ == '__main__':
     arr = np.random.rand(100, 100, 3)
     cursor = mplcursors.cursor(multiple=True)
     plt.imshow(arr)
-    cursor = mplcursors.cursor(multiple=True)
     plt.show()
     # self_plt_show()

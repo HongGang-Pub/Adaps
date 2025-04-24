@@ -66,7 +66,7 @@ def GetPcmDataFromDothinker(file_path, hawk01_config, msku_roi_mem=[]):
     if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num, one_dt_mode=one_dt_mode):
         raise ValueError("MiPi数据错误!!!")
 
-    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=0, h_roll_num=0, mode=2)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificMipiFile(f_dict=file_dict, h_roll_num=0)
 
     file_index_list = list(file_dict.keys())
     file_index_list.sort()

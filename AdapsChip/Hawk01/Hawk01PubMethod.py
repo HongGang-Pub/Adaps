@@ -188,7 +188,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
 
 def CalPkgNum(hawk01_config):
     """
-    非多帧合一时，一次rolling包的数量
+    非多帧合一时，一次rolling包的数量(包含 info frame)
     Args:
         hawk01_config (dict): 寄存配置信息
 
@@ -207,7 +207,18 @@ def CalPkgNum(hawk01_config):
     return pkg_num
 
 
-def CalMipiFlnrAndWC(csru_cfg):
+def CalMipiFlnrAndWC(csru_cfg, **kwargs):
+    """
+    计算 MIPI WC & FLNR 包数量(可以根据实际寄存器进行配置, 也可以根据配置, 仅仅计算 1sub-frame 的包数量)
+
+    Args:
+        csru_cfg: Hawk 配置
+        **kwargs: if kwargs["unit"]=subframe, then return FLNR is cal for one subframe,
+                  else return FLNR is cal for TX_FRM_MODE config
+
+    Returns:
+        tuple: (WC, FLNR)
+    """
     work_mode = csru_cfg["WORK_MODE"]
     scan_mode = csru_cfg["SCAN_MODE"]
     v_roll_num = csru_cfg["V_ROLL_NUM"]
@@ -221,12 +232,16 @@ def CalMipiFlnrAndWC(csru_cfg):
 
     v_pxl_out_num = 6 if csru_cfg["V_PXL_OUT_NUM"] == 1 else 1
 
-    total_roll_num = 1
-    if tx_frm_mode == 1:
+    if "unit" in kwargs and kwargs["unit"] == "subframe":
+        # return FLNR is cal for one subframe
+        total_roll_num = 1
+    elif tx_frm_mode == 1:
         if scan_mode == 0:
             total_roll_num = (v_roll_num + 1) if work_mode != 3 else (v_roll_num + 1) * 9
-        if scan_mode == 1:
+        else:   # scan_mode == 1:
             total_roll_num = (v_roll_num + 1) * (h_roll_num + 1)
+    else:
+        total_roll_num = 1
 
     if work_mode == 0:
         PL = 38 * v_pxl_out_num if out_bin_num == 0 else 62 * v_pxl_out_num

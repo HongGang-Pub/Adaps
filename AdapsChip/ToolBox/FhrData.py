@@ -78,14 +78,14 @@ def do_work2(file_path, script_file):
     # if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误!!!")
 
-    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificMipiFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll)
 
     file = file_dict[f_index]
     subframe_data = PubMethod.read_file(file)
 
     pkg_index = sub_light * (h_vld_seg + 1) * 4 + seg_cnt * 4
     pixel_data = Hawk01MipiPubMethod.PackageSplit(data=subframe_data[pkg_index + per_seg_pkg_cnt],
-                                            bin_number=672)
+                                                  bin_number=672)
 
     for index in range(len(pixel_data)):
         hist = np.array(pixel_data[index])
@@ -116,15 +116,15 @@ def do_work3(file_path, script_file):
     # if not Hawk01MipiPubMethod.ChkMipiReliablity(f_dict=file_dict, pkg_num=pkg_num):
     #     raise ValueError("MiPi数据错误!!!")
 
-    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll, mode=0)
+    vroll_num, hroll_num, f_index = Hawk01MipiPubMethod.GetSpecificMipiFile(f_dict=file_dict, v_roll_num=v_roll, h_roll_num=h_roll)
 
     file = file_dict[f_index]
     subframe_data = PubMethod.read_file(file)
 
     pkg_index = seg_cnt * 16 + per_seg_pkg_cnt
     pixel_data = Hawk01MipiPubMethod.PackageSplit(data=subframe_data[pkg_index],
-                                            bin_number=80,
-                                            pixel_num=6)
+                                                  bin_number=80,
+                                                  pixel_num=6)
 
     for index in range(len(pixel_data)):
         hist = np.zeros(672)
