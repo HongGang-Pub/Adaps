@@ -225,7 +225,7 @@ def print_c(data, color=32):
     颜色样式打印输出功能
     Args:
         data(str): 需要打印的内容
-        color(int): 指定的颜色, 默认为绿色(32)
+        color(int or str): 指定的颜色, 默认为绿色(32)
             字体色   背景色	颜色描述
             30 	    40	    黑色
             31	    41	    红色
@@ -242,6 +242,19 @@ def print_c(data, color=32):
     """
     if isinstance(color, int):
         color = str(color)
+    elif isinstance(color, str):
+        color = 30 if color == "black" \
+            else 31 if color == "red" \
+            else 32 if color == "green" \
+            else 33 if color == "yellow" \
+            else 34 if color == "blue" \
+            else 35 if color == "magenta" \
+            else 36 if color == "cyan" \
+            else 37 if color == "gray" \
+            else 38 if color == "white" \
+            else 32
+    else:
+        color = 32
     print(f"\033[1;{color}m{data}\033[0m")
 
 

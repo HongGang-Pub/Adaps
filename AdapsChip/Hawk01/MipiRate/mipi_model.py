@@ -171,6 +171,7 @@ def mipi_model(csru_cfg: dict, mipi_cfg: dict,SYS_CLK: int=330, MIPI_RATE: int=1
 
     if fifo_overflow:
         raise ValueError(f"MIPI fifo在 第{pkt_num_cnt}个包 发生溢出, 溢出耗时: {timer:.2f} ns")
+        # print_c(f"MIPI fifo在 第{pkt_num_cnt}个包 发生溢出, 溢出耗时: {timer:.2f} ns", color=31)
     return
 
 
