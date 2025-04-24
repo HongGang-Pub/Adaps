@@ -223,9 +223,22 @@ def dict_print_format(data: dict, indent=0, level=0):
 def print_c(data, color=32):
     """
     颜色样式打印输出功能
-    :param data: 打印内容
-    :param color: 指定颜色, 默认为绿色(32)
-    :return:
+    Args:
+        data(str): 需要打印的内容
+        color(int): 指定的颜色, 默认为绿色(32)
+            字体色   背景色	颜色描述
+            30 	    40	    黑色
+            31	    41	    红色
+            32	    42	    绿色
+            33	    43	    黃色
+            34	    44	    蓝色
+            35	    45	    紫红色
+            36	    46	    青蓝色
+            37	    47	    灰色
+            38	    38	    白色
+
+    Returns:
+        None
     """
     if isinstance(color, int):
         color = str(color)

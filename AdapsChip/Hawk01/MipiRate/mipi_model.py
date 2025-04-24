@@ -170,7 +170,7 @@ def mipi_model(csru_cfg: dict, mipi_cfg: dict,SYS_CLK: int=330, MIPI_RATE: int=1
         current_fifo_data_size = max(current_fifo_data_size, 0)
 
     if fifo_overflow:
-        print(f"MIPI fifo在 第{pkt_num_cnt}个包 发生溢出, 溢出耗时: {timer:.2f} ns")
+        raise ValueError(f"MIPI fifo在 第{pkt_num_cnt}个包 发生溢出, 溢出耗时: {timer:.2f} ns")
     return
 
 
@@ -178,6 +178,6 @@ if __name__ == '__main__':
     # ////////////////////////////////////////////////
     # 仿真精度
     # ////////////////////////////////////////////////
-    precision = 1  # 小数位宽: 精度越大, 仿真越慢, 仿真结果越准确
+    precision = 1  # 小数位宽: 精度越大, 仿真越慢, 仿真结果越准确, 一般 0.1ns 精度已经足够
 
     mipi_model(csru_cfg=csru_cfg, mipi_cfg=mipi_cfg, SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE)
