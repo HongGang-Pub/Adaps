@@ -1,4 +1,4 @@
-from PubMethod import MIPI_CONFIG_Cal
+from AdapsChip.Common.common import MIPI_CONFIG_Cal
 
 if __name__ == '__main__':
     # SYS_CLK_Q = [200, 250, 330, 400]

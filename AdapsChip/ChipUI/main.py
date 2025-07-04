@@ -83,13 +83,22 @@ class MainWindow(QMainWindow):
         from windows.main_window.main_window_functions import MainFunctions
         btn = SetupMainWindow.setup_btns(self)
 
-        # HOME BTN
+        # Hawk01 BTN
         if btn.objectName() == "btn_hawk01":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
             # Load Page 1
             MainFunctions.set_page(self, self.ui.load_pages.Hawk01)
+            self.ui.log_group.setHidden(False)
+
+        # Swan01 BTN
+        if btn.objectName() == "btn_swan01":
+            # Select Menu
+            self.ui.left_menu.select_only_one(btn.objectName())
+
+            # Load Page 1
+            MainFunctions.set_page(self, self.ui.load_pages.Swan01)
             self.ui.log_group.setHidden(False)
 
         # WIDGETS BTN

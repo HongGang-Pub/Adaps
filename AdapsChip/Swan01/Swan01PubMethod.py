@@ -2,7 +2,8 @@ import logging
 import math
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
-from .Swan01RegAddr import *
+from AdapsChip.Common.common import *
+from AdapsChip.Swan01.Swan01RegAddr import *
 import re
 import os
 
@@ -346,111 +347,111 @@ def CalPkgNum(swan01_config):
     return pkg_num
 
 
-def CalMipiFlnrAndWC(csru_cfg):
-    work_mode = csru_cfg["WORK_MODE"]
-    tx_frm_mode = csru_cfg["TX_FRM_MODE"]
-    hist_minbin_thrs = csru_cfg["HIST_MINBIN_THRS"]
-    hist_maxbin_thrs = csru_cfg["HIST_MAXBIN_THRS"]
-    data_width_sel = csru_cfg["DATA_WIDTH_SEL"]
-    frm_slot_num = csru_cfg["FRM_SLOT_NUM"]
-    pack_16pxl_num = csru_cfg["PACK_16PXL_NUM"]
-    pack_16pxl_en = csru_cfg["PACK_16PXL_EN"]
-    pack_8pxl_en = csru_cfg["PACK_8PXL_EN"]
-    pack_4pxl_en = csru_cfg["PACK_4PXL_EN"]
-    pack_2pxl_en = csru_cfg["PACK_2PXL_EN"]
-    pxl_binn_sel = csru_cfg["PXL_BINN_SEL"]
-    bin_widht_sel = csru_cfg["BIN_WIDTH_SEL"]
-    out_totalbin_num = csru_cfg["OUT_TOTALBIN_NUM"]
-    out_echobin_num = csru_cfg["OUT_ECHOBIN_NUM"]
-    out_numbin_mode = csru_cfg["OUT_NUMBIN_MODE"]
-    out_echo_num = csru_cfg["OUT_ECHO_NUM"]
-    one_dt_mode = csru_cfg["ONE_DT_MODE"]
-    pkt_chksum_en = csru_cfg["PKT_CHKSUM_EN"]
-    seg_num = csru_cfg["SEG_NUM"]  # TODO: 需要确认, 有可能需要特殊处理, 寄存器无此配置
-
-    # //////////////////////////////////////////////////////////
-    # 处理寄存器配置特殊情况
-    # //////////////////////////////////////////////////////////
-    out_echo_num = 5 if out_echo_num > 5 else out_echo_num  # 最大输出 6 echo (配置值+1) 
-    pxl_binn_sel = 0 if pxl_binn_sel > 2 else pxl_binn_sel  # 当 pxl_binn_sel == 2 时, 一个 segment 为 16pxl
-
-    # //////////////////////////////////////////////////////////
-    # Pixel Pack 相关计算
-    # //////////////////////////////////////////////////////////
-    # 计算一个 Packet 包含多少 Pixel
-    # 1. work_mode == PCM: 一次读出全部的 Pixel 数据
-    # 2. work_mode != PCM: 仅与 pack 配置相关
-    one_pkt_pxl_num = 48 * seg_num if work_mode == 3 else \
-        1 if pack_2pxl_en == 0 else \
-            2 if pack_4pxl_en == 0 else \
-                4 if pack_8pxl_en == 0 else \
-                    8 if pack_16pxl_en == 0 else \
-                        16 * (pack_16pxl_num + 1)
-
-    # //////////////////////////////////////////////////////////
-    # 针对 binning 相关的数据进行计算 和 校验
-    # //////////////////////////////////////////////////////////
-    # 计算一个 slot, pixel binning 后, 有多少个 Pixel 需要读出
-    pxl_num_after_binn = 48 * seg_num if work_mode == 3 else \
-        (16 >> pxl_binn_sel) * seg_num
-
-    # //////////////////////////////////////////////////////////
-    # 计算一个 image帧 (MIPI image帧 概念), 包含多少个 slot
-    # //////////////////////////////////////////////////////////
-    slot_num_in_img_frm = 1 if tx_frm_mode == 0 else \
-        1 + frm_slot_num
-
-    # //////////////////////////////////////////////////////////
-    # 换算 WC 与 data_width_sel 因子
-    # //////////////////////////////////////////////////////////
-    # data_width_sel == 0: 8bit, data_width_sel == 1: 10bit
-    wc_factor = 1 if data_width_sel == 0 else \
-        1.25
-
-    # //////////////////////////////////////////////////////////
-    # cycle 计算
-    # //////////////////////////////////////////////////////////
-    # 计算不同 work_mode 下, txu 发送单个 pixel 数据的 cycle 数
-    # SPHR
-    if work_mode == 0:
-        match data_width_sel:
-            case 0:
-                rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
-            case 1:
-                rd_cyc_dsp_1pxl = (4 + 12 * (out_echo_num + 1)) / 2
-            case _:
-                rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
-    # PHR          
-    elif work_mode == 1:
-        match out_numbin_mode:
-            case 0:
-                rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
-            case 1:
-                rd_cyc_dsp_1pxl = (4 + (out_echo_num + 1) * (out_echobin_num * 2)) / 2
-            case _:
-                rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
-    # FHR        
-    elif work_mode == 2:
-        rd_cyc_dsp_1pxl = (((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_widht_sel) / 2
-    # PCM   
-    else:
-        rd_cyc_dsp_1pxl = 1
-
-    # crc32 TXU 读取 cycle 计算
-    rd_cyc_crc32 = 2 if pkt_chksum_en == 1 else 0  # CRC32 校验位读取需要 2 cycle
-
-    # txu 发送单个 packet 数据的 cycle 数
-    one_pkt_dsp_rd_cyc = rd_cyc_dsp_1pxl * one_pkt_pxl_num + rd_cyc_crc32
-
-    # //////////////////////////////////////////////////////////
-    # 计算 WC && FLNR
-    # //////////////////////////////////////////////////////////
-    # Q1: Why * 2 ?
-    # A1: TXU is dual pixel mode
-    wc = one_pkt_dsp_rd_cyc * 2 * wc_factor
-    flnr = (pxl_num_after_binn / one_pkt_pxl_num + one_dt_mode) * slot_num_in_img_frm
-
-    return int(wc), int(flnr)
+# def CalMipiFlnrAndWC(csru_cfg):
+#     work_mode = csru_cfg["WORK_MODE"]
+#     tx_frm_mode = csru_cfg["TX_FRM_MODE"]
+#     hist_minbin_thrs = csru_cfg["HIST_MINBIN_THRS"]
+#     hist_maxbin_thrs = csru_cfg["HIST_MAXBIN_THRS"]
+#     data_width_sel = csru_cfg["DATA_WIDTH_SEL"]
+#     frm_slot_num = csru_cfg["FRM_SLOT_NUM"]
+#     pack_16pxl_num = csru_cfg["PACK_16PXL_NUM"]
+#     pack_16pxl_en = csru_cfg["PACK_16PXL_EN"]
+#     pack_8pxl_en = csru_cfg["PACK_8PXL_EN"]
+#     pack_4pxl_en = csru_cfg["PACK_4PXL_EN"]
+#     pack_2pxl_en = csru_cfg["PACK_2PXL_EN"]
+#     pxl_binn_sel = csru_cfg["PXL_BINN_SEL"]
+#     bin_widht_sel = csru_cfg["BIN_WIDTH_SEL"]
+#     out_totalbin_num = csru_cfg["OUT_TOTALBIN_NUM"]
+#     out_echobin_num = csru_cfg["OUT_ECHOBIN_NUM"]
+#     out_numbin_mode = csru_cfg["OUT_NUMBIN_MODE"]
+#     out_echo_num = csru_cfg["OUT_ECHO_NUM"]
+#     one_dt_mode = csru_cfg["ONE_DT_MODE"]
+#     pkt_chksum_en = csru_cfg["PKT_CHKSUM_EN"]
+#     seg_num = csru_cfg["SEG_NUM"]  # TODO: 需要确认, 有可能需要特殊处理, 寄存器无此配置
+#
+#     # //////////////////////////////////////////////////////////
+#     # 处理寄存器配置特殊情况
+#     # //////////////////////////////////////////////////////////
+#     out_echo_num = 5 if out_echo_num > 5 else out_echo_num  # 最大输出 6 echo (配置值+1)
+#     pxl_binn_sel = 0 if pxl_binn_sel > 2 else pxl_binn_sel  # 当 pxl_binn_sel == 2 时, 一个 segment 为 16pxl
+#
+#     # //////////////////////////////////////////////////////////
+#     # Pixel Pack 相关计算
+#     # //////////////////////////////////////////////////////////
+#     # 计算一个 Packet 包含多少 Pixel
+#     # 1. work_mode == PCM: 一次读出全部的 Pixel 数据
+#     # 2. work_mode != PCM: 仅与 pack 配置相关
+#     one_pkt_pxl_num = 48 * seg_num if work_mode == 3 else \
+#         1 if pack_2pxl_en == 0 else \
+#             2 if pack_4pxl_en == 0 else \
+#                 4 if pack_8pxl_en == 0 else \
+#                     8 if pack_16pxl_en == 0 else \
+#                         16 * (pack_16pxl_num + 1)
+#
+#     # //////////////////////////////////////////////////////////
+#     # 针对 binning 相关的数据进行计算 和 校验
+#     # //////////////////////////////////////////////////////////
+#     # 计算一个 slot, pixel binning 后, 有多少个 Pixel 需要读出
+#     pxl_num_after_binn = 48 * seg_num if work_mode == 3 else \
+#         (16 >> pxl_binn_sel) * seg_num
+#
+#     # //////////////////////////////////////////////////////////
+#     # 计算一个 image帧 (MIPI image帧 概念), 包含多少个 slot
+#     # //////////////////////////////////////////////////////////
+#     slot_num_in_img_frm = 1 if tx_frm_mode == 0 else \
+#         1 + frm_slot_num
+#
+#     # //////////////////////////////////////////////////////////
+#     # 换算 WC 与 data_width_sel 因子
+#     # //////////////////////////////////////////////////////////
+#     # data_width_sel == 0: 8bit, data_width_sel == 1: 10bit
+#     wc_factor = 1 if data_width_sel == 0 else \
+#         1.25
+#
+#     # //////////////////////////////////////////////////////////
+#     # cycle 计算
+#     # //////////////////////////////////////////////////////////
+#     # 计算不同 work_mode 下, txu 发送单个 pixel 数据的 cycle 数
+#     # SPHR
+#     if work_mode == 0:
+#         match data_width_sel:
+#             case 0:
+#                 rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
+#             case 1:
+#                 rd_cyc_dsp_1pxl = (4 + 12 * (out_echo_num + 1)) / 2
+#             case _:
+#                 rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
+#     # PHR
+#     elif work_mode == 1:
+#         match out_numbin_mode:
+#             case 0:
+#                 rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
+#             case 1:
+#                 rd_cyc_dsp_1pxl = (4 + (out_echo_num + 1) * (out_echobin_num * 2)) / 2
+#             case _:
+#                 rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
+#     # FHR
+#     elif work_mode == 2:
+#         rd_cyc_dsp_1pxl = (((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_widht_sel) / 2
+#     # PCM
+#     else:
+#         rd_cyc_dsp_1pxl = 1
+#
+#     # crc32 TXU 读取 cycle 计算
+#     rd_cyc_crc32 = 2 if pkt_chksum_en == 1 else 0  # CRC32 校验位读取需要 2 cycle
+#
+#     # txu 发送单个 packet 数据的 cycle 数
+#     one_pkt_dsp_rd_cyc = rd_cyc_dsp_1pxl * one_pkt_pxl_num + rd_cyc_crc32
+#
+#     # //////////////////////////////////////////////////////////
+#     # 计算 WC && FLNR
+#     # //////////////////////////////////////////////////////////
+#     # Q1: Why * 2 ?
+#     # A1: TXU is dual pixel mode
+#     wc = one_pkt_dsp_rd_cyc * 2 * wc_factor
+#     flnr = (pxl_num_after_binn / one_pkt_pxl_num + one_dt_mode) * slot_num_in_img_frm
+#
+#     return int(wc), int(flnr)
 
 
 def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
@@ -495,6 +496,8 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     seg_num = csru_cfg["SEG_NUM"]  # TODO: 需要确认, 有可能需要特殊处理, 寄存器无此配置
     fwhm_search_num = csru_cfg["FWHM_SEARCH_NUM"]
 
+    MIPI_CFG = csru_cfg["MIPI"]
+
     DataflowConfig = {
         "mipi_pktdly1_cyc": 0,  # DSP DLY: 16 bit (unit: cycle)
         "mipi_pktdly2_cyc": 0,  # HIST DLY: 实际值=配置值*16， 16 bit (unit: cycle)
@@ -527,6 +530,7 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     MIPI_FIFO_SIZE = 960  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
     PKT_DLY_MARGIN = 0  # 额外的 cycle 开销
 
+    MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg=MIPI_CFG, SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE)
     MIPI_PKT_INTV = 0.670408
 
     # //////////////////////////////////////////////////////////
@@ -843,7 +847,6 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
         exec(content, globals(), local_scope)
         FREQ_Config = local_scope["FREQ_Config"]
         DIV_CONFIG = local_scope["DIV_CONFIG"]
-        MIPI_PKTDLY_CONFIG = local_scope["MIPI_PKTDLY_CONFIG"]
     # ----------------------------------------------------------------------------------------
     # initial
     # ----------------------------------------------------------------------------------------
@@ -993,17 +996,22 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 register_value = (register_value & (0xFF - 0x10)) + (swan01_config["PKT_CHKSUM_EN"] << 4)
                 config_flag['TXU_CFG'] = 1
             elif addr == reg_addr['MIPI_PACK_CTRL']:
-                pxl_pack_sel = swan01_config["PXL_PACK_SEL"]
-                assert pxl_pack_sel in [0, 1, 2, 3, 4, 5, 6, 7], "PXL_PACK_SEL must in [0, 1, 2, 3, 4, 5, 6, 7]"
-                register_value = 0b0000_0000 if pxl_pack_sel == 0 else \
-                    0b0000_0001 if pxl_pack_sel == 1 else \
-                    0b0000_0011 if pxl_pack_sel == 2 else \
-                    0b0000_0111 if pxl_pack_sel == 3 else \
-                    0b0000_1111 if pxl_pack_sel == 4 else \
-                    0b0001_1111 if pxl_pack_sel == 5 else \
-                    0b0010_1111 if pxl_pack_sel == 6 else \
-                    0b0011_1111 if pxl_pack_sel == 7 else \
-                    0b0000_0000
+                # pxl_pack_sel = swan01_config["PXL_PACK_SEL"]
+                # assert pxl_pack_sel in [0, 1, 2, 3, 4, 5, 6, 7], "PXL_PACK_SEL must in [0, 1, 2, 3, 4, 5, 6, 7]"
+                # register_value = 0b0000_0000 if pxl_pack_sel == 0 else \
+                #     0b0000_0001 if pxl_pack_sel == 1 else \
+                #     0b0000_0011 if pxl_pack_sel == 2 else \
+                #     0b0000_0111 if pxl_pack_sel == 3 else \
+                #     0b0000_1111 if pxl_pack_sel == 4 else \
+                #     0b0001_1111 if pxl_pack_sel == 5 else \
+                #     0b0010_1111 if pxl_pack_sel == 6 else \
+                #     0b0011_1111 if pxl_pack_sel == 7 else \
+                #     0b0000_0000
+                register_value = (swan01_config["PACK_16PXL_NUM"] << 4 +
+                                  swan01_config["PACK_16PXL_EN"] << 3 +
+                                  swan01_config["PACK_8PXL_EN"] << 2 +
+                                  swan01_config["PACK_4PXL_EN"] << 1 +
+                                  swan01_config["PACK_2PXL_EN"] << 0)
             elif addr == reg_addr['HIST_MINBIN_THRS']:
                 register_value = swan01_config["HIST_MINBIN_THRS"] & 0xFF
             elif addr == reg_addr['HIST_MAXBIN_THRS']:
@@ -1176,7 +1184,8 @@ def ParseSwanRegConfig(script_file=None, protocol=0):
     VC0_FLNR = csru_cfg["MIPI"]["VC0_FLNR"]
     VC1_FLNR = csru_cfg["MIPI"]["VC1_FLNR"]
 
-    WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+    # WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+    WC, FLNR = 0, 0
     if VC0_WC != WC or VC1_WC != WC or VC0_FLNR != FLNR or VC1_FLNR != FLNR:
         FLNR_L = (FLNR & 0x00FF) >> 0
         FLNR_H = (FLNR & 0xFF00) >> 8

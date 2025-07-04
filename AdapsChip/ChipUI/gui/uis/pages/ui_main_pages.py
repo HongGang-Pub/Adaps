@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesqDvLKD.ui'
+## Form generated from reading UI file 'main_pagescxlSBy.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.2
+## Created by: Qt User Interface Compiler version 6.9.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -30,7 +30,7 @@ class Ui_MainPages(object):
     def setupUi(self, MainPages):
         if not MainPages.objectName():
             MainPages.setObjectName(u"MainPages")
-        MainPages.resize(1041, 866)
+        MainPages.resize(1001, 775)
         MainPages.setStyleSheet(u"")
         self.verticalLayout_10 = QVBoxLayout(MainPages)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
@@ -69,7 +69,7 @@ class Ui_MainPages(object):
         self.Hawk01_XCLK_Label.setFont(font)
         self.Hawk01_XCLK_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.Hawk01_XCLK_Label)
+        self.formLayout_2.setWidget(0, QFormLayout.ItemRole.LabelRole, self.Hawk01_XCLK_Label)
 
         self.Hawk01_XCLK_ComboBox = QComboBox(self.Hawk01_RegisterConfig)
         self.Hawk01_XCLK_ComboBox.addItem("")
@@ -83,7 +83,7 @@ class Ui_MainPages(object):
         font1.setBold(False)
         self.Hawk01_XCLK_ComboBox.setFont(font1)
 
-        self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.Hawk01_XCLK_ComboBox)
+        self.formLayout_2.setWidget(0, QFormLayout.ItemRole.FieldRole, self.Hawk01_XCLK_ComboBox)
 
         self.Hawk01_MST_MODE_Label = QLabel(self.Hawk01_RegisterConfig)
         self.Hawk01_MST_MODE_Label.setObjectName(u"Hawk01_MST_MODE_Label")
@@ -92,7 +92,7 @@ class Ui_MainPages(object):
         self.Hawk01_MST_MODE_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_MST_MODE_Label.setMargin(0)
 
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.Hawk01_MST_MODE_Label)
+        self.formLayout_2.setWidget(1, QFormLayout.ItemRole.LabelRole, self.Hawk01_MST_MODE_Label)
 
         self.Hawk01_MST_MODE_ComboBox = QComboBox(self.Hawk01_RegisterConfig)
         self.Hawk01_MST_MODE_ComboBox.addItem("")
@@ -100,7 +100,7 @@ class Ui_MainPages(object):
         self.Hawk01_MST_MODE_ComboBox.setObjectName(u"Hawk01_MST_MODE_ComboBox")
         self.Hawk01_MST_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
 
-        self.formLayout_2.setWidget(1, QFormLayout.FieldRole, self.Hawk01_MST_MODE_ComboBox)
+        self.formLayout_2.setWidget(1, QFormLayout.ItemRole.FieldRole, self.Hawk01_MST_MODE_ComboBox)
 
         self.Hawk01_WORK_MODE_Label = QLabel(self.Hawk01_RegisterConfig)
         self.Hawk01_WORK_MODE_Label.setObjectName(u"Hawk01_WORK_MODE_Label")
@@ -115,7 +115,7 @@ class Ui_MainPages(object):
         self.Hawk01_WORK_MODE_Label.setFrameShadow(QFrame.Shadow.Raised)
         self.Hawk01_WORK_MODE_Label.setMargin(0)
 
-        self.formLayout_2.setWidget(2, QFormLayout.LabelRole, self.Hawk01_WORK_MODE_Label)
+        self.formLayout_2.setWidget(2, QFormLayout.ItemRole.LabelRole, self.Hawk01_WORK_MODE_Label)
 
         self.Hawk01_WORK_MODE_ComboBox = ComboCheckBox(self.Hawk01_RegisterConfig)
         self.Hawk01_WORK_MODE_ComboBox.addItem("")
@@ -126,7 +126,7 @@ class Ui_MainPages(object):
         self.Hawk01_WORK_MODE_ComboBox.setMaximumSize(QSize(350, 16777215))
         self.Hawk01_WORK_MODE_ComboBox.setFont(font1)
 
-        self.formLayout_2.setWidget(2, QFormLayout.FieldRole, self.Hawk01_WORK_MODE_ComboBox)
+        self.formLayout_2.setWidget(2, QFormLayout.ItemRole.FieldRole, self.Hawk01_WORK_MODE_ComboBox)
 
         self.Hawk01_MIPI_RATE_Label = QLabel(self.Hawk01_RegisterConfig)
         self.Hawk01_MIPI_RATE_Label.setObjectName(u"Hawk01_MIPI_RATE_Label")
@@ -138,7 +138,7 @@ class Ui_MainPages(object):
         self.Hawk01_MIPI_RATE_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_MIPI_RATE_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_2.setWidget(3, QFormLayout.LabelRole, self.Hawk01_MIPI_RATE_Label)
+        self.formLayout_2.setWidget(3, QFormLayout.ItemRole.LabelRole, self.Hawk01_MIPI_RATE_Label)
 
         self.Hawk01_MIPI_RATE_ComboBox = QComboBox(self.Hawk01_RegisterConfig)
         self.Hawk01_MIPI_RATE_ComboBox.addItem("")
@@ -149,7 +149,7 @@ class Ui_MainPages(object):
         self.Hawk01_MIPI_RATE_ComboBox.setMaximumSize(QSize(350, 16777215))
         self.Hawk01_MIPI_RATE_ComboBox.setFont(font1)
 
-        self.formLayout_2.setWidget(3, QFormLayout.FieldRole, self.Hawk01_MIPI_RATE_ComboBox)
+        self.formLayout_2.setWidget(3, QFormLayout.ItemRole.FieldRole, self.Hawk01_MIPI_RATE_ComboBox)
 
         self.Hawk01_MoreConfiguration = QGroupBox(self.Hawk01_RegisterConfig)
         self.Hawk01_MoreConfiguration.setObjectName(u"Hawk01_MoreConfiguration")
@@ -358,7 +358,7 @@ class Ui_MainPages(object):
         self.gridLayout.addWidget(self.Hawk01_ONE_DT_MODE_ComboBox, 1, 5, 1, 1)
 
 
-        self.formLayout_2.setWidget(4, QFormLayout.SpanningRole, self.Hawk01_MoreConfiguration)
+        self.formLayout_2.setWidget(4, QFormLayout.ItemRole.SpanningRole, self.Hawk01_MoreConfiguration)
 
 
         self.horizontalLayout_2.addWidget(self.Hawk01_RegisterConfig)
@@ -386,7 +386,7 @@ class Ui_MainPages(object):
         self.Hawk01_SCAN_MODE_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_SCAN_MODE_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_3.setWidget(0, QFormLayout.LabelRole, self.Hawk01_SCAN_MODE_Label)
+        self.formLayout_3.setWidget(0, QFormLayout.ItemRole.LabelRole, self.Hawk01_SCAN_MODE_Label)
 
         self.Hawk01_SCAN_MODE_ComboBox = QComboBox(self.Hawk01_ROIConfigGroup)
         self.Hawk01_SCAN_MODE_ComboBox.addItem("")
@@ -396,7 +396,7 @@ class Ui_MainPages(object):
         self.Hawk01_SCAN_MODE_ComboBox.setMaximumSize(QSize(300, 16777215))
         self.Hawk01_SCAN_MODE_ComboBox.setFont(font1)
 
-        self.formLayout_3.setWidget(0, QFormLayout.FieldRole, self.Hawk01_SCAN_MODE_ComboBox)
+        self.formLayout_3.setWidget(0, QFormLayout.ItemRole.FieldRole, self.Hawk01_SCAN_MODE_ComboBox)
 
         self.Hawk01_V_ROLL_NUM_Label = QLabel(self.Hawk01_ROIConfigGroup)
         self.Hawk01_V_ROLL_NUM_Label.setObjectName(u"Hawk01_V_ROLL_NUM_Label")
@@ -406,7 +406,7 @@ class Ui_MainPages(object):
         self.Hawk01_V_ROLL_NUM_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_V_ROLL_NUM_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_3.setWidget(1, QFormLayout.LabelRole, self.Hawk01_V_ROLL_NUM_Label)
+        self.formLayout_3.setWidget(1, QFormLayout.ItemRole.LabelRole, self.Hawk01_V_ROLL_NUM_Label)
 
         self.Hawk01_H_ROLL_NUM_Label = QLabel(self.Hawk01_ROIConfigGroup)
         self.Hawk01_H_ROLL_NUM_Label.setObjectName(u"Hawk01_H_ROLL_NUM_Label")
@@ -416,7 +416,7 @@ class Ui_MainPages(object):
         self.Hawk01_H_ROLL_NUM_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_H_ROLL_NUM_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.Hawk01_H_ROLL_NUM_Label)
+        self.formLayout_3.setWidget(2, QFormLayout.ItemRole.LabelRole, self.Hawk01_H_ROLL_NUM_Label)
 
         self.Hawk01_H_VLD_SEG_Label = QLabel(self.Hawk01_ROIConfigGroup)
         self.Hawk01_H_VLD_SEG_Label.setObjectName(u"Hawk01_H_VLD_SEG_Label")
@@ -426,7 +426,7 @@ class Ui_MainPages(object):
         self.Hawk01_H_VLD_SEG_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_H_VLD_SEG_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_3.setWidget(3, QFormLayout.LabelRole, self.Hawk01_H_VLD_SEG_Label)
+        self.formLayout_3.setWidget(3, QFormLayout.ItemRole.LabelRole, self.Hawk01_H_VLD_SEG_Label)
 
         self.Hawk01_H_ROLL_NUM_Frame = QFrame(self.Hawk01_ROIConfigGroup)
         self.Hawk01_H_ROLL_NUM_Frame.setObjectName(u"Hawk01_H_ROLL_NUM_Frame")
@@ -456,7 +456,7 @@ class Ui_MainPages(object):
         self.H_ROLL_CMP.addWidget(self.Hawk01_H_ROLL_NUM_Value)
 
 
-        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.Hawk01_H_ROLL_NUM_Frame)
+        self.formLayout_3.setWidget(2, QFormLayout.ItemRole.FieldRole, self.Hawk01_H_ROLL_NUM_Frame)
 
         self.Hawk01_V_ROLL_NUM_Frame = QFrame(self.Hawk01_ROIConfigGroup)
         self.Hawk01_V_ROLL_NUM_Frame.setObjectName(u"Hawk01_V_ROLL_NUM_Frame")
@@ -486,7 +486,7 @@ class Ui_MainPages(object):
         self.V_ROLL_NUM_CMP.addWidget(self.Hawk01_V_ROLL_NUM_Value)
 
 
-        self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.Hawk01_V_ROLL_NUM_Frame)
+        self.formLayout_3.setWidget(1, QFormLayout.ItemRole.FieldRole, self.Hawk01_V_ROLL_NUM_Frame)
 
         self.Hawk01_H_VLD_SEG_Frame = QFrame(self.Hawk01_ROIConfigGroup)
         self.Hawk01_H_VLD_SEG_Frame.setObjectName(u"Hawk01_H_VLD_SEG_Frame")
@@ -515,7 +515,7 @@ class Ui_MainPages(object):
         self.H_VLD_SEG_CMP.addWidget(self.Hawk01_H_VLD_SEG_Value)
 
 
-        self.formLayout_3.setWidget(3, QFormLayout.FieldRole, self.Hawk01_H_VLD_SEG_Frame)
+        self.formLayout_3.setWidget(3, QFormLayout.ItemRole.FieldRole, self.Hawk01_H_VLD_SEG_Frame)
 
 
         self.verticalLayout_11.addLayout(self.formLayout_3)
@@ -537,12 +537,12 @@ class Ui_MainPages(object):
         self.Hawk01_Config1byGUI_1.setObjectName(u"Hawk01_Config1byGUI_1")
         palette = QPalette()
         brush = QBrush(QColor(0, 120, 215, 255))
-        brush.setStyle(Qt.SolidPattern)
-        palette.setBrush(QPalette.Active, QPalette.Highlight, brush)
-        palette.setBrush(QPalette.Active, QPalette.Link, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.Highlight, brush)
-        palette.setBrush(QPalette.Inactive, QPalette.Link, brush)
-        palette.setBrush(QPalette.Disabled, QPalette.Link, brush)
+        brush.setStyle(Qt.BrushStyle.SolidPattern)
+        palette.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.Highlight, brush)
+        palette.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.Link, brush)
+        palette.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.Highlight, brush)
+        palette.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.Link, brush)
+        palette.setBrush(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Link, brush)
         self.Hawk01_Config1byGUI_1.setPalette(palette)
         self.Hawk01_Config1byGUI_1.setStyleSheet(u"")
         self.Hawk01_Config1byGUI_1.setFrameShape(QFrame.Shape.NoFrame)
@@ -550,7 +550,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config1byGUI_1.setWidgetResizable(True)
         self.Hawk01_Config1byGUI_2 = QWidget()
         self.Hawk01_Config1byGUI_2.setObjectName(u"Hawk01_Config1byGUI_2")
-        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 368, 467))
+        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 368, 378))
         self.formLayout = QFormLayout(self.Hawk01_Config1byGUI_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -564,7 +564,7 @@ class Ui_MainPages(object):
         self.Hawk01_seg_hs_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_seg_hs_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.Hawk01_seg_hs_Label)
+        self.formLayout.setWidget(0, QFormLayout.ItemRole.LabelRole, self.Hawk01_seg_hs_Label)
 
         self.Hawk01_seg_hs_spinBox = NoWheelSpinBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_seg_hs_spinBox.setObjectName(u"Hawk01_seg_hs_spinBox")
@@ -572,7 +572,7 @@ class Ui_MainPages(object):
         self.Hawk01_seg_hs_spinBox.setMaximum(16)
         self.Hawk01_seg_hs_spinBox.setValue(1)
 
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.Hawk01_seg_hs_spinBox)
+        self.formLayout.setWidget(0, QFormLayout.ItemRole.FieldRole, self.Hawk01_seg_hs_spinBox)
 
         self.Hawk01_spad_vs_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_spad_vs_Label.setObjectName(u"Hawk01_spad_vs_Label")
@@ -582,14 +582,14 @@ class Ui_MainPages(object):
         self.Hawk01_spad_vs_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_spad_vs_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(2, QFormLayout.LabelRole, self.Hawk01_spad_vs_Label)
+        self.formLayout.setWidget(2, QFormLayout.ItemRole.LabelRole, self.Hawk01_spad_vs_Label)
 
         self.Hawk01_spad_vs_spinBox = NoWheelSpinBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_spad_vs_spinBox.setObjectName(u"Hawk01_spad_vs_spinBox")
         self.Hawk01_spad_vs_spinBox.setMinimum(1)
         self.Hawk01_spad_vs_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(2, QFormLayout.FieldRole, self.Hawk01_spad_vs_spinBox)
+        self.formLayout.setWidget(2, QFormLayout.ItemRole.FieldRole, self.Hawk01_spad_vs_spinBox)
 
         self.Hawk01_light_shift_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_light_shift_Label.setObjectName(u"Hawk01_light_shift_Label")
@@ -599,14 +599,14 @@ class Ui_MainPages(object):
         self.Hawk01_light_shift_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_light_shift_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(3, QFormLayout.LabelRole, self.Hawk01_light_shift_Label)
+        self.formLayout.setWidget(3, QFormLayout.ItemRole.LabelRole, self.Hawk01_light_shift_Label)
 
         self.Hawk01_light_shift_spinBox = NoWheelSpinBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_light_shift_spinBox.setObjectName(u"Hawk01_light_shift_spinBox")
         self.Hawk01_light_shift_spinBox.setMinimum(-576)
         self.Hawk01_light_shift_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(3, QFormLayout.FieldRole, self.Hawk01_light_shift_spinBox)
+        self.formLayout.setWidget(3, QFormLayout.ItemRole.FieldRole, self.Hawk01_light_shift_spinBox)
 
         self.Hawk01_sublight_shift_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_sublight_shift_Label.setObjectName(u"Hawk01_sublight_shift_Label")
@@ -616,14 +616,14 @@ class Ui_MainPages(object):
         self.Hawk01_sublight_shift_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_sublight_shift_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(5, QFormLayout.LabelRole, self.Hawk01_sublight_shift_Label)
+        self.formLayout.setWidget(5, QFormLayout.ItemRole.LabelRole, self.Hawk01_sublight_shift_Label)
 
         self.Hawk01_sublight_shift_spinBox = NoWheelSpinBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_sublight_shift_spinBox.setObjectName(u"Hawk01_sublight_shift_spinBox")
         self.Hawk01_sublight_shift_spinBox.setMinimum(-576)
         self.Hawk01_sublight_shift_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(5, QFormLayout.FieldRole, self.Hawk01_sublight_shift_spinBox)
+        self.formLayout.setWidget(5, QFormLayout.ItemRole.FieldRole, self.Hawk01_sublight_shift_spinBox)
 
         self.Hawk01_ROI_Shape_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_ROI_Shape_Label.setObjectName(u"Hawk01_ROI_Shape_Label")
@@ -633,7 +633,7 @@ class Ui_MainPages(object):
         self.Hawk01_ROI_Shape_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_ROI_Shape_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(6, QFormLayout.LabelRole, self.Hawk01_ROI_Shape_Label)
+        self.formLayout.setWidget(6, QFormLayout.ItemRole.LabelRole, self.Hawk01_ROI_Shape_Label)
 
         self.Hawk01_ROI_Shape_ComboBox = NoWheelComboBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_ROI_Shape_ComboBox.addItem("")
@@ -641,7 +641,7 @@ class Ui_MainPages(object):
         self.Hawk01_ROI_Shape_ComboBox.setObjectName(u"Hawk01_ROI_Shape_ComboBox")
         self.Hawk01_ROI_Shape_ComboBox.setFont(font1)
 
-        self.formLayout.setWidget(6, QFormLayout.FieldRole, self.Hawk01_ROI_Shape_ComboBox)
+        self.formLayout.setWidget(6, QFormLayout.ItemRole.FieldRole, self.Hawk01_ROI_Shape_ComboBox)
 
         self.Hawk01_v_spad_shift_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_v_spad_shift_Label.setObjectName(u"Hawk01_v_spad_shift_Label")
@@ -651,14 +651,14 @@ class Ui_MainPages(object):
         self.Hawk01_v_spad_shift_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_v_spad_shift_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(8, QFormLayout.LabelRole, self.Hawk01_v_spad_shift_Label)
+        self.formLayout.setWidget(8, QFormLayout.ItemRole.LabelRole, self.Hawk01_v_spad_shift_Label)
 
         self.Hawk01_v_spad_shift_spinBox = NoWheelSpinBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_v_spad_shift_spinBox.setObjectName(u"Hawk01_v_spad_shift_spinBox")
         self.Hawk01_v_spad_shift_spinBox.setMinimum(-576)
         self.Hawk01_v_spad_shift_spinBox.setMaximum(576)
 
-        self.formLayout.setWidget(8, QFormLayout.FieldRole, self.Hawk01_v_spad_shift_spinBox)
+        self.formLayout.setWidget(8, QFormLayout.ItemRole.FieldRole, self.Hawk01_v_spad_shift_spinBox)
 
         self.Hawk01_h_seg_shift_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_h_seg_shift_Label.setObjectName(u"Hawk01_h_seg_shift_Label")
@@ -668,14 +668,14 @@ class Ui_MainPages(object):
         self.Hawk01_h_seg_shift_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_h_seg_shift_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.Hawk01_h_seg_shift_Label)
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.LabelRole, self.Hawk01_h_seg_shift_Label)
 
         self.Hawk01_h_seg_shift_spinBox = NoWheelSpinBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_h_seg_shift_spinBox.setObjectName(u"Hawk01_h_seg_shift_spinBox")
         self.Hawk01_h_seg_shift_spinBox.setMinimum(0)
         self.Hawk01_h_seg_shift_spinBox.setMaximum(15)
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.Hawk01_h_seg_shift_spinBox)
+        self.formLayout.setWidget(1, QFormLayout.ItemRole.FieldRole, self.Hawk01_h_seg_shift_spinBox)
 
         self.Hawk01_ROI_Retrace_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_ROI_Retrace_Label.setObjectName(u"Hawk01_ROI_Retrace_Label")
@@ -685,7 +685,7 @@ class Ui_MainPages(object):
         self.Hawk01_ROI_Retrace_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_ROI_Retrace_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(7, QFormLayout.LabelRole, self.Hawk01_ROI_Retrace_Label)
+        self.formLayout.setWidget(7, QFormLayout.ItemRole.LabelRole, self.Hawk01_ROI_Retrace_Label)
 
         self.Hawk01_ROI_Retrace_ComboBox = NoWheelComboBox(self.Hawk01_Config1byGUI_2)
         self.Hawk01_ROI_Retrace_ComboBox.addItem("")
@@ -693,7 +693,7 @@ class Ui_MainPages(object):
         self.Hawk01_ROI_Retrace_ComboBox.setObjectName(u"Hawk01_ROI_Retrace_ComboBox")
         self.Hawk01_ROI_Retrace_ComboBox.setFont(font1)
 
-        self.formLayout.setWidget(7, QFormLayout.FieldRole, self.Hawk01_ROI_Retrace_ComboBox)
+        self.formLayout.setWidget(7, QFormLayout.ItemRole.FieldRole, self.Hawk01_ROI_Retrace_ComboBox)
 
         self.Hawk01_sublight_group_Label = QLabel(self.Hawk01_Config1byGUI_2)
         self.Hawk01_sublight_group_Label.setObjectName(u"Hawk01_sublight_group_Label")
@@ -703,7 +703,7 @@ class Ui_MainPages(object):
         self.Hawk01_sublight_group_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_sublight_group_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout.setWidget(4, QFormLayout.LabelRole, self.Hawk01_sublight_group_Label)
+        self.formLayout.setWidget(4, QFormLayout.ItemRole.LabelRole, self.Hawk01_sublight_group_Label)
 
         self.Hawk01_sublight_group_LineEdit = QLineEdit(self.Hawk01_Config1byGUI_2)
         self.Hawk01_sublight_group_LineEdit.setObjectName(u"Hawk01_sublight_group_LineEdit")
@@ -718,7 +718,7 @@ class Ui_MainPages(object):
         self.Hawk01_sublight_group_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.Hawk01_sublight_group_LineEdit.setReadOnly(False)
 
-        self.formLayout.setWidget(4, QFormLayout.FieldRole, self.Hawk01_sublight_group_LineEdit)
+        self.formLayout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.Hawk01_sublight_group_LineEdit)
 
         self.Hawk01_Config1byGUI_1.setWidget(self.Hawk01_Config1byGUI_2)
 
@@ -738,7 +738,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config2byCOOR_1.setWidgetResizable(True)
         self.Hawk01_Config2byCOOR_2 = QWidget()
         self.Hawk01_Config2byCOOR_2.setObjectName(u"Hawk01_Config2byCOOR_2")
-        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 368, 467))
+        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 368, 378))
         self.formLayout_4 = QFormLayout(self.Hawk01_Config2byCOOR_2)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -751,7 +751,7 @@ class Ui_MainPages(object):
         self.Hawk01_Cali_File_Load_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_Cali_File_Load_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_4.setWidget(0, QFormLayout.LabelRole, self.Hawk01_Cali_File_Load_Label)
+        self.formLayout_4.setWidget(0, QFormLayout.ItemRole.LabelRole, self.Hawk01_Cali_File_Load_Label)
 
         self.Hawk01_Cali_File_Load_Layout = QHBoxLayout()
         self.Hawk01_Cali_File_Load_Layout.setSpacing(9)
@@ -779,7 +779,7 @@ class Ui_MainPages(object):
         self.Hawk01_Cali_File_Load_Layout.addWidget(self.Hawk01_Cali_File_Load_Button)
 
 
-        self.formLayout_4.setLayout(0, QFormLayout.FieldRole, self.Hawk01_Cali_File_Load_Layout)
+        self.formLayout_4.setLayout(0, QFormLayout.ItemRole.FieldRole, self.Hawk01_Cali_File_Load_Layout)
 
         self.Hawk01_Excel_Sheet_sel_Label = QLabel(self.Hawk01_Config2byCOOR_2)
         self.Hawk01_Excel_Sheet_sel_Label.setObjectName(u"Hawk01_Excel_Sheet_sel_Label")
@@ -789,7 +789,7 @@ class Ui_MainPages(object):
         self.Hawk01_Excel_Sheet_sel_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_Excel_Sheet_sel_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_4.setWidget(1, QFormLayout.LabelRole, self.Hawk01_Excel_Sheet_sel_Label)
+        self.formLayout_4.setWidget(1, QFormLayout.ItemRole.LabelRole, self.Hawk01_Excel_Sheet_sel_Label)
 
         self.Hawk01_Excel_Sheet_sel_spinBox = QSpinBox(self.Hawk01_Config2byCOOR_2)
         self.Hawk01_Excel_Sheet_sel_spinBox.setObjectName(u"Hawk01_Excel_Sheet_sel_spinBox")
@@ -797,7 +797,7 @@ class Ui_MainPages(object):
         self.Hawk01_Excel_Sheet_sel_spinBox.setMaximum(100)
         self.Hawk01_Excel_Sheet_sel_spinBox.setValue(1)
 
-        self.formLayout_4.setWidget(1, QFormLayout.FieldRole, self.Hawk01_Excel_Sheet_sel_spinBox)
+        self.formLayout_4.setWidget(1, QFormLayout.ItemRole.FieldRole, self.Hawk01_Excel_Sheet_sel_spinBox)
 
         self.Hawk01_Config2byCOOR_1.setWidget(self.Hawk01_Config2byCOOR_2)
 
@@ -817,7 +817,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config3ROIEdit_1.setWidgetResizable(True)
         self.Hawk01_Config3ROIEdit_2 = QWidget()
         self.Hawk01_Config3ROIEdit_2.setObjectName(u"Hawk01_Config3ROIEdit_2")
-        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 368, 467))
+        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 368, 378))
         self.formLayout_5 = QFormLayout(self.Hawk01_Config3ROIEdit_2)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -829,7 +829,7 @@ class Ui_MainPages(object):
         self.Hawk01_ROI_File_Label.setFont(font1)
         self.Hawk01_ROI_File_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_5.setWidget(0, QFormLayout.LabelRole, self.Hawk01_ROI_File_Label)
+        self.formLayout_5.setWidget(0, QFormLayout.ItemRole.LabelRole, self.Hawk01_ROI_File_Label)
 
         self.Hawk01_ROI_File_Layout = QHBoxLayout()
         self.Hawk01_ROI_File_Layout.setSpacing(9)
@@ -854,7 +854,7 @@ class Ui_MainPages(object):
         self.Hawk01_ROI_File_Layout.addWidget(self.Hawk01_ROI_File_Button)
 
 
-        self.formLayout_5.setLayout(0, QFormLayout.FieldRole, self.Hawk01_ROI_File_Layout)
+        self.formLayout_5.setLayout(0, QFormLayout.ItemRole.FieldRole, self.Hawk01_ROI_File_Layout)
 
         self.Hawk01_Start_Rolling_Label = QLabel(self.Hawk01_Config3ROIEdit_2)
         self.Hawk01_Start_Rolling_Label.setObjectName(u"Hawk01_Start_Rolling_Label")
@@ -865,7 +865,7 @@ class Ui_MainPages(object):
         self.Hawk01_Start_Rolling_Label.setFrameShadow(QFrame.Shadow.Raised)
         self.Hawk01_Start_Rolling_Label.setTextFormat(Qt.TextFormat.PlainText)
 
-        self.formLayout_5.setWidget(1, QFormLayout.LabelRole, self.Hawk01_Start_Rolling_Label)
+        self.formLayout_5.setWidget(1, QFormLayout.ItemRole.LabelRole, self.Hawk01_Start_Rolling_Label)
 
         self.Hawk01_End_Rolling_Label = QLabel(self.Hawk01_Config3ROIEdit_2)
         self.Hawk01_End_Rolling_Label.setObjectName(u"Hawk01_End_Rolling_Label")
@@ -875,21 +875,21 @@ class Ui_MainPages(object):
         self.Hawk01_End_Rolling_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Hawk01_End_Rolling_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.formLayout_5.setWidget(2, QFormLayout.LabelRole, self.Hawk01_End_Rolling_Label)
+        self.formLayout_5.setWidget(2, QFormLayout.ItemRole.LabelRole, self.Hawk01_End_Rolling_Label)
 
         self.Hawk01_End_Rolling_SpinBox = QSpinBox(self.Hawk01_Config3ROIEdit_2)
         self.Hawk01_End_Rolling_SpinBox.setObjectName(u"Hawk01_End_Rolling_SpinBox")
         self.Hawk01_End_Rolling_SpinBox.setMinimum(1)
         self.Hawk01_End_Rolling_SpinBox.setMaximum(32)
 
-        self.formLayout_5.setWidget(2, QFormLayout.FieldRole, self.Hawk01_End_Rolling_SpinBox)
+        self.formLayout_5.setWidget(2, QFormLayout.ItemRole.FieldRole, self.Hawk01_End_Rolling_SpinBox)
 
         self.Hawk01_Start_Rolling_SpinBox = QSpinBox(self.Hawk01_Config3ROIEdit_2)
         self.Hawk01_Start_Rolling_SpinBox.setObjectName(u"Hawk01_Start_Rolling_SpinBox")
         self.Hawk01_Start_Rolling_SpinBox.setMinimum(1)
         self.Hawk01_Start_Rolling_SpinBox.setMaximum(32)
 
-        self.formLayout_5.setWidget(1, QFormLayout.FieldRole, self.Hawk01_Start_Rolling_SpinBox)
+        self.formLayout_5.setWidget(1, QFormLayout.ItemRole.FieldRole, self.Hawk01_Start_Rolling_SpinBox)
 
         self.Hawk01_Config3ROIEdit_1.setWidget(self.Hawk01_Config3ROIEdit_2)
 
@@ -908,7 +908,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config4ROICali_1.setWidgetResizable(True)
         self.Hawk01_Config4ROICali_2 = QWidget()
         self.Hawk01_Config4ROICali_2.setObjectName(u"Hawk01_Config4ROICali_2")
-        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 280, 286))
+        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 368, 369))
         self.formLayout_7 = QFormLayout(self.Hawk01_Config4ROICali_2)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -920,7 +920,7 @@ class Ui_MainPages(object):
         self.Hawk01_cali_file_path_Label.setFont(font1)
         self.Hawk01_cali_file_path_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(0, QFormLayout.LabelRole, self.Hawk01_cali_file_path_Label)
+        self.formLayout_7.setWidget(0, QFormLayout.ItemRole.LabelRole, self.Hawk01_cali_file_path_Label)
 
         self.Hawk01_cali_file_path_Layout = QHBoxLayout()
         self.Hawk01_cali_file_path_Layout.setSpacing(9)
@@ -945,7 +945,7 @@ class Ui_MainPages(object):
         self.Hawk01_cali_file_path_Layout.addWidget(self.Hawk01_cali_file_path_Button)
 
 
-        self.formLayout_7.setLayout(0, QFormLayout.FieldRole, self.Hawk01_cali_file_path_Layout)
+        self.formLayout_7.setLayout(0, QFormLayout.ItemRole.FieldRole, self.Hawk01_cali_file_path_Layout)
 
         self.Hawk01_img_mirror_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_img_mirror_Label.setObjectName(u"Hawk01_img_mirror_Label")
@@ -953,7 +953,7 @@ class Ui_MainPages(object):
         self.Hawk01_img_mirror_Label.setFont(font1)
         self.Hawk01_img_mirror_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(1, QFormLayout.LabelRole, self.Hawk01_img_mirror_Label)
+        self.formLayout_7.setWidget(1, QFormLayout.ItemRole.LabelRole, self.Hawk01_img_mirror_Label)
 
         self.Hawk01_img_mirror_ComboBox = NoWheelComboBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_img_mirror_ComboBox.addItem("")
@@ -965,7 +965,7 @@ class Ui_MainPages(object):
         self.Hawk01_img_mirror_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.Hawk01_img_mirror_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(1, QFormLayout.FieldRole, self.Hawk01_img_mirror_ComboBox)
+        self.formLayout_7.setWidget(1, QFormLayout.ItemRole.FieldRole, self.Hawk01_img_mirror_ComboBox)
 
         self.Hawk01_remove_noise_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_remove_noise_Label.setObjectName(u"Hawk01_remove_noise_Label")
@@ -973,7 +973,7 @@ class Ui_MainPages(object):
         self.Hawk01_remove_noise_Label.setFont(font1)
         self.Hawk01_remove_noise_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(2, QFormLayout.LabelRole, self.Hawk01_remove_noise_Label)
+        self.formLayout_7.setWidget(2, QFormLayout.ItemRole.LabelRole, self.Hawk01_remove_noise_Label)
 
         self.Hawk01_remove_noise_ComboBox = NoWheelComboBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_remove_noise_ComboBox.addItem("")
@@ -983,7 +983,7 @@ class Ui_MainPages(object):
         self.Hawk01_remove_noise_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.Hawk01_remove_noise_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(2, QFormLayout.FieldRole, self.Hawk01_remove_noise_ComboBox)
+        self.formLayout_7.setWidget(2, QFormLayout.ItemRole.FieldRole, self.Hawk01_remove_noise_ComboBox)
 
         self.Hawk01_light_smooth_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_light_smooth_Label.setObjectName(u"Hawk01_light_smooth_Label")
@@ -991,7 +991,7 @@ class Ui_MainPages(object):
         self.Hawk01_light_smooth_Label.setFont(font1)
         self.Hawk01_light_smooth_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(3, QFormLayout.LabelRole, self.Hawk01_light_smooth_Label)
+        self.formLayout_7.setWidget(3, QFormLayout.ItemRole.LabelRole, self.Hawk01_light_smooth_Label)
 
         self.Hawk01_light_smooth_ComboBox = NoWheelComboBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_light_smooth_ComboBox.addItem("")
@@ -1001,7 +1001,7 @@ class Ui_MainPages(object):
         self.Hawk01_light_smooth_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.Hawk01_light_smooth_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(3, QFormLayout.FieldRole, self.Hawk01_light_smooth_ComboBox)
+        self.formLayout_7.setWidget(3, QFormLayout.ItemRole.FieldRole, self.Hawk01_light_smooth_ComboBox)
 
         self.Hawk01_curvature_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_curvature_Label.setObjectName(u"Hawk01_curvature_Label")
@@ -1009,7 +1009,7 @@ class Ui_MainPages(object):
         self.Hawk01_curvature_Label.setFont(font1)
         self.Hawk01_curvature_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(4, QFormLayout.LabelRole, self.Hawk01_curvature_Label)
+        self.formLayout_7.setWidget(4, QFormLayout.ItemRole.LabelRole, self.Hawk01_curvature_Label)
 
         self.Hawk01_curvature_SpinBox = NoWheelSpinBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_curvature_SpinBox.setObjectName(u"Hawk01_curvature_SpinBox")
@@ -1017,7 +1017,7 @@ class Ui_MainPages(object):
         self.Hawk01_curvature_SpinBox.setMaximum(1000)
         self.Hawk01_curvature_SpinBox.setValue(2)
 
-        self.formLayout_7.setWidget(4, QFormLayout.FieldRole, self.Hawk01_curvature_SpinBox)
+        self.formLayout_7.setWidget(4, QFormLayout.ItemRole.FieldRole, self.Hawk01_curvature_SpinBox)
 
         self.Hawk01_correct_thres_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_correct_thres_Label.setObjectName(u"Hawk01_correct_thres_Label")
@@ -1025,7 +1025,7 @@ class Ui_MainPages(object):
         self.Hawk01_correct_thres_Label.setFont(font1)
         self.Hawk01_correct_thres_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(5, QFormLayout.LabelRole, self.Hawk01_correct_thres_Label)
+        self.formLayout_7.setWidget(5, QFormLayout.ItemRole.LabelRole, self.Hawk01_correct_thres_Label)
 
         self.Hawk01_correct_thres_SpinBox = NoWheelSpinBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_correct_thres_SpinBox.setObjectName(u"Hawk01_correct_thres_SpinBox")
@@ -1033,7 +1033,7 @@ class Ui_MainPages(object):
         self.Hawk01_correct_thres_SpinBox.setMaximum(100)
         self.Hawk01_correct_thres_SpinBox.setValue(1)
 
-        self.formLayout_7.setWidget(5, QFormLayout.FieldRole, self.Hawk01_correct_thres_SpinBox)
+        self.formLayout_7.setWidget(5, QFormLayout.ItemRole.FieldRole, self.Hawk01_correct_thres_SpinBox)
 
         self.Hawk01_cali_order_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_cali_order_Label.setObjectName(u"Hawk01_cali_order_Label")
@@ -1041,7 +1041,7 @@ class Ui_MainPages(object):
         self.Hawk01_cali_order_Label.setFont(font1)
         self.Hawk01_cali_order_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(6, QFormLayout.LabelRole, self.Hawk01_cali_order_Label)
+        self.formLayout_7.setWidget(6, QFormLayout.ItemRole.LabelRole, self.Hawk01_cali_order_Label)
 
         self.Hawk01_cali_order_ComboBox = NoWheelComboBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_cali_order_ComboBox.addItem("")
@@ -1051,7 +1051,7 @@ class Ui_MainPages(object):
         self.Hawk01_cali_order_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.Hawk01_cali_order_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(6, QFormLayout.FieldRole, self.Hawk01_cali_order_ComboBox)
+        self.formLayout_7.setWidget(6, QFormLayout.ItemRole.FieldRole, self.Hawk01_cali_order_ComboBox)
 
         self.Hawk01_cali_frm_num_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_cali_frm_num_Label.setObjectName(u"Hawk01_cali_frm_num_Label")
@@ -1059,14 +1059,14 @@ class Ui_MainPages(object):
         self.Hawk01_cali_frm_num_Label.setFont(font1)
         self.Hawk01_cali_frm_num_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(7, QFormLayout.LabelRole, self.Hawk01_cali_frm_num_Label)
+        self.formLayout_7.setWidget(7, QFormLayout.ItemRole.LabelRole, self.Hawk01_cali_frm_num_Label)
 
-        self.Hawk01_cali_frm_num__SpinBox = NoWheelSpinBox(self.Hawk01_Config4ROICali_2)
-        self.Hawk01_cali_frm_num__SpinBox.setObjectName(u"Hawk01_cali_frm_num__SpinBox")
-        self.Hawk01_cali_frm_num__SpinBox.setMinimum(1)
-        self.Hawk01_cali_frm_num__SpinBox.setMaximum(10000)
+        self.Hawk01_cali_frm_num_SpinBox = NoWheelSpinBox(self.Hawk01_Config4ROICali_2)
+        self.Hawk01_cali_frm_num_SpinBox.setObjectName(u"Hawk01_cali_frm_num_SpinBox")
+        self.Hawk01_cali_frm_num_SpinBox.setMinimum(1)
+        self.Hawk01_cali_frm_num_SpinBox.setMaximum(10000)
 
-        self.formLayout_7.setWidget(7, QFormLayout.FieldRole, self.Hawk01_cali_frm_num__SpinBox)
+        self.formLayout_7.setWidget(7, QFormLayout.ItemRole.FieldRole, self.Hawk01_cali_frm_num_SpinBox)
 
         self.Hawk01_ref_segment_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_ref_segment_Label.setObjectName(u"Hawk01_ref_segment_Label")
@@ -1074,7 +1074,7 @@ class Ui_MainPages(object):
         self.Hawk01_ref_segment_Label.setFont(font1)
         self.Hawk01_ref_segment_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(8, QFormLayout.LabelRole, self.Hawk01_ref_segment_Label)
+        self.formLayout_7.setWidget(8, QFormLayout.ItemRole.LabelRole, self.Hawk01_ref_segment_Label)
 
         self.Hawk01_ref_segment_SpinBox = NoWheelSpinBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_ref_segment_SpinBox.setObjectName(u"Hawk01_ref_segment_SpinBox")
@@ -1082,7 +1082,7 @@ class Ui_MainPages(object):
         self.Hawk01_ref_segment_SpinBox.setMaximum(16)
         self.Hawk01_ref_segment_SpinBox.setValue(0)
 
-        self.formLayout_7.setWidget(8, QFormLayout.FieldRole, self.Hawk01_ref_segment_SpinBox)
+        self.formLayout_7.setWidget(8, QFormLayout.ItemRole.FieldRole, self.Hawk01_ref_segment_SpinBox)
 
         self.Hawk01_mode_2D_Label = QLabel(self.Hawk01_Config4ROICali_2)
         self.Hawk01_mode_2D_Label.setObjectName(u"Hawk01_mode_2D_Label")
@@ -1090,7 +1090,7 @@ class Ui_MainPages(object):
         self.Hawk01_mode_2D_Label.setFont(font1)
         self.Hawk01_mode_2D_Label.setFrameShape(QFrame.Shape.StyledPanel)
 
-        self.formLayout_7.setWidget(9, QFormLayout.LabelRole, self.Hawk01_mode_2D_Label)
+        self.formLayout_7.setWidget(9, QFormLayout.ItemRole.LabelRole, self.Hawk01_mode_2D_Label)
 
         self.Hawk01_mode_2D_ComboBox = NoWheelComboBox(self.Hawk01_Config4ROICali_2)
         self.Hawk01_mode_2D_ComboBox.addItem("")
@@ -1100,7 +1100,7 @@ class Ui_MainPages(object):
         self.Hawk01_mode_2D_ComboBox.setMaximumSize(QSize(16777215, 16777215))
         self.Hawk01_mode_2D_ComboBox.setFont(font1)
 
-        self.formLayout_7.setWidget(9, QFormLayout.FieldRole, self.Hawk01_mode_2D_ComboBox)
+        self.formLayout_7.setWidget(9, QFormLayout.ItemRole.FieldRole, self.Hawk01_mode_2D_ComboBox)
 
         self.Hawk01_Config4ROICali_1.setWidget(self.Hawk01_Config4ROICali_2)
 
@@ -1117,12 +1117,12 @@ class Ui_MainPages(object):
         self.Hawk01_ROIZoneConfig.setObjectName(u"Hawk01_ROIZoneConfig")
         palette1 = QPalette()
         brush1 = QBrush(QColor(255, 170, 0, 255))
-        brush1.setStyle(Qt.SolidPattern)
-        palette1.setBrush(QPalette.Active, QPalette.Highlight, brush1)
-        palette1.setBrush(QPalette.Active, QPalette.Link, brush1)
-        palette1.setBrush(QPalette.Inactive, QPalette.Highlight, brush1)
-        palette1.setBrush(QPalette.Inactive, QPalette.Link, brush1)
-        palette1.setBrush(QPalette.Disabled, QPalette.Link, brush1)
+        brush1.setStyle(Qt.BrushStyle.SolidPattern)
+        palette1.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.Highlight, brush1)
+        palette1.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.Link, brush1)
+        palette1.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.Highlight, brush1)
+        palette1.setBrush(QPalette.ColorGroup.Inactive, QPalette.ColorRole.Link, brush1)
+        palette1.setBrush(QPalette.ColorGroup.Disabled, QPalette.ColorRole.Link, brush1)
         self.Hawk01_ROIZoneConfig.setPalette(palette1)
         font2 = QFont()
         font2.setFamilies([u"Consolas"])
@@ -1330,19 +1330,20 @@ class Ui_MainPages(object):
         self.Swan01FunctionSelectWin.setMinimumSize(QSize(0, 0))
         self.gridLayout_5 = QGridLayout(self.Swan01FunctionSelectWin)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.ROISramGenerateSel = QRadioButton(self.Swan01FunctionSelectWin)
-        self.ROISramGenerateSel.setObjectName(u"ROISramGenerateSel")
+        self.Swan01_ROISramGenerateSel = QRadioButton(self.Swan01FunctionSelectWin)
+        self.Swan01_ROISramGenerateSel.setObjectName(u"Swan01_ROISramGenerateSel")
 
-        self.gridLayout_5.addWidget(self.ROISramGenerateSel, 0, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.Swan01_ROISramGenerateSel, 0, 1, 1, 1)
 
         self.horizontalSpacer_26 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout_5.addItem(self.horizontalSpacer_26, 0, 2, 1, 1)
 
-        self.ScriptGenerateSel = QRadioButton(self.Swan01FunctionSelectWin)
-        self.ScriptGenerateSel.setObjectName(u"ScriptGenerateSel")
+        self.Swan01_ScriptGenerateSel = QRadioButton(self.Swan01FunctionSelectWin)
+        self.Swan01_ScriptGenerateSel.setObjectName(u"Swan01_ScriptGenerateSel")
+        self.Swan01_ScriptGenerateSel.setChecked(True)
 
-        self.gridLayout_5.addWidget(self.ScriptGenerateSel, 0, 0, 1, 1)
+        self.gridLayout_5.addWidget(self.Swan01_ScriptGenerateSel, 0, 0, 1, 1)
 
 
         self.verticalLayout_13.addWidget(self.Swan01FunctionSelectWin)
@@ -1360,7 +1361,7 @@ class Ui_MainPages(object):
         self.Swan01_RegisterConfig_1.setWidgetResizable(True)
         self.Swan01_RegisterConfig_2 = QWidget()
         self.Swan01_RegisterConfig_2.setObjectName(u"Swan01_RegisterConfig_2")
-        self.Swan01_RegisterConfig_2.setGeometry(QRect(0, 0, 1017, 623))
+        self.Swan01_RegisterConfig_2.setGeometry(QRect(0, -235, 972, 595))
         self.gridLayout_4 = QGridLayout(self.Swan01_RegisterConfig_2)
         self.gridLayout_4.setSpacing(6)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
@@ -2364,7 +2365,7 @@ class Ui_MainPages(object):
         self.horizontalLayout_25 = QHBoxLayout(self.Swan01_ButtonCollectionFrame)
         self.horizontalLayout_25.setSpacing(6)
         self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
-        self.horizontalLayout_25.setContentsMargins(0, 2, -1, -1)
+        self.horizontalLayout_25.setContentsMargins(0, 2, 0, -1)
         self.Swan01_Save = QPushButton(self.Swan01_ButtonCollectionFrame)
         self.Swan01_Save.setObjectName(u"Swan01_Save")
         sizePolicy1.setHeightForWidth(self.Swan01_Save.sizePolicy().hasHeightForWidth())
@@ -2459,22 +2460,19 @@ class Ui_MainPages(object):
         self.Swan01_ROIConfig.setObjectName(u"Swan01_ROIConfig")
         self.Swan01_ROIConfig.setMinimumSize(QSize(300, 0))
         self.Swan01_ROIConfig.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_ROIConfig.setCheckable(False)
         self.gridLayout_8 = QGridLayout(self.Swan01_ROIConfig)
         self.gridLayout_8.setObjectName(u"gridLayout_8")
         self.gridLayout_8.setContentsMargins(9, 9, 9, 1)
-        self.horizontalSpacer_33 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+        self.Swan01_ROISRAM_Excel_Sel_Label = QLabel(self.Swan01_ROIConfig)
+        self.Swan01_ROISRAM_Excel_Sel_Label.setObjectName(u"Swan01_ROISRAM_Excel_Sel_Label")
+        self.Swan01_ROISRAM_Excel_Sel_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_ROISRAM_Excel_Sel_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_ROISRAM_Excel_Sel_Label.setFont(font1)
+        self.Swan01_ROISRAM_Excel_Sel_Label.setFrameShape(QFrame.Shape.NoFrame)
+        self.Swan01_ROISRAM_Excel_Sel_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.gridLayout_8.addItem(self.horizontalSpacer_33, 0, 4, 1, 1)
-
-        self.Swan01_reference_script_Label_2 = QLabel(self.Swan01_ROIConfig)
-        self.Swan01_reference_script_Label_2.setObjectName(u"Swan01_reference_script_Label_2")
-        self.Swan01_reference_script_Label_2.setMinimumSize(QSize(0, 0))
-        self.Swan01_reference_script_Label_2.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_reference_script_Label_2.setFont(font1)
-        self.Swan01_reference_script_Label_2.setFrameShape(QFrame.Shape.NoFrame)
-        self.Swan01_reference_script_Label_2.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.gridLayout_8.addWidget(self.Swan01_reference_script_Label_2, 0, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.Swan01_ROISRAM_Excel_Sel_Label, 0, 0, 1, 1)
 
         self.Swan01_roi_sram_name_LineEdit_2 = QLineEdit(self.Swan01_ROIConfig)
         self.Swan01_roi_sram_name_LineEdit_2.setObjectName(u"Swan01_roi_sram_name_LineEdit_2")
@@ -2495,18 +2493,6 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_reference_script_LineEdit_2, 0, 1, 1, 1)
 
-        self.Swan01_file_save_dir_LineEdit_2 = QLineEdit(self.Swan01_ROIConfig)
-        self.Swan01_file_save_dir_LineEdit_2.setObjectName(u"Swan01_file_save_dir_LineEdit_2")
-        self.Swan01_file_save_dir_LineEdit_2.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.Swan01_file_save_dir_LineEdit_2.sizePolicy().hasHeightForWidth())
-        self.Swan01_file_save_dir_LineEdit_2.setSizePolicy(sizePolicy1)
-        self.Swan01_file_save_dir_LineEdit_2.setMinimumSize(QSize(350, 0))
-        self.Swan01_file_save_dir_LineEdit_2.setMaximumSize(QSize(500, 16777215))
-        self.Swan01_file_save_dir_LineEdit_2.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.Swan01_file_save_dir_LineEdit_2.setReadOnly(False)
-
-        self.gridLayout_8.addWidget(self.Swan01_file_save_dir_LineEdit_2, 4, 1, 1, 1)
-
         self.Swan01_reference_script_sel_Button_2 = QPushButton(self.Swan01_ROIConfig)
         self.Swan01_reference_script_sel_Button_2.setObjectName(u"Swan01_reference_script_sel_Button_2")
         sizePolicy2.setHeightForWidth(self.Swan01_reference_script_sel_Button_2.sizePolicy().hasHeightForWidth())
@@ -2521,12 +2507,28 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_sram_name_Label_2, 2, 0, 1, 1)
 
+        self.Swan01_reference_script_parse_Button_2 = QPushButton(self.Swan01_ROIConfig)
+        self.Swan01_reference_script_parse_Button_2.setObjectName(u"Swan01_reference_script_parse_Button_2")
+        sizePolicy2.setHeightForWidth(self.Swan01_reference_script_parse_Button_2.sizePolicy().hasHeightForWidth())
+        self.Swan01_reference_script_parse_Button_2.setSizePolicy(sizePolicy2)
+        self.Swan01_reference_script_parse_Button_2.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_8.addWidget(self.Swan01_reference_script_parse_Button_2, 0, 3, 1, 1)
+
+        self.verticalSpacer = QSpacerItem(20, 60, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_8.addItem(self.verticalSpacer, 3, 0, 1, 1)
+
+        self.horizontalSpacer_33 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_8.addItem(self.horizontalSpacer_33, 0, 4, 1, 1)
+
         self.Swan01_ButtonCollectionFrame_2 = QFrame(self.Swan01_ROIConfig)
         self.Swan01_ButtonCollectionFrame_2.setObjectName(u"Swan01_ButtonCollectionFrame_2")
         self.horizontalLayout_28 = QHBoxLayout(self.Swan01_ButtonCollectionFrame_2)
         self.horizontalLayout_28.setSpacing(6)
         self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
-        self.horizontalLayout_28.setContentsMargins(0, 2, -1, -1)
+        self.horizontalLayout_28.setContentsMargins(0, 2, 0, -1)
         self.Swan01_Save_2 = QPushButton(self.Swan01_ButtonCollectionFrame_2)
         self.Swan01_Save_2.setObjectName(u"Swan01_Save_2")
         sizePolicy1.setHeightForWidth(self.Swan01_Save_2.sizePolicy().hasHeightForWidth())
@@ -2552,33 +2554,7 @@ class Ui_MainPages(object):
         self.horizontalLayout_28.addItem(self.horizontalSpacer_32)
 
 
-        self.gridLayout_8.addWidget(self.Swan01_ButtonCollectionFrame_2, 5, 0, 1, 6)
-
-        self.Swan01_file_save_dir_Button_2 = QPushButton(self.Swan01_ROIConfig)
-        self.Swan01_file_save_dir_Button_2.setObjectName(u"Swan01_file_save_dir_Button_2")
-        sizePolicy2.setHeightForWidth(self.Swan01_file_save_dir_Button_2.sizePolicy().hasHeightForWidth())
-        self.Swan01_file_save_dir_Button_2.setSizePolicy(sizePolicy2)
-        self.Swan01_file_save_dir_Button_2.setMinimumSize(QSize(90, 0))
-
-        self.gridLayout_8.addWidget(self.Swan01_file_save_dir_Button_2, 4, 2, 1, 1)
-
-        self.Swan01_file_save_dir_Label_2 = QLabel(self.Swan01_ROIConfig)
-        self.Swan01_file_save_dir_Label_2.setObjectName(u"Swan01_file_save_dir_Label_2")
-        self.Swan01_file_save_dir_Label_2.setMinimumSize(QSize(0, 0))
-        self.Swan01_file_save_dir_Label_2.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_file_save_dir_Label_2.setFont(font1)
-        self.Swan01_file_save_dir_Label_2.setFrameShape(QFrame.Shape.NoFrame)
-        self.Swan01_file_save_dir_Label_2.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.gridLayout_8.addWidget(self.Swan01_file_save_dir_Label_2, 4, 0, 1, 1)
-
-        self.Swan01_reference_script_parse_Button_2 = QPushButton(self.Swan01_ROIConfig)
-        self.Swan01_reference_script_parse_Button_2.setObjectName(u"Swan01_reference_script_parse_Button_2")
-        sizePolicy2.setHeightForWidth(self.Swan01_reference_script_parse_Button_2.sizePolicy().hasHeightForWidth())
-        self.Swan01_reference_script_parse_Button_2.setSizePolicy(sizePolicy2)
-        self.Swan01_reference_script_parse_Button_2.setMinimumSize(QSize(90, 0))
-
-        self.gridLayout_8.addWidget(self.Swan01_reference_script_parse_Button_2, 0, 3, 1, 1)
+        self.gridLayout_8.addWidget(self.Swan01_ButtonCollectionFrame_2, 4, 0, 1, 5)
 
 
         self.verticalLayout_13.addWidget(self.Swan01_ROIConfig)
@@ -3124,7 +3100,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 442, 293))
+        self.contents.setGeometry(QRect(0, 0, 442, 285))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -3308,9 +3284,15 @@ class Ui_MainPages(object):
         self.Hawk01_H_ROLL_NUM_Slider.valueChanged.connect(self.Hawk01_H_ROLL_NUM_Value.setNum)
         self.Hawk01_H_VLD_SEG_Slider.valueChanged.connect(self.Hawk01_H_VLD_SEG_Value.setNum)
         self.Swan01_SEG_NUM_Slider.valueChanged.connect(self.Swan01_SEG_NUM_Value.setNum)
+        self.Swan01_ROISramGenerateSel.clicked.connect(self.Swan01_RegisterConfig.hide)
+        self.Swan01_ROISramGenerateSel.clicked.connect(self.Swan01_ROIConfig.show)
+        self.Swan01_ROISramGenerateSel.clicked.connect(self.Swan01_FileConifg.hide)
+        self.Swan01_ScriptGenerateSel.clicked.connect(self.Swan01_FileConifg.show)
+        self.Swan01_ScriptGenerateSel.clicked.connect(self.Swan01_RegisterConfig.show)
+        self.Swan01_ScriptGenerateSel.clicked.connect(self.Swan01_ROIConfig.hide)
 
-        self.pages.setCurrentIndex(1)
-        self.Hawk01_ROIConfig.setCurrentIndex(1)
+        self.pages.setCurrentIndex(0)
+        self.Hawk01_ROIConfig.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -3487,8 +3469,8 @@ class Ui_MainPages(object):
         self.Hawk01_reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Reg Script Name", None))
         self.Hawk01_reference_script_parse_Button.setText(QCoreApplication.translate("MainPages", u"Parse", None))
         self.Swan01FunctionSelectWin.setTitle(QCoreApplication.translate("MainPages", u"Function Select", None))
-        self.ROISramGenerateSel.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Generate", None))
-        self.ScriptGenerateSel.setText(QCoreApplication.translate("MainPages", u"Script Generate", None))
+        self.Swan01_ROISramGenerateSel.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Generate", None))
+        self.Swan01_ScriptGenerateSel.setText(QCoreApplication.translate("MainPages", u"Script Generate", None))
         self.Swan01_RegisterConfig.setTitle("")
         self.Swan01_INTF_DET_EN_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Disable", None))
         self.Swan01_INTF_DET_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Enable", None))
@@ -3769,17 +3751,14 @@ class Ui_MainPages(object):
         self.Swan01_reference_script_parse_Button.setText(QCoreApplication.translate("MainPages", u"Parse", None))
         self.Swan01_file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
         self.Swan01_file_save_dir_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
-        self.Swan01_reference_script_Label_2.setText(QCoreApplication.translate("MainPages", u"ROI_SRAM Excel Sel", None))
+        self.Swan01_ROISRAM_Excel_Sel_Label.setText(QCoreApplication.translate("MainPages", u"ROI_SRAM Excel Sel", None))
         self.Swan01_roi_sram_name_LineEdit_2.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
         self.Swan01_reference_script_LineEdit_2.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
-        self.Swan01_file_save_dir_LineEdit_2.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
         self.Swan01_reference_script_sel_Button_2.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.Swan01_roi_sram_name_Label_2.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Name", None))
+        self.Swan01_reference_script_parse_Button_2.setText(QCoreApplication.translate("MainPages", u"Parse", None))
         self.Swan01_Save_2.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.Swan01_Open_2.setText(QCoreApplication.translate("MainPages", u"Open", None))
-        self.Swan01_file_save_dir_Button_2.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Swan01_file_save_dir_Label_2.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
-        self.Swan01_reference_script_parse_Button_2.setText(QCoreApplication.translate("MainPages", u"Parse", None))
         self.title_label_2.setText(QCoreApplication.translate("MainPages", u"Hawk Toolbox", None))
         self.FunctionWindow.setTitle("")
         self.FunctionSelectWin.setTitle(QCoreApplication.translate("MainPages", u"Function Select", None))

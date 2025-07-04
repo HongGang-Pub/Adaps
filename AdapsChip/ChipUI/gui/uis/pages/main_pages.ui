@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1041</width>
-    <height>605</height>
+    <width>1001</width>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="Hawk01">
       <property name="font">
@@ -1431,7 +1431,7 @@
                 <string notr="true"/>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>3</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -1528,7 +1528,7 @@
                       <x>0</x>
                       <y>0</y>
                       <width>368</width>
-                      <height>467</height>
+                      <height>378</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout">
@@ -2020,7 +2020,7 @@
                       <x>0</x>
                       <y>0</y>
                       <width>368</width>
-                      <height>467</height>
+                      <height>378</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_4">
@@ -2201,7 +2201,7 @@
                       <x>0</x>
                       <y>0</y>
                       <width>368</width>
-                      <height>467</height>
+                      <height>378</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_5">
@@ -2414,8 +2414,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>280</width>
-                      <height>286</height>
+                      <width>368</width>
+                      <height>369</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_7">
@@ -2841,7 +2841,7 @@
                       </widget>
                      </item>
                      <item row="7" column="1">
-                      <widget class="NoWheelSpinBox" name="Hawk01_cali_frm_num__SpinBox">
+                      <widget class="NoWheelSpinBox" name="Hawk01_cali_frm_num_SpinBox">
                        <property name="minimum">
                         <number>1</number>
                        </property>
@@ -3536,7 +3536,7 @@ font: 700 9pt &quot;Consolas&quot;;
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
           <item row="0" column="1">
-           <widget class="QRadioButton" name="ROISramGenerateSel">
+           <widget class="QRadioButton" name="Swan01_ROISramGenerateSel">
             <property name="text">
              <string>ROI SRAM Generate</string>
             </property>
@@ -3556,9 +3556,12 @@ font: 700 9pt &quot;Consolas&quot;;
            </spacer>
           </item>
           <item row="0" column="0">
-           <widget class="QRadioButton" name="ScriptGenerateSel">
+           <widget class="QRadioButton" name="Swan01_ScriptGenerateSel">
             <property name="text">
              <string>Script Generate</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -3604,9 +3607,9 @@ font: 700 9pt &quot;Consolas&quot;;
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>0</y>
-               <width>1017</width>
-               <height>623</height>
+               <y>-235</y>
+               <width>972</width>
+               <height>595</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -6823,6 +6826,9 @@ font: 700 9pt &quot;Consolas&quot;;
            <height>16777215</height>
           </size>
          </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
          <layout class="QGridLayout" name="gridLayout_8">
           <property name="leftMargin">
            <number>9</number>
@@ -8505,7 +8511,7 @@ font: 700 9pt &quot;Consolas&quot;;
             <x>0</x>
             <y>0</y>
             <width>442</width>
-            <height>293</height>
+            <height>285</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -9077,6 +9083,102 @@ font: 700 9pt &quot;Consolas&quot;;
     <hint type="destinationlabel">
      <x>681</x>
      <y>112</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Swan01_ROISramGenerateSel</sender>
+   <signal>clicked()</signal>
+   <receiver>Swan01_RegisterConfig</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Swan01_ROISramGenerateSel</sender>
+   <signal>clicked()</signal>
+   <receiver>Swan01_ROIConfig</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>686</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Swan01_ROISramGenerateSel</sender>
+   <signal>clicked()</signal>
+   <receiver>Swan01_FileConifg</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>512</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Swan01_ScriptGenerateSel</sender>
+   <signal>clicked()</signal>
+   <receiver>Swan01_FileConifg</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>512</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Swan01_ScriptGenerateSel</sender>
+   <signal>clicked()</signal>
+   <receiver>Swan01_RegisterConfig</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Swan01_ScriptGenerateSel</sender>
+   <signal>clicked()</signal>
+   <receiver>Swan01_ROIConfig</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>500</x>
+     <y>686</y>
     </hint>
    </hints>
   </connection>

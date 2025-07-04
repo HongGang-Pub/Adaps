@@ -203,7 +203,7 @@ class Hawk01MainUI:
         self.ui.load_pages.Hawk01_cali_order_Label.setHidden(hidden)
         self.ui.load_pages.Hawk01_cali_order_ComboBox.setHidden(hidden)
         self.ui.load_pages.Hawk01_cali_frm_num_Label.setHidden(hidden)
-        self.ui.load_pages.Hawk01_cali_frm_num__SpinBox.setHidden(hidden)
+        self.ui.load_pages.Hawk01_cali_frm_num_SpinBox.setHidden(hidden)
         self.ui.load_pages.Hawk01_ref_segment_Label.setHidden(hidden)
         self.ui.load_pages.Hawk01_ref_segment_SpinBox.setHidden(hidden)
         pass
@@ -246,7 +246,7 @@ class Hawk01MainUI:
         self.ui.load_pages.Hawk01_cali_order_ComboBox.setCurrentIndex(self.hawk01_roi_gen_config['ROIGenByCali']['is_reverse'])
         self.ui.load_pages.Hawk01_img_mirror_ComboBox.setCurrentIndex(
             self.hawk01_roi_gen_config['ROIGenByCali']['img_reverse'])
-        self.ui.load_pages.Hawk01_cali_frm_num__SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['cali_frm_num'])
+        self.ui.load_pages.Hawk01_cali_frm_num_SpinBox.setValue(self.hawk01_roi_gen_config['ROIGenByCali']['cali_frm_num'])
         self.ui.load_pages.Hawk01_remove_noise_ComboBox.setCurrentIndex(
             self.hawk01_roi_gen_config['ROIGenByCali']['remove_noise'])
         self.ui.load_pages.Hawk01_light_smooth_ComboBox.setCurrentIndex(
@@ -349,7 +349,7 @@ class Hawk01MainUI:
             self.hawk01_roi_gen_config['ROIGenByCali'][
                 'img_reverse'] = self.ui.load_pages.Hawk01_img_mirror_ComboBox.currentIndex()
             self.hawk01_roi_gen_config['ROIGenByCali'][
-                'cali_frm_num'] = self.ui.load_pages.Hawk01_cali_frm_num__SpinBox.value()
+                'cali_frm_num'] = self.ui.load_pages.Hawk01_cali_frm_num_SpinBox.value()
             self.hawk01_roi_gen_config['ROIGenByCali'][
                 'remove_noise'] = self.ui.load_pages.Hawk01_remove_noise_ComboBox.currentIndex()
             self.hawk01_roi_gen_config['ROIGenByCali'][

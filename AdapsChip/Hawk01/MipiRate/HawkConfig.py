@@ -33,7 +33,7 @@ csru_cfg = {
     "TX_FRM_MODE": 1,
     "ONE_DT_MODE": 1,
     "V_PXL_OUT_NUM": 1,
-    "MIPI_PKTDLY": 0,
+    "MIPI_PKTDLY": 1,
     "SUB_IDLETIME": 0,
     "MIPI_FENDDLY": 0,
     "SYSCLK1M_DIV": (SYS_CLK - 1)
@@ -54,4 +54,3 @@ mipi_cfg = {
 SEG_HS = 0  #
 MIPI_LANE_NUM = 4
 MIPI_FIFO_SIZE = 1000
-TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16, 400: 20}
