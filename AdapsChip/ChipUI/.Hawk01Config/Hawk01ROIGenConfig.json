@@ -11,7 +11,7 @@
         "v_spad_shift": 0
     },
     "ROIGenByFile": {
-        "cali_file": "D:/Git/Adaps/AdapsChip/ChipUI/Input/cali_coor_data.xlsx",
+        "cali_file": "D:/Git/Adaps/AdapsChip/ChipUI/Input/Hawk01_cali_coor_data.xlsx",
         "sheet_sel": 0
     },
     "ROIGenByBase": {

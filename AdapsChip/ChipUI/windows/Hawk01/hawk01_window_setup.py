@@ -548,7 +548,7 @@ class Hawk01MainUI:
         #     partial(Hawk01MainUI.file_gui_checkBoxChange, self))
         # 按钮绑定
         self.ui.load_pages.Hawk01_reference_script_sel_Button.clicked.connect(partial(Hawk01MainUI.reference_script_file_sel, self))
-        self.ui.load_pages.Hawk01_reference_script_parse_Button.clicked.connect(partial(Hawk01MainUI.script_parse, self))
+        self.ui.load_pages.Hawk01_script_parse_Button.clicked.connect(partial(Hawk01MainUI.script_parse, self))
         self.ui.load_pages.Hawk01_file_save_dir_Button.clicked.connect(partial(Hawk01MainUI.file_save_dir_sel, self))
         self.ui.load_pages.Hawk01_Save.clicked.connect(partial(Hawk01MainUI.mainUI_save, self))  # Save按钮连接保存操作
         self.hawk01_main_ui_signal_sync.Obj_signal_0.connect(partial(Hawk01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮

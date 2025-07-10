@@ -457,6 +457,7 @@ def DirectAccessCaliDataByExcel(hawk01_config):
             cali_datas.append(__data__[1:])
     else:
         return
+
     cali_datas.pop(0)   # 删除第一行
     # 校验标定数量是否正确
     # /////////////////////////////////////////////////////////////////////

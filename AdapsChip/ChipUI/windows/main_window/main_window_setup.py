@@ -191,3 +191,4 @@ class SetupMainWindow:
         Hawk01MainUI.closeEvent(self)
         HawkToolbox.closeEvent(self)
         SoftMainUI.closeEvent(self)
+        Swan01MainUI.closeEvent(self)

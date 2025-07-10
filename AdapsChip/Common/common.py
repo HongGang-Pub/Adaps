@@ -14,25 +14,29 @@
 
 =================================================================================================
 """
+import logging
+import math
 
 TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16, 400: 20}
 
 
-def MipiPKGIntvCal(mipi_cfg: dict, SYS_CLK=330, MIPI_RATE=1500):
+def MipiPKGIntvCal(mipi_cfg: dict, SYS_CLK=330, MIPI_RATE=1500, TxEscClkDiv=None):
     """
-    MIPI 包间协议开销计算
+    MIPI 包间协议开销计算(适用于 MIPI IP 最高支持 1.5Gbps/Lane)
 
     Args:
         mipi_cfg(dict): Hawk MIPI 配置
         SYS_CLK(int): 系统时钟频率, unit: Mhz
         MIPI_RATE: MIPI 速率, unit: Gbps/Lane
+        TxEscClkDiv: TxEscClk 分频, 与 MIPI 相关
 
     Returns:
         float: MIPI 包间协议开销 (unit: ns)
     """
 
     TXHSByteClkDiv = 8
-    T_TxClkEsc = 1000 / (SYS_CLK / (TxEscClkDiv_Q[SYS_CLK] + 1))
+    TxEscClkDiv = TxEscClkDiv_Q[SYS_CLK] if TxEscClkDiv is None else TxEscClkDiv
+    T_TxClkEsc = 1000 / (SYS_CLK / (TxEscClkDiv + 1))
     T_TxByteClkHS = 1000 / (MIPI_RATE / TXHSByteClkDiv)
 
     DataTxThslpxcnt = mipi_cfg["DataTxThslpxcnt"]
@@ -58,16 +62,18 @@ def MipiPKGIntvCal(mipi_cfg: dict, SYS_CLK=330, MIPI_RATE=1500):
     # s += f"\nT_TxByteClkHS : {T_TxByteClkHS:>8.2f} ns"
     # s += f"\nMIPI_PKT_INTV : {MIPI_PKT_INTV:>8.2f} ns"
     # print_c(s)
+    MIPI_PKT_INTV = math.ceil(MIPI_PKT_INTV)
     return MIPI_PKT_INTV
 
 
-def MIPI_CONFIG_Cal(SYS_CLK=330, MIPI_RATE=1500):
+def MIPI_CONFIG_Cal(SYS_CLK=330, MIPI_RATE=1500, display=True):
     """
-    MIPI 满足 DPHY 协议的时序要求时, DPHY 寄存器相关配置自动计算脚本
+    MIPI 满足 DPHY 协议的时序要求时, DPHY 寄存器相关配置自动计算脚本(适用于 MIPI IP 最高支持 1.5Gbps/Lane)
 
     Args:
         SYS_CLK(int): 系统时钟频率, unit: Mhz
         MIPI_RATE: MIPI 速率, unit: Gbps/Lane
+        display(bool): 是否打印配置信息
 
     Returns:
         MIPI DPYH 寄存器配置值
@@ -114,15 +120,6 @@ def MIPI_CONFIG_Cal(SYS_CLK=330, MIPI_RATE=1500):
     T_hs_trail = T_hs_trail_config * T_TxByteClkHS
     T_all_aacu = T_lp_01 + T_hs_exit + T_hs_pre_zero + T_hs_trail
 
-    print(f"SYS_CLK: {SYS_CLK}MHz, MIPI_RATE: {MIPI_RATE} Gbps/Lane, F_TxClkEsc: {F_TxClkEsc:5.2f} MHz, F_TxByteClkHS: {F_TxByteClkHS:5.2f}MHz:")
-    print(f"\tItem                : CONFIG |  T_cal |  T_std | T_default")
-    print(f"\tT_lpx               : {2:4}   | {T_lp_01:6.2f} | {T_std_lp_01:6.2f} | {T_default_lp_01:6.2f}")
-    print(f"\tT_hs_exit    ('d43) : {T_hs_exit_config:4}   | {T_hs_exit:6.2f} | {T_std_hs_exit:6.2f} | {T_default_hs_exit:6.2f}")
-    print(f"\tT_hs_prepare ('d44) : {T_hs_prepare_config:4}   | {T_hs_prepare:6.2f} | {T_std_hs_prepare:6.2f} | {T_default_hs_prepare:6.2f}")
-    print(f"\tT_hs_pre_zero('d45) : {T_hs_zero_config:4}   | {T_hs_pre_zero:6.2f} | {T_std_hs_pre_zero:6.2f} | {T_default_hs_pre_zero:6.2f}")
-    print(f"\tT_hs_trail   ('d46) : {T_hs_trail_config:4}   | {T_hs_trail:6.2f} | {T_std_hs_trail:6.2f} | {T_default_hs_trail:6.2f}")
-    print(f"\tT_all_aacu          : {'':5}  | {T_all_aacu:6.2f} | {T_std_all_accu:6.2f} | {T_default_all_aacu:6.2f}")
-    print(f"\tTime saving @default:  {T_default_all_aacu-T_all_aacu:6.2f} ns\n")
     mipi_cfg = {
         "DataTxThslpxcnt": 2,
         "DataTxThsexitCnt": T_hs_exit_config,
@@ -130,4 +127,16 @@ def MIPI_CONFIG_Cal(SYS_CLK=330, MIPI_RATE=1500):
         "DataTxThszeroCnt": T_hs_zero_config,
         "DataTxThstrailCnt": T_hs_trail_config,
     }
+    s = ""
+    s += f"SYS_CLK: {SYS_CLK}MHz, MIPI_RATE: {MIPI_RATE} Gbps/Lane, F_TxClkEsc: {F_TxClkEsc:5.2f} MHz, F_TxByteClkHS: {F_TxByteClkHS:5.2f}MHz:"
+    s += f"\n\tItem                : CONFIG |  T_cal |  T_std | T_default"
+    s += f"\n\tT_lpx               : {2:4}   | {T_lp_01:6.2f} | {T_std_lp_01:6.2f} | {T_default_lp_01:6.2f}"
+    s += f"\n\tT_hs_exit    ('d43) : {T_hs_exit_config:4}   | {T_hs_exit:6.2f} | {T_std_hs_exit:6.2f} | {T_default_hs_exit:6.2f}"
+    s += f"\n\tT_hs_prepare ('d44) : {T_hs_prepare_config:4}   | {T_hs_prepare:6.2f} | {T_std_hs_prepare:6.2f} | {T_default_hs_prepare:6.2f}"
+    s += f"\n\tT_hs_pre_zero('d45) : {T_hs_zero_config:4}   | {T_hs_pre_zero:6.2f} | {T_std_hs_pre_zero:6.2f} | {T_default_hs_pre_zero:6.2f}"
+    s += f"\n\tT_hs_trail   ('d46) : {T_hs_trail_config:4}   | {T_hs_trail:6.2f} | {T_std_hs_trail:6.2f} | {T_default_hs_trail:6.2f}"
+    s += f"\n\tT_all_aacu          : {'':5}  | {T_all_aacu:6.2f} | {T_std_all_accu:6.2f} | {T_default_all_aacu:6.2f}"
+    s += f"\n\tTime saving @default:  {T_default_all_aacu - T_all_aacu:6.2f} ns\n"
+    if display:
+        print(s)
     return mipi_cfg

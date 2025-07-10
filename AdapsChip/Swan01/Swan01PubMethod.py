@@ -50,13 +50,15 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
     """
 
     min_lens = 4 if protocol == 0 else 3
+    addr_index = 2 if protocol == 0 else 1
     csru_cfg = {
         # SYSC
         "MST_MODE": 0,
         "WORK_MODE": 0,
+        "SEG_NUM": 0,
+        "SLOT_TIME": 0,
         "PXL_BINN_SEL": 0,
         "SYNC_POL": 0,
-        "SEG_NUM": 0,
         "TRG_I_EN": 0,
         # HIST
         "HIST_MINBIN_THRS": 0,
@@ -72,14 +74,14 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         # SHOT
         "ANGLE_GRP_SW_NUM": 5,
         "FRM_SLOT_NUM": 0x4AF,
-        "ANGLE_GRP0_SLOT_NUM": 0,
-        "ANGLE_GRP1_SLOT_NUM": 0,
-        "ANGLE_GRP2_SLOT_NUM": 0,
-        "ANGLE_GRP3_SLOT_NUM": 0,
-        "ANGLE_GRP4_SLOT_NUM": 0,
-        "ANGLE_GRP5_SLOT_NUM": 0,
-        "ANGLE_GRP6_SLOT_NUM": 0,
-        "ANGLE_GRP7_SLOT_NUM": 0,
+        # "ANGLE_GRP0_SLOT_NUM": 0,
+        # "ANGLE_GRP1_SLOT_NUM": 0,
+        # "ANGLE_GRP2_SLOT_NUM": 0,
+        # "ANGLE_GRP3_SLOT_NUM": 0,
+        # "ANGLE_GRP4_SLOT_NUM": 0,
+        # "ANGLE_GRP5_SLOT_NUM": 0,
+        # "ANGLE_GRP6_SLOT_NUM": 0,
+        # "ANGLE_GRP7_SLOT_NUM": 0,
         "FLEX_SHOT_EN": 0,
         # PACK
         "DATA_WIDTH_SEL": 0,
@@ -91,7 +93,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         # TXU
         "TX_FRM_MODE": 0,
         "ONE_DT_MODE": 0,
-        "PTK_CHKSUM_EN": 0,
+        "PKT_CHKSUM_EN": 0,
         "MIPI_PKT_PL_NUM": 0,
         # DLY
         "FRM_IDLETIME": 0,
@@ -134,7 +136,6 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             "DataTxThstrailCnt": 17,
         }
     }
-    addr_index = 2 if protocol == 0 else 1
     regs_write = "I2C_Write" if protocol == 0 else "SPI_Write"
     roisram_write = "I2C_Block_Write" if protocol == 0 else "SPI_Block_Write"
 
@@ -166,12 +167,16 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["TRG_I_EN"] = (register_value & 0x40) >> 5
                 csru_cfg["WORK_MODE"] = (register_value & 0x06) >> 1
                 csru_cfg["MST_MODE"] = (register_value & 0x01) >> 0
-            elif addr == reg_addr['PXL_BINN_SEL']:
+            elif addr == reg_addr['PXL_BINN_CFG']:
                 csru_cfg["PXL_BINN_SEL"] = register_value & 0x03
             elif addr == reg_addr['SYNC_POL']:
                 csru_cfg["SYNC_POL"] = register_value & 0x01
-            # elif addr == reg_addr['SEG_NUM']:   # TODO: no register
-            #     csru_cfg["SEG_NUM"] = register_value & 0xFF
+            elif addr == reg_addr['SEG_NUM']:
+                csru_cfg["SEG_NUM"] = register_value & 0xFF
+            elif addr == reg_addr['SLOT_TIME_L']:
+                csru_cfg["SLOT_TIME"] = (csru_cfg["SLOT_TIME"] & (0xFFFF - 0x00FF)) + (register_value << 0)
+            elif addr == reg_addr['SLOT_TIME_H']:
+                csru_cfg["SLOT_TIME"] = (csru_cfg["SLOT_TIME"] & (0xFFFF - 0xFF00)) + (register_value << 8)
             # HIST
             elif addr == reg_addr['HIST_MINBIN_THRS']:
                 csru_cfg["HIST_MINBIN_THRS"] = register_value
@@ -183,8 +188,10 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["NS_MAXBIN_THRS"] = register_value
             elif addr == reg_addr['SPOT_MON_MINBIN_THRS']:
                 csru_cfg["SPOT_MON_MINBIN_THRS"] = register_value
-            elif addr == reg_addr['HIST_BINFULL_THRS']:
-                csru_cfg["HIST_BINFULL_THRS"] = register_value
+            elif addr == reg_addr['HIST_BINFULL_THRS_L']:
+                csru_cfg["HIST_BINFULL_THRS"] = (csru_cfg["HIST_BINFULL_THRS"] & (0x03FF - 0x00FF)) + register_value
+            elif addr == reg_addr['HIST_BINFULL_THRS_H']:
+                csru_cfg["HIST_BINFULL_THRS"] = (csru_cfg["HIST_BINFULL_THRS"] & (0x03FF - 0x0300)) + (register_value << 8)
             elif addr == reg_addr['HIST_MISC_CFG']:
                 csru_cfg["INTF_HIST_MODE"] = (register_value & 0x20) >> 5
                 csru_cfg["INTF_DET_EN"] = (register_value & 0x10) >> 4
@@ -198,30 +205,30 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["FRM_SLOT_NUM"] = (csru_cfg["FRM_SLOT_NUM"] & (0xFFFF - 0x00FF)) + (register_value << 0)
             elif addr == reg_addr['FRM_SLOT_NUM_H']:
                 csru_cfg["FRM_SLOT_NUM"] = (csru_cfg["FRM_SLOT_NUM"] & (0xFFFF - 0xFF00)) + (register_value << 8)
-            elif addr == reg_addr['ANGLE_GRP0_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP0_SLOT_NUM"] = register_value
-            elif addr == reg_addr['ANGLE_GRP1_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP1_SLOT_NUM"] = register_value
-            elif addr == reg_addr['ANGLE_GRP2_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP2_SLOT_NUM"] = register_value
-            elif addr == reg_addr['ANGLE_GRP3_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP3_SLOT_NUM"] = register_value
-            elif addr == reg_addr['ANGLE_GRP4_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP4_SLOT_NUM"] = register_value
-            elif addr == reg_addr['ANGLE_GRP5_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP5_SLOT_NUM"] = register_value
-            elif addr == reg_addr['ANGLE_GRP6_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP6_SLOT_NUM"] = register_value
-            elif addr == reg_addr['ANGLE_GRP7_SLOT_NUM']:
-                csru_cfg["ANGLE_GRP7_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP0_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP0_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP1_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP1_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP2_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP2_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP3_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP3_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP4_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP4_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP5_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP5_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP6_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP6_SLOT_NUM"] = register_value
+            # elif addr == reg_addr['ANGLE_GRP7_SLOT_NUM']:
+            #     csru_cfg["ANGLE_GRP7_SLOT_NUM"] = register_value
             # TXU
             elif addr == reg_addr['TXU_CFG']:
-                csru_cfg["PTK_CHKSUM_EN"] = (register_value & 0x10) >> 4
+                csru_cfg["PKT_CHKSUM_EN"] = (register_value & 0x10) >> 4
                 csru_cfg["ONE_DT_MODE"] = (register_value & 0x08) >> 3
                 csru_cfg["DATA_WIDTH_SEL"] = (register_value & 0x01) >> 0
-            elif addr == reg_addr['MIPI_PKT_PL_NUM_L']:
+            elif addr == reg_addr['MIPI_PKT_PLNUM_L']:
                 csru_cfg["MIPI_PKT_PL_NUM"] = (csru_cfg["MIPI_PKT_PL_NUM"] & (0xFFFF - 0x00FF)) + (register_value << 0)
-            elif addr == reg_addr['MIPI_PKT_PL_NUM_H']:
+            elif addr == reg_addr['MIPI_PKT_PLNUM_H']:
                 csru_cfg["MIPI_PKT_PL_NUM"] = (csru_cfg["MIPI_PKT_PL_NUM"] & (0xFFFF - 0xFF00)) + (register_value << 8)
             # PACK
             elif addr == reg_addr['MIPI_PACK_CTRL']:
@@ -453,12 +460,44 @@ def CalPkgNum(swan01_config):
 #
 #     return int(wc), int(flnr)
 
+def SwanDataflowRelateConfigGet(swan01_config: dict) -> dict:
+    """
+    获取 Swan 相关的数据流配置
+    Args:
+        swan01_config(dict): Swan GUI 相关的配置信息
+    Returns:
+        dict: Swan 相关的数据流配置
+    """
+    dataflow_related_config = {
+        "SYS_CLK": 400,  # 系统时钟(unit: MHz)
+        "MIPI_RATE": 1500,  # MIPI 1.5Gbps
+        "MIPI_LANE_NUM": 4,  # MIPI 4 lane
+        "MIPI_PKT_INTV": 0.9,  # MIPI 1.5Gbps config (unit: us)
+        "MIPI_FIFO_SIZE": 960,  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
+    }
+    if "USER_DEFINE_CONIFG" in swan01_config and swan01_config["USER_DEFINE_CONIFG"]["USER_DEFINE_CONIFG_ENABLE"]:
+        dataflow_related_config = swan01_config["USER_DEFINE_CONIFG"]
+    else:
+        SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
+        MIPI_RATE = 800 if swan01_config['MIPI_RATE'] == 0 \
+            else 1000 if swan01_config['MIPI_RATE'] == 1 \
+            else 1200 if swan01_config['MIPI_RATE'] == 2 \
+            else 1500
+        MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
+        MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg=MIPI_CFG, SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE)
+        dataflow_related_config["SYS_CLK"] = SYS_CLK
+        dataflow_related_config["MIPI_RATE"] = MIPI_RATE
+        dataflow_related_config["MIPI_PKT_INTV"] = MIPI_PKT_INTV + swan01_config["USER_DEFINE_CONIFG"][
+            "MIPI_PKT_INTV_MARGIN"]
+    return dataflow_related_config
 
-def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
+
+def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None) -> dict:
     """
     计算 MIPI dataflow 相关参数
     Args:
-        csru_cfg (dict): Swan 相关的寄存器配置信息
+        csru_cfg(dict): Swan 相关的寄存器配置信息
+        dataflow_related_config(dict): 与数据流相关的配置, 但并非寄存器配置
 
     Returns:
         dict: Swan dataflow 相关的配置值
@@ -493,26 +532,22 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     out_echo_num = csru_cfg["OUT_ECHO_NUM"]
     one_dt_mode = csru_cfg["ONE_DT_MODE"]
     pkt_chksum_en = csru_cfg["PKT_CHKSUM_EN"]
-    seg_num = csru_cfg["SEG_NUM"]  # TODO: 需要确认, 有可能需要特殊处理, 寄存器无此配置
+    seg_num = csru_cfg["SEG_NUM"]
     fwhm_search_num = csru_cfg["FWHM_SEARCH_NUM"]
-
-    MIPI_CFG = csru_cfg["MIPI"]
 
     DataflowConfig = {
         "mipi_pktdly1_cyc": 0,  # DSP DLY: 16 bit (unit: cycle)
         "mipi_pktdly2_cyc": 0,  # HIST DLY: 实际值=配置值*16， 16 bit (unit: cycle)
-        "mipi_pktdly3_cyc": 0,  # HIST DLY: 用于调节 第一次 HIST 和 第二次 HIST 之间的 delay, 16 bit (unit: cycle) 
-        "mipi_fsdly_cyc": 0,    # FS DLY: 调节 FS 和 generic data 之间的间隔, 10 bit (unit: cycle)
-        "mipi_fenddly": 0,      # 8 bit (unit: 10us)
-        "mipi_pkt_pl_num": 0,   # 16 bit
-        "threshold_value": 0,   # 8 bit
+        "mipi_pktdly3_cyc": 0,  # HIST DLY: 用于调节 第一次 HIST 和 第二次 HIST 之间的 delay, 16 bit (unit: cycle)
+        "mipi_fsdly_cyc": 0,  # FS DLY: 调节 FS 和 generic data 之间的间隔, 10 bit (unit: cycle)
+        "mipi_fenddly": 0,  # 8 bit (unit: 10us)
+        "mipi_pkt_pl_num": 0,  # 16 bit
+        "threshold_value": 0,  # 8 bit
         "WC": 0,  # 16 bit
         "FLNR": 0,  # 16 bit
         "hist_read_out_cyc": 0,  # 非寄存器配置值, 此值对应 数据读出所需要的完整时间
+        "hist_read_out_time": 0,  # 非寄存器配置值, unit: 0.01us
     }
-
-    if work_mode == 3:  # TODO: PCM 模式后续补充
-        return DataflowConfig
 
     # //////////////////////////////////////////////////////////
     # 部分 DLY 参数设置 or 获取
@@ -520,18 +555,25 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     T1 = 13  # T_DSP_FIR_INIT
     T2 = 14  # SYSC hist_rd_out_ind to DSP path delay
     T3 = 2  # SYSC dsp_rd_out_ind to DSP path delay
+    if dataflow_related_config is not None:
+        SYS_CLK = dataflow_related_config["SYS_CLK"]  # 系统时钟(unit: MHz)
+        MIPI_RATE = dataflow_related_config["MIPI_RATE"]  # MIPI 1.5Gbps
+        MIPI_LANE_NUM = dataflow_related_config["MIPI_LANE_NUM"]  # MIPI 4 lane
+        MIPI_PKT_INTV = dataflow_related_config["MIPI_PKT_INTV"] / 1000  # MIPI 1.5Gbps config (unit: us)
+        MIPI_FIFO_SIZE = dataflow_related_config["MIPI_FIFO_SIZE"]  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
+    else:
+        SYS_CLK = 400
+        MIPI_RATE = 1500
+        MIPI_LANE_NUM = 4
+        MIPI_PKT_INTV = 0.6
+        MIPI_FIFO_SIZE = 960
+    PKT_DLY_MARGIN = 0
 
-    # TODO: 需要根据传参处理
-    SYS_CLK = 400  # 系统时钟(unit: MHz)
-    TDC_CLK = 250  # TDC 时钟(unit: MHz)
-    MIPI_RATE = 1500  # MIPI 1.5Gbps
-    MIPI_LANE_NUM = 4  # MIPI 4 lane
-    MIPI_PKT_INTV = 0.9  # MIPI 1.5Gbps config (unit: us)
-    MIPI_FIFO_SIZE = 960  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
-    PKT_DLY_MARGIN = 0  # 额外的 cycle 开销
-
-    MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg=MIPI_CFG, SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE)
-    MIPI_PKT_INTV = 0.670408
+    # MIPI_FEND_DLY
+    # -- Just for the work_start=0, wait MIPI transfer complete, Then enter MIPI_STD
+    # -- If the SUB_IDLETIME calculate correct, MIPI_FEND_DLY just need gather tan macro EXPO_TIME(Masking+DRV_CH_SW+EXPO+Frame_end)
+    DataflowConfig["mipi_fenddly"] = 100
+    DataflowConfig["MIPI_PKT_DLY"] = MIPI_PKT_INTV
 
     # //////////////////////////////////////////////////////////
     # 计算 MIN_GAP
@@ -587,12 +629,12 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     # 计算一个 Packet 包含多少 Pixel
     # 1. work_mode == PCM: 一次读出全部的 Pixel 数据
     # 2. work_mode != PCM: 仅与 pack 配置相关
-    one_pkt_pxl_num = 48 * seg_num if work_mode == 3 else \
-        1 if pack_2pxl_en == 0 else \
-        2 if pack_4pxl_en == 0 else \
-        4 if pack_8pxl_en == 0 else \
-        8 if pack_16pxl_en == 0 else \
-        16 * (pack_16pxl_num + 1)
+    one_pkt_pxl_num = 48 * seg_num if work_mode == 3 \
+        else 1 if pack_2pxl_en == 0 \
+        else 2 if pack_4pxl_en == 0 \
+        else 4 if pack_8pxl_en == 0 \
+        else 8 if pack_16pxl_en == 0 \
+        else 16 * (pack_16pxl_num + 1)
 
     # 计算一个 slot, pixel binning 后, 有多少个 Pixel 需要读出
     pxl_num_after_binn = 48 * seg_num if work_mode == 3 else (16 >> pxl_binn_sel) * seg_num
@@ -602,22 +644,12 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     # 计算不同 work_mode 下, txu 发送单个 pixel 数据的 cycle 数
     # SPHR
     if work_mode == 0:
-        match data_width_sel:
-            case 0:
-                rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
-            case 1:
-                rd_cyc_dsp_1pxl = (4 + 12 * (out_echo_num + 1)) / 2
-            case _:
-                rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
+        rd_cyc_dsp_1pxl = (4 + 12 * (out_echo_num + 1)) / 2 if data_width_sel == 1 else \
+            (4 + 14 * (out_echo_num + 1)) / 2
     # PHR
     elif work_mode == 1:
-        match out_numbin_mode:
-            case 0:
-                rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
-            case 1:
-                rd_cyc_dsp_1pxl = (4 + (out_echo_num + 1) * (out_echobin_num * 2)) / 2
-            case _:
-                rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
+        rd_cyc_dsp_1pxl = (4 + (out_echo_num + 1) * (out_echobin_num * 2)) / 2 if out_numbin_mode == 1 else \
+            (4 + out_totalbin_num * 2) / 2
     # FHR
     elif work_mode == 2:
         rd_cyc_dsp_1pxl = (((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_widht_sel) / 2
@@ -638,7 +670,7 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     wc_factor = 1 if data_width_sel == 0 else 1.25
 
     wc = one_pkt_dsp_rd_cyc * 2 * wc_factor  # Q1: Why * 2 ? A1: TXU is dual pixel mode
-    flnr = (int(pxl_num_after_binn / one_pkt_pxl_num) + one_dt_mode) * slot_num_in_img_frm
+    flnr = (pxl_num_after_binn / one_pkt_pxl_num + one_dt_mode) * slot_num_in_img_frm
 
     if wc > 0xFFFF:
         raise ValueError(
@@ -646,9 +678,9 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     if flnr > 0x1FFF:
         raise ValueError(f"flnr[12:0] config out of bound, it's need to be config {flnr}, "
                          f"please reconfigure your data transfer control.")
-    DataflowConfig["WC"] = wc
-    DataflowConfig["FLNR"] = flnr
-    DataflowConfig["mipi_pkt_pl_num"] = wc / wc_factor
+    DataflowConfig["WC"] = int(wc)
+    DataflowConfig["FLNR"] = int(flnr)
+    DataflowConfig["mipi_pkt_pl_num"] = int(wc / wc_factor)
 
     # //////////////////////////////////////////////////////////
     # Cycle 计算
@@ -668,12 +700,13 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     DataflowConfig["mipi_fsdly_cyc"] = mipi_fsdly_cyc
 
     if work_mode == 3:
-        mipi_fsdly_cyc = 0
-        mipi_pktdly1_cyc = 1
+        mipi_fsdly_cyc = 0  # About PCM, if expo time long enough, and MIPI_FIFO is large enough, it can be set 0 to improve FPS
+        mipi_pktdly1_cyc = 1  # This config is to delay PCM_DONE, if expo time long enough, it doesn't make sense(Because RTL design, it cannot be set 0 )
         hist_read_out_cyc = mipi_fsdly_cyc + txu_info_ptk_rd_cyc + one_pkt_dsp_rd_cyc + mipi_pktdly1_cyc + 30
         DataflowConfig["mipi_pktdly1_cyc"] = mipi_pktdly1_cyc
         DataflowConfig["mipi_fsdly_cyc"] = mipi_fsdly_cyc
         DataflowConfig["hist_read_out_cyc"] = hist_read_out_cyc
+        DataflowConfig["hist_read_out_time"] = math.ceil(hist_read_out_cyc / SYS_CLK * 100)
         return DataflowConfig
 
     # //////////////////////////////////////////////////////////
@@ -687,9 +720,9 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
             raise ValueError("Pack configuration is not reasonable, it will cause MIPI FIFO underflow.")
 
     # SEG_NUM 与 binning 配置合法性校验
-    if pxl_binn_sel == 0 and seg_num % 16 != 0:
+    if pxl_binn_sel == 0 and seg_num == 0:
         raise ValueError(f"SEG_NUM = {seg_num}, PXL_BINN_SEL = {pxl_binn_sel}")
-    elif pxl_binn_sel == 1 and seg_num % 8 != 0:
+    elif pxl_binn_sel == 1 and seg_num % 2 != 0:
         raise ValueError(f"PXL_BINN_SEL = {pxl_binn_sel}, SEG_NUM must be divisible by 2")
     elif pxl_binn_sel == 2 and seg_num % 4 != 0:
         raise ValueError(f"PXL_BINN_SEL = {pxl_binn_sel}, SEG_NUM must be divisible by 4")
@@ -744,7 +777,7 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
     # ----------------------------------------------------------
     # 计算第一次 HIST 读, 实际可以释放的给上一次数据传输的时间
     # ----------------------------------------------------------
-    # TODO: 这里需要考虑是否做极限帧率的处理
+    # 极限帧率的处理
     # Cal at 1st hist read, when transfer generic data, how much data the MIPI_FIFO can hold...
     if txu_rate > mipi_rate:
         mipi_fifo_free_size0 = MIPI_FIFO_SIZE * 32 - (txu_rate - mipi_rate) * txu_info_ptk_rd_cyc / SYS_CLK
@@ -824,7 +857,8 @@ def SwanDataflowConfigCal(csru_cfg: dict) -> dict:
                              0) if tx_frm_mode == 0 else 0  # tx_frm_mode=0, FE 传输需要传输的时间
     hist_read_out_cyc = hist_read_out_cyc0 + hist_read_out_cyc1 + hist_read_out_cyc2 + hist_read_out_cyc3 + hist_read_out_cyc4
     DataflowConfig["hist_read_out_cyc"] = int(hist_read_out_cyc)
-    # TODO: 在进行极限帧率计算时, if (TX_FRM_MODE=1), 由于配置的 DLY 以 slot 为单位进行计算, img_frm 的 FS 和 FE 没有进行考虑, 因此需要在 frm_idletime 上进行补偿
+    DataflowConfig["hist_read_out_time"] = math.ceil(hist_read_out_cyc / SYS_CLK * 100)
+    # 在进行极限帧率计算时, if (TX_FRM_MODE=1), 由于配置的 DLY 以 slot 为单位进行计算, img_frm 的 FS 和 FE 没有进行考虑, 因此需要在 frm_idletime 上进行补偿
     DataflowConfig["frm_idletime"] = math.ceil(MIPI_PKT_INTV * 2)
     return DataflowConfig
 
@@ -863,29 +897,6 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     # ----------------------------------------------------------------------------------------
     # Calculate Register Value
     # ----------------------------------------------------------------------------------------
-
-    # MIPI FLNR & WC
-    # ////////////////////////////////////////////////////////////////////////////
-    DataflowConfig = SwanDataflowConfigCal(swan01_config)
-    WC, FLNR = DataflowConfig["WC"], DataflowConfig["FLNR"]
-
-    VC0_FLNR_L = (FLNR & 0x00FF) >> 0
-    VC0_FLNR_H = (FLNR & 0xFF00) >> 8
-    VC0_WC_L = (WC & 0x00FF) >> 0
-    VC0_WC_H = (WC & 0xFF00) >> 8
-    MIPI_PKTDLY1_CYC_L = (DataflowConfig["mipi_pktdly1_cyc"] >> 0) & 0xFF
-    MIPI_PKTDLY1_CYC_H = (DataflowConfig["mipi_pktdly1_cyc"] >> 8) & 0xFF
-    MIPI_PKTDLY2_CYC_L = (DataflowConfig["mipi_pktdly2_cyc"] >> 0) & 0xFF
-    MIPI_PKTDLY2_CYC_H = (DataflowConfig["mipi_pktdly2_cyc"] >> 8) & 0xFF
-    MIPI_PKTDLY3_CYC_L = (DataflowConfig["mipi_pktdly3_cyc"] >> 0) & 0xFF
-    MIPI_PKTDLY3_CYC_H = (DataflowConfig["mipi_pktdly3_cyc"] >> 8) & 0xFF
-    MIPI_PKT_PL_NUM_L = (DataflowConfig["mipi_pkt_pl_num"] >> 0) & 0xFF
-    MIPI_PKT_PL_NUM_H = (DataflowConfig["mipi_pkt_pl_num"] >> 8) & 0xFF
-    MIPI_FSDLY_CYC_L = (DataflowConfig["mipi_fsdly_cyc"] >> 0) & 0xFF
-    MIPI_FSDLY_CYC_H = (DataflowConfig["mipi_fsdly_cyc"] >> 8) & 0x03
-    THRESHOLD_VALUE = DataflowConfig["threshold_value"] & 0xFF
-    HIST_READ_OUT_CYC = DataflowConfig["hist_read_out_cyc"] & 0xFF
-
     # PLL0 config
     # ////////////////////////////////////////////////////////////////////////////
     PLL0_ID = FREQ_Config[swan01_config['XCLK']]["PLL0"][0]["ID"]
@@ -904,9 +915,9 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
 
     # PLL2 config. swan01_config['SYS_CLK'] = 330M, 400M
     # ////////////////////////////////////////////////////////////////////////////
-    PLL2_ID = FREQ_Config[swan01_config['XCLK']]["PLL1"][swan01_config['SYS_CLK']]["ID"]
-    PLL2_OD = FREQ_Config[swan01_config['XCLK']]["PLL1"][swan01_config['SYS_CLK']]["OD"]
-    PLL2_FB = FREQ_Config[swan01_config['XCLK']]["PLL1"][swan01_config['SYS_CLK']]["FB"]
+    PLL2_ID = FREQ_Config[swan01_config['XCLK']]["PLL2"][swan01_config['SYS_CLK']]["ID"]
+    PLL2_OD = FREQ_Config[swan01_config['XCLK']]["PLL2"][swan01_config['SYS_CLK']]["OD"]
+    PLL2_FB = FREQ_Config[swan01_config['XCLK']]["PLL2"][swan01_config['SYS_CLK']]["FB"]
     PLL2_DIV1 = ((PLL2_ID & 0x0007) << 4) + ((PLL2_OD & 0x0003) << 0)
     PLL2_DIV2 = ((PLL2_FB & 0x00FF) << 0)
 
@@ -926,14 +937,44 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
     MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)
 
+    # MIPI FLNR & WC & TXDLY
+    # ////////////////////////////////////////////////////////////////////////////
+    SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
+    MIPI_RATE = 800 if swan01_config['MIPI_RATE'] == 0 \
+        else 1000 if swan01_config['MIPI_RATE'] == 1 \
+        else 1200 if swan01_config['MIPI_RATE'] == 2 \
+        else 1500
+    MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
+    dataflow_related_config = SwanDataflowRelateConfigGet(swan01_config)
+    DataflowConfig = SwanDataflowConfigCal(swan01_config, dataflow_related_config)
+    WC, FLNR = DataflowConfig["WC"], DataflowConfig["FLNR"]
+    SLOT_TIME = DataflowConfig["hist_read_out_time"]
+
+    VC0_FLNR_L = (FLNR & 0x00FF) >> 0
+    VC0_FLNR_H = (FLNR & 0xFF00) >> 8
+    VC0_WC_L = (WC & 0x00FF) >> 0
+    VC0_WC_H = (WC & 0xFF00) >> 8
+    MIPI_PKTDLY1_CYC_L = (DataflowConfig["mipi_pktdly1_cyc"] >> 0) & 0xFF
+    MIPI_PKTDLY1_CYC_H = (DataflowConfig["mipi_pktdly1_cyc"] >> 8) & 0xFF
+    MIPI_PKTDLY2_CYC_L = (DataflowConfig["mipi_pktdly2_cyc"] >> 0) & 0xFF
+    MIPI_PKTDLY2_CYC_H = (DataflowConfig["mipi_pktdly2_cyc"] >> 8) & 0xFF
+    MIPI_PKTDLY3_CYC_L = (DataflowConfig["mipi_pktdly3_cyc"] >> 0) & 0xFF
+    MIPI_PKTDLY3_CYC_H = (DataflowConfig["mipi_pktdly3_cyc"] >> 8) & 0xFF
+    MIPI_PKT_PL_NUM_L = (DataflowConfig["mipi_pkt_pl_num"] >> 0) & 0xFF
+    MIPI_PKT_PL_NUM_H = (DataflowConfig["mipi_pkt_pl_num"] >> 8) & 0xFF
+    MIPI_FSDLY_CYC_L = (DataflowConfig["mipi_fsdly_cyc"] >> 0) & 0xFF
+    MIPI_FSDLY_CYC_H = (DataflowConfig["mipi_fsdly_cyc"] >> 8) & 0x03
+    THRESHOLD_VALUE = DataflowConfig["threshold_value"] & 0xFF
+    HIST_READ_OUT_CYC = DataflowConfig["hist_read_out_cyc"] & 0xFF
+
     # TDC_DLY_CFG1
     # ////////////////////////////////////////////////////////////////////////////
     PLL_OD = ((PLL1_DIV1 & 0x03) >> 0)  # 0~3: 2，4，6，8
-    PHASE_DLY_OPT = 0b011 if PLL_OD == 0 else 0b111  # PHASE_DLY_OPT 根据 PLL1 进行计算
+    # PHASE_DLY_OPT = 0b011 if PLL_OD == 0 else 0b111  # PHASE_DLY_OPT 根据 PLL1 进行计算
 
     # ROI length    # TODO: 需要根据 Spadis APP 逻辑进行配置
     # ////////////////////////////////////////////////////////////////////////////
-    roi_length = (13 + (swan01_config["H_VLD_SEG"] + 1) * 6) * (swan01_config["V_ROLL_NUM"] + 1)
+    # roi_length = 674*4
 
     # ----------------------------------------------------------------------------------------
     # Modify the register configuration according to the baseline script.
@@ -948,9 +989,6 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
         "TXU_CFG": 0,
         "PXL_BINN_CFG": 0,
         "MIPI_PACK_CTRL": 0,
-        "DEPTHU_CFG1": 0,
-        "DEPTHU_CFG2": 0,
-        "MIPI_TXDLY": 0
     }
 
     # --------------------------------------------------------
@@ -981,6 +1019,12 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
             if addr == reg_addr['PXL_BINN_CFG']:
                 register_value = (register_value & (0xFF - 0x03)) + (swan01_config['PXL_BINN_SEL'] << 0)
                 config_flag['PXL_BINN_CFG'] = 1
+            elif addr == reg_addr['SEG_NUM']:
+                register_value = swan01_config['SEG_NUM']
+            elif addr == reg_addr['SLOT_TIME_L']:
+                register_value = ((SLOT_TIME & 0x00FF) >> 0)
+            elif addr == reg_addr['SLOT_TIME_H']:
+                register_value = ((SLOT_TIME & 0xFF00) >> 8)
             elif addr == reg_addr['SYS_CTRL']:
                 register_value = (register_value & (0xFF - 0x80)) + (swan01_config['TX_FRM_MODE'] << 7)
                 register_value = (register_value & (0xFF - 0x40)) + (swan01_config["TRG_I_EN"] << 6)
@@ -1007,11 +1051,12 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 #     0b0010_1111 if pxl_pack_sel == 6 else \
                 #     0b0011_1111 if pxl_pack_sel == 7 else \
                 #     0b0000_0000
-                register_value = (swan01_config["PACK_16PXL_NUM"] << 4 +
-                                  swan01_config["PACK_16PXL_EN"] << 3 +
-                                  swan01_config["PACK_8PXL_EN"] << 2 +
-                                  swan01_config["PACK_4PXL_EN"] << 1 +
-                                  swan01_config["PACK_2PXL_EN"] << 0)
+                register_value = ((swan01_config["PACK_16PXL_NUM"] << 4) +
+                                  (swan01_config["PACK_16PXL_EN"] << 3) +
+                                  (swan01_config["PACK_8PXL_EN"] << 2) +
+                                  (swan01_config["PACK_4PXL_EN"] << 1) +
+                                  (swan01_config["PACK_2PXL_EN"] << 0))
+                config_flag['MIPI_PACK_CTRL'] = 1
             elif addr == reg_addr['HIST_MINBIN_THRS']:
                 register_value = swan01_config["HIST_MINBIN_THRS"] & 0xFF
             elif addr == reg_addr['HIST_MAXBIN_THRS']:
@@ -1069,18 +1114,18 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 register_value = (register_value & (0xFF - 0x0F)) + (swan01_config["FWHM_HALF_COEF"] & 0x0F)
             elif addr == reg_addr['DSP_RGM_CFG3']:
                 register_value = (register_value & (0xFF - 0x0F)) + (swan01_config["FWHM_SEARCH_NUM"] & 0x0F)
-            elif addr == reg_addr['ANA_MISC_CFG1']:
-                register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
-            elif addr == reg_addr['SPOT_MIN_MINBIN_THRS']:
-                register_value = swan01_config["SPOT_MIN_MINBIN_THRS"] & 0xFF
+            # elif addr == reg_addr['ANA_MISC_CFG1']:
+                # register_value = (register_value & (0xFF - 0x0E)) + (PHASE_DLY_OPT << 1)
+            elif addr == reg_addr['SPOT_MON_MINBIN_THRS']:
+                register_value = swan01_config["SPOT_MON_MINBIN_THRS"] & 0xFF
             elif addr == reg_addr['THS_EXIT']:
-                register_value = swan01_config["DataTxThsexitCnt"] & 0xFF
+                register_value = MIPI_CFG["DataTxThsexitCnt"] & 0xFF
             elif addr == reg_addr['THS_PREPARE']:
-                register_value = swan01_config["DataTxThsprepareCnt"] & 0xFF
+                register_value = MIPI_CFG["DataTxThsprepareCnt"] & 0xFF
             elif addr == reg_addr['THS_ZERO']:
-                register_value = swan01_config["DataTxThszeroCnt"] & 0xFF
+                register_value = MIPI_CFG["DataTxThszeroCnt"] & 0xFF
             elif addr == reg_addr['THS_TRAIL']:
-                register_value = swan01_config["DataTxThstrailCnt"] & 0xFF
+                register_value = MIPI_CFG["DataTxThstrailCnt"] & 0xFF
             elif addr == reg_addr['SYSCLK1M_DIVL']:
                 register_value = SYSCLK1M_DIVL
             elif addr == reg_addr['SYSCLK1M_DIVH']:
@@ -1104,7 +1149,7 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                     else PLL2_DIV2 if addr == reg_addr['PLL2_DIV2'] \
                     else MIPI_PKT_PL_NUM_L if addr == reg_addr["MIPI_PKT_PLNUM_L"] \
                     else MIPI_PKT_PL_NUM_H if addr == reg_addr["MIPI_PKT_PLNUM_H"] \
-                    else THRESHOLD_VALUE if addr == reg_addr['THRESHOLD'] \
+                    else THRESHOLD_VALUE if addr == reg_addr['VC0_THRESHOLD'] \
                     else MIPIPLL_LPDH if addr == reg_addr['MIPIPLL_LPDH'] \
                     else MIPIPLL_LPDL if addr == reg_addr['MIPIPLL_LPDL'] \
                     else MIPIPLL_PPD if addr == reg_addr['MIPIPLL_PPD'] \
@@ -1120,8 +1165,9 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
         elif configs[0] == roisram_write:
             if len(configs) < 5:
                 raise ValueError(f"Script format error. line{line}: {_str}")
-            configs[3] = "{:0>4X}".format(roi_length)
-            configs[4] = swan01_config["roi_name"]
+            # configs[3] = "{:0>4X}".format(roi_length)
+            # configs[4] = swan01_config["roi_name"]
+            configs[4] = "roi_mem"
             csru_datas[line] = ", ".join(configs[0:5])
             continue
         else:
@@ -1153,6 +1199,13 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     return
 
 
+def SwanHistReadTimeCal(swan01_config: dict):
+    # ////////////////////////////////////////////////////////////////////////////
+    dataflow_related_config = SwanDataflowRelateConfigGet(swan01_config)
+    DataflowConfig = SwanDataflowConfigCal(swan01_config, dataflow_related_config)
+    print(f"{swan01_config["reg_name"]} one slot read time: {DataflowConfig['hist_read_out_time'] / 100} us")
+
+
 def ParseSwanRegConfig(script_file=None, protocol=0):
     if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
@@ -1172,21 +1225,13 @@ def ParseSwanRegConfig(script_file=None, protocol=0):
     _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
     print(f"{info}<br>{_str}")
 
-    if csru_cfg["SCAN_MODE"] == 1 and csru_cfg["WORK_MODE"] == 3:
-        _str = "ERROR: 2D SCAN_MODE not support Gray Scale Mode!!!"
-        _str = LogerPubMethod.create_consolas_str(_str, color="red")
-        print(_str)
-        # logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
-        return
-
     VC0_WC = csru_cfg["MIPI"]["VC0_WC"]
-    VC1_WC = csru_cfg["MIPI"]["VC1_WC"]
     VC0_FLNR = csru_cfg["MIPI"]["VC0_FLNR"]
-    VC1_FLNR = csru_cfg["MIPI"]["VC1_FLNR"]
 
     # WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
-    WC, FLNR = 0, 0
-    if VC0_WC != WC or VC1_WC != WC or VC0_FLNR != FLNR or VC1_FLNR != FLNR:
+    DataflowConfig = SwanDataflowConfigCal(csru_cfg)
+    WC, FLNR = DataflowConfig["WC"], DataflowConfig["FLNR"]
+    if VC0_WC != WC or VC0_FLNR != FLNR:
         FLNR_L = (FLNR & 0x00FF) >> 0
         FLNR_H = (FLNR & 0xFF00) >> 8
         WC_L = (WC & 0x00FF) >> 0
@@ -1227,5 +1272,14 @@ if __name__ == '__main__':
         "FWHM_SEARCH_NUM": 0,
     }
 
-    txdlycfg = SwanDataflowConfigCal(chip_cfg)
+    dataflow_related_cfg = {
+        "SYS_CLK": 400,  # 系统时钟(unit: MHz)
+        "MIPI_RATE": 1500,  # MIPI 1.5Gbps
+        "MIPI_LANE_NUM": 4,  # MIPI 4 lane
+        "MIPI_PKT_INTV": 0.9,  # MIPI 1.5Gbps config (unit: us)
+        "MIPI_FIFO_SIZE": 960,  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
+        "PKT_DLY_MARGIN": 0,  # 额外的 cycle 开销
+    }
+
+    txdlycfg = SwanDataflowConfigCal(chip_cfg, dataflow_related_cfg)
     print(txdlycfg)
