@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesDBICau.ui'
+## Form generated from reading UI file 'main_pagesxRZIMd.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.0
 ##
@@ -2817,10 +2817,6 @@ class Ui_MainPages(object):
 
         self.gridLayout_7.addWidget(self.Swan01_reg_script_name_Label, 2, 0, 1, 1)
 
-        self.horizontalSpacer_28 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_7.addItem(self.horizontalSpacer_28, 0, 4, 1, 1)
-
         self.Swan01_reference_script_Label = QLabel(self.Swan01_FileConifg)
         self.Swan01_reference_script_Label.setObjectName(u"Swan01_reference_script_Label")
         self.Swan01_reference_script_Label.setMinimumSize(QSize(0, 0))
@@ -2841,6 +2837,10 @@ class Ui_MainPages(object):
 
         self.gridLayout_7.addWidget(self.Swan01_file_save_dir_Label, 1, 0, 1, 1)
 
+        self.horizontalSpacer_28 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_7.addItem(self.horizontalSpacer_28, 2, 2, 1, 1)
+
 
         self.verticalLayout_13.addWidget(self.Swan01_FileConifg)
 
@@ -2852,23 +2852,16 @@ class Ui_MainPages(object):
         self.gridLayout_8 = QGridLayout(self.Swan01_ROIConfig)
         self.gridLayout_8.setObjectName(u"gridLayout_8")
         self.gridLayout_8.setContentsMargins(9, 9, 9, 1)
-        self.Swan01_roi_generate_excel_sel_Button = QPushButton(self.Swan01_ROIConfig)
-        self.Swan01_roi_generate_excel_sel_Button.setObjectName(u"Swan01_roi_generate_excel_sel_Button")
-        sizePolicy2.setHeightForWidth(self.Swan01_roi_generate_excel_sel_Button.sizePolicy().hasHeightForWidth())
-        self.Swan01_roi_generate_excel_sel_Button.setSizePolicy(sizePolicy2)
-        self.Swan01_roi_generate_excel_sel_Button.setMinimumSize(QSize(90, 0))
+        self.Swan01_roi_generate_slot_time_set_Label = QLabel(self.Swan01_ROIConfig)
+        self.Swan01_roi_generate_slot_time_set_Label.setObjectName(u"Swan01_roi_generate_slot_time_set_Label")
+        self.Swan01_roi_generate_slot_time_set_Label.setEnabled(True)
+        self.Swan01_roi_generate_slot_time_set_Label.setFont(font)
 
-        self.gridLayout_8.addWidget(self.Swan01_roi_generate_excel_sel_Button, 4, 2, 1, 1)
+        self.gridLayout_8.addWidget(self.Swan01_roi_generate_slot_time_set_Label, 5, 0, 1, 1)
 
-        self.Swan01_roi_generate_excel_sel_Label = QLabel(self.Swan01_ROIConfig)
-        self.Swan01_roi_generate_excel_sel_Label.setObjectName(u"Swan01_roi_generate_excel_sel_Label")
-        self.Swan01_roi_generate_excel_sel_Label.setMinimumSize(QSize(0, 0))
-        self.Swan01_roi_generate_excel_sel_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_roi_generate_excel_sel_Label.setFont(font1)
-        self.Swan01_roi_generate_excel_sel_Label.setFrameShape(QFrame.Shape.NoFrame)
-        self.Swan01_roi_generate_excel_sel_Label.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalSpacer_33 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_8.addWidget(self.Swan01_roi_generate_excel_sel_Label, 4, 0, 1, 1)
+        self.gridLayout_8.addItem(self.horizontalSpacer_33, 0, 2, 1, 1)
 
         self.Swan01_roi_generate_by_Label = QLabel(self.Swan01_ROIConfig)
         self.Swan01_roi_generate_by_Label.setObjectName(u"Swan01_roi_generate_by_Label")
@@ -2888,6 +2881,11 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_generate_script_file_sel_Button, 1, 2, 1, 1)
 
+        self.Swan01_roi_generate_slot_time_set_enable_CheckBox = QCheckBox(self.Swan01_ROIConfig)
+        self.Swan01_roi_generate_slot_time_set_enable_CheckBox.setObjectName(u"Swan01_roi_generate_slot_time_set_enable_CheckBox")
+
+        self.gridLayout_8.addWidget(self.Swan01_roi_generate_slot_time_set_enable_CheckBox, 5, 2, 1, 1)
+
         self.Swan01_roi_generate_script_file_sel_LineEdit = QLineEdit(self.Swan01_ROIConfig)
         self.Swan01_roi_generate_script_file_sel_LineEdit.setObjectName(u"Swan01_roi_generate_script_file_sel_LineEdit")
         self.Swan01_roi_generate_script_file_sel_LineEdit.setEnabled(True)
@@ -2900,34 +2898,30 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_generate_script_file_sel_LineEdit, 1, 1, 1, 1)
 
-        self.horizontalSpacer_33 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+        self.Swan01_roi_save_dir_LineEdit = QLineEdit(self.Swan01_ROIConfig)
+        self.Swan01_roi_save_dir_LineEdit.setObjectName(u"Swan01_roi_save_dir_LineEdit")
+        self.Swan01_roi_save_dir_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.Swan01_roi_save_dir_LineEdit.sizePolicy().hasHeightForWidth())
+        self.Swan01_roi_save_dir_LineEdit.setSizePolicy(sizePolicy1)
+        self.Swan01_roi_save_dir_LineEdit.setMinimumSize(QSize(350, 0))
+        self.Swan01_roi_save_dir_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Swan01_roi_save_dir_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.Swan01_roi_save_dir_LineEdit.setReadOnly(False)
 
-        self.gridLayout_8.addItem(self.horizontalSpacer_33, 1, 3, 1, 1)
+        self.gridLayout_8.addWidget(self.Swan01_roi_save_dir_LineEdit, 7, 1, 1, 1)
 
         self.Swan01_roi_sram_name_Label = QLabel(self.Swan01_ROIConfig)
         self.Swan01_roi_sram_name_Label.setObjectName(u"Swan01_roi_sram_name_Label")
         self.Swan01_roi_sram_name_Label.setFont(font)
 
-        self.gridLayout_8.addWidget(self.Swan01_roi_sram_name_Label, 7, 0, 1, 1)
+        self.gridLayout_8.addWidget(self.Swan01_roi_sram_name_Label, 8, 0, 1, 1)
 
         self.Swan01_roi_sram_name_LineEdit = QLineEdit(self.Swan01_ROIConfig)
         self.Swan01_roi_sram_name_LineEdit.setObjectName(u"Swan01_roi_sram_name_LineEdit")
         self.Swan01_roi_sram_name_LineEdit.setMaximumSize(QSize(500, 16777215))
         self.Swan01_roi_sram_name_LineEdit.setFont(font)
 
-        self.gridLayout_8.addWidget(self.Swan01_roi_sram_name_LineEdit, 7, 1, 1, 1)
-
-        self.Swan01_roi_generate_excel_sel_LineEdit = QLineEdit(self.Swan01_ROIConfig)
-        self.Swan01_roi_generate_excel_sel_LineEdit.setObjectName(u"Swan01_roi_generate_excel_sel_LineEdit")
-        self.Swan01_roi_generate_excel_sel_LineEdit.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.Swan01_roi_generate_excel_sel_LineEdit.sizePolicy().hasHeightForWidth())
-        self.Swan01_roi_generate_excel_sel_LineEdit.setSizePolicy(sizePolicy1)
-        self.Swan01_roi_generate_excel_sel_LineEdit.setMinimumSize(QSize(350, 0))
-        self.Swan01_roi_generate_excel_sel_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Swan01_roi_generate_excel_sel_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.Swan01_roi_generate_excel_sel_LineEdit.setReadOnly(True)
-
-        self.gridLayout_8.addWidget(self.Swan01_roi_generate_excel_sel_LineEdit, 4, 1, 1, 1)
+        self.gridLayout_8.addWidget(self.Swan01_roi_sram_name_LineEdit, 8, 1, 1, 1)
 
         self.Swan01_ButtonCollectionFrame_2 = QFrame(self.Swan01_ROIConfig)
         self.Swan01_ButtonCollectionFrame_2.setObjectName(u"Swan01_ButtonCollectionFrame_2")
@@ -2945,6 +2939,16 @@ class Ui_MainPages(object):
 
         self.horizontalLayout_28.addWidget(self.Swan01_ROI_Save)
 
+        self.Swan01_ROI_Open = QPushButton(self.Swan01_ButtonCollectionFrame_2)
+        self.Swan01_ROI_Open.setObjectName(u"Swan01_ROI_Open")
+        sizePolicy1.setHeightForWidth(self.Swan01_ROI_Open.sizePolicy().hasHeightForWidth())
+        self.Swan01_ROI_Open.setSizePolicy(sizePolicy1)
+        self.Swan01_ROI_Open.setMinimumSize(QSize(90, 0))
+        self.Swan01_ROI_Open.setFont(font)
+        self.Swan01_ROI_Open.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+        self.horizontalLayout_28.addWidget(self.Swan01_ROI_Open)
+
         self.horizontalSpacer_32 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_28.addItem(self.horizontalSpacer_32)
@@ -2959,7 +2963,7 @@ class Ui_MainPages(object):
         self.horizontalLayout_28.addWidget(self.Swan01_roi_file_parse_Button)
 
 
-        self.gridLayout_8.addWidget(self.Swan01_ButtonCollectionFrame_2, 9, 0, 1, 6)
+        self.gridLayout_8.addWidget(self.Swan01_ButtonCollectionFrame_2, 10, 0, 1, 6)
 
         self.Swan01_roi_generate_by_ComboBox = QComboBox(self.Swan01_ROIConfig)
         self.Swan01_roi_generate_by_ComboBox.addItem("")
@@ -2970,23 +2974,30 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_generate_by_ComboBox, 0, 1, 1, 1)
 
+        self.Swan01_roi_save_dir_Button = QPushButton(self.Swan01_ROIConfig)
+        self.Swan01_roi_save_dir_Button.setObjectName(u"Swan01_roi_save_dir_Button")
+        sizePolicy2.setHeightForWidth(self.Swan01_roi_save_dir_Button.sizePolicy().hasHeightForWidth())
+        self.Swan01_roi_save_dir_Button.setSizePolicy(sizePolicy2)
+        self.Swan01_roi_save_dir_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_8.addWidget(self.Swan01_roi_save_dir_Button, 7, 2, 1, 1)
+
+        self.Swan01_roi_save_dir_Label = QLabel(self.Swan01_ROIConfig)
+        self.Swan01_roi_save_dir_Label.setObjectName(u"Swan01_roi_save_dir_Label")
+        self.Swan01_roi_save_dir_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_roi_save_dir_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_roi_save_dir_Label.setFont(font1)
+        self.Swan01_roi_save_dir_Label.setFrameShape(QFrame.Shape.NoFrame)
+        self.Swan01_roi_save_dir_Label.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.gridLayout_8.addWidget(self.Swan01_roi_save_dir_Label, 7, 0, 1, 1)
+
         self.Swan01_roi_generate_script_file_sel_Label = QLabel(self.Swan01_ROIConfig)
         self.Swan01_roi_generate_script_file_sel_Label.setObjectName(u"Swan01_roi_generate_script_file_sel_Label")
         self.Swan01_roi_generate_script_file_sel_Label.setEnabled(True)
         self.Swan01_roi_generate_script_file_sel_Label.setFont(font)
 
         self.gridLayout_8.addWidget(self.Swan01_roi_generate_script_file_sel_Label, 1, 0, 1, 1)
-
-        self.Swan01_roi_generate_slot_time_set_Label = QLabel(self.Swan01_ROIConfig)
-        self.Swan01_roi_generate_slot_time_set_Label.setObjectName(u"Swan01_roi_generate_slot_time_set_Label")
-        self.Swan01_roi_generate_slot_time_set_Label.setEnabled(True)
-        self.Swan01_roi_generate_slot_time_set_Label.setFont(font)
-
-        self.gridLayout_8.addWidget(self.Swan01_roi_generate_slot_time_set_Label, 5, 0, 1, 1)
-
-        self.verticalSpacer = QSpacerItem(20, 5, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_8.addItem(self.verticalSpacer, 8, 0, 1, 1)
 
         self.Swan01_roi_generate_slot_time_set_spinBox = QSpinBox(self.Swan01_ROIConfig)
         self.Swan01_roi_generate_slot_time_set_spinBox.setObjectName(u"Swan01_roi_generate_slot_time_set_spinBox")
@@ -2999,11 +3010,60 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_generate_slot_time_set_spinBox, 5, 1, 1, 1)
 
-        self.label_5 = QLabel(self.Swan01_ROIConfig)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setIndent(5)
+        self.verticalSpacer = QSpacerItem(20, 5, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout_8.addWidget(self.label_5, 5, 2, 1, 1)
+        self.gridLayout_8.addItem(self.verticalSpacer, 9, 0, 1, 1)
+
+        self.Swan01_roi_generate_excel_sel_Label = QLabel(self.Swan01_ROIConfig)
+        self.Swan01_roi_generate_excel_sel_Label.setObjectName(u"Swan01_roi_generate_excel_sel_Label")
+        self.Swan01_roi_generate_excel_sel_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_roi_generate_excel_sel_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_roi_generate_excel_sel_Label.setFont(font1)
+        self.Swan01_roi_generate_excel_sel_Label.setFrameShape(QFrame.Shape.NoFrame)
+        self.Swan01_roi_generate_excel_sel_Label.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.gridLayout_8.addWidget(self.Swan01_roi_generate_excel_sel_Label, 6, 0, 1, 1)
+
+        self.frame_3 = QFrame(self.Swan01_ROIConfig)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_23 = QHBoxLayout(self.frame_3)
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
+        self.Swan01_roi_generate_excel_sel_LineEdit = QLineEdit(self.frame_3)
+        self.Swan01_roi_generate_excel_sel_LineEdit.setObjectName(u"Swan01_roi_generate_excel_sel_LineEdit")
+        self.Swan01_roi_generate_excel_sel_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.Swan01_roi_generate_excel_sel_LineEdit.sizePolicy().hasHeightForWidth())
+        self.Swan01_roi_generate_excel_sel_LineEdit.setSizePolicy(sizePolicy1)
+        self.Swan01_roi_generate_excel_sel_LineEdit.setMinimumSize(QSize(350, 0))
+        self.Swan01_roi_generate_excel_sel_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Swan01_roi_generate_excel_sel_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.Swan01_roi_generate_excel_sel_LineEdit.setReadOnly(True)
+
+        self.horizontalLayout_23.addWidget(self.Swan01_roi_generate_excel_sel_LineEdit)
+
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox = QSpinBox(self.frame_3)
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setObjectName(u"Swan01_roi_generate_excel_sheet_sel_spinBox")
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setMinimumSize(QSize(20, 0))
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setMaximumSize(QSize(50, 16777215))
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setMinimum(1)
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setMaximum(1000)
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setValue(1)
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setDisplayIntegerBase(10)
+
+        self.horizontalLayout_23.addWidget(self.Swan01_roi_generate_excel_sheet_sel_spinBox)
+
+
+        self.gridLayout_8.addWidget(self.frame_3, 6, 1, 1, 1)
+
+        self.Swan01_roi_generate_excel_sel_Button = QPushButton(self.Swan01_ROIConfig)
+        self.Swan01_roi_generate_excel_sel_Button.setObjectName(u"Swan01_roi_generate_excel_sel_Button")
+        sizePolicy2.setHeightForWidth(self.Swan01_roi_generate_excel_sel_Button.sizePolicy().hasHeightForWidth())
+        self.Swan01_roi_generate_excel_sel_Button.setSizePolicy(sizePolicy2)
+        self.Swan01_roi_generate_excel_sel_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_8.addWidget(self.Swan01_roi_generate_excel_sel_Button, 6, 2, 1, 1)
 
 
         self.verticalLayout_13.addWidget(self.Swan01_ROIConfig)
@@ -3742,7 +3802,7 @@ class Ui_MainPages(object):
 
         self.pages.setCurrentIndex(1)
         self.Hawk01_ROIConfig.setCurrentIndex(1)
-        self.ScriptTable.setCurrentIndex(3)
+        self.ScriptTable.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainPages)
@@ -4271,33 +4331,43 @@ class Ui_MainPages(object):
         self.Swan01_script_parse_Button.setText(QCoreApplication.translate("MainPages", u"Script Parse", None))
         self.Swan01_slot_read_time_cal_Button.setText(QCoreApplication.translate("MainPages", u"Slot Read Time Cal", None))
         self.Swan01_file_save_dir_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Swan01_file_save_dir_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
+        self.Swan01_file_save_dir_LineEdit.setPlaceholderText("")
         self.Swan01_reg_script_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
         self.Swan01_reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Script Name", None))
         self.Swan01_reference_script_Label.setText(QCoreApplication.translate("MainPages", u"Reference Script", None))
         self.Swan01_file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
-        self.Swan01_roi_generate_excel_sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Swan01_roi_generate_excel_sel_Label.setText(QCoreApplication.translate("MainPages", u"ROI Excel File", None))
+        self.Swan01_roi_generate_slot_time_set_Label.setText(QCoreApplication.translate("MainPages", u"Slot Time Set", None))
         self.Swan01_roi_generate_by_Label.setText(QCoreApplication.translate("MainPages", u"ROI Generate By", None))
         self.Swan01_roi_generate_script_file_sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.Swan01_roi_generate_slot_time_set_enable_CheckBox.setText(QCoreApplication.translate("MainPages", u"manual setup ( unit: us )", None))
         self.Swan01_roi_generate_script_file_sel_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u7528\u4e8e\u751f\u6210 ROI \u7684\u811a\u672c\u6587\u4ef6", None))
-        self.Swan01_roi_sram_name_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Name", None))
+        self.Swan01_roi_save_dir_LineEdit.setPlaceholderText("")
+        self.Swan01_roi_sram_name_Label.setText(QCoreApplication.translate("MainPages", u"ROI Sram Name", None))
         self.Swan01_roi_sram_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u7684 ROI \u6587\u4ef6\u540d", None))
-        self.Swan01_roi_generate_excel_sel_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9 Excel \u6587\u4ef6", None))
         self.Swan01_ROI_Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
+        self.Swan01_ROI_Open.setText(QCoreApplication.translate("MainPages", u"Open", None))
         self.Swan01_roi_file_parse_Button.setText(QCoreApplication.translate("MainPages", u"ROI Parse", None))
         self.Swan01_roi_generate_by_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"From GUI", None))
         self.Swan01_roi_generate_by_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"From Script file", None))
 
+        self.Swan01_roi_save_dir_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.Swan01_roi_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"ROI Save Path", None))
         self.Swan01_roi_generate_script_file_sel_Label.setText(QCoreApplication.translate("MainPages", u"Script File", None))
-        self.Swan01_roi_generate_slot_time_set_Label.setText(QCoreApplication.translate("MainPages", u"Slot Time Set", None))
 #if QT_CONFIG(tooltip)
         self.Swan01_roi_generate_slot_time_set_spinBox.setToolTip("")
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(whatsthis)
         self.Swan01_roi_generate_slot_time_set_spinBox.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
-        self.label_5.setText(QCoreApplication.translate("MainPages", u"unit: 0.01 us", None))
+        self.Swan01_roi_generate_excel_sel_Label.setText(QCoreApplication.translate("MainPages", u"ROI Excel File", None))
+        self.Swan01_roi_generate_excel_sel_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9 Excel \u6587\u4ef6", None))
+#if QT_CONFIG(tooltip)
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setToolTip("")
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(whatsthis)
+        self.Swan01_roi_generate_excel_sheet_sel_spinBox.setWhatsThis("")
+#endif // QT_CONFIG(whatsthis)
+        self.Swan01_roi_generate_excel_sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.title_label_2.setText(QCoreApplication.translate("MainPages", u"Hawk Toolbox", None))
         self.FunctionWindow.setTitle("")
         self.FunctionSelectWin.setTitle(QCoreApplication.translate("MainPages", u"Function Select", None))

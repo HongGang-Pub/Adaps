@@ -7,7 +7,6 @@ import openpyxl
 import numpy as np
 # import matplotlib.animation as animation
 import matplotlib.pyplot as plt
-import xlrd
 
 from SelfDefinedPackge import PubMethod
 from SelfDefinedPackge import ArrayPubMethod
@@ -94,43 +93,6 @@ def do_mark(info, fontsize=5):
     #              backgroundcolor='black'
     #              # ha = 'center' # 水平居中
     #              )
-
-
-def roi_data_save(f_name, data=None, fd_path=".", roi_data_format=1):
-    """
-    保存 ROI 数据
-    Args:
-        f_name (str): 文件名称
-        data (list): ROI 数据
-        fd_path (str): 文件路径
-        roi_data_format (int): 0: Byte; 1: Half-word
-
-    Returns:
-
-    """
-    if data is None:
-        return
-
-    if not os.path.exists(fd_path):
-        # 目录不存在，进行创建操作
-        os.makedirs(fd_path)  # 使用os.makedirs()方法创建多层目录
-
-    file = "{}\\{}.txt".format(fd_path, f_name)
-
-    with open(file=file, mode="w", encoding="utf-8") as f:
-        for i in range(0, len(data)):
-            roi_string = '{:0>4X}'.format(data[i])
-            if roi_data_format == 1:    # Half-word
-                f.write(roi_string)
-                if i < (len(data) - 1):
-                    f.write('\n')
-            else:                       # Byte
-                f.write(roi_string[2:4])
-                f.write('\n')
-                f.write(roi_string[0:2])
-                if i < (len(data) - 1):
-                    f.write('\n')
-    return
 
 
 def ParseRoiMem(hawk01_config, roi_file=None, f_path=None):

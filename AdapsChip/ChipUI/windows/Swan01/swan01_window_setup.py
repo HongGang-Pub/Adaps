@@ -36,6 +36,7 @@ class Swan01MainUI:
         self.Swan01Config = JsonFunction(file_path=".Swan01Config/Swan01Config.json")
 
         self.swan01_config = self.Swan01Config.items
+        self.soft_config = {}
 
         # All GUI signal sync
         # ///////////////////////////////////////////////////////////////
@@ -275,19 +276,16 @@ class Swan01MainUI:
         # -------------------------------------------
         # ROI SRAM generate
         # -------------------------------------------
-
         self.ui.load_pages.Swan01_ScriptGenerateSel.setChecked(True)
         self.ui.load_pages.Swan01_ROIConfig.setHidden(True)
         Swan01MainUI.switch_user_define_UI(self, False)
-        # self.ui.load_pages.Swan01_roi_sram_name_Label.setHidden(True)
-        # self.ui.load_pages.Swan01_roi_sram_name_LineEdit.setHidden(True)
         return
 
     # 下拉框值更新
     # ///////////////////////////////////////////////////////////////
     def combobox_data_update(self, key, index):
         self.swan01_config[key] = index
-        print(f"{key}: {self.swan01_config[key]}")
+        # print(f"{key}: {self.swan01_config[key]}")
         if key == "OUT_NUMBIN_MODE":
             Swan01MainUI.out_totalbin_num_windows_change(self, index)
         elif key == "OUT_FIR_RAW_SEL":
@@ -303,7 +301,7 @@ class Swan01MainUI:
     # ///////////////////////////////////////////////////////////////
     def value_data_update(self, key, value_shift, value):
         self.swan01_config[key] = value + value_shift
-        print(f"{key}: {self.swan01_config[key]}")
+        # print(f"{key}: {self.swan01_config[key]}")
 
         if key in ["OUT_TOTALBIN_NUM", "OUT_ECHOBIN_NUM", "FWHM_SEARCH_NUM"]:
             Swan01MainUI.dsp_info_update(self, value)
@@ -413,70 +411,12 @@ class Swan01MainUI:
         index = min(4, index)   # 仅更新到 PACK_16PXL_EN
         for i in range(index):
             self.swan01_config[pack_keys[i]] = 1
-        for key in pack_keys:
-            print(f"{key}: {self.swan01_config[key]}")
         pass
 
     # ///////////////////////////////////////////////////////////////
-    # ROI config window function
-    # ///////////////////////////////////////////////////////////////
-    def setup_roi_gui(self):
-        return
-
-    def cali_file_select(self):
-        file, _ = QFileDialog.getOpenFileName(parent=None, caption='ROI cali data select', dir='',
-                                              filter='file(*.txt *.csv *.xls *.xlsx) ;')
-        if file == "":
-            return
-        # 选择后缀为.txt
-        self.ui.load_pages.Swan01_Cali_File_Load_LineEdit.setText(file)
-        self.swan01_roi_gen_config['ROIGenByFile']['cali_file'] = file
-        return
-
-    def roi_file_select(self):
-        file, _ = QFileDialog.getOpenFileName(parent=None, caption='ROI select', dir='',
-                                              filter='file(*.txt) ;')
-        if file == "":
-            return
-        # 选择后缀为.txt
-        self.ui.load_pages.Swan01_ROI_File_LineEdit.setText(file)
-        self.swan01_roi_gen_config['ROIGenByBase']['roi_file'] = file
-        return
-
-    def roi_cali_folder_select(self):
-        fd = QFileDialog.getExistingDirectory(self, "Select Cali File", "")
-        if fd == "":
-            return
-        # 选择后缀为.txt
-        self.ui.load_pages.Swan01_cali_file_path_LineEdit.setText(fd)
-        self.swan01_roi_gen_config['ROIGenByCali']['cali_file'] = fd
-        return
-
-    def refresh_swan_config(self):
-        """从 ROI ZONE config界面获取最新的配置"""
-        # print("Get the latest ROI Zone config...")
-        self.Swan01ZoneConfig.serialize()
-
-    # ///////////////////////////////////////////////////////////////
-    # ZONE config window function
-    # ///////////////////////////////////////////////////////////////
-    def setup_zone_gui(self):
-        return
-
-    def open_roizone_config_win(self, url):
-        """打开 ROI Zone config 界面"""
-        print("Open ROI zone config window...")
-        self.ui_zone_config_win.setModal(True)
-        self.ui_zone_config_win.swan01_SYS_CLK = self.swan01_config["SYS_CLK"]
-        self.ui_zone_config_win.swan01_PLL1_OD = FREQ_Config[self.swan01_config['XCLK']]["PLL1"] \
-            [self.swan01_config['SYS_CLK']]["OD"]
-        self.ui_zone_config_win.show(self.swan01_zone_config)
-
-    # ///////////////////////////////////////////////////////////////
-    # FILE config window function
+    # ROI SRAM generate UI
     # ///////////////////////////////////////////////////////////////
     def setup_roi_sram_generate_gui(self):
-        """ ROI SRAM generate 界面GUI配置"""
         # ///////////////////////////////////////////////////////////////
         # 界面初始化
         # ///////////////////////////////////////////////////////////////
@@ -485,25 +425,37 @@ class Swan01MainUI:
         # -------------------------------------------
         self.ui.load_pages.Swan01_roi_generate_by_ComboBox.setCurrentIndex(self.swan01_config['roi_generate_by'])
         self.ui.load_pages.Swan01_roi_generate_script_file_sel_LineEdit.setText(self.swan01_config['roi_generate_script_file'])
-        self.ui.load_pages.Swan01_roi_generate_slot_time_set_spinBox.setValue(self.swan01_config["roi_generate_slot_time_set"])
         self.ui.load_pages.Swan01_roi_generate_excel_sel_LineEdit.setText(self.swan01_config['roi_generate_excel_file'])
+        self.ui.load_pages.Swan01_roi_generate_excel_sheet_sel_spinBox.setValue(self.swan01_config["roi_generate_excel_sheet"]+1)
+        self.ui.load_pages.Swan01_roi_generate_slot_time_set_enable_CheckBox.setChecked(self.swan01_config["roi_generate_slot_time_set_enable"])
+        self.ui.load_pages.Swan01_roi_generate_slot_time_set_spinBox.setValue(self.swan01_config["roi_generate_slot_time_set"])
+        self.ui.load_pages.Swan01_roi_save_dir_LineEdit.setText(self.swan01_config['roi_fd_path'])
         self.ui.load_pages.Swan01_roi_sram_name_LineEdit.setText(self.swan01_config['roi_name'])
         # ///////////////////////////////////////////////////////////////
         # 操作绑定
         # ///////////////////////////////////////////////////////////////
         self.ui.load_pages.Swan01_roi_generate_by_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'roi_generate_by'))
+        self.ui.load_pages.Swan01_roi_generate_excel_sheet_sel_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'roi_generate_excel_sheet', -1))
+        self.ui.load_pages.Swan01_roi_generate_slot_time_set_enable_CheckBox.stateChanged.connect(partial(Swan01MainUI.slot_time_set_enable_UI, self))
         self.ui.load_pages.Swan01_roi_generate_slot_time_set_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'roi_generate_slot_time_set', 0))
 
         # 按钮绑定
         self.ui.load_pages.Swan01_roi_generate_script_file_sel_Button.clicked.connect(partial(Swan01MainUI.roi_generate_script_file_sel, self))
         self.ui.load_pages.Swan01_roi_generate_excel_sel_Button.clicked.connect(partial(Swan01MainUI.roi_generate_excel_sel, self))
+        self.ui.load_pages.Swan01_roi_save_dir_Button.clicked.connect(partial(Swan01MainUI.roi_file_save_dir_sel, self))
+        self.ui.load_pages.Swan01_ROI_Save.clicked.connect(partial(Swan01MainUI.roi_sram_Save, self))
+        self.ui.load_pages.Swan01_ROI_Open.clicked.connect(partial(Swan01MainUI.open_folder, self, 'roi_fd_path'))
 
         # -------------------------------------------
         # 界面初始化
         # -------------------------------------------
         Swan01MainUI.roi_generate_by_windows_change(self, self.swan01_config['roi_generate_by'])
+        Swan01MainUI.slot_time_set_enable_UI(self, False)
         return
 
+    # ///////////////////////////////////////////////////////////////
+    # ROI SRAM generate Function
+    # ///////////////////////////////////////////////////////////////
     def roi_generate_script_file_sel(self):
         file, _ = QFileDialog.getOpenFileName(parent=None, caption='Base script file select', dir='',
                                               filter='file(*.txt) ;')
@@ -522,10 +474,28 @@ class Swan01MainUI:
             self.swan01_config['roi_generate_excel_file'] = file
             print(self.swan01_config['roi_generate_excel_file'])
 
+    def roi_file_save_dir_sel(self):
+        dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
+        if dir_path:
+            self.ui.load_pages.Swan01_roi_save_dir_LineEdit.setText(dir_path)
+            self.swan01_config['roi_fd_path'] = dir_path
+            # print(self.swan01_config['fd_path'])
+
     def roi_generate_by_windows_change(self, index):
         Enable = True if (index == 1) else False
         self.ui.load_pages.Swan01_roi_generate_script_file_sel_Button.setEnabled(Enable)
         pass
+
+    def slot_time_set_enable_UI(self, state):
+        state = self.ui.load_pages.Swan01_roi_generate_slot_time_set_enable_CheckBox.isChecked()
+        self.swan01_config['roi_generate_slot_time_set_enable'] = state
+        self.ui.load_pages.Swan01_roi_generate_slot_time_set_spinBox.setEnabled(state)
+
+    def roi_sram_Save(self):
+        Swan01MainUI.get_roi_generate_file_config(self)
+        self.swan01_config["roi_data_format"] = self.soft_config["roi_data_format"]
+        swan01_window_functions.ROISramConfigOperation(self.swan01_config)
+        return
 
     # ///////////////////////////////////////////////////////////////
     # FILE config window function
@@ -535,7 +505,6 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_reference_script_LineEdit.setText(self.swan01_config['ref_cfg_file'])
         self.ui.load_pages.Swan01_file_save_dir_LineEdit.setText(self.swan01_config['fd_path'])
         self.ui.load_pages.Swan01_reg_script_name_LineEdit.setText(self.swan01_config['reg_name'])
-        self.ui.load_pages.Swan01_roi_sram_name_LineEdit.setText(self.swan01_config['roi_name'])
 
         # 按钮绑定
         self.ui.load_pages.Swan01_reference_script_sel_Button.clicked.connect(partial(Swan01MainUI.reference_script_file_sel, self))
@@ -544,7 +513,7 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_slot_read_time_cal_Button.clicked.connect(partial(Swan01MainUI.slot_read_time_cal, self))  # Save按钮连接保存操作
         self.ui.load_pages.Swan01_script_Save.clicked.connect(partial(Swan01MainUI.script_save, self))  # Save按钮连接保存操作
         self.swan01_main_ui_signal_sync.Obj_signal_0.connect(partial(Swan01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
-        self.ui.load_pages.Swan01_Open.clicked.connect(partial(Swan01MainUI.open_folder, self))
+        self.ui.load_pages.Swan01_Open.clicked.connect(partial(Swan01MainUI.open_folder, self, 'fd_path'))
         return
 
     def reference_script_file_sel(self):
@@ -582,7 +551,7 @@ class Swan01MainUI:
             # 获取界面配置并 merge 所有配置
             # ///////////////////////////////////////////
             Swan01MainUI.get_script_file_config(self)
-            swan01_window_functions.ScriptUIOperate(self.swan01_config)
+            swan01_window_functions.ScriptUICoinfigOperate(self.swan01_config, operate=0b010)
             print("Data save complete...")
 
         self.ui.load_pages.Swan01_script_Save.setEnabled(False)
@@ -604,7 +573,7 @@ class Swan01MainUI:
             # 获取界面配置并 merge 所有配置
             # ///////////////////////////////////////////
             Swan01MainUI.get_script_file_config(self)
-            swan01_window_functions.ScriptUIOperate(self.swan01_config, operate=0b01)
+            swan01_window_functions.ScriptUICoinfigOperate(self.swan01_config, operate=0b001)
 
         self.ui.load_pages.Swan01_slot_read_time_cal_Button.setEnabled(False)
 
@@ -619,9 +588,9 @@ class Swan01MainUI:
         Obj.setEnabled(True)
         return
 
-    def open_folder(self):
+    def open_folder(self, T: str):
+        folder_path = self.swan01_config[T]
         # 获取用户选择的文件夹路径
-        folder_path = self.swan01_config['fd_path']
         if folder_path:
             # 打开文件夹
             QDesktopServices.openUrl(QUrl.fromLocalFile(folder_path))
@@ -630,8 +599,12 @@ class Swan01MainUI:
         self.swan01_config['ref_cfg_file'] = self.ui.load_pages.Swan01_reference_script_LineEdit.text()
         self.swan01_config['reg_name'] = self.ui.load_pages.Swan01_reg_script_name_LineEdit.text()
         self.swan01_config['fd_path'] = self.ui.load_pages.Swan01_file_save_dir_LineEdit.text()
+
+    def get_roi_generate_file_config(self):
+        self.swan01_config['roi_generate_script_file'] = self.ui.load_pages.Swan01_roi_generate_script_file_sel_LineEdit.text()
+        self.swan01_config['roi_generate_excel_file'] = self.ui.load_pages.Swan01_roi_generate_excel_sel_LineEdit.text()
+        self.swan01_config['roi_fd_path'] = self.ui.load_pages.Swan01_roi_save_dir_LineEdit.text()
         self.swan01_config['roi_name'] = self.ui.load_pages.Swan01_roi_sram_name_LineEdit.text()
-        self.swan01_config['roi_excel_file'] = self.ui.load_pages.Swan01_roi_generate_excel_sel_LineEdit.text()
 
     # ///////////////////////////////////////////////////////////////
     # 通用函数

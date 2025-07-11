@@ -1,6 +1,7 @@
 import copy
 import os
 
+import AdapsChip.Common.common
 from AdapsChip.Hawk01 import Hawk01PubMethod
 from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
 from AdapsChip.Hawk01.MSKU.MSKU_GEN import ROIGenerate
@@ -129,9 +130,10 @@ def ROIDataPackageSave(roi_data_pkg, hawk01_config, save_sel=0, roi_data_format=
     Returns:
 
     """
-    MskuPubMethod.roi_data_save(f_name=hawk01_config["roi_name"], data=roi_data_pkg["roi_data"],
-                                fd_path=hawk01_config["fd_path"],
-                                roi_data_format=roi_data_format)
+    AdapsChip.Common.common.roi_data_save(f_name=hawk01_config["roi_name"],
+                                          data=roi_data_pkg["roi_data"],
+                                          fd_path=hawk01_config["fd_path"],
+                                          roi_data_format=roi_data_format)
     url = f'{hawk01_config["fd_path"]}/{hawk01_config["roi_name"]}.txt'
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
     info = f"ROI data has been save to {_hyper_link}"
@@ -168,6 +170,7 @@ def ScriptDataSave(hawk01_config):
     # __reg_cfg__ = copy.deepcopy(reg_cfg)
     # print(__hawk01_config__)
     work_mode_q = hawk01_config["WORK_MODE"]
+    work_mode_name_q = hawk01_config["config_instruction"]["WORK_MODE"]
 
     def traverse_dict(d, parent_key=''):
         for key, value in d.items():
@@ -187,10 +190,8 @@ def ScriptDataSave(hawk01_config):
             continue
         __hawk01_config__["WORK_MODE"] = work_mode
         __hawk01_config__["reg_name"] = hawk01_config["reg_name"] if len(work_mode_q) == 0 \
-            else f'Ranging_Mode_{hawk01_config["reg_name"]}' if work_mode == 0 \
-            else f'Echo_Mode_{hawk01_config["reg_name"]}' if work_mode == 1 \
-            else f'Histogram_Mode_{hawk01_config["reg_name"]}' if work_mode == 2 \
-            else f'Gray_Scale_Mode_{hawk01_config["reg_name"]}'  # if work_mode == 3 \
+            else f'{work_mode_name_q[work_mode]}_{hawk01_config["reg_name"]}'
+
         Hawk01PubMethod.GenerateHawkRegConfig(hawk01_config=__hawk01_config__,
                                               reg_cfg_fp=__hawk01_config__["Hawk01RegConfigFile"])
         # Hawk01PubMethod.GenerateHawkRegConfigByJson(hawk01_config=__hawk01_config__, reg_cfg=__reg_cfg__)

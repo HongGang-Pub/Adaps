@@ -39,11 +39,18 @@
     "config_instruction": {
         "PRINT": [
             "XCLK",
-            "MIPI_RATE"
+            "MIPI_RATE",
+            "WORK_MODE"
         ],
         "XCLK": [
             "24M",
             "25M"
+        ],
+        "WORK_MODE": [
+            "Ranging_Mode",
+            "Echo_Mode",
+            "Histogram_Mode",
+            "Gray_Scale_Mode"
         ],
         "TDC_BIN_W": [
             "0.75 ns",

@@ -1,5 +1,6 @@
 import logging
 
+import AdapsChip.Common.common
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from SelfDefinedPackge import PubMethod
 import os
@@ -172,7 +173,7 @@ def RoiMemGenerate():
         #     MskuPubMethod.roi_data_save(f_name="ROLL_{}_{}".format(index, file), data=per_zone_mem)
         roi_data = roi_data + per_zone_mem
 
-    MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"], roi_data_format=cfg['roi_data_format'])
+    AdapsChip.Common.common.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"], roi_data_format=cfg['roi_data_format'])
     return
 
 

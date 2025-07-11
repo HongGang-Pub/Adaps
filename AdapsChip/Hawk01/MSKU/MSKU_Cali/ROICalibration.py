@@ -4,6 +4,8 @@ import time
 
 import numpy as np
 import matplotlib.pyplot as plt
+
+import AdapsChip.Common.common
 from SelfDefinedPackge import PubMethod
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from scipy.signal import convolve2d
@@ -851,7 +853,7 @@ class ROICalibration:
 
         MskuPubMethod.RollingArrayCollect(msku_roi_data=msku_roi_mem, cfg=cfg, is_save=1, fd_path=cfg['fd_path'])  # 成图
 
-        MskuPubMethod.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"])
+        AdapsChip.Common.common.roi_data_save(f_name=cfg["roi_name"], data=roi_data, fd_path=cfg["fd_path"])
 
         print("ROI 生成完成!!!")
         return

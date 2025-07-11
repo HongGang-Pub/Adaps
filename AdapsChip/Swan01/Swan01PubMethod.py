@@ -56,7 +56,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         "MST_MODE": 0,
         "WORK_MODE": 0,
         "SEG_NUM": 0,
-        "SLOT_TIME": 0,
+        "HIST_RD_OUT_TIME": 0,
         "PXL_BINN_SEL": 0,
         "SYNC_POL": 0,
         "TRG_I_EN": 0,
@@ -173,10 +173,10 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["SYNC_POL"] = register_value & 0x01
             elif addr == reg_addr['SEG_NUM']:
                 csru_cfg["SEG_NUM"] = register_value & 0xFF
-            elif addr == reg_addr['SLOT_TIME_L']:
-                csru_cfg["SLOT_TIME"] = (csru_cfg["SLOT_TIME"] & (0xFFFF - 0x00FF)) + (register_value << 0)
-            elif addr == reg_addr['SLOT_TIME_H']:
-                csru_cfg["SLOT_TIME"] = (csru_cfg["SLOT_TIME"] & (0xFFFF - 0xFF00)) + (register_value << 8)
+            elif addr == reg_addr['HIST_RD_OUT_TIME_L']:
+                csru_cfg["HIST_RD_OUT_TIME"] = (csru_cfg["HIST_RD_OUT_TIME"] & (0xFFFF - 0x00FF)) + (register_value << 0)
+            elif addr == reg_addr['HIST_RD_OUT_TIME_H']:
+                csru_cfg["HIST_RD_OUT_TIME"] = (csru_cfg["HIST_RD_OUT_TIME"] & (0xFFFF - 0xFF00)) + (register_value << 8)
             # HIST
             elif addr == reg_addr['HIST_MINBIN_THRS']:
                 csru_cfg["HIST_MINBIN_THRS"] = register_value
@@ -545,8 +545,9 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None) 
         "threshold_value": 0,  # 8 bit
         "WC": 0,  # 16 bit
         "FLNR": 0,  # 16 bit
+        "MIPI_PKT_DLY": 0, # unit: us
         "hist_read_out_cyc": 0,  # 非寄存器配置值, 此值对应 数据读出所需要的完整时间
-        "hist_read_out_time": 0,  # 非寄存器配置值, unit: 0.01us
+        "hist_rd_out_time": 0,  # 非寄存器配置值, unit: 0.01us
     }
 
     # //////////////////////////////////////////////////////////
@@ -567,6 +568,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None) 
         MIPI_LANE_NUM = 4
         MIPI_PKT_INTV = 0.6
         MIPI_FIFO_SIZE = 960
+    # print(dataflow_related_config)
     PKT_DLY_MARGIN = 0
 
     # MIPI_FEND_DLY
@@ -706,7 +708,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None) 
         DataflowConfig["mipi_pktdly1_cyc"] = mipi_pktdly1_cyc
         DataflowConfig["mipi_fsdly_cyc"] = mipi_fsdly_cyc
         DataflowConfig["hist_read_out_cyc"] = hist_read_out_cyc
-        DataflowConfig["hist_read_out_time"] = math.ceil(hist_read_out_cyc / SYS_CLK * 100)
+        DataflowConfig["hist_rd_out_time"] = math.ceil(hist_read_out_cyc / SYS_CLK * 100)
         return DataflowConfig
 
     # //////////////////////////////////////////////////////////
@@ -772,7 +774,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None) 
                                   (mipi_pkt_intv_cyc if tx_frm_mode == 1 else 0))
     if mipi_pktdly3_cyc > 0xFFFF:
         raise ValueError(f"mipi_fsdly_cyc[15:0] config out of bound, it's need to be config {mipi_pktdly3_cyc}")
-    DataflowConfig["mipi_pktdly3_cyc"] = mipi_pktdly3_cyc
+    DataflowConfig["mipi_pktdly3_cyc"] = int(mipi_pktdly3_cyc)
 
     # ----------------------------------------------------------
     # 计算第一次 HIST 读, 实际可以释放的给上一次数据传输的时间
@@ -857,7 +859,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None) 
                              0) if tx_frm_mode == 0 else 0  # tx_frm_mode=0, FE 传输需要传输的时间
     hist_read_out_cyc = hist_read_out_cyc0 + hist_read_out_cyc1 + hist_read_out_cyc2 + hist_read_out_cyc3 + hist_read_out_cyc4
     DataflowConfig["hist_read_out_cyc"] = int(hist_read_out_cyc)
-    DataflowConfig["hist_read_out_time"] = math.ceil(hist_read_out_cyc / SYS_CLK * 100)
+    DataflowConfig["hist_rd_out_time"] = math.ceil(hist_read_out_cyc / SYS_CLK * 100) # 0.01us 为单位
     # 在进行极限帧率计算时, if (TX_FRM_MODE=1), 由于配置的 DLY 以 slot 为单位进行计算, img_frm 的 FS 和 FE 没有进行考虑, 因此需要在 frm_idletime 上进行补偿
     DataflowConfig["frm_idletime"] = math.ceil(MIPI_PKT_INTV * 2)
     return DataflowConfig
@@ -947,8 +949,9 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
     dataflow_related_config = SwanDataflowRelateConfigGet(swan01_config)
     DataflowConfig = SwanDataflowConfigCal(swan01_config, dataflow_related_config)
+    # print(DataflowConfig)
     WC, FLNR = DataflowConfig["WC"], DataflowConfig["FLNR"]
-    SLOT_TIME = DataflowConfig["hist_read_out_time"]
+    HIST_RD_OUT_TIME = DataflowConfig["hist_rd_out_time"]
 
     VC0_FLNR_L = (FLNR & 0x00FF) >> 0
     VC0_FLNR_H = (FLNR & 0xFF00) >> 8
@@ -1021,10 +1024,10 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 config_flag['PXL_BINN_CFG'] = 1
             elif addr == reg_addr['SEG_NUM']:
                 register_value = swan01_config['SEG_NUM']
-            elif addr == reg_addr['SLOT_TIME_L']:
-                register_value = ((SLOT_TIME & 0x00FF) >> 0)
-            elif addr == reg_addr['SLOT_TIME_H']:
-                register_value = ((SLOT_TIME & 0xFF00) >> 8)
+            elif addr == reg_addr['HIST_RD_OUT_TIME_L']:
+                register_value = ((HIST_RD_OUT_TIME & 0x00FF) >> 0)
+            elif addr == reg_addr['HIST_RD_OUT_TIME_H']:
+                register_value = ((HIST_RD_OUT_TIME & 0xFF00) >> 8)
             elif addr == reg_addr['SYS_CTRL']:
                 register_value = (register_value & (0xFF - 0x80)) + (swan01_config['TX_FRM_MODE'] << 7)
                 register_value = (register_value & (0xFF - 0x40)) + (swan01_config["TRG_I_EN"] << 6)
@@ -1203,7 +1206,7 @@ def SwanHistReadTimeCal(swan01_config: dict):
     # ////////////////////////////////////////////////////////////////////////////
     dataflow_related_config = SwanDataflowRelateConfigGet(swan01_config)
     DataflowConfig = SwanDataflowConfigCal(swan01_config, dataflow_related_config)
-    print(f"{swan01_config["reg_name"]} one slot read time: {DataflowConfig['hist_read_out_time'] / 100} us")
+    print(f"{swan01_config["reg_name"]} one slot read time: {DataflowConfig['HIST_RD_OUT_TIME'] / 100} us")
 
 
 def ParseSwanRegConfig(script_file=None, protocol=0):
