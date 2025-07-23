@@ -715,6 +715,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
 
     # generic data read cycle
     txu_info_ptk_rd_cyc = one_pkt_dsp_rd_cyc if one_dt_mode == 1 else ((38 + 22 * 4 + 8 + 16) / 2 + rd_cyc_crc32)
+    txu_info_ptk_rd_cyc = int(txu_info_ptk_rd_cyc)
 
     # MIPI 包间间隔 cycle 数
     mipi_pkt_intv_cyc = math.ceil(MIPI_PKT_INTV * SYS_CLK)
