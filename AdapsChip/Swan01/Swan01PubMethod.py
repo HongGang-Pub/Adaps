@@ -727,9 +727,9 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
         mipi_fsdly_cyc = 0  # About PCM, if expo time long enough, and MIPI_FIFO is large enough, it can be set 0 to improve FPS
         mipi_pktdly1_cyc = 1  # This config is to delay PCM_DONE, if expo time long enough, it doesn't make sense(Because RTL design, it cannot be set 0 )
         hist_read_out_cyc = mipi_fsdly_cyc + txu_info_ptk_rd_cyc + one_pkt_dsp_rd_cyc + mipi_pktdly1_cyc + 30
-        DataflowConfig["mipi_pktdly1_cyc"] = mipi_pktdly1_cyc
-        DataflowConfig["mipi_fsdly_cyc"] = mipi_fsdly_cyc
-        DataflowConfig["hist_read_out_cyc"] = hist_read_out_cyc
+        DataflowConfig["mipi_pktdly1_cyc"] = int(mipi_pktdly1_cyc)
+        DataflowConfig["mipi_fsdly_cyc"] = int(mipi_fsdly_cyc)
+        DataflowConfig["hist_read_out_cyc"] = int(hist_read_out_cyc)
         DataflowConfig["HIST_RD_OUT_TIME"] = math.ceil(hist_read_out_cyc / SYS_CLK * 10)
         return DataflowConfig
 
@@ -852,7 +852,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
     mipi_pktdly1_cyc = one_pkt_dly_cyc
     if mipi_pktdly1_cyc > 0xFFFF:
         raise ValueError(f"mipi_pktdly1_cyc[15:0] config out of bound, it's need to be config {mipi_pktdly1_cyc}")
-    DataflowConfig["mipi_pktdly1_cyc"] = mipi_pktdly1_cyc
+    DataflowConfig["mipi_pktdly1_cyc"] = int(mipi_pktdly1_cyc)
 
     # ----------------------------------------------------------
     # mipi_pktdly2_cyc
@@ -866,7 +866,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
         mipi_pktdly2_cyc = math.ceil(HIST_RD_MIN_GAP / 16)
     if mipi_pktdly2_cyc > 0xFFFF:
         raise ValueError(f"mipi_pktdly2_cyc[15:0] config out of bound, it's need to be config {mipi_pktdly2_cyc}")
-    DataflowConfig["mipi_pktdly2_cyc"] = mipi_pktdly2_cyc
+    DataflowConfig["mipi_pktdly2_cyc"] = int(mipi_pktdly2_cyc)
 
     # ----------------------------------------------------------
     # Calculate READ_OUT_HIST time (used for SLAVE MODE)
