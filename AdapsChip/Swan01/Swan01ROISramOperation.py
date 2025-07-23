@@ -264,19 +264,19 @@ def get_prbs_result(n_prbs: int, seed: int, sel: int, step: int) -> int:
             xor_bit = ((prbs >> 3) & 0x1) ^ ((prbs >> 2) & 0x1)
             result = ((prbs << 1) | xor_bit) & 0xF
             prbs_result.append(result * prbs_step)
-        if prbs_sel == 1:
+        elif prbs_sel == 1:
             xor_bit = ((prbs >> 4) & 0x1) ^ ((prbs >> 3) & 0x1)
             result = ((prbs << 1) | xor_bit) & 0x1F
             prbs_result.append(result * prbs_step)
-        if prbs_sel == 2:
+        elif prbs_sel == 2:
             xor_bit = ((prbs >> 5) & 0x1) ^ ((prbs >> 4) & 0x1)
             result = ((prbs << 1) | xor_bit) & 0x3F
             prbs_result.append(result * prbs_step)
-        if prbs_sel == 3:
+        else:  # if prbs_sel == 3:
             xor_bit = ((prbs >> 6) & 0x1) ^ ((prbs >> 5) & 0x1)
             result = ((prbs << 1) | xor_bit) & 0x7F
             prbs_result.append(result * prbs_step)
-
+        prbs = result
     prbs_sum = sum(prbs_result)
     return prbs_sum
 
@@ -357,3 +357,4 @@ def expo_time_cal(csru_cfg: dict, roi_config: dict, grp_sel: int) -> int:
 
 if __name__ == '__main__':
     pass
+
