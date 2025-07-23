@@ -23,3 +23,4 @@ Swan:
 2025-08-18 version 3.0.3
 Swan:
   1. 修复 BUG: PCM 无法生成脚本
+  2. 修复 BUG: Expo_time 在开启 prbs 时计算错误
