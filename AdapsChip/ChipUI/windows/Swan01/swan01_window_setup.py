@@ -118,6 +118,7 @@ class Swan01MainUI:
         # -------------------------------------------
         self.ui.load_pages.Swan01_TRG_I_EN_ComboBox.setCurrentIndex(self.swan01_config['TRG_I_EN'])
         self.ui.load_pages.Swan01_FLEX_SHOT_EN_ComboBox.setCurrentIndex(self.swan01_config['FLEX_SHOT_EN'])
+        self.ui.load_pages.Swan01_DRV_CHSWTME_spinBox.setValue(self.swan01_config['DRV_CHSWTME'])
         self.ui.load_pages.Swan01_ULR_EN_ComboBox.setCurrentIndex(self.swan01_config['ULR_EN'])
         self.ui.load_pages.Swan01_LSPRD_HOP_EN_ComboBox.setCurrentIndex(self.swan01_config['LSPRD_HOP_EN'])
         self.ui.load_pages.Swan01_LSPRD_HOP_STEP_spinBox.setValue(self.swan01_config['LSPRD_HOP_STEP'])
@@ -158,7 +159,7 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_FWHM_SEARCH_NUM_spinBox.setValue(self.swan01_config['FWHM_SEARCH_NUM'])
         self.ui.load_pages.Swan01_ECHO_ORDER_NEAR_NUM_spinBox.setValue(self.swan01_config['ECHO_ORDER_NEAR_NUM'])
 
-        Swan01MainUI.out_totalbin_num_windows_change(self, self.swan01_config['OUT_TOTALBIN_NUM'])  # 控件隐藏及显示控制
+        Swan01MainUI.out_totalbin_num_windows_change(self, self.swan01_config['OUT_NUMBIN_MODE'])  # 控件隐藏及显示控制
         Swan01MainUI.out_fir_raw_sel_windows_change(self, self.swan01_config['OUT_FIR_RAW_SEL'])
         Swan01MainUI.dsp_info_update(self, 0)
 
@@ -186,16 +187,16 @@ class Swan01MainUI:
         # ///////////////////////////////////////////////////////////////
         # 操作绑定
         # ///////////////////////////////////////////////////////////////
+        # -------------------------------------------
+        # SYSC
+        # -------------------------------------------
         self.ui.load_pages.Swan01_XCLK_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'XCLK'))
         self.ui.load_pages.Swan01_SYS_CLK_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'SYS_CLK'))
         self.ui.load_pages.Swan01_WORK_MODE_ComboBox.activated.connect(partial(Swan01MainUI.work_mode_update, self))
         self.ui.load_pages.Swan01_MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'MIPI_RATE'))
         self.ui.load_pages.Swan01_MST_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'MST_MODE'))
         self.ui.load_pages.Swan01_SYNC_POL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'SYNC_POL'))
-        self.ui.load_pages.Swan01_FRM_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'FRM_SLOT_NUM', -1))
         self.ui.load_pages.Swan01_SEG_NUM_Slider.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'SEG_NUM', 0))
-        self.ui.load_pages.Swan01_TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'TRG_I_EN'))
-        self.ui.load_pages.Swan01_FLEX_SHOT_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'FLEX_SHOT_EN'))
 
         self.ui.load_pages.Swan01_ANGLE_GRP_SW_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP_SW_NUM', -1))
         self.ui.load_pages.Swan01_ANGLE_GRP0_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP0_SLOT_NUM', -1))
@@ -210,14 +211,13 @@ class Swan01MainUI:
         # -------------------------------------------
         # TRIG
         # -------------------------------------------
-        self.ui.load_pages.Swan01_ULR_EN_ComboBox.currentIndexChanged.connect(
-            partial(Swan01MainUI.combobox_data_update, self, "ULR_EN"))
-        self.ui.load_pages.Swan01_LSPRD_HOP_EN_ComboBox.currentIndexChanged.connect(
-            partial(Swan01MainUI.combobox_data_update, self, "LSPRD_HOP_EN"))
-        self.ui.load_pages.Swan01_LSPRD_HOP_STEP_spinBox.valueChanged.connect(
-            partial(Swan01MainUI.value_data_update, self, "LSPRD_HOP_STEP", 0))
-        self.ui.load_pages.Swan01_LSPRD_HOP_CNTS_spinBox.valueChanged.connect(
-            partial(Swan01MainUI.value_data_update, self, "LSPRD_HOP_CNTS", -1))
+        self.ui.load_pages.Swan01_TRG_I_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'TRG_I_EN'))
+        self.ui.load_pages.Swan01_FLEX_SHOT_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'FLEX_SHOT_EN'))
+        self.ui.load_pages.Swan01_DRV_CHSWTME_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "DRV_CHSWTME", 0))
+        self.ui.load_pages.Swan01_ULR_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "ULR_EN"))
+        self.ui.load_pages.Swan01_LSPRD_HOP_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "LSPRD_HOP_EN"))
+        self.ui.load_pages.Swan01_LSPRD_HOP_STEP_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "LSPRD_HOP_STEP", 0))
+        self.ui.load_pages.Swan01_LSPRD_HOP_CNTS_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, "LSPRD_HOP_CNTS", -1))
 
         # -------------------------------------------
         # HIST
@@ -256,6 +256,7 @@ class Swan01MainUI:
         # TXU
         # -------------------------------------------
         self.ui.load_pages.Swan01_TX_FRM_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "TX_FRM_MODE"))
+        self.ui.load_pages.Swan01_FRM_SLOT_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'FRM_SLOT_NUM', -1))
         self.ui.load_pages.Swan01_ONE_DT_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "ONE_DT_MODE"))
         self.ui.load_pages.Swan01_DATA_WIDTH_SEL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "DATA_WIDTH_SEL"))
         self.ui.load_pages.Swan01_PKT_CHKSUM_EN_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, "PKT_CHKSUM_EN"))
@@ -492,9 +493,26 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_roi_generate_slot_time_set_spinBox.setEnabled(state)
 
     def roi_sram_Save(self):
-        Swan01MainUI.get_roi_generate_file_config(self)
-        self.swan01_config["roi_data_format"] = self.soft_config["roi_data_format"]
-        swan01_window_functions.ROISramConfigOperation(self.swan01_config)
+        """
+        主界面的保存按钮保存数据, 计算帧率时间
+            1. 使用子线程调用保存, 不占用主线程
+        """
+
+        def excute():
+            # 获取界面配置并 merge 所有配置
+            # ///////////////////////////////////////////
+            Swan01MainUI.get_roi_generate_file_config(self)
+            self.swan01_config["roi_data_format"] = self.soft_config["roi_data_format"]
+            swan01_window_functions.ROISramConfigOperation(self.swan01_config)
+
+        self.ui.load_pages.Swan01_ROI_Save.setEnabled(False)
+
+        def threadFunc():
+            func_exec(self.DEBUG, excute)
+            self.swan01_main_ui_signal_sync.Obj_signal_0.emit(self.ui.load_pages.Swan01_ROI_Save)
+
+        thread = Thread(target=threadFunc)
+        thread.start()
         return
 
     # ///////////////////////////////////////////////////////////////

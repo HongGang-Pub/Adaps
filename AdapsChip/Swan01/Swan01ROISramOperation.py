@@ -182,12 +182,12 @@ def roi_sram_generate(roi_config, group_num):
     roi_data = []
     for angle_grp_cnt in range(group_num):
         for i in range(16):
-            roi_data.append(roi_config['SEG_COOR_CFG'][angle_grp_cnt][i] & 0x7F)
-        roi_data.append(roi_config['V_SEG_EN'][angle_grp_cnt][0] & 0xFFFF)
-        roi_data.append(roi_config['H_18SPAD_EN'][angle_grp_cnt][0] & 0x1F)
-        roi_data.append(roi_config['SLOT_SHOTNUM'][angle_grp_cnt][0] & 0xFF)
-        roi_data.append(roi_config['SLOT_IDLETIME'][angle_grp_cnt][0] & 0xFFFF)
-        roi_data.append(roi_config['EXPO_TRGO_EN'][angle_grp_cnt][0] & 0xF)
+            roi_data.append((roi_config['SEG_COOR_CFG'][angle_grp_cnt][i] & 0x7F))
+        roi_data.append((roi_config['V_SEG_EN'][angle_grp_cnt][0] & 0xFFFF))
+        roi_data.append((roi_config['H_18SPAD_EN'][angle_grp_cnt][0] & 0x1F))
+        roi_data.append((roi_config['SLOT_SHOTNUM'][angle_grp_cnt][0] & 0xFF))
+        roi_data.append((roi_config['SLOT_IDLETIME'][angle_grp_cnt][0] & 0xFFFF))
+        roi_data.append((roi_config['EXPO_TRGO_EN'][angle_grp_cnt][0] & 0xF))
         roi_data.append(((roi_config['SST_MODE_SEL'][angle_grp_cnt][0] & 0x1) << 12) +
                         (roi_config['EXPO_LASPRD'][angle_grp_cnt][0] & 0xFFF))
         for j in range(2):
@@ -198,19 +198,17 @@ def roi_sram_generate(roi_config, group_num):
 
         for j in range(4):
             roi_data.append(((roi_config['EXPO_PLSWC'][angle_grp_cnt][j] & 0x3F) << 5) +
-                            roi_config['EXPO_PLSWF'][angle_grp_cnt][j] & 0x1F)
-        for j in range(4):
+                            (roi_config['EXPO_PLSWF'][angle_grp_cnt][j] & 0x1F))
             roi_data.append(((roi_config['TDC_DELAYH'][angle_grp_cnt][j] & 0xFF) << 8) +
-                            roi_config['TRG_DELAYH'][angle_grp_cnt][j] & 0xFF)
-        for j in range(4):
+                            (roi_config['TRG_DELAYH'][angle_grp_cnt][j] & 0xFF))
             roi_data.append(((roi_config['PRBS_SEED'][angle_grp_cnt][j] & 0x7F) << 8) +
                             ((roi_config['PRBS_EN'][angle_grp_cnt][j] & 0x1) << 6) +
                             ((roi_config['PRBS_SEL'][angle_grp_cnt][j] & 0x3) << 4) +
                             ((roi_config['PRBS_STEP'][angle_grp_cnt][j] & 0x3) << 2) +
                             (roi_config['PRBS_INTERVAL'][angle_grp_cnt][j] & 0x3))
         for i in range(256):
-            roi_data.append(roi_config['SHOT_PXL_SEQ'][angle_grp_cnt][i] & 0xFFFF)
-            roi_data.append((roi_config['SHOT_PXL_SEQ'][angle_grp_cnt][i] >> 16) & 0xFFFF)
+            roi_data.append((roi_config['SHOT_PXL_SEQ'][angle_grp_cnt][i] & 0xFFFF))
+            roi_data.append(((roi_config['SHOT_PXL_SEQ'][angle_grp_cnt][i] >> 16) & 0xFFFF))
         roi_data.append(((roi_config['ECHO_JDG_WIDTH_THRS'][angle_grp_cnt][0] & 0xFF) << 8) +
                         (roi_config['ECHO_SPLIT_WIDTH_THRS'][angle_grp_cnt][0] & 0xFF))
         roi_data.append((roi_config['ECHO_VALL_THRS'][angle_grp_cnt][0] & 0x7))
@@ -219,11 +217,11 @@ def roi_sram_generate(roi_config, group_num):
         roi_data.append(((roi_config['FS_Y_MAXVAL'][angle_grp_cnt][0] & 0x3FF) << 6) +
                         (roi_config['FS_X_SHIFT'][angle_grp_cnt][0] & 0xF))
         for i in range(1, 16):
-            roi_data.append(roi_config['FS_X_SHIFT'][angle_grp_cnt][i] & 0xF)
+            roi_data.append((roi_config['FS_X_SHIFT'][angle_grp_cnt][i] & 0xF))
         for i in range(16):
-            roi_data.append(roi_config['FS_X_VALUE'][angle_grp_cnt][i] & 0xFFF)
+            roi_data.append((roi_config['FS_X_VALUE'][angle_grp_cnt][i] & 0xFFF))
         for i in range(16):
-            roi_data.append(roi_config['FS_Y_VALUE'][angle_grp_cnt][i] & 0x3FF)
+            roi_data.append((roi_config['FS_Y_VALUE'][angle_grp_cnt][i] & 0x3FF))
         roi_data.append(((roi_config['JDG_OFFSET'][angle_grp_cnt][0] & 0x3FF) << 6) +
                         (roi_config['JDG_THRS_COEF'][angle_grp_cnt][0] & 0x3F))
         roi_data.append((roi_config['DET_MIN_VAL'][angle_grp_cnt][0] & 0x3FF))
@@ -234,11 +232,11 @@ def roi_sram_generate(roi_config, group_num):
         for i in range(16):
             roi_data.append((roi_config['ACCU_GAIN_SEG'][angle_grp_cnt][i] & 0xFFF))
         for i in range(16):
-            roi_data.append(roi_config['NOS_X_SHIFT'][angle_grp_cnt][i] & 0x7)
+            roi_data.append((roi_config['NOS_X_SHIFT'][angle_grp_cnt][i] & 0x7))
         for i in range(16):
-            roi_data.append(roi_config['NOS_X_VALUE'][angle_grp_cnt][i] & 0x3FF)
+            roi_data.append((roi_config['NOS_X_VALUE'][angle_grp_cnt][i] & 0x3FF))
         for i in range(16):
-            roi_data.append(roi_config['NOS_Y_VALUE'][angle_grp_cnt][i] & 0xFF)
+            roi_data.append((roi_config['NOS_Y_VALUE'][angle_grp_cnt][i] & 0xFF))
     return roi_data
 
 
@@ -300,6 +298,7 @@ def expo_time_cal(csru_cfg: dict, roi_config: dict, grp_sel: int) -> int:
     hop_en = csru_cfg["LSPRD_HOP_EN"]
     hop_cnt = csru_cfg["LSPRD_HOP_CNTS"] + 1
     hop_step = csru_cfg["LSPRD_HOP_STEP"]
+    hist_maxbin_thrs = csru_cfg["HIST_MAXBIN_THRS"]
 
     sub_shotnum = roi_config["SLOT_SHOTNUM"][grp_sel][0]
     expo_lasprd = roi_config["EXPO_LASPRD"][grp_sel][0]
@@ -311,7 +310,6 @@ def expo_time_cal(csru_cfg: dict, roi_config: dict, grp_sel: int) -> int:
     prbs_en = roi_config["PRBS_EN"][grp_sel]
     tdc_delayh = roi_config["TDC_DELAYH"][grp_sel]
 
-    TDC_CLK = 250  # unit: MHz
     trig_channel = 4
     prbs_inject = []
     expo_time_pre = 0
@@ -352,20 +350,10 @@ def expo_time_cal(csru_cfg: dict, roi_config: dict, grp_sel: int) -> int:
             delay_last.append(0)
     # 不同通道的最大曝光时间输出
     tdc_dly_max = 0 if trgo_en == 0 else max(delay_last)
-    expo_time_cyc = tdc_dly_max + expo_time_pre
+    expo_time_cyc = tdc_dly_max + expo_time_pre + (hist_maxbin_thrs+1)*2
 
-    expo_time = int(expo_time_cyc / TDC_CLK * 100)  # 向下取整, unit: 0.10us
-    return expo_time
+    return expo_time_cyc
 
 
 if __name__ == '__main__':
-    f = r"D:\Git\Adaps\AdapsChip\ChipUI\Input\Swan01_ROISRAM_Excel.xlsx"
-
-    a = [i for i in range(100, 100 + 674 * 8)]
-
-    analysis_roi_file(a)
-    roi_sram_generate()
-
-    angle_grp_num = 8
-    for i in range(angle_grp_num):
-        expo_time1 = expo_time_cal(i)
+    pass

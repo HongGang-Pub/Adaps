@@ -10,6 +10,7 @@ reg_addr = {
     "SYSCLK10M_DIV": 0x000C,
     "FRM_IDLETIME": 0x000D,
     "TXU_CFG": 0x0012,
+    "DRV_CHSWTME": 0x0057,
     "MIPI_PACK_CTRL": 0x0013,
     "MIPI_FEND_DLY": 0x0014,
     "MIPI_TXDLY1": 0x0015,
@@ -65,7 +66,7 @@ reg_addr = {
     "DSP_RGM_CFG2": 0x00B5,
     "DSP_RGM_CFG3": 0x00B6,
     # MIPI WC & FLNR
-    "TYPE": 0x0114,
+    "PKT_TYPE": 0x0114,
     "VC0_FLNR_L": 0x0128,
     "VC0_FLNR_H": 0x0129,
     "VC0_WC_L": 0x0118,
@@ -77,4 +78,7 @@ reg_addr = {
     "THS_TRAIL": 0x22E,
     # PHASE_DLY_OPT
     "ANA_MISC_CFG1": 0x0058,
+    "UNIQ_FUNC_CFG": 0xC8,
+    "LSPRD_HOP_CFG1": 0xCA,
+    "LSPRD_HOP_CFG2": 0xCB
 }

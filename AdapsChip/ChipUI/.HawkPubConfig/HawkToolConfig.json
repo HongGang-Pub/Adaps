@@ -1,5 +1,5 @@
 {
-    "func_sel": "Dothink PCM Imag",
+    "func_sel": "Spadis App PCM READ",
     "DothinkPCMImagValue": {
         "script_file": "D:/Program Files/Software/DothinkTester/Script/Gray_Scale_Mode_reg_config.txt",
         "mipi_file": "C:/Users/honggang.li/Downloads/MipiData",

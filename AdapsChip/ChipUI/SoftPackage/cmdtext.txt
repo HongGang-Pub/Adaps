@@ -1,0 +1,23 @@
+--standalone
+// --mingw64
+--msvc=latest
+--show-progress
+--windows-console-mode=disable
+// --windows-console-mode=force
+--include-data-dir=.\AdapsChip\ChipUI\gui\themes=.\gui\themes
+--include-data-dir=.\AdapsChip\ChipUI\gui\images=.\gui\images
+--include-data-dir=.\AdapsChip\ChipUI\Input=.\Input
+--include-data-dir=.\AdapsChip\ChipUI\Doc=.\Doc
+--include-data-dir=.\AdapsChip\ChipUI\.Hawk01Config=.\.Hawk01Config
+--include-data-dir=.\AdapsChip\ChipUI\.Swan01Config=.\.Swan01Config
+--include-data-dir=.\AdapsChip\ChipUI\.HawkPubConfig=.\.HawkPubConfig
+--include-data-files=.\AdapsChip\ChipUI\gui\icon.ico=.\gui\icon.ico
+--include-data-files=.\AdapsChip\ChipUI\.Hawk01Config\Hawk01RegConfig.py=.\.Hawk01Config\Hawk01RegConfig.py
+--include-data-files=.\AdapsChip\ChipUI\.Swan01Config\Swan01RegConfig.py=.\.Swan01Config\Swan01RegConfig.py
+--include-data-files=.\AdapsChip\ChipUI\SoftConfig.json=.\SoftConfig.json
+--include-data-files=.\AdapsChip\ChipUI\gui\settings.json=.\gui\settings.json
+--enable-plugin=pyside6
+--windows-icon-from-ico=.\AdapsChip\ChipUI\gui\icon.ico
+--output-dir=Software\AdapsScriptGUI
+--output-filename="ScriptGUI"
+.\AdapsChip\ChipUI\StartupWindow.py

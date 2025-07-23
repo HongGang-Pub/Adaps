@@ -17,6 +17,7 @@
 import logging
 import math
 import os
+from SelfDefinedPackge import PubMethod
 
 TxEscClkDiv_Q = {200: 11, 250: 14, 324: 16, 330: 16, 400: 20}
 
@@ -169,6 +170,52 @@ def roi_data_save(f_name, data=None, fd_path=".", roi_data_format=1):
     with open(file=file, mode="w", encoding="utf-8") as f:
         for i in range(0, len(data)):
             roi_string = '{:0>4X}'.format(data[i])
+            if roi_data_format == 1:    # Half-word
+                f.write(roi_string)
+                if i < (len(data) - 1):
+                    f.write('\n')
+            else:                       # Byte
+                f.write(roi_string[2:4])
+                f.write('\n')
+                f.write(roi_string[0:2])
+                if i < (len(data) - 1):
+                    f.write('\n')
+    return
+
+
+def swan01_roi_data_save(f_name, data=None, fd_path=".", roi_data_format=1, roi_info_file=None, start_index=0, group_length=674):
+    """
+    保存 ROI 数据
+    Args:
+        f_name (str): 文件名称
+        data (list): ROI 数据
+        fd_path (str): 文件路径
+        roi_data_format (int): 0: Byte; 1: Half-word
+        roi_info_file(str): ROI annotate file
+        start_index(int): group start index
+        group_length (int): swan01 group length
+
+    Returns:
+        None
+    """
+    if data is None:
+        return
+
+    if not os.path.exists(fd_path):
+        # 目录不存在，进行创建操作
+        os.makedirs(fd_path)  # 使用os.makedirs()方法创建多层目录
+
+    file = "{}\\{}.txt".format(fd_path, f_name)
+    if roi_info_file is not None:
+        roi_info_data = PubMethod.read_file(fname=roi_info_file)
+
+    with open(file=file, mode="w", encoding="utf-8") as f:
+        for i in range(0, len(data)):
+            roi_string = '{:0>4X}'.format(data[i])
+            if roi_info_file is not None:
+                roi_info = f" // Group_{start_index+i//group_length}: {roi_info_data[i%group_length]}"
+                roi_info = roi_info.replace("\n", "").replace("\r", "")
+                roi_string += roi_info
             if roi_data_format == 1:    # Half-word
                 f.write(roi_string)
                 if i < (len(data) - 1):

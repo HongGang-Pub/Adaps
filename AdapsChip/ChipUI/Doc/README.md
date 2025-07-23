@@ -1,32 +1,44 @@
 # 1. README
 - [1. README](#1-readme)
-- [2. 软件介绍](#2-软件介绍)
-  - [2.1. 软件整体界面如下](#21-软件整体界面如下)
-  - [2.2 配置界面](#22-配置界面)
+- [2 Hawk01](#2-hawk01)
+  - [2.1 软件介绍](#21-软件介绍)
+  - [2.2 Script配置界面](#22-script配置界面)
     - [2.2.1 寄存器相关配置介绍](#221-寄存器相关配置介绍)
-    - [2.2.2 ROI GEN:](#222-roi-gen)
+    - [2.2.2 ROI GEN](#222-roi-gen)
       - [2.2.2.1 ROI GUI](#2221-roi-gui)
       - [2.2.2.2 ROI COOR](#2222-roi-coor)
       - [2.2.2.3 ROI Edit](#2223-roi-edit)
       - [2.2.2.4 ROI Cali](#2224-roi-cali)
       - [2.2.2.5 ROI BUTTON](#2225-roi-button)
-      - [2.2.3 脚本文件相关配置](#223-脚本文件相关配置)
+    - [2.2.3 脚本文件相关配置](#223-脚本文件相关配置)
   - [2.3 Zone Config界面](#23-zone-config界面)
   - [2.4 ROI Show界面](#24-roi-show界面)
-- [2.5 软件设置界面](#25-软件设置界面)
-- [3. 标定文件格式说明](#3-标定文件格式说明)
-  - [3.1 txt 文件格式说明](#31-txt-文件格式说明)
-  - [3.2 csv \& xls \& xlsx 文件格式说明](#32-csv--xls--xlsx-文件格式说明)
-- [6. 寄存器配置生成功能说明](#6-寄存器配置生成功能说明)
+  - [2.5 Hawk01标定文件格式说明](#25-hawk01标定文件格式说明)
+    - [2.5.1 txt 文件格式说明](#251-txt-文件格式说明)
+    - [2.5.2 csv \& xls \& xlsx 文件格式说明](#252-csv--xls--xlsx-文件格式说明)
+  - [2.6 寄存器配置生成功能说明](#26-寄存器配置生成功能说明)
+- [3 Swan01](#3-swan01)
+  - [3.1 软件介绍](#31-软件介绍)
+  - [3.2 Script 配置界面](#32-script-配置界面)
+    - [3.2.1 SYSC 相关配置](#321-sysc-相关配置)
+    - [3.2.2 TRIG 相关配置](#322-trig-相关配置)
+    - [3.2.3 HIST 相关配置](#323-hist-相关配置)
+    - [3.2.4 DSP 相关配置](#324-dsp-相关配置)
+    - [3.2.5 TXU 相关配置](#325-txu-相关配置)
+    - [3.2.6 USER-Define config 相关配置](#326-user-define-config-相关配置)
+    - [3.2.7 脚本文件相关配置](#327-脚本文件相关配置)
+  - [3.3 ROI 配置界面](#33-roi-配置界面)
+  - [3.4 寄存器配置生成功能说明](#34-寄存器配置生成功能说明)
+- [3 软件设置界面](#3-软件设置界面)
 
-# 2. 软件介绍  
-## 2.1. 软件整体界面如下  
+# 2 Hawk01
+## 2.1 软件介绍  
+> 软件整体界面如下  
 <img src="figs/Hawk01_Software.jpg" alt="Hawk01_Software" title="Hawk01_Software" width=500>
 
-
-## 2.2 配置界面 
+## 2.2 Script配置界面 
 ### 2.2.1 寄存器相关配置介绍
-> 程序会根据选择的配置, 基于基准脚本, 生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#6-寄存器配置生成功能说明) 进行查看  
+> 程序会根据选择的配置, 基于基准脚本, 生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#26-寄存器配置生成功能说明) 进行查看  
 <img src="figs/Hawk01_ScriptConfig.jpg" alt="Hawk01_ScriptConfig" title="Hawk01_ScriptConfig">
 
 1. XCLK: PLL_CLKIN 的输出参考时钟, 可配置为24M或25M
@@ -46,7 +58,7 @@
 15. H_ROLL_NUM: 寄存器配置, 水平方向ROlling次数, 选择范围: 1~16次(仅 2D scan mode 配置)
 16. H_VLD_SEG: 寄存器配置, 每次Rolling打开的段数, 1~16段
    
-### 2.2.2 ROI GEN:
+### 2.2.2 ROI GEN
 > ROI_GEN 主要用于生成 ROI 数据, 需要搭配 SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG 配置生成 ROI 数据
 
 #### 2.2.2.1 ROI GUI
@@ -75,7 +87,7 @@
 > 根据给定的 ROI 坐标信息, 生成 ROI 数据  
 <img src="figs/Hawk01_ROI_COOR.jpg" alt="Hawk01_ROI_COOR" title="Hawk01_ROI_COOR">
 
-1. ROI File: ROI 坐标信息文件, 支持 *.txt, *.csv, *.xls, *.xlsx 格式, 程序自动识别文件类型进行解析. *.txt 标定文件格式说明请跳转 [***txt 标定文件格式说明***](#31-txt-文件格式说明) 进行查看, *.csv, *.xls, *.xlsx 标定文件格式说明请跳转 [***csv&xls&xlsx 标定文件格式说明***](#32-csv--xls--xlsx-文件格式说明) 进行查看
+1. ROI File: ROI 坐标信息文件, 支持 *.txt, *.csv, *.xls, *.xlsx 格式, 程序自动识别文件类型进行解析. *.txt 标定文件格式说明请跳转 [***txt 标定文件格式说明***](#251-txt-文件格式说明) 进行查看, *.csv, *.xls, *.xlsx 标定文件格式说明请跳转 [***csv&xls&xlsx 标定文件格式说明***](#252-csv--xls--xlsx-文件格式说明) 进行查看
 2. Sheet Sel: 当文件格式为 .xls or .xlsx 时, 支持指定 sheet 页, 生成 ROI 数据
 
 #### 2.2.2.3 ROI Edit
@@ -116,10 +128,10 @@
 2. `View`: 跳转到 ROI Show 界面, 展示当前窗口下配置的 ROI rolling 效果. ROI Show 界面介绍请跳转 [***ROI Show界面介绍***](#24-roi-show界面) 进行查看
 3. `Save`: 保存当前窗口下配置的 ROI 脚本
 
-#### 2.2.3 脚本文件相关配置 
+### 2.2.3 脚本文件相关配置 
 <img src="figs/Hawk01_ScriptFilesConfig.jpg" alt="Hawk01_ScriptFilesConfig" title="Hawk01_ScriptFilesConfig">
 
-1. Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#6-寄存器配置生成功能说明) 进行查看  
+1. Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#26-寄存器配置生成功能说明) 进行查看  
    `Parse`: 可以解析所选择脚本的寄存器配置, 同时会校验 MIPI WC & FLNR 配置是否正确
 2. Reg Script Name: 保存的配置脚本名称
    - WORK_MODE 为单选时, 脚本名等于 `script_name.txt`
@@ -158,17 +170,8 @@
        - `重播`
        - `保存`
 
-# 2.5 软件设置界面
-> 此界面主要为软件通用配置  
-<img src="figs/SoftSetting.jpg" alt="SoftSetting" title="SoftSetting" width =500>
-
-1. Chip ID: 目前仅支持 Hawk01
-2. Themes: Not supported yet
-3. ROI Image: ROI 数据保存时, 是否同步保存 ROI Masking 相关图片(图片内存偏大, 保存时速度较慢)
-4. ROI Format: ROI 数据保存格式, Half-word or Byte
-
-# 3. 标定文件格式说明
-## 3.1 txt 文件格式说明
+## 2.5 Hawk01标定文件格式说明
+### 2.5.1 txt 文件格式说明
 1. 每次Rolling需要指定一个坐标(所有 segment 纵坐标相同), Rolling与Rolling之间的坐标信息需换行配置, 不支持配置在同一行 
 2. 坐标配置顺序需按照Rolling顺序依次配置, 如:
    1. 1D SCAN_MODE: V_ROLL_NUM=32 为例, 先配置第1次Rolling坐标, 再配置第2次、第3次...  
@@ -185,7 +188,7 @@
 6. 关于注释: 可使用双斜杠(`//`)在行尾添加注释或整行注释
 
 
-## 3.2 csv & xls & xlsx 文件格式说明
+### 2.5.2 csv & xls & xlsx 文件格式说明
 1. csv & xls & xlsx 配置格式相同
 2. 坐标配置格式: 在对应 segment 配置纵坐标
 3. Rolling配置需要与 SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG 匹配
@@ -194,7 +197,8 @@
       <img src="figs/Hawk01_1D_SCAN_Excel.jpg" alt="Hawk01_1D_SCAN_Excel配置示例" title="Hawk01_1D_SCAN_Excel配置示例"  width =500>
    2. 2D SCNA_MODE: V_ROLL_NUM=32, H_ROLL_NUM=4 为例, 依次配置`1-1、1-2、1-3、1-4、2-1、2-2...`  
       <img src="figs/Hawk01_2D_SCAN_Excel.jpg" alt="Hawk01_2D_SCAN_Excel配置示例" title="Hawk01_2D_SCAN_Excel配置示例"  width =500>
-# 6. 寄存器配置生成功能说明
+
+## 2.6 寄存器配置生成功能说明
 1. 系统时钟330、250、200M及分频相关寄存器配置
 2. Upsampling 寄存器配置
 3. MIPI 速率 0.8、1.0、1.2、1.5 Gbps/Lane 相关寄存器配置
@@ -203,3 +207,84 @@
 6. MIPI WC & FLNR配置
 7. V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、WOKR_MODE、SCAN_MODE等寄存器配置
 8. MINBIN_THRS、MAXBIN_THRS、V_PXL_OUT_NUM、OUT_BIN_NUM、PKS_ECHO_NUM 等寄存器配置
+
+# 3 Swan01
+## 3.1 软件介绍  
+> 软件整体界面如下  
+<img src="figs/Swan01_Software.jpg" alt="Swan01_Software" title="Swan01_Software" width=500>
+1. 软件支持根据配置生成寄存器脚本
+2. 软件支持根据配置生成 ROI 脚本
+3. 软件支持根据配置进行读出时间计算
+4. 软件支持校验寄存器配置的合理性
+
+## 3.2 Script 配置界面 
+> 程序会根据选择的配置, 基于基准脚本, 生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#34-寄存器配置生成功能说明) 进行查看  
+
+### 3.2.1 SYSC 相关配置
+> SYSC 配置界面如下, 具体配置功能请查阅寄存器文档  
+<img src="figs/Swan01_ScriptConfig_SYSC.jpg" alt="Swan01_ScriptConfig_SYSC" title="Swan01_ScriptConfig_SYSC">
+
+### 3.2.2 TRIG 相关配置
+> TRIG 配置界面如下, 具体配置功能请查阅寄存器文档  
+<img src="figs/Swan01_ScriptConfig_TRIG.jpg" alt="Swan01_ScriptConfig_TRIG" title="Swan01_ScriptConfig_TRIG">
+
+### 3.2.3 HIST 相关配置
+> HIST 配置界面如下, 具体配置功能请查阅寄存器文档  
+<img src="figs/Swan01_ScriptConfig_HIST.jpg" alt="Swan01_ScriptConfig_HIST" title="Swan01_ScriptConfig_HIST">
+1. 基于芯片设置, NS_MINBIN_THRS & NS_MAXBIN_THRS 需要满足一定的配置条件(具体请查阅 User manual), GUI 通过配置
+ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自定计算 NS_MAXBIN_THRS
+
+### 3.2.4 DSP 相关配置
+> DSP 配置界面如下, 具体配置功能请查阅寄存器文档  
+<img src="figs/Swan01_ScriptConfig_DSP.jpg" alt="Swan01_ScriptConfig_DSP" title="Swan01_ScriptConfig_DSP">
+
+### 3.2.5 TXU 相关配置
+> TXU 配置界面如下, 具体配置功能请查阅寄存器文档  
+<img src="figs/Swan01_ScriptConfig_TXU.jpg" alt="Swan01_ScriptConfig_TXU" title="Swan01_ScriptConfig_TXU">
+1. 基于芯片设置, 软件根据界面配置的 PXL_PACK_SEL, 自动修改 MIPI_PACK_CTRL 下所有寄存器域
+2. PXL_PACK_SEL 配置的合理性, 软件会自定校验, 若校验不通过, 给出相应提示. 校验主要考虑的场景有: MIPI 组包的合理性, MIPI over_flow, under_flow 的可能性
+
+### 3.2.6 USER-Define config 相关配置
+> 本软件通用配置中, SYSC_CLK 仅支持 `330 / 400 MHz`, MIPI 仅支持 `0.8 / 1.0 / 1.2 / 1.5 Gbps/LANE, LANE_NUM = 4` 的计算方式. 考虑到帧率计算的复杂性, 特意增加本界面, 支持自定义相关配置  
+<img src="figs/Swan01_ScriptConfig_User-Define.jpg" alt="Swan01_ScriptConfig_User-Define" title="Swan01_ScriptConfig_User-Define">
+1. 用户自定义的配置界面, 用户需要自己保证 SYSC_CLK 以及 MIPI 相关配置的合理性
+2. 本界面的配置仅用于计算 MIPI_TXDLY 等与数据控制流的相关寄存器配置，并不会修改脚本中的 SYS_CLK 以及 MIPI速率，需要用户在生成脚本后，手动修改 SYS_CLK 以及 MIPI相关配置
+3. MIPI_PKT_INTV_MARGIN 在用户非自定义配置时生效, 在基于寄存器配置计算的 MIPI_PKT_INTV 的基础上, 手动调整 MIPI 包间隔, 满足用户更多的使用场景
+
+### 3.2.7 脚本文件相关配置 
+<img src="figs/Swan01_ScriptFilesConfig.jpg" alt="Swan01_ScriptFilesConfig" title="Swan01_ScriptFilesConfig">
+
+1. Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#34-寄存器配置生成功能说明) 进行查看  
+2. Reg Script Name: 保存的配置脚本名称
+   - WORK_MODE 为单选时, 脚本名等于 `script_name.txt`
+   - WORK_MODE 为多选时, 脚本名等于 `work_mode_config_name.txt`
+3. File Save Path: 文件保存路径
+4. `Script Parse`: 可以解析所选择脚本的寄存器配置, 同时会校验 MIPI WC & FLNR 配置是否正确
+5. `Slot Read Time Cal`: 根据界面配置自动计算单个 SLOT MIPI 的读出时间
+6. `Save`: 保存 `寄存器配置脚本` 及 `ROI Memory` 数据
+7. `Open`: 打开保存的文件夹 
+
+## 3.3 ROI 配置界面 
+> 程序会根据选择的配置, 生成 ROI .txt 文件  
+<img src="figs/Swan01_ROIConfig.jpg" alt="Swan01_ROIConfig" title="Swan01_ROIConfig">
+1. ROI 支持根据 GUI 界面的配置生成 ROI, 或者根据选择现有的脚本配置生成 ROI
+   1. 影响 ROI 配置主要有 ULR_EN, 跳频功能(影响曝光时间) 以及 数据读出时间
+2. ROI 生成时, 主要配置来源于 Excel
+   1. 用户需要保证 Excel 格式的正确性, 请使用指定的 [Eecel 模板](../Input/Swan01_ROISRAM_Excel.xlsx) 
+   2. 所有配置为 `16进制` 格式
+   3. 用户需保证手动填写的配置正确性, 软件未增加任何 check 功能
+3. 只是用户手动数据 SLOT_TIME, 但是需要保证用户手动输入的 SLOT_TIME 大于 MIPI 读出时间
+4. 对于保存的 ROI, 若 GRP_SW_NUM >=4 时, 会生成多个 ROI 文件, 文件名中包含的 index 自动递增, 用户需要手动的根据 Script 文件配置的 ROI_SRAM_NUM, 将 ROI 写入到对应的 ROI_SRAM中,并非一定是 `roi0.txt -> ROI_SRAM0`, `roi1.txt-> ROI_SRAM1`
+
+## 3.4 寄存器配置生成功能说明
+1. None
+
+
+# 3 软件设置界面
+> 此界面主要为软件通用配置  
+<img src="figs/SoftSetting.jpg" alt="SoftSetting" title="SoftSetting" width =500>
+
+1. Chip ID: 目前仅支持 Hawk01
+2. Themes: Not supported yet
+3. ROI Image: ROI 数据保存时, 是否同步保存 ROI Masking 相关图片(图片内存偏大, 保存时速度较慢)
+4. ROI Format: ROI 数据保存格式, Half-word or Byte

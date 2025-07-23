@@ -7,3 +7,8 @@
 #Sony/
 Software
 /AdapsChip/ChipUI/Output/
+*.log
+*.png
+/A-TPM/
+/AdapsChip/ChipUI/windows/Swan01/
+/AdapsChip/Swan01/MSKU
