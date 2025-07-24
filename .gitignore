@@ -1,13 +1,9 @@
 .idea
 .venv
 *.pyc
-/HawkGUI
-/HawkGUI_v002
-/SonyGUI
-#Sony/
 Software
 /AdapsChip/ChipUI/Output/
 *.png
 /A-TPM/
-/AdapsChip/ChipUI/windows/Swan01/
 /AdapsChip/Swan01/MSKU
+application*.log
