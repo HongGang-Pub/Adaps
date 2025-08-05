@@ -1,26 +1,26 @@
-2025-03-24  version 2.0.3
+2025-03-24  version 2.0.3   @honggang_li@icloud.com
 Hawk:
   1. 2D scan mode 不再生成 Gray Scale Mode
   2. UI 界面增加 tx_fram_mode & one_dt_mode 等配置
   3. 调整 log 打印机制, 并增加 日志文件
   4. 增加必要寄存器校验, 如若脚本不存在必须寄存器配置行, 则会 warning
 
-2025-07-15 version 3.0.0
+2025-07-15 version 3.0.0    @honggang_li@icloud.com
 Hawk:
   1. 修复 2.0.3 版本 ROI Excel 无法使用 .xlsx 文件格式
 Swan:
   1. 增加Swan GUI 
 
-2025-08-18 version 3.0.1
+2025-08-18 version 3.0.1    @honggang_li@icloud.com
 Swan: 
   1. 修复 BUG: GUI 修改部分寄存器配置, 生成脚本时不生效
   2. 优化异常信息提示, 增加可读性
 
-2025-08-18 version 3.0.2
+2025-08-18 version 3.0.2    @honggang_li@icloud.com
 Swan:
   1. 修复 BUG: 10M 时钟分频 BUG 修复
 
-2025-08-18 version 3.0.3
+2025-08-18 version 3.0.3    @honggang_li@icloud.com
 Swan:
   1. 修复 BUG: PCM 无法生成脚本
   2. 修复 BUG: Expo_time 在开启 prbs 时计算错误
