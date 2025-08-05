@@ -6,4 +6,5 @@ Software
 *.png
 /A-TPM/
 /AdapsChip/Swan01/MSKU
-application*.log
+app.log*
+/Beta/

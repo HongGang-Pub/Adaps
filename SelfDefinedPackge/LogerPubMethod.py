@@ -87,8 +87,10 @@ class LogerForMultithreading:
         self.root_logger.addHandler(self.gui_handler)
 
         # 2️⃣ 添加文件 Handler
-        self.LOG_FILE = f"application_{datetime.datetime.now().strftime('%Y-%m-%d')}.log"
-        self.file_handler = logging.FileHandler(self.LOG_FILE, encoding="utf-8")
+        # self.LOG_FILE = f"application_{datetime.datetime.now().strftime('%Y-%m-%d')}.log"
+        # self.file_handler = logging.FileHandler(self.LOG_FILE, encoding="utf-8")
+        self.LOG_FILE = f"app.log"
+        self.file_handler = logging.handlers.RotatingFileHandler(self.LOG_FILE, maxBytes=5*1024*1024, backupCount=5)
         self.file_handler.setLevel(logging.INFO)
         self.file_handler.setFormatter(logging.Formatter("%(asctime)s - [%(levelname)s] %(message)s", "%Y-%m-%d %H:%M:%S"))
         self.root_logger.addHandler(self.file_handler)

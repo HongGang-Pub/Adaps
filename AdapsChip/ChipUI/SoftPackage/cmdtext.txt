@@ -8,6 +8,7 @@
 --include-data-dir=.\AdapsChip\ChipUI\gui\images=.\gui\images
 --include-data-dir=.\AdapsChip\ChipUI\Input=.\Input
 --include-data-dir=.\AdapsChip\ChipUI\Doc=.\Doc
+--include-data-dir=.\LICENSES=.\LICENSES
 --include-data-dir=.\AdapsChip\ChipUI\.Hawk01Config=.\.Hawk01Config
 --include-data-dir=.\AdapsChip\ChipUI\.Swan01Config=.\.Swan01Config
 --include-data-dir=.\AdapsChip\ChipUI\.HawkPubConfig=.\.HawkPubConfig
