@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesGLbSer.ui'
+## Form generated from reading UI file 'main_pagesGMewCX.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.1
 ##
@@ -738,7 +738,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config2byCOOR_1.setWidgetResizable(True)
         self.Hawk01_Config2byCOOR_2 = QWidget()
         self.Hawk01_Config2byCOOR_2.setObjectName(u"Hawk01_Config2byCOOR_2")
-        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 263, 52))
+        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 368, 419))
         self.formLayout_4 = QFormLayout(self.Hawk01_Config2byCOOR_2)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -1370,7 +1370,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 977, 279))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 977, 287))
         self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -3830,9 +3830,9 @@ class Ui_MainPages(object):
         self.Swan01_ScriptGenerateSel.clicked.connect(self.Swan01_ROIConfig.hide)
         self.Swan01_SEG_NUM_Slider.valueChanged.connect(self.Swan01_SEG_NUM_Value.setNum)
 
-        self.pages.setCurrentIndex(1)
+        self.pages.setCurrentIndex(0)
         self.Hawk01_ROIConfig.setCurrentIndex(1)
-        self.ScriptTable.setCurrentIndex(5)
+        self.ScriptTable.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainPages)

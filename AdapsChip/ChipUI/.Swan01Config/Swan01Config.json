@@ -75,7 +75,7 @@
         "MIPI_LANE_NUM": 2,
         "MIPI_PKT_INTV": 900,
         "MIPI_FIFO_SIZE": 960,
-        "MIPI_PKT_INTV_MARGIN": 0
+        "MIPI_PKT_INTV_MARGIN": 100
     },
     "REG_CFG_6": "ROI",
     "roi_generate_by": 0,
