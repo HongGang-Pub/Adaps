@@ -41,7 +41,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Hawk01">
       <property name="font">
@@ -1527,8 +1527,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>368</width>
-                      <height>419</height>
+                      <width>201</width>
+                      <height>237</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout">
@@ -2019,8 +2019,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>368</width>
-                      <height>419</height>
+                      <width>263</width>
+                      <height>52</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_4">
@@ -2200,8 +2200,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>368</width>
-                      <height>419</height>
+                      <width>263</width>
+                      <height>79</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_5">
@@ -2414,8 +2414,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>368</width>
-                      <height>410</height>
+                      <width>280</width>
+                      <height>268</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_7">
@@ -3604,7 +3604,7 @@ font: 700 9pt &quot;Consolas&quot;;
              </size>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="SYSC_config">
              <attribute name="title">
@@ -3640,7 +3640,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    <x>0</x>
                    <y>0</y>
                    <width>977</width>
-                   <height>287</height>
+                   <height>279</height>
                   </rect>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_3">
@@ -4541,7 +4541,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    <x>0</x>
                    <y>0</y>
                    <width>977</width>
-                   <height>287</height>
+                   <height>279</height>
                   </rect>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_15">
@@ -5023,7 +5023,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    <x>0</x>
                    <y>0</y>
                    <width>977</width>
-                   <height>287</height>
+                   <height>279</height>
                   </rect>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_12">
@@ -5839,7 +5839,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    <x>0</x>
                    <y>0</y>
                    <width>977</width>
-                   <height>287</height>
+                   <height>279</height>
                   </rect>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_13">
@@ -6662,7 +6662,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    <x>0</x>
                    <y>0</y>
                    <width>977</width>
-                   <height>287</height>
+                   <height>279</height>
                   </rect>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_14">
@@ -7144,7 +7144,7 @@ font: 700 9pt &quot;Consolas&quot;;
                    <x>0</x>
                    <y>0</y>
                    <width>977</width>
-                   <height>236</height>
+                   <height>228</height>
                   </rect>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_21">
@@ -7438,7 +7438,7 @@ font: 700 9pt &quot;Consolas&quot;;
                      <number>-1000</number>
                     </property>
                     <property name="maximum">
-                     <number>1000</number>
+                     <number>10000</number>
                     </property>
                     <property name="value">
                      <number>0</number>
@@ -7534,7 +7534,7 @@ font: 700 9pt &quot;Consolas&quot;;
                      <number>1</number>
                     </property>
                     <property name="maximum">
-                     <number>2000</number>
+                     <number>10000</number>
                     </property>
                     <property name="value">
                      <number>1200</number>

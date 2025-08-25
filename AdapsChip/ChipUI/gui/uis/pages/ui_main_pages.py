@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesOLNUMK.ui'
+## Form generated from reading UI file 'main_pagesGLbSer.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.1
 ##
@@ -550,7 +550,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config1byGUI_1.setWidgetResizable(True)
         self.Hawk01_Config1byGUI_2 = QWidget()
         self.Hawk01_Config1byGUI_2.setObjectName(u"Hawk01_Config1byGUI_2")
-        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 368, 419))
+        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 201, 237))
         self.formLayout = QFormLayout(self.Hawk01_Config1byGUI_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -738,7 +738,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config2byCOOR_1.setWidgetResizable(True)
         self.Hawk01_Config2byCOOR_2 = QWidget()
         self.Hawk01_Config2byCOOR_2.setObjectName(u"Hawk01_Config2byCOOR_2")
-        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 368, 419))
+        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 263, 52))
         self.formLayout_4 = QFormLayout(self.Hawk01_Config2byCOOR_2)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -817,7 +817,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config3ROIEdit_1.setWidgetResizable(True)
         self.Hawk01_Config3ROIEdit_2 = QWidget()
         self.Hawk01_Config3ROIEdit_2.setObjectName(u"Hawk01_Config3ROIEdit_2")
-        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 368, 419))
+        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 263, 79))
         self.formLayout_5 = QFormLayout(self.Hawk01_Config3ROIEdit_2)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -908,7 +908,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config4ROICali_1.setWidgetResizable(True)
         self.Hawk01_Config4ROICali_2 = QWidget()
         self.Hawk01_Config4ROICali_2.setObjectName(u"Hawk01_Config4ROICali_2")
-        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 368, 410))
+        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 280, 268))
         self.formLayout_7 = QFormLayout(self.Hawk01_Config4ROICali_2)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -1370,7 +1370,7 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 977, 287))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 977, 279))
         self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -1669,7 +1669,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 977, 287))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 977, 279))
         self.gridLayout_15 = QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_15.setObjectName(u"gridLayout_15")
         self.gridLayout_15.setContentsMargins(0, 0, 0, 0)
@@ -1829,7 +1829,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 977, 287))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 977, 279))
         self.gridLayout_12 = QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_12.setObjectName(u"gridLayout_12")
         self.gridLayout_12.setContentsMargins(0, 0, 0, 0)
@@ -2101,7 +2101,7 @@ class Ui_MainPages(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 977, 287))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 977, 279))
         self.gridLayout_13 = QGridLayout(self.scrollAreaWidgetContents_4)
         self.gridLayout_13.setObjectName(u"gridLayout_13")
         self.gridLayout_13.setContentsMargins(0, 0, 0, 0)
@@ -2373,7 +2373,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 977, 287))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 977, 279))
         self.gridLayout_14 = QGridLayout(self.scrollAreaWidgetContents_5)
         self.gridLayout_14.setObjectName(u"gridLayout_14")
         self.gridLayout_14.setContentsMargins(0, 0, 0, 0)
@@ -2538,7 +2538,7 @@ class Ui_MainPages(object):
         self.scrollArea_11.setWidgetResizable(True)
         self.scrollAreaWidgetContents_11 = QWidget()
         self.scrollAreaWidgetContents_11.setObjectName(u"scrollAreaWidgetContents_11")
-        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 977, 236))
+        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 977, 228))
         self.gridLayout_21 = QGridLayout(self.scrollAreaWidgetContents_11)
         self.gridLayout_21.setObjectName(u"gridLayout_21")
         self.gridLayout_21.setContentsMargins(0, 0, 0, 0)
@@ -2645,7 +2645,7 @@ class Ui_MainPages(object):
         self.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setMinimumSize(QSize(165, 0))
         self.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setMaximumSize(QSize(165, 16777215))
         self.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setMinimum(-1000)
-        self.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setMaximum(1000)
+        self.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setMaximum(10000)
         self.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setValue(0)
         self.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setDisplayIntegerBase(10)
 
@@ -2676,7 +2676,7 @@ class Ui_MainPages(object):
         self.Swan01_user_define_mipi_pkt_intv_spinBox.setMinimumSize(QSize(165, 0))
         self.Swan01_user_define_mipi_pkt_intv_spinBox.setMaximumSize(QSize(165, 16777215))
         self.Swan01_user_define_mipi_pkt_intv_spinBox.setMinimum(1)
-        self.Swan01_user_define_mipi_pkt_intv_spinBox.setMaximum(2000)
+        self.Swan01_user_define_mipi_pkt_intv_spinBox.setMaximum(10000)
         self.Swan01_user_define_mipi_pkt_intv_spinBox.setValue(1200)
         self.Swan01_user_define_mipi_pkt_intv_spinBox.setDisplayIntegerBase(10)
 
@@ -3830,9 +3830,9 @@ class Ui_MainPages(object):
         self.Swan01_ScriptGenerateSel.clicked.connect(self.Swan01_ROIConfig.hide)
         self.Swan01_SEG_NUM_Slider.valueChanged.connect(self.Swan01_SEG_NUM_Value.setNum)
 
-        self.pages.setCurrentIndex(0)
+        self.pages.setCurrentIndex(1)
         self.Hawk01_ROIConfig.setCurrentIndex(1)
-        self.ScriptTable.setCurrentIndex(0)
+        self.ScriptTable.setCurrentIndex(5)
 
 
         QMetaObject.connectSlotsByName(MainPages)
