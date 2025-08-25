@@ -24,3 +24,7 @@ Swan:
 Swan:
   1. 修复 BUG: PCM 无法生成脚本
   2. 修复 BUG: Expo_time 在开启 prbs 时计算错误
+
+2025-08-25 version 3.0.4    @honggang_li@icloud.com
+Swan:
+  1. 增大 MIPI_PKT_DLY 动态配置范围至 10us

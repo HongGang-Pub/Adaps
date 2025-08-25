@@ -1,6 +1,6 @@
 {
     "app_name": "Adaps Script GUI",
-    "version" : "v3.0.3",
+    "version" : "v3.0.4",
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
     "DEBUG": false,
