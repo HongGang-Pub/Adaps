@@ -517,7 +517,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
         csru_cfg(dict): Swan 相关的寄存器配置信息
         dataflow_related_config(dict): 与数据流相关的配置, 但并非寄存器配置
         function_sel(str): if function_sel=="MIPI", Just cal WC & FLNR
-，
+
     Returns:
         dict: Swan dataflow 相关的配置值
             SwanDataflowConfig = {

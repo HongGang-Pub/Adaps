@@ -716,7 +716,7 @@ code {
 </blockquote>
 <ol>
 <li>基于芯片设置, NS_MINBIN_THRS &amp; NS_MAXBIN_THRS 需要满足一定的配置条件(具体请查阅 User manual), GUI 通过配置
-NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自定计算 NS_MAXBIN_THRS</li>
+NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS</li>
 </ol>
 <h3 id="324-dsp-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.4 DSP 相关配置</h3>
 <blockquote>
@@ -771,12 +771,12 @@ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自定计算 NS_MAXBIN_THRS</li>
 </li>
 <li>ROI 生成时, 主要配置来源于 Excel
 <ol>
-<li>用户需要保证 Excel 格式的正确性, 请使用指定的 <a href="../Input/Swan01_ROISRAM_Excel.xlsx">Eecel 模板</a></li>
+<li>用户需要保证 Excel 格式的正确性, 请使用指定的 <a href="../Input/Swan01_ROISRAM_Excel.xlsx">Excel 模板</a></li>
 <li>所有配置为 <code>16进制</code> 格式</li>
 <li>用户需保证手动填写的配置正确性, 软件未增加任何 check 功能</li>
 </ol>
 </li>
-<li>只是用户手动数据 SLOT_TIME, 但是需要保证用户手动输入的 SLOT_TIME 大于 MIPI 读出时间</li>
+<li>支持用户手动设置 SLOT_TIME, 但是需要保证用户手动输入的 SLOT_TIME 大于 MIPI 读出时间 (本软件也会check SLOT_TIME 设置的正确性)</li>
 <li>对于保存的 ROI, 若 GRP_SW_NUM &gt;=4 时, 会生成多个 ROI 文件, 文件名中包含的 index 自动递增, 用户需要手动的根据 Script 文件配置的 ROI_SRAM_NUM, 将 ROI 写入到对应的 ROI_SRAM中,并非一定是 <code>roi0.txt -&gt; ROI_SRAM0</code>, <code>roi1.txt-&gt; ROI_SRAM1</code></li>
 </ol>
 <h2 id="34-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E">3.4 寄存器配置生成功能说明</h2>

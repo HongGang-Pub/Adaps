@@ -232,7 +232,7 @@
 > HIST 配置界面如下, 具体配置功能请查阅寄存器文档  
 <img src="figs/Swan01_ScriptConfig_HIST.jpg" alt="Swan01_ScriptConfig_HIST" title="Swan01_ScriptConfig_HIST">
 1. 基于芯片设置, NS_MINBIN_THRS & NS_MAXBIN_THRS 需要满足一定的配置条件(具体请查阅 User manual), GUI 通过配置
- NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自定计算 NS_MAXBIN_THRS
+ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS
 
 ### 3.2.4 DSP 相关配置
 > DSP 配置界面如下, 具体配置功能请查阅寄存器文档  
@@ -270,10 +270,10 @@
 1. ROI 支持根据 GUI 界面的配置生成 ROI, 或者根据选择现有的脚本配置生成 ROI
    1. 影响 ROI 配置主要有 ULR_EN, 跳频功能(影响曝光时间) 以及 数据读出时间
 2. ROI 生成时, 主要配置来源于 Excel
-   1. 用户需要保证 Excel 格式的正确性, 请使用指定的 [Eecel 模板](../Input/Swan01_ROISRAM_Excel.xlsx) 
+   1. 用户需要保证 Excel 格式的正确性, 请使用指定的 [Excel 模板](../Input/Swan01_ROISRAM_Excel.xlsx) 
    2. 所有配置为 `16进制` 格式
    3. 用户需保证手动填写的配置正确性, 软件未增加任何 check 功能
-3. 只是用户手动数据 SLOT_TIME, 但是需要保证用户手动输入的 SLOT_TIME 大于 MIPI 读出时间
+3. 支持用户手动设置 SLOT_TIME, 但是需要保证用户手动输入的 SLOT_TIME 大于 MIPI 读出时间 (本软件也会check SLOT_TIME 设置的正确性)
 4. 对于保存的 ROI, 若 GRP_SW_NUM >=4 时, 会生成多个 ROI 文件, 文件名中包含的 index 自动递增, 用户需要手动的根据 Script 文件配置的 ROI_SRAM_NUM, 将 ROI 写入到对应的 ROI_SRAM中,并非一定是 `roi0.txt -> ROI_SRAM0`, `roi1.txt-> ROI_SRAM1`
 
 ## 3.4 寄存器配置生成功能说明
