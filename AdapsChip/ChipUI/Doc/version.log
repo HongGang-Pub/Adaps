@@ -28,3 +28,9 @@ Swan:
 2025-08-25 version 3.0.4    @honggang_li@icloud.com
 Swan:
   1. 增大 MIPI_PKT_DLY 动态配置范围至 10us
+
+2025-08-25 version 3.0.5    @honggang_li@icloud.com
+Swan:
+  1. 由于 MIPI_FSDLY_CYC 位宽的限制, 无法将 MPI_PKT_INTV 配置过大. 考虑到客户存在将 MIPI_PKT_INTV 配
+     置无限大的可能, 因此对 MIPI_FSDLY_CYC 特殊处理, 如果超位宽, 直接将配置修改为 0x3FF, 此处理方式不影响实
+     际应用

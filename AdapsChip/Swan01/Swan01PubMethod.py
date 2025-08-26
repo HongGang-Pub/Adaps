@@ -510,7 +510,7 @@ def SwanDataflowRelateConfigGet(swan01_config: dict) -> dict:
     return dataflow_related_config
 
 
-def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, function_sel: str="") -> dict:
+def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, function_sel: str = "") -> dict:
     """
     计算 MIPI dataflow 相关参数
     Args:
@@ -721,7 +721,8 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
     mipi_pkt_intv_cyc = math.ceil(MIPI_PKT_INTV * SYS_CLK)
     mipi_fsdly_cyc = mipi_pkt_intv_cyc
     if mipi_fsdly_cyc > 0x3FF:
-        raise ValueError(f"mipi_fsdly_cyc[9:0] config out of bound, it's need to be config {mipi_fsdly_cyc}")
+        logging.warning(f"mipi_fsdly_cyc[9:0] config out of bound, it will assign the value from {mipi_fsdly_cyc} to 0x3FF")
+        mipi_fsdly_cyc = 0x3FF
     DataflowConfig["mipi_fsdly_cyc"] = mipi_fsdly_cyc
 
     if work_mode == 3:
