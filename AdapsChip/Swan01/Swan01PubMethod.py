@@ -544,7 +544,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
     pack_4pxl_en = csru_cfg["PACK_4PXL_EN"]
     pack_2pxl_en = csru_cfg["PACK_2PXL_EN"]
     pxl_binn_sel = csru_cfg["PXL_BINN_SEL"]
-    bin_widht_sel = csru_cfg["BIN_WIDTH_SEL"]
+    bin_width_sel = csru_cfg["BIN_WIDTH_SEL"]
     out_totalbin_num = csru_cfg["OUT_TOTALBIN_NUM"]
     out_echobin_num = csru_cfg["OUT_ECHOBIN_NUM"]
     out_numbin_mode = csru_cfg["OUT_NUMBIN_MODE"]
@@ -604,7 +604,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
             (4 + out_totalbin_num * 2) / 2
     # FHR
     elif work_mode == 2:
-        rd_cyc_dsp_1pxl = (((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_widht_sel) / 2
+        rd_cyc_dsp_1pxl = (((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_width_sel) / 2
     # PCM
     else:
         rd_cyc_dsp_1pxl = 1
@@ -710,7 +710,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
     # Cycle 计算
     # //////////////////////////////////////////////////////////
     # 发起一次 HIST read cycle 数
-    rd_cyc_hist_1pxl = ((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_widht_sel
+    rd_cyc_hist_1pxl = ((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_width_sel
     rd_cyc_once_hist_par = rd_cyc_hist_1pxl
 
     # generic data read cycle

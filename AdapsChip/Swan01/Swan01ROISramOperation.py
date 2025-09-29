@@ -291,7 +291,7 @@ def expo_time_cal(csru_cfg: dict, roi_config: dict, grp_sel: int) -> int:
         roi_config: ANGLE_GRP ROI寄存器输入
         grp_sel: 当前 group_index
 
-    Returns: 单次ANGLE_GRP的曝光时间, unit: 0.01 us
+    Returns: 单次ANGLE_GRP的曝光时间, unit: cyc
 
     """
     ulr_en = csru_cfg["ULR_EN"]
