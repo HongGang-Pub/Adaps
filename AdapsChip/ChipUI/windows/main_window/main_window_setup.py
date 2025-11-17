@@ -118,8 +118,13 @@ class SetupMainWindow:
         # LEFT MENUS / GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
         # ///////////////////////////////////////////////////////////////
         # ADD MENUS
-        if not self.settings["TOOL_BOX"]:
-            del SetupMainWindow.add_left_menus[1]
+        navigation_bar = self.settings["navigation_bar"]
+        navigation_bar_len = len(navigation_bar)
+        for idx in range(navigation_bar_len):
+            if navigation_bar[idx] != "" and idx < len(SetupMainWindow.add_left_menus):
+                SetupMainWindow.add_left_menus[idx]["btn_text"] = navigation_bar[idx]
+                SetupMainWindow.add_left_menus[idx]["btn_tooltip"] = navigation_bar[idx]
+
         self.ui.left_menu.add_menus(SetupMainWindow.add_left_menus)
 
         # SET SIGNALS

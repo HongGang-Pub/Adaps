@@ -159,7 +159,7 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_FWHM_SEARCH_NUM_spinBox.setValue(self.swan01_config['FWHM_SEARCH_NUM'])
         self.ui.load_pages.Swan01_ECHO_ORDER_NEAR_NUM_spinBox.setValue(self.swan01_config['ECHO_ORDER_NEAR_NUM'])
 
-        Swan01MainUI.out_totalbin_num_windows_change(self, self.swan01_config['OUT_NUMBIN_MODE'])  # 控件隐藏及显示控制
+        Swan01MainUI.dsp_windows_change(self, 0)  # 控件隐藏及显示控制
         Swan01MainUI.out_fir_raw_sel_windows_change(self, self.swan01_config['OUT_FIR_RAW_SEL'])
         Swan01MainUI.dsp_info_update(self, 0)
 
@@ -288,7 +288,7 @@ class Swan01MainUI:
         self.swan01_config[key] = index
         # print(f"{key}: {self.swan01_config[key]}")
         if key == "OUT_NUMBIN_MODE":
-            Swan01MainUI.out_totalbin_num_windows_change(self, index)
+            Swan01MainUI.dsp_windows_change(self, index)
         elif key == "OUT_FIR_RAW_SEL":
             Swan01MainUI.out_fir_raw_sel_windows_change(self, index)
         elif key == "PXL_PACK_SEL":
@@ -328,12 +328,14 @@ class Swan01MainUI:
 
     def work_mode_update(self, index):
         self.swan01_config['WORK_MODE'] = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.get_selected_index()
+        Swan01MainUI.dsp_windows_change(self, index)
         # print(f"WORK_MODE: {self.swan01_config['WORK_MODE']}")
 
     def hist_info_update(self, value):
         hist_minbin_thrs = self.swan01_config["HIST_MINBIN_THRS"]
         hist_maxbin_thrs = self.swan01_config["HIST_MAXBIN_THRS"]
         ns_minbin_thrs = self.swan01_config["NS_MINBIN_THRS"]
+        spot_mon_minbin_thrs = self.swan01_config["SPOT_MON_MINBIN_THRS"]
         ns_cal_seg_num = self.ui.load_pages.Swan01_NS_CAL_SEG_NUM_SET_spinBox.value()
 
         # bin_number 最小值为 256
@@ -363,6 +365,7 @@ class Swan01MainUI:
 
         # 更新 bin_number
         self.ui.load_pages.Swan01_BIN_NUMBER_Value.setNum(bin_number)
+        self.ui.load_pages.Swan01_SPOT_MON_MINBIN_THRS_Value.setNum(spot_mon_minbin_thrs*2)
 
         # 更新 NS_MAXBIN_THRS (此值不通过 SpinBox 进行设置, 后端自行计算后填值)
         self.ui.load_pages.Swan01_NS_MAXBIN_THRS_spinBox.setValue(ns_maxbin_thrs)
@@ -382,11 +385,20 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_FWHM_SEARCH_NUM_Value.setNum(fwhm_search_num_act)
         return
 
-    def out_totalbin_num_windows_change(self, index):
-        Enable = True if (index == 0) else False
-        self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_spinBox.setEnabled(Enable)
-        self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setEnabled(not Enable)
-        self.ui.load_pages.Swan01_OUT_ECHOBIN_NUM_spinBox.setEnabled(not Enable)
+    def dsp_windows_change(self, index):
+        if 1 in self.swan01_config['WORK_MODE']:   # PHR
+            Enable = True if (self.swan01_config['OUT_NUMBIN_MODE'] == 0) else False
+            self.ui.load_pages.Swan01_OUT_NUMBIN_MODE_ComboBox.setEnabled(True)
+            self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_spinBox.setEnabled(Enable)
+            self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setEnabled(not Enable)
+            self.ui.load_pages.Swan01_OUT_ECHOBIN_NUM_spinBox.setEnabled(not Enable)
+            if 0 in self.swan01_config['WORK_MODE']:  # SPHR
+                self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setEnabled(True)
+        if 0 in self.swan01_config['WORK_MODE'] and 1 not in self.swan01_config['WORK_MODE']:   # SPHR & No PHR
+            self.ui.load_pages.Swan01_OUT_NUMBIN_MODE_ComboBox.setEnabled(False)
+            self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_spinBox.setEnabled(False)
+            self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setEnabled(True)
+            self.ui.load_pages.Swan01_OUT_ECHOBIN_NUM_spinBox.setEnabled(False)
         pass
 
     def out_fir_raw_sel_windows_change(self, index):

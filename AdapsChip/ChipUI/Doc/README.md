@@ -17,7 +17,7 @@
     - [2.5.1 txt 文件格式说明](#251-txt-文件格式说明)
     - [2.5.2 csv \& xls \& xlsx 文件格式说明](#252-csv--xls--xlsx-文件格式说明)
   - [2.6 寄存器配置生成功能说明](#26-寄存器配置生成功能说明)
-- [3 Swan01](#3-swan01)
+- [3 LineArray](#3-linearray)
   - [3.1 软件介绍](#31-软件介绍)
   - [3.2 Script 配置界面](#32-script-配置界面)
     - [3.2.1 SYSC 相关配置](#321-sysc-相关配置)
@@ -34,12 +34,12 @@
 # 2 Hawk01
 ## 2.1 软件介绍  
 > 软件整体界面如下  
-<img src="figs/Hawk01_Software.jpg" alt="Hawk01_Software" title="Hawk01_Software" width=500>
+<img src="figs/Hawk01_Software.jpg" alt="Hawk01_Software" title="Software" width=500>
 
 ## 2.2 Script配置界面 
 ### 2.2.1 寄存器相关配置介绍
 > 程序会根据选择的配置, 基于基准脚本, 生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#26-寄存器配置生成功能说明) 进行查看  
-<img src="figs/Hawk01_ScriptConfig.jpg" alt="Hawk01_ScriptConfig" title="Hawk01_ScriptConfig">
+<img src="figs/Hawk01_ScriptConfig.jpg" alt="Hawk01_ScriptConfig" title="ScriptConfig">
 
 1. XCLK: PLL_CLKIN 的输出参考时钟, 可配置为24M或25M
 2. MST_MODE: 寄存器配置, 芯片是作为 Slave or Master 
@@ -63,7 +63,7 @@
 
 #### 2.2.2.1 ROI GUI
 > 根据界面上相关字段配置, 直接生成 ROI 数据  
-<img src="figs/Hawk01_ROI_GUI.jpg" alt="Hawk01_ROI_GUI" title="Hawk01_ROI_GUI">
+<img src="figs/Hawk01_ROI_GUI.jpg" alt="Hawk01_ROI_GUI" title="ROI_GUI">
 
 1. seg_hs: horizontal starting coordinates, 表示水平方向起始段数, 以segments为单位, 配置值1~16
 2. spad_vs: vertical starting coordinates, 表示垂直方向起始坐标, 以spad为单位, 配置值范围: 1~576
@@ -85,14 +85,14 @@
 
 #### 2.2.2.2 ROI COOR
 > 根据给定的 ROI 坐标信息, 生成 ROI 数据  
-<img src="figs/Hawk01_ROI_COOR.jpg" alt="Hawk01_ROI_COOR" title="Hawk01_ROI_COOR">
+<img src="figs/Hawk01_ROI_COOR.jpg" alt="Hawk01_ROI_COOR" title="ROI_COOR">
 
 1. ROI File: ROI 坐标信息文件, 支持 *.txt, *.csv, *.xls, *.xlsx 格式, 程序自动识别文件类型进行解析. *.txt 标定文件格式说明请跳转 [***txt 标定文件格式说明***](#251-txt-文件格式说明) 进行查看, *.csv, *.xls, *.xlsx 标定文件格式说明请跳转 [***csv&xls&xlsx 标定文件格式说明***](#252-csv--xls--xlsx-文件格式说明) 进行查看
 2. Sheet Sel: 当文件格式为 .xls or .xlsx 时, 支持指定 sheet 页, 生成 ROI 数据
 
 #### 2.2.2.3 ROI Edit
 > 基于已经生成的 ROI Memory 文件, 解析 & 生成新的 ROI 数据  
-<img src="figs/Hawk01_ROI_Edit.jpg" alt="Hawk01_ROI_Edit" title="Hawk01_ROI_Edit">
+<img src="figs/Hawk01_ROI_Edit.jpg" alt="Hawk01_ROI_Edit" title="ROI_Edit">
 
 1. ROI File: 选择 ROI Memory 数据
 2. Start Rolling: 截取的起始 Rolling
@@ -102,7 +102,7 @@
 
 #### 2.2.2.4 ROI Cali  
 > 该窗口是利用 SpadisApp 采集 Demo ROI 标定数据, 生成 ROI 脚本, 生成的 ROI 脚本用在 Fhr/Phr/Sphr模式  
-<img src="figs/Hawk01_ROI_Cali.jpg" alt="Hawk01_ROI_Cali" title="Hawk01_ROI_Cali">
+<img src="figs/Hawk01_ROI_Cali.jpg" alt="Hawk01_ROI_Cali" title="ROI_Cali">
 
 1. Cali File: 选择 ROI 标定数据的目录位置
 2. Img Mirror: SpadisApp 采集标定数据时, 存在 X/Y Mirror, 对于标定数据, 需要进行如下处理:   
@@ -122,14 +122,14 @@
 10. mode 2D: 仅适用于2D scan模式, 0: 以光条能量优先；1: 以能 Masking的最大光子数优先
 
 #### 2.2.2.5 ROI BUTTON
-<img src="figs/Hawk01_ROI_BUTTON.jpg" alt="Hawk01_ROI_BUTTON" title="Hawk01_ROI_BUTTON">
+<img src="figs/Hawk01_ROI_BUTTON.jpg" alt="Hawk01_ROI_BUTTON" title="ROI_BUTTON">
 
 1. `ZONE INFO`: 跳转到 ZONE CONFIG 界面, 进行 ROI Memory 其他相关配置. 具体使用说明请跳转 [***ZONE CONFIG界面介绍***](#23-zone-config界面) 进行查看
 2. `View`: 跳转到 ROI Show 界面, 展示当前窗口下配置的 ROI rolling 效果. ROI Show 界面介绍请跳转 [***ROI Show界面介绍***](#24-roi-show界面) 进行查看
 3. `Save`: 保存当前窗口下配置的 ROI 脚本
 
 ### 2.2.3 脚本文件相关配置 
-<img src="figs/Hawk01_ScriptFilesConfig.jpg" alt="Hawk01_ScriptFilesConfig" title="Hawk01_ScriptFilesConfig">
+<img src="figs/Hawk01_ScriptFilesConfig.jpg" alt="Hawk01_ScriptFilesConfig" title="ScriptFilesConfig">
 
 1. Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#26-寄存器配置生成功能说明) 进行查看  
    `Parse`: 可以解析所选择脚本的寄存器配置, 同时会校验 MIPI WC & FLNR 配置是否正确
@@ -144,7 +144,7 @@
 
 ## 2.3 Zone Config界面
 > 此界面主要针对非 Masking 相关的 ROI Memory 配置  
-<img src="figs/Hawk01_ZoneConfig.jpg" alt="Hawk01_ZoneConfig" title="Hawk01_ZoneConfig">
+<img src="figs/Hawk01_ZoneConfig.jpg" alt="Hawk01_ZoneConfig" title="ZoneConfig">
 
 1. Laser Period: 根据 Hawk GUI 工具 `主界面配置` 以及 `zone config` 界面配置自动计算出的激光重频时间, 无需手动配置
 2. Laser Pluse Width: 根据 Hawk GUI 工具 `主界面配置` 以及 `zone config` 界面配置自动计算出的激光脉宽, 无需手动配置
@@ -194,9 +194,9 @@
 3. Rolling配置需要与 SCAN_MODE、V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG 匹配
 4. 坐标配置顺序需按照Rolling顺序依次配置, 如:
    1. 1D SCAN_MODE: V_ROLL_NUM=32 为例, 先配置第1次Rolling坐标, 再配置第2次、第3次...  
-      <img src="figs/Hawk01_1D_SCAN_Excel.jpg" alt="Hawk01_1D_SCAN_Excel配置示例" title="Hawk01_1D_SCAN_Excel配置示例"  width =500>
+      <img src="figs/Hawk01_1D_SCAN_Excel.jpg" alt="Hawk01_1D_SCAN_Excel配置示例" title="1D_SCAN_Excel配置示例"  width =500>
    2. 2D SCNA_MODE: V_ROLL_NUM=32, H_ROLL_NUM=4 为例, 依次配置`1-1、1-2、1-3、1-4、2-1、2-2...`  
-      <img src="figs/Hawk01_2D_SCAN_Excel.jpg" alt="Hawk01_2D_SCAN_Excel配置示例" title="Hawk01_2D_SCAN_Excel配置示例"  width =500>
+      <img src="figs/Hawk01_2D_SCAN_Excel.jpg" alt="Hawk01_2D_SCAN_Excel配置示例" title="2D_SCAN_Excel配置示例"  width =500>
 
 ## 2.6 寄存器配置生成功能说明
 1. 系统时钟330、250、200M及分频相关寄存器配置
@@ -208,10 +208,10 @@
 7. V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、WOKR_MODE、SCAN_MODE等寄存器配置
 8. MINBIN_THRS、MAXBIN_THRS、V_PXL_OUT_NUM、OUT_BIN_NUM、PKS_ECHO_NUM 等寄存器配置
 
-# 3 Swan01
+# 3 LineArray
 ## 3.1 软件介绍  
 > 软件整体界面如下  
-<img src="figs/Swan01_Software.jpg" alt="Swan01_Software" title="Swan01_Software" width=500>
+<img src="figs/Swan01_Software.jpg" alt="Swan01_Software" title="Software" width=500>
 1. 软件支持根据配置生成寄存器脚本
 2. 软件支持根据配置生成 ROI 脚本
 3. 软件支持根据配置进行读出时间计算
@@ -222,37 +222,37 @@
 
 ### 3.2.1 SYSC 相关配置
 > SYSC 配置界面如下, 具体配置功能请查阅寄存器文档  
-<img src="figs/Swan01_ScriptConfig_SYSC.jpg" alt="Swan01_ScriptConfig_SYSC" title="Swan01_ScriptConfig_SYSC">
+<img src="figs/Swan01_ScriptConfig_SYSC.jpg" alt="Swan01_ScriptConfig_SYSC" title="ScriptConfig_SYSC">
 
 ### 3.2.2 TRIG 相关配置
 > TRIG 配置界面如下, 具体配置功能请查阅寄存器文档  
-<img src="figs/Swan01_ScriptConfig_TRIG.jpg" alt="Swan01_ScriptConfig_TRIG" title="Swan01_ScriptConfig_TRIG">
+<img src="figs/Swan01_ScriptConfig_TRIG.jpg" alt="Swan01_ScriptConfig_TRIG" title="ScriptConfig_TRIG">
 
 ### 3.2.3 HIST 相关配置
 > HIST 配置界面如下, 具体配置功能请查阅寄存器文档  
-<img src="figs/Swan01_ScriptConfig_HIST.jpg" alt="Swan01_ScriptConfig_HIST" title="Swan01_ScriptConfig_HIST">
+<img src="figs/Swan01_ScriptConfig_HIST.jpg" alt="Swan01_ScriptConfig_HIST" title="ScriptConfig_HIST">
 1. 基于芯片设置, NS_MINBIN_THRS & NS_MAXBIN_THRS 需要满足一定的配置条件(具体请查阅 User manual), GUI 通过配置
  NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS
 
 ### 3.2.4 DSP 相关配置
 > DSP 配置界面如下, 具体配置功能请查阅寄存器文档  
-<img src="figs/Swan01_ScriptConfig_DSP.jpg" alt="Swan01_ScriptConfig_DSP" title="Swan01_ScriptConfig_DSP">
+<img src="figs/Swan01_ScriptConfig_DSP.jpg" alt="Swan01_ScriptConfig_DSP" title="ScriptConfig_DSP">
 
 ### 3.2.5 TXU 相关配置
 > TXU 配置界面如下, 具体配置功能请查阅寄存器文档  
-<img src="figs/Swan01_ScriptConfig_TXU.jpg" alt="Swan01_ScriptConfig_TXU" title="Swan01_ScriptConfig_TXU">
+<img src="figs/Swan01_ScriptConfig_TXU.jpg" alt="Swan01_ScriptConfig_TXU" title="ScriptConfig_TXU">
 1. 基于芯片设置, 软件根据界面配置的 PXL_PACK_SEL, 自动修改 MIPI_PACK_CTRL 下所有寄存器域
 2. PXL_PACK_SEL 配置的合理性, 软件会自定校验, 若校验不通过, 给出相应提示. 校验主要考虑的场景有: MIPI 组包的合理性, MIPI over_flow, under_flow 的可能性
 
 ### 3.2.6 USER-Define config 相关配置
 > 本软件通用配置中, SYSC_CLK 仅支持 `330 / 400 MHz`, MIPI 仅支持 `0.8 / 1.0 / 1.2 / 1.5 Gbps/LANE, LANE_NUM = 4` 的计算方式. 考虑到帧率计算的复杂性, 特意增加本界面, 支持自定义相关配置  
-<img src="figs/Swan01_ScriptConfig_User-Define.jpg" alt="Swan01_ScriptConfig_User-Define" title="Swan01_ScriptConfig_User-Define">
+<img src="figs/Swan01_ScriptConfig_User-Define.jpg" alt="Swan01_ScriptConfig_User-Define" title="ScriptConfig_User-Define">
 1. 用户自定义的配置界面, 用户需要自己保证 SYSC_CLK 以及 MIPI 相关配置的合理性
 2. 本界面的配置仅用于计算 MIPI_TXDLY 等与数据控制流的相关寄存器配置，并不会修改脚本中的 SYS_CLK 以及 MIPI速率，需要用户在生成脚本后，手动修改 SYS_CLK 以及 MIPI相关配置
 3. MIPI_PKT_INTV_MARGIN 在用户非自定义配置时生效, 在基于寄存器配置计算的 MIPI_PKT_INTV 的基础上, 手动调整 MIPI 包间隔, 满足用户更多的使用场景
 
 ### 3.2.7 脚本文件相关配置 
-<img src="figs/Swan01_ScriptFilesConfig.jpg" alt="Swan01_ScriptFilesConfig" title="Swan01_ScriptFilesConfig">
+<img src="figs/Swan01_ScriptFilesConfig.jpg" alt="Swan01_ScriptFilesConfig" title="ScriptFilesConfig">
 
 1. Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 [***寄存器配置生成功能说明***](#34-寄存器配置生成功能说明) 进行查看  
 2. Reg Script Name: 保存的配置脚本名称
@@ -266,7 +266,7 @@
 
 ## 3.3 ROI 配置界面 
 > 程序会根据选择的配置, 生成 ROI .txt 文件  
-<img src="figs/Swan01_ROIConfig.jpg" alt="Swan01_ROIConfig" title="Swan01_ROIConfig">
+<img src="figs/Swan01_ROIConfig.jpg" alt="Swan01_ROIConfig" title="ROIConfig">
 1. ROI 支持根据 GUI 界面的配置生成 ROI, 或者根据选择现有的脚本配置生成 ROI
    1. 影响 ROI 配置主要有 ULR_EN, 跳频功能(影响曝光时间) 以及 数据读出时间
 2. ROI 生成时, 主要配置来源于 Excel
@@ -284,7 +284,5 @@
 > 此界面主要为软件通用配置  
 <img src="figs/SoftSetting.jpg" alt="SoftSetting" title="SoftSetting" width =500>
 
-1. Chip ID: 目前仅支持 Hawk01
-2. Themes: Not supported yet
-3. ROI Image: ROI 数据保存时, 是否同步保存 ROI Masking 相关图片(图片内存偏大, 保存时速度较慢)
-4. ROI Format: ROI 数据保存格式, Half-word or Byte
+1. ROI Image: ROI 数据保存时, 是否同步保存 ROI Masking 相关图片(图片内存偏大, 保存时速度较慢)
+2. ROI Format: ROI 数据保存格式, Half-word or Byte

@@ -34,3 +34,8 @@ Swan:
   1. 由于 MIPI_FSDLY_CYC 位宽的限制, 无法将 MPI_PKT_INTV 配置过大. 考虑到客户存在将 MIPI_PKT_INTV 配
      置无限大的可能, 因此对 MIPI_FSDLY_CYC 特殊处理, 如果超位宽, 直接将配置修改为 0x3FF, 此处理方式不影响实
      际应用
+
+2025-08-25 version 3.0.6    @honggang_li@icloud.com
+LineArray:
+  1. 修改 PHR & SPHR 模式下, DSP 配置界面输出数据的控制逻辑
+  2. SPOT_MON_MINBIN_THRS 配置行, 右边 Value 根据 SPOT_MON_MINBIN_THRS 配置实时更新

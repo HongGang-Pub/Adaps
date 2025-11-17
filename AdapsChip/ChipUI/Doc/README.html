@@ -397,7 +397,7 @@ code {
 <li><a href="#26-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E">2.6 寄存器配置生成功能说明</a></li>
 </ul>
 </li>
-<li><a href="#3-swan01">3 Swan01</a>
+<li><a href="#3-linearray">3 LineArray</a>
 <ul>
 <li><a href="#31-%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D">3.1 软件介绍</a></li>
 <li><a href="#32-script-%E9%85%8D%E7%BD%AE%E7%95%8C%E9%9D%A2">3.2 Script 配置界面</a>
@@ -421,13 +421,13 @@ code {
 <h2 id="21-%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D">2.1 软件介绍</h2>
 <blockquote>
 <p>软件整体界面如下<br>
-<img src="figs/Hawk01_Software.jpg" alt="Hawk01_Software" title="Hawk01_Software" width=500></p>
+<img src="figs/Hawk01_Software.jpg" alt="Hawk01_Software" title="Software" width=500></p>
 </blockquote>
 <h2 id="22-script%E9%85%8D%E7%BD%AE%E7%95%8C%E9%9D%A2">2.2 Script配置界面</h2>
 <h3 id="221-%E5%AF%84%E5%AD%98%E5%99%A8%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE%E4%BB%8B%E7%BB%8D">2.2.1 寄存器相关配置介绍</h3>
 <blockquote>
 <p>程序会根据选择的配置, 基于基准脚本, 生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 <a href="#26-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E"><em><strong>寄存器配置生成功能说明</strong></em></a> 进行查看<br>
-<img src="figs/Hawk01_ScriptConfig.jpg" alt="Hawk01_ScriptConfig" title="Hawk01_ScriptConfig"></p>
+<img src="figs/Hawk01_ScriptConfig.jpg" alt="Hawk01_ScriptConfig" title="ScriptConfig"></p>
 </blockquote>
 <ol>
 <li>XCLK: PLL_CLKIN 的输出参考时钟, 可配置为24M或25M</li>
@@ -454,7 +454,7 @@ code {
 <h4 id="2221-roi-gui">2.2.2.1 ROI GUI</h4>
 <blockquote>
 <p>根据界面上相关字段配置, 直接生成 ROI 数据<br>
-<img src="figs/Hawk01_ROI_GUI.jpg" alt="Hawk01_ROI_GUI" title="Hawk01_ROI_GUI"></p>
+<img src="figs/Hawk01_ROI_GUI.jpg" alt="Hawk01_ROI_GUI" title="ROI_GUI"></p>
 </blockquote>
 <ol>
 <li>
@@ -499,7 +499,7 @@ code {
 <h4 id="2222-roi-coor">2.2.2.2 ROI COOR</h4>
 <blockquote>
 <p>根据给定的 ROI 坐标信息, 生成 ROI 数据<br>
-<img src="figs/Hawk01_ROI_COOR.jpg" alt="Hawk01_ROI_COOR" title="Hawk01_ROI_COOR"></p>
+<img src="figs/Hawk01_ROI_COOR.jpg" alt="Hawk01_ROI_COOR" title="ROI_COOR"></p>
 </blockquote>
 <ol>
 <li>ROI File: ROI 坐标信息文件, 支持 *.txt, *.csv, *.xls, *.xlsx 格式, 程序自动识别文件类型进行解析. *.txt 标定文件格式说明请跳转 <a href="#251-txt-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E"><em><strong>txt 标定文件格式说明</strong></em></a> 进行查看, *.csv, *.xls, *.xlsx 标定文件格式说明请跳转 <a href="#252-csv--xls--xlsx-%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E"><em><strong>csv&amp;xls&amp;xlsx 标定文件格式说明</strong></em></a> 进行查看</li>
@@ -508,7 +508,7 @@ code {
 <h4 id="2223-roi-edit">2.2.2.3 ROI Edit</h4>
 <blockquote>
 <p>基于已经生成的 ROI Memory 文件, 解析 &amp; 生成新的 ROI 数据<br>
-<img src="figs/Hawk01_ROI_Edit.jpg" alt="Hawk01_ROI_Edit" title="Hawk01_ROI_Edit"></p>
+<img src="figs/Hawk01_ROI_Edit.jpg" alt="Hawk01_ROI_Edit" title="ROI_Edit"></p>
 </blockquote>
 <ol>
 <li>ROI File: 选择 ROI Memory 数据</li>
@@ -520,7 +520,7 @@ code {
 <h4 id="2224-roi-cali">2.2.2.4 ROI Cali</h4>
 <blockquote>
 <p>该窗口是利用 SpadisApp 采集 Demo ROI 标定数据, 生成 ROI 脚本, 生成的 ROI 脚本用在 Fhr/Phr/Sphr模式<br>
-<img src="figs/Hawk01_ROI_Cali.jpg" alt="Hawk01_ROI_Cali" title="Hawk01_ROI_Cali"></p>
+<img src="figs/Hawk01_ROI_Cali.jpg" alt="Hawk01_ROI_Cali" title="ROI_Cali"></p>
 </blockquote>
 <ol>
 <li>
@@ -562,14 +562,14 @@ code {
 </li>
 </ol>
 <h4 id="2225-roi-button">2.2.2.5 ROI BUTTON</h4>
-<img src="figs/Hawk01_ROI_BUTTON.jpg" alt="Hawk01_ROI_BUTTON" title="Hawk01_ROI_BUTTON">
+<img src="figs/Hawk01_ROI_BUTTON.jpg" alt="Hawk01_ROI_BUTTON" title="ROI_BUTTON">
 <ol>
 <li><code>ZONE INFO</code>: 跳转到 ZONE CONFIG 界面, 进行 ROI Memory 其他相关配置. 具体使用说明请跳转 <a href="#23-zone-config%E7%95%8C%E9%9D%A2"><em><strong>ZONE CONFIG界面介绍</strong></em></a> 进行查看</li>
 <li><code>View</code>: 跳转到 ROI Show 界面, 展示当前窗口下配置的 ROI rolling 效果. ROI Show 界面介绍请跳转 <a href="#24-roi-show%E7%95%8C%E9%9D%A2"><em><strong>ROI Show界面介绍</strong></em></a> 进行查看</li>
 <li><code>Save</code>: 保存当前窗口下配置的 ROI 脚本</li>
 </ol>
 <h3 id="223-%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">2.2.3 脚本文件相关配置</h3>
-<img src="figs/Hawk01_ScriptFilesConfig.jpg" alt="Hawk01_ScriptFilesConfig" title="Hawk01_ScriptFilesConfig">
+<img src="figs/Hawk01_ScriptFilesConfig.jpg" alt="Hawk01_ScriptFilesConfig" title="ScriptFilesConfig">
 <ol>
 <li>Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 <a href="#26-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E"><em><strong>寄存器配置生成功能说明</strong></em></a> 进行查看<br>
 <code>Parse</code>: 可以解析所选择脚本的寄存器配置, 同时会校验 MIPI WC &amp; FLNR 配置是否正确</li>
@@ -588,7 +588,7 @@ code {
 <h2 id="23-zone-config%E7%95%8C%E9%9D%A2">2.3 Zone Config界面</h2>
 <blockquote>
 <p>此界面主要针对非 Masking 相关的 ROI Memory 配置<br>
-<img src="figs/Hawk01_ZoneConfig.jpg" alt="Hawk01_ZoneConfig" title="Hawk01_ZoneConfig"></p>
+<img src="figs/Hawk01_ZoneConfig.jpg" alt="Hawk01_ZoneConfig" title="ZoneConfig"></p>
 </blockquote>
 <ol>
 <li>Laser Period: 根据 Hawk GUI 工具 <code>主界面配置</code> 以及 <code>zone config</code> 界面配置自动计算出的激光重频时间, 无需手动配置</li>
@@ -666,9 +666,9 @@ code {
 <li>坐标配置顺序需按照Rolling顺序依次配置, 如:
 <ol>
 <li>1D SCAN_MODE: V_ROLL_NUM=32 为例, 先配置第1次Rolling坐标, 再配置第2次、第3次...<br>
-<img src="figs/Hawk01_1D_SCAN_Excel.jpg" alt="Hawk01_1D_SCAN_Excel配置示例" title="Hawk01_1D_SCAN_Excel配置示例"  width =500></li>
+<img src="figs/Hawk01_1D_SCAN_Excel.jpg" alt="Hawk01_1D_SCAN_Excel配置示例" title="1D_SCAN_Excel配置示例"  width =500></li>
 <li>2D SCNA_MODE: V_ROLL_NUM=32, H_ROLL_NUM=4 为例, 依次配置<code>1-1、1-2、1-3、1-4、2-1、2-2...</code><br>
-<img src="figs/Hawk01_2D_SCAN_Excel.jpg" alt="Hawk01_2D_SCAN_Excel配置示例" title="Hawk01_2D_SCAN_Excel配置示例"  width =500></li>
+<img src="figs/Hawk01_2D_SCAN_Excel.jpg" alt="Hawk01_2D_SCAN_Excel配置示例" title="2D_SCAN_Excel配置示例"  width =500></li>
 </ol>
 </li>
 </ol>
@@ -683,11 +683,11 @@ code {
 <li>V_ROLL_NUM、H_ROLL_NUM、H_VLD_SEG、WOKR_MODE、SCAN_MODE等寄存器配置</li>
 <li>MINBIN_THRS、MAXBIN_THRS、V_PXL_OUT_NUM、OUT_BIN_NUM、PKS_ECHO_NUM 等寄存器配置</li>
 </ol>
-<h1 id="3-swan01">3 Swan01</h1>
+<h1 id="3-linearray">3 LineArray</h1>
 <h2 id="31-%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D">3.1 软件介绍</h2>
 <blockquote>
 <p>软件整体界面如下<br>
-<img src="figs/Swan01_Software.jpg" alt="Swan01_Software" title="Swan01_Software" width=500></p>
+<img src="figs/Swan01_Software.jpg" alt="Swan01_Software" title="Software" width=500></p>
 </blockquote>
 <ol>
 <li>软件支持根据配置生成寄存器脚本</li>
@@ -702,17 +702,17 @@ code {
 <h3 id="321-sysc-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.1 SYSC 相关配置</h3>
 <blockquote>
 <p>SYSC 配置界面如下, 具体配置功能请查阅寄存器文档<br>
-<img src="figs/Swan01_ScriptConfig_SYSC.jpg" alt="Swan01_ScriptConfig_SYSC" title="Swan01_ScriptConfig_SYSC"></p>
+<img src="figs/Swan01_ScriptConfig_SYSC.jpg" alt="Swan01_ScriptConfig_SYSC" title="ScriptConfig_SYSC"></p>
 </blockquote>
 <h3 id="322-trig-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.2 TRIG 相关配置</h3>
 <blockquote>
 <p>TRIG 配置界面如下, 具体配置功能请查阅寄存器文档<br>
-<img src="figs/Swan01_ScriptConfig_TRIG.jpg" alt="Swan01_ScriptConfig_TRIG" title="Swan01_ScriptConfig_TRIG"></p>
+<img src="figs/Swan01_ScriptConfig_TRIG.jpg" alt="Swan01_ScriptConfig_TRIG" title="ScriptConfig_TRIG"></p>
 </blockquote>
 <h3 id="323-hist-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.3 HIST 相关配置</h3>
 <blockquote>
 <p>HIST 配置界面如下, 具体配置功能请查阅寄存器文档<br>
-<img src="figs/Swan01_ScriptConfig_HIST.jpg" alt="Swan01_ScriptConfig_HIST" title="Swan01_ScriptConfig_HIST"></p>
+<img src="figs/Swan01_ScriptConfig_HIST.jpg" alt="Swan01_ScriptConfig_HIST" title="ScriptConfig_HIST"></p>
 </blockquote>
 <ol>
 <li>基于芯片设置, NS_MINBIN_THRS &amp; NS_MAXBIN_THRS 需要满足一定的配置条件(具体请查阅 User manual), GUI 通过配置
@@ -721,12 +721,12 @@ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS</li>
 <h3 id="324-dsp-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.4 DSP 相关配置</h3>
 <blockquote>
 <p>DSP 配置界面如下, 具体配置功能请查阅寄存器文档<br>
-<img src="figs/Swan01_ScriptConfig_DSP.jpg" alt="Swan01_ScriptConfig_DSP" title="Swan01_ScriptConfig_DSP"></p>
+<img src="figs/Swan01_ScriptConfig_DSP.jpg" alt="Swan01_ScriptConfig_DSP" title="ScriptConfig_DSP"></p>
 </blockquote>
 <h3 id="325-txu-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.5 TXU 相关配置</h3>
 <blockquote>
 <p>TXU 配置界面如下, 具体配置功能请查阅寄存器文档<br>
-<img src="figs/Swan01_ScriptConfig_TXU.jpg" alt="Swan01_ScriptConfig_TXU" title="Swan01_ScriptConfig_TXU"></p>
+<img src="figs/Swan01_ScriptConfig_TXU.jpg" alt="Swan01_ScriptConfig_TXU" title="ScriptConfig_TXU"></p>
 </blockquote>
 <ol>
 <li>基于芯片设置, 软件根据界面配置的 PXL_PACK_SEL, 自动修改 MIPI_PACK_CTRL 下所有寄存器域</li>
@@ -735,7 +735,7 @@ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS</li>
 <h3 id="326-user-define-config-%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.6 USER-Define config 相关配置</h3>
 <blockquote>
 <p>本软件通用配置中, SYSC_CLK 仅支持 <code>330 / 400 MHz</code>, MIPI 仅支持 <code>0.8 / 1.0 / 1.2 / 1.5 Gbps/LANE, LANE_NUM = 4</code> 的计算方式. 考虑到帧率计算的复杂性, 特意增加本界面, 支持自定义相关配置<br>
-<img src="figs/Swan01_ScriptConfig_User-Define.jpg" alt="Swan01_ScriptConfig_User-Define" title="Swan01_ScriptConfig_User-Define"></p>
+<img src="figs/Swan01_ScriptConfig_User-Define.jpg" alt="Swan01_ScriptConfig_User-Define" title="ScriptConfig_User-Define"></p>
 </blockquote>
 <ol>
 <li>用户自定义的配置界面, 用户需要自己保证 SYSC_CLK 以及 MIPI 相关配置的合理性</li>
@@ -743,7 +743,7 @@ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS</li>
 <li>MIPI_PKT_INTV_MARGIN 在用户非自定义配置时生效, 在基于寄存器配置计算的 MIPI_PKT_INTV 的基础上, 手动调整 MIPI 包间隔, 满足用户更多的使用场景</li>
 </ol>
 <h3 id="327-%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6%E7%9B%B8%E5%85%B3%E9%85%8D%E7%BD%AE">3.2.7 脚本文件相关配置</h3>
-<img src="figs/Swan01_ScriptFilesConfig.jpg" alt="Swan01_ScriptFilesConfig" title="Swan01_ScriptFilesConfig">
+<img src="figs/Swan01_ScriptFilesConfig.jpg" alt="Swan01_ScriptFilesConfig" title="ScriptFilesConfig">
 <ol>
 <li>Reference Script: 基准脚本, 程序会根据选择的基准配置文件以及最新的配置信息, 自动生成新的寄存器配置脚本. 寄存器配置脚本支持的功能请跳转 <a href="#34-%E5%AF%84%E5%AD%98%E5%99%A8%E9%85%8D%E7%BD%AE%E7%94%9F%E6%88%90%E5%8A%9F%E8%83%BD%E8%AF%B4%E6%98%8E"><em><strong>寄存器配置生成功能说明</strong></em></a> 进行查看</li>
 <li>Reg Script Name: 保存的配置脚本名称
@@ -761,7 +761,7 @@ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS</li>
 <h2 id="33-roi-%E9%85%8D%E7%BD%AE%E7%95%8C%E9%9D%A2">3.3 ROI 配置界面</h2>
 <blockquote>
 <p>程序会根据选择的配置, 生成 ROI .txt 文件<br>
-<img src="figs/Swan01_ROIConfig.jpg" alt="Swan01_ROIConfig" title="Swan01_ROIConfig"></p>
+<img src="figs/Swan01_ROIConfig.jpg" alt="Swan01_ROIConfig" title="ROIConfig"></p>
 </blockquote>
 <ol>
 <li>ROI 支持根据 GUI 界面的配置生成 ROI, 或者根据选择现有的脚本配置生成 ROI
@@ -789,8 +789,6 @@ NS_MINBIN_THRS 以及 计算 NOISE 的段数, 自动计算 NS_MAXBIN_THRS</li>
 <img src="figs/SoftSetting.jpg" alt="SoftSetting" title="SoftSetting" width =500></p>
 </blockquote>
 <ol>
-<li>Chip ID: 目前仅支持 Hawk01</li>
-<li>Themes: Not supported yet</li>
 <li>ROI Image: ROI 数据保存时, 是否同步保存 ROI Masking 相关图片(图片内存偏大, 保存时速度较慢)</li>
 <li>ROI Format: ROI 数据保存格式, Half-word or Byte</li>
 </ol>

@@ -23,7 +23,7 @@
     "SCAN_MODE": 0,
     "V_ROLL_NUM": 31,
     "H_ROLL_NUM": 3,
-    "H_VLD_SEG": 3,
+    "H_VLD_SEG": 15,
     "V_PXL_OUT_NUM": 1,
     "MINBIN_THRS": 21,
     "MAXBIN_THRS": 144,

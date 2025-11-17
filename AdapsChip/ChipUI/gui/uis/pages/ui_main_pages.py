@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesGMewCX.ui'
+## Form generated from reading UI file 'main_pagesuyeWOb.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.1
 ##
@@ -550,7 +550,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config1byGUI_1.setWidgetResizable(True)
         self.Hawk01_Config1byGUI_2 = QWidget()
         self.Hawk01_Config1byGUI_2.setObjectName(u"Hawk01_Config1byGUI_2")
-        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 201, 237))
+        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 368, 419))
         self.formLayout = QFormLayout(self.Hawk01_Config1byGUI_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -817,7 +817,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config3ROIEdit_1.setWidgetResizable(True)
         self.Hawk01_Config3ROIEdit_2 = QWidget()
         self.Hawk01_Config3ROIEdit_2.setObjectName(u"Hawk01_Config3ROIEdit_2")
-        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 263, 79))
+        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 368, 419))
         self.formLayout_5 = QFormLayout(self.Hawk01_Config3ROIEdit_2)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -908,7 +908,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config4ROICali_1.setWidgetResizable(True)
         self.Hawk01_Config4ROICali_2 = QWidget()
         self.Hawk01_Config4ROICali_2.setObjectName(u"Hawk01_Config4ROICali_2")
-        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 280, 268))
+        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 368, 410))
         self.formLayout_7 = QFormLayout(self.Hawk01_Config4ROICali_2)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -1669,7 +1669,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 977, 279))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 670, 108))
         self.gridLayout_15 = QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_15.setObjectName(u"gridLayout_15")
         self.gridLayout_15.setContentsMargins(0, 0, 0, 0)
@@ -1829,7 +1829,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 977, 279))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 704, 185))
         self.gridLayout_12 = QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_12.setObjectName(u"gridLayout_12")
         self.gridLayout_12.setContentsMargins(0, 0, 0, 0)
@@ -2101,7 +2101,7 @@ class Ui_MainPages(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 977, 279))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 655, 214))
         self.gridLayout_13 = QGridLayout(self.scrollAreaWidgetContents_4)
         self.gridLayout_13.setObjectName(u"gridLayout_13")
         self.gridLayout_13.setContentsMargins(0, 0, 0, 0)
@@ -2373,7 +2373,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 977, 279))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 655, 108))
         self.gridLayout_14 = QGridLayout(self.scrollAreaWidgetContents_5)
         self.gridLayout_14.setObjectName(u"gridLayout_14")
         self.gridLayout_14.setContentsMargins(0, 0, 0, 0)
@@ -2538,7 +2538,7 @@ class Ui_MainPages(object):
         self.scrollArea_11.setWidgetResizable(True)
         self.scrollAreaWidgetContents_11 = QWidget()
         self.scrollAreaWidgetContents_11.setObjectName(u"scrollAreaWidgetContents_11")
-        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 977, 228))
+        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 403, 187))
         self.gridLayout_21 = QGridLayout(self.scrollAreaWidgetContents_11)
         self.gridLayout_21.setObjectName(u"gridLayout_21")
         self.gridLayout_21.setContentsMargins(0, 0, 0, 0)
@@ -3639,7 +3639,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 442, 285))
+        self.contents.setGeometry(QRect(0, 0, 991, 811))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -3667,76 +3667,7 @@ class Ui_MainPages(object):
         self.verticalLayout_9 = QVBoxLayout(self.softsetting)
         self.verticalLayout_9.setSpacing(24)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
-        self.chip_ID_Group = QFrame(self.softsetting)
-        self.chip_ID_Group.setObjectName(u"chip_ID_Group")
-        self.chip_ID_Group.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.chip_ID_Group.setAutoFillBackground(False)
-        self.horizontalLayout_3 = QHBoxLayout(self.chip_ID_Group)
-        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.chip_ID_Label = QLabel(self.chip_ID_Group)
-        self.chip_ID_Label.setObjectName(u"chip_ID_Label")
-        self.chip_ID_Label.setMinimumSize(QSize(100, 0))
-        self.chip_ID_Label.setMaximumSize(QSize(100, 16777215))
-        font6 = QFont()
-        font6.setFamilies([u"Microsoft YaHei UI"])
-        font6.setPointSize(12)
-        font6.setBold(False)
-        font6.setItalic(False)
-        self.chip_ID_Label.setFont(font6)
-        self.chip_ID_Label.setFrameShape(QFrame.Shape.NoFrame)
-
-        self.horizontalLayout_3.addWidget(self.chip_ID_Label)
-
-        self.chip_ID_ComboBox = QComboBox(self.chip_ID_Group)
-        self.chip_ID_ComboBox.addItem("")
-        self.chip_ID_ComboBox.setObjectName(u"chip_ID_ComboBox")
-        self.chip_ID_ComboBox.setEnabled(False)
-        self.chip_ID_ComboBox.setMinimumSize(QSize(300, 0))
-        self.chip_ID_ComboBox.setMaximumSize(QSize(300, 16777215))
-        self.chip_ID_ComboBox.setFont(font6)
-
-        self.horizontalLayout_3.addWidget(self.chip_ID_ComboBox)
-
-        self.horizontalSpacer_19 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_3.addItem(self.horizontalSpacer_19)
-
-
-        self.verticalLayout_9.addWidget(self.chip_ID_Group)
-
-        self.thems_select_Group = QFrame(self.softsetting)
-        self.thems_select_Group.setObjectName(u"thems_select_Group")
-        self.thems_select_Group.setEnabled(False)
-        self.horizontalLayout_21 = QHBoxLayout(self.thems_select_Group)
-        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
-        self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
-        self.themes_select_Label = QLabel(self.thems_select_Group)
-        self.themes_select_Label.setObjectName(u"themes_select_Label")
-        self.themes_select_Label.setMinimumSize(QSize(100, 0))
-        self.themes_select_Label.setMaximumSize(QSize(100, 16777215))
-        self.themes_select_Label.setFont(font6)
-        self.themes_select_Label.setFrameShape(QFrame.Shape.NoFrame)
-
-        self.horizontalLayout_21.addWidget(self.themes_select_Label)
-
-        self.themes_select_ComboBox = QComboBox(self.thems_select_Group)
-        self.themes_select_ComboBox.addItem("")
-        self.themes_select_ComboBox.addItem("")
-        self.themes_select_ComboBox.setObjectName(u"themes_select_ComboBox")
-        self.themes_select_ComboBox.setMinimumSize(QSize(300, 0))
-        self.themes_select_ComboBox.setMaximumSize(QSize(300, 16777215))
-        self.themes_select_ComboBox.setFont(font6)
-
-        self.horizontalLayout_21.addWidget(self.themes_select_ComboBox)
-
-        self.horizontalSpacer_21 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_21.addItem(self.horizontalSpacer_21)
-
-
-        self.verticalLayout_9.addWidget(self.thems_select_Group)
-
+        self.verticalLayout_9.setContentsMargins(-1, 20, -1, -1)
         self.roi_image_save = QFrame(self.softsetting)
         self.roi_image_save.setObjectName(u"roi_image_save")
         self.horizontalLayout_22 = QHBoxLayout(self.roi_image_save)
@@ -3746,6 +3677,11 @@ class Ui_MainPages(object):
         self.roi_image_save_Label.setObjectName(u"roi_image_save_Label")
         self.roi_image_save_Label.setMinimumSize(QSize(100, 0))
         self.roi_image_save_Label.setMaximumSize(QSize(100, 16777215))
+        font6 = QFont()
+        font6.setFamilies([u"Microsoft YaHei UI"])
+        font6.setPointSize(12)
+        font6.setBold(False)
+        font6.setItalic(False)
         self.roi_image_save_Label.setFont(font6)
         self.roi_image_save_Label.setFrameShape(QFrame.Shape.NoFrame)
 
@@ -4441,19 +4377,6 @@ class Ui_MainPages(object):
         self.general_operate_Button_03.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.general_operate_Button_06.setText(QCoreApplication.translate("MainPages", u"button", None))
         self.title_label.setText(QCoreApplication.translate("MainPages", u"Setting", None))
-        self.chip_ID_Label.setText(QCoreApplication.translate("MainPages", u"Chip ID", None))
-        self.chip_ID_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Hawk01", None))
-
-#if QT_CONFIG(tooltip)
-        self.thems_select_Group.setToolTip("")
-#endif // QT_CONFIG(tooltip)
-        self.themes_select_Label.setText(QCoreApplication.translate("MainPages", u"Themes", None))
-        self.themes_select_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"light", None))
-        self.themes_select_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"dark", None))
-
-#if QT_CONFIG(tooltip)
-        self.themes_select_ComboBox.setToolTip(QCoreApplication.translate("MainPages", u"Coming soon!", None))
-#endif // QT_CONFIG(tooltip)
         self.roi_image_save_Label.setText(QCoreApplication.translate("MainPages", u"ROI Image", None))
         self.roi_image_save_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Discard", None))
         self.roi_image_save_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Save", None))

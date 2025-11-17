@@ -1,10 +1,10 @@
 {
     "app_name": "Adaps Script GUI",
-    "version" : "v3.0.5",
+    "navigation_bar": ["Hawk01", "LineArray", "Toolbox"],
+    "version" : "v3.0.6",
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
     "DEBUG": false,
-    "TOOL_BOX": true,
     "startup_size": [
         1000,
         870
