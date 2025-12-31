@@ -30,7 +30,7 @@ from PySide6.QtCore import QTimer, QThread, QSize, QRegularExpression, QEvent, Q
 from PySide6.QtCore import QParallelAnimationGroup, QRect, QObject, Signal, QPoint, Property
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QTableWidgetItem, QGraphicsDropShadowEffect
-from PySide6.QtWidgets import QFrame, QSpinBox, QDialog, QHeaderView, QLineEdit, QTableWidget, QMessageBox
+from PySide6.QtWidgets import QFrame, QSpinBox, QDialog, QHeaderView, QLineEdit, QTableWidget, QMessageBox, QMenu
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QComboBox, QFileDialog, QPushButton
 from PySide6.QtWidgets import QListView, QSpacerItem, QSizePolicy, QTextBrowser, QSizeGrip, QSlider, QCheckBox
 

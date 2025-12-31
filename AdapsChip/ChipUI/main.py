@@ -36,6 +36,7 @@ from gui.core.json_themes import Themes
 from windows.main_window.ui_main import UI_MainWindow
 # from windows.main_window.main_window_functions import MainFunctions
 from windows.main_window.main_window_setup import SetupMainWindow
+from windows.Swan01.swan01_window_setup import Swan01MainUI
 from PySide6.QtWidgets import QMainWindow, QApplication, QStyleFactory
 from PySide6.QtGui import QIcon, QDesktopServices
 from PySide6.QtCore import QUrl
@@ -81,6 +82,8 @@ class MainWindow(QMainWindow):
         self.hide_grips = True  # Show/Hide resize grips
         SetupMainWindow.setup_gui(self)
 
+        # self.btn_clicked()
+
         # def excute():
         #     # SETUP MAIN WINDOW
         #     # ///////////////////////////////////////////////////////////////
@@ -115,9 +118,20 @@ class MainWindow(QMainWindow):
 
             # Load Page 1
             MainFunctions.set_page(self, self.ui.load_pages.Swan01)
+            Swan01MainUI.setup_chip_gui(self, gui_type="Swan01")
             self.ui.log_group.setHidden(False)
 
-        # WIDGETS BTN
+        # Crane01 BTN
+        if btn.objectName() == "btn_crane01":
+            # Select Menu
+            self.ui.left_menu.select_only_one(btn.objectName())
+
+            # Load Page 1
+            MainFunctions.set_page(self, self.ui.load_pages.Swan01)
+            Swan01MainUI.setup_chip_gui(self, gui_type="Crane01")
+            self.ui.log_group.setHidden(False)
+
+        # Toolbox BTN
         elif btn.objectName() == "btn_toolbox":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())

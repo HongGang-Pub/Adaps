@@ -11,6 +11,7 @@
 --include-data-dir=.\LICENSES=.\LICENSES
 --include-data-dir=.\AdapsChip\ChipUI\.Hawk01Config=.\.Hawk01Config
 --include-data-dir=.\AdapsChip\ChipUI\.Swan01Config=.\.Swan01Config
+--include-data-dir=.\AdapsChip\ChipUI\.Crane01Config=.\.Crane01Config
 --include-data-dir=.\AdapsChip\ChipUI\.HawkPubConfig=.\.HawkPubConfig
 --include-data-files=.\AdapsChip\ChipUI\gui\icon.ico=.\gui\icon.ico
 --include-data-files=.\AdapsChip\ChipUI\.Hawk01Config\Hawk01RegConfig.py=.\.Hawk01Config\Hawk01RegConfig.py

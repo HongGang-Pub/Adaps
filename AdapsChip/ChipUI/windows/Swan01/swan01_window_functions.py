@@ -36,7 +36,7 @@ def ScriptUICoinfigOperate(swan01_config: dict, operate: int = 0b001):
     # traverse_dict(d=__reg_cfg__, parent_key='')     # 将reg_config的配置值全部转换为数字类型
 
     dataflow_related_config = Swan01PubMethod.SwanDataflowRelateConfigGet(__swan01_config__)
-    if operate & 0b01 and dataflow_related_config is not None:
+    if operate & 0b001 and dataflow_related_config is not None:
         print(f"MIPI_PKT_INTV: {dataflow_related_config['MIPI_PKT_INTV']} ns")
     for work_mode in work_mode_q:
         __swan01_config__["WORK_MODE"] = work_mode
@@ -49,6 +49,10 @@ def ScriptUICoinfigOperate(swan01_config: dict, operate: int = 0b001):
         # ////////////////////////////////////////////////////////////////////////////
         if operate & 0b001:
             DataflowConfig = Swan01PubMethod.SwanDataflowConfigCal(__swan01_config__, dataflow_related_config)
+            s = f"MIPI_INFO: WC={DataflowConfig['WC']}; FLNR={DataflowConfig['FLNR']}"
+            if not __swan01_config__["ONE_DT_MODE"]:
+                s += f"; SLOT_INFO(DT=0x30): {DataflowConfig['txu_info_wc']}byte; "
+            print(s)
             print(f"{__swan01_config__["reg_name"]} one slot read time: {DataflowConfig['HIST_RD_OUT_TIME'] / 10} us")
         # ////////////////////////////////////////////////////////////////////////////
         # 保存 Script 脚本信息
@@ -127,7 +131,31 @@ def ROISramGenerate(swan01_config: dict):
     # ///////////////////////////////////////////////////////////////
     # SLOT_IDLETIME 计算
     # ///////////////////////////////////////////////////////////////
+    # --------------------------------------------------------
+    # 获取 ROI config 并进行校验
+    # --------------------------------------------------------
     roi_config = Swan01ROISramOperation.read_roi_from_excel(excel_file, sheet_sel=swan01_config["roi_generate_excel_sheet"])
+
+    # 对 SEG_COOR 坐标进行校验
+    max_seg_coor = 89 if swan01_config["ChipID"] == "Swan01" else 71
+    shift_coor = 0 if swan01_config["ChipID"] == "Swan01" else 9
+    for i in range(angle_grp_sw_num):
+        for j in range(16):
+            if roi_config['SEG_COOR_CFG'][i][j] > max_seg_coor:
+                raise ValueError(f'Group[{i+1}] SEG_COOR[{j}] = {roi_config['SEG_COOR_CFG'][i][j]}, '
+                                 f'this config exceeds the SPAD boundary[0, {max_seg_coor}].')
+            roi_config['SEG_COOR_CFG'][i][j] += shift_coor
+    # 对 H_18SPAD_EN 进行校验
+    max_spad_en = 18 if swan01_config["ChipID"] == "Swan01" else 15
+    spad_str = "H_18SPAD_EN" if swan01_config["ChipID"] == "Swan01" else "H_15SPAD_EN"
+    for i in range(angle_grp_sw_num):
+        if roi_config['H_18SPAD_EN'][i][0] > max_spad_en:
+            raise ValueError(f'Group[{i+1}] {spad_str} = {roi_config['H_18SPAD_EN'][i][0]}, '
+                             f'this config exceeds the maximum value of {max_spad_en}.')
+
+    # --------------------------------------------------------
+    # Generate
+    # --------------------------------------------------------
     T_tdcclk = 4.00
     T_syscclk = 1000 / swan01_config["SYS_CLK"]
     masking_time = 4 + (swan01_config["SEG_NUM"] * 6) + (16 - swan01_config["SEG_NUM"]) - 2  # unit: cyc

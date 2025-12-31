@@ -42,6 +42,7 @@ reg_addr = {
     "ANGLE_GRP5_SLOT_NUM": 0x003E,
     "ANGLE_GRP6_SLOT_NUM": 0x003F,
     "ANGLE_GRP7_SLOT_NUM": 0x0040,
+    "ZDDACCNUM_THRS": 0x002B,
     # PLL0 & DIV
     "PLL0_DIV1": 0x0065,
     "PLL0_DIV2": 0x0066,
@@ -72,13 +73,14 @@ reg_addr = {
     "VC0_WC_L": 0x0118,
     "VC0_WC_H": 0x0119,
     "VC0_THRESHOLD": 0x0150,
+    "CSI_LANE_CTRL": 0x010A,
     "THS_EXIT": 0x22B,
     "THS_PREPARE": 0x22C,
     "THS_ZERO": 0x22D,
     "THS_TRAIL": 0x22E,
     # PHASE_DLY_OPT
     "ANA_MISC_CFG1": 0x0058,
-    "UNIQ_FUNC_CFG": 0xC8,
-    "LSPRD_HOP_CFG1": 0xCA,
-    "LSPRD_HOP_CFG2": 0xCB
+    "UNIQ_FUNC_CFG": 0x00C8,
+    "LSPRD_HOP_CFG1": 0x00CA,
+    "LSPRD_HOP_CFG2": 0x00CB
 }

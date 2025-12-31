@@ -45,16 +45,16 @@ class SetupMainWindow:
 
     # ADD LEFT MENUS
     # ///////////////////////////////////////////////////////////////
-    add_left_menus = [
-        {
+    app_chip_list = {
+        "Hawk01": {
             "btn_icon": "Hawk01.svg",
             "btn_id": "btn_hawk01",
             "btn_text": "Hawk01",
             "btn_tooltip": "Hawk01",
             "show_top": True,
-            "is_active": True
+            "is_active": False
         },
-        {
+        "Swan01": {
             "btn_icon": "Swan01.svg",
             "btn_id": "btn_swan01",
             "btn_text": "Swan01",
@@ -62,14 +62,25 @@ class SetupMainWindow:
             "show_top": True,
             "is_active": False
         },
-        {
+        "Crane01": {
+            "btn_icon": "Crane01.svg",
+            "btn_id": "btn_crane01",
+            "btn_text": "Crane01",
+            "btn_tooltip": "Crane01",
+            "show_top": True,
+            "is_active": False
+        },
+        "Toolbox": {
             "btn_icon": "icon_workbench.svg",
             "btn_id": "btn_toolbox",
             "btn_text": "Toolbox",
             "btn_tooltip": "Toolbox",
             "show_top": True,
             "is_active": False
-        },
+        }
+    }
+
+    add_left_menus = [
         {
             "btn_icon": "icon_settings.svg",
             "btn_id": "btn_settings",
@@ -117,7 +128,15 @@ class SetupMainWindow:
 
         # LEFT MENUS / GET SIGNALS WHEN LEFT MENU BTN IS CLICKED / RELEASED
         # ///////////////////////////////////////////////////////////////
-        # ADD MENUS
+        # ADD MENUS, 仅显示需要开启的 chip
+        chip_id = self.settings["chip_id"]
+        while(chip_id):
+            try:
+                SetupMainWindow.add_left_menus.insert(0, SetupMainWindow.app_chip_list[chip_id.pop()])
+            except:
+                pass
+        SetupMainWindow.add_left_menus[0]["is_active"] = True
+
         navigation_bar = self.settings["navigation_bar"]
         navigation_bar_len = len(navigation_bar)
         for idx in range(navigation_bar_len):
@@ -179,6 +198,7 @@ class SetupMainWindow:
         # ///////////////////////////////////////////////////////////////
         # END - EXAMPLE CUSTOM WIDGETS
         # ///////////////////////////////////////////////////////////////
+        self.ui.left_menu.first_menus.click()
 
     # RESIZE GRIPS AND CHANGE POSITION
     # Resize or change position when window is resized

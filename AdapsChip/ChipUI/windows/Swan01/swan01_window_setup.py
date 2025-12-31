@@ -1,5 +1,6 @@
 import copy
 import gc
+import logging
 
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
@@ -34,25 +35,38 @@ class Swan01MainUI:
         # Load Swan01 Config
         # ///////////////////////////////////////////////////////////////
         self.Swan01Config = JsonFunction(file_path=".Swan01Config/Swan01Config.json")
+        self.CraneConfig = JsonFunction(file_path=".Crane01Config/Crane01Config.json")
 
-        self.swan01_config = self.Swan01Config.items
         self.soft_config = {}
 
         # All GUI signal sync
         # ///////////////////////////////////////////////////////////////
         self.swan01_main_ui_signal_sync = MySignals()
 
-        # 调用各个界面的 setup_gui, 完成界面初始化
+        # 调用各个界面的 setup_gui initial, 主要是界面枚举值设置和操作按钮绑定（仅执行一次 ）
         # ///////////////////////////////////////////////////////////////
-        Swan01MainUI.setup_script_gui(self)
-        Swan01MainUI.setup_roi_sram_generate_gui(self)
-        Swan01MainUI.setup_file_gui(self)
+        Swan01MainUI.setup_script_gui_ini(self)
+        Swan01MainUI.setup_roi_sram_generate_gui_ini(self)
+        Swan01MainUI.setup_file_gui_ini(self)
+
+    def setup_chip_gui(self, gui_type="Swan01"):
+        self.swan01_config = self.Swan01Config.items if gui_type == "Swan01" else self.CraneConfig.items
+
+        # 切换 Crane01 和 Swan01界面
+        # ///////////////////////////////////////////////////////////////
+        Swan01MainUI.setup_chip_switch_gui(self, gui_type)
+
+        # 调用各个界面的 setup_gui switch, 完成 Crane01 or Swan01界面初始值 setting
+        # ///////////////////////////////////////////////////////////////
+        Swan01MainUI.setup_script_gui_switch(self)
+        Swan01MainUI.setup_roi_sram_generate_gui_switch(self)
+        Swan01MainUI.setup_file_gui_switch(self)
         return
 
     # ///////////////////////////////////////////////////////////////
     # Script config window function
     # ///////////////////////////////////////////////////////////////
-    def setup_script_gui(self):
+    def setup_script_gui_switch(self):
         # ///////////////////////////////////////////////////////////////
         # 配置初始化, 如果配置文件没有此配置, 需要初始化配置文件
         # ///////////////////////////////////////////////////////////////
@@ -78,17 +92,6 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_NS_MAXBIN_THRS_spinBox.setButtonSymbols(QSpinBox.NoButtons)
 
         # ///////////////////////////////////////////////////////////////
-        # WORK_MODE: 针对多选下拉项组件, 需要根据原始数据重新刷新下拉选项
-        # ///////////////////////////////////////////////////////////////
-        work_mode_items_num = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.count()
-        work_mode_items = []
-        for index in range(work_mode_items_num):
-            item_text = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.itemText(index)
-            work_mode_items.append(item_text)
-        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.clear_items()
-        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.add_items(work_mode_items)
-
-        # ///////////////////////////////////////////////////////////////
         # 设置初始值
         # ///////////////////////////////////////////////////////////////
         # -------------------------------------------
@@ -96,10 +99,13 @@ class Swan01MainUI:
         # -------------------------------------------
         self.ui.load_pages.Swan01_XCLK_ComboBox.setCurrentIndex(self.swan01_config['XCLK'])
         self.ui.load_pages.Swan01_SYS_CLK_ComboBox.setCurrentIndex(self.swan01_config['SYS_CLK'])
+        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.select_clear()
         self.ui.load_pages.Swan01_WORK_MODE_ComboBox.select_indexs(self.swan01_config['WORK_MODE'])
         self.ui.load_pages.Swan01_MIPI_RATE_ComboBox.setCurrentIndex(self.swan01_config['MIPI_RATE'])
+        self.ui.load_pages.Swan01_MIPI_LANE_NUM_ComboBox.setCurrentIndex(self.swan01_config['MIPI_LANE_NUM'])
         self.ui.load_pages.Swan01_MST_MODE_ComboBox.setCurrentIndex(self.swan01_config['MST_MODE'])
         self.ui.load_pages.Swan01_SYNC_POL_ComboBox.setCurrentIndex(self.swan01_config['SYNC_POL'])
+        self.ui.load_pages.Swan01_ZDD_TRIG_POL_SEL_ComboBox.setCurrentIndex(self.swan01_config['ZDD_TRIG_POL_SEL'])
         self.ui.load_pages.Swan01_FRM_SLOT_NUM_spinBox.setValue(self.swan01_config['FRM_SLOT_NUM']+1)
         self.ui.load_pages.Swan01_SEG_NUM_Slider.setValue(self.swan01_config['SEG_NUM'])
 
@@ -112,6 +118,7 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_ANGLE_GRP5_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP5_SLOT_NUM']+1)
         self.ui.load_pages.Swan01_ANGLE_GRP6_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP6_SLOT_NUM']+1)
         self.ui.load_pages.Swan01_ANGLE_GRP7_SLOT_NUM_spinBox.setValue(self.swan01_config['ANGLE_GRP7_SLOT_NUM']+1)
+        Swan01MainUI.grp_switch_windows_change(self, 0)  # 设置 BIN_NUMBER
 
         # -------------------------------------------
         # TRIG
@@ -160,7 +167,7 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_ECHO_ORDER_NEAR_NUM_spinBox.setValue(self.swan01_config['ECHO_ORDER_NEAR_NUM'])
 
         Swan01MainUI.dsp_windows_change(self, 0)  # 控件隐藏及显示控制
-        Swan01MainUI.out_fir_raw_sel_windows_change(self, self.swan01_config['OUT_FIR_RAW_SEL'])
+        Swan01MainUI.out_fir_raw_sel_windows_change(self, 0)
         Swan01MainUI.dsp_info_update(self, 0)
 
         # -------------------------------------------
@@ -184,6 +191,26 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_user_define_mipi_fifo_size_spinBox.setValue(self.swan01_config['USER_DEFINE_CONIFG']["MIPI_FIFO_SIZE"])
         self.ui.load_pages.Swan01_user_define_mipi_pkt_intv_margin_spinBox.setValue(self.swan01_config['USER_DEFINE_CONIFG']["MIPI_PKT_INTV_MARGIN"])
 
+        # -------------------------------------------
+        # ROI SRAM generate
+        # -------------------------------------------
+        # self.ui.load_pages.Swan01_ScriptGenerateSel.setChecked(True)
+        # self.ui.load_pages.Swan01_ROIConfig.setHidden(True)
+        # self.ui.load_pages.Swan01_ScriptGenerateSel.click()
+        Swan01MainUI.switch_user_define_UI(self, False)
+
+    def setup_script_gui_ini(self):
+        # ///////////////////////////////////////////////////////////////
+        # WORK_MODE: 针对多选下拉项组件, 需要根据原始数据重新刷新下拉选项
+        # ///////////////////////////////////////////////////////////////
+        work_mode_items_num = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.count()
+        work_mode_items = []
+        for index in range(work_mode_items_num):
+            item_text = self.ui.load_pages.Swan01_WORK_MODE_ComboBox.itemText(index)
+            work_mode_items.append(item_text)
+        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.clear_items()
+        self.ui.load_pages.Swan01_WORK_MODE_ComboBox.add_items(work_mode_items)
+
         # ///////////////////////////////////////////////////////////////
         # 操作绑定
         # ///////////////////////////////////////////////////////////////
@@ -194,8 +221,10 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_SYS_CLK_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'SYS_CLK'))
         self.ui.load_pages.Swan01_WORK_MODE_ComboBox.activated.connect(partial(Swan01MainUI.work_mode_update, self))
         self.ui.load_pages.Swan01_MIPI_RATE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'MIPI_RATE'))
+        self.ui.load_pages.Swan01_MIPI_LANE_NUM_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'MIPI_LANE_NUM'))
         self.ui.load_pages.Swan01_MST_MODE_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'MST_MODE'))
         self.ui.load_pages.Swan01_SYNC_POL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'SYNC_POL'))
+        self.ui.load_pages.Swan01_ZDD_TRIG_POL_SEL_ComboBox.currentIndexChanged.connect(partial(Swan01MainUI.combobox_data_update, self, 'ZDD_TRIG_POL_SEL'))
         self.ui.load_pages.Swan01_SEG_NUM_Slider.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'SEG_NUM', 0))
 
         self.ui.load_pages.Swan01_ANGLE_GRP_SW_NUM_spinBox.valueChanged.connect(partial(Swan01MainUI.value_data_update, self, 'ANGLE_GRP_SW_NUM', -1))
@@ -279,7 +308,6 @@ class Swan01MainUI:
         # -------------------------------------------
         self.ui.load_pages.Swan01_ScriptGenerateSel.setChecked(True)
         self.ui.load_pages.Swan01_ROIConfig.setHidden(True)
-        Swan01MainUI.switch_user_define_UI(self, False)
         return
 
     # 下拉框值更新
@@ -295,6 +323,8 @@ class Swan01MainUI:
             Swan01MainUI.pxl_pack_sel_windows_change(self, index)
         elif key == "roi_generate_by":
             Swan01MainUI.roi_generate_by_windows_change(self, index)
+        elif key == "TX_FRM_MODE":
+            Swan01MainUI.tx_frm_mode_windows_change(self, index)
         # print(self.swan01_config[key])
         return
 
@@ -308,6 +338,8 @@ class Swan01MainUI:
             Swan01MainUI.dsp_info_update(self, value)
         elif key in ["HIST_MINBIN_THRS", "HIST_MAXBIN_THRS", "NS_MINBIN_THRS", "NS_MAXBIN_THRS", "SPOT_MON_MINBIN_THRS"]:
             Swan01MainUI.hist_info_update(self, value)
+        elif key in ["ANGLE_GRP_SW_NUM"]:
+            Swan01MainUI.grp_switch_windows_change(self, value)
         return
 
     def value_data_update_user_define(self, key, value_shift, value):
@@ -395,6 +427,7 @@ class Swan01MainUI:
             if 0 in self.swan01_config['WORK_MODE']:  # SPHR
                 self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setEnabled(True)
         if 0 in self.swan01_config['WORK_MODE'] and 1 not in self.swan01_config['WORK_MODE']:   # SPHR & No PHR
+            # SPHR 只需要设置 echo_num, 其余的设置无效
             self.ui.load_pages.Swan01_OUT_NUMBIN_MODE_ComboBox.setEnabled(False)
             self.ui.load_pages.Swan01_OUT_TOTALBIN_NUM_spinBox.setEnabled(False)
             self.ui.load_pages.Swan01_OUT_ECHO_NUM_ComboBox.setEnabled(True)
@@ -402,12 +435,32 @@ class Swan01MainUI:
         pass
 
     def out_fir_raw_sel_windows_change(self, index):
-        Enable = True if (index == 0) else False
+        Enable = True if (self.swan01_config['OUT_FIR_RAW_SEL'] == 0) else False
         self.ui.load_pages.Swan01_OUT_INTF_HIST_SEL_ComboBox.setEnabled(Enable)
 
         if not Enable:
             self.ui.load_pages.Swan01_OUT_INTF_HIST_SEL_ComboBox.setCurrentIndex(0)
         pass
+
+    def tx_frm_mode_windows_change(self, index):
+        Enable = True if (self.swan01_config['TX_FRM_MODE'] == 1) else False
+        self.ui.load_pages.Swan01_FRM_SLOT_NUM_spinBox.setEnabled(Enable)
+        return
+
+    def grp_switch_windows_change(self, index):
+        ENABLE_Q = [False for i in range(8)]
+        grp_sw_num = self.swan01_config['ANGLE_GRP_SW_NUM']+1
+        for i in range(grp_sw_num):
+            ENABLE_Q[i] = True
+        self.ui.load_pages.Swan01_ANGLE_GRP0_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[0])
+        self.ui.load_pages.Swan01_ANGLE_GRP1_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[1])
+        self.ui.load_pages.Swan01_ANGLE_GRP2_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[2])
+        self.ui.load_pages.Swan01_ANGLE_GRP3_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[3])
+        self.ui.load_pages.Swan01_ANGLE_GRP4_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[4])
+        self.ui.load_pages.Swan01_ANGLE_GRP5_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[5])
+        self.ui.load_pages.Swan01_ANGLE_GRP6_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[6])
+        self.ui.load_pages.Swan01_ANGLE_GRP7_SLOT_NUM_spinBox.setEnabled(ENABLE_Q[7])
+        return
 
     def pxl_pack_sel_windows_change(self, index):
         pack_keys = [
@@ -429,7 +482,7 @@ class Swan01MainUI:
     # ///////////////////////////////////////////////////////////////
     # ROI SRAM generate UI
     # ///////////////////////////////////////////////////////////////
-    def setup_roi_sram_generate_gui(self):
+    def setup_roi_sram_generate_gui_switch(self):
         # ///////////////////////////////////////////////////////////////
         # 界面初始化
         # ///////////////////////////////////////////////////////////////
@@ -444,6 +497,15 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_roi_generate_slot_time_set_spinBox.setValue(self.swan01_config["roi_generate_slot_time_set"])
         self.ui.load_pages.Swan01_roi_save_dir_LineEdit.setText(self.swan01_config['roi_fd_path'])
         self.ui.load_pages.Swan01_roi_sram_name_LineEdit.setText(self.swan01_config['roi_name'])
+
+        # -------------------------------------------
+        # 界面初始化
+        # -------------------------------------------
+        Swan01MainUI.roi_generate_by_windows_change(self, self.swan01_config['roi_generate_by'])
+        Swan01MainUI.slot_time_set_enable_UI(self, False)
+        return
+
+    def setup_roi_sram_generate_gui_ini(self):
         # ///////////////////////////////////////////////////////////////
         # 操作绑定
         # ///////////////////////////////////////////////////////////////
@@ -458,12 +520,6 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_roi_save_dir_Button.clicked.connect(partial(Swan01MainUI.roi_file_save_dir_sel, self))
         self.ui.load_pages.Swan01_ROI_Save.clicked.connect(partial(Swan01MainUI.roi_sram_Save, self))
         self.ui.load_pages.Swan01_ROI_Open.clicked.connect(partial(Swan01MainUI.open_folder, self, 'roi_fd_path'))
-
-        # -------------------------------------------
-        # 界面初始化
-        # -------------------------------------------
-        Swan01MainUI.roi_generate_by_windows_change(self, self.swan01_config['roi_generate_by'])
-        Swan01MainUI.slot_time_set_enable_UI(self, False)
         return
 
     # ///////////////////////////////////////////////////////////////
@@ -477,6 +533,7 @@ class Swan01MainUI:
             self.ui.load_pages.Swan01_roi_generate_script_file_sel_LineEdit.setText(file)
             self.swan01_config['roi_generate_script_file'] = file
             print(self.swan01_config['roi_generate_script_file'])
+        return
 
     def roi_generate_excel_sel(self):
         file, _ = QFileDialog.getOpenFileName(parent=None, caption='ROI cali data select', dir='',
@@ -486,6 +543,7 @@ class Swan01MainUI:
             self.ui.load_pages.Swan01_roi_generate_excel_sel_LineEdit.setText(file)
             self.swan01_config['roi_generate_excel_file'] = file
             print(self.swan01_config['roi_generate_excel_file'])
+        return
 
     def roi_file_save_dir_sel(self):
         dir_path = QFileDialog.getExistingDirectory(self, "请选择保存的文件路径", "", QFileDialog.ShowDirsOnly)
@@ -493,16 +551,18 @@ class Swan01MainUI:
             self.ui.load_pages.Swan01_roi_save_dir_LineEdit.setText(dir_path)
             self.swan01_config['roi_fd_path'] = dir_path
             # print(self.swan01_config['fd_path'])
+        return
 
     def roi_generate_by_windows_change(self, index):
         Enable = True if (index == 1) else False
         self.ui.load_pages.Swan01_roi_generate_script_file_sel_Button.setEnabled(Enable)
-        pass
+        return
 
     def slot_time_set_enable_UI(self, state):
         state = self.ui.load_pages.Swan01_roi_generate_slot_time_set_enable_CheckBox.isChecked()
         self.swan01_config['roi_generate_slot_time_set_enable'] = state
         self.ui.load_pages.Swan01_roi_generate_slot_time_set_spinBox.setEnabled(state)
+        return
 
     def roi_sram_Save(self):
         """
@@ -530,12 +590,14 @@ class Swan01MainUI:
     # ///////////////////////////////////////////////////////////////
     # FILE config window function
     # ///////////////////////////////////////////////////////////////
-    def setup_file_gui(self):
+    def setup_file_gui_switch(self):
         """ FILE config 界面GUI配置"""
         self.ui.load_pages.Swan01_reference_script_LineEdit.setText(self.swan01_config['ref_cfg_file'])
         self.ui.load_pages.Swan01_file_save_dir_LineEdit.setText(self.swan01_config['fd_path'])
         self.ui.load_pages.Swan01_reg_script_name_LineEdit.setText(self.swan01_config['reg_name'])
+        return
 
+    def setup_file_gui_ini(self):
         # 按钮绑定
         self.ui.load_pages.Swan01_reference_script_sel_Button.clicked.connect(partial(Swan01MainUI.reference_script_file_sel, self))
         self.ui.load_pages.Swan01_script_parse_Button.clicked.connect(partial(Swan01MainUI.script_parse, self))
@@ -544,6 +606,21 @@ class Swan01MainUI:
         self.ui.load_pages.Swan01_script_Save.clicked.connect(partial(Swan01MainUI.script_save, self))  # Save按钮连接保存操作
         self.swan01_main_ui_signal_sync.Obj_signal_0.connect(partial(Swan01MainUI.func_btn_release, self))  # 完成保存后, 释放Save按钮
         self.ui.load_pages.Swan01_Open.clicked.connect(partial(Swan01MainUI.open_folder, self, 'fd_path'))
+        return
+
+    def setup_chip_switch_gui(self, gui_type="Swan01"):
+        hidden = False if (gui_type == "Swan01") else True
+        """ Swan01 & Crane01 config 功能切割"""
+        self.ui.load_pages.Swan01_FLEX_SHOT_EN_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_FLEX_SHOT_EN_ComboBox.setHidden(hidden)
+        self.ui.load_pages.Swan01_ULR_EN_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_ULR_EN_ComboBox.setHidden(hidden)
+        self.ui.load_pages.Swan01_LSPRD_HOP_EN_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_LSPRD_HOP_EN_ComboBox.setHidden(hidden)
+        self.ui.load_pages.Swan01_LSPRD_HOP_STEP_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_LSPRD_HOP_STEP_spinBox.setHidden(hidden)
+        self.ui.load_pages.Swan01_LSPRD_HOP_CNTS_Label.setHidden(hidden)
+        self.ui.load_pages.Swan01_LSPRD_HOP_CNTS_spinBox.setHidden(hidden)
         return
 
     def reference_script_file_sel(self):
@@ -661,4 +738,5 @@ class Swan01MainUI:
 
     def closeEvent(self):
         self.Swan01Config.serialize()
+        self.CraneConfig.serialize()
         pass

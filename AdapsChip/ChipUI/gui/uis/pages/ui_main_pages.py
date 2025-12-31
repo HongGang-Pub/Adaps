@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesuyeWOb.ui'
+## Form generated from reading UI file 'main_pagesNoSeXJ.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.1
 ##
@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QButtonGroup, QCh
     QTabWidget, QVBoxLayout, QWidget)
 
 from AdapsChip.ChipUI.gui.widgets.py_combo_check_box.py_combo_check import ComboCheckBox
+from AdapsChip.ChipUI.gui.widgets.py_line_edit.py_line_edit import PyLineEdit
 from AdapsChip.ChipUI.gui.widgets.py_nowheel_combobox.py_nowheel_combobox import NoWheelComboBox
 from AdapsChip.ChipUI.gui.widgets.py_nowheel_spinbox.py_nowheel_spinbox import NoWheelSpinBox
 
@@ -30,7 +31,7 @@ class Ui_MainPages(object):
     def setupUi(self, MainPages):
         if not MainPages.objectName():
             MainPages.setObjectName(u"MainPages")
-        MainPages.resize(1001, 816)
+        MainPages.resize(941, 751)
         MainPages.setStyleSheet(u"")
         self.verticalLayout_10 = QVBoxLayout(MainPages)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
@@ -550,7 +551,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config1byGUI_1.setWidgetResizable(True)
         self.Hawk01_Config1byGUI_2 = QWidget()
         self.Hawk01_Config1byGUI_2.setObjectName(u"Hawk01_Config1byGUI_2")
-        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 368, 419))
+        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 368, 354))
         self.formLayout = QFormLayout(self.Hawk01_Config1byGUI_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -738,7 +739,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config2byCOOR_1.setWidgetResizable(True)
         self.Hawk01_Config2byCOOR_2 = QWidget()
         self.Hawk01_Config2byCOOR_2.setObjectName(u"Hawk01_Config2byCOOR_2")
-        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 368, 419))
+        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 368, 354))
         self.formLayout_4 = QFormLayout(self.Hawk01_Config2byCOOR_2)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -756,7 +757,7 @@ class Ui_MainPages(object):
         self.Hawk01_Cali_File_Load_Layout = QHBoxLayout()
         self.Hawk01_Cali_File_Load_Layout.setSpacing(9)
         self.Hawk01_Cali_File_Load_Layout.setObjectName(u"Hawk01_Cali_File_Load_Layout")
-        self.Hawk01_Cali_File_Load_LineEdit = QLineEdit(self.Hawk01_Config2byCOOR_2)
+        self.Hawk01_Cali_File_Load_LineEdit = PyLineEdit(self.Hawk01_Config2byCOOR_2)
         self.Hawk01_Cali_File_Load_LineEdit.setObjectName(u"Hawk01_Cali_File_Load_LineEdit")
         self.Hawk01_Cali_File_Load_LineEdit.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.Hawk01_Cali_File_Load_LineEdit.sizePolicy().hasHeightForWidth())
@@ -817,7 +818,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config3ROIEdit_1.setWidgetResizable(True)
         self.Hawk01_Config3ROIEdit_2 = QWidget()
         self.Hawk01_Config3ROIEdit_2.setObjectName(u"Hawk01_Config3ROIEdit_2")
-        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 368, 419))
+        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 368, 354))
         self.formLayout_5 = QFormLayout(self.Hawk01_Config3ROIEdit_2)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -834,7 +835,7 @@ class Ui_MainPages(object):
         self.Hawk01_ROI_File_Layout = QHBoxLayout()
         self.Hawk01_ROI_File_Layout.setSpacing(9)
         self.Hawk01_ROI_File_Layout.setObjectName(u"Hawk01_ROI_File_Layout")
-        self.Hawk01_ROI_File_LineEdit = QLineEdit(self.Hawk01_Config3ROIEdit_2)
+        self.Hawk01_ROI_File_LineEdit = PyLineEdit(self.Hawk01_Config3ROIEdit_2)
         self.Hawk01_ROI_File_LineEdit.setObjectName(u"Hawk01_ROI_File_LineEdit")
         self.Hawk01_ROI_File_LineEdit.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.Hawk01_ROI_File_LineEdit.sizePolicy().hasHeightForWidth())
@@ -908,7 +909,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config4ROICali_1.setWidgetResizable(True)
         self.Hawk01_Config4ROICali_2 = QWidget()
         self.Hawk01_Config4ROICali_2.setObjectName(u"Hawk01_Config4ROICali_2")
-        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 368, 410))
+        self.Hawk01_Config4ROICali_2.setGeometry(QRect(0, 0, 368, 345))
         self.formLayout_7 = QFormLayout(self.Hawk01_Config4ROICali_2)
         self.formLayout_7.setObjectName(u"formLayout_7")
         self.formLayout_7.setHorizontalSpacing(10)
@@ -925,7 +926,7 @@ class Ui_MainPages(object):
         self.Hawk01_cali_file_path_Layout = QHBoxLayout()
         self.Hawk01_cali_file_path_Layout.setSpacing(9)
         self.Hawk01_cali_file_path_Layout.setObjectName(u"Hawk01_cali_file_path_Layout")
-        self.Hawk01_cali_file_path_LineEdit = QLineEdit(self.Hawk01_Config4ROICali_2)
+        self.Hawk01_cali_file_path_LineEdit = PyLineEdit(self.Hawk01_Config4ROICali_2)
         self.Hawk01_cali_file_path_LineEdit.setObjectName(u"Hawk01_cali_file_path_LineEdit")
         self.Hawk01_cali_file_path_LineEdit.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.Hawk01_cali_file_path_LineEdit.sizePolicy().hasHeightForWidth())
@@ -1179,65 +1180,17 @@ class Ui_MainPages(object):
         self.gridLayout_6 = QGridLayout(self.Hawk01_FileConifg)
         self.gridLayout_6.setObjectName(u"gridLayout_6")
         self.gridLayout_6.setContentsMargins(9, 9, 9, 1)
-        self.horizontalSpacer_5 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+        self.Hawk01_file_save_dir_LineEdit = PyLineEdit(self.Hawk01_FileConifg)
+        self.Hawk01_file_save_dir_LineEdit.setObjectName(u"Hawk01_file_save_dir_LineEdit")
+        self.Hawk01_file_save_dir_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.Hawk01_file_save_dir_LineEdit.sizePolicy().hasHeightForWidth())
+        self.Hawk01_file_save_dir_LineEdit.setSizePolicy(sizePolicy1)
+        self.Hawk01_file_save_dir_LineEdit.setMinimumSize(QSize(350, 0))
+        self.Hawk01_file_save_dir_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Hawk01_file_save_dir_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.Hawk01_file_save_dir_LineEdit.setReadOnly(False)
 
-        self.gridLayout_6.addItem(self.horizontalSpacer_5, 4, 4, 1, 1)
-
-        self.Hawk01_roi_sram_name_Label = QLabel(self.Hawk01_FileConifg)
-        self.Hawk01_roi_sram_name_Label.setObjectName(u"Hawk01_roi_sram_name_Label")
-        self.Hawk01_roi_sram_name_Label.setFont(font)
-
-        self.gridLayout_6.addWidget(self.Hawk01_roi_sram_name_Label, 4, 0, 1, 1)
-
-        self.Hawk01_reg_script_name_LineEdit = QLineEdit(self.Hawk01_FileConifg)
-        self.Hawk01_reg_script_name_LineEdit.setObjectName(u"Hawk01_reg_script_name_LineEdit")
-        self.Hawk01_reg_script_name_LineEdit.setMinimumSize(QSize(0, 0))
-        self.Hawk01_reg_script_name_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Hawk01_reg_script_name_LineEdit.setFont(font)
-
-        self.gridLayout_6.addWidget(self.Hawk01_reg_script_name_LineEdit, 2, 1, 1, 1)
-
-        self.Hawk01_file_save_dir_Label = QLabel(self.Hawk01_FileConifg)
-        self.Hawk01_file_save_dir_Label.setObjectName(u"Hawk01_file_save_dir_Label")
-        self.Hawk01_file_save_dir_Label.setMinimumSize(QSize(0, 0))
-        self.Hawk01_file_save_dir_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Hawk01_file_save_dir_Label.setFont(font1)
-        self.Hawk01_file_save_dir_Label.setFrameShape(QFrame.Shape.NoFrame)
-        self.Hawk01_file_save_dir_Label.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.gridLayout_6.addWidget(self.Hawk01_file_save_dir_Label, 6, 0, 1, 1)
-
-        self.Hawk01_reference_script_sel_Button = QPushButton(self.Hawk01_FileConifg)
-        self.Hawk01_reference_script_sel_Button.setObjectName(u"Hawk01_reference_script_sel_Button")
-        sizePolicy2.setHeightForWidth(self.Hawk01_reference_script_sel_Button.sizePolicy().hasHeightForWidth())
-        self.Hawk01_reference_script_sel_Button.setSizePolicy(sizePolicy2)
-        self.Hawk01_reference_script_sel_Button.setMinimumSize(QSize(90, 0))
-
-        self.gridLayout_6.addWidget(self.Hawk01_reference_script_sel_Button, 1, 2, 1, 1)
-
-        self.Hawk01_roi_sram_name_CheckBox = QCheckBox(self.Hawk01_FileConifg)
-        self.Hawk01_roi_sram_name_CheckBox.setObjectName(u"Hawk01_roi_sram_name_CheckBox")
-
-        self.gridLayout_6.addWidget(self.Hawk01_roi_sram_name_CheckBox, 4, 3, 1, 1)
-
-        self.Hawk01_roi_sram_name_LineEdit = QLineEdit(self.Hawk01_FileConifg)
-        self.Hawk01_roi_sram_name_LineEdit.setObjectName(u"Hawk01_roi_sram_name_LineEdit")
-        self.Hawk01_roi_sram_name_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Hawk01_roi_sram_name_LineEdit.setFont(font)
-
-        self.gridLayout_6.addWidget(self.Hawk01_roi_sram_name_LineEdit, 4, 1, 1, 1)
-
-        self.Hawk01_reference_script_LineEdit = QLineEdit(self.Hawk01_FileConifg)
-        self.Hawk01_reference_script_LineEdit.setObjectName(u"Hawk01_reference_script_LineEdit")
-        self.Hawk01_reference_script_LineEdit.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.Hawk01_reference_script_LineEdit.sizePolicy().hasHeightForWidth())
-        self.Hawk01_reference_script_LineEdit.setSizePolicy(sizePolicy1)
-        self.Hawk01_reference_script_LineEdit.setMinimumSize(QSize(0, 0))
-        self.Hawk01_reference_script_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Hawk01_reference_script_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.Hawk01_reference_script_LineEdit.setReadOnly(True)
-
-        self.gridLayout_6.addWidget(self.Hawk01_reference_script_LineEdit, 1, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.Hawk01_file_save_dir_LineEdit, 2, 1, 1, 1)
 
         self.Hawk01_ButtonCollectionFrame = QFrame(self.Hawk01_FileConifg)
         self.Hawk01_ButtonCollectionFrame.setObjectName(u"Hawk01_ButtonCollectionFrame")
@@ -1270,7 +1223,72 @@ class Ui_MainPages(object):
         self.horizontalLayout_5.addItem(self.horizontalSpacer_3)
 
 
-        self.gridLayout_6.addWidget(self.Hawk01_ButtonCollectionFrame, 7, 0, 1, 5)
+        self.gridLayout_6.addWidget(self.Hawk01_ButtonCollectionFrame, 8, 0, 1, 6)
+
+        self.Hawk01_file_save_dir_Button = QPushButton(self.Hawk01_FileConifg)
+        self.Hawk01_file_save_dir_Button.setObjectName(u"Hawk01_file_save_dir_Button")
+        sizePolicy2.setHeightForWidth(self.Hawk01_file_save_dir_Button.sizePolicy().hasHeightForWidth())
+        self.Hawk01_file_save_dir_Button.setSizePolicy(sizePolicy2)
+        self.Hawk01_file_save_dir_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_6.addWidget(self.Hawk01_file_save_dir_Button, 2, 2, 1, 1)
+
+        self.Hawk01_reference_script_LineEdit = PyLineEdit(self.Hawk01_FileConifg)
+        self.Hawk01_reference_script_LineEdit.setObjectName(u"Hawk01_reference_script_LineEdit")
+        self.Hawk01_reference_script_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.Hawk01_reference_script_LineEdit.sizePolicy().hasHeightForWidth())
+        self.Hawk01_reference_script_LineEdit.setSizePolicy(sizePolicy1)
+        self.Hawk01_reference_script_LineEdit.setMinimumSize(QSize(0, 0))
+        self.Hawk01_reference_script_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Hawk01_reference_script_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.Hawk01_reference_script_LineEdit.setReadOnly(True)
+
+        self.gridLayout_6.addWidget(self.Hawk01_reference_script_LineEdit, 1, 1, 1, 1)
+
+        self.Hawk01_script_parse_Button = QPushButton(self.Hawk01_FileConifg)
+        self.Hawk01_script_parse_Button.setObjectName(u"Hawk01_script_parse_Button")
+        sizePolicy2.setHeightForWidth(self.Hawk01_script_parse_Button.sizePolicy().hasHeightForWidth())
+        self.Hawk01_script_parse_Button.setSizePolicy(sizePolicy2)
+        self.Hawk01_script_parse_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_6.addWidget(self.Hawk01_script_parse_Button, 1, 3, 1, 1)
+
+        self.Hawk01_roi_sram_name_Label = QLabel(self.Hawk01_FileConifg)
+        self.Hawk01_roi_sram_name_Label.setObjectName(u"Hawk01_roi_sram_name_Label")
+        self.Hawk01_roi_sram_name_Label.setFont(font)
+
+        self.gridLayout_6.addWidget(self.Hawk01_roi_sram_name_Label, 5, 0, 1, 1)
+
+        self.Hawk01_reg_script_name_Label = QLabel(self.Hawk01_FileConifg)
+        self.Hawk01_reg_script_name_Label.setObjectName(u"Hawk01_reg_script_name_Label")
+        self.Hawk01_reg_script_name_Label.setFont(font)
+
+        self.gridLayout_6.addWidget(self.Hawk01_reg_script_name_Label, 3, 0, 1, 1)
+
+        self.Hawk01_reg_script_name_LineEdit = PyLineEdit(self.Hawk01_FileConifg)
+        self.Hawk01_reg_script_name_LineEdit.setObjectName(u"Hawk01_reg_script_name_LineEdit")
+        self.Hawk01_reg_script_name_LineEdit.setMinimumSize(QSize(0, 0))
+        self.Hawk01_reg_script_name_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Hawk01_reg_script_name_LineEdit.setFont(font)
+
+        self.gridLayout_6.addWidget(self.Hawk01_reg_script_name_LineEdit, 3, 1, 1, 1)
+
+        self.Hawk01_file_save_dir_Label = QLabel(self.Hawk01_FileConifg)
+        self.Hawk01_file_save_dir_Label.setObjectName(u"Hawk01_file_save_dir_Label")
+        self.Hawk01_file_save_dir_Label.setMinimumSize(QSize(0, 0))
+        self.Hawk01_file_save_dir_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Hawk01_file_save_dir_Label.setFont(font1)
+        self.Hawk01_file_save_dir_Label.setFrameShape(QFrame.Shape.NoFrame)
+        self.Hawk01_file_save_dir_Label.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.gridLayout_6.addWidget(self.Hawk01_file_save_dir_Label, 2, 0, 1, 1)
+
+        self.Hawk01_roi_sram_name_LineEdit = PyLineEdit(self.Hawk01_FileConifg)
+        self.Hawk01_roi_sram_name_LineEdit.setObjectName(u"Hawk01_roi_sram_name_LineEdit")
+        self.Hawk01_roi_sram_name_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Hawk01_roi_sram_name_LineEdit.setFont(font)
+
+        self.gridLayout_6.addWidget(self.Hawk01_roi_sram_name_LineEdit, 5, 1, 1, 1)
 
         self.Hawk01_reference_script_Label = QLabel(self.Hawk01_FileConifg)
         self.Hawk01_reference_script_Label.setObjectName(u"Hawk01_reference_script_Label")
@@ -1282,39 +1300,34 @@ class Ui_MainPages(object):
 
         self.gridLayout_6.addWidget(self.Hawk01_reference_script_Label, 1, 0, 1, 1)
 
-        self.Hawk01_file_save_dir_LineEdit = QLineEdit(self.Hawk01_FileConifg)
-        self.Hawk01_file_save_dir_LineEdit.setObjectName(u"Hawk01_file_save_dir_LineEdit")
-        self.Hawk01_file_save_dir_LineEdit.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.Hawk01_file_save_dir_LineEdit.sizePolicy().hasHeightForWidth())
-        self.Hawk01_file_save_dir_LineEdit.setSizePolicy(sizePolicy1)
-        self.Hawk01_file_save_dir_LineEdit.setMinimumSize(QSize(350, 0))
-        self.Hawk01_file_save_dir_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Hawk01_file_save_dir_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.Hawk01_file_save_dir_LineEdit.setReadOnly(False)
+        self.Hawk01_reference_script_sel_Button = QPushButton(self.Hawk01_FileConifg)
+        self.Hawk01_reference_script_sel_Button.setObjectName(u"Hawk01_reference_script_sel_Button")
+        sizePolicy2.setHeightForWidth(self.Hawk01_reference_script_sel_Button.sizePolicy().hasHeightForWidth())
+        self.Hawk01_reference_script_sel_Button.setSizePolicy(sizePolicy2)
+        self.Hawk01_reference_script_sel_Button.setMinimumSize(QSize(90, 0))
 
-        self.gridLayout_6.addWidget(self.Hawk01_file_save_dir_LineEdit, 6, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.Hawk01_reference_script_sel_Button, 1, 2, 1, 1)
 
-        self.Hawk01_file_save_dir_Button = QPushButton(self.Hawk01_FileConifg)
-        self.Hawk01_file_save_dir_Button.setObjectName(u"Hawk01_file_save_dir_Button")
-        sizePolicy2.setHeightForWidth(self.Hawk01_file_save_dir_Button.sizePolicy().hasHeightForWidth())
-        self.Hawk01_file_save_dir_Button.setSizePolicy(sizePolicy2)
-        self.Hawk01_file_save_dir_Button.setMinimumSize(QSize(90, 0))
+        self.horizontalSpacer_5 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_6.addWidget(self.Hawk01_file_save_dir_Button, 6, 2, 1, 1)
+        self.gridLayout_6.addItem(self.horizontalSpacer_5, 1, 4, 1, 1)
 
-        self.Hawk01_reg_script_name_Label = QLabel(self.Hawk01_FileConifg)
-        self.Hawk01_reg_script_name_Label.setObjectName(u"Hawk01_reg_script_name_Label")
-        self.Hawk01_reg_script_name_Label.setFont(font)
+        self.frame_2 = QFrame(self.Hawk01_FileConifg)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
+        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_3 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(5, 0, 0, 0)
+        self.Hawk01_roi_sram_name_CheckBox = QCheckBox(self.frame_2)
+        self.Hawk01_roi_sram_name_CheckBox.setObjectName(u"Hawk01_roi_sram_name_CheckBox")
+        self.Hawk01_roi_sram_name_CheckBox.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
 
-        self.gridLayout_6.addWidget(self.Hawk01_reg_script_name_Label, 2, 0, 1, 1)
+        self.horizontalLayout_3.addWidget(self.Hawk01_roi_sram_name_CheckBox)
 
-        self.Hawk01_script_parse_Button = QPushButton(self.Hawk01_FileConifg)
-        self.Hawk01_script_parse_Button.setObjectName(u"Hawk01_script_parse_Button")
-        sizePolicy2.setHeightForWidth(self.Hawk01_script_parse_Button.sizePolicy().hasHeightForWidth())
-        self.Hawk01_script_parse_Button.setSizePolicy(sizePolicy2)
-        self.Hawk01_script_parse_Button.setMinimumSize(QSize(90, 0))
 
-        self.gridLayout_6.addWidget(self.Hawk01_script_parse_Button, 1, 3, 1, 1)
+        self.gridLayout_6.addWidget(self.frame_2, 5, 2, 1, 1)
 
 
         self.verticalLayout_12.addWidget(self.Hawk01_FileConifg)
@@ -1370,10 +1383,50 @@ class Ui_MainPages(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 977, 287))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 917, 280))
         self.gridLayout_3 = QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.Swan01_MST_MODE_ComboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.Swan01_MST_MODE_ComboBox.addItem("")
+        self.Swan01_MST_MODE_ComboBox.addItem("")
+        self.Swan01_MST_MODE_ComboBox.setObjectName(u"Swan01_MST_MODE_ComboBox")
+        self.Swan01_MST_MODE_ComboBox.setMinimumSize(QSize(165, 0))
+        self.Swan01_MST_MODE_ComboBox.setMaximumSize(QSize(165, 16777215))
+
+        self.gridLayout_3.addWidget(self.Swan01_MST_MODE_ComboBox, 3, 1, 1, 1)
+
+        self.Swan01_ZDD_TRIG_POL_SEL_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_ZDD_TRIG_POL_SEL_Label.setObjectName(u"Swan01_ZDD_TRIG_POL_SEL_Label")
+        self.Swan01_ZDD_TRIG_POL_SEL_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_ZDD_TRIG_POL_SEL_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_ZDD_TRIG_POL_SEL_Label.setFont(font)
+        self.Swan01_ZDD_TRIG_POL_SEL_Label.setFrameShape(QFrame.Shape.StyledPanel)
+
+        self.gridLayout_3.addWidget(self.Swan01_ZDD_TRIG_POL_SEL_Label, 8, 0, 1, 1)
+
+        self.Swan01_ANGLE_GRP_SW_NUM_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_ANGLE_GRP_SW_NUM_Label.setObjectName(u"Swan01_ANGLE_GRP_SW_NUM_Label")
+        self.Swan01_ANGLE_GRP_SW_NUM_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_ANGLE_GRP_SW_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_ANGLE_GRP_SW_NUM_Label.setFrameShape(QFrame.Shape.StyledPanel)
+        self.Swan01_ANGLE_GRP_SW_NUM_Label.setMargin(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_ANGLE_GRP_SW_NUM_Label, 7, 0, 1, 1)
+
+        self.horizontalSpacer_25 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_3.addItem(self.horizontalSpacer_25, 0, 2, 1, 1)
+
+        self.Swan01_MST_MODE_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_MST_MODE_Label.setObjectName(u"Swan01_MST_MODE_Label")
+        self.Swan01_MST_MODE_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_MST_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_MST_MODE_Label.setFrameShape(QFrame.Shape.StyledPanel)
+        self.Swan01_MST_MODE_Label.setMargin(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_MST_MODE_Label, 3, 0, 1, 1)
+
         self.Swan01_XCLK_ComboBox = QComboBox(self.scrollAreaWidgetContents)
         self.Swan01_XCLK_ComboBox.addItem("")
         self.Swan01_XCLK_ComboBox.addItem("")
@@ -1383,66 +1436,6 @@ class Ui_MainPages(object):
         self.Swan01_XCLK_ComboBox.setFont(font1)
 
         self.gridLayout_3.addWidget(self.Swan01_XCLK_ComboBox, 0, 1, 1, 1)
-
-        self.Swan01_XCLK_Label = QLabel(self.scrollAreaWidgetContents)
-        self.Swan01_XCLK_Label.setObjectName(u"Swan01_XCLK_Label")
-        self.Swan01_XCLK_Label.setMinimumSize(QSize(125, 0))
-        self.Swan01_XCLK_Label.setFont(font)
-        self.Swan01_XCLK_Label.setFrameShape(QFrame.Shape.StyledPanel)
-
-        self.gridLayout_3.addWidget(self.Swan01_XCLK_Label, 0, 0, 1, 1)
-
-        self.Swan01_SYS_CLK_Label = QLabel(self.scrollAreaWidgetContents)
-        self.Swan01_SYS_CLK_Label.setObjectName(u"Swan01_SYS_CLK_Label")
-        self.Swan01_SYS_CLK_Label.setMinimumSize(QSize(145, 0))
-        self.Swan01_SYS_CLK_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_SYS_CLK_Label.setFont(font)
-        self.Swan01_SYS_CLK_Label.setFrameShape(QFrame.Shape.StyledPanel)
-        self.Swan01_SYS_CLK_Label.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.gridLayout_3.addWidget(self.Swan01_SYS_CLK_Label, 0, 3, 1, 1)
-
-        self.Swan01_SYS_CLK_ComboBox = QComboBox(self.scrollAreaWidgetContents)
-        self.Swan01_SYS_CLK_ComboBox.addItem("")
-        self.Swan01_SYS_CLK_ComboBox.addItem("")
-        self.Swan01_SYS_CLK_ComboBox.setObjectName(u"Swan01_SYS_CLK_ComboBox")
-        self.Swan01_SYS_CLK_ComboBox.setEnabled(True)
-        self.Swan01_SYS_CLK_ComboBox.setMinimumSize(QSize(165, 0))
-        self.Swan01_SYS_CLK_ComboBox.setMaximumSize(QSize(165, 16777215))
-        self.Swan01_SYS_CLK_ComboBox.setFont(font1)
-        self.Swan01_SYS_CLK_ComboBox.setEditable(False)
-
-        self.gridLayout_3.addWidget(self.Swan01_SYS_CLK_ComboBox, 0, 4, 1, 1)
-
-        self.Swan01_SYNC_POL_ComboBox = QComboBox(self.scrollAreaWidgetContents)
-        self.Swan01_SYNC_POL_ComboBox.addItem("")
-        self.Swan01_SYNC_POL_ComboBox.addItem("")
-        self.Swan01_SYNC_POL_ComboBox.setObjectName(u"Swan01_SYNC_POL_ComboBox")
-        self.Swan01_SYNC_POL_ComboBox.setMaximumSize(QSize(165, 16777215))
-
-        self.gridLayout_3.addWidget(self.Swan01_SYNC_POL_ComboBox, 5, 1, 1, 1)
-
-        self.Swan01_SEG_NUM_Label = QLabel(self.scrollAreaWidgetContents)
-        self.Swan01_SEG_NUM_Label.setObjectName(u"Swan01_SEG_NUM_Label")
-        self.Swan01_SEG_NUM_Label.setMinimumSize(QSize(100, 0))
-        self.Swan01_SEG_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_SEG_NUM_Label.setFont(font1)
-        self.Swan01_SEG_NUM_Label.setFrameShape(QFrame.Shape.StyledPanel)
-        self.Swan01_SEG_NUM_Label.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.gridLayout_3.addWidget(self.Swan01_SEG_NUM_Label, 2, 3, 1, 1)
-
-        self.Swan01_WORK_MODE_Label = QLabel(self.scrollAreaWidgetContents)
-        self.Swan01_WORK_MODE_Label.setObjectName(u"Swan01_WORK_MODE_Label")
-        sizePolicy.setHeightForWidth(self.Swan01_WORK_MODE_Label.sizePolicy().hasHeightForWidth())
-        self.Swan01_WORK_MODE_Label.setSizePolicy(sizePolicy)
-        self.Swan01_WORK_MODE_Label.setMinimumSize(QSize(125, 0))
-        self.Swan01_WORK_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_WORK_MODE_Label.setFrameShape(QFrame.Shape.StyledPanel)
-        self.Swan01_WORK_MODE_Label.setFrameShadow(QFrame.Shadow.Raised)
-        self.Swan01_WORK_MODE_Label.setMargin(0)
-
-        self.gridLayout_3.addWidget(self.Swan01_WORK_MODE_Label, 1, 0, 1, 1)
 
         self.Swan01_ANGLE_GRP_SLOT_NUM = QGroupBox(self.scrollAreaWidgetContents)
         self.Swan01_ANGLE_GRP_SLOT_NUM.setObjectName(u"Swan01_ANGLE_GRP_SLOT_NUM")
@@ -1536,77 +1529,21 @@ class Ui_MainPages(object):
         self.horizontalLayout_26.addWidget(self.Swan01_ANGLE_GRP7_SLOT_NUM_spinBox)
 
 
-        self.gridLayout_3.addWidget(self.Swan01_ANGLE_GRP_SLOT_NUM, 4, 3, 1, 2)
+        self.gridLayout_3.addWidget(self.Swan01_ANGLE_GRP_SLOT_NUM, 7, 3, 1, 2)
 
-        self.Swan01_MST_MODE_Label = QLabel(self.scrollAreaWidgetContents)
-        self.Swan01_MST_MODE_Label.setObjectName(u"Swan01_MST_MODE_Label")
-        self.Swan01_MST_MODE_Label.setMinimumSize(QSize(0, 0))
-        self.Swan01_MST_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_MST_MODE_Label.setFrameShape(QFrame.Shape.StyledPanel)
-        self.Swan01_MST_MODE_Label.setMargin(0)
+        self.Swan01_SEG_NUM_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_SEG_NUM_Label.setObjectName(u"Swan01_SEG_NUM_Label")
+        self.Swan01_SEG_NUM_Label.setMinimumSize(QSize(100, 0))
+        self.Swan01_SEG_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_SEG_NUM_Label.setFont(font1)
+        self.Swan01_SEG_NUM_Label.setFrameShape(QFrame.Shape.StyledPanel)
+        self.Swan01_SEG_NUM_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.gridLayout_3.addWidget(self.Swan01_MST_MODE_Label, 2, 0, 1, 1)
-
-        self.Swan01_SYNC_POL_Label = QLabel(self.scrollAreaWidgetContents)
-        self.Swan01_SYNC_POL_Label.setObjectName(u"Swan01_SYNC_POL_Label")
-        self.Swan01_SYNC_POL_Label.setMinimumSize(QSize(150, 0))
-        self.Swan01_SYNC_POL_Label.setMaximumSize(QSize(150, 16777215))
-        self.Swan01_SYNC_POL_Label.setFrameShape(QFrame.Shape.StyledPanel)
-        self.Swan01_SYNC_POL_Label.setMargin(0)
-
-        self.gridLayout_3.addWidget(self.Swan01_SYNC_POL_Label, 5, 0, 1, 1)
-
-        self.horizontalSpacer_25 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_3.addItem(self.horizontalSpacer_25, 0, 2, 1, 1)
-
-        self.Swan01_MST_MODE_ComboBox = QComboBox(self.scrollAreaWidgetContents)
-        self.Swan01_MST_MODE_ComboBox.addItem("")
-        self.Swan01_MST_MODE_ComboBox.addItem("")
-        self.Swan01_MST_MODE_ComboBox.setObjectName(u"Swan01_MST_MODE_ComboBox")
-        self.Swan01_MST_MODE_ComboBox.setMinimumSize(QSize(165, 0))
-        self.Swan01_MST_MODE_ComboBox.setMaximumSize(QSize(165, 16777215))
-
-        self.gridLayout_3.addWidget(self.Swan01_MST_MODE_ComboBox, 2, 1, 1, 1)
-
-        self.verticalSpacer_7 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.gridLayout_3.addItem(self.verticalSpacer_7, 6, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_SEG_NUM_Label, 5, 3, 1, 1)
 
         self.horizontalSpacer_27 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_3.addItem(self.horizontalSpacer_27, 0, 5, 1, 1)
-
-        self.Swan01_WORK_MODE_ComboBox = ComboCheckBox(self.scrollAreaWidgetContents)
-        self.Swan01_WORK_MODE_ComboBox.addItem("")
-        self.Swan01_WORK_MODE_ComboBox.addItem("")
-        self.Swan01_WORK_MODE_ComboBox.addItem("")
-        self.Swan01_WORK_MODE_ComboBox.addItem("")
-        self.Swan01_WORK_MODE_ComboBox.setObjectName(u"Swan01_WORK_MODE_ComboBox")
-        self.Swan01_WORK_MODE_ComboBox.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_WORK_MODE_ComboBox.setFont(font1)
-
-        self.gridLayout_3.addWidget(self.Swan01_WORK_MODE_ComboBox, 1, 1, 1, 1)
-
-        self.Swan01_ANGLE_GRP_SW_NUM_Label = QLabel(self.scrollAreaWidgetContents)
-        self.Swan01_ANGLE_GRP_SW_NUM_Label.setObjectName(u"Swan01_ANGLE_GRP_SW_NUM_Label")
-        self.Swan01_ANGLE_GRP_SW_NUM_Label.setMinimumSize(QSize(0, 0))
-        self.Swan01_ANGLE_GRP_SW_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_ANGLE_GRP_SW_NUM_Label.setFrameShape(QFrame.Shape.StyledPanel)
-        self.Swan01_ANGLE_GRP_SW_NUM_Label.setMargin(0)
-
-        self.gridLayout_3.addWidget(self.Swan01_ANGLE_GRP_SW_NUM_Label, 4, 0, 1, 1)
-
-        self.Swan01_SEG_NUM_Slider = QSlider(self.scrollAreaWidgetContents)
-        self.Swan01_SEG_NUM_Slider.setObjectName(u"Swan01_SEG_NUM_Slider")
-        self.Swan01_SEG_NUM_Slider.setMaximumSize(QSize(165, 16777215))
-        self.Swan01_SEG_NUM_Slider.setMinimum(1)
-        self.Swan01_SEG_NUM_Slider.setMaximum(16)
-        self.Swan01_SEG_NUM_Slider.setPageStep(1)
-        self.Swan01_SEG_NUM_Slider.setValue(16)
-        self.Swan01_SEG_NUM_Slider.setOrientation(Qt.Orientation.Horizontal)
-
-        self.gridLayout_3.addWidget(self.Swan01_SEG_NUM_Slider, 2, 4, 1, 1)
+        self.gridLayout_3.addItem(self.horizontalSpacer_27, 0, 6, 1, 1)
 
         self.Swan01_MIPI_RATE_Label = QLabel(self.scrollAreaWidgetContents)
         self.Swan01_MIPI_RATE_Label.setObjectName(u"Swan01_MIPI_RATE_Label")
@@ -1618,29 +1555,19 @@ class Ui_MainPages(object):
         self.Swan01_MIPI_RATE_Label.setFrameShape(QFrame.Shape.StyledPanel)
         self.Swan01_MIPI_RATE_Label.setFrameShadow(QFrame.Shadow.Raised)
 
-        self.gridLayout_3.addWidget(self.Swan01_MIPI_RATE_Label, 1, 3, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_MIPI_RATE_Label, 3, 3, 1, 1)
 
-        self.Swan01_MIPI_RATE_ComboBox = QComboBox(self.scrollAreaWidgetContents)
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.addItem("")
-        self.Swan01_MIPI_RATE_ComboBox.setObjectName(u"Swan01_MIPI_RATE_ComboBox")
-        self.Swan01_MIPI_RATE_ComboBox.setMaximumSize(QSize(165, 16777215))
-        self.Swan01_MIPI_RATE_ComboBox.setFont(font1)
+        self.Swan01_WORK_MODE_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_WORK_MODE_Label.setObjectName(u"Swan01_WORK_MODE_Label")
+        sizePolicy.setHeightForWidth(self.Swan01_WORK_MODE_Label.sizePolicy().hasHeightForWidth())
+        self.Swan01_WORK_MODE_Label.setSizePolicy(sizePolicy)
+        self.Swan01_WORK_MODE_Label.setMinimumSize(QSize(125, 0))
+        self.Swan01_WORK_MODE_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_WORK_MODE_Label.setFrameShape(QFrame.Shape.StyledPanel)
+        self.Swan01_WORK_MODE_Label.setFrameShadow(QFrame.Shadow.Raised)
+        self.Swan01_WORK_MODE_Label.setMargin(0)
 
-        self.gridLayout_3.addWidget(self.Swan01_MIPI_RATE_ComboBox, 1, 4, 1, 1)
-
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox = QSpinBox(self.scrollAreaWidgetContents)
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setObjectName(u"Swan01_ANGLE_GRP_SW_NUM_spinBox")
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setEnabled(True)
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMinimumSize(QSize(150, 0))
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMinimum(1)
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMaximum(8)
-        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setValue(1)
-
-        self.gridLayout_3.addWidget(self.Swan01_ANGLE_GRP_SW_NUM_spinBox, 4, 1, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_WORK_MODE_Label, 4, 0, 1, 1)
 
         self.Swan01_SEG_NUM_Value = QLabel(self.scrollAreaWidgetContents)
         self.Swan01_SEG_NUM_Value.setObjectName(u"Swan01_SEG_NUM_Value")
@@ -1651,7 +1578,136 @@ class Ui_MainPages(object):
         self.Swan01_SEG_NUM_Value.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
         self.Swan01_SEG_NUM_Value.setMargin(0)
 
-        self.gridLayout_3.addWidget(self.Swan01_SEG_NUM_Value, 2, 5, 1, 1)
+        self.gridLayout_3.addWidget(self.Swan01_SEG_NUM_Value, 5, 5, 1, 1)
+
+        self.Swan01_SYNC_POL_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_SYNC_POL_Label.setObjectName(u"Swan01_SYNC_POL_Label")
+        self.Swan01_SYNC_POL_Label.setMinimumSize(QSize(150, 0))
+        self.Swan01_SYNC_POL_Label.setMaximumSize(QSize(150, 16777215))
+        self.Swan01_SYNC_POL_Label.setFrameShape(QFrame.Shape.StyledPanel)
+        self.Swan01_SYNC_POL_Label.setMargin(0)
+
+        self.gridLayout_3.addWidget(self.Swan01_SYNC_POL_Label, 5, 0, 1, 1)
+
+        self.Swan01_SYNC_POL_ComboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.Swan01_SYNC_POL_ComboBox.addItem("")
+        self.Swan01_SYNC_POL_ComboBox.addItem("")
+        self.Swan01_SYNC_POL_ComboBox.setObjectName(u"Swan01_SYNC_POL_ComboBox")
+        self.Swan01_SYNC_POL_ComboBox.setMaximumSize(QSize(165, 16777215))
+
+        self.gridLayout_3.addWidget(self.Swan01_SYNC_POL_ComboBox, 5, 1, 1, 1)
+
+        self.Swan01_ZDD_TRIG_POL_SEL_ComboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.Swan01_ZDD_TRIG_POL_SEL_ComboBox.addItem("")
+        self.Swan01_ZDD_TRIG_POL_SEL_ComboBox.addItem("")
+        self.Swan01_ZDD_TRIG_POL_SEL_ComboBox.setObjectName(u"Swan01_ZDD_TRIG_POL_SEL_ComboBox")
+        self.Swan01_ZDD_TRIG_POL_SEL_ComboBox.setMaximumSize(QSize(165, 16777215))
+
+        self.gridLayout_3.addWidget(self.Swan01_ZDD_TRIG_POL_SEL_ComboBox, 8, 1, 1, 1)
+
+        self.Swan01_SYS_CLK_ComboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.Swan01_SYS_CLK_ComboBox.addItem("")
+        self.Swan01_SYS_CLK_ComboBox.addItem("")
+        self.Swan01_SYS_CLK_ComboBox.setObjectName(u"Swan01_SYS_CLK_ComboBox")
+        self.Swan01_SYS_CLK_ComboBox.setEnabled(True)
+        self.Swan01_SYS_CLK_ComboBox.setMinimumSize(QSize(165, 0))
+        self.Swan01_SYS_CLK_ComboBox.setMaximumSize(QSize(165, 16777215))
+        self.Swan01_SYS_CLK_ComboBox.setFont(font1)
+        self.Swan01_SYS_CLK_ComboBox.setEditable(False)
+
+        self.gridLayout_3.addWidget(self.Swan01_SYS_CLK_ComboBox, 0, 4, 1, 1)
+
+        self.Swan01_MIPI_LNAE_NUM_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_MIPI_LNAE_NUM_Label.setObjectName(u"Swan01_MIPI_LNAE_NUM_Label")
+        sizePolicy.setHeightForWidth(self.Swan01_MIPI_LNAE_NUM_Label.sizePolicy().hasHeightForWidth())
+        self.Swan01_MIPI_LNAE_NUM_Label.setSizePolicy(sizePolicy)
+        self.Swan01_MIPI_LNAE_NUM_Label.setMinimumSize(QSize(145, 0))
+        self.Swan01_MIPI_LNAE_NUM_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_MIPI_LNAE_NUM_Label.setFont(font1)
+        self.Swan01_MIPI_LNAE_NUM_Label.setFrameShape(QFrame.Shape.StyledPanel)
+        self.Swan01_MIPI_LNAE_NUM_Label.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.gridLayout_3.addWidget(self.Swan01_MIPI_LNAE_NUM_Label, 4, 3, 1, 1)
+
+        self.Swan01_XCLK_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_XCLK_Label.setObjectName(u"Swan01_XCLK_Label")
+        self.Swan01_XCLK_Label.setMinimumSize(QSize(125, 0))
+        self.Swan01_XCLK_Label.setFont(font)
+        self.Swan01_XCLK_Label.setFrameShape(QFrame.Shape.StyledPanel)
+
+        self.gridLayout_3.addWidget(self.Swan01_XCLK_Label, 0, 0, 1, 1)
+
+        self.Swan01_MIPI_LANE_NUM_ComboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.Swan01_MIPI_LANE_NUM_ComboBox.addItem("")
+        self.Swan01_MIPI_LANE_NUM_ComboBox.addItem("")
+        self.Swan01_MIPI_LANE_NUM_ComboBox.addItem("")
+        self.Swan01_MIPI_LANE_NUM_ComboBox.addItem("")
+        self.Swan01_MIPI_LANE_NUM_ComboBox.setObjectName(u"Swan01_MIPI_LANE_NUM_ComboBox")
+        self.Swan01_MIPI_LANE_NUM_ComboBox.setMaximumSize(QSize(165, 16777215))
+        self.Swan01_MIPI_LANE_NUM_ComboBox.setFont(font1)
+
+        self.gridLayout_3.addWidget(self.Swan01_MIPI_LANE_NUM_ComboBox, 4, 4, 1, 1)
+
+        self.Swan01_MIPI_RATE_ComboBox = QComboBox(self.scrollAreaWidgetContents)
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.setObjectName(u"Swan01_MIPI_RATE_ComboBox")
+        self.Swan01_MIPI_RATE_ComboBox.setMaximumSize(QSize(165, 16777215))
+        self.Swan01_MIPI_RATE_ComboBox.setFont(font1)
+
+        self.gridLayout_3.addWidget(self.Swan01_MIPI_RATE_ComboBox, 3, 4, 1, 1)
+
+        self.Swan01_SEG_NUM_Slider = QSlider(self.scrollAreaWidgetContents)
+        self.Swan01_SEG_NUM_Slider.setObjectName(u"Swan01_SEG_NUM_Slider")
+        self.Swan01_SEG_NUM_Slider.setMaximumSize(QSize(165, 16777215))
+        self.Swan01_SEG_NUM_Slider.setMinimum(1)
+        self.Swan01_SEG_NUM_Slider.setMaximum(16)
+        self.Swan01_SEG_NUM_Slider.setPageStep(1)
+        self.Swan01_SEG_NUM_Slider.setValue(16)
+        self.Swan01_SEG_NUM_Slider.setOrientation(Qt.Orientation.Horizontal)
+
+        self.gridLayout_3.addWidget(self.Swan01_SEG_NUM_Slider, 5, 4, 1, 1)
+
+        self.Swan01_WORK_MODE_ComboBox = ComboCheckBox(self.scrollAreaWidgetContents)
+        self.Swan01_WORK_MODE_ComboBox.addItem("")
+        self.Swan01_WORK_MODE_ComboBox.addItem("")
+        self.Swan01_WORK_MODE_ComboBox.addItem("")
+        self.Swan01_WORK_MODE_ComboBox.addItem("")
+        self.Swan01_WORK_MODE_ComboBox.setObjectName(u"Swan01_WORK_MODE_ComboBox")
+        self.Swan01_WORK_MODE_ComboBox.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_WORK_MODE_ComboBox.setFont(font1)
+
+        self.gridLayout_3.addWidget(self.Swan01_WORK_MODE_ComboBox, 4, 1, 1, 1)
+
+        self.Swan01_SYS_CLK_Label = QLabel(self.scrollAreaWidgetContents)
+        self.Swan01_SYS_CLK_Label.setObjectName(u"Swan01_SYS_CLK_Label")
+        self.Swan01_SYS_CLK_Label.setMinimumSize(QSize(145, 0))
+        self.Swan01_SYS_CLK_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_SYS_CLK_Label.setFont(font)
+        self.Swan01_SYS_CLK_Label.setFrameShape(QFrame.Shape.StyledPanel)
+        self.Swan01_SYS_CLK_Label.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.gridLayout_3.addWidget(self.Swan01_SYS_CLK_Label, 0, 3, 1, 1)
+
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox = QSpinBox(self.scrollAreaWidgetContents)
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setObjectName(u"Swan01_ANGLE_GRP_SW_NUM_spinBox")
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setEnabled(True)
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMinimumSize(QSize(150, 0))
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMinimum(1)
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setMaximum(8)
+        self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setValue(1)
+
+        self.gridLayout_3.addWidget(self.Swan01_ANGLE_GRP_SW_NUM_spinBox, 7, 1, 1, 1)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_3.addItem(self.verticalSpacer_6, 9, 0, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
@@ -1669,7 +1725,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 670, 108))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 917, 280))
         self.gridLayout_15 = QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_15.setObjectName(u"gridLayout_15")
         self.gridLayout_15.setContentsMargins(0, 0, 0, 0)
@@ -1829,7 +1885,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 704, 185))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 917, 280))
         self.gridLayout_12 = QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_12.setObjectName(u"gridLayout_12")
         self.gridLayout_12.setContentsMargins(0, 0, 0, 0)
@@ -2101,7 +2157,7 @@ class Ui_MainPages(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 655, 214))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 917, 280))
         self.gridLayout_13 = QGridLayout(self.scrollAreaWidgetContents_4)
         self.gridLayout_13.setObjectName(u"gridLayout_13")
         self.gridLayout_13.setContentsMargins(0, 0, 0, 0)
@@ -2373,7 +2429,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 655, 108))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 917, 280))
         self.gridLayout_14 = QGridLayout(self.scrollAreaWidgetContents_5)
         self.gridLayout_14.setObjectName(u"gridLayout_14")
         self.gridLayout_14.setContentsMargins(0, 0, 0, 0)
@@ -2538,7 +2594,7 @@ class Ui_MainPages(object):
         self.scrollArea_11.setWidgetResizable(True)
         self.scrollAreaWidgetContents_11 = QWidget()
         self.scrollAreaWidgetContents_11.setObjectName(u"scrollAreaWidgetContents_11")
-        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 403, 187))
+        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 917, 229))
         self.gridLayout_21 = QGridLayout(self.scrollAreaWidgetContents_11)
         self.gridLayout_21.setObjectName(u"gridLayout_21")
         self.gridLayout_21.setContentsMargins(0, 0, 0, 0)
@@ -2730,120 +2786,24 @@ class Ui_MainPages(object):
         self.Swan01_FileConifg.setMaximumSize(QSize(16777215, 16777215))
         self.gridLayout_7 = QGridLayout(self.Swan01_FileConifg)
         self.gridLayout_7.setObjectName(u"gridLayout_7")
+        self.gridLayout_7.setVerticalSpacing(6)
         self.gridLayout_7.setContentsMargins(9, 9, 9, 1)
-        self.Swan01_reference_script_LineEdit = QLineEdit(self.Swan01_FileConifg)
-        self.Swan01_reference_script_LineEdit.setObjectName(u"Swan01_reference_script_LineEdit")
-        self.Swan01_reference_script_LineEdit.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.Swan01_reference_script_LineEdit.sizePolicy().hasHeightForWidth())
-        self.Swan01_reference_script_LineEdit.setSizePolicy(sizePolicy1)
-        self.Swan01_reference_script_LineEdit.setMinimumSize(QSize(0, 0))
-        self.Swan01_reference_script_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Swan01_reference_script_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.Swan01_reference_script_LineEdit.setReadOnly(True)
-
-        self.gridLayout_7.addWidget(self.Swan01_reference_script_LineEdit, 0, 1, 1, 1)
-
-        self.frame_2 = QFrame(self.Swan01_FileConifg)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.Shape.NoFrame)
-        self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_26 = QVBoxLayout(self.frame_2)
-        self.verticalLayout_26.setSpacing(0)
-        self.verticalLayout_26.setObjectName(u"verticalLayout_26")
-        self.verticalLayout_26.setContentsMargins(0, 0, 0, 0)
-        self.Swan01_script_parse_Button = QPushButton(self.frame_2)
-        self.Swan01_script_parse_Button.setObjectName(u"Swan01_script_parse_Button")
-        sizePolicy2.setHeightForWidth(self.Swan01_script_parse_Button.sizePolicy().hasHeightForWidth())
-        self.Swan01_script_parse_Button.setSizePolicy(sizePolicy2)
-        self.Swan01_script_parse_Button.setMinimumSize(QSize(120, 50))
-
-        self.verticalLayout_26.addWidget(self.Swan01_script_parse_Button)
-
-        self.Swan01_slot_read_time_cal_Button = QPushButton(self.frame_2)
-        self.Swan01_slot_read_time_cal_Button.setObjectName(u"Swan01_slot_read_time_cal_Button")
-        sizePolicy1.setHeightForWidth(self.Swan01_slot_read_time_cal_Button.sizePolicy().hasHeightForWidth())
-        self.Swan01_slot_read_time_cal_Button.setSizePolicy(sizePolicy1)
-        self.Swan01_slot_read_time_cal_Button.setMinimumSize(QSize(120, 50))
-        self.Swan01_slot_read_time_cal_Button.setFont(font)
-        self.Swan01_slot_read_time_cal_Button.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-
-        self.verticalLayout_26.addWidget(self.Swan01_slot_read_time_cal_Button)
-
-
-        self.gridLayout_7.addWidget(self.frame_2, 0, 3, 5, 1)
-
-        self.Swan01_reference_script_sel_Button = QPushButton(self.Swan01_FileConifg)
-        self.Swan01_reference_script_sel_Button.setObjectName(u"Swan01_reference_script_sel_Button")
-        sizePolicy2.setHeightForWidth(self.Swan01_reference_script_sel_Button.sizePolicy().hasHeightForWidth())
-        self.Swan01_reference_script_sel_Button.setSizePolicy(sizePolicy2)
-        self.Swan01_reference_script_sel_Button.setMinimumSize(QSize(90, 0))
-
-        self.gridLayout_7.addWidget(self.Swan01_reference_script_sel_Button, 0, 2, 1, 1)
-
-        self.Swan01_file_save_dir_Button = QPushButton(self.Swan01_FileConifg)
-        self.Swan01_file_save_dir_Button.setObjectName(u"Swan01_file_save_dir_Button")
-        sizePolicy2.setHeightForWidth(self.Swan01_file_save_dir_Button.sizePolicy().hasHeightForWidth())
-        self.Swan01_file_save_dir_Button.setSizePolicy(sizePolicy2)
-        self.Swan01_file_save_dir_Button.setMinimumSize(QSize(90, 0))
-
-        self.gridLayout_7.addWidget(self.Swan01_file_save_dir_Button, 1, 2, 1, 1)
-
-        self.horizontalSpacer_28 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
-
-        self.gridLayout_7.addItem(self.horizontalSpacer_28, 2, 2, 1, 1)
-
-        self.Swan01_file_save_dir_LineEdit = QLineEdit(self.Swan01_FileConifg)
-        self.Swan01_file_save_dir_LineEdit.setObjectName(u"Swan01_file_save_dir_LineEdit")
-        self.Swan01_file_save_dir_LineEdit.setEnabled(True)
-        sizePolicy1.setHeightForWidth(self.Swan01_file_save_dir_LineEdit.sizePolicy().hasHeightForWidth())
-        self.Swan01_file_save_dir_LineEdit.setSizePolicy(sizePolicy1)
-        self.Swan01_file_save_dir_LineEdit.setMinimumSize(QSize(350, 0))
-        self.Swan01_file_save_dir_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Swan01_file_save_dir_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
-        self.Swan01_file_save_dir_LineEdit.setReadOnly(False)
-
-        self.gridLayout_7.addWidget(self.Swan01_file_save_dir_LineEdit, 1, 1, 1, 1)
-
-        self.Swan01_reg_script_name_LineEdit = QLineEdit(self.Swan01_FileConifg)
-        self.Swan01_reg_script_name_LineEdit.setObjectName(u"Swan01_reg_script_name_LineEdit")
-        self.Swan01_reg_script_name_LineEdit.setMaximumSize(QSize(500, 16777215))
-        self.Swan01_reg_script_name_LineEdit.setFont(font)
-
-        self.gridLayout_7.addWidget(self.Swan01_reg_script_name_LineEdit, 2, 1, 1, 1)
-
-        self.Swan01_reg_script_name_Label = QLabel(self.Swan01_FileConifg)
-        self.Swan01_reg_script_name_Label.setObjectName(u"Swan01_reg_script_name_Label")
-        self.Swan01_reg_script_name_Label.setEnabled(True)
-        self.Swan01_reg_script_name_Label.setFont(font)
-
-        self.gridLayout_7.addWidget(self.Swan01_reg_script_name_Label, 2, 0, 1, 1)
-
-        self.Swan01_reference_script_Label = QLabel(self.Swan01_FileConifg)
-        self.Swan01_reference_script_Label.setObjectName(u"Swan01_reference_script_Label")
-        self.Swan01_reference_script_Label.setMinimumSize(QSize(0, 0))
-        self.Swan01_reference_script_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_reference_script_Label.setFont(font1)
-        self.Swan01_reference_script_Label.setFrameShape(QFrame.Shape.NoFrame)
-        self.Swan01_reference_script_Label.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.gridLayout_7.addWidget(self.Swan01_reference_script_Label, 0, 0, 1, 1)
-
-        self.Swan01_file_save_dir_Label = QLabel(self.Swan01_FileConifg)
-        self.Swan01_file_save_dir_Label.setObjectName(u"Swan01_file_save_dir_Label")
-        self.Swan01_file_save_dir_Label.setMinimumSize(QSize(0, 0))
-        self.Swan01_file_save_dir_Label.setMaximumSize(QSize(16777215, 16777215))
-        self.Swan01_file_save_dir_Label.setFont(font1)
-        self.Swan01_file_save_dir_Label.setFrameShape(QFrame.Shape.NoFrame)
-        self.Swan01_file_save_dir_Label.setFrameShadow(QFrame.Shadow.Raised)
-
-        self.gridLayout_7.addWidget(self.Swan01_file_save_dir_Label, 1, 0, 1, 1)
-
         self.Swan01_ButtonCollectionFrame = QFrame(self.Swan01_FileConifg)
         self.Swan01_ButtonCollectionFrame.setObjectName(u"Swan01_ButtonCollectionFrame")
         self.horizontalLayout_25 = QHBoxLayout(self.Swan01_ButtonCollectionFrame)
         self.horizontalLayout_25.setSpacing(6)
         self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
         self.horizontalLayout_25.setContentsMargins(0, 2, 0, -1)
+        self.Swan01_slot_read_time_cal_Button = QPushButton(self.Swan01_ButtonCollectionFrame)
+        self.Swan01_slot_read_time_cal_Button.setObjectName(u"Swan01_slot_read_time_cal_Button")
+        sizePolicy1.setHeightForWidth(self.Swan01_slot_read_time_cal_Button.sizePolicy().hasHeightForWidth())
+        self.Swan01_slot_read_time_cal_Button.setSizePolicy(sizePolicy1)
+        self.Swan01_slot_read_time_cal_Button.setMinimumSize(QSize(90, 0))
+        self.Swan01_slot_read_time_cal_Button.setFont(font)
+        self.Swan01_slot_read_time_cal_Button.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+
+        self.horizontalLayout_25.addWidget(self.Swan01_slot_read_time_cal_Button)
+
         self.Swan01_script_Save = QPushButton(self.Swan01_ButtonCollectionFrame)
         self.Swan01_script_Save.setObjectName(u"Swan01_script_Save")
         sizePolicy1.setHeightForWidth(self.Swan01_script_Save.sizePolicy().hasHeightForWidth())
@@ -2870,6 +2830,92 @@ class Ui_MainPages(object):
 
 
         self.gridLayout_7.addWidget(self.Swan01_ButtonCollectionFrame, 3, 0, 1, 3)
+
+        self.horizontalSpacer_28 = QSpacerItem(30, 20, QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_7.addItem(self.horizontalSpacer_28, 0, 5, 1, 1)
+
+        self.Swan01_reference_script_Label = QLabel(self.Swan01_FileConifg)
+        self.Swan01_reference_script_Label.setObjectName(u"Swan01_reference_script_Label")
+        self.Swan01_reference_script_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_reference_script_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_reference_script_Label.setFont(font1)
+        self.Swan01_reference_script_Label.setFrameShape(QFrame.Shape.NoFrame)
+        self.Swan01_reference_script_Label.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.gridLayout_7.addWidget(self.Swan01_reference_script_Label, 0, 0, 1, 1)
+
+        self.Swan01_script_parse_Button = QPushButton(self.Swan01_FileConifg)
+        self.Swan01_script_parse_Button.setObjectName(u"Swan01_script_parse_Button")
+        sizePolicy2.setHeightForWidth(self.Swan01_script_parse_Button.sizePolicy().hasHeightForWidth())
+        self.Swan01_script_parse_Button.setSizePolicy(sizePolicy2)
+        self.Swan01_script_parse_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_7.addWidget(self.Swan01_script_parse_Button, 0, 3, 1, 1)
+
+        self.Swan01_reg_script_name_LineEdit = PyLineEdit(self.Swan01_FileConifg)
+        self.Swan01_reg_script_name_LineEdit.setObjectName(u"Swan01_reg_script_name_LineEdit")
+        self.Swan01_reg_script_name_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Swan01_reg_script_name_LineEdit.setFont(font)
+
+        self.gridLayout_7.addWidget(self.Swan01_reg_script_name_LineEdit, 2, 1, 1, 1)
+
+        self.Swan01_file_save_dir_LineEdit = PyLineEdit(self.Swan01_FileConifg)
+        self.Swan01_file_save_dir_LineEdit.setObjectName(u"Swan01_file_save_dir_LineEdit")
+        self.Swan01_file_save_dir_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.Swan01_file_save_dir_LineEdit.sizePolicy().hasHeightForWidth())
+        self.Swan01_file_save_dir_LineEdit.setSizePolicy(sizePolicy1)
+        self.Swan01_file_save_dir_LineEdit.setMinimumSize(QSize(350, 0))
+        self.Swan01_file_save_dir_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Swan01_file_save_dir_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.Swan01_file_save_dir_LineEdit.setReadOnly(False)
+
+        self.gridLayout_7.addWidget(self.Swan01_file_save_dir_LineEdit, 1, 1, 1, 1)
+
+        self.Swan01_reg_script_name_Label = QLabel(self.Swan01_FileConifg)
+        self.Swan01_reg_script_name_Label.setObjectName(u"Swan01_reg_script_name_Label")
+        self.Swan01_reg_script_name_Label.setEnabled(True)
+        self.Swan01_reg_script_name_Label.setFont(font)
+
+        self.gridLayout_7.addWidget(self.Swan01_reg_script_name_Label, 2, 0, 1, 1)
+
+        self.Swan01_reference_script_LineEdit = PyLineEdit(self.Swan01_FileConifg)
+        self.Swan01_reference_script_LineEdit.setObjectName(u"Swan01_reference_script_LineEdit")
+        self.Swan01_reference_script_LineEdit.setEnabled(True)
+        sizePolicy1.setHeightForWidth(self.Swan01_reference_script_LineEdit.sizePolicy().hasHeightForWidth())
+        self.Swan01_reference_script_LineEdit.setSizePolicy(sizePolicy1)
+        self.Swan01_reference_script_LineEdit.setMinimumSize(QSize(0, 0))
+        self.Swan01_reference_script_LineEdit.setMaximumSize(QSize(500, 16777215))
+        self.Swan01_reference_script_LineEdit.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+        self.Swan01_reference_script_LineEdit.setReadOnly(True)
+
+        self.gridLayout_7.addWidget(self.Swan01_reference_script_LineEdit, 0, 1, 1, 1)
+
+        self.Swan01_file_save_dir_Button = QPushButton(self.Swan01_FileConifg)
+        self.Swan01_file_save_dir_Button.setObjectName(u"Swan01_file_save_dir_Button")
+        sizePolicy2.setHeightForWidth(self.Swan01_file_save_dir_Button.sizePolicy().hasHeightForWidth())
+        self.Swan01_file_save_dir_Button.setSizePolicy(sizePolicy2)
+        self.Swan01_file_save_dir_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_7.addWidget(self.Swan01_file_save_dir_Button, 1, 2, 1, 1)
+
+        self.Swan01_file_save_dir_Label = QLabel(self.Swan01_FileConifg)
+        self.Swan01_file_save_dir_Label.setObjectName(u"Swan01_file_save_dir_Label")
+        self.Swan01_file_save_dir_Label.setMinimumSize(QSize(0, 0))
+        self.Swan01_file_save_dir_Label.setMaximumSize(QSize(16777215, 16777215))
+        self.Swan01_file_save_dir_Label.setFont(font1)
+        self.Swan01_file_save_dir_Label.setFrameShape(QFrame.Shape.NoFrame)
+        self.Swan01_file_save_dir_Label.setFrameShadow(QFrame.Shadow.Raised)
+
+        self.gridLayout_7.addWidget(self.Swan01_file_save_dir_Label, 1, 0, 1, 1)
+
+        self.Swan01_reference_script_sel_Button = QPushButton(self.Swan01_FileConifg)
+        self.Swan01_reference_script_sel_Button.setObjectName(u"Swan01_reference_script_sel_Button")
+        sizePolicy2.setHeightForWidth(self.Swan01_reference_script_sel_Button.sizePolicy().hasHeightForWidth())
+        self.Swan01_reference_script_sel_Button.setSizePolicy(sizePolicy2)
+        self.Swan01_reference_script_sel_Button.setMinimumSize(QSize(90, 0))
+
+        self.gridLayout_7.addWidget(self.Swan01_reference_script_sel_Button, 0, 2, 1, 1)
 
 
         self.verticalLayout_13.addWidget(self.Swan01_FileConifg)
@@ -2906,7 +2952,7 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_save_dir_Label, 7, 0, 1, 1)
 
-        self.Swan01_roi_sram_name_LineEdit = QLineEdit(self.Swan01_ROIConfig)
+        self.Swan01_roi_sram_name_LineEdit = PyLineEdit(self.Swan01_ROIConfig)
         self.Swan01_roi_sram_name_LineEdit.setObjectName(u"Swan01_roi_sram_name_LineEdit")
         self.Swan01_roi_sram_name_LineEdit.setMaximumSize(QSize(500, 16777215))
         self.Swan01_roi_sram_name_LineEdit.setFont(font)
@@ -2987,7 +3033,7 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_generate_slot_time_set_enable_CheckBox, 5, 3, 1, 1)
 
-        self.Swan01_roi_save_dir_LineEdit = QLineEdit(self.Swan01_ROIConfig)
+        self.Swan01_roi_save_dir_LineEdit = PyLineEdit(self.Swan01_ROIConfig)
         self.Swan01_roi_save_dir_LineEdit.setObjectName(u"Swan01_roi_save_dir_LineEdit")
         self.Swan01_roi_save_dir_LineEdit.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.Swan01_roi_save_dir_LineEdit.sizePolicy().hasHeightForWidth())
@@ -3026,7 +3072,7 @@ class Ui_MainPages(object):
 
         self.gridLayout_8.addWidget(self.Swan01_roi_generate_excel_sel_Button, 6, 3, 1, 1)
 
-        self.Swan01_roi_generate_script_file_sel_LineEdit = QLineEdit(self.Swan01_ROIConfig)
+        self.Swan01_roi_generate_script_file_sel_LineEdit = PyLineEdit(self.Swan01_ROIConfig)
         self.Swan01_roi_generate_script_file_sel_LineEdit.setObjectName(u"Swan01_roi_generate_script_file_sel_LineEdit")
         self.Swan01_roi_generate_script_file_sel_LineEdit.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.Swan01_roi_generate_script_file_sel_LineEdit.sizePolicy().hasHeightForWidth())
@@ -3062,7 +3108,7 @@ class Ui_MainPages(object):
         self.horizontalLayout_23 = QHBoxLayout(self.frame_3)
         self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
         self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
-        self.Swan01_roi_generate_excel_sel_LineEdit = QLineEdit(self.frame_3)
+        self.Swan01_roi_generate_excel_sel_LineEdit = PyLineEdit(self.frame_3)
         self.Swan01_roi_generate_excel_sel_LineEdit.setObjectName(u"Swan01_roi_generate_excel_sel_LineEdit")
         self.Swan01_roi_generate_excel_sel_LineEdit.setEnabled(True)
         sizePolicy1.setHeightForWidth(self.Swan01_roi_generate_excel_sel_LineEdit.sizePolicy().hasHeightForWidth())
@@ -3639,7 +3685,7 @@ class Ui_MainPages(object):
         self.scroll_area.setWidgetResizable(True)
         self.contents = QWidget()
         self.contents.setObjectName(u"contents")
-        self.contents.setGeometry(QRect(0, 0, 991, 811))
+        self.contents.setGeometry(QRect(0, 0, 442, 196))
         self.contents.setStyleSheet(u"")
         self.verticalLayout = QVBoxLayout(self.contents)
         self.verticalLayout.setSpacing(15)
@@ -3767,7 +3813,7 @@ class Ui_MainPages(object):
         self.Swan01_SEG_NUM_Slider.valueChanged.connect(self.Swan01_SEG_NUM_Value.setNum)
 
         self.pages.setCurrentIndex(0)
-        self.Hawk01_ROIConfig.setCurrentIndex(1)
+        self.Hawk01_ROIConfig.setCurrentIndex(3)
         self.ScriptTable.setCurrentIndex(0)
 
 
@@ -3930,37 +3976,33 @@ class Ui_MainPages(object):
         self.Hawk01_ROIZoneConfig.setText(QCoreApplication.translate("MainPages", u"<html><head/><body><p><a href=\"https://www.example.com\"><span style=\" text-decoration: underline; color:#0078d7;\">ZONE INFO</span></a></p></body></html>", None))
         self.Hawk01_ROIView.setText(QCoreApplication.translate("MainPages", u"View", None))
         self.Hawk01_ROISave.setText(QCoreApplication.translate("MainPages", u"Save", None))
-        self.Hawk01_roi_sram_name_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Name", None))
-        self.Hawk01_reg_script_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
-        self.Hawk01_file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
-        self.Hawk01_reference_script_sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Hawk01_roi_sram_name_CheckBox.setText(QCoreApplication.translate("MainPages", u"Include", None))
-        self.Hawk01_roi_sram_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
-        self.Hawk01_reference_script_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
+        self.Hawk01_file_save_dir_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
         self.Hawk01_Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.Hawk01_Open.setText(QCoreApplication.translate("MainPages", u"Open", None))
-        self.Hawk01_reference_script_Label.setText(QCoreApplication.translate("MainPages", u"Reference Script", None))
-        self.Hawk01_file_save_dir_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u6307\u5b9aSpadisApp\u8f6f\u4ef6\u8def\u5f84", None))
         self.Hawk01_file_save_dir_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Hawk01_reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Reg Script Name", None))
+        self.Hawk01_reference_script_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
         self.Hawk01_script_parse_Button.setText(QCoreApplication.translate("MainPages", u"Script Parse", None))
+        self.Hawk01_roi_sram_name_Label.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Name", None))
+        self.Hawk01_reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Reg Script Name", None))
+        self.Hawk01_reg_script_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
+        self.Hawk01_file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
+        self.Hawk01_roi_sram_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165ROI\u4fdd\u5b58\u7684\u6587\u4ef6\u540d", None))
+        self.Hawk01_reference_script_Label.setText(QCoreApplication.translate("MainPages", u"Reference Script", None))
+        self.Hawk01_reference_script_sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.Hawk01_roi_sram_name_CheckBox.setText(QCoreApplication.translate("MainPages", u"Include", None))
         self.Swan01FunctionSelectWin.setTitle(QCoreApplication.translate("MainPages", u"Function Select", None))
         self.Swan01_ROISramGenerateSel.setText(QCoreApplication.translate("MainPages", u"ROI SRAM Generate", None))
         self.Swan01_ScriptGenerateSel.setText(QCoreApplication.translate("MainPages", u"Script Generate", None))
         self.Swan01_RegisterConfig.setTitle("")
+        self.Swan01_MST_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Slave Mode", None))
+        self.Swan01_MST_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Master Mode", None))
+
+        self.Swan01_ZDD_TRIG_POL_SEL_Label.setText(QCoreApplication.translate("MainPages", u"ZDD_TRIG_POL", None))
+        self.Swan01_ANGLE_GRP_SW_NUM_Label.setText(QCoreApplication.translate("MainPages", u"ANGLE_GRP_SW_NUM", None))
+        self.Swan01_MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
         self.Swan01_XCLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"24 M", None))
         self.Swan01_XCLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"25 M", None))
 
-        self.Swan01_XCLK_Label.setText(QCoreApplication.translate("MainPages", u"XCLK", None))
-        self.Swan01_SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
-        self.Swan01_SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"330 M", None))
-        self.Swan01_SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"400 M", None))
-
-        self.Swan01_SYNC_POL_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Active low", None))
-        self.Swan01_SYNC_POL_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Active high", None))
-
-        self.Swan01_SEG_NUM_Label.setText(QCoreApplication.translate("MainPages", u"SEG_NUM", None))
-        self.Swan01_WORK_MODE_Label.setText(QCoreApplication.translate("MainPages", u"WORK_MODE", None))
         self.Swan01_ANGLE_GRP_SLOT_NUM.setTitle("")
 #if QT_CONFIG(tooltip)
         self.Swan01_ANGLE_GRP0_SLOT_NUM_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MAXBIN_THRS", None))
@@ -4010,30 +4052,47 @@ class Ui_MainPages(object):
 #if QT_CONFIG(whatsthis)
         self.Swan01_ANGLE_GRP7_SLOT_NUM_spinBox.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
-        self.Swan01_MST_MODE_Label.setText(QCoreApplication.translate("MainPages", u"MST_MODE", None))
+        self.Swan01_SEG_NUM_Label.setText(QCoreApplication.translate("MainPages", u"SEG_NUM", None))
+        self.Swan01_MIPI_RATE_Label.setText(QCoreApplication.translate("MainPages", u"MIPI RATE", None))
+        self.Swan01_WORK_MODE_Label.setText(QCoreApplication.translate("MainPages", u"WORK_MODE", None))
+        self.Swan01_SEG_NUM_Value.setText(QCoreApplication.translate("MainPages", u"16", None))
         self.Swan01_SYNC_POL_Label.setText(QCoreApplication.translate("MainPages", u"SYNC_POL", None))
-        self.Swan01_MST_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Slave Mode", None))
-        self.Swan01_MST_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Master Mode", None))
+        self.Swan01_SYNC_POL_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Active low", None))
+        self.Swan01_SYNC_POL_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Active high", None))
+
+        self.Swan01_ZDD_TRIG_POL_SEL_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"Active low", None))
+        self.Swan01_ZDD_TRIG_POL_SEL_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Active high", None))
+
+        self.Swan01_SYS_CLK_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"330 M", None))
+        self.Swan01_SYS_CLK_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"400 M", None))
+
+        self.Swan01_MIPI_LNAE_NUM_Label.setText(QCoreApplication.translate("MainPages", u"MIPI LANE NUM", None))
+        self.Swan01_XCLK_Label.setText(QCoreApplication.translate("MainPages", u"XCLK", None))
+        self.Swan01_MIPI_LANE_NUM_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1", None))
+        self.Swan01_MIPI_LANE_NUM_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2", None))
+        self.Swan01_MIPI_LANE_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3", None))
+        self.Swan01_MIPI_LANE_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4", None))
+
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.8 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"1.0 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.2 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"0.4 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(5, QCoreApplication.translate("MainPages", u"0.5 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(6, QCoreApplication.translate("MainPages", u"0.6 Gbps/Lane", None))
 
         self.Swan01_WORK_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"SPHR", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"PHR", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"FHR", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"PCM", None))
 
-        self.Swan01_ANGLE_GRP_SW_NUM_Label.setText(QCoreApplication.translate("MainPages", u"ANGLE_GRP_SW_NUM", None))
-        self.Swan01_MIPI_RATE_Label.setText(QCoreApplication.translate("MainPages", u"MIPI RATE", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.8 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"1.0 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.2 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
-
+        self.Swan01_SYS_CLK_Label.setText(QCoreApplication.translate("MainPages", u"SYS CLK", None))
 #if QT_CONFIG(tooltip)
         self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(whatsthis)
         self.Swan01_ANGLE_GRP_SW_NUM_spinBox.setWhatsThis("")
 #endif // QT_CONFIG(whatsthis)
-        self.Swan01_SEG_NUM_Value.setText(QCoreApplication.translate("MainPages", u"16", None))
         self.ScriptTable.setTabText(self.ScriptTable.indexOf(self.SYSC_config), QCoreApplication.translate("MainPages", u"   SYSC   ", None))
         self.Swan01_FLEX_SHOT_EN_Label.setText(QCoreApplication.translate("MainPages", u"FLEX_SHOT_EN", None))
         self.Swan01_TRG_I_EN_Label.setText(QCoreApplication.translate("MainPages", u"TRG_I_EN", None))
@@ -4214,7 +4273,7 @@ class Ui_MainPages(object):
 
         self.Swan01_TX_FRM_MODE_Label.setText(QCoreApplication.translate("MainPages", u"TX_FRM_MODE", None))
 #if QT_CONFIG(tooltip)
-        self.Swan01_FRM_SLOT_NUM_spinBox.setToolTip(QCoreApplication.translate("MainPages", u"MINBIN_THRS", None))
+        self.Swan01_FRM_SLOT_NUM_spinBox.setToolTip("")
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(whatsthis)
         self.Swan01_FRM_SLOT_NUM_spinBox.setWhatsThis("")
@@ -4232,10 +4291,10 @@ class Ui_MainPages(object):
         self.Swan01_PKT_CHKSUM_EN_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"Yes", None))
 
         self.Swan01_PXL_BINN_SEL_Label.setText(QCoreApplication.translate("MainPages", u"PXL_BINN_SEL", None))
-        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"No pixel binning", None))
-        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 pixel binning", None))
-        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"4 pixel binning", None))
-        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"2 pixel slide binning", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"no pixel binning-3*N", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"2 pixel binning-6*N", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"4 pixel binning-12*N", None))
+        self.Swan01_PXL_BINN_SEL_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"2 pixel slide binning-6*N", None))
 
         self.Swan01_PXL_PACK_SEL_Label.setText(QCoreApplication.translate("MainPages", u"PXL_PACK_SEL", None))
         self.Swan01_PXL_PACK_SEL_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"1 pixel pack", None))
@@ -4297,18 +4356,18 @@ class Ui_MainPages(object):
 #endif // QT_CONFIG(whatsthis)
         self.Swan01_user_define_config_introduction.setText(QCoreApplication.translate("MainPages", u"\u6ce8\u610f\uff01\uff01\uff01 \u7528\u6237\u81ea\u5b9a\u4e49\u914d\u7f6e\u754c\u9762\u7684\u914d\u7f6e\u4ec5\u7528\u4e8e\u8ba1\u7b97 MIPI_TXDLY \u7b49\u4e0e\u6570\u636e\u63a7\u5236\u6d41\u7684\u76f8\u5173\u5bc4\u5b58\u5668\u914d\u7f6e\uff0c\u5e76\u4e0d\u4f1a\u4fee\u6539\u811a\u672c\u4e2d\u7684 SYS_CLK \u4ee5\u53ca MIPI\u901f\u7387\uff0c\u9700\u8981\u7528\u6237\u5728\u751f\u6210\u811a\u672c\u540e\uff0c\u624b\u52a8\u4fee\u6539 SYS_CLK \u4ee5\u53ca MIPI\u76f8\u5173\u914d\u7f6e\u3002", None))
         self.ScriptTable.setTabText(self.ScriptTable.indexOf(self.User_define_config), QCoreApplication.translate("MainPages", u"User-define config", None))
-        self.Swan01_reference_script_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
-        self.Swan01_script_parse_Button.setText(QCoreApplication.translate("MainPages", u"Script Parse", None))
-        self.Swan01_slot_read_time_cal_Button.setText(QCoreApplication.translate("MainPages", u"Slot Read Time Cal", None))
-        self.Swan01_reference_script_sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Swan01_file_save_dir_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
-        self.Swan01_file_save_dir_LineEdit.setPlaceholderText("")
-        self.Swan01_reg_script_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
-        self.Swan01_reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Script Name", None))
-        self.Swan01_reference_script_Label.setText(QCoreApplication.translate("MainPages", u"Reference Script", None))
-        self.Swan01_file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
+        self.Swan01_slot_read_time_cal_Button.setText(QCoreApplication.translate("MainPages", u"Calculate", None))
         self.Swan01_script_Save.setText(QCoreApplication.translate("MainPages", u"Save", None))
         self.Swan01_Open.setText(QCoreApplication.translate("MainPages", u"Open", None))
+        self.Swan01_reference_script_Label.setText(QCoreApplication.translate("MainPages", u"Reference Script", None))
+        self.Swan01_script_parse_Button.setText(QCoreApplication.translate("MainPages", u"Script Parse", None))
+        self.Swan01_reg_script_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u811a\u672c\u7684\u6587\u4ef6\u540d", None))
+        self.Swan01_file_save_dir_LineEdit.setPlaceholderText("")
+        self.Swan01_reg_script_name_Label.setText(QCoreApplication.translate("MainPages", u"Script Name", None))
+        self.Swan01_reference_script_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u9009\u62e9\u57fa\u51c6\u914d\u7f6e\u6587\u4ef6", None))
+        self.Swan01_file_save_dir_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
+        self.Swan01_file_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"File Save Path", None))
+        self.Swan01_reference_script_sel_Button.setText(QCoreApplication.translate("MainPages", u"Select", None))
         self.Swan01_roi_generate_by_Label.setText(QCoreApplication.translate("MainPages", u"ROI Generate By", None))
         self.Swan01_roi_save_dir_Label.setText(QCoreApplication.translate("MainPages", u"ROI Save Path", None))
         self.Swan01_roi_sram_name_LineEdit.setPlaceholderText(QCoreApplication.translate("MainPages", u"\u8bf7\u8f93\u5165\u4fdd\u5b58\u7684 ROI \u6587\u4ef6\u540d", None))

@@ -36,6 +36,10 @@ Swan:
      际应用
 
 2025-08-25 version 3.0.6    @honggang_li@icloud.com
-LineArray:
+Swan:
   1. 修改 PHR & SPHR 模式下, DSP 配置界面输出数据的控制逻辑
   2. SPOT_MON_MINBIN_THRS 配置行, 右边 Value 根据 SPOT_MON_MINBIN_THRS 配置实时更新
+
+2025-08-25 version 3.0.7    @honggang_li@icloud.com
+Swan:
+  1. 功能完善, 见: https://alidocs.dingtalk.com/i/nodes/Obva6QBXJwA3mYweU6rEjPXeWn4qY5Pr?utm_scene=team_space

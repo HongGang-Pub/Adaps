@@ -493,18 +493,18 @@ def SwanDataflowRelateConfigGet(swan01_config: dict) -> dict:
         "MIPI_PKT_INTV": 0.9,  # MIPI 1.5Gbps config (unit: us)
         "MIPI_FIFO_SIZE": 960,  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
     }
+    MIPI_RATE_LIST = [800, 1000, 1200, 1500, 400, 500, 600]
     if "USER_DEFINE_CONIFG" in swan01_config and swan01_config["USER_DEFINE_CONIFG"]["USER_DEFINE_CONIFG_ENABLE"]:
         dataflow_related_config = swan01_config["USER_DEFINE_CONIFG"]
     else:
         SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
-        MIPI_RATE = 800 if swan01_config['MIPI_RATE'] == 0 \
-            else 1000 if swan01_config['MIPI_RATE'] == 1 \
-            else 1200 if swan01_config['MIPI_RATE'] == 2 \
-            else 1500
+        MIPI_RATE = MIPI_RATE_LIST[swan01_config['MIPI_RATE']]
+        MIPI_LANE_NUM = swan01_config["MIPI_LANE_NUM"] + 1
         MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
         MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg=MIPI_CFG, SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE)
         dataflow_related_config["SYS_CLK"] = SYS_CLK
         dataflow_related_config["MIPI_RATE"] = MIPI_RATE
+        dataflow_related_config["MIPI_LANE_NUM"] = MIPI_LANE_NUM
         dataflow_related_config["MIPI_PKT_INTV"] = MIPI_PKT_INTV + swan01_config["USER_DEFINE_CONIFG"][
             "MIPI_PKT_INTV_MARGIN"]
     return dataflow_related_config
@@ -778,6 +778,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
     # mipi_pktdly3_cyc: the 1st hist read delay, 16 bit (unit: cycle)
     # When TXU-trans info package, MIPI need add additional time...
     txu_info_wc = wc if one_dt_mode == 1 else txu_info_ptk_rd_cyc * 2
+    DataflowConfig["txu_info_wc"] = txu_info_wc
     # sync_code = MIPI_LANE_NM; PH = 4; PF = 2
     lane0_PL = (MIPI_LANE_NUM + 4 + txu_info_wc + 2 - 1) // MIPI_LANE_NUM + 1  # 计算单 Lane0 需要传输的 payload (unit: *8bit)
     # 计算 one_pkt_dly_cyc
@@ -963,6 +964,9 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     MIPIPLL_LPDH = (MIPI_NS & 0x0100) >> 8
     MIPIPLL_LPDL = (MIPI_NS & 0x00FF) >> 0
     MIPIPLL_PPD = ((MIPI_MS & 0x0007) << 5) + ((MIPI_PS & 0x001F) << 0)
+    MIPI_LANE = 0x0F if swan01_config["MIPI_LANE_NUM"] == 3 else \
+                0x07 if swan01_config["MIPI_LANE_NUM"] == 2 else \
+                0x03 if swan01_config["MIPI_LANE_NUM"] == 1 else 0x01
 
     # MIPI FLNR & WC & TXDLY
     # ////////////////////////////////////////////////////////////////////////////
@@ -1088,6 +1092,8 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 config_flag['MIPI_PACK_CTRL'] = 1
             elif addr == reg_addr['UNIQ_FUNC_CFG']:
                 register_value = (swan01_config["ULR_EN"] & 0x03)
+            elif addr == reg_addr['ZDDACCNUM_THRS']:
+                register_value = (register_value & (0xFF - 0x80)) + (swan01_config["ZDD_TRIG_POL_SEL"] << 7)
             elif addr == reg_addr['LSPRD_HOP_CFG1']:
                 register_value = (((swan01_config["LSPRD_HOP_EN"] & 0x01) << 7) +
                                   ((swan01_config["LSPRD_HOP_STEP"] & 0x3F) << 0))
@@ -1168,6 +1174,8 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 register_value = SYSCLK1M_DIVL
             elif addr == reg_addr['SYSCLK1M_DIVH']:
                 register_value = (register_value & (0xFF - 0x01)) + (SYSCLK1M_DIVH << 0)
+            elif addr == reg_addr['CSI_LANE_CTRL']:
+                register_value = (register_value & (0xFF - 0x0F)) + (MIPI_LANE << 0)
             else:
                 register_value = SYSCLK10M_DIV if addr == reg_addr['SYSCLK10M_DIV'] \
                     else MIPI_PKTDLY1_CYC_L if addr == reg_addr['MIPI_TXDLY1'] \

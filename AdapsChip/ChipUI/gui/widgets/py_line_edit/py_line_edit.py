@@ -17,79 +17,91 @@
 # IMPORT QT CORE
 # ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.gui.qt_core import *
+import os
 
-# STYLE
-# ///////////////////////////////////////////////////////////////
-style = '''
-QLineEdit {{
-	background-color: {_bg_color};
-	border-radius: {_radius}px;
-	border: {_border_size}px solid transparent;
-	padding-left: 10px;
-    padding-right: 10px;
-	selection-color: {_selection_color};
-	selection-background-color: {_context_color};
-    color: {_color};
-}}
-QLineEdit:focus {{
-	border: {_border_size}px solid {_context_color};
-    background-color: {_bg_color_active};
-}}
-'''
 
 # PY PUSH BUTTON
 # ///////////////////////////////////////////////////////////////
 class PyLineEdit(QLineEdit):
-    def __init__(
-        self, 
-        text = "",
-        place_holder_text = "",
-        radius = 8,
-        border_size = 2,
-        color = "#FFF",
-        selection_color = "#FFF",
-        bg_color = "#333",
-        bg_color_active = "#222",
-        context_color = "#00ABE8"
-    ):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # 初始化设置
+        # self.setReadOnly(True)  # 设为只读
+        # self.setCursor(Qt.PointingHandCursor)  # 鼠标悬停变小手
+        # self.setToolTip("双击以打开此文件")
+        self.setContextMenuPolicy(Qt.DefaultContextMenu)  # 确保启用默认菜单事件
 
-        # PARAMETERS
-        if text:
-            self.setText(text)
-        if place_holder_text:
-            self.setPlaceholderText(place_holder_text)
+    # def mouseDoubleClickEvent(self, event):
+    #     """重写双击事件"""
+    #     if event.button() == Qt.LeftButton:
+    #         self.open_file_logic()
 
-        # SET STYLESHEET
-        self.set_stylesheet(
-            radius,
-            border_size,
-            color,
-            selection_color,
-            bg_color,
-            bg_color_active,
-            context_color
-        )
+    def contextMenuEvent(self, event):
+        """每次点击右键时都会执行此函数"""
+        # 1. 获取当前路径并判断文件是否存在
+        current_path = self.text().strip()
+        abs_path = os.path.abspath(current_path)
+        # 只有路径不为空且文件确实存在时，才标记为可打开
+        file_exists = current_path != "" and os.path.exists(abs_path)
+        """重写右键菜单事件"""
+        # 1. 获取默认右键菜单
+        menu = self.createStandardContextMenu()
 
-    # SET STYLESHEET
-    def set_stylesheet(
-        self,
-        radius,
-        border_size,
-        color,
-        selection_color,
-        bg_color,
-        bg_color_active,
-        context_color
-    ):
-        # APPLY STYLESHEET
-        style_format = style.format(
-            _radius = radius,
-            _border_size = border_size,           
-            _color = color,
-            _selection_color = selection_color,
-            _bg_color = bg_color,
-            _bg_color_active = bg_color_active,
-            _context_color = context_color
-        )
-        self.setStyleSheet(style_format)
+        # 2. 添加自定义动作
+        open_action = QAction("Open", self)
+        open_action.triggered.connect(self.open_file_logic)
+
+        # 3. 动态添加“打开文件”菜单项
+        menu.addSeparator()  # 分割线
+
+        open_action = QAction("Open", self)
+        open_action.triggered.connect(self.open_file_logic)
+        open_action.setEnabled(file_exists)
+        menu.addAction(open_action)
+
+        # 可选：如果文件存在，增加一个“打开所在文件夹”的选项也很实用
+        open_folder_action = QAction("Reveal in File Explorer", self)
+        open_folder_action.triggered.connect(lambda: QDesktopServices.openUrl(
+            QUrl.fromLocalFile(os.path.dirname(abs_path))
+        ))
+        open_folder_action.setEnabled(file_exists)
+        menu.addAction(open_folder_action)
+
+        # if file_exists:
+        #     menu.addSeparator()  # 分割线
+        #
+        #     open_action = QAction("Open", self)
+        #     open_action.triggered.connect(self.open_file_logic)
+        #     menu.addAction(open_action)
+        #
+        #     # 可选：如果文件存在，增加一个“打开所在文件夹”的选项也很实用
+        #     open_folder_action = QAction("Reveal in File Explorer", self)
+        #     open_folder_action.triggered.connect(lambda: QDesktopServices.openUrl(
+        #         QUrl.fromLocalFile(os.path.dirname(abs_path))
+        #     ))
+        #     menu.addAction(open_folder_action)
+        #
+        # else:
+        #     # 如果文件不存在，可以不添加“打开”菜单，或者添加一个置灰的提示
+        #     # 如果你希望完全不显示，就什么都不写
+        #     # 也可以加一个置灰提示：
+        #     # none_action = QAction("❌ 文件路径无效", self)
+        #     # none_action.setEnabled(False)
+        #     # menu.addAction(none_action)
+        #     # menu.addSeparator()
+        #     pass
+
+        # 4. 在鼠标点击的位置弹出菜单
+        menu.exec(event.globalPos())
+
+    def open_file_logic(self):
+        """通用的打开文件逻辑"""
+        file_path = self.text().strip()
+        if not file_path:
+            return
+
+        abs_path = os.path.abspath(file_path)
+        if os.path.exists(abs_path):
+            QDesktopServices.openUrl(QUrl.fromLocalFile(abs_path))
+        else:
+            QMessageBox.warning(self, "Error", f"The file cannot be found:\n{abs_path}")

@@ -133,6 +133,8 @@ class PyLeftMenu(QWidget):
         self.div_bottom.hide()
         self.bottom_layout.addWidget(self.div_bottom)
 
+        self.first_menus = None
+
     # ADD BUTTONS TO LEFT MENU
     # Add btns and emit signals
     # ///////////////////////////////////////////////////////////////
@@ -182,6 +184,9 @@ class PyLeftMenu(QWidget):
                 else:
                     self.div_bottom.show()
                     self.bottom_layout.addWidget(self.menu)
+
+                if not self.first_menus:
+                    self.first_menus = self.menu
 
     # LEFT MENU EMIT SIGNALS
     # ///////////////////////////////////////////////////////////////
