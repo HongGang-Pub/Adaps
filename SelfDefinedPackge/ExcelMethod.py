@@ -1,5 +1,8 @@
 import os
+import re
+
 import openpyxl
+import json
 from tkinter import messagebox
 
 
@@ -65,3 +68,85 @@ def save_excel(fname: str, sheet_name: str, data_list: list, fd_path: str, note:
     return file
 
     # data_statistics.append("{:>3}\t{:>3}".format(r, c))
+
+
+class ExcelRead(object):
+    def __init__(self, file):
+        self.f = file
+        self.wb = None
+        self.DEBUG = False
+        self.get_workbook()
+
+    def get_workbook(self):
+        if self.f.split('.')[-1] == 'xlsx':
+            self.wb = openpyxl.load_workbook(self.f)
+        else:
+            raise Exception("File format error, not excel file!")
+
+    def get_sheets_names(self):
+        if self.wb:
+            return self.wb.sheetnames
+        else:
+            raise Exception("Workbook is None!")
+
+    def get_register_data(self, sheet_name=None):
+        """
+        这个方法仅支持特定格式的 Excel 读取 register 信息
+        Args:
+            sheet_name:
+
+        Returns:
+
+        """
+        register = {}
+        reg_field = {}
+        reg_name = None
+
+        sheet = self.wb.worksheets[0] if sheet_name is None else self.wb[sheet_name]
+        sheet_value = list(sheet.iter_rows(values_only=True))
+        reg_struct = sheet_value.pop(0)  # reg_struct = [address, reg_name, bits, field, type, default_value]
+
+        for row_value in sheet_value:
+            for index in range(len(reg_struct)):
+                reg_field[reg_struct[index]] = row_value[index]
+
+            reg_name = reg_name if reg_field["reg_name"] is None else reg_field["reg_name"]
+            if reg_name not in register:
+                register[reg_name] = {
+                    'address': reg_field["address"],
+                    'reg_defalut_value': 0,
+                    'field': {}
+                }
+
+            field_bit_info = self.get_bit_range(reg_field["bits"])
+            register[reg_name]["field"][reg_field["field"]] = {
+                'bits': field_bit_info,
+                'type': reg_field["type"],
+                'default_value': reg_field["default_value"],
+                'field_width': 0,
+                'field_low_bit': 0
+            }
+
+        if self.DEBUG:
+            pwd = os.getcwd()
+            file_name = f"{pwd}/{sheet_name}.json"
+            with open(file_name, "w", encoding='utf-8') as write:
+                json.dump(register, write, indent=4, ensure_ascii=False, separators=(",", ": "))
+        return register
+
+    def get_bit_range(self, s):
+        nums = re.findall(r'\d+', s)
+        if len(nums) == 2:
+            msb, lsb = map(int, nums)
+            return msb, lsb, msb - lsb + 1  # 返回 高位, 低位, 宽度
+        elif len(nums) == 1:
+            bit = int(nums[0])
+            return bit, bit, 1  # 返回 位点, 位点, 宽度 1
+        return None
+
+
+if __name__ == "__main__":
+    er = ExcelRead(file=r"../REG_MODEL/reg.xlsx")
+    er.DEBUG = True
+    er.get_register_data()
+
