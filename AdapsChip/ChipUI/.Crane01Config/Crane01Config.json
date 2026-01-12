@@ -120,13 +120,15 @@
             "2.50 ns"
         ],
         "MIPI_RATE": [
+            "0.1 Gbps/Lane",
+            "0.2 Gbps/Lane",
+            "0.4 Gbps/Lane",
+            "0.5 Gbps/Lane",
+            "0.6 Gbps/Lane",
             "0.8 Gbps/Lane",
             "1.0 Gbps/Lane",
             "1.2 Gbps/Lane",
-            "1.5 Gbps/Lane",
-            "0.4 Gbps/Lane",
-            "0.5 Gbps/Lane",
-            "0.6 Gbps/Lane"
+            "1.5 Gbps/Lane"
         ],
         "roi_data_format": "ROI存储格式: 0:1byte为1行进行保存, 1:half-word为一行进行保存",
         "protocol": [

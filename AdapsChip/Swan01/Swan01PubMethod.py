@@ -299,7 +299,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
                 csru_cfg["OUT_ECHOBIN_NUM"] = register_value & 0x7F
             elif addr == reg_addr["DSP_CFG3"]:
                 csru_cfg["OUT_OVFL_FLAT_EN"] = (register_value & 0x80) >> 7
-                csru_cfg["OUT_ECHOBIN_NUM"] = (register_value & 0x40) >> 6
+                csru_cfg["OUT_ECHOBIN_MODE"] = (register_value & 0x40) >> 6
                 csru_cfg["OUT_NUMBIN_MODE"] = (register_value & 0x20) >> 5
                 csru_cfg["OUT_FIR_RAW_SEL"] = (register_value & 0x10) >> 4
                 csru_cfg["OUT_ECHO_NUM"] = (register_value & 0x0E) >> 1

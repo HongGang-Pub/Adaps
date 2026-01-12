@@ -70,6 +70,17 @@ def save_excel(fname: str, sheet_name: str, data_list: list, fd_path: str, note:
     # data_statistics.append("{:>3}\t{:>3}".format(r, c))
 
 
+def get_bit_range(s):
+    nums = re.findall(r'\d+', s)
+    if len(nums) == 2:
+        msb, lsb = map(int, nums)
+        return msb, lsb, msb - lsb + 1  # 返回 高位, 低位, 宽度
+    elif len(nums) == 1:
+        bit = int(nums[0])
+        return bit, bit, 1  # 返回 位点, 位点, 宽度 1
+    return None
+
+
 class ExcelRead(object):
     def __init__(self, file):
         self.f = file
@@ -118,7 +129,7 @@ class ExcelRead(object):
                     'field': {}
                 }
 
-            field_bit_info = self.get_bit_range(reg_field["bits"])
+            field_bit_info = get_bit_range(reg_field["bits"])
             register[reg_name]["field"][reg_field["field"]] = {
                 'bits': field_bit_info,
                 'type': reg_field["type"],
@@ -134,19 +145,10 @@ class ExcelRead(object):
                 json.dump(register, write, indent=4, ensure_ascii=False, separators=(",", ": "))
         return register
 
-    def get_bit_range(self, s):
-        nums = re.findall(r'\d+', s)
-        if len(nums) == 2:
-            msb, lsb = map(int, nums)
-            return msb, lsb, msb - lsb + 1  # 返回 高位, 低位, 宽度
-        elif len(nums) == 1:
-            bit = int(nums[0])
-            return bit, bit, 1  # 返回 位点, 位点, 宽度 1
-        return None
-
 
 if __name__ == "__main__":
     er = ExcelRead(file=r"../REG_MODEL/reg.xlsx")
     er.DEBUG = True
     er.get_register_data()
-
+    s = get_bit_range("[31:16]")
+    print(s)

@@ -43,3 +43,9 @@ Swan:
 2025-08-25 version 3.0.7    @honggang_li@icloud.com
 Swan:
   1. 功能完善, 见: https://alidocs.dingtalk.com/i/nodes/Obva6QBXJwA3mYweU6rEjPXeWn4qY5Pr?utm_scene=team_space
+
+
+2025-08-25 version 3.0.8    @honggang_li@icloud.com
+Swan:
+  1. 增加MIPI配置项
+  2. 修复寄存器解析bug

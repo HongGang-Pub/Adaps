@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'main_pagesNoSeXJ.ui'
+## Form generated from reading UI file 'main_pagesbQNeZM.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.9.1
 ##
@@ -551,7 +551,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config1byGUI_1.setWidgetResizable(True)
         self.Hawk01_Config1byGUI_2 = QWidget()
         self.Hawk01_Config1byGUI_2.setObjectName(u"Hawk01_Config1byGUI_2")
-        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 368, 354))
+        self.Hawk01_Config1byGUI_2.setGeometry(QRect(0, 0, 201, 237))
         self.formLayout = QFormLayout(self.Hawk01_Config1byGUI_2)
         self.formLayout.setObjectName(u"formLayout")
         self.formLayout.setHorizontalSpacing(10)
@@ -739,7 +739,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config2byCOOR_1.setWidgetResizable(True)
         self.Hawk01_Config2byCOOR_2 = QWidget()
         self.Hawk01_Config2byCOOR_2.setObjectName(u"Hawk01_Config2byCOOR_2")
-        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 368, 354))
+        self.Hawk01_Config2byCOOR_2.setGeometry(QRect(0, 0, 263, 52))
         self.formLayout_4 = QFormLayout(self.Hawk01_Config2byCOOR_2)
         self.formLayout_4.setObjectName(u"formLayout_4")
         self.formLayout_4.setHorizontalSpacing(10)
@@ -818,7 +818,7 @@ class Ui_MainPages(object):
         self.Hawk01_Config3ROIEdit_1.setWidgetResizable(True)
         self.Hawk01_Config3ROIEdit_2 = QWidget()
         self.Hawk01_Config3ROIEdit_2.setObjectName(u"Hawk01_Config3ROIEdit_2")
-        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 368, 354))
+        self.Hawk01_Config3ROIEdit_2.setGeometry(QRect(0, 0, 263, 79))
         self.formLayout_5 = QFormLayout(self.Hawk01_Config3ROIEdit_2)
         self.formLayout_5.setObjectName(u"formLayout_5")
         self.formLayout_5.setHorizontalSpacing(10)
@@ -1656,6 +1656,8 @@ class Ui_MainPages(object):
         self.Swan01_MIPI_RATE_ComboBox.addItem("")
         self.Swan01_MIPI_RATE_ComboBox.addItem("")
         self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
+        self.Swan01_MIPI_RATE_ComboBox.addItem("")
         self.Swan01_MIPI_RATE_ComboBox.setObjectName(u"Swan01_MIPI_RATE_ComboBox")
         self.Swan01_MIPI_RATE_ComboBox.setMaximumSize(QSize(165, 16777215))
         self.Swan01_MIPI_RATE_ComboBox.setFont(font1)
@@ -1725,7 +1727,7 @@ class Ui_MainPages(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 917, 280))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 670, 108))
         self.gridLayout_15 = QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_15.setObjectName(u"gridLayout_15")
         self.gridLayout_15.setContentsMargins(0, 0, 0, 0)
@@ -1885,7 +1887,7 @@ class Ui_MainPages(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 917, 280))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 704, 185))
         self.gridLayout_12 = QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_12.setObjectName(u"gridLayout_12")
         self.gridLayout_12.setContentsMargins(0, 0, 0, 0)
@@ -2157,7 +2159,7 @@ class Ui_MainPages(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 917, 280))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 655, 214))
         self.gridLayout_13 = QGridLayout(self.scrollAreaWidgetContents_4)
         self.gridLayout_13.setObjectName(u"gridLayout_13")
         self.gridLayout_13.setContentsMargins(0, 0, 0, 0)
@@ -2429,7 +2431,7 @@ class Ui_MainPages(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 917, 280))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 658, 108))
         self.gridLayout_14 = QGridLayout(self.scrollAreaWidgetContents_5)
         self.gridLayout_14.setObjectName(u"gridLayout_14")
         self.gridLayout_14.setContentsMargins(0, 0, 0, 0)
@@ -2594,7 +2596,7 @@ class Ui_MainPages(object):
         self.scrollArea_11.setWidgetResizable(True)
         self.scrollAreaWidgetContents_11 = QWidget()
         self.scrollAreaWidgetContents_11.setObjectName(u"scrollAreaWidgetContents_11")
-        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 917, 229))
+        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 403, 187))
         self.gridLayout_21 = QGridLayout(self.scrollAreaWidgetContents_11)
         self.gridLayout_21.setObjectName(u"gridLayout_21")
         self.gridLayout_21.setContentsMargins(0, 0, 0, 0)
@@ -3812,7 +3814,7 @@ class Ui_MainPages(object):
         self.Swan01_ScriptGenerateSel.clicked.connect(self.Swan01_ROIConfig.hide)
         self.Swan01_SEG_NUM_Slider.valueChanged.connect(self.Swan01_SEG_NUM_Value.setNum)
 
-        self.pages.setCurrentIndex(0)
+        self.pages.setCurrentIndex(1)
         self.Hawk01_ROIConfig.setCurrentIndex(3)
         self.ScriptTable.setCurrentIndex(0)
 
@@ -4073,13 +4075,15 @@ class Ui_MainPages(object):
         self.Swan01_MIPI_LANE_NUM_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"3", None))
         self.Swan01_MIPI_LANE_NUM_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"4", None))
 
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.8 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"1.0 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"1.2 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"0.4 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(5, QCoreApplication.translate("MainPages", u"0.5 Gbps/Lane", None))
-        self.Swan01_MIPI_RATE_ComboBox.setItemText(6, QCoreApplication.translate("MainPages", u"0.6 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"0.1 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"0.2 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(2, QCoreApplication.translate("MainPages", u"0.4 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(3, QCoreApplication.translate("MainPages", u"0.5 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(4, QCoreApplication.translate("MainPages", u"0.6 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(5, QCoreApplication.translate("MainPages", u"0.8 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(6, QCoreApplication.translate("MainPages", u"1.0 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(7, QCoreApplication.translate("MainPages", u"1.2 Gbps/Lane", None))
+        self.Swan01_MIPI_RATE_ComboBox.setItemText(8, QCoreApplication.translate("MainPages", u"1.5 Gbps/Lane", None))
 
         self.Swan01_WORK_MODE_ComboBox.setItemText(0, QCoreApplication.translate("MainPages", u"SPHR", None))
         self.Swan01_WORK_MODE_ComboBox.setItemText(1, QCoreApplication.translate("MainPages", u"PHR", None))
