@@ -151,12 +151,16 @@ def OnceHistReadAddTxdlyCycCalForFHR(csru_cfg: dict):
     """
     RD_OUT_MIN_GAP = 17
 
+    work_mode = csru_cfg["WORK_MODE"]
     mipi_pktdly = csru_cfg["MIPI_PKTDLY"]
     maxbin_thrs = csru_cfg["MAXBIN_THRS"]
     minbin_thrs = csru_cfg["MINBIN_THRS"]
     sysclk1m_div = csru_cfg["SYSCLK1M_DIV"] + 1
 
-    hist_rd_cyc = ((maxbin_thrs + 1) * 2 - minbin_thrs) * 2
+    if work_mode == 2:
+        hist_rd_cyc = ((maxbin_thrs + 1) * 2 - minbin_thrs) * 2
+    else:   #if work_mode == 3:
+        hist_rd_cyc = 8
 
     # 基于 RTL 设计, 4 次 HIST 读组成一个包
     rd_out_ind_cyc = (hist_rd_cyc + 7) * 4 + (1 * 3)  # 4 次 HIST 读, 多 3 拍间隔
@@ -250,6 +254,7 @@ def T_mipi_read_time_cal(csru_cfg: dict, mipi_cfg: dict, SYS_CLK=330, MIPI_RATE=
     WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
 
     MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg, SYS_CLK, MIPI_RATE)  # unit: ns
+    print(f"[TXDLY info]: MIPI_PKT_INTV: {MIPI_PKT_INTV} ns")
     MIPIPKT_Tx_HS_Data = (MIPI_LANE_NUM + 4 + WC + 2) * 8 * 1000 / mipi_rate  # unit: ns
     GENERIC_TX_HS_Data = (MIPI_LANE_NUM + 4 + 40 + 2) * 8 * 1000 / mipi_rate if one_dt_mode == 0 \
         else MIPIPKT_Tx_HS_Data  # unit: ns

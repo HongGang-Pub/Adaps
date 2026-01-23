@@ -18,22 +18,22 @@
 # 根据配置脚本填写配置值
 # 此配置对应的皆是寄存器配置, 可能与实际业务配置有差异
 # ////////////////////////////////////////////////
-SYS_CLK = 330
+SYS_CLK = 250
 MIPI_RATE = 1000
 
 csru_cfg = {
-    "WORK_MODE": 1,
+    "WORK_MODE": 3,
     "SCAN_MODE": 1,
     "V_ROLL_NUM": 0,
     "H_ROLL_NUM": 0,
-    "H_VLD_SEG": 0,
+    "H_VLD_SEG": 15,
     "MINBIN_THRS": 0,
     "MAXBIN_THRS": 167,
     "OUT_BIN_NUM": 0,
     "TX_FRM_MODE": 1,
     "ONE_DT_MODE": 1,
     "V_PXL_OUT_NUM": 1,
-    "MIPI_PKTDLY": 0,
+    "MIPI_PKTDLY": 2,
     "SUB_IDLETIME": 0,
     "MIPI_FENDDLY": 0,
     "SYSCLK1M_DIV": (SYS_CLK - 1)

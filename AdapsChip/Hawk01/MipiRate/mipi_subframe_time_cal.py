@@ -6,7 +6,12 @@
 @Author      : honggang_li
 @Email       : honggang.li@adaps-ph.com
 
-@Function    : 本文件用于计算 Hawk one-subframe 的时间开销, 输出帧率信息
+@Function    : 本文件用于计算 Hawk one-subframe 的时间开销, 输出帧率信息:
+                 1. 支持 SCAN_MODE = 1D scan mode/2D scan mode;
+                 2. 支持 WORK_MODE = PCM/FHR/PHR/SPHR 配置;
+                 3. 支持 ONE_DT_MODE = 0/1 配置;
+                 4. 支持 TX_FRM_MODE = 0/1 配置;
+                 5. 支持 SYS_CLK, MIPI_RATE 等信息配置, 配置源: ./HawkConfig.py
 
 @Modify Time        @Author        @Version    @Description
 ----------------    -----------    --------    -------------
@@ -32,6 +37,11 @@
 2025/04/23 18:00    honggang_li    v1.4        1. 将自动计算 MIPI_PKTDLY 可配置的最小值计算逻辑(beta 版本)
                                                   移动到另外一个文件进行计算;
                                                2. 抽取公共方法到 PubMethod, 便于其他模块调用;
+
+2026/01/23 12:00    honggang_li    v1.5        1. 帧率计算支持 PCM mode;
+                                               2. MIPI busy 场景计算的理论值与实际值误差较大(20us以内),
+                                                  主要是由于MIPI 协议开销实际值与理论值存在差异导致, 当一个
+                                                  sub-frame 中包数量越多时, 带来的计算误差越大
 =================================================================================================
 """
 
@@ -185,7 +195,7 @@ def TSubframeCal(csru_cfg: dict, mipi_cfg: dict, SYS_CLK=330, MIPI_RATE=1500, DR
     T_masking_time = (975 - (15 - csru_cfg["H_VLD_SEG"]) * 60) / SYS_CLK
     T_hist_clear_time = 684 / SYS_CLK
 
-    if work_mode == 2:
+    if work_mode == 2 or work_mode == 3:
         T_hist_read_time = TSubframReadTimeCalForFHR(csru_cfg=csru_cfg,
                                                      mipi_cfg=mipi_cfg,
                                                      SYS_CLK=SYS_CLK,
@@ -197,7 +207,7 @@ def TSubframeCal(csru_cfg: dict, mipi_cfg: dict, SYS_CLK=330, MIPI_RATE=1500, DR
                                                      MIPI_RATE=MIPI_RATE)
     else:
         # logging.warning(f"Subframe_time calculate model is not supported WORK_MODE = {work_mode}...")
-        raise ValueError(f"Subframe_time calculate model is not supported WORK_MODE={work_mode}...")
+        raise ValueError(f"WORK_MODE={work_mode} is illegal config...")
         # return 0
 
     # T_sub_idletime 的计数是 1M 时钟分频系数 * 10
