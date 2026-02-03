@@ -2,7 +2,7 @@
     "app_name": "Adaps Script GUI",
     "chip_id": ["Hawk01", "Swan01", "Crane01", "Toolbox-N"],
     "navigation_bar": [],
-    "version" : "v3.0.8",
+    "version" : "v3.0.9",
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
     "DEBUG": true,
