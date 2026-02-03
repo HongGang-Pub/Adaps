@@ -493,12 +493,13 @@ def SwanDataflowRelateConfigGet(swan01_config: dict) -> dict:
         "MIPI_PKT_INTV": 0.9,  # MIPI 1.5Gbps config (unit: us)
         "MIPI_FIFO_SIZE": 960,  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
     }
-    MIPI_RATE_LIST = [800, 1000, 1200, 1500, 400, 500, 600]
+    MIPI_RATE_LIST = [100, 200, 400, 500, 600, 800, 1000, 1200, 1500]
     if "USER_DEFINE_CONIFG" in swan01_config and swan01_config["USER_DEFINE_CONIFG"]["USER_DEFINE_CONIFG_ENABLE"]:
         dataflow_related_config = swan01_config["USER_DEFINE_CONIFG"]
     else:
         SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
-        MIPI_RATE = MIPI_RATE_LIST[swan01_config['MIPI_RATE']]
+        # MIPI_RATE = MIPI_RATE_LIST[swan01_config['MIPI_RATE']]
+        MIPI_RATE = swan01_config["MIPI_RATE_IDX_LIST"][swan01_config['MIPI_RATE']]
         MIPI_LANE_NUM = swan01_config["MIPI_LANE_NUM"] + 1
         MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
         MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg=MIPI_CFG, SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE)

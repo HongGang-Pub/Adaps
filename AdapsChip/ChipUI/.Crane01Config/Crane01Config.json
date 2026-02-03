@@ -80,6 +80,17 @@
         "MIPI_FIFO_SIZE": 960,
         "MIPI_PKT_INTV_MARGIN": 100
     },
+    "MIPI_RATE_IDX_LIST": [
+        100,
+        200,
+        400,
+        500,
+        600,
+        800,
+        1000,
+        1200,
+        1500
+    ],
     "REG_CFG_6": "ROI",
     "roi_generate_by": 0,
     "roi_generate_script_file": "C:/Users/honggang.li/Downloads/TMP/Swan_FHR_HIST_TST_I2C.txt",
