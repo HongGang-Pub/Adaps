@@ -171,7 +171,7 @@ def ROISramGenerate(swan01_config: dict):
         else:
             expo_time = roi_config["EXPO_TIME"][grp_index] * 10   # transfer to 0.1us
         # print(slot_time, expo_time)
-        if swan01_config["WORK_MODE"] == 3:  # About master_mode and work_mode is PCm, if expo time long enough, it can be set 0 to improve FPS
+        if swan01_config["WORK_MODE"] == 3:  # About master_mode and work_mode is PCM, if expo time long enough, it can be set 0 to improve FPS
             roi_config["SLOT_IDLETIME"][grp_index][0] = 0
         else:
             slot_expo_time = masking_time*T_syscclk/100 + expo_time + drv_chsw_time  # unit: 0.1us
