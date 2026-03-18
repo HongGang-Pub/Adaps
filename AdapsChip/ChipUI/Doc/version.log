@@ -54,3 +54,7 @@ Swan:
 2026-02-03 version 3.0.9    @honggang_li@icloud.com
 Swan:
   1. 修复增加的MIPI配置项带来的BUG
+
+2026-02-03 version 3.0.10    @honggang_li@icloud.com
+Swan:
+  1. 修复 TRIG_I 模式下无法生成 ROI_SRAM 的错误

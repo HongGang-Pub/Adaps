@@ -5,7 +5,7 @@
     "version" : "v3.0.9",
     "copyright" : "Copyright © Adaps Photonics",
     "theme_name": "light",
-    "DEBUG": true,
+    "DEBUG": false,
     "startup_size": [
         1000,
         870
