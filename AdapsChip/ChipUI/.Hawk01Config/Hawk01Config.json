@@ -15,8 +15,8 @@
         0
     ],
     "TRG_I_EN": 0,
-    "TDC_BIN_W": 3,
-    "SYS_CLK": 2,
+    "TDC_BIN_W": 4,
+    "SYS_CLK": 1,
     "UPSMP_MODE": 0,
     "SCAN_MODE": 0,
     "V_ROLL_NUM": 31,

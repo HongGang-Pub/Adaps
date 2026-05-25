@@ -36,7 +36,7 @@ class ROIZoneConfigWin(QDialog, Ui_ROIZoneConfig):
         self.zone_cfg_sel = 0
         self.row_type = ("SUB_EXPOTIME", "SUB_IDLETIME", "EXPO_LASPRD", "EXPO_PLSWC", "EXPO_PLSWF",
                          "TX_EN", "SPADEN_IN3ROWS", "MF Kernel")
-        self.row_thres = (2 ** 12 - 1, 2 ** 12 - 1, 2 ** 12 - 1, 2 ** 6 - 1, 16, 2 ** 4 - 1, 2 ** 2 - 1, 2 ** 8 - 1)
+        self.row_thres = (2 ** 12 - 1, 2 ** 12 - 1, 2 ** 12 - 1, 2 ** 6 - 1, 2 ** 5 - 1, 2 ** 4 - 1, 2 ** 2 - 1, 2 ** 8 - 1)
 
         self.ZoneConfigSel_CheckBox.stateChanged.connect(self.switch_zone_config_sel)
         self.ZoneConfigSel_SpinBox.valueChanged.connect(self.switch_zone_config_sel)

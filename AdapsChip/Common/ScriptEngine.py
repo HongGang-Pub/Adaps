@@ -119,29 +119,30 @@ class ScriptEngine:
         return new_lines
 
 
-# --- 演示：手术刀式的精准回写 ---
-engine = ScriptEngine(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
+if __name__ == '__main__':
+    # --- 演示：手术刀式的精准回写 ---
+    engine = ScriptEngine(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
 
-# raw_script = [
-#     "I2C_Write, 4A, 0037, 00  // 初始化配置",
-#     "// 这是一个无关的注释行",
-#     "I2C_Write, 4A, 0038, AA"
-# ]
+    # raw_script = [
+    #     "I2C_Write, 4A, 0037, 00  // 初始化配置",
+    #     "// 这是一个无关的注释行",
+    #     "I2C_Write, 4A, 0038, AA"
+    # ]
 
-ref_cfg_file = r"D:\Git\Adaps\Software\ADAPSS~1\SCRIPT~1.10\Input\Hawk01_base_script.txt"
-raw_script = PubMethod.read_file(ref_cfg_file)
-# 1. 解析
-current_map, contexts = engine.parse_and_store(raw_script)
+    ref_cfg_file = r"D:\Git\Adaps\Software\ADAPSS~1\SCRIPT~1.10\Input\Hawk01_base_script.txt"
+    raw_script = PubMethod.read_file(ref_cfg_file)
+    # 1. 解析
+    current_map, contexts = engine.parse_and_store(raw_script)
 
-# 2. 模拟配置更新：0x37 -> 0x55
-current_map = {}
-current_map[0x37] = 0x55
-current_map[0x3A] = 0x11
-current_map[0x3C] = 0x11
+    # 2. 模拟配置更新：0x37 -> 0x55
+    current_map = {}
+    current_map[0x37] = 0x55
+    current_map[0x3A] = 0x11
+    current_map[0x3C] = 0x11
 
-# 3. 生成新脚本
-updated_script = engine.generate_script(contexts, current_map)
+    # 3. 生成新脚本
+    updated_script = engine.generate_script(contexts, current_map)
 
-# 输出结果：注释被保留，格式未破坏，只有数值变了
-for line in updated_script:
-    print(line)
+    # 输出结果：注释被保留，格式未破坏，只有数值变了
+    for line in updated_script:
+        print(line)

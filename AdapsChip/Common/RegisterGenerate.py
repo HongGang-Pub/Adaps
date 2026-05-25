@@ -1,10 +1,10 @@
 import openpyxl
 import re
 import os
-from functools import lru_cache
+from functools import cache
 
 
-class RegisterManager:
+class RegisterGenerate:
     def __init__(self, excel_path):
         self.logic_fields = {}  # 结构: { logic_name: [segment_dict, ...] }
         self.addr_defaults = {}  # 结构: { addr: 8bit_default_value }
@@ -143,10 +143,10 @@ class RegisterManager:
 
 
 # --- 全局延迟加载工厂 ---
-@lru_cache(maxsize=32)
+@cache
 def get_register_manager(path):
     # 确保路径标准化，防止重复加载
-    return RegisterManager(os.path.abspath(path))
+    return RegisterGenerate(os.path.abspath(path))
 
 
 if __name__ == '__main__':

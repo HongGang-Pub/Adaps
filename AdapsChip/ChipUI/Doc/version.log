@@ -58,3 +58,7 @@ Swan:
 2026-02-03 version 3.0.10    @honggang_li@icloud.com
 Swan:
   1. 修复 TRIG_I 模式下无法生成 ROI_SRAM 的错误
+
+2026-03-30 version 3.0.11    @honggang_li@icloud.com
+Hawk:
+  1. 去除 EXPO_PLSWF 的配置限制 , 允许配置 16~31
