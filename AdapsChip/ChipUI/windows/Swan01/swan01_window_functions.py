@@ -35,7 +35,7 @@ def ScriptUICoinfigOperate(swan01_config: dict, operate: int = 0b001):
 
     # traverse_dict(d=__reg_cfg__, parent_key='')     # 将reg_config的配置值全部转换为数字类型
 
-    dataflow_related_config = Swan01PubMethod.SwanDataflowRelateConfigGet(__swan01_config__)
+    dataflow_related_config, _ = Swan01PubMethod.SwanDataflowRelateConfigGet(__swan01_config__)
     if operate & 0b001 and dataflow_related_config is not None:
         print(f"MIPI_PKT_INTV: {dataflow_related_config['MIPI_PKT_INTV']} ns")
     for work_mode in work_mode_q:
@@ -99,8 +99,9 @@ def ROISramConfigOperation(swan01_config: dict):
         if not os.path.exists(script_file):
             raise ValueError("The reference config file does not exist!")
         csru_cfg = Swan01PubMethod.GetCsruConfig(script_file, protocol)
-        sync_config = ["SYS_CLK", "WORK_MODE", "ANGLE_GRP_SW_NUM", "TRG_I_EN", "DRV_CHSWTME", "ULR_EN", "SEG_NUM", "HIST_MAXBIN_THRS", "HIST_MINBIN_THRS",
-                       "LSPRD_HOP_EN", "LSPRD_HOP_CNTS", "LSPRD_HOP_STEP", "HIST_RD_OUT_TIME"]
+        sync_config = ["SYS_CLK", "WORK_MODE", "ANGLE_GRP_SW_NUM", "TRG_I_EN", "DRV_CHSWTME", "ULR_EN", "SEG_NUM",
+                       "HIST_MAXBIN_THRS", "HIST_MINBIN_THRS",
+                       "LSPRD_HOP_EN", "LSPRD_HOP_CNTS", "LSPRD_HOP_STEP", "HIST_RD_OUT_TIME", "PXL_BINN_SEL"]
         for key in sync_config:
             __swan01_config__[key] = csru_cfg[key]
         ROISramGenerate(__swan01_config__)
@@ -125,7 +126,7 @@ def ROISramGenerate(swan01_config: dict):
         if manual_setup_slot_time < HIST_RD_OUT_TIME:
             logging.warning(f"User defined slot_time need greater than hist read time {HIST_RD_OUT_TIME / 10} us.")
             return
-    else:   # 根据配置自动计算的 slot_time
+    else:  # 根据配置自动计算的 slot_time
         slot_time = HIST_RD_OUT_TIME
 
     # ///////////////////////////////////////////////////////////////
@@ -134,7 +135,27 @@ def ROISramGenerate(swan01_config: dict):
     # --------------------------------------------------------
     # 获取 ROI config 并进行校验
     # --------------------------------------------------------
-    roi_config = Swan01ROISramOperation.read_roi_from_excel(excel_file, sheet_sel=swan01_config["roi_generate_excel_sheet"])
+    roi_config = Swan01ROISramOperation.read_roi_from_excel(excel_file,
+                                                            sheet_sel=swan01_config["roi_generate_excel_sheet"])
+
+    # 对 V_SEG_EN 进行校验
+    SEG_BINN_TYPE = swan01_config["PXL_BINN_SEL"] % 3
+    if SEG_BINN_TYPE == 1:
+        for i in range(angle_grp_sw_num):
+            for j in range(0, 16, 2):
+                a = ((roi_config['V_SEG_EN'][i][0] >> (j + 0)) & 0x1)
+                b = ((roi_config['V_SEG_EN'][i][0] >> (j + 1)) & 0x1)
+                if a != b:
+                    raise ValueError(f'Group[{i}] V_SEG_EN [{j+1} & {j + 2}] must be open together.')
+    if SEG_BINN_TYPE == 2:
+        for i in range(angle_grp_sw_num):
+            for j in range(0, 16, 4):
+                a = ((roi_config['V_SEG_EN'][i][0] >> (j + 0)) & 0x1)
+                b = ((roi_config['V_SEG_EN'][i][0] >> (j + 1)) & 0x1)
+                c = ((roi_config['V_SEG_EN'][i][0] >> (j + 2)) & 0x1)
+                d = ((roi_config['V_SEG_EN'][i][0] >> (j + 3)) & 0x1)
+                if a != b or a != c or a != d:
+                    raise ValueError(f'Group[{i}] V_SEG_EN [{j+1} & {j + 2} & {j + 3} & {j + 4}] must be open together.')
 
     # 对 SEG_COOR 坐标进行校验
     max_seg_coor = 89 if swan01_config["ChipID"] == "Swan01" else 71
@@ -142,7 +163,7 @@ def ROISramGenerate(swan01_config: dict):
     for i in range(angle_grp_sw_num):
         for j in range(16):
             if roi_config['SEG_COOR_CFG'][i][j] > max_seg_coor:
-                raise ValueError(f'Group[{i+1}] SEG_COOR[{j}] = {roi_config['SEG_COOR_CFG'][i][j]}, '
+                raise ValueError(f'Group[{i + 1}] SEG_COOR[{j}] = {roi_config['SEG_COOR_CFG'][i][j]}, '
                                  f'this config exceeds the SPAD boundary[0, {max_seg_coor}].')
             roi_config['SEG_COOR_CFG'][i][j] += shift_coor
     # 对 H_18SPAD_EN 进行校验
@@ -150,7 +171,7 @@ def ROISramGenerate(swan01_config: dict):
     spad_str = "H_18SPAD_EN" if swan01_config["ChipID"] == "Swan01" else "H_15SPAD_EN"
     for i in range(angle_grp_sw_num):
         if roi_config['H_18SPAD_EN'][i][0] > max_spad_en:
-            raise ValueError(f'Group[{i+1}] {spad_str} = {roi_config['H_18SPAD_EN'][i][0]}, '
+            raise ValueError(f'Group[{i + 1}] {spad_str} = {roi_config['H_18SPAD_EN'][i][0]}, '
                              f'this config exceeds the maximum value of {max_spad_en}.')
 
     # --------------------------------------------------------
@@ -162,33 +183,34 @@ def ROISramGenerate(swan01_config: dict):
     drv_chsw_time = swan01_config["DRV_CHSWTME"]
     transfer_time = (swan01_config["HIST_MAXBIN_THRS"] - swan01_config["HIST_MINBIN_THRS"] + 1) * 2 + 6 + 7  # unit: cyc
     dsp_cfg_rd_time = 14 + (263 - 106 + 1)  # cyc
-    read_out_hist_time = (max([transfer_time * T_tdcclk + 40, dsp_cfg_rd_time*T_syscclk+20])) / 100  # unit: 0.1us
+    read_out_hist_time = (max([transfer_time * T_tdcclk + 40, dsp_cfg_rd_time * T_syscclk + 20])) / 100  # unit: 0.1us
     for grp_index in range(angle_grp_sw_num):
         if TRG_I_EN == 0:
             expo_time_cyc = Swan01ROISramOperation.expo_time_cal(swan01_config, roi_config, grp_index)
             expo_time = expo_time_cyc * T_tdcclk / 100  # 0.1us
-            print(f"Group_{grp_index} expo_time: {expo_time/10:.3f} us")
+            print(f"Group_{grp_index} expo_time: {expo_time / 10:.3f} us")
         else:
-            expo_time = roi_config["EXPO_TIME"][grp_index][0] * 10   # transfer to 0.1us
+            expo_time = roi_config["EXPO_TIME"][grp_index][0] * 10  # transfer to 0.1us
         # print(slot_time, expo_time)
-        if swan01_config["WORK_MODE"] == 3:  # About master_mode and work_mode is PCM, if expo time long enough, it can be set 0 to improve FPS
+        if swan01_config[
+            "WORK_MODE"] == 3:  # About master_mode and work_mode is PCM, if expo time long enough, it can be set 0 to improve FPS
             roi_config["SLOT_IDLETIME"][grp_index][0] = 0
         else:
-            slot_expo_time = masking_time*T_syscclk/100 + expo_time + drv_chsw_time  # unit: 0.1us
+            slot_expo_time = masking_time * T_syscclk / 100 + expo_time + drv_chsw_time  # unit: 0.1us
             slot_idle_time = max([slot_time - slot_expo_time, read_out_hist_time])
             slot_idle_time = math.ceil(slot_idle_time)
             if slot_idle_time > 0xFFFF:
                 raise ValueError(f"Slot_ideletime[15:0] is out of bounds, it's need to be set{slot_idle_time}.")
             roi_config["SLOT_IDLETIME"][grp_index][0] = slot_idle_time
-            print(f"Group_{grp_index} actual SLOT_TIME: {(slot_expo_time+slot_idle_time)/10:.3f} us")
+            print(f"Group_{grp_index} actual SLOT_TIME: {(slot_expo_time + slot_idle_time) / 10:.3f} us")
     # ///////////////////////////////////////////////////////////////
     # 生成 ROI 数据 并保存
     # ///////////////////////////////////////////////////////////////
     roi_data = Swan01ROISramOperation.roi_sram_generate(roi_config, angle_grp_sw_num)
     roi_data_list = []
     if angle_grp_sw_num > 4:
-        roi_data_list.append(roi_data[:674*4])
-        roi_data_list.append(roi_data[674*4:])
+        roi_data_list.append(roi_data[:674 * 4])
+        roi_data_list.append(roi_data[674 * 4:])
     else:
         roi_data_list.append(roi_data)
 
@@ -199,7 +221,7 @@ def ROISramGenerate(swan01_config: dict):
                                                      fd_path=swan01_config["roi_fd_path"],
                                                      roi_data_format=swan01_config["roi_data_format"],
                                                      roi_info_file=swan01_config["roi_generate_info_file"],
-                                                     start_index=sram_index*4)
+                                                     start_index=sram_index * 4)
         url = f'{swan01_config["roi_fd_path"]}/{roi_name}.txt'
         _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
         info = f"ROI data has been save to {_hyper_link}"

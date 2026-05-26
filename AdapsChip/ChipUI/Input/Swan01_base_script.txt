@@ -90,6 +90,10 @@ I2C_Write, 4A, 0071, 07 // MIPI_TEST
 Delay, 100
 I2C_Write, 4A, 0071, 0F // MIPI_TEST
 Delay, 100
+I2C_Write, 4A, 0226, 02 // csr26: ClkTxThsexitCnt[7:0]
+I2C_Write, 4A, 0227, 3C // csr27: ClkTxThszeroCnt[7:0]
+I2C_Write, 4A, 0228, 0F // csr28: ClkTxThstrailCnt[7:0]
+I2C_Write, 4A, 023B, 44 // csr3B: ClkTxHsPostCnt[7:2]
 I2C_Write, 4A, 022B, 02 // csr2B: DataTxThsexitCnt
 I2C_Write, 4A, 022C, 00 // csr2C: DataTxThsprepareCnt
 I2C_Write, 4A, 022D, 32 // csr2D: DataTxThszeroCnt
@@ -107,6 +111,9 @@ I2C_Write, 4A, 000D, 06 // FRM_IDLETIME: [7:0]: FIDLE_TIME
 I2C_Write, 4A, 0014, 64 // MIPI_FEND_DLY: [7:0]: MIPI_FEND_DLY
 I2C_Write, 4A, 0150, 01 // CSI_VC0_THRESHOLD_VALUE
 I2C_Write, 4A, 0104, 0C // CSI_CONTROL_REGISTER
+I2C_Write, 4A, 0105, 10 // CSI_CLWR[5:0]
+I2C_Write, 4A, 0106, 10 // CSI_CLTR[5:0]
+I2C_Write, 4A, 0107, 24 // CSI_DLWR[6:0]
 I2C_Write, 4A, 0108, FA // CSI_CLK1M_DIV
 I2C_Write, 4A, 010A, 1F // CSI_LANE_CTRL: [4]: CLK_LANE_EN [3:0]: DATA_LANE_EN 
 I2C_Write, 4A, 010C, 05 // CSI_VC0_CONTROL

@@ -41,7 +41,7 @@
       <string notr="true"/>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Hawk01">
       <property name="font">
@@ -1527,8 +1527,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>368</width>
-                      <height>354</height>
+                      <width>201</width>
+                      <height>237</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout">
@@ -2019,8 +2019,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>368</width>
-                      <height>354</height>
+                      <width>263</width>
+                      <height>52</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_4">
@@ -2200,8 +2200,8 @@
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>368</width>
-                      <height>354</height>
+                      <width>263</width>
+                      <height>79</height>
                      </rect>
                     </property>
                     <layout class="QFormLayout" name="formLayout_5">
@@ -3686,126 +3686,6 @@ font: 700 9pt &quot;Consolas&quot;;
                   <property name="bottomMargin">
                    <number>0</number>
                   </property>
-                  <item row="3" column="1">
-                   <widget class="QComboBox" name="Swan01_MST_MODE_ComboBox">
-                    <property name="minimumSize">
-                     <size>
-                      <width>165</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>165</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>Slave Mode</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Master Mode</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="8" column="0">
-                   <widget class="QLabel" name="Swan01_ZDD_TRIG_POL_SEL_Label">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Microsoft YaHei UI</family>
-                      <pointsize>9</pointsize>
-                     </font>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::StyledPanel</enum>
-                    </property>
-                    <property name="text">
-                     <string>ZDD_TRIG_POL</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="7" column="0">
-                   <widget class="QLabel" name="Swan01_ANGLE_GRP_SW_NUM_Label">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::StyledPanel</enum>
-                    </property>
-                    <property name="text">
-                     <string>ANGLE_GRP_SW_NUM</string>
-                    </property>
-                    <property name="margin">
-                     <number>0</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="2">
-                   <spacer name="horizontalSpacer_25">
-                    <property name="orientation">
-                     <enum>Qt::Orientation::Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                     <enum>QSizePolicy::Policy::Fixed</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>10</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QLabel" name="Swan01_MST_MODE_Label">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::StyledPanel</enum>
-                    </property>
-                    <property name="text">
-                     <string>MST_MODE</string>
-                    </property>
-                    <property name="margin">
-                     <number>0</number>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="0" column="1">
                    <widget class="QComboBox" name="Swan01_XCLK_ComboBox">
                     <property name="minimumSize">
@@ -3838,6 +3718,267 @@ font: 700 9pt &quot;Consolas&quot;;
                      </property>
                     </item>
                    </widget>
+                  </item>
+                  <item row="0" column="4">
+                   <widget class="QComboBox" name="Swan01_SYS_CLK_ComboBox">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>165</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>165</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                    <property name="editable">
+                     <bool>false</bool>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>330 M</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>400 M</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QComboBox" name="Swan01_MST_MODE_ComboBox">
+                    <property name="minimumSize">
+                     <size>
+                      <width>165</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>165</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Slave Mode</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Master Mode</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="ComboCheckBox" name="Swan01_WORK_MODE_ComboBox">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>SPHR</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>PHR</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>FHR</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>PCM</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="3" column="4">
+                   <widget class="QComboBox" name="Swan01_MIPI_RATE_ComboBox">
+                    <property name="maximumSize">
+                     <size>
+                      <width>165</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>0.1 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.2 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.4 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.5 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.6 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>0.8 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1.0 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1.2 Gbps/Lane</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>1.5 Gbps/Lane</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QLabel" name="Swan01_SYNC_POL_Label">
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>150</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::StyledPanel</enum>
+                    </property>
+                    <property name="text">
+                     <string>SYNC_POL</string>
+                    </property>
+                    <property name="margin">
+                     <number>0</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="Swan01_MST_MODE_Label">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::StyledPanel</enum>
+                    </property>
+                    <property name="text">
+                     <string>MST_MODE</string>
+                    </property>
+                    <property name="margin">
+                     <number>0</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="3">
+                   <widget class="QLabel" name="Swan01_SYS_CLK_Label">
+                    <property name="minimumSize">
+                     <size>
+                      <width>145</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                     </font>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::StyledPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Shadow::Raised</enum>
+                    </property>
+                    <property name="text">
+                     <string>SYS CLK</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <spacer name="horizontalSpacer_25">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                     <enum>QSizePolicy::Policy::Fixed</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>10</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
                   </item>
                   <item row="7" column="3" colspan="2">
                    <widget class="QGroupBox" name="Swan01_ANGLE_GRP_SLOT_NUM">
@@ -4127,11 +4268,11 @@ font: 700 9pt &quot;Consolas&quot;;
                     </layout>
                    </widget>
                   </item>
-                  <item row="5" column="3">
-                   <widget class="QLabel" name="Swan01_SEG_NUM_Label">
+                  <item row="7" column="0">
+                   <widget class="QLabel" name="Swan01_ANGLE_GRP_SW_NUM_Label">
                     <property name="minimumSize">
                      <size>
-                      <width>100</width>
+                      <width>0</width>
                       <height>0</height>
                      </size>
                     </property>
@@ -4141,21 +4282,14 @@ font: 700 9pt &quot;Consolas&quot;;
                       <height>16777215</height>
                      </size>
                     </property>
-                    <property name="font">
-                     <font>
-                      <family>Microsoft YaHei UI</family>
-                      <pointsize>9</pointsize>
-                      <bold>false</bold>
-                     </font>
-                    </property>
                     <property name="frameShape">
                      <enum>QFrame::Shape::StyledPanel</enum>
                     </property>
-                    <property name="frameShadow">
-                     <enum>QFrame::Shadow::Raised</enum>
-                    </property>
                     <property name="text">
-                     <string>SEG_NUM</string>
+                     <string>ANGLE_GRP_SW_NUM</string>
+                    </property>
+                    <property name="margin">
+                     <number>0</number>
                     </property>
                    </widget>
                   </item>
@@ -4171,6 +4305,129 @@ font: 700 9pt &quot;Consolas&quot;;
                      </size>
                     </property>
                    </spacer>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QLabel" name="Swan01_WORK_MODE_Label">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>125</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::StyledPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Shadow::Raised</enum>
+                    </property>
+                    <property name="text">
+                     <string>WORK_MODE</string>
+                    </property>
+                    <property name="margin">
+                     <number>0</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="7" column="1">
+                   <widget class="QSpinBox" name="Swan01_ANGLE_GRP_SW_NUM_spinBox">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="toolTip">
+                     <string>MINBIN_THRS</string>
+                    </property>
+                    <property name="whatsThis">
+                     <string/>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>8</number>
+                    </property>
+                    <property name="value">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="Swan01_XCLK_Label">
+                    <property name="minimumSize">
+                     <size>
+                      <width>125</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                     </font>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::StyledPanel</enum>
+                    </property>
+                    <property name="text">
+                     <string>XCLK</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="9" column="0">
+                   <spacer name="verticalSpacer_6">
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QComboBox" name="Swan01_SYNC_POL_ComboBox">
+                    <property name="maximumSize">
+                     <size>
+                      <width>165</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Active low</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Active high</string>
+                     </property>
+                    </item>
+                   </widget>
                   </item>
                   <item row="3" column="3">
                    <widget class="QLabel" name="Swan01_MIPI_RATE_Label">
@@ -4210,17 +4467,11 @@ font: 700 9pt &quot;Consolas&quot;;
                     </property>
                    </widget>
                   </item>
-                  <item row="4" column="0">
-                   <widget class="QLabel" name="Swan01_WORK_MODE_Label">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
+                  <item row="6" column="0">
+                   <widget class="QLabel" name="Swan01_ZDD_TRIG_POL_SEL_Label">
                     <property name="minimumSize">
                      <size>
-                      <width>125</width>
+                      <width>0</width>
                       <height>0</height>
                      </size>
                     </property>
@@ -4230,6 +4481,61 @@ font: 700 9pt &quot;Consolas&quot;;
                       <height>16777215</height>
                      </size>
                     </property>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                     </font>
+                    </property>
+                    <property name="frameShape">
+                     <enum>QFrame::Shape::StyledPanel</enum>
+                    </property>
+                    <property name="text">
+                     <string>ZDD_TRIG_POL</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="1">
+                   <widget class="QComboBox" name="Swan01_ZDD_TRIG_POL_SEL_ComboBox">
+                    <property name="maximumSize">
+                     <size>
+                      <width>165</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>Active low</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Active high</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="6" column="3">
+                   <widget class="QLabel" name="Swan01_SEG_NUM_Label">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
+                    </property>
                     <property name="frameShape">
                      <enum>QFrame::Shape::StyledPanel</enum>
                     </property>
@@ -4237,14 +4543,36 @@ font: 700 9pt &quot;Consolas&quot;;
                      <enum>QFrame::Shadow::Raised</enum>
                     </property>
                     <property name="text">
-                     <string>WORK_MODE</string>
-                    </property>
-                    <property name="margin">
-                     <number>0</number>
+                     <string>SEG_NUM</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="5">
+                  <item row="6" column="4">
+                   <widget class="QSlider" name="Swan01_SEG_NUM_Slider">
+                    <property name="maximumSize">
+                     <size>
+                      <width>165</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>16</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>1</number>
+                    </property>
+                    <property name="value">
+                     <number>16</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Orientation::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="5">
                    <widget class="QLabel" name="Swan01_SEG_NUM_Value">
                     <property name="minimumSize">
                      <size>
@@ -4279,111 +4607,7 @@ font: 700 9pt &quot;Consolas&quot;;
                     </property>
                    </widget>
                   </item>
-                  <item row="5" column="0">
-                   <widget class="QLabel" name="Swan01_SYNC_POL_Label">
-                    <property name="minimumSize">
-                     <size>
-                      <width>150</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>150</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::StyledPanel</enum>
-                    </property>
-                    <property name="text">
-                     <string>SYNC_POL</string>
-                    </property>
-                    <property name="margin">
-                     <number>0</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="5" column="1">
-                   <widget class="QComboBox" name="Swan01_SYNC_POL_ComboBox">
-                    <property name="maximumSize">
-                     <size>
-                      <width>165</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>Active low</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Active high</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="8" column="1">
-                   <widget class="QComboBox" name="Swan01_ZDD_TRIG_POL_SEL_ComboBox">
-                    <property name="maximumSize">
-                     <size>
-                      <width>165</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>Active low</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>Active high</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="0" column="4">
-                   <widget class="QComboBox" name="Swan01_SYS_CLK_ComboBox">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>165</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>165</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Microsoft YaHei UI</family>
-                      <pointsize>9</pointsize>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <property name="editable">
-                     <bool>false</bool>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>330 M</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>400 M</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="4" column="3">
+                  <item row="5" column="3">
                    <widget class="QLabel" name="Swan01_MIPI_LNAE_NUM_Label">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -4421,29 +4645,7 @@ font: 700 9pt &quot;Consolas&quot;;
                     </property>
                    </widget>
                   </item>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="Swan01_XCLK_Label">
-                    <property name="minimumSize">
-                     <size>
-                      <width>125</width>
-                      <height>0</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Microsoft YaHei UI</family>
-                      <pointsize>9</pointsize>
-                     </font>
-                    </property>
-                    <property name="frameShape">
-                     <enum>QFrame::Shape::StyledPanel</enum>
-                    </property>
-                    <property name="text">
-                     <string>XCLK</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="4">
+                  <item row="5" column="4">
                    <widget class="QComboBox" name="Swan01_MIPI_LANE_NUM_ComboBox">
                     <property name="maximumSize">
                      <size>
@@ -4480,122 +4682,14 @@ font: 700 9pt &quot;Consolas&quot;;
                     </item>
                    </widget>
                   </item>
-                  <item row="3" column="4">
-                   <widget class="QComboBox" name="Swan01_MIPI_RATE_ComboBox">
-                    <property name="maximumSize">
-                     <size>
-                      <width>165</width>
-                      <height>16777215</height>
-                     </size>
+                  <item row="4" column="3">
+                   <widget class="QLabel" name="Swan01_MIPI_CLOCK_MODE_Label">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
                     </property>
-                    <property name="font">
-                     <font>
-                      <family>Microsoft YaHei UI</family>
-                      <pointsize>9</pointsize>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>0.8 Gbps/Lane</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>1.0 Gbps/Lane</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>1.2 Gbps/Lane</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>1.5 Gbps/Lane</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>0.4 Gbps/Lane</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>0.5 Gbps/Lane</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>0.6 Gbps/Lane</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="5" column="4">
-                   <widget class="QSlider" name="Swan01_SEG_NUM_Slider">
-                    <property name="maximumSize">
-                     <size>
-                      <width>165</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>16</number>
-                    </property>
-                    <property name="pageStep">
-                     <number>1</number>
-                    </property>
-                    <property name="value">
-                     <number>16</number>
-                    </property>
-                    <property name="orientation">
-                     <enum>Qt::Orientation::Horizontal</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="4" column="1">
-                   <widget class="ComboCheckBox" name="Swan01_WORK_MODE_ComboBox">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <family>Microsoft YaHei UI</family>
-                      <pointsize>9</pointsize>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <item>
-                     <property name="text">
-                      <string>SPHR</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>PHR</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>FHR</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>PCM</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item row="0" column="3">
-                   <widget class="QLabel" name="Swan01_SYS_CLK_Label">
                     <property name="minimumSize">
                      <size>
                       <width>145</width>
@@ -4612,6 +4706,7 @@ font: 700 9pt &quot;Consolas&quot;;
                      <font>
                       <family>Microsoft YaHei UI</family>
                       <pointsize>9</pointsize>
+                      <bold>false</bold>
                      </font>
                     </property>
                     <property name="frameShape">
@@ -4621,56 +4716,36 @@ font: 700 9pt &quot;Consolas&quot;;
                      <enum>QFrame::Shadow::Raised</enum>
                     </property>
                     <property name="text">
-                     <string>SYS CLK</string>
+                     <string>MIPI CLOCK MODE</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="7" column="1">
-                   <widget class="QSpinBox" name="Swan01_ANGLE_GRP_SW_NUM_spinBox">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="minimumSize">
-                     <size>
-                      <width>150</width>
-                      <height>0</height>
-                     </size>
-                    </property>
+                  <item row="4" column="4">
+                   <widget class="QComboBox" name="Swan01_MIPI_CLOCK_MODE_ComboBox">
                     <property name="maximumSize">
                      <size>
-                      <width>16777215</width>
+                      <width>165</width>
                       <height>16777215</height>
                      </size>
                     </property>
-                    <property name="toolTip">
-                     <string>MINBIN_THRS</string>
+                    <property name="font">
+                     <font>
+                      <family>Microsoft YaHei UI</family>
+                      <pointsize>9</pointsize>
+                      <bold>false</bold>
+                     </font>
                     </property>
-                    <property name="whatsThis">
-                     <string/>
-                    </property>
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>8</number>
-                    </property>
-                    <property name="value">
-                     <number>1</number>
-                    </property>
+                    <item>
+                     <property name="text">
+                      <string>non-continuous</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>continuous</string>
+                     </property>
+                    </item>
                    </widget>
-                  </item>
-                  <item row="9" column="0">
-                   <spacer name="verticalSpacer_6">
-                    <property name="orientation">
-                     <enum>Qt::Orientation::Vertical</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </spacer>
                   </item>
                  </layout>
                 </widget>
@@ -7832,6 +7907,161 @@ color: rgb(255, 85, 0);</string>
           <property name="verticalSpacing">
            <number>6</number>
           </property>
+          <item row="0" column="1">
+           <widget class="PyLineEdit" name="Swan01_reference_script_LineEdit">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::FocusPolicy::StrongFocus</enum>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>请选择基准配置文件</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="PyLineEdit" name="Swan01_reg_script_name_LineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>500</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="placeholderText">
+             <string>请输入保存脚本的文件名</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="Swan01_reference_script_sel_Button">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>90</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Select</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="Swan01_reference_script_Label">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>9</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Shadow::Raised</enum>
+            </property>
+            <property name="text">
+             <string>Reference Script</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="Swan01_file_save_dir_Button">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>90</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Select</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="Swan01_file_save_dir_Label">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>9</pointsize>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Shadow::Raised</enum>
+            </property>
+            <property name="text">
+             <string>File Save Path</string>
+            </property>
+           </widget>
+          </item>
           <item row="3" column="0" colspan="3">
            <widget class="QFrame" name="Swan01_ButtonCollectionFrame">
             <layout class="QHBoxLayout" name="horizontalLayout_25">
@@ -7963,35 +8193,19 @@ color: rgb(255, 85, 0);</string>
             </property>
            </spacer>
           </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="Swan01_reference_script_Label">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
+          <item row="2" column="0">
+           <widget class="QLabel" name="Swan01_reg_script_name_Label">
+            <property name="enabled">
+             <bool>true</bool>
             </property>
             <property name="font">
              <font>
               <family>Microsoft YaHei UI</family>
               <pointsize>9</pointsize>
-              <bold>false</bold>
              </font>
             </property>
-            <property name="frameShape">
-             <enum>QFrame::Shape::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Shadow::Raised</enum>
-            </property>
             <property name="text">
-             <string>Reference Script</string>
+             <string>Script Name</string>
             </property>
            </widget>
           </item>
@@ -8011,25 +8225,6 @@ color: rgb(255, 85, 0);</string>
             </property>
             <property name="text">
              <string>Script Parse</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="PyLineEdit" name="Swan01_reg_script_name_LineEdit">
-            <property name="maximumSize">
-             <size>
-              <width>500</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI</family>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="placeholderText">
-             <string>请输入保存脚本的文件名</string>
             </property>
            </widget>
           </item>
@@ -8064,126 +8259,6 @@ color: rgb(255, 85, 0);</string>
             </property>
             <property name="placeholderText">
              <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="Swan01_reg_script_name_Label">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI</family>
-              <pointsize>9</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Script Name</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="PyLineEdit" name="Swan01_reference_script_LineEdit">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>500</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::StrongFocus</enum>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>请选择基准配置文件</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="Swan01_file_save_dir_Button">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>90</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Select</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="Swan01_file_save_dir_Label">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI</family>
-              <pointsize>9</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="frameShape">
-             <enum>QFrame::Shape::NoFrame</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Shadow::Raised</enum>
-            </property>
-            <property name="text">
-             <string>File Save Path</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QPushButton" name="Swan01_reference_script_sel_Button">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>90</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Select</string>
             </property>
            </widget>
           </item>

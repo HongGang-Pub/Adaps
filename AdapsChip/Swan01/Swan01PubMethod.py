@@ -478,7 +478,7 @@ def CalPkgNum(swan01_config):
 #
 #     return int(wc), int(flnr)
 
-def SwanDataflowRelateConfigGet(swan01_config: dict) -> dict:
+def SwanDataflowRelateConfigGet(swan01_config: dict):
     """
     获取 Swan 相关的数据流配置
     Args:
@@ -493,22 +493,30 @@ def SwanDataflowRelateConfigGet(swan01_config: dict) -> dict:
         "MIPI_PKT_INTV": 0.9,  # MIPI 1.5Gbps config (unit: us)
         "MIPI_FIFO_SIZE": 960,  # MIPI FIFO: DEPTH = 1024, WIDTH = 32
     }
+
     MIPI_RATE_LIST = [100, 200, 400, 500, 600, 800, 1000, 1200, 1500]
+    SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
+    # MIPI_RATE = MIPI_RATE_LIST[swan01_config['MIPI_RATE']]
+    MIPI_RATE = swan01_config["MIPI_RATE_IDX_LIST"][swan01_config['MIPI_RATE']]
+    MIPI_LANE_NUM = swan01_config["MIPI_LANE_NUM"] + 1
+    MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK,
+                               MIPI_RATE=MIPI_RATE,
+                               clock_mode=swan01_config["MIPI_CLOCK_MODE"],
+                               display=False)
+    MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg=MIPI_CFG,
+                                   SYS_CLK=SYS_CLK,
+                                   MIPI_RATE=MIPI_RATE,
+                                   clock_mode=swan01_config["MIPI_CLOCK_MODE"])
+
     if "USER_DEFINE_CONIFG" in swan01_config and swan01_config["USER_DEFINE_CONIFG"]["USER_DEFINE_CONIFG_ENABLE"]:
         dataflow_related_config = swan01_config["USER_DEFINE_CONIFG"]
     else:
-        SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
-        # MIPI_RATE = MIPI_RATE_LIST[swan01_config['MIPI_RATE']]
-        MIPI_RATE = swan01_config["MIPI_RATE_IDX_LIST"][swan01_config['MIPI_RATE']]
-        MIPI_LANE_NUM = swan01_config["MIPI_LANE_NUM"] + 1
-        MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
-        MIPI_PKT_INTV = MipiPKGIntvCal(mipi_cfg=MIPI_CFG, SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE)
         dataflow_related_config["SYS_CLK"] = SYS_CLK
         dataflow_related_config["MIPI_RATE"] = MIPI_RATE
         dataflow_related_config["MIPI_LANE_NUM"] = MIPI_LANE_NUM
         dataflow_related_config["MIPI_PKT_INTV"] = MIPI_PKT_INTV + swan01_config["USER_DEFINE_CONIFG"][
             "MIPI_PKT_INTV_MARGIN"]
-    return dataflow_related_config
+    return dataflow_related_config, MIPI_CFG
 
 
 def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, function_sel: str = "") -> dict:
@@ -971,13 +979,13 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
 
     # MIPI FLNR & WC & TXDLY
     # ////////////////////////////////////////////////////////////////////////////
-    SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
-    MIPI_RATE = 800 if swan01_config['MIPI_RATE'] == 0 \
-        else 1000 if swan01_config['MIPI_RATE'] == 1 \
-        else 1200 if swan01_config['MIPI_RATE'] == 2 \
-        else 1500
-    MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
-    dataflow_related_config = SwanDataflowRelateConfigGet(swan01_config)
+    # SYS_CLK = 330 if swan01_config['SYS_CLK'] == 0 else 400
+    # MIPI_RATE = 800 if swan01_config['MIPI_RATE'] == 0 \   # 这里 MIPI_RATE获取错误, 应该是有BUG的
+    #     else 1000 if swan01_config['MIPI_RATE'] == 1 \
+    #     else 1200 if swan01_config['MIPI_RATE'] == 2 \
+    #     else 1500
+    # MIPI_CFG = MIPI_CONFIG_Cal(SYS_CLK=SYS_CLK, MIPI_RATE=MIPI_RATE, display=False)
+    dataflow_related_config, MIPI_CFG = SwanDataflowRelateConfigGet(swan01_config)
     DataflowConfig = SwanDataflowConfigCal(swan01_config, dataflow_related_config)
     # print(DataflowConfig)
     WC, FLNR, PKT_TYPE = DataflowConfig["WC"], DataflowConfig["FLNR"], DataflowConfig["PKT_TYPE"]
@@ -1171,6 +1179,22 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
                 register_value = MIPI_CFG["DataTxThszeroCnt"] & 0xFF
             elif addr == reg_addr['THS_TRAIL']:
                 register_value = MIPI_CFG["DataTxThstrailCnt"] & 0xFF
+            elif addr == reg_addr['CLK_EXIT']:
+                register_value = MIPI_CFG["ClkTxThsexitCnt"] & 0xFF
+            elif addr == reg_addr['CLK_ZERO']:
+                register_value = MIPI_CFG["ClkTxThszeroCnt"] & 0xFF
+            elif addr == reg_addr['CLK_TRAIL']:
+                register_value = MIPI_CFG["ClkTxThstrailCnt"] & 0xFF
+            elif addr == reg_addr['CLK_POST']:
+                register_value = (register_value & (0xFF - 0xFC)) + ((MIPI_CFG["ClkTxHsPostCnt"] & 0x3F) << 2)
+            elif addr == reg_addr['CSI_CR']:
+                register_value = (register_value & (0xFF - 0x08)) + (swan01_config["MIPI_CLOCK_MODE"] << 3)
+            elif addr == reg_addr['CSI_CLWR']:
+                register_value = MIPI_CFG["ClockLaneWaitCnt"] & 0x3F
+            elif addr == reg_addr['CSI_CLTR']:
+                register_value = MIPI_CFG["ClockLaneTrailCnt"] & 0x3F
+            elif addr == reg_addr['CSI_DLWR']:
+                register_value = MIPI_CFG["DataLaneWaitCnt"] & 0x7F
             elif addr == reg_addr['SYSCLK1M_DIVL']:
                 register_value = SYSCLK1M_DIVL
             elif addr == reg_addr['SYSCLK1M_DIVH']:
@@ -1250,7 +1274,7 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
 
 def SwanHistReadTimeCal(swan01_config: dict):
     # ////////////////////////////////////////////////////////////////////////////
-    dataflow_related_config = SwanDataflowRelateConfigGet(swan01_config)
+    dataflow_related_config, _ = SwanDataflowRelateConfigGet(swan01_config)
     DataflowConfig = SwanDataflowConfigCal(swan01_config, dataflow_related_config)
     print(f"{swan01_config["reg_name"]} one slot read time: {DataflowConfig['HIST_RD_OUT_TIME'] / 10} us")
 

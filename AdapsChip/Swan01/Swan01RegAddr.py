@@ -74,13 +74,23 @@ reg_addr = {
     "VC0_WC_H": 0x0119,
     "VC0_THRESHOLD": 0x0150,
     "CSI_LANE_CTRL": 0x010A,
+    "CSI_CR": 0x0104,
+    "CSI_CLWR": 0x0105,
+    "CSI_CLTR": 0x0106,
+    "CSI_DLWR": 0x0107,
     "THS_EXIT": 0x022B,
     "THS_PREPARE": 0x022C,
     "THS_ZERO": 0x022D,
     "THS_TRAIL": 0x022E,
+    "CLK_EXIT": 0x0226,
+    "CLK_ZERO": 0x0227,
+    "CLK_TRAIL": 0x0228,
+    "CLK_POST": 0x023B,
     # PHASE_DLY_OPT
     "ANA_MISC_CFG1": 0x0058,
     "UNIQ_FUNC_CFG": 0x00C8,
     "LSPRD_HOP_CFG1": 0x00CA,
     "LSPRD_HOP_CFG2": 0x00CB
 }
+
+

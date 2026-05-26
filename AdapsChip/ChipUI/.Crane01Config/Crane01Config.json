@@ -13,6 +13,7 @@
     ],
     "MIPI_RATE": 0,
     "MIPI_LANE_NUM": 3,
+    "MIPI_CLOCK_MODE": 1,
     "MST_MODE": 1,
     "SYNC_POL": 0,
     "ZDD_TRIG_POL_SEL": 0,

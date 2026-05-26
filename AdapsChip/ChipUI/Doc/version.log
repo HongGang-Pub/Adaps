@@ -62,3 +62,9 @@ Swan:
 2026-03-30 version 3.0.11    @honggang_li@icloud.com
 Hawk:
   1. 去除 EXPO_PLSWF 的配置限制 , 允许配置 16~31
+
+2026-05-26 version 3.0.12    @honggang_li@icloud.com
+Swan:
+  1. 支持 MIPI_CLOCK_MODE 配置: non-continuous
+  2. 增加 V_SEG_EN 的校验逻辑, 确保 V_SEG_EN 配置的合理性
+
