@@ -1,9 +1,12 @@
 import logging
 import math
+import copy
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
 from AdapsChip.Common.common import *
 from AdapsChip.Swan01.Swan01RegAddr import *
+from AdapsChip.Common.ScriptEngine import *
+from AdapsChip.Common.RegisterGenerate import *
 import re
 import os
 
@@ -348,6 +351,36 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         else:
             continue
             # raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
+    return csru_cfg
+
+
+def GetCsruConfig_beta(config_file, REG_EXCEL_PATH="", protocol_template=None) -> dict:
+    """
+    根据 Swan01 寄存器配置脚本，获取寄存器配置信息
+    通过 Excel 配置判断哪些字段需要解析
+
+    Args:
+        config_file (str): 脚本路径
+        REG_EXCEL_PATH: 寄存器模板
+        protocol_template (list): 协议模板，如 ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
+
+    Returns:
+        dict: 寄存器配置（直接从 Excel 解析）
+    """
+    if protocol_template is None:
+        protocol_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
+    csru_datas = PubMethod.read_file(fname=config_file)
+    if len(csru_datas) == 0:
+        raise ValueError("The register configuration file is empty, please check。")
+
+    # 使用 ScriptEngine 解析脚本
+    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
+    addr_vals, _ = engine.parse_and_store(csru_datas)
+
+    # 使用 Excel 配置的 RegisterGenerate 解析
+    mgr = get_register_manager(REG_EXCEL_PATH)
+    csru_cfg = mgr.parse_config(addr_vals)
+
     return csru_cfg
 
 
@@ -1272,6 +1305,139 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     return
 
 
+def GenerateSwanRegConfig_beta(swan01_config: dict, REG_EXCEL_PATH="", protocol_template=None, reg_cfg_fp="./Swan01RegConfig.py"):
+    """
+    本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Swan 配置脚本
+    使用 Excel + common/RegisterGenerate + common/ScriptEngine 实现
+    """
+
+    # 从本地配置文件获取频率等配置信息
+    with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
+        content = file.read()
+        local_scope = locals()
+        exec(content, globals(), local_scope)
+        FREQ_Config = local_scope["FREQ_Config"]
+        DIV_CONFIG = local_scope["DIV_CONFIG"]
+
+    ref_cfg_file = swan01_config["ref_cfg_file"]
+    if not os.path.exists(ref_cfg_file):
+        raise ValueError("The reference config file does not exist!")
+
+    # 使用 Excel 配置的 RegisterGenerate 和 ScriptEngine
+    mgr = get_register_manager(REG_EXCEL_PATH)
+
+    # 读取基准脚本
+    csru_datas = PubMethod.read_file(ref_cfg_file)
+    if len(csru_datas) == 0:
+        raise ValueError("The register configuration file is empty, please check。")
+
+    # 创建 ScriptEngine 实例
+    protocol = swan01_config["protocol"]
+    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
+
+    # 构建 updates - 直接复制 swan01_config，再覆盖计算得到的值
+    updates = copy.deepcopy(swan01_config)
+
+    # 计算 PLL 配置
+    updates["PLL0_ID"] = FREQ_Config[swan01_config['XCLK']]["PLL0"][0]["ID"]
+    updates["PLL0_OD"] = FREQ_Config[swan01_config['XCLK']]["PLL0"][0]["OD"]
+    updates["PLL0_FB"] = FREQ_Config[swan01_config['XCLK']]["PLL0"][0]["FB"]
+
+    updates["PLL1_ID"] = FREQ_Config[swan01_config['XCLK']]["PLL1"][0]["ID"]
+    updates["PLL1_OD"] = FREQ_Config[swan01_config['XCLK']]["PLL1"][0]["OD"]
+    updates["PLL1_FB"] = FREQ_Config[swan01_config['XCLK']]["PLL1"][0]["FB"]
+
+    updates["PLL2_ID"] = FREQ_Config[swan01_config['XCLK']]["PLL2"][swan01_config['SYS_CLK']]["ID"]
+    updates["PLL2_OD"] = FREQ_Config[swan01_config['XCLK']]["PLL2"][swan01_config['SYS_CLK']]["OD"]
+    updates["PLL2_FB"] = FREQ_Config[swan01_config['XCLK']]["PLL2"][swan01_config['SYS_CLK']]["FB"]
+
+    # DIV 配置
+    updates["SYSCLK1M_DIV"] = DIV_CONFIG[swan01_config['SYS_CLK']]["SYSCLK1M_DIV"]
+    updates["SYSCLK10M_DIV"] = DIV_CONFIG[swan01_config['SYS_CLK']]["SYSCLK10M_DIV"]
+    updates["TXESC_CLKDIV_CNT"] = DIV_CONFIG[swan01_config['SYS_CLK']]["TXESC_CLKDIV_CNT"]
+    updates["TXESC_CLKDIV_DTY"] = DIV_CONFIG[swan01_config['SYS_CLK']]["TXESC_CLKDIV_DTY"]
+
+    # MIPI_RATE 配置
+    updates["NS"] = FREQ_Config[swan01_config['XCLK']]["MIPI"][swan01_config['MIPI_RATE']]["NS"]
+    updates["MS"] = FREQ_Config[swan01_config['XCLK']]["MIPI"][swan01_config['MIPI_RATE']]["MS"]
+    updates["PS"] = FREQ_Config[swan01_config['XCLK']]["MIPI"][swan01_config['MIPI_RATE']]["PS"]
+
+    # 数据流相关配置
+    dataflow_related_config, MIPI_CFG = SwanDataflowRelateConfigGet(swan01_config)
+    DataflowConfig = SwanDataflowConfigCal(swan01_config, dataflow_related_config)
+
+    WC, FLNR, PKT_TYPE = DataflowConfig["WC"], DataflowConfig["FLNR"], DataflowConfig["PKT_TYPE"]
+    updates["VC0_WC"] = WC
+    updates["VC0_FLNR"] = FLNR
+    updates["PKT_TYPE"] = PKT_TYPE
+
+    # 从 MIPI_CFG 获取的中间变量（使用完整字段名供 update_config 自动拆分）
+    updates["DataTxThsexitCnt"] = MIPI_CFG["DataTxThsexitCnt"]
+    updates["DataTxThsprepareCnt"] = MIPI_CFG["DataTxThsprepareCnt"]
+    updates["DataTxThszeroCnt"] = MIPI_CFG["DataTxThszeroCnt"]
+    updates["DataTxThstrailCnt"] = MIPI_CFG["DataTxThstrailCnt"]
+    updates["ClkTxThsexitCnt"] = MIPI_CFG["ClkTxThsexitCnt"]
+    updates["ClkTxThszeroCnt"] = MIPI_CFG["ClkTxThszeroCnt"]
+    updates["ClkTxThstrailCnt"] = MIPI_CFG["ClkTxThstrailCnt"]
+    updates["ClkTxHsPostCnt"] = MIPI_CFG["ClkTxHsPostCnt"]
+    updates["ClockLaneWaitCnt"] = MIPI_CFG["ClockLaneWaitCnt"]
+    updates["ClockLaneTrailCnt"] = MIPI_CFG["ClockLaneTrailCnt"]
+    updates["DataLaneWaitCnt"] = MIPI_CFG["DataLaneWaitCnt"]
+
+    # 从 DataflowConfig 获取的中间变量（使用完整字段名供 update_config 自动拆分）
+    updates["MIPI_PKTDLY1_CYC"] = DataflowConfig["mipi_pktdly1_cyc"]
+    updates["MIPI_PKTDLY2_CYC"] = DataflowConfig["mipi_pktdly2_cyc"]
+    updates["MIPI_PKTDLY3_CYC"] = DataflowConfig["mipi_pktdly3_cyc"]
+    updates["MIPI_PKT_PL_NUM"] = DataflowConfig["mipi_pkt_pl_num"]
+    updates["MIPI_FSDLY_CYC"] = DataflowConfig["mipi_fsdly_cyc"]
+    updates["VC0_THRESHOLD"] = DataflowConfig["threshold_value"]  # Excel字段名为VC0_THRESHOLD
+    updates["HIST_RD_OUT_TIME"] = DataflowConfig["HIST_RD_OUT_TIME"]
+
+    # SYSCLK1M_DIV 完整值供 update_config 自动拆分
+    updates["SYSCLK1M_DIV"] = DIV_CONFIG[swan01_config['SYS_CLK']]["SYSCLK1M_DIV"]
+
+    # PLL DIV1/DIV2 计算
+    # PLL0_DIV1/DIV2 等不是 Excel 字段，update_config 会根据 PLL0_ID/PLL0_OD/PLL0_FB 自动拆分
+    # TXESC_CLKDIV1/2 不是 Excel 字段，update_config 会根据 TXESC_CLKDIV_CNT/DTY 自动拆分
+    # MIPIPLL_LPDH/LPDL/PPD 不是 Excel 字段，update_config 会根据 NS[8]/NS[7:0]/MS/PS 自动拆分
+
+    # MIPI_LANE
+    mipi_lane = 0x0F if swan01_config["MIPI_LANE_NUM"] == 3 else \
+        0x07 if swan01_config["MIPI_LANE_NUM"] == 2 else \
+            0x03 if swan01_config["MIPI_LANE_NUM"] == 1 else 0x01
+    updates["MIPI_LANE"] = mipi_lane
+
+    # 解析基准脚本获取当前地址->值映射
+    current_map, line_contexts = engine.parse_and_store(csru_datas)
+
+    # 使用 RegisterGenerate.update_config 更新配置
+    new_config = mgr.update_config(current_map, updates)
+
+    # 使用 ScriptEngine 生成新脚本
+    new_lines = engine.generate_script(line_contexts, new_config)
+
+    # --------------------------------------------------------
+    # 增加配置说明
+    # --------------------------------------------------------
+    config_instruction = "config_instruction"
+    config_print = "PRINT"
+    if config_instruction in swan01_config and config_print in swan01_config[config_instruction]:
+        _str = "// "
+        _len = len(swan01_config[config_instruction][config_print])
+        for i in range(_len):
+            config = swan01_config[config_instruction][config_print][i]
+            if i > 0:
+                _str += "; "
+            _str += f"{config}: {swan01_config[config_instruction][config][swan01_config[config]]}"
+        new_lines.insert(0, _str)
+
+    PubMethod.data_save(fname=f'{swan01_config["reg_name"]}.txt',
+                        data_list=new_lines,
+                        split='\n',
+                        fd_path=swan01_config["fd_path"])
+    return
+
+
 def SwanHistReadTimeCal(swan01_config: dict):
     # ////////////////////////////////////////////////////////////////////////////
     dataflow_related_config, _ = SwanDataflowRelateConfigGet(swan01_config)
@@ -1280,6 +1446,47 @@ def SwanHistReadTimeCal(swan01_config: dict):
 
 
 def ParseSwanRegConfig(script_file=None, protocol=0):
+    if not os.path.exists(script_file):
+        raise ValueError("The reference config file does not exist!")
+
+    csru_cfg = GetCsruConfig(script_file, protocol)
+    _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
+    info = f"Parse {_hyper_link}..."
+    # print(info)
+    _str = "---------------------------\n"
+    _str += "REG_CONFIG\n"
+    _str += "---------------------------\n"
+
+    info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
+
+    _str += info_json
+
+    _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
+    print(f"{info}<br>{_str}")
+
+    VC0_WC = csru_cfg["MIPI"]["VC0_WC"]
+    VC0_FLNR = csru_cfg["MIPI"]["VC0_FLNR"]
+
+    # WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+    DataflowConfig = SwanDataflowConfigCal(csru_cfg, function_sel="MIPI")
+    WC, FLNR = DataflowConfig["WC"], DataflowConfig["FLNR"]
+    if VC0_WC != WC or VC0_FLNR != FLNR:
+        FLNR_L = (FLNR & 0x00FF) >> 0
+        FLNR_H = (FLNR & 0xFF00) >> 8
+        WC_L = (WC & 0x00FF) >> 0
+        WC_H = (WC & 0xFF00) >> 8
+        _str = "ERROR: MIPI WC or FLNR config error!!! It's should be config:\n"
+        _str += "  FLNR_L : 0x{:0>2X}\n".format(FLNR_L)
+        _str += "  FLNR_H : 0x{:0>2X}\n".format(FLNR_H)
+        _str += "  WC_L   : 0x{:0>2X}\n".format(WC_L)
+        _str += "  WC_H   : 0x{:0>2X}  ".format(WC_H)
+        _str = LogerPubMethod.create_consolas_str(_str, color="red")
+        print(_str)
+        return
+    pass
+
+
+def ParseSwanRegConfig_beta(script_file=None, protocol=0):
     if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
 

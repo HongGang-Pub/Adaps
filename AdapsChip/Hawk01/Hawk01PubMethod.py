@@ -4,6 +4,8 @@ import logging
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
 from .Hawk01RegAddr import *
+from AdapsChip.Common.ScriptEngine import *
+from AdapsChip.Common.RegisterGenerate import *
 import re
 import os
 
@@ -184,6 +186,33 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
         else:
             continue
             # raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
+    return csru_cfg
+
+
+def GetCsruConfig_beta(config_file, REG_EXCEL_PATH="", protocol_template=None) -> dict:
+    """
+    根据 Hawk01 寄存器配置脚本，获取寄存器配置信息
+    通过 Excel 配置判断哪些字段需要解析
+
+    Args:
+        config_file (str): 脚本路径
+        protocol_template (list): 协议模板，如 ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
+
+    Returns:
+        dict: 寄存器配置（直接从 Excel 解析）
+    """
+    csru_datas = PubMethod.read_file(fname=config_file)
+    if len(csru_datas) == 0:
+        raise ValueError("The register configuration file is empty, please check。")
+
+    # 使用 ScriptEngine 解析脚本
+    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
+    addr_vals, _ = engine.parse_and_store(csru_datas)
+
+    # 使用 Excel 配置的 RegisterGenerate 解析
+    mgr = get_register_manager(REG_EXCEL_PATH)
+    csru_cfg = mgr.parse_config(addr_vals)
+
     return csru_cfg
 
 
@@ -515,6 +544,153 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     return
 
 
+def GenerateHawkRegConfig_beta(hawk01_config: dict, REG_EXCEL_PATH="", protocol_template=None, reg_cfg_fp="./Hawk01RegConfig.py"):
+    """
+    本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
+    主要包含以下功能:
+        1. 根据 hawk01_config["SYS_CLK"] 配置, 配置 PLL1频率 及 与之相关的分频寄存器
+        2. 根据 hawk01_config["MIPI_RATE"] 配置, 配置 MIPI 速率相关的寄存器
+        3. 根据 hawk01_config[""] 配置 MIPI WC & FLNR寄存器
+        4. 根据 hawk01_config[""] 配置 MIPI_TXDLY[5:0] -> MIPI_PKTDLY
+        5. 根据 hawk01_config["roi_save_n"] 配置 block_write
+
+    使用 Excel + common/RegisterGenerate + common/ScriptEngine 实现
+    """
+
+    # 从本地配置文件获取频率等配置信息
+    with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
+        content = file.read()
+        local_scope = locals()
+        exec(content, globals(), local_scope)
+        FREQ_Config = local_scope["FREQ_Config"]
+        DIV_CONFIG = local_scope["DIV_CONFIG"]
+        MIPI_PKTDLY_CONFIG = local_scope["MIPI_PKTDLY_CONFIG"]
+
+    # ----------------------------------------------------------------------------------------
+    # initial
+    # ----------------------------------------------------------------------------------------
+    protocol = hawk01_config["protocol"]
+    regs_write = "I2C_Write" if protocol == 0 else "SPI_Write"
+    roisram_write = "I2C_Block_Write" if protocol == 0 else "SPI_Block_Write"
+
+    ref_cfg_file = hawk01_config["ref_cfg_file"]
+    if not os.path.exists(ref_cfg_file):
+        raise ValueError("The reference config file does not exist!")
+
+    # ----------------------------------------------------------------------------------------
+    # Calculate Register Value
+    # ----------------------------------------------------------------------------------------
+
+    # MIPI FLNR & WC
+    # ////////////////////////////////////////////////////////////////////////////
+    WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
+    if FLNR >= 8192:
+        logging.warning(f"FLNR {FLNR} is greater than 8192, TX_FRM_MODE will set 0.")
+        hawk01_config['TX_FRM_MODE'] = 0
+        WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
+
+    # 构建更新映射 - 直接复制 hawk01_config，再覆盖计算得到的值
+    updates = copy.deepcopy(hawk01_config)
+
+    # 覆盖计算得到的值
+    updates["VC0_WC"] = WC
+    updates["VC1_WC"] = WC
+    updates["VC0_FLNR"] = FLNR
+    updates["VC1_FLNR"] = FLNR
+
+    # SYSCLK1M_DIV
+    updates["SYSCLK1M_DIV"] = DIV_CONFIG[hawk01_config['SYS_CLK']]["SYSCLK1M_DIV"]
+
+    # MIPI_TXDLY - MIPI_PKTDLY
+    MIPI_PKTDLY = MIPI_PKTDLY_CONFIG[hawk01_config['WORK_MODE']][hawk01_config['SYS_CLK']][
+        hawk01_config['MIPI_RATE']] if hawk01_config["WORK_MODE"] >= 2 \
+        else MIPI_PKTDLY_CONFIG[hawk01_config['WORK_MODE']][hawk01_config['SYS_CLK']][hawk01_config["OUT_BIN_NUM"]][
+        hawk01_config['MIPI_RATE']]
+    updates["MIPI_PKTDLY"] = MIPI_PKTDLY
+
+    # PLL0 配置
+    updates["PLL0_ID"] = FREQ_Config[hawk01_config['XCLK']]["PLL0"][1]["ID"]
+    updates["PLL0_OD"] = FREQ_Config[hawk01_config['XCLK']]["PLL0"][1]["OD"]
+    updates["PLL0_FB"] = FREQ_Config[hawk01_config['XCLK']]["PLL0"][1]["FB"]
+
+    # PLL1 配置
+    updates["PLL1_ID"] = FREQ_Config[hawk01_config['XCLK']]["PLL1"][hawk01_config['SYS_CLK']]["ID"]
+    updates["PLL1_OD"] = FREQ_Config[hawk01_config['XCLK']]["PLL1"][hawk01_config['SYS_CLK']]["OD"]
+    updates["PLL1_FB"] = FREQ_Config[hawk01_config['XCLK']]["PLL1"][hawk01_config['SYS_CLK']]["FB"]
+
+    # TXESC_CLKDIV
+    updates["TXESC_CLKDIV_DTY"] = DIV_CONFIG[hawk01_config['SYS_CLK']]["TXESC_CLKDIV_DTY"]
+    updates["TXESC_CLKDIV_CNT"] = DIV_CONFIG[hawk01_config['SYS_CLK']]["TXESC_CLKDIV_CNT"]
+
+    # TDC_DLY_CFG1 - PHASE_DLY_OPT（从 PLL1_OD 推导）
+    updates["PHASE_DLY_OPT"] = 0b011 if updates["PLL1_OD"] == 0 else 0b111
+
+    # MIPI_RATE 配置
+    updates["NS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["NS"]
+    updates["MS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["MS"]
+    updates["PS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["PS"]
+    mgr = get_register_manager(REG_EXCEL_PATH)
+
+    # 读取基准脚本
+    csru_datas = PubMethod.read_file(ref_cfg_file)
+    if len(csru_datas) == 0:
+        raise ValueError("The register configuration file is empty, please check.")
+
+    # 创建 ScriptEngine 实例
+    protocol_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"] if protocol == 0 else ["SPI_Write", "{ADDR}", "{VAL}"]
+    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
+
+    # 解析基准脚本获取当前地址->值映射
+    current_map, line_contexts = engine.parse_and_store(csru_datas)
+
+    # 使用 RegisterGenerate.update_config 更新配置
+    # 先用当前脚本的值初始化
+    new_config = mgr.update_config(current_map, updates)
+
+    # 处理 ROI - 如果 SCAN_MODE 改变，H_ROLL_NUM 需要调整
+    if hawk01_config.get("SCAN_MODE") == 0:
+        roi_length = (13 + (hawk01_config["H_VLD_SEG"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
+    else:
+        roi_length = (13 + (hawk01_config["H_ROLL_NUM"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
+
+    # 使用 ScriptEngine 生成新脚本
+    new_lines = engine.generate_script(line_contexts, new_config)
+
+    # 处理 ROI Block Write
+    if "roi_name" in hawk01_config and "roi_length" in locals():
+        roi_name = hawk01_config["roi_name"]
+        for i, line in enumerate(new_lines):
+            if roisram_write in line:
+                # 修改 ROI 长度和名称
+                parts = [p.strip() for p in line.split(',')]
+                if len(parts) >= 5:
+                    parts[3] = f"{roi_length:04X}"
+                    parts[4] = roi_name
+                    new_lines[i] = ', '.join(parts)
+                break
+
+    # --------------------------------------------------------
+    # 增加配置说明
+    # --------------------------------------------------------
+    config_instruction = "config_instruction"
+    config_print = "PRINT"
+    if config_instruction in hawk01_config and config_print in hawk01_config[config_instruction]:
+        _str = "// "
+        _len = len(hawk01_config[config_instruction][config_print])
+        for i in range(_len):
+            config = hawk01_config[config_instruction][config_print][i]
+            if i > 0:
+                _str += "; "
+            _str += f"{config}: {hawk01_config[config_instruction][config][hawk01_config[config]]}"
+        new_lines.insert(0, _str)
+
+    PubMethod.data_save(fname=f'{hawk01_config["reg_name"]}.txt',
+                        data_list=new_lines,
+                        split='\n',
+                        fd_path=hawk01_config["fd_path"])
+    return
+
+
 def ParseHawkRegConfig(script_file=None, protocol=0):
     if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
@@ -563,127 +739,56 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     pass
 
 
-def GenerateHawkRegConfig_beta(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
-    """
-    本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
-    主要包含以下功能:
-        1. 根据 hawk01_config["SYS_CLK"] 配置, 配置 PLL1频率 及 与之相关的分频寄存器
-        2. 根据 hawk01_config["MIPI_RATE"] 配置, 配置 MIPI 速率相关的寄存器
-        3. 根据 hawk01_config[""] 配置 MIPI WC & FLNR寄存器
-        4. 根据 hawk01_config[""] 配置 MIPI_TXDLY[5:0] -> MIPI_PKTDLY
-        5. 根据 hawk01_config["roi_save_n"] 配置 block_write
-    """
-
-    # 从本地配置文件获取频率等配置信息
-    with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
-        content = file.read()
-        local_scope = locals()
-        exec(content, globals(), local_scope)
-        FREQ_Config = local_scope["FREQ_Config"]
-        DIV_CONFIG = local_scope["DIV_CONFIG"]
-        MIPI_PKTDLY_CONFIG = local_scope["MIPI_PKTDLY_CONFIG"]
-    # ----------------------------------------------------------------------------------------
-    # initial
-    # ----------------------------------------------------------------------------------------
-    protocol = hawk01_config["protocol"]
-    min_lens = 4 if protocol == 0 else 3
-    addr_index = 2 if protocol == 0 else 1
-    regs_write = "I2C_Write" if protocol == 0 else "SPI_Write"
-    roisram_write = "I2C_Block_Write" if protocol == 0 else "SPI_Block_Write"
-
-    ref_cfg_file = hawk01_config["ref_cfg_file"]
-    if not os.path.exists(ref_cfg_file):
+def ParseHawkRegConfig_beta(script_file=None, protocol_template=None):
+    if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
 
-    # ----------------------------------------------------------------------------------------
-    # Calculate Register Value
-    # ----------------------------------------------------------------------------------------
+    if protocol_template is None:
+        protocol_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
 
-    # MIPI FLNR & WC
-    # ////////////////////////////////////////////////////////////////////////////
-    # 将界面上无配置入口的内容同步到 hawk01_config
-    # csru_cfg = GetCsruConfig(ref_cfg_file, protocol)
-    # hawk01_config["ONE_DT_MODE"] = csru_cfg["ONE_DT_MODE"]    # 修改从UI界面获取, 不再从脚本中获取
+    csru_cfg = GetCsruConfig(script_file, protocol_template)
+    _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
+    info = f"Parse {_hyper_link}..."
+    # print(info)
+    _str  = "---------------------------\n"
+    _str += "REG_CONFIG\n"
+    _str += "---------------------------\n"
 
-    register_config = copy.deepcopy(hawk01_config)
-    WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
-    if FLNR >= 8192:
-        logging.warning(f"FLNR {FLNR} is greater than 8192, TX_FRM_MODE will set 0.")
-        hawk01_config['TX_FRM_MODE'] = 0
-        WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
-    register_config["VC0_WC"] = WC
-    register_config["VC1_WC"] = WC
-    register_config["VC0_FLNR"] = FLNR
-    register_config["VC1_FLNR"] = FLNR
+    info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
 
-    # PLL0 config
-    # ////////////////////////////////////////////////////////////////////////////
-    register_config["PLL0_ID"] = FREQ_Config[hawk01_config['XCLK']]["PLL0"][1]["ID"]
-    register_config["PLL0_OD"] = FREQ_Config[hawk01_config['XCLK']]["PLL0"][1]["OD"]
-    register_config["PLL0_FB"] = FREQ_Config[hawk01_config['XCLK']]["PLL0"][1]["FB"]
+    _str += info_json
 
-    # PLL1 config. hawk01_config['SYS_CLK'] = 330M, 250M, 200M
-    # ////////////////////////////////////////////////////////////////////////////
-    register_config["PLL1_ID"] = FREQ_Config[hawk01_config['XCLK']]["PLL1"][hawk01_config['SYS_CLK']]["ID"]
-    register_config["PLL1_OD"] = FREQ_Config[hawk01_config['XCLK']]["PLL1"][hawk01_config['SYS_CLK']]["OD"]
-    register_config["PLL1_FB"] = FREQ_Config[hawk01_config['XCLK']]["PLL1"][hawk01_config['SYS_CLK']]["FB"]
+    _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
+    print(f"{info}<br>{_str}")
 
-    # DIV config
-    # ////////////////////////////////////////////////////////////////////////////
-    register_config["SYSCLK1M_DIV"] = DIV_CONFIG[hawk01_config['SYS_CLK']]["SYSCLK1M_DIV"]
-    register_config["TXESC_CLKDIV_DTY"] = DIV_CONFIG[hawk01_config['SYS_CLK']]["TXESC_CLKDIV_DTY"]
-    register_config["TXESC_CLKDIV_CNT"] = DIV_CONFIG[hawk01_config['SYS_CLK']]["TXESC_CLKDIV_CNT"]
+    if csru_cfg["SCAN_MODE"] == 1 and csru_cfg["WORK_MODE"] == 3:
+        _str = "ERROR: 2D SCAN_MODE not support Gray Scale Mode!!!"
+        _str = LogerPubMethod.create_consolas_str(_str, color="red")
+        print(_str)
+        # logging.INFO_PLUS(f'<p><span style="font-family: Consolas; white-space: pre; color: red">{_str}</span></p>')
+        return
 
-    # MIPI_RATE CONFIG. hawk01_config["MIPI_RATE"] = 0.8G, 1.0G, 1.2G, 1.5G
-    # ////////////////////////////////////////////////////////////////////////////
-    register_config["NS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["NS"]
-    register_config["MS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["MS"]
-    register_config["PS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["PS"]
+    VC0_WC = csru_cfg["VC0_WC"]
+    VC1_WC = csru_cfg["VC1_WC"]
+    VC0_FLNR = csru_cfg["VC0_FLNR"]
+    VC1_FLNR = csru_cfg["VC1_FLNR"]
 
-    # MIPI_PKTDLY
-    # ////////////////////////////////////////////////////////////////////////////
-    register_config["MIPI_PKTDLY"] = MIPI_PKTDLY_CONFIG[hawk01_config['WORK_MODE']][hawk01_config['SYS_CLK']][
-        hawk01_config['MIPI_RATE']] if hawk01_config["WORK_MODE"] >= 2 \
-        else MIPI_PKTDLY_CONFIG[hawk01_config['WORK_MODE']][hawk01_config['SYS_CLK']][hawk01_config["OUT_BIN_NUM"]][
-        hawk01_config['MIPI_RATE']]
+    WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
+    if VC0_WC != WC or VC1_WC != WC or VC0_FLNR != FLNR or VC1_FLNR != FLNR:
+        FLNR_L = (FLNR & 0x00FF) >> 0
+        FLNR_H = (FLNR & 0xFF00) >> 8
+        WC_L = (WC & 0x00FF) >> 0
+        WC_H = (WC & 0xFF00) >> 8
+        _str = "ERROR: MIPI WC or FLNR config error!!! It's should be config:\n"
+        _str += "  FLNR_L : 0x{:0>2X}\n".format(FLNR_L)
+        _str += "  FLNR_H : 0x{:0>2X}\n".format(FLNR_H)
+        _str += "  WC_L   : 0x{:0>2X}\n".format(WC_L)
+        _str += "  WC_H   : 0x{:0>2X}  ".format(WC_H)
+        _str = LogerPubMethod.create_consolas_str(_str, color="red")
+        print(_str)
+        return
+    pass
 
-    # TDC_DLY_CFG1
-    # ////////////////////////////////////////////////////////////////////////////
-    register_config["PHASE_DLY_OPT"] = 0b011 if register_config["PLL1_OD"] == 0 else 0b111
-
-    # ROI length
-    # ////////////////////////////////////////////////////////////////////////////
-    if hawk01_config["SCAN_MODE"] == 0:
-        roi_length = (13 + (hawk01_config["H_VLD_SEG"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
-    else:
-        roi_length = (13 + (hawk01_config["H_ROLL_NUM"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
-
-    # ----------------------------------------------------------------------------------------
-    # Modify the register configuration according to the baseline script.
-    # ----------------------------------------------------------------------------------------
-    csru_datas = PubMethod.read_file(ref_cfg_file)
-    if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check.")
-
-    # --------------------------------------------------------
-    # 增加配置说明
-    # --------------------------------------------------------
-    config_instruction = "config_instruction"
-    config_print = "PRINT"
-    if config_instruction in hawk01_config and config_print in hawk01_config[config_instruction]:
-        _str = "// "
-        _len = len(hawk01_config[config_instruction][config_print])
-        for i in range(_len):
-            config = hawk01_config[config_instruction][config_print][i]
-            if i > 0:
-                _str += "; "
-            _str += f"{config}: {hawk01_config[config_instruction][config][hawk01_config[config]]}"
-        csru_datas.insert(0, _str)  # 根据配置，在行首打印配置信息内容
-    PubMethod.data_save(fname=f'{hawk01_config["reg_name"]}.txt',
-                        data_list=csru_datas,
-                        split='\n',
-                        fd_path=hawk01_config["fd_path"])
-    return
 
 
 if __name__ == '__main__':
