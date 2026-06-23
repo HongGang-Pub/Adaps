@@ -10,8 +10,8 @@ from SelfDefinedPackge.MyThread import *
 from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
 from functools import partial
 
-from AdapsChip.Hawk01.MipiDecode import PcmMipiDataDecode
-from AdapsChip.ToolBox import SpadisAppPCMRead
+# from AdapsChip.Hawk01.MipiDecode import PcmMipiDataDecode
+# from AdapsChip.ToolBox import SpadisAppPCMRead
 from AdapsChip.ChipUI.gui.Signal import MySignals
 import logging
 from SelfDefinedPackge.JsonOperation import JsonFunction
@@ -194,6 +194,7 @@ class HawkToolbox:
 
         def get_pcm_array():
             try:
+                from AdapsChip.Hawk01.MipiDecode import PcmMipiDataDecode
                 self.pcm_array = PcmMipiDataDecode.get_pcm_array(
                     script_file=self.hawk_tool_config["DothinkPCMImagValue"]["script_file"],
                     mipi_file=self.hawk_tool_config["DothinkPCMImagValue"]["mipi_file"],
@@ -241,6 +242,7 @@ class HawkToolbox:
 
     def spadis_app_pcm_read_operation(self):
         raw_file = HawkToolbox.Select_single_file(self, title="Script File", ftype="(*.raw)")
+        from AdapsChip.ToolBox import SpadisAppPCMRead
         SpadisAppPCMRead.do_work(raw_file)
         pass
 

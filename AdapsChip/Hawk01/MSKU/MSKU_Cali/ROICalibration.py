@@ -3,12 +3,11 @@ import os
 import time
 
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 import AdapsChip.Common.common
 from SelfDefinedPackge import PubMethod
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
-from scipy.signal import convolve2d
 
 
 class ROICalibration:
@@ -78,14 +77,18 @@ class ROICalibration:
         Returns:
             np.ndarray: 和输入图像尺寸大小相同的feature map
         """
-        kernel = np.ones((3, 3), dtype=np.uint8)
+        # Implement 3x3 convolution (sum) using pure numpy to eliminate scipy dependency
+        img2d = image[:, :, 0].astype(np.uint32)
+        padded = np.pad(img2d, pad_width=1, mode='constant', constant_values=0)
+        
+        sum_img = np.zeros_like(img2d, dtype=np.uint32)
+        for dy in range(3):
+            for dx in range(3):
+                sum_img += padded[dy:dy+img2d.shape[0], dx:dx+img2d.shape[1]]
 
-        res2d = convolve2d(image[:, :, 0], kernel, 'same')
-
-        H = image.shape[0]
-        W = image.shape[1]
+        H, W = img2d.shape
         res = np.zeros([H, W, 1], dtype=np.uint32)
-        res[:, :, 0] = res2d
+        res[:, :, 0] = sum_img
         return res
 
     @staticmethod
@@ -732,6 +735,7 @@ class ROICalibration:
                 sub_spad_array_3D[:, :, 2] = spad_array * 0.8
                 masking_arrays.append(sub_spad_array_3D)
                 if is_save:
+                    import matplotlib.pyplot as plt
                     file_path = "{}\\Roll{}_{}.png".format(fp, vroll_cnt, hroll_cnt)
                     plt.imsave(file_path, sub_spad_array_3D)
 
@@ -759,6 +763,7 @@ class ROICalibration:
         # plt.show()
 
         if is_save:
+            import matplotlib.pyplot as plt
             # 保存图像
             # ///////////////////////////////////////////////////////////////
             f1 = "{}\\{}.png".format(fp, "fusion_imag")

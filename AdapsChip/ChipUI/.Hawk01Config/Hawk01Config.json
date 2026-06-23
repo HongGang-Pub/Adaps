@@ -30,7 +30,7 @@
     "roi_data_format": 1,
     "protocol": 0,
     "Soft_Config": "-----软件相关配置-----",
-    "Default_ROI_GEN_TYPE": 1,
+    "Default_ROI_GEN_TYPE": 0,
     "ROI_SRAM_Include": true,
     "Hawk01RegConfigFile": "./.Hawk01Config/Hawk01RegConfig.py",
     "instruction": "------部分配置说明-----",

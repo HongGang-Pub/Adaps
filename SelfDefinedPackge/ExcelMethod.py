@@ -1,7 +1,7 @@
 import os
 import re
 
-import openpyxl
+# import openpyxl
 import json
 from tkinter import messagebox
 
@@ -29,6 +29,7 @@ def save_excel(fname: str, sheet_name: str, data_list: list, fd_path: str, note:
     if os.path.exists(file):
         while state:
             try:
+                import openpyxl
                 workbook = openpyxl.load_workbook(file)
                 break
             except BaseException as msg:
@@ -37,6 +38,7 @@ def save_excel(fname: str, sheet_name: str, data_list: list, fd_path: str, note:
         if not state:
             return
     else:
+        import openpyxl
         workbook = openpyxl.Workbook()
         # sheet = workbook.active
         # sheet.title = 'SpadArray_{}'.format(coeff)
@@ -90,6 +92,7 @@ class ExcelRead(object):
 
     def get_workbook(self):
         if self.f.split('.')[-1] == 'xlsx':
+            import openpyxl
             self.wb = openpyxl.load_workbook(self.f)
         else:
             raise Exception("File format error, not excel file!")

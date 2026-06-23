@@ -1,6 +1,6 @@
 import numpy as np
-import openpyxl
-from openpyxl.styles import PatternFill, Border, Side
+# import openpyxl
+# from openpyxl.styles import PatternFill, Border, Side
 
 
 def data_process(array_lst, coefficient_list, ref_array_idx=0, ref_array_lst=None):
@@ -94,13 +94,17 @@ def data_process(array_lst, coefficient_list, ref_array_idx=0, ref_array_lst=Non
     return spad_bin_number_dict, base_num_list
 
 
-custom_border = Border(left=Side(style='thin'), right=Side(style='thin'),
-                       top=Side(style='thin'), bottom=Side(style='thin'))
+# custom_border = Border(left=Side(style='thin'), right=Side(style='thin'),
+#                        top=Side(style='thin'), bottom=Side(style='thin'))
 
 
 def write_excel(data, excel_name):
     """Edit by songlin.yin: 将数据写入Excel"""
 
+    import openpyxl
+    from openpyxl.styles import PatternFill, Border, Side
+    custom_border = Border(left=Side(style='thin'), right=Side(style='thin'),
+                           top=Side(style='thin'), bottom=Side(style='thin'))
     # 创建一个新的 Excel 工作簿
     workbook = openpyxl.Workbook()
     workbook.remove(workbook["Sheet"])
@@ -156,6 +160,11 @@ def write_excel(data, excel_name):
 
 def cmp_data(coefficient, sv11, data, excel_name):
     """Edit by songlin.yin: 比较模组之间是否又重复的点"""
+
+    import openpyxl
+    from openpyxl.styles import PatternFill, Border, Side
+    custom_border = Border(left=Side(style='thin'), right=Side(style='thin'),
+                           top=Side(style='thin'), bottom=Side(style='thin'))
 
     m_list = []
     for chip_number in data["axis1"]:

@@ -86,7 +86,7 @@ mgr.addr_descriptions[0x05]
 - 路径使用 os.path.abspath 标准化，支持缓存去重
 """
 
-import openpyxl
+# import openpyxl
 import re
 import os
 from functools import cache
@@ -124,6 +124,7 @@ class RegisterGenerate:
         3. logic_fields: 逻辑字段名 -> [segment, ...]
         4. addr_descriptions: 地址 -> 拼接好的位域描述字符串
         """
+        import openpyxl
         wb = openpyxl.load_workbook(path, data_only=True)
         sheet = wb.active
         curr_addr, curr_reg_name = None, None

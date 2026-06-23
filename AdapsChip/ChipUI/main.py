@@ -80,17 +80,17 @@ class MainWindow(QMainWindow):
         # SETUP MAIN WINDOW
         # ///////////////////////////////////////////////////////////////
         self.hide_grips = True  # Show/Hide resize grips
+
+        # DEFER HEAVY UI RENDER TO ALLOW WINDOW FRAME TO SHOW INSTANTLY
+        from PySide6.QtCore import QTimer
+        QTimer.singleShot(10, self.deferred_setup)
+
+    def deferred_setup(self):
+        # 1. Render the 4400-line center content UI tree
+        self.ui.setup_ui_content()
+        # 2. Setup left menus, signals, and chip specific GUIs
+        from windows.main_window.main_window_setup import SetupMainWindow
         SetupMainWindow.setup_gui(self)
-
-        # self.btn_clicked()
-
-        # def excute():
-        #     # SETUP MAIN WINDOW
-        #     # ///////////////////////////////////////////////////////////////
-        #     from windows.main_window.main_window_setup import SetupMainWindow
-        #     SetupMainWindow.setup_gui(self)
-        #     pass
-        # QTimer.singleShot(100, excute)
 
     # LEFT MENU BTN IS CLICKED
     # Run function when btn is clicked
@@ -112,7 +112,7 @@ class MainWindow(QMainWindow):
             self.ui.log_group.setHidden(False)
 
         # Swan01 BTN
-        if btn.objectName() == "btn_swan01":
+        elif btn.objectName() == "btn_swan01":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
@@ -122,7 +122,7 @@ class MainWindow(QMainWindow):
             self.ui.log_group.setHidden(False)
 
         # Crane01 BTN
-        if btn.objectName() == "btn_crane01":
+        elif btn.objectName() == "btn_crane01":
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 

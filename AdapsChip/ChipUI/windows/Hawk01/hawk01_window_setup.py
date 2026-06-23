@@ -11,7 +11,7 @@ from AdapsChip.ChipUI.gui.qt_core import *
 from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
 
 from AdapsChip.ChipUI.windows.Hawk01.roi_zone_config_setup import ROIZoneConfigWin
-from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import MaskingWindow
+# from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import MaskingWindow
 from AdapsChip.ChipUI.windows.Hawk01 import hawk01_window_functions
 from AdapsChip.Hawk01.Hawk01RegConfig import *
 from functools import partial
@@ -479,6 +479,7 @@ class Hawk01MainUI:
         #     arrays.append(arr)
         # self.__roi_data_pkg__["masking_arrays"] = arrays
         if self.ui_masking_win is None:
+            from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import MaskingWindow
             self.ui_masking_win = MaskingWindow(title=f"Hawk01 roi show",
                                                 roi_data_pkg=self.__roi_data_pkg__,
                                                 hawk_config=self.__hawk01_config__,

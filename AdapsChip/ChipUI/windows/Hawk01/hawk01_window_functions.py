@@ -6,7 +6,7 @@ from AdapsChip.Hawk01 import Hawk01PubMethod
 from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
 from AdapsChip.Hawk01.MSKU.MSKU_GEN import ROIGenerate
 from AdapsChip.Hawk01.MSKU import MskuPubMethod
-from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import Hawk01MaskingDynamicFig
+# from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import Hawk01MaskingDynamicFig
 import gc
 import logging
 from SelfDefinedPackge import LogerPubMethod
@@ -146,6 +146,7 @@ def ROIDataPackageSave(roi_data_pkg, hawk01_config, save_sel=0, roi_data_format=
     # /////////////////////////////////////////////////
     img_fp = f'{hawk01_config["fd_path"]}/image'
 
+    from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import Hawk01MaskingDynamicFig
     canvas = Hawk01MaskingDynamicFig(roi_data_pkg)
     canvas.roi_img_save(img_fp=img_fp)
 

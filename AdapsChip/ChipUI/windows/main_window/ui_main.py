@@ -203,8 +203,9 @@ class UI_MainWindow(object):
 
         # IMPORT MAIN PAGES TO CONTENT AREA
         self.load_pages = Ui_MainPages()
-        self.load_pages.setupUi(self.content_main_pages)
-        self.load_pages.pages.setStyleSheet(self.qssStyle)
+        # DEFERRED TO setup_ui_content
+        # self.load_pages.setupUi(self.content_main_pages)
+        # self.load_pages.pages.setStyleSheet(self.qssStyle)
 
         # ADD TO LAYOUTS
         self.content_area_layout.addWidget(self.content_main_pages)
@@ -267,3 +268,8 @@ class UI_MainWindow(object):
         # ADD CENTRAL WIDGET AND SET CONTENT MARGINS
         # ///////////////////////////////////////////////////////////////
         parent.setCentralWidget(self.central_widget)
+
+    def setup_ui_content(self):
+        # This is deferred to allow the main window frame to show up instantly
+        self.load_pages.setupUi(self.content_main_pages)
+        self.load_pages.pages.setStyleSheet(self.qssStyle)

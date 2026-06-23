@@ -1,10 +1,11 @@
 import os
 
-from SelfDefinedPackge.MatplotExtension import *
-from matplotlib.ticker import MultipleLocator
+# from SelfDefinedPackge.MatplotExtension import *
+# from matplotlib.ticker import MultipleLocator
 
 
 def ArrayImageSave(fname, fd_path):
+    import matplotlib.pyplot as plt
     if fd_path != "None":
         if not os.path.exists(fd_path):
             # 目录不存在，进行创建操作
@@ -17,6 +18,10 @@ def ArrayImageSave(fname, fd_path):
 
 def ArrayImage(array_lst, fd_path=None, fname="ArrayImage", title_list=None,
                nrows=1, ncols=1, cmap='gray', vmin=None, vmax=None):
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from matplotlib.ticker import MultipleLocator
+    from SelfDefinedPackge.MatplotExtension import self_plt_show
     """
     并将二维数组成图, 或根据需求保存图片
 

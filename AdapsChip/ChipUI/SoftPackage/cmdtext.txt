@@ -19,7 +19,10 @@
 --include-data-files=.\AdapsChip\ChipUI\SoftConfig.json=.\SoftConfig.json
 --include-data-files=.\AdapsChip\ChipUI\gui\settings.json=.\gui\settings.json
 --enable-plugin=pyside6
+--noinclude-qt-plugins=qml,webengine,websockets,sql,network,test,designer,script,multimedia,bluetooth
+--enable-plugin=anti-bloat
+--nofollow-import-to=scipy,tkinter,unittest,pytest,IPython
 --windows-icon-from-ico=.\AdapsChip\ChipUI\gui\icon.ico
 --output-dir=Software\AdapsScriptGUI
 --output-filename="ScriptGUI"
-.\AdapsChip\ChipUI\StartupWindow.py
+.\AdapsChip\ChipUI\main.py
