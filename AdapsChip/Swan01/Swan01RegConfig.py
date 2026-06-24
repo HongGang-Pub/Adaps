@@ -44,3 +44,6 @@ DIV_CONFIG = {
     0: {"SYSCLK1M_DIV": 329, "SYSCLK10M_DIV": 32, "TXESC_CLKDIV_DTY":  7, "TXESC_CLKDIV_CNT": 16},   # 330M
     1: {"SYSCLK1M_DIV": 399, "SYSCLK10M_DIV": 39, "TXESC_CLKDIV_DTY": 10, "TXESC_CLKDIV_CNT": 20},   # 400M
 }
+
+register_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
+roisram_template  = ["I2C_Block_Write", "4A", "{ADDR}", "{length}", "roi_file"]

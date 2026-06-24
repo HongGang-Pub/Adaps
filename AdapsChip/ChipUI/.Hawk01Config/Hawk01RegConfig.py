@@ -78,3 +78,6 @@ MIPI_PKTDLY_CONFIG = {
         2: {0: 0x02, 1: 0x02, 2: 0x02, 3: 0x02},  # 330M
     }
 }
+
+register_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
+roisram_template  = ["I2C_Block_Write", "4A", "{ADDR}", "{length}", "roi_file"]

@@ -1,5 +1,5 @@
 """
-RegisterGenerate - 基于 Excel 配置文件管理寄存器字段定义与批量更新/解析工具
+RegConfigParseOrGenByExcel - 基于 Excel 配置文件管理寄存器字段定义与批量更新/解析工具
 ================================================================================
 
 【功能清单】
@@ -14,7 +14,7 @@ RegisterGenerate - 基于 Excel 配置文件管理寄存器字段定义与批量
    - addr_descriptions: {addr: 拼接好的位域描述字符串}
        用于日志/打印，例如 "WC: [11:8]：WC[11:8]； [7:0]：WC[7:0]"
 
-2. update_config(current_config, updates) -> new_config
+2. logical_to_physical(current_config, updates) -> new_config
    功能：根据 updates 字典中的逻辑字段值，自动拆分到对应的物理地址位段
    示例：updates = {"WC": 0x5AA} 自动将 0x5AA 拆分为 WC[7:0]=0xAA、WC[11:8]=0x05
    特点：
@@ -22,14 +22,14 @@ RegisterGenerate - 基于 Excel 配置文件管理寄存器字段定义与批量
    - 多 bit 跨地址字段（如 WC[11:8] 在一个地址、[7:0] 在另一个地址）全自动处理
    - 只修改 updated 中出现的字段，其他地址保留原值或默认值
 
-3. parse_config(input_config) -> results
-   功能：将物理地址的键值对合并为逻辑字段值（update_config 的逆操作）
+3. physical_to_logical(input_config) -> results
+   功能：将物理地址的键值对合并为逻辑字段值（logical_to_physical 的逆操作）
    示例：input_config = {0x05: 0xAA, 0x06: 0x05} -> results["WC"] = 0x5AA
    特点：
    - 只返回 analysis=True 的字段
    - 缺失地址使用 addr_defaults 补全后再合并
 
-4. get_register_manager(path) -> RegisterGenerate（带缓存的单例工厂）
+4. get_excel_parser_or_gen(path) -> RegConfigParseOrGenByExcel（带缓存的单例工厂）
    功能：延迟加载 Excel，避免重复解析；路径相同时返回同一实例
 
 【Excel 格式要求】
@@ -46,32 +46,32 @@ field 列格式示例：
   - 带位权字段：VC0_FLNR[12:8]（逻辑位权 12:8，物理位权由 bits 列决定）
 
 modify 列：
-  - "Yes" 表示该字段可被 update_config 更新
+  - "Yes" 表示该字段可被 logical_to_physical 更新
   - 其他值表示不可修改
 
 analysis 列：
-  - "Yes" 表示该字段会被 parse_config 返回
+  - "Yes" 表示该字段会被 physical_to_logical 返回
   - 其他值表示不参与解析
 
 【使用示例】
 
 # ---------- 示例 1：从零构建配置 ----------
-from RegisterGenerate import get_register_manager
+from RegConfigParseOrGenByExcel import get_excel_parser_or_gen
 
-mgr = get_register_manager("./reg.xlsx")
+mgr = get_excel_parser_or_gen("./reg.xlsx")
 
 # 初始配置（空字典使用 addr_defaults 补全）
-new_cfg = mgr.update_config({}, {"WC": 0x5AA})
+new_cfg = mgr.logical_to_physical({}, {"WC": 0x5AA})
 # 结果：new_cfg = {0x05: 0xAA, 0x06: 0x05}（假设 WC[7:0] 在 0x05，WC[11:8] 在 0x06）
 
 # ---------- 示例 2：增量更新 ----------
 current = {0x05: 0xFF, 0x06: 0x0F}
-updated = mgr.update_config(current, {"WC": 0x5AA})
+updated = mgr.logical_to_physical(current, {"WC": 0x5AA})
 # 结果：updated = {0x05: 0xAA, 0x06: 0x05}（只改 WC 相关地址，其他字段保留）
 
 # ---------- 示例 3：从物理地址解析逻辑值 ----------
 input_cfg = {0x05: 0xAA, 0x06: 0x05}
-parsed = mgr.parse_config(input_cfg)
+parsed = mgr.physical_to_logical(input_cfg)
 # parsed["WC"] = 0x5AA（即使只有部分位段，也会用默认值补全后合并）
 
 # ---------- 示例 4：打印寄存器描述 ----------
@@ -81,8 +81,8 @@ mgr.addr_descriptions[0x05]
 【注意事项】
 
 - logic_fields 中每个逻辑字段的 segment 按 Excel 出现顺序排列（高位在前、低位在后）
-- update_config 只更新 modify=True 的字段，不修改其他字段
-- parse_config 只返回 analysis=True 的字段
+- logical_to_physical 只更新 modify=True 的字段，不修改其他字段
+- physical_to_logical 只返回 analysis=True 的字段
 - 路径使用 os.path.abspath 标准化，支持缓存去重
 """
 
@@ -92,7 +92,7 @@ import os
 from functools import cache
 
 
-class RegisterGenerate:
+class GetRegArchByExcel:
     def __init__(self, excel_path):
         # logic_fields: {逻辑字段名: [segment_dict, ...]}
         # 每个 segment_dict 包含 addr, p_msb, p_lsb, l_msb, l_lsb, modify, analysis
@@ -109,12 +109,22 @@ class RegisterGenerate:
         """解析 Excel default_value 格式，如 8'h88, 1'b0, 4'd10 -> 返回整数值"""
         if val_str is None:
             return 0
-        s = str(val_str).lower()
-        match = re.search(r"'([hbd])([0-9a-f]+)", s)
-        if not match:
+        s = str(val_str).strip().lower()
+        if not s:
             return 0
-        base_map = {'h': 16, 'b': 2, 'd': 10}
-        return int(match.group(2), base_map[match.group(1)])
+        
+        # 严格格式校验 1: Verilog 位宽格式，如 8'h88
+        # match = re.match(r"^\d+'([hbd])([0-9a-f]+)$", s)
+        match = re.search(r"'([hbd])([0-9a-f]+)", s)
+        if match:
+            base_map = {'h': 16, 'b': 2, 'd': 10}
+            try:
+                return int(match.group(2), base_map[match.group(1)])
+            except ValueError:
+                raise ValueError(f"无法识别的默认值格式 '{val_str}'，进制字符不合法.")
+        else:
+            # 格式不匹配上述任何一种严格规则
+            raise ValueError(f"不支持的值格式 '{val_str}'。必须是 Verilog 格式(如 8'h88, 1'b0, 4'd10)")
 
     def _load_template(self, path):
         """
@@ -131,32 +141,41 @@ class RegisterGenerate:
         # addr_temp_parts: {addr: [描述片段, ...]}，用于最终拼接 addr_descriptions
         addr_temp_parts = {}
 
-        for row in sheet.iter_rows(min_row=2, values_only=True):
+        for row_idx, row in enumerate(sheet.iter_rows(min_row=2, values_only=True), start=2):
             addr_raw, reg_name_raw, bits_raw, field_raw, _, def_raw, modify, analysis = row[:8]
 
             # 1. 物理地址向下填充（addr 为空时沿用上一个地址）
-            if addr_raw is not None:
-                curr_addr = int(str(addr_raw), 16) if isinstance(addr_raw, str) else addr_raw
-            if reg_name_raw is not None:
+            if addr_raw is not None and reg_name_raw is not None:
+                try:
+                    curr_addr = int(str(addr_raw).strip(), 16)
+                except ValueError:
+                    raise ValueError(f"Excel 第 {row_idx} 行: 'address' 列格式错误，无法解析为十六进制整数 (当前值: '{addr_raw}')。")
                 curr_reg_name = str(reg_name_raw).strip()
                 self.addr_to_regname[curr_addr] = curr_reg_name
+                    
             if field_raw is None:
                 continue
 
-            # 2. 拼接描述片段，例如 "[7:5]：NB"
-            desc_part = f"{bits_raw}：{field_raw}"
+            # 2. 拼接描述片段，例如 "[7:5]: NB"
+            desc_part = f"{bits_raw}: {field_raw}"
             if curr_addr not in addr_temp_parts:
                 addr_temp_parts[curr_addr] = []
             addr_temp_parts[curr_addr].append(desc_part)
 
             # 3. 解析物理位域 bits_raw，如 "[7:0]" -> p_msb=7, p_lsb=0
             p_match = re.findall(r'\d+', str(bits_raw))
+            if not p_match:
+                raise ValueError(f"Excel 第 {row_idx} 行: 'bits' 列格式错误，必须包含数字 (例如 [7:0] 或 [3]，当前值: '{bits_raw}')。")
             p_msb = int(p_match[0])
             p_lsb = int(p_match[-1])
 
             # 4. 解析默认值并合并到 addr_defaults
             #    逻辑：field_default 左移 p_lsb 位后与其他字段在同一个 addr 中按位或合并
-            field_default = self._parse_raw_value(def_raw)
+            try:
+                field_default = self._parse_raw_value(def_raw)
+            except ValueError as e:
+                raise ValueError(f"Excel 第 {row_idx} 行: 'default_value' 列解析失败: {e}")
+                
             if curr_addr not in self.addr_defaults:
                 self.addr_defaults[curr_addr] = 0
             p_mask = ((1 << (p_msb - p_lsb + 1)) - 1) << p_lsb
@@ -166,13 +185,16 @@ class RegisterGenerate:
             #    示例：WC[11:8] -> logic_name="WC", l_msb=11, l_lsb=8
             #          WC[7:0]  -> logic_name="WC", l_msb=7, l_lsb=0
             #    如果 field 不是多段格式（如 Rev、PXL_BINN_SEL），则 l_msb/l_lsb 等于物理位域
-            l_match = re.match(r"(\w+)\[(\d+):?(\d+)?]", str(field_raw))
+            l_match = re.match(r"(\w+)\[(\d+):?(\d+)?]", str(field_raw).strip())
             if l_match:
                 logic_name = l_match.group(1)
                 l_msb = int(l_match.group(2))
                 l_lsb = int(l_match.group(3)) if l_match.group(3) else l_msb
             else:
-                logic_name, l_msb, l_lsb = str(field_raw), p_msb, p_lsb
+                logic_name = str(field_raw).strip()
+                if not logic_name:
+                    raise ValueError(f"Excel 第 {row_idx} 行: 'field' 列不能为空。")
+                l_msb, l_lsb = p_msb, p_lsb
 
             # 6. 建立 segment 并加入 logic_fields[logic_name]
             segment = {
@@ -190,12 +212,12 @@ class RegisterGenerate:
             reg_name = self.addr_to_regname.get(addr, f"UNK_{hex(addr)}")
             self.addr_descriptions[addr] = f"{reg_name}: {'; '.join(parts)}"
 
-    def update_config(self, current_config, updates):
+    def logical_to_physical(self, ini_config, updates):
         """
         根据 updates 中的逻辑字段值，自动拆分并写入对应的物理地址位段。
 
         参数:
-            current_config: {addr: 8bit_value}，当前物理配置；空字典时使用 addr_defaults
+            ini_config: {addr: 8bit_value}，当前物理配置；空字典时使用 addr_defaults
             updates: {逻辑字段名: 逻辑值}，例如 {"WC": 0x5AA, "VC0_FLNR": 0x1234}
 
         返回:
@@ -209,7 +231,7 @@ class RegisterGenerate:
                    - 写入对应 addr 的物理位段
                 3. 多段字段（如 WC[11:8]、WC[7:0]）会分别写入不同地址
         """
-        new_config = current_config.copy()
+        new_config = ini_config.copy()
         for name, val in updates.items():
             if name not in self.logic_fields:
                 continue
@@ -231,9 +253,9 @@ class RegisterGenerate:
                 new_config[addr] = (reg_val & ~p_mask) | (fragment << seg["p_lsb"])
         return new_config
 
-    def parse_config(self, input_config):
+    def physical_to_logical(self, input_config):
         """
-        将物理地址的键值对合并为逻辑字段值（update_config 的逆操作）。
+        将物理地址的键值对合并为逻辑字段值（logical_to_physical 的逆操作）。
 
         参数:
             input_config: {addr: 8bit_value}，物理地址配置
@@ -269,24 +291,24 @@ class RegisterGenerate:
 
 # --- 全局延迟加载工厂（单例模式） ---
 @cache
-def get_register_manager(path):
+def get_reg_arch(path):
     """
-    获取 RegisterGenerate 实例，带缓存：相同路径返回同一实例。
+    获取 RegConfigParseOrGenByExcel 实例，带缓存：相同路径返回同一实例。
     内部调用 os.path.abspath 标准化路径，防止重复加载。
     """
-    return RegisterGenerate(os.path.abspath(path))
+    return GetRegArchByExcel(os.path.abspath(path))
 
 
 if __name__ == '__main__':
     # 演示：假设 Excel 中定义了 WC 字段跨两个地址
     # 0x05: WC[7:0]，0x06: WC[11:8]
-    mgr = get_register_manager("./reg.xlsx")
+    mgr = get_reg_arch("./reg.xlsx")
 
     # 从零更新：空字典会使用 addr_defaults 补全
-    new_cfg = mgr.update_config({}, {"WC": 0x5AA})
+    new_cfg = mgr.logical_to_physical({}, {"WC": 0x5AA})
     print(f"Updated Config: {new_cfg}")
     # 输出应包含 {5: 170, 6: 5} (170即0xAA)
 
     # 解析配置：即使只给一个地址，另一个地址也会用默认值补全后再合并
-    parsed = mgr.parse_config({0x05: 0xAA, 0x06: 0x01})
+    parsed = mgr.physical_to_logical({0x05: 0xAA, 0x06: 0x01})
     print(f"Parsed Result WC: {parsed['WC']}")

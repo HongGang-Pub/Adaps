@@ -1,10 +1,10 @@
 """
-ScriptEngine - 寄存器脚本解析与回写引擎
+RegScriptIO - 寄存器脚本解析与回写引擎
 ================================================================================
 
 【功能清单】
 
-1. 解析脚本 (parse_and_store)
+1. 解析脚本 (read_script)
    输入：原始脚本行列表（如 ["I2C_Write, 4A, 0037, 00", "// comment", ...]）
    输出：
      - parsed_data: {addr_int: val_int}，所有寄存器地址的当前值
@@ -12,20 +12,20 @@ ScriptEngine - 寄存器脚本解析与回写引擎
 
    示例：
      lines = ["I2C_Write, 4A, 0037, 00", "// init", "I2C_Write, 4A, 0038, AA"]
-     parsed_data, contexts = engine.parse_and_store(lines)
+     parsed_data, contexts = engine.read_script(lines)
      # parsed_data = {0x37: 0, 0x38: 0xAA}
      # contexts = [{"is_reg": True, "addr": 0x37, ...}, {"is_reg": False, "raw": "// init"}, ...]
 
-2. 生成脚本 (generate_script)
+2. 生成脚本 (write_script)
    输入：
-     - line_contexts: parse_and_store 返回的上下文列表（保留原始顺序和注释）
-     - updated_map: {addr: new_val}，待更新的寄存器地址键值对
+     - line_contexts: read_script 返回的上下文列表（保留原始顺序和注释）
+     - new_config: {addr: new_val}，待更新的寄存器地址键值对
    输出：
      - new_lines: 新脚本行列表，保持原始顺序，仅数值被更新；新增地址插入到合理位置
 
    核心原则——最小改动：
      - 存在的地址：原地修改数值，保留注释和格式
-     - 不存在的地址（新配置）：插入到 updated_map 中前序地址的后面，保持升序
+     - 不存在的地址（新配置）：插入到 new_config 中前序地址的后面，保持升序
      - 非寄存器行（注释、空行）：原样保留位置
 
 3. 协议模板 (protocol_list)
@@ -38,9 +38,9 @@ ScriptEngine - 寄存器脚本解析与回写引擎
 【使用示例】
 
 # ---------- 示例 1：基本解析与更新 ----------
-from ScriptEngine import ScriptEngine
+from RegScriptIO import RegScriptIO
 
-engine = ScriptEngine(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
+engine = RegScriptIO(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
 
 # 原始脚本
 raw_script = [
@@ -50,53 +50,53 @@ raw_script = [
 ]
 
 # 1. 解析
-parsed_data, contexts = engine.parse_and_store(raw_script)
+parsed_data, contexts = engine.read_script(raw_script)
 # parsed_data = {0x37: 0, 0x38: 0xAA}
 # contexts 保留了原始顺序、注释信息
 
 # 2. 更新配置（只改存在的地址）
-updated_map = {0x37: 0x55}
+new_config = {0x37: 0x55}
 
 # 3. 生成新脚本
-new_script = engine.generate_script(contexts, updated_map)
+new_script = engine.write_script(contexts, new_config)
 # 输出：
 # I2C_Write, 4A, 0037, 55  // 初始化
 # // 这是一个注释行
 # I2C_Write, 4A, 0038, AA
 
 # ---------- 示例 2：新增地址（不在原始脚本中的寄存器） ----------
-updated_map = {0x37: 0x55, 0x3A: 0x11, 0x3C: 0x22}
-new_script = engine.generate_script(contexts, updated_map)
+new_config = {0x37: 0x55, 0x3A: 0x11, 0x3C: 0x22}
+new_script = engine.write_script(contexts, new_config)
 # 0x3A 和 0x3C 会按顺序插入到 0x38 之后（因为 0x38 是 0x3A/0x3C 的前序已知地址）
 
 # ---------- 示例 3：SPI 协议 ----------
-spi_engine = ScriptEngine(protocol_list=["SPI_Write", "{ADDR}", "{VAL}"], sep=",")
+spi_engine = RegScriptIO(protocol_list=["SPI_Write", "{ADDR}", "{VAL}"], sep=",")
 raw_script = ["SPI_Write, 0037, 00", "SPI_Write, 0038, AA"]
-parsed_data, contexts = spi_engine.parse_and_store(raw_script)
+parsed_data, contexts = spi_engine.read_script(raw_script)
 # parsed_data = {0x37: 0, 0x38: 0xAA}
 
-# ---------- 示例 4：结合 RegisterGenerate 使用 ----------
-from RegisterGenerate import get_register_manager
-from ScriptEngine import ScriptEngine
+# ---------- 示例 4：结合 ExcelRegMapper 使用 ----------
+from ExcelRegMapper import get_excel_mapper
+from RegScriptIO import RegScriptIO
 
-mgr = get_register_manager("./reg.xlsx")
-engine = ScriptEngine(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
+mapper = get_excel_mapper("./reg.xlsx")
+engine = RegScriptIO(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
 
 # 1. 解析原始脚本
 csru_datas = PubMethod.read_file("ref_cfg.txt")
-current_map, line_contexts = engine.parse_and_store(csru_datas)
+current_map, line_contexts = engine.read_script(csru_datas)
 
 # 2. 构建更新（Excel 自动处理多 bit 拆分）
 updates = {"WC": 0x5AA, "VC0_FLNR": 0x1234}
 new_config = mgr.update_config(current_map, updates)
 
 # 3. 生成新脚本
-new_lines = engine.generate_script(line_contexts, new_config)
+new_lines = engine.write_script(line_contexts, new_config)
 
 # ---------- 示例 5：结合 Swan01/Hawk01 的 _beta 方法 ----------
 # Swan01:
 #   GenerateSwanRegConfig_beta(swan01_config)
-#   内部：mgr.update_config(current_map, updates) + engine.generate_script()
+#   内部：mgr.update_config(current_map, updates) + engine.write_script()
 
 # Hawk01:
 #   GenerateHawkRegConfig_beta(hawk01_config)
@@ -104,10 +104,10 @@ new_lines = engine.generate_script(line_contexts, new_config)
 
 【注意事项】
 
-- generate_script 按照 updated_map 的 key 顺序（Python 3.7+ 保证字典插入顺序）决定新地址的插入位置
+- write_script 按照 new_config 的 key 顺序（Python 3.7+ 保证字典插入顺序）决定新地址的插入位置
 - 如果新地址在原始脚本中不存在，它会被插入到前序已存在地址的后面
 - 如果新地址小于第一个已存在地址，会插入到脚本最开头（锚点 -1）
-- parse_and_store 使用 partition 保留注释完整性，不会因分割而丢失
+- read_script 使用 partition 保留注释完整性，不会因分割而丢失
 - 分隔符默认逗号 + 空格，输出格式固定为 ", " 分隔
 """
 
@@ -115,10 +115,10 @@ import os
 from SelfDefinedPackge import PubMethod
 
 
-class ScriptEngine:
+class RegScriptOperate:
     def __init__(self, protocol_list, sep=','):
         """
-        初始化 ScriptEngine。
+        初始化 RegScriptIO。
 
         参数:
             protocol_list: 协议模板列表，必须包含 {ADDR} 和 {VAL} 占位符
@@ -138,7 +138,7 @@ class ScriptEngine:
         # 最小长度：协议模板元素数量，用于判断是否为有效寄存器行
         self.min_len = len(self.protocol)
 
-    def parse_and_store(self, lines):
+    def read_script(self, lines):
         """
         解析脚本行列表，提取所有寄存器地址和值。
 
@@ -146,13 +146,13 @@ class ScriptEngine:
             lines: 原始脚本行列表，例如 ["I2C_Write, 4A, 0037, 00", "// comment", ...]
 
         返回:
-            parsed_data: {addr_int: val_int}，所有寄存器地址的当前值
-            line_contexts: 上下文列表，每个元素为：
+            script_config: {addr_int: val_int}，所有寄存器地址的当前值
+            script_contexts: 上下文列表，每个元素为：
                 - 寄存器行：{"is_reg": True, "addr": int, "parts": [..], "comment": str}
                 - 非寄存器行：{"is_reg": False, "raw": str}
         """
-        parsed_data = {}
-        line_contexts = []
+        script_config = {}
+        script_contexts = []
 
         for line in lines:
             _str = line.strip().replace("\n", "").replace("\r", "")
@@ -168,8 +168,8 @@ class ScriptEngine:
                     addr_int = int(parts[self.addr_idx], 16)
                     val_int = int(parts[self.val_idx], 16)
 
-                    parsed_data[addr_int] = val_int
-                    line_contexts.append({
+                    script_config[addr_int] = val_int
+                    script_contexts.append({
                         "is_reg": True,
                         "addr": addr_int,
                         "parts": parts,
@@ -181,33 +181,33 @@ class ScriptEngine:
 
             if not is_target:
                 # 非寄存器行（注释、空行、无效行）保留原始内容
-                line_contexts.append({"is_reg": False, "raw": _str})
+                script_contexts.append({"is_reg": False, "raw": _str})
 
-        return parsed_data, line_contexts
+        return script_config, script_contexts
 
-    def generate_script(self, line_contexts, updated_map):
+    def update_script(self, script_contexts, new_config):
         """
-        根据 updated_map 回写脚本，保持最小改动原则。
+        根据 new_config 回写脚本，保持最小改动原则。
 
         参数:
-            line_contexts: parse_and_store 返回的上下文列表
-            updated_map: {addr: new_val}，待更新的寄存器地址键值对
+            script_contexts: read_script 返回的上下文列表
+            new_config: {addr: new_val}，待更新的寄存器地址键值对
 
         返回:
             new_lines: 新脚本行列表，保持原始顺序，仅数值被更新
 
         处理逻辑（最小改动原则）:
             1. 遍历 line_contexts，按顺序重建脚本
-            2. 寄存器行：如果地址在 updated_map 中，替换数值；否则原样保留
+            2. 寄存器行：如果地址在 new_config 中，替换数值；否则原样保留
             3. 非寄存器行：原样保留
-            4. 新增地址（不在原始脚本中）：按 updated_map 键的顺序，
+            4. 新增地址（不在原始脚本中）：按 new_config 键的顺序，
                插入到其前序已存在地址的后面
         """
         new_lines = []
         # 建立地址到 line_contexts 索引的映射，用于快速查找已有地址
         addr_to_ctx_idx = {
             ctx["addr"]: i
-            for i, ctx in enumerate(line_contexts)
+            for i, ctx in enumerate(script_contexts)
             if ctx.get("is_reg")
         }
 
@@ -216,15 +216,15 @@ class ScriptEngine:
         insert_plan = {}
         last_known_ctx_idx = -1  # 默认锚点：脚本最开头
 
-        # 按照 updated_map 的 key 顺序遍历（Python 3.7+ 保持插入顺序）
-        for addr in updated_map.keys():
+        # 按照 new_config 的 key 顺序遍历（Python 3.7+ 保持插入顺序）
+        for addr in new_config.keys():
             if addr in addr_to_ctx_idx:
                 # 命中已有行，更新锚点位置
                 last_known_ctx_idx = addr_to_ctx_idx[addr]
             else:
                 # 新增地址，生成行字符串
                 new_row = [
-                    p.replace("{ADDR}", f"{addr:04X}").replace("{VAL}", f"{updated_map[addr]:02X}")
+                    p.replace("{ADDR}", f"{addr:04X}").replace("{VAL}", f"{new_config[addr]:02X}")
                     for p in self.protocol
                 ]
                 new_line_str = f"{self.output_sep.join(new_row)}  // New appended by order"
@@ -239,13 +239,13 @@ class ScriptEngine:
             new_lines.extend(insert_plan[-1])
 
         # 按原始顺序重建脚本行
-        for i, ctx in enumerate(line_contexts):
+        for i, ctx in enumerate(script_contexts):
             if ctx["is_reg"]:
                 addr = ctx["addr"]
                 parts = list(ctx["parts"])
-                # 如果该地址在 updated_map 中，替换数值
-                if addr in updated_map:
-                    parts[self.val_idx] = f"{updated_map[addr]:02X}"
+                # 如果该地址在 new_config 中，替换数值
+                if addr in new_config:
+                    parts[self.val_idx] = f"{new_config[addr]:02X}"
 
                 # 重建行字符串，保留原始注释
                 line_str = self.output_sep.join(parts)
@@ -265,13 +265,13 @@ class ScriptEngine:
 
 if __name__ == '__main__':
     # 演示：手术刀式的精准回写
-    engine = ScriptEngine(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
+    engine = RegScriptOperate(protocol_list=["I2C_Write", "4A", "{ADDR}", "{VAL}"], sep=",")
 
     ref_cfg_file = r"D:\Git\Adaps\Software\ADAPSS~1\SCRIPT~1.10\Input\Hawk01_base_script.txt"
     raw_script = PubMethod.read_file(ref_cfg_file)
 
     # 1. 解析
-    current_map, contexts = engine.parse_and_store(raw_script)
+    current_map, contexts = engine.read_script(raw_script)
     print(f"Parsed {len(current_map)} registers")
 
     # 2. 模拟配置更新
@@ -281,7 +281,7 @@ if __name__ == '__main__':
     current_map[0x3C] = 0x22
 
     # 3. 生成新脚本
-    updated_script = engine.generate_script(contexts, current_map)
+    updated_script = engine.update_script(contexts, current_map)
 
     # 输出结果：注释被保留，格式未破坏，只有数值变了
     for line in updated_script:

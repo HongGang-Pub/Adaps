@@ -4,8 +4,8 @@ import logging
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
 from .Hawk01RegAddr import *
-from AdapsChip.Common.ScriptEngine import *
-from AdapsChip.Common.RegisterGenerate import *
+from AdapsChip.Common.RegConfigProcessor import RegConfigProcessor
+
 import re
 import os
 
@@ -95,7 +95,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
     csru_datas = PubMethod.read_file(fname=config_file)
 
     if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check。")
+        raise ValueError("The register configuration file is empty, please check.")
 
     for line in range(len(csru_datas)):
         _str = csru_datas[line].strip().replace("\n", "").replace("\r", "")  # 去除换行符, 保存时统一保存
@@ -196,6 +196,7 @@ def GetCsruConfig_beta(config_file, REG_EXCEL_PATH="", protocol_template=None) -
 
     Args:
         config_file (str): 脚本路径
+        REG_EXCEL_PATH: 寄存器模板
         protocol_template (list): 协议模板，如 ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
 
     Returns:
@@ -203,15 +204,11 @@ def GetCsruConfig_beta(config_file, REG_EXCEL_PATH="", protocol_template=None) -
     """
     csru_datas = PubMethod.read_file(fname=config_file)
     if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check。")
+        raise ValueError("The register configuration file is empty, please check.")
 
-    # 使用 ScriptEngine 解析脚本
-    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
-    addr_vals, _ = engine.parse_and_store(csru_datas)
-
-    # 使用 Excel 配置的 RegisterGenerate 解析
-    mgr = get_register_manager(REG_EXCEL_PATH)
-    csru_cfg = mgr.parse_config(addr_vals)
+    # 使用 RegConfigProcessor 高层统筹类解析
+    processor = RegConfigProcessor(REG_EXCEL_PATH, protocol_list=protocol_template)
+    csru_cfg = processor.parse_to_logic(csru_datas)
 
     return csru_cfg
 
@@ -290,7 +287,7 @@ def CalMipiFlnrAndWC(csru_cfg, **kwargs):
     return int(wc), flnr
 
 
-def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"):
+def GenerateHawkRegConfig(hawk01_config: dict):
     """
     本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
     主要包含以下功能:
@@ -302,7 +299,8 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     """
 
     # 从本地配置文件获取频率等配置信息
-    with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
+    RegConfigFile = hawk01_config["RegConfigFile"]
+    with open(RegConfigFile, 'r', encoding='utf-8') as file:
         content = file.read()
         local_scope = locals()
         exec(content, globals(), local_scope)
@@ -544,7 +542,7 @@ def GenerateHawkRegConfig(hawk01_config: dict, reg_cfg_fp="./Hawk01RegConfig.py"
     return
 
 
-def GenerateHawkRegConfig_beta(hawk01_config: dict, REG_EXCEL_PATH="", protocol_template=None, reg_cfg_fp="./Hawk01RegConfig.py"):
+def GenerateHawkRegConfig_beta(hawk01_config: dict):
     """
     本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Hawk 配置脚本
     主要包含以下功能:
@@ -554,24 +552,25 @@ def GenerateHawkRegConfig_beta(hawk01_config: dict, REG_EXCEL_PATH="", protocol_
         4. 根据 hawk01_config[""] 配置 MIPI_TXDLY[5:0] -> MIPI_PKTDLY
         5. 根据 hawk01_config["roi_save_n"] 配置 block_write
 
-    使用 Excel + common/RegisterGenerate + common/ScriptEngine 实现
+    使用 Excel + common/ExcelRegMapper + common/RegScriptIO 实现
     """
 
     # 从本地配置文件获取频率等配置信息
-    with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
+    RegConfigFile = hawk01_config["RegConfigFile"]
+    RegExcelPath = hawk01_config["RegExcelPath"]
+    with open(RegConfigFile, 'r', encoding='utf-8') as file:
         content = file.read()
         local_scope = locals()
         exec(content, globals(), local_scope)
         FREQ_Config = local_scope["FREQ_Config"]
         DIV_CONFIG = local_scope["DIV_CONFIG"]
         MIPI_PKTDLY_CONFIG = local_scope["MIPI_PKTDLY_CONFIG"]
+        register_template = local_scope["register_template"]
+        roisram_template = local_scope["roisram_template"]
 
     # ----------------------------------------------------------------------------------------
     # initial
     # ----------------------------------------------------------------------------------------
-    protocol = hawk01_config["protocol"]
-    regs_write = "I2C_Write" if protocol == 0 else "SPI_Write"
-    roisram_write = "I2C_Block_Write" if protocol == 0 else "SPI_Block_Write"
 
     ref_cfg_file = hawk01_config["ref_cfg_file"]
     if not os.path.exists(ref_cfg_file):
@@ -591,6 +590,7 @@ def GenerateHawkRegConfig_beta(hawk01_config: dict, REG_EXCEL_PATH="", protocol_
 
     # 构建更新映射 - 直接复制 hawk01_config，再覆盖计算得到的值
     updates = copy.deepcopy(hawk01_config)
+    updates["H_ROLL_NUM"] = 0 if updates.get("SCAN_MODE") == 0 else updates.get("H_ROLL_NUM", 0)
 
     # 覆盖计算得到的值
     updates["VC0_WC"] = WC
@@ -629,38 +629,27 @@ def GenerateHawkRegConfig_beta(hawk01_config: dict, REG_EXCEL_PATH="", protocol_
     updates["NS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["NS"]
     updates["MS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["MS"]
     updates["PS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["PS"]
-    mgr = get_register_manager(REG_EXCEL_PATH)
 
     # 读取基准脚本
     csru_datas = PubMethod.read_file(ref_cfg_file)
     if len(csru_datas) == 0:
         raise ValueError("The register configuration file is empty, please check.")
 
-    # 创建 ScriptEngine 实例
-    protocol_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"] if protocol == 0 else ["SPI_Write", "{ADDR}", "{VAL}"]
-    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
-
-    # 解析基准脚本获取当前地址->值映射
-    current_map, line_contexts = engine.parse_and_store(csru_datas)
-
-    # 使用 RegisterGenerate.update_config 更新配置
-    # 先用当前脚本的值初始化
-    new_config = mgr.update_config(current_map, updates)
-
+    # 使用 RegConfigProcessor 生成新脚本
+    processor = RegConfigProcessor(RegExcelPath, protocol_list=register_template)
+    new_lines = processor.update_script(csru_datas, updates)
+    
     # 处理 ROI - 如果 SCAN_MODE 改变，H_ROLL_NUM 需要调整
     if hawk01_config.get("SCAN_MODE") == 0:
         roi_length = (13 + (hawk01_config["H_VLD_SEG"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
     else:
         roi_length = (13 + (hawk01_config["H_ROLL_NUM"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
 
-    # 使用 ScriptEngine 生成新脚本
-    new_lines = engine.generate_script(line_contexts, new_config)
-
     # 处理 ROI Block Write
     if "roi_name" in hawk01_config and "roi_length" in locals():
         roi_name = hawk01_config["roi_name"]
         for i, line in enumerate(new_lines):
-            if roisram_write in line:
+            if roisram_template[0] in line:
                 # 修改 ROI 长度和名称
                 parts = [p.strip() for p in line.split(',')]
                 if len(parts) >= 5:
@@ -691,7 +680,8 @@ def GenerateHawkRegConfig_beta(hawk01_config: dict, REG_EXCEL_PATH="", protocol_
     return
 
 
-def ParseHawkRegConfig(script_file=None, protocol=0):
+def ParseHawkRegConfig(script_file, hawk01_config: dict):
+    protocol = hawk01_config["protocol"]
     if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
 
@@ -739,14 +729,20 @@ def ParseHawkRegConfig(script_file=None, protocol=0):
     pass
 
 
-def ParseHawkRegConfig_beta(script_file=None, protocol_template=None):
+def ParseHawkRegConfig_beta(script_file=None, hawk01_config: dict=None):
+    RegConfigFile = hawk01_config["RegConfigFile"]
+    RegExcelPath = hawk01_config["RegExcelPath"]
+    with open(RegConfigFile, 'r', encoding='utf-8') as file:
+        content_reg = file.read()
+        local_scope = locals()
+        exec(content_reg, globals(), local_scope)
+        register_template = local_scope["register_template"]
+        roisram_template = local_scope["roisram_template"]
+
     if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
 
-    if protocol_template is None:
-        protocol_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
-
-    csru_cfg = GetCsruConfig(script_file, protocol_template)
+    csru_cfg = GetCsruConfig_beta(script_file, RegExcelPath, register_template)
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
     info = f"Parse {_hyper_link}..."
     # print(info)

@@ -105,7 +105,8 @@
     "roi_data_format": 1,
     "Soft_Config": "I2c or SPI protocol select",
     "protocol": 0,
-    "Swan01RegConfigFile": "./.Swan01Config/Swan01RegConfig.py",
+    "RegConfigFile": "./.Swan01Config/Swan01RegConfig.py",
+    "RegExcelPath": "./.Swan01Config/Swan01RegConfig.py",
     "instruction": "配置说明",
     "config_instruction": {
         "PRINT": [

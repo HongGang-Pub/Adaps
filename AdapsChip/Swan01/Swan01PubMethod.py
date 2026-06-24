@@ -4,9 +4,8 @@ import copy
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
 from AdapsChip.Common.common import *
+from AdapsChip.Common.RegConfigProcessor import RegConfigProcessor
 from AdapsChip.Swan01.Swan01RegAddr import *
-from AdapsChip.Common.ScriptEngine import *
-from AdapsChip.Common.RegisterGenerate import *
 import re
 import os
 
@@ -152,7 +151,7 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
     csru_datas = PubMethod.read_file(fname=config_file)
 
     if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check。")
+        raise ValueError("The register configuration file is empty, please check.")
 
     for line in range(len(csru_datas)):
         _str = csru_datas[line].strip().replace("\n", "").replace("\r", "")  # 去除换行符, 保存时统一保存
@@ -367,19 +366,13 @@ def GetCsruConfig_beta(config_file, REG_EXCEL_PATH="", protocol_template=None) -
     Returns:
         dict: 寄存器配置（直接从 Excel 解析）
     """
-    if protocol_template is None:
-        protocol_template = ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
     csru_datas = PubMethod.read_file(fname=config_file)
     if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check。")
+        raise ValueError("The register configuration file is empty, please check.")
 
-    # 使用 ScriptEngine 解析脚本
-    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
-    addr_vals, _ = engine.parse_and_store(csru_datas)
-
-    # 使用 Excel 配置的 RegisterGenerate 解析
-    mgr = get_register_manager(REG_EXCEL_PATH)
-    csru_cfg = mgr.parse_config(addr_vals)
+    # 使用 RegConfigProcessor 高层统筹类解析
+    processor = RegConfigProcessor(REG_EXCEL_PATH, protocol_list=protocol_template)
+    csru_cfg = processor.parse_to_logic(csru_datas)
 
     return csru_cfg
 
@@ -932,7 +925,7 @@ def SwanDataflowConfigCal(csru_cfg: dict, dataflow_related_config: dict = None, 
     return DataflowConfig
 
 
-def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"):
+def GenerateSwanRegConfig(swan01_config: dict):
     """
     本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Swan 配置脚本
     主要包含以下功能:
@@ -944,7 +937,8 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     """
 
     # 从本地配置文件获取频率等配置信息
-    with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
+    RegConfigFile = swan01_config["RegConfigFile"]
+    with open(RegConfigFile, 'r', encoding='utf-8') as file:
         content = file.read()
         local_scope = locals()
         exec(content, globals(), local_scope)
@@ -1305,35 +1299,33 @@ def GenerateSwanRegConfig(swan01_config: dict, reg_cfg_fp="./Swan01RegConfig.py"
     return
 
 
-def GenerateSwanRegConfig_beta(swan01_config: dict, REG_EXCEL_PATH="", protocol_template=None, reg_cfg_fp="./Swan01RegConfig.py"):
+def GenerateSwanRegConfig_beta(swan01_config: dict):
     """
     本方法主要实现功能为: 基于基准脚本以及最新的配置, 生成新的 Swan 配置脚本
-    使用 Excel + common/RegisterGenerate + common/ScriptEngine 实现
+    使用 RegConfigProcessor 实现
     """
 
     # 从本地配置文件获取频率等配置信息
-    with open(reg_cfg_fp, 'r', encoding='utf-8') as file:
-        content = file.read()
+    RegConfigFile = swan01_config["RegConfigFile"]
+    RegExcelPath = swan01_config["RegExcelPath"]
+    with open(RegConfigFile, 'r', encoding='utf-8') as file:
+        content_reg = file.read()
         local_scope = locals()
-        exec(content, globals(), local_scope)
+        exec(content_reg, globals(), local_scope)
         FREQ_Config = local_scope["FREQ_Config"]
         DIV_CONFIG = local_scope["DIV_CONFIG"]
+        register_template = local_scope["register_template"]
 
     ref_cfg_file = swan01_config["ref_cfg_file"]
     if not os.path.exists(ref_cfg_file):
         raise ValueError("The reference config file does not exist!")
 
     # 使用 Excel 配置的 RegisterGenerate 和 ScriptEngine
-    mgr = get_register_manager(REG_EXCEL_PATH)
 
     # 读取基准脚本
     csru_datas = PubMethod.read_file(ref_cfg_file)
     if len(csru_datas) == 0:
         raise ValueError("The register configuration file is empty, please check。")
-
-    # 创建 ScriptEngine 实例
-    protocol = swan01_config["protocol"]
-    engine = ScriptEngine(protocol_list=protocol_template, sep=',')
 
     # 构建 updates - 直接复制 swan01_config，再覆盖计算得到的值
     updates = copy.deepcopy(swan01_config)
@@ -1407,14 +1399,9 @@ def GenerateSwanRegConfig_beta(swan01_config: dict, REG_EXCEL_PATH="", protocol_
             0x03 if swan01_config["MIPI_LANE_NUM"] == 1 else 0x01
     updates["MIPI_LANE"] = mipi_lane
 
-    # 解析基准脚本获取当前地址->值映射
-    current_map, line_contexts = engine.parse_and_store(csru_datas)
-
-    # 使用 RegisterGenerate.update_config 更新配置
-    new_config = mgr.update_config(current_map, updates)
-
-    # 使用 ScriptEngine 生成新脚本
-    new_lines = engine.generate_script(line_contexts, new_config)
+    # 使用 RegConfigProcessor 生成新脚本
+    processor = RegConfigProcessor(RegExcelPath, protocol_list=register_template)
+    new_lines = processor.update_script(csru_datas, updates)
 
     # --------------------------------------------------------
     # 增加配置说明
@@ -1445,7 +1432,8 @@ def SwanHistReadTimeCal(swan01_config: dict):
     print(f"{swan01_config["reg_name"]} one slot read time: {DataflowConfig['HIST_RD_OUT_TIME'] / 10} us")
 
 
-def ParseSwanRegConfig(script_file=None, protocol=0):
+def ParseSwanRegConfig(script_file, swan01_config: dict):
+    protocol = swan01_config["protocol"]
     if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
 
@@ -1486,11 +1474,19 @@ def ParseSwanRegConfig(script_file=None, protocol=0):
     pass
 
 
-def ParseSwanRegConfig_beta(script_file=None, protocol=0):
+def ParseSwanRegConfig_beta(script_file=None, swan01_config: dict=None):
+    RegConfigFile = swan01_config["RegConfigFile"]
+    RegExcelPath = swan01_config["RegExcelPath"]
+    with open(RegConfigFile, 'r', encoding='utf-8') as file:
+        content_reg = file.read()
+        local_scope = locals()
+        exec(content_reg, globals(), local_scope)
+        register_template = local_scope["register_template"]
+
     if not os.path.exists(script_file):
         raise ValueError("The reference config file does not exist!")
 
-    csru_cfg = GetCsruConfig(script_file, protocol)
+    csru_cfg = GetCsruConfig_beta(script_file, RegExcelPath, register_template)
     _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
     info = f"Parse {_hyper_link}..."
     # print(info)
@@ -1505,8 +1501,8 @@ def ParseSwanRegConfig_beta(script_file=None, protocol=0):
     _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
     print(f"{info}<br>{_str}")
 
-    VC0_WC = csru_cfg["MIPI"]["VC0_WC"]
-    VC0_FLNR = csru_cfg["MIPI"]["VC0_FLNR"]
+    VC0_WC = csru_cfg.get("VC0_WC", 0)
+    VC0_FLNR = csru_cfg.get("VC0_FLNR", 0)
 
     # WC, FLNR = CalMipiFlnrAndWC(csru_cfg)
     DataflowConfig = SwanDataflowConfigCal(csru_cfg, function_sel="MIPI")

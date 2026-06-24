@@ -32,7 +32,8 @@
     "Soft_Config": "-----软件相关配置-----",
     "Default_ROI_GEN_TYPE": 0,
     "ROI_SRAM_Include": true,
-    "Hawk01RegConfigFile": "./.Hawk01Config/Hawk01RegConfig.py",
+    "RegConfigFile": "./.Hawk01Config/Hawk01RegConfig.py",
+    "RegExcelPath": "./.Hawk01Config/Hawk01RegConfig.py",
     "instruction": "------部分配置说明-----",
     "config_instruction": {
         "PRINT": [

@@ -193,8 +193,7 @@ def ScriptDataSave(hawk01_config):
         __hawk01_config__["reg_name"] = hawk01_config["reg_name"] if len(work_mode_q) == 0 \
             else f'{work_mode_name_q[work_mode]}_{hawk01_config["reg_name"]}'
 
-        Hawk01PubMethod.GenerateHawkRegConfig(hawk01_config=__hawk01_config__,
-                                              reg_cfg_fp=__hawk01_config__["Hawk01RegConfigFile"])
+        Hawk01PubMethod.GenerateHawkRegConfig(hawk01_config=__hawk01_config__)
         # Hawk01PubMethod.GenerateHawkRegConfigByJson(hawk01_config=__hawk01_config__, reg_cfg=__reg_cfg__)
         url = f'{__hawk01_config__["fd_path"]}/{__hawk01_config__["reg_name"]}.txt'
         _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
@@ -203,4 +202,4 @@ def ScriptDataSave(hawk01_config):
 
 
 def ScriptParse(hawk01_config, file):
-    Hawk01PubMethod.ParseHawkRegConfig(file, hawk01_config["protocol"])
+    Hawk01PubMethod.ParseHawkRegConfig(file, hawk01_config)

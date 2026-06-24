@@ -58,8 +58,7 @@ def ScriptUICoinfigOperate(swan01_config: dict, operate: int = 0b001):
         # 保存 Script 脚本信息
         # ////////////////////////////////////////////////////////////////////////////
         if operate & 0b010:
-            Swan01PubMethod.GenerateSwanRegConfig(swan01_config=__swan01_config__,
-                                                  reg_cfg_fp=__swan01_config__["Swan01RegConfigFile"])
+            Swan01PubMethod.GenerateSwanRegConfig(swan01_config=__swan01_config__)
             # Swan01PubMethod.GenerateSwanRegConfigByJson(swan01_config=__swan01_config__, reg_cfg=__reg_cfg__)
             url = f'{__swan01_config__["fd_path"]}/{__swan01_config__["reg_name"]}.txt'
             _hyper_link = LogerPubMethod.create_file_hyperlink(url=url)
@@ -77,7 +76,7 @@ def ScriptUICoinfigOperate(swan01_config: dict, operate: int = 0b001):
 
 
 def ScriptParse(swan01_config, file):
-    Swan01PubMethod.ParseSwanRegConfig(file, swan01_config["protocol"])
+    Swan01PubMethod.ParseSwanRegConfig(file, swan01_config)
 
 
 def ROISramConfigOperation(swan01_config: dict):
