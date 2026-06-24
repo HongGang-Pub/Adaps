@@ -265,6 +265,7 @@ class MaskingWindow(QMainWindow):
         self.is_playing = False
         self.index = 0
         self._timer = QTimer(self)
+        self._timer.timeout.connect(self.dynamic_fig)
 
         self.initUI()
 
@@ -337,12 +338,11 @@ class MaskingWindow(QMainWindow):
 
     def Play_plot(self):
         # print('Play_plot')
-        self._timer.timeout.connect(self.dynamic_fig)
         self._timer.start(700)  # plot after 1s delay
 
     def Pause_plot(self):
         # print('Pause_plot')
-        self._timer.timeout.disconnect(self.dynamic_fig)
+        self._timer.stop()
 
     def Oneforward_plot(self):
         # print('Oneforward_plot')
@@ -412,10 +412,21 @@ class MaskingWindow(QMainWindow):
 
     # @memory_profiler.profile
     def closeEvent(self, event):
+        # 停止动画定时器
+        if self._timer.isActive():
+            self._timer.stop()
+            
         self.roi_data_pkg = None
         self.hawk_config = None
         self.soft_config = None
-        self.canvas.roi_data_pkg = None
+        
+        # 彻底清空 matplotlib 的底层 C++ 绘图资源
+        if hasattr(self, 'canvas') and self.canvas is not None:
+            self.canvas.roi_data_pkg = None
+            if hasattr(self.canvas, 'fig'):
+                self.canvas.fig.clf()
+            self.canvas.deleteLater()
+            
         self.deleteLater()
         event.accept()
 
