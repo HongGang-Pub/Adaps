@@ -4,39 +4,9 @@ import copy
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
 from AdapsChip.Common.common import *
-from AdapsChip.Common.RegConfigProcessor import RegConfigProcessor
 from AdapsChip.Swan01.Swan01RegAddr import *
 import re
 import os
-
-
-def GetMipiFile(fd_path):
-    """
-    针对 Dothinker 获取MIPI文件，并按index生成字典，使能顺序读取文件进行数据比对
-
-    Args:
-        fd_path: MIPI Data folder dir
-    Returns:
-        dict: f_dict[key=index, value=mipidata_path]
-    """
-
-    file_list = PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt", f_type="Get MIPI File")
-    if len(file_list) == 0:
-        raise ValueError("未从指定目录下获取到MIPI文件！！！")
-
-    file_dict = {}
-    file_index_list = []
-    for index in range(len(file_list)):
-        sublist_file = file_list[index].split("-")
-        # 针对度信抓包MIPI文件命名格式：mipidata-index-xxxxxxxxx.txt，字典格式为：{index: mipidata_path}
-        if len(sublist_file) >= 3:
-            file_index = int(file_list[index].split("-")[-2])
-            file_dict[file_index] = file_list[index]
-            file_index_list.append(file_index)
-        else:
-            continue
-
-    return file_dict
 
 
 def GetCsruConfig(config_file, protocol=0) -> dict:
@@ -352,157 +322,6 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             # raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
     return csru_cfg
 
-
-def GetCsruConfig_beta(config_file, REG_EXCEL_PATH="", protocol_template=None) -> dict:
-    """
-    根据 Swan01 寄存器配置脚本，获取寄存器配置信息
-    通过 Excel 配置判断哪些字段需要解析
-
-    Args:
-        config_file (str): 脚本路径
-        REG_EXCEL_PATH: 寄存器模板
-        protocol_template (list): 协议模板，如 ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
-
-    Returns:
-        dict: 寄存器配置（直接从 Excel 解析）
-    """
-    csru_datas = PubMethod.read_file(fname=config_file)
-    if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check.")
-
-    # 使用 RegConfigProcessor 高层统筹类解析
-    processor = RegConfigProcessor(REG_EXCEL_PATH, protocol_list=protocol_template)
-    csru_cfg = processor.parse_to_logic(csru_datas)
-
-    return csru_cfg
-
-
-def CalPkgNum(swan01_config):
-    """
-    非多帧合一时，一次rolling包的数量
-    Args:
-        swan01_config (dict): 寄存配置信息
-
-    Returns:
-        int: 非多帧合一时，一次rolling包的数量
-    """
-
-    work_mode = swan01_config["WORK_MODE"]
-    h_vld_seg = swan01_config["H_VLD_SEG"]
-    v_pxl_out_num = 6 if swan01_config["V_PXL_OUT_NUM"] == 1 else 1
-
-    if work_mode == 2 or work_mode == 3:
-        pkg_num = (h_vld_seg + 1) * v_pxl_out_num * 4 + 2
-    else:
-        pkg_num = (h_vld_seg + 1) * 16 + 2
-    return pkg_num
-
-
-# def CalMipiFlnrAndWC(csru_cfg):
-#     work_mode = csru_cfg["WORK_MODE"]
-#     tx_frm_mode = csru_cfg["TX_FRM_MODE"]
-#     hist_minbin_thrs = csru_cfg["HIST_MINBIN_THRS"]
-#     hist_maxbin_thrs = csru_cfg["HIST_MAXBIN_THRS"]
-#     data_width_sel = csru_cfg["DATA_WIDTH_SEL"]
-#     frm_slot_num = csru_cfg["FRM_SLOT_NUM"]
-#     pack_16pxl_num = csru_cfg["PACK_16PXL_NUM"]
-#     pack_16pxl_en = csru_cfg["PACK_16PXL_EN"]
-#     pack_8pxl_en = csru_cfg["PACK_8PXL_EN"]
-#     pack_4pxl_en = csru_cfg["PACK_4PXL_EN"]
-#     pack_2pxl_en = csru_cfg["PACK_2PXL_EN"]
-#     pxl_binn_sel = csru_cfg["PXL_BINN_SEL"]
-#     bin_widht_sel = csru_cfg["BIN_WIDTH_SEL"]
-#     out_totalbin_num = csru_cfg["OUT_TOTALBIN_NUM"]
-#     out_echobin_num = csru_cfg["OUT_ECHOBIN_NUM"]
-#     out_numbin_mode = csru_cfg["OUT_NUMBIN_MODE"]
-#     out_echo_num = csru_cfg["OUT_ECHO_NUM"]
-#     one_dt_mode = csru_cfg["ONE_DT_MODE"]
-#     pkt_chksum_en = csru_cfg["PKT_CHKSUM_EN"]
-#     seg_num = csru_cfg["SEG_NUM"]  # TODO: 需要确认, 有可能需要特殊处理, 寄存器无此配置
-#
-#     # //////////////////////////////////////////////////////////
-#     # 处理寄存器配置特殊情况
-#     # //////////////////////////////////////////////////////////
-#     out_echo_num = 5 if out_echo_num > 5 else out_echo_num  # 最大输出 6 echo (配置值+1)
-#     pxl_binn_sel = 0 if pxl_binn_sel > 2 else pxl_binn_sel  # 当 pxl_binn_sel == 2 时, 一个 segment 为 16pxl
-#
-#     # //////////////////////////////////////////////////////////
-#     # Pixel Pack 相关计算
-#     # //////////////////////////////////////////////////////////
-#     # 计算一个 Packet 包含多少 Pixel
-#     # 1. work_mode == PCM: 一次读出全部的 Pixel 数据
-#     # 2. work_mode != PCM: 仅与 pack 配置相关
-#     one_pkt_pxl_num = 48 * seg_num if work_mode == 3 else \
-#         1 if pack_2pxl_en == 0 else \
-#             2 if pack_4pxl_en == 0 else \
-#                 4 if pack_8pxl_en == 0 else \
-#                     8 if pack_16pxl_en == 0 else \
-#                         16 * (pack_16pxl_num + 1)
-#
-#     # //////////////////////////////////////////////////////////
-#     # 针对 binning 相关的数据进行计算 和 校验
-#     # //////////////////////////////////////////////////////////
-#     # 计算一个 slot, pixel binning 后, 有多少个 Pixel 需要读出
-#     pxl_num_after_binn = 48 * seg_num if work_mode == 3 else \
-#         (16 >> pxl_binn_sel) * seg_num
-#
-#     # //////////////////////////////////////////////////////////
-#     # 计算一个 image帧 (MIPI image帧 概念), 包含多少个 slot
-#     # //////////////////////////////////////////////////////////
-#     slot_num_in_img_frm = 1 if tx_frm_mode == 0 else \
-#         1 + frm_slot_num
-#
-#     # //////////////////////////////////////////////////////////
-#     # 换算 WC 与 data_width_sel 因子
-#     # //////////////////////////////////////////////////////////
-#     # data_width_sel == 0: 8bit, data_width_sel == 1: 10bit
-#     wc_factor = 1 if data_width_sel == 0 else \
-#         1.25
-#
-#     # //////////////////////////////////////////////////////////
-#     # cycle 计算
-#     # //////////////////////////////////////////////////////////
-#     # 计算不同 work_mode 下, txu 发送单个 pixel 数据的 cycle 数
-#     # SPHR
-#     if work_mode == 0:
-#         match data_width_sel:
-#             case 0:
-#                 rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
-#             case 1:
-#                 rd_cyc_dsp_1pxl = (4 + 12 * (out_echo_num + 1)) / 2
-#             case _:
-#                 rd_cyc_dsp_1pxl = (4 + 14 * (out_echo_num + 1)) / 2
-#     # PHR
-#     elif work_mode == 1:
-#         match out_numbin_mode:
-#             case 0:
-#                 rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
-#             case 1:
-#                 rd_cyc_dsp_1pxl = (4 + (out_echo_num + 1) * (out_echobin_num * 2)) / 2
-#             case _:
-#                 rd_cyc_dsp_1pxl = (4 + out_totalbin_num * 2) / 2
-#     # FHR
-#     elif work_mode == 2:
-#         rd_cyc_dsp_1pxl = (((hist_maxbin_thrs - hist_minbin_thrs + 1) * 8) >> bin_widht_sel) / 2
-#     # PCM
-#     else:
-#         rd_cyc_dsp_1pxl = 1
-#
-#     # crc32 TXU 读取 cycle 计算
-#     rd_cyc_crc32 = 2 if pkt_chksum_en == 1 else 0  # CRC32 校验位读取需要 2 cycle
-#
-#     # txu 发送单个 packet 数据的 cycle 数
-#     one_pkt_dsp_rd_cyc = rd_cyc_dsp_1pxl * one_pkt_pxl_num + rd_cyc_crc32
-#
-#     # //////////////////////////////////////////////////////////
-#     # 计算 WC && FLNR
-#     # //////////////////////////////////////////////////////////
-#     # Q1: Why * 2 ?
-#     # A1: TXU is dual pixel mode
-#     wc = one_pkt_dsp_rd_cyc * 2 * wc_factor
-#     flnr = (pxl_num_after_binn / one_pkt_pxl_num + one_dt_mode) * slot_num_in_img_frm
-#
-#     return int(wc), int(flnr)
 
 def SwanDataflowRelateConfigGet(swan01_config: dict):
     """
@@ -1314,18 +1133,6 @@ def GenerateSwanRegConfig_beta(swan01_config: dict):
         exec(content_reg, globals(), local_scope)
         FREQ_Config = local_scope["FREQ_Config"]
         DIV_CONFIG = local_scope["DIV_CONFIG"]
-        register_template = local_scope["register_template"]
-
-    ref_cfg_file = swan01_config["ref_cfg_file"]
-    if not os.path.exists(ref_cfg_file):
-        raise ValueError("The reference config file does not exist!")
-
-    # 使用 Excel 配置的 RegisterGenerate 和 ScriptEngine
-
-    # 读取基准脚本
-    csru_datas = PubMethod.read_file(ref_cfg_file)
-    if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check。")
 
     # 构建 updates - 直接复制 swan01_config，再覆盖计算得到的值
     updates = copy.deepcopy(swan01_config)
@@ -1399,29 +1206,13 @@ def GenerateSwanRegConfig_beta(swan01_config: dict):
             0x03 if swan01_config["MIPI_LANE_NUM"] == 1 else 0x01
     updates["MIPI_LANE"] = mipi_lane
 
-    # 使用 RegConfigProcessor 生成新脚本
-    processor = RegConfigProcessor(RegExcelPath, protocol_list=register_template)
-    new_lines = processor.update_script(csru_datas, updates)
-
-    # --------------------------------------------------------
-    # 增加配置说明
-    # --------------------------------------------------------
-    config_instruction = "config_instruction"
-    config_print = "PRINT"
-    if config_instruction in swan01_config and config_print in swan01_config[config_instruction]:
-        _str = "// "
-        _len = len(swan01_config[config_instruction][config_print])
-        for i in range(_len):
-            config = swan01_config[config_instruction][config_print][i]
-            if i > 0:
-                _str += "; "
-            _str += f"{config}: {swan01_config[config_instruction][config][swan01_config[config]]}"
-        new_lines.insert(0, _str)
-
-    PubMethod.data_save(fname=f'{swan01_config["reg_name"]}.txt',
-                        data_list=new_lines,
-                        split='\n',
-                        fd_path=swan01_config["fd_path"])
+    # ----------------------------------------------------------------------------------------
+    # Generate SCript and Save
+    # ----------------------------------------------------------------------------------------
+    roi_updates = {"ROISRAM_NAME": "roi_name"}
+        
+    from AdapsChip.Common.RegScriptOperate import GenerateRegConfig_beta
+    GenerateRegConfig_beta(swan01_config, updates, roi_updates)
     return
 
 
@@ -1475,31 +1266,8 @@ def ParseSwanRegConfig(script_file, swan01_config: dict):
 
 
 def ParseSwanRegConfig_beta(script_file=None, swan01_config: dict=None):
-    RegConfigFile = swan01_config["RegConfigFile"]
-    RegExcelPath = swan01_config["RegExcelPath"]
-    with open(RegConfigFile, 'r', encoding='utf-8') as file:
-        content_reg = file.read()
-        local_scope = locals()
-        exec(content_reg, globals(), local_scope)
-        register_template = local_scope["register_template"]
-
-    if not os.path.exists(script_file):
-        raise ValueError("The reference config file does not exist!")
-
-    csru_cfg = GetCsruConfig_beta(script_file, RegExcelPath, register_template)
-    _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
-    info = f"Parse {_hyper_link}..."
-    # print(info)
-    _str = "---------------------------\n"
-    _str += "REG_CONFIG\n"
-    _str += "---------------------------\n"
-
-    info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
-
-    _str += info_json
-
-    _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
-    print(f"{info}<br>{_str}")
+    from AdapsChip.Common.RegScriptOperate import ParseRegConfig_beta
+    csru_cfg = ParseRegConfig_beta(script_file, swan01_config)
 
     VC0_WC = csru_cfg.get("VC0_WC", 0)
     VC0_FLNR = csru_cfg.get("VC0_FLNR", 0)
@@ -1559,3 +1327,4 @@ if __name__ == '__main__':
 
     txdlycfg = SwanDataflowConfigCal(chip_cfg, dataflow_related_cfg)
     print(txdlycfg)
+

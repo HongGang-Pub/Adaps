@@ -97,7 +97,7 @@
     "roi_generate_script_file": "D:/Git/Adaps/AdapsChip/ChipUI/Output/SPHR_Swan01_script01.txt",
     "roi_generate_slot_time_set_enable": false,
     "roi_generate_slot_time_set": 90,
-    "roi_generate_excel_file": "C:/Users/honggang.li/Downloads/Crane01_ROISRAM_Excel-.xlsx",
+    "roi_generate_excel_file": "D:/Git/Adaps/AdapsChip/ChipUI/Input/Swan01_ROISRAM_Excel.xlsx",
     "roi_generate_info_file": "./.Swan01Config/Swan01ROIInfo.txt",
     "roi_generate_excel_sheet": 0,
     "roi_fd_path": "./Output",

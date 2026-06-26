@@ -1,215 +1,188 @@
-import os
-import re
-from SelfDefinedPackge import PubMethod
+"""
+RegConfigProcessor - 高层统筹类，一站式完成：读取脚本 -> Excel映射 -> 写回脚本的流水线
+"""
+
+from AdapsChip.Common.GetRegArchByExcel import get_reg_arch
+from AdapsChip.Common.FileOperateClass import FileOperateClass
 
 
 class RegScriptOperate:
-    def __init__(self, in_template, out_template, parse_sep=',', parse_comment_sym='//', gen_comment_sym='#'):
-        """
-        初始化 RegScriptIO，支持灵活的字符串模板解析与生成。
-
-        参数:
-            in_template: 解析用的输入模板字符串
-                         支持静态校验: "{val0=I2C_Write}, {val1}, {ADDR:16}, {VAL:16}"
-            out_template: 生成用的输出模板字符串（只包含有效字段格式化语法，不包含注释部分）
-                          例如："TEST, {val1}, {ADDR:0>4X}, {VAL:0>2X}"
-            parse_sep: 解析脚本时的元素分隔符
-            parse_comment_sym: 解析脚本时的注释标识符
-            gen_comment_sym: 生成脚本时的注释标识符
-        """
-        self.parse_sep = parse_sep
-        self.parse_comment_sym = parse_comment_sym
-        self.gen_comment_sym = gen_comment_sym
-        self.in_template_str = in_template
-        self.out_template_str = out_template
-
-        # 自动提取输入模板中的变量名、进制信息、以及强校验值
-        in_keys_raw = re.findall(r"\{([^}]+)\}", self.in_template_str)
-        self.in_keys_info = []
-        has_addr = False
-        has_val = False
+    def __init__(self, chip_config: dict):
+        excel_path = chip_config["RegExcelPath"]
+        template_config = load_template_config(chip_config["ScriptTemplate"])
         
-        for k in in_keys_raw:
-            base = None
-            match_val = None
+        self.RegArch = get_reg_arch(excel_path)
+        self.RegConfigOperate = FileOperateClass(template_config["REG_CONFIG"])
+        self.ROISRAMOperate = FileOperateClass(template_config["ROISRAM_CONFIG"])
 
-            if "=" in k:
-                # 例如 val0=I2C_Write
-                name, match_val = k.split("=", 1)
-            elif ":" in k:
-                # 例如 ADDR:16
-                name, base_str = k.split(":", 1)
-                base = int(base_str)
-            else:
-                name = k
-                
-            # 强管控：只有 ADDR 和 VAL 允许拥有进制信息并参与 int 转换，其他全部当作纯字符串
-            if name not in ("ADDR", "VAL"):
-                base = None
-            elif base is None:
-                # 是 ADDR/VAL 且没显式声明，兜底给 16
-                base = 16
-                
-            if name == "ADDR": has_addr = True
-            if name == "VAL": has_val = True
+    def parse_to_logic(self, script_lines):
+        old_config = {}
+        for line in script_lines:
+            is_match, variables = self.RegConfigOperate.parse_line(line)
+            if is_match:
+                old_config[variables["ADDR"]] = variables["VAL"]
+        return self.RegArch.physical_to_logical(old_config)
+
+    def update_script(self, script_lines, updates):
+        # 第一遍：解析出所有行的上下文并缓存
+        parsed_contexts = []
+        old_config = {}
+        last_match_idx = -1
+        last_vals = {}
+
+        for i, line in enumerate(script_lines):
+            is_match, variables = self.RegConfigOperate.parse_line(line)
+            parsed_contexts.append((line, is_match, variables))
             
-            self.in_keys_info.append((name, base, match_val))
+            if is_match:
+                old_config[variables["ADDR"]] = variables["VAL"]
 
-        if not has_addr or not has_val:
-            raise ValueError("输入模板(in_template)必须包含 {ADDR} 和 {VAL} 占位符")
-        
-        self.std_len = len(self.in_keys_info)
+        new_config = self.RegArch.logical_to_physical(old_config, updates)
 
-    def read_script(self, lines):
-        """
-        解析脚本行列表，仅返回结构化的上下文 (script_contexts)。
-        """
-        script_contexts = []
-
-        for line in lines:
-            _str = line.strip().replace("\n", "").replace("\r", "")
-            # 使用 partition 保持注释完整性
-            content, _, comment = _str.partition(self.parse_comment_sym)
-            # 按分隔符拆分并去除空白
-            parts = [p.strip() for p in content.split(self.parse_sep) if p.strip()]
-
-            is_target = False
-            # 严格长度校验
-            if len(parts) == self.std_len:
-                try:
-                    variables = {}
-                    match_failed = False
-                    
-                    for (name, base, match_val), v_str in zip(self.in_keys_info, parts):
-                        # 静态强校验：如果输入模板中定义了等于号，必须严格匹配该字符串
-                        if match_val is not None and v_str != match_val:
-                            match_failed = True
-                            break
-                            
-                        if name in ("ADDR", "VAL"):
-                            variables[name] = int(v_str, base)
-                        else:
-                            variables[name] = v_str
-                            
-                    if not match_failed:
-                        variables["comment"] = comment.strip()
-
-                        addr_int = variables["ADDR"]
-
-                        script_contexts.append({
-                            "is_reg": True,
-                            "addr": addr_int,
-                            "variables": variables,
-                            "raw": _str
-                        })
-                        is_target = True
-                except (ValueError, KeyError):
-                    pass
-
-            if not is_target:
-                # 非寄存器行（注释、空行、无效行）保留原始内容
-                script_contexts.append({"is_reg": False, "raw": _str})
-
-        return script_contexts
-
-    def update_script(self, script_contexts, new_config):
-        """
-        根据 new_config 回写脚本，保持最小改动原则。
-        """
+        # 第二遍：直接使用缓存的上下文进行数据覆盖和快速生成
         new_lines = []
-        addr_to_ctx_idx = {
-            ctx["addr"]: i
-            for i, ctx in enumerate(script_contexts)
-            if ctx.get("is_reg")
-        }
-
-        insert_plan = {}
-        last_known_ctx_idx = -1 
-        
-        # 提取上一行已知的字符串变量（例如 val0, val1），供新增行使用
-        latest_vals = {}
-        for ctx in script_contexts:
-            if ctx.get("is_reg"):
-                latest_vals.update({k: v for k, v in ctx["variables"].items() if k not in ("ADDR", "VAL", "comment")})
-                break  # 拿第一行的做底本即可
-
-        for addr in new_config.keys():
-            if addr in addr_to_ctx_idx:
-                last_known_ctx_idx = addr_to_ctx_idx[addr]
-            else:
-                # 构建新增行的变量集合
-                new_vars = dict(latest_vals)
-                new_vars["ADDR"] = addr
-                new_vars["VAL"] = new_config[addr]
-                new_vars["comment"] = "New appended by order"
-                
-                new_line_str = self.out_template_str.format(**new_vars)
-                # 统一拼接注释符和注释内容
-                new_line_str += f" {self.gen_comment_sym} {new_vars['comment']}"
-                
-                if last_known_ctx_idx not in insert_plan:
-                    insert_plan[last_known_ctx_idx] = []
-                insert_plan[last_known_ctx_idx].append(new_line_str)
-
-        if -1 in insert_plan:
-            new_lines.extend(insert_plan[-1])
-
-        for i, ctx in enumerate(script_contexts):
-            if ctx.get("is_reg"):
-                addr = ctx["addr"]
-                variables = dict(ctx["variables"])
-                
-                # 更新寄存器的值
+        for i, (orig_line, is_match, variables) in enumerate(parsed_contexts):
+            if is_match:
+                addr = variables["ADDR"]
                 if addr in new_config:
                     variables["VAL"] = new_config[addr]
-
-                # 通过 format 引擎一键格式化输出
-                try:
-                    line_str = self.out_template_str.format(**variables)
-                    # 如果这行本身带有注释，则自动用指定的生成注释符拼接到末尾
-                    if variables["comment"]:
-                        line_str += f" {self.gen_comment_sym} {variables['comment']}"
-                except KeyError as e:
-                    raise ValueError(f"输出模板所需的变量 {e} 没有在输入模板中定义！")
-
-                new_lines.append(line_str)
+                    new_lines.append(self.RegConfigOperate.generate_line(**variables))
+                    last_match_idx = i
+                    last_vals = variables
+                else:
+                    new_lines.append(orig_line)
             else:
-                new_lines.append(ctx["raw"])
+                new_lines.append(orig_line)
 
-            if i in insert_plan:
-                new_lines.extend(insert_plan[i])
+        for addr, val in new_config.items():
+            if addr not in old_config:
+                new_vars = dict(last_vals)
+                new_vars["ADDR"] = addr
+                new_vars["VAL"] = val
+                desc = self.RegArch.addr_descriptions.get(addr, f"UNK_{hex(addr)}")
+                new_vars["comment"] = f"New appended: {desc}"
+                try:
+                    new_lines.insert(last_match_idx + 1, self.RegConfigOperate.generate_line(**new_vars))
+                    last_match_idx += 1
+                except ValueError:
+                    pass
 
         return new_lines
 
+    def update_roi_script(self, script_lines, roi_updates: dict):
+        """
+        专门处理 ROI 配置更新的方法。
+        roi_updates 例如: {"LENGTH": 1200, "ROISRAM_NAME": "my_roi"}
+        """
+        new_lines = []
+        for line in script_lines:
+            success, new_line = self.ROISRAMOperate.strconvert(line, **roi_updates)
+            if success:
+                new_lines.append(new_line)
+            else:
+                new_lines.append(line)
+        return new_lines
 
-if __name__ == '__main__':
-    # 演示：极简纯净的模板 + 独立的注释符号定义 + 强校验
-    in_tpl = "{val0=I2C_Write}, {val1}, {ADDR:16}, {VAL:16}"
-    out_tpl = "TEST, {val1},  {ADDR:0>4X}, {VAL:0>2X}"
-    engine = RegScriptOperate(in_template=in_tpl, out_template=out_tpl, 
-                              parse_sep=",", parse_comment_sym="//", gen_comment_sym="#")
 
-    raw_script = [
-        "I2C_Write, 4A, 0037, 00 // init comment",
-        "SPI_Write, 4A, 0038, AA", # 会因为强校验失败而被当作非寄存器行跳过
-        "// 纯注释行",
-        "I2C_Write, 4A, 0039, 11" # 无注释的合法行
-    ]
+import configparser
+import os
+from SelfDefinedPackge import PubMethod, LogerPubMethod
 
-    # 1. 解析
-    contexts = engine.read_script(raw_script)
+
+def load_template_config(ini_path: str) -> dict:
+    config = configparser.ConfigParser()
+    config.read(ini_path, encoding='utf-8')
+    template_config = {}
+    if config.has_section("REG_CONFIG"):
+        template_config["REG_CONFIG"] = {
+            "in_template": config.get("REG_CONFIG", "in_template"),
+            "out_template": config.get("REG_CONFIG", "out_template"),
+            "parse_sep": config.get("REG_CONFIG", "parse_sep", fallback=","),
+            "parse_comment_sym": config.get("REG_CONFIG", "parse_comment_sym", fallback="//"),
+            "gen_comment_sym": config.get("REG_CONFIG", "gen_comment_sym", fallback="//")
+        }
+    if config.has_section("ROISRAM_CONFIG"):
+        template_config["ROISRAM_CONFIG"] = {
+            "in_template": config.get("ROISRAM_CONFIG", "in_template"),
+            "out_template": config.get("ROISRAM_CONFIG", "out_template"),
+            "parse_sep": config.get("ROISRAM_CONFIG", "parse_sep", fallback=","),
+            "parse_comment_sym": config.get("ROISRAM_CONFIG", "parse_comment_sym", fallback="//"),
+            "gen_comment_sym": config.get("ROISRAM_CONFIG", "gen_comment_sym", fallback="//")
+        }
+    return template_config
+
+
+def GetCsruConfig_beta(config_file, chip_config) -> dict:
+    csru_datas = PubMethod.read_file(fname=config_file)
+    if len(csru_datas) == 0:
+        raise ValueError("The register configuration file is empty, please check.")
+
+    processor = RegScriptOperate(chip_config)
+    csru_cfg = processor.parse_to_logic(csru_datas)
+    return csru_cfg
+
+
+def ParseRegConfig_beta(script_file, chip_config: dict):
+    """
+    通用解析配置方法，返回解析后的 csru_cfg
+    """
     
-    # 外部自己生成 config map
-    current_map = {ctx["addr"]: ctx["variables"]["VAL"] for ctx in contexts if ctx.get("is_reg")}
-    print(f"Parsed {len(current_map)} registers")
+    if not os.path.exists(script_file):
+        raise ValueError("The reference config file does not exist!")
 
-    # 2. 模拟配置更新
-    current_map[0x37] = 0x55
-    current_map[0x39] = 0x22
+    csru_cfg = GetCsruConfig_beta(script_file, chip_config)
+    
+    _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
+    info = f"Parse {_hyper_link}..."
+    _str  = "---------------------------\n"
+    _str += "REG_CONFIG\n"
+    _str += "---------------------------\n"
+    info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
+    _str += info_json
+    _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
+    print(f"{info}<br>{_str}")
+    
+    return csru_cfg
 
-    # 3. 生成新脚本
-    updated_script = engine.update_script(contexts, current_map)
 
-    # 输出结果
-    for line in updated_script:
-        print(line)
+def GenerateRegConfig_beta(chip_config: dict, updates: dict, roi_updates: dict = None):
+    """
+    通用生成与保存配置的方法
+    """
+    ref_cfg_file = chip_config["ref_cfg_file"]
+    if not os.path.exists(ref_cfg_file):
+        raise ValueError("The reference config file does not exist!")
+
+    # 读取基准脚本
+    csru_datas = PubMethod.read_file(fname=ref_cfg_file)
+    if len(csru_datas) == 0:
+        raise ValueError("The register configuration file is empty, please check.")
+
+    # 使用 RegScriptOperate 生成新脚本
+    processor = RegScriptOperate(chip_config)
+    new_lines = processor.update_script(csru_datas, updates)
+
+    if roi_updates:
+        new_lines = processor.update_roi_script(new_lines, roi_updates)
+
+    # --------------------------------------------------------
+    # 增加配置说明
+    # --------------------------------------------------------
+    config_instruction = "config_instruction"
+    config_print = "PRINT"
+    if config_instruction in chip_config and config_print in chip_config[config_instruction]:
+        _str = "// "
+        _len = len(chip_config[config_instruction][config_print])
+        for i in range(_len):
+            config = chip_config[config_instruction][config_print][i]
+            if i > 0:
+                _str += "; "
+            _str += f"{config}: {chip_config[config_instruction][config][chip_config[config]]}"
+        new_lines.insert(0, _str)
+
+    PubMethod.data_save(fname=f'{chip_config["reg_name"]}.txt',
+                        data_list=new_lines,
+                        split='\n',
+                        fd_path=chip_config["fd_path"])
+    return new_lines
+

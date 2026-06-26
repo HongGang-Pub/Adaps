@@ -34,6 +34,7 @@
     "ROI_SRAM_Include": true,
     "RegConfigFile": "./.Hawk01Config/Hawk01RegConfig.py",
     "RegExcelPath": "./.Hawk01Config/Hawk01RegConfig.py",
+    "ScriptTemplate": "./.Hawk01Config/Hawk01ScriptTemplate.ini",
     "instruction": "------部分配置说明-----",
     "config_instruction": {
         "PRINT": [

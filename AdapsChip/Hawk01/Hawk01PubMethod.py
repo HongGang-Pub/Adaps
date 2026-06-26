@@ -4,39 +4,9 @@ import logging
 
 from SelfDefinedPackge import PubMethod, LogerPubMethod
 from .Hawk01RegAddr import *
-from AdapsChip.Common.RegConfigProcessor import RegConfigProcessor
 
 import re
 import os
-
-
-def GetMipiFile(fd_path):
-    """
-    针对 Dothinker 获取MIPI文件，并按index生成字典，使能顺序读取文件进行数据比对
-
-    Args:
-        fd_path: MIPI Data folder dir
-    Returns:
-        dict: f_dict[key=index, value=mipidata_path]
-    """
-
-    file_list = PubMethod.get_fp(fd_path=fd_path, mode=1, match_filter=".txt", f_type="Get MIPI File")
-    if len(file_list) == 0:
-        raise ValueError("未从指定目录下获取到MIPI文件!!!")
-
-    file_dict = {}
-    file_index_list = []
-    for index in range(len(file_list)):
-        sublist_file = file_list[index].split("-")
-        # 针对度信抓包MIPI文件命名格式: mipidata-index-xxxxxxxxx.txt，字典格式为: {index: mipidata_path}
-        if len(sublist_file) >= 3:
-            file_index = int(file_list[index].split("-")[-2])
-            file_dict[file_index] = file_list[index]
-            file_index_list.append(file_index)
-        else:
-            continue
-
-    return file_dict
 
 
 def GetCsruConfig(config_file, protocol=0) -> dict:
@@ -187,51 +157,6 @@ def GetCsruConfig(config_file, protocol=0) -> dict:
             continue
             # raise ValueError(f"The script file format is incorrect: line {line+1}: {_str}")
     return csru_cfg
-
-
-def GetCsruConfig_beta(config_file, REG_EXCEL_PATH="", protocol_template=None) -> dict:
-    """
-    根据 Hawk01 寄存器配置脚本，获取寄存器配置信息
-    通过 Excel 配置判断哪些字段需要解析
-
-    Args:
-        config_file (str): 脚本路径
-        REG_EXCEL_PATH: 寄存器模板
-        protocol_template (list): 协议模板，如 ["I2C_Write", "4A", "{ADDR}", "{VAL}"]
-
-    Returns:
-        dict: 寄存器配置（直接从 Excel 解析）
-    """
-    csru_datas = PubMethod.read_file(fname=config_file)
-    if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check.")
-
-    # 使用 RegConfigProcessor 高层统筹类解析
-    processor = RegConfigProcessor(REG_EXCEL_PATH, protocol_list=protocol_template)
-    csru_cfg = processor.parse_to_logic(csru_datas)
-
-    return csru_cfg
-
-
-def CalPkgNum(hawk01_config):
-    """
-    非多帧合一时，一次rolling包的数量(包含 info frame)
-    Args:
-        hawk01_config (dict): 寄存配置信息
-
-    Returns:
-        int: 非多帧合一时，一次rolling包的数量
-    """
-
-    work_mode = hawk01_config["WORK_MODE"]
-    h_vld_seg = hawk01_config["H_VLD_SEG"]
-    v_pxl_out_num = 6 if hawk01_config["V_PXL_OUT_NUM"] == 1 else 1
-
-    if work_mode == 2 or work_mode == 3:
-        pkg_num = (h_vld_seg + 1) * v_pxl_out_num * 4 + 2
-    else:
-        pkg_num = (h_vld_seg + 1) * 16 + 2
-    return pkg_num
 
 
 def CalMipiFlnrAndWC(csru_cfg, **kwargs):
@@ -565,21 +490,10 @@ def GenerateHawkRegConfig_beta(hawk01_config: dict):
         FREQ_Config = local_scope["FREQ_Config"]
         DIV_CONFIG = local_scope["DIV_CONFIG"]
         MIPI_PKTDLY_CONFIG = local_scope["MIPI_PKTDLY_CONFIG"]
-        register_template = local_scope["register_template"]
-        roisram_template = local_scope["roisram_template"]
-
-    # ----------------------------------------------------------------------------------------
-    # initial
-    # ----------------------------------------------------------------------------------------
-
-    ref_cfg_file = hawk01_config["ref_cfg_file"]
-    if not os.path.exists(ref_cfg_file):
-        raise ValueError("The reference config file does not exist!")
 
     # ----------------------------------------------------------------------------------------
     # Calculate Register Value
     # ----------------------------------------------------------------------------------------
-
     # MIPI FLNR & WC
     # ////////////////////////////////////////////////////////////////////////////
     WC, FLNR = CalMipiFlnrAndWC(hawk01_config)
@@ -630,53 +544,23 @@ def GenerateHawkRegConfig_beta(hawk01_config: dict):
     updates["MS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["MS"]
     updates["PS"] = FREQ_Config[hawk01_config['XCLK']]["MIPI"][hawk01_config['MIPI_RATE']]["PS"]
 
-    # 读取基准脚本
-    csru_datas = PubMethod.read_file(ref_cfg_file)
-    if len(csru_datas) == 0:
-        raise ValueError("The register configuration file is empty, please check.")
-
-    # 使用 RegConfigProcessor 生成新脚本
-    processor = RegConfigProcessor(RegExcelPath, protocol_list=register_template)
-    new_lines = processor.update_script(csru_datas, updates)
-    
+    # ----------------------------------------------------------------------------------------
     # 处理 ROI - 如果 SCAN_MODE 改变，H_ROLL_NUM 需要调整
+    # ----------------------------------------------------------------------------------------
     if hawk01_config.get("SCAN_MODE") == 0:
         roi_length = (13 + (hawk01_config["H_VLD_SEG"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
     else:
         roi_length = (13 + (hawk01_config["H_ROLL_NUM"] + 1) * 6) * (hawk01_config["V_ROLL_NUM"] + 1)
 
     # 处理 ROI Block Write
-    if "roi_name" in hawk01_config and "roi_length" in locals():
-        roi_name = hawk01_config["roi_name"]
-        for i, line in enumerate(new_lines):
-            if roisram_template[0] in line:
-                # 修改 ROI 长度和名称
-                parts = [p.strip() for p in line.split(',')]
-                if len(parts) >= 5:
-                    parts[3] = f"{roi_length:04X}"
-                    parts[4] = roi_name
-                    new_lines[i] = ', '.join(parts)
-                break
+    roi_name = hawk01_config["roi_name"]
+    roi_updates = {"LENGTH": roi_length, "ROISRAM_NAME": roi_name}
 
-    # --------------------------------------------------------
-    # 增加配置说明
-    # --------------------------------------------------------
-    config_instruction = "config_instruction"
-    config_print = "PRINT"
-    if config_instruction in hawk01_config and config_print in hawk01_config[config_instruction]:
-        _str = "// "
-        _len = len(hawk01_config[config_instruction][config_print])
-        for i in range(_len):
-            config = hawk01_config[config_instruction][config_print][i]
-            if i > 0:
-                _str += "; "
-            _str += f"{config}: {hawk01_config[config_instruction][config][hawk01_config[config]]}"
-        new_lines.insert(0, _str)
-
-    PubMethod.data_save(fname=f'{hawk01_config["reg_name"]}.txt',
-                        data_list=new_lines,
-                        split='\n',
-                        fd_path=hawk01_config["fd_path"])
+    # ----------------------------------------------------------------------------------------
+    # Generate SCript and Save
+    # ----------------------------------------------------------------------------------------
+    from AdapsChip.Common.RegScriptOperate import GenerateRegConfig_beta
+    GenerateRegConfig_beta(hawk01_config, updates, roi_updates)
     return
 
 
@@ -729,33 +613,9 @@ def ParseHawkRegConfig(script_file, hawk01_config: dict):
     pass
 
 
-def ParseHawkRegConfig_beta(script_file=None, hawk01_config: dict=None):
-    RegConfigFile = hawk01_config["RegConfigFile"]
-    RegExcelPath = hawk01_config["RegExcelPath"]
-    with open(RegConfigFile, 'r', encoding='utf-8') as file:
-        content_reg = file.read()
-        local_scope = locals()
-        exec(content_reg, globals(), local_scope)
-        register_template = local_scope["register_template"]
-        roisram_template = local_scope["roisram_template"]
-
-    if not os.path.exists(script_file):
-        raise ValueError("The reference config file does not exist!")
-
-    csru_cfg = GetCsruConfig_beta(script_file, RegExcelPath, register_template)
-    _hyper_link = LogerPubMethod.create_file_hyperlink(url=script_file)
-    info = f"Parse {_hyper_link}..."
-    # print(info)
-    _str  = "---------------------------\n"
-    _str += "REG_CONFIG\n"
-    _str += "---------------------------\n"
-
-    info_json = PubMethod.dict_print_format(csru_cfg, indent=2, level=1)
-
-    _str += info_json
-
-    _str = LogerPubMethod.create_consolas_str(_str, color="#0076f6")
-    print(f"{info}<br>{_str}")
+def ParseHawkRegConfig_beta(script_file, hawk01_config: dict):
+    from AdapsChip.Common.RegScriptOperate import ParseRegConfig_beta
+    csru_cfg = ParseRegConfig_beta(script_file, hawk01_config)
 
     if csru_cfg["SCAN_MODE"] == 1 and csru_cfg["WORK_MODE"] == 3:
         _str = "ERROR: 2D SCAN_MODE not support Gray Scale Mode!!!"
@@ -792,3 +652,4 @@ if __name__ == '__main__':
 
     GenerateHawkRegConfig(cfg)
     print("Ending")
+
