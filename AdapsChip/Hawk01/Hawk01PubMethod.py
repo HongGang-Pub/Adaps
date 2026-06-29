@@ -646,7 +646,6 @@ def ParseHawkRegConfig_beta(script_file, hawk01_config: dict):
     pass
 
 
-
 if __name__ == '__main__':
     cfg = {}
 

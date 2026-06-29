@@ -128,28 +128,57 @@ class GetRegArchByExcel:
 
     def _load_template(self, path):
         """
-        解析 Excel，建立四个核心数据结构：
+        解析 Excel 或 CSV，建立四个核心数据结构：
         1. addr_to_regname: 地址 -> 寄存器名
         2. addr_defaults: 地址 -> 默认值（各字段默认值按物理位偏移合并）
         3. logic_fields: 逻辑字段名 -> [segment, ...]
         4. addr_descriptions: 地址 -> 拼接好的位域描述字符串
         """
-        import openpyxl
-        wb = openpyxl.load_workbook(path, data_only=True)
-        sheet = wb.active
+        import os
+        import csv
+        
+        _, ext = os.path.splitext(path)
+        ext = ext.lower()
+        
+        def row_generator():
+            if ext == '.csv':
+                with open(path, 'r', encoding='utf-8') as f:
+                    reader = csv.reader(f)
+                    try:
+                        next(reader) # skip header
+                    except StopIteration:
+                        pass
+                    for row in reader:
+                        yield row
+            elif ext in ('.xlsx', '.xlsm'):
+                import openpyxl
+                wb = openpyxl.load_workbook(path, data_only=True)
+                sheet = wb.active
+                for row in sheet.iter_rows(min_row=2, values_only=True):
+                    yield row
+            else:
+                raise ValueError(f"不支持的文件格式: {ext}")
+
         curr_addr, curr_reg_name = None, None
         # addr_temp_parts: {addr: [描述片段, ...]}，用于最终拼接 addr_descriptions
         addr_temp_parts = {}
 
-        for row_idx, row in enumerate(sheet.iter_rows(min_row=2, values_only=True), start=2):
-            addr_raw, reg_name_raw, bits_raw, field_raw, _, def_raw, modify, analysis = row[:8]
+        for row_idx, row in enumerate(row_generator(), start=2):
+            # 跳过全空行
+            if not row or all(v is None or str(v).strip() == '' for v in row):
+                continue
+                
+            if len(row) < 8:
+                raise ValueError(f"表格第 {row_idx} 行出错: 列数不足 8 列 (当前列数: {len(row)})，请检查表格是否完整!!!")
+                
+            addr_raw, reg_name_raw, bits_raw, field_raw, _, def_raw, modify, analysis = list(row)[:8]
 
             # 1. 物理地址向下填充（addr 为空时沿用上一个地址）
             if addr_raw is not None and reg_name_raw is not None:
                 try:
                     curr_addr = int(str(addr_raw).strip(), 16)
                 except ValueError:
-                    raise ValueError(f"Excel 第 {row_idx} 行: 'address' 列格式错误，无法解析为十六进制整数 (当前值: '{addr_raw}')。")
+                    raise ValueError(f"Excel 第 {row_idx} 行: 'address' 列格式错误, 无法解析为十六进制整数 (当前值: '{addr_raw}').")
                 curr_reg_name = str(reg_name_raw).strip()
                 self.addr_to_regname[curr_addr] = curr_reg_name
                     
@@ -165,7 +194,7 @@ class GetRegArchByExcel:
             # 3. 解析物理位域 bits_raw，如 "[7:0]" -> p_msb=7, p_lsb=0
             p_match = re.findall(r'\d+', str(bits_raw))
             if not p_match:
-                raise ValueError(f"Excel 第 {row_idx} 行: 'bits' 列格式错误，必须包含数字 (例如 [7:0] 或 [3]，当前值: '{bits_raw}')。")
+                raise ValueError(f"Excel 第 {row_idx} 行: 'bits' 列格式错误，必须包含数字 (例如 [7:0] 或 [3]，当前值: '{bits_raw}').")
             p_msb = int(p_match[0])
             p_lsb = int(p_match[-1])
 
