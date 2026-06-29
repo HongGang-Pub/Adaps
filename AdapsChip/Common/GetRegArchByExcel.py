@@ -2,16 +2,16 @@
 RegConfigParseOrGenByExcel - 基于 Excel 配置文件管理寄存器字段定义与批量更新/解析工具
 ================================================================================
 
-【功能清单】
+【核心功能】
 
 1. 加载 Excel 格式的寄存器定义文件，建立以下数据结构：
-   - logic_fields: {逻辑字段名: [segment_dict, ...]}
+   - logical_fields_map: {逻辑字段名: [segment_dict, ...]}
        记录每个逻辑字段（如 WC、VC0_FLNR）由哪些物理地址位段组成
-   - addr_defaults: {addr: 8bit_default_value}
+   - address_defaults: {address: 8bit_default_value}
        每个地址的默认值（由 Excel 中各字段的 default_value 合并而来）
-   - addr_to_regname: {addr: reg_name}
+   - address_to_reg_name: {address: reg_name}
        地址到寄存器名的映射
-   - addr_descriptions: {addr: 拼接好的位域描述字符串}
+   - address_descriptions: {address: 拼接好的位域描述字符串}
        用于日志/打印，例如 "WC: [11:8]：WC[11:8]； [7:0]：WC[7:0]"
 
 2. logical_to_physical(current_config, updates) -> new_config
@@ -27,12 +27,12 @@ RegConfigParseOrGenByExcel - 基于 Excel 配置文件管理寄存器字段定�
    示例：input_config = {0x05: 0xAA, 0x06: 0x05} -> results["WC"] = 0x5AA
    特点：
    - 只返回 analysis=True 的字段
-   - 缺失地址使用 addr_defaults 补全后再合并
+   - 缺失地址使用 address_defaults 补全后再合并
 
 4. get_excel_parser_or_gen(path) -> RegConfigParseOrGenByExcel（带缓存的单例工厂）
    功能：延迟加载 Excel，避免重复解析；路径相同时返回同一实例
 
-【Excel 格式要求】
+【配置表格格式要求】
 
 Excel 列顺序：address, reg_name, bits, field, type, default_value, modify, analysis
 
@@ -53,14 +53,14 @@ analysis 列：
   - "Yes" 表示该字段会被 physical_to_logical 返回
   - 其他值表示不参与解析
 
-【使用示例】
+【代码使用示例】
 
 # ---------- 示例 1：从零构建配置 ----------
 from RegConfigParseOrGenByExcel import get_excel_parser_or_gen
 
 mgr = get_excel_parser_or_gen("./reg.xlsx")
 
-# 初始配置（空字典使用 addr_defaults 补全）
+# 初始配置（空字典使用 address_defaults 补全）
 new_cfg = mgr.logical_to_physical({}, {"WC": 0x5AA})
 # 结果：new_cfg = {0x05: 0xAA, 0x06: 0x05}（假设 WC[7:0] 在 0x05，WC[11:8] 在 0x06）
 
@@ -75,12 +75,12 @@ parsed = mgr.physical_to_logical(input_cfg)
 # parsed["WC"] = 0x5AA（即使只有部分位段，也会用默认值补全后合并）
 
 # ---------- 示例 4：打印寄存器描述 ----------
-mgr.addr_descriptions[0x05]
+mgr.address_descriptions[0x05]
 # -> "WC: [11:8]：WC[11:8]； [7:0]：WC[7:0]"
 
-【注意事项】
+【关键注意事项】
 
-- logic_fields 中每个逻辑字段的 segment 按 Excel 出现顺序排列（高位在前、低位在后）
+- logical_fields_map 中每个逻辑字段的 bit_segment 按 Excel 出现顺序排列（高位在前、低位在后）
 - logical_to_physical 只更新 modify=True 的字段，不修改其他字段
 - physical_to_logical 只返回 analysis=True 的字段
 - 路径使用 os.path.abspath 标准化，支持缓存去重
@@ -94,15 +94,15 @@ from functools import cache
 
 class GetRegArchByExcel:
     def __init__(self, excel_path):
-        # logic_fields: {逻辑字段名: [segment_dict, ...]}
-        # 每个 segment_dict 包含 addr, p_msb, p_lsb, l_msb, l_lsb, modify, analysis
-        self.logic_fields = {}
-        # addr_defaults: {addr: 8bit_default_value}，从 Excel 各字段 default_value 合并
-        self.addr_defaults = {}
-        # addr_to_regname: {addr: reg_name}
-        self.addr_to_regname = {}
-        # addr_descriptions: 预拼接的位域描述字符串，供日志/打印使用
-        self.addr_descriptions = {}
+        # logical_fields_map: {逻辑字段名: [segment_dict, ...]}
+        # 每个 segment_dict 包含 address, physical_msb, physical_lsb, logical_msb, logical_lsb, modify, analysis
+        self.logical_fields_map = {}
+        # address_defaults: {address: 8bit_default_value}，从 Excel 各字段 default_value 合并
+        self.address_defaults = {}
+        # address_to_reg_name: {address: reg_name}
+        self.address_to_reg_name = {}
+        # address_descriptions: 预拼接的位域描述字符串，供日志/打印使用
+        self.address_descriptions = {}
         self._load_template(excel_path)
 
     def _parse_raw_value(self, val_str):
@@ -129,10 +129,10 @@ class GetRegArchByExcel:
     def _load_template(self, path):
         """
         解析 Excel 或 CSV，建立四个核心数据结构：
-        1. addr_to_regname: 地址 -> 寄存器名
-        2. addr_defaults: 地址 -> 默认值（各字段默认值按物理位偏移合并）
-        3. logic_fields: 逻辑字段名 -> [segment, ...]
-        4. addr_descriptions: 地址 -> 拼接好的位域描述字符串
+        1. address_to_reg_name: 地址 -> 寄存器名
+        2. address_defaults: 地址 -> 默认值（各字段默认值按物理位偏移合并）
+        3. logical_fields_map: 逻辑字段名 -> [bit_segment, ...]
+        4. address_descriptions: 地址 -> 拼接好的位域描述字符串
         """
         import os
         import csv
@@ -159,9 +159,9 @@ class GetRegArchByExcel:
             else:
                 raise ValueError(f"不支持的文件格式: {ext}")
 
-        curr_addr, curr_reg_name = None, None
-        # addr_temp_parts: {addr: [描述片段, ...]}，用于最终拼接 addr_descriptions
-        addr_temp_parts = {}
+        current_address, current_reg_name = None, None
+        # address_temp_parts: {address: [描述片段, ...]}，用于最终拼接 address_descriptions
+        address_temp_parts = {}
 
         for row_idx, row in enumerate(row_generator(), start=2):
             # 跳过全空行
@@ -171,115 +171,115 @@ class GetRegArchByExcel:
             if len(row) < 8:
                 raise ValueError(f"表格第 {row_idx} 行出错: 列数不足 8 列 (当前列数: {len(row)})，请检查表格是否完整!!!")
                 
-            addr_raw, reg_name_raw, bits_raw, field_raw, _, def_raw, modify, analysis = list(row)[:8]
+            address_raw, reg_name_raw, bits_raw, field_raw, _, def_raw, modify, analysis = list(row)[:8]
 
-            # 1. 物理地址向下填充（addr 为空时沿用上一个地址）
-            if addr_raw is not None and reg_name_raw is not None:
+            # 1. 物理地址向下填充（address 为空时沿用上一个地址）
+            if address_raw is not None and reg_name_raw is not None:
                 try:
-                    curr_addr = int(str(addr_raw).strip(), 16)
+                    current_address = int(str(address_raw).strip(), 16)
                 except ValueError:
-                    raise ValueError(f"Excel 第 {row_idx} 行: 'address' 列格式错误, 无法解析为十六进制整数 (当前值: '{addr_raw}').")
-                curr_reg_name = str(reg_name_raw).strip()
-                self.addr_to_regname[curr_addr] = curr_reg_name
+                    raise ValueError(f"Excel 第 {row_idx} 行: 'address' 列格式错误, 无法解析为十六进制整数 (当前值: '{address_raw}').")
+                current_reg_name = str(reg_name_raw).strip()
+                self.address_to_reg_name[current_address] = current_reg_name
                     
             if field_raw is None:
                 continue
 
             # 2. 拼接描述片段，例如 "[7:5]: NB"
             desc_part = f"{bits_raw}: {field_raw}"
-            if curr_addr not in addr_temp_parts:
-                addr_temp_parts[curr_addr] = []
-            addr_temp_parts[curr_addr].append(desc_part)
+            if current_address not in address_temp_parts:
+                address_temp_parts[current_address] = []
+            address_temp_parts[current_address].append(desc_part)
 
-            # 3. 解析物理位域 bits_raw，如 "[7:0]" -> p_msb=7, p_lsb=0
-            p_match = re.findall(r'\d+', str(bits_raw))
-            if not p_match:
+            # 3. 解析物理位域 bits_raw，如 "[7:0]" -> physical_msb=7, physical_lsb=0
+            physical_match = re.findall(r'\d+', str(bits_raw))
+            if not physical_match:
                 raise ValueError(f"Excel 第 {row_idx} 行: 'bits' 列格式错误，必须包含数字 (例如 [7:0] 或 [3]，当前值: '{bits_raw}').")
-            p_msb = int(p_match[0])
-            p_lsb = int(p_match[-1])
+            physical_msb = int(physical_match[0])
+            physical_lsb = int(physical_match[-1])
 
-            # 4. 解析默认值并合并到 addr_defaults
-            #    逻辑：field_default 左移 p_lsb 位后与其他字段在同一个 addr 中按位或合并
+            # 4. 解析默认值并合并到 address_defaults
+            #    逻辑：field_default 左移 physical_lsb 位后与其他字段在同一个 address 中按位或合并
             try:
                 field_default = self._parse_raw_value(def_raw)
             except ValueError as e:
                 raise ValueError(f"Excel 第 {row_idx} 行: 'default_value' 列解析失败: {e}")
                 
-            if curr_addr not in self.addr_defaults:
-                self.addr_defaults[curr_addr] = 0
-            p_mask = ((1 << (p_msb - p_lsb + 1)) - 1) << p_lsb
-            self.addr_defaults[curr_addr] = (self.addr_defaults[curr_addr] & ~p_mask) | (field_default << p_lsb)
+            if current_address not in self.address_defaults:
+                self.address_defaults[current_address] = 0
+            physical_mask = ((1 << (physical_msb - physical_lsb + 1)) - 1) << physical_lsb
+            self.address_defaults[current_address] = (self.address_defaults[current_address] & ~physical_mask) | (field_default << physical_lsb)
 
             # 5. 解析逻辑域名与逻辑位权
-            #    示例：WC[11:8] -> logic_name="WC", l_msb=11, l_lsb=8
-            #          WC[7:0]  -> logic_name="WC", l_msb=7, l_lsb=0
-            #    如果 field 不是多段格式（如 Rev、PXL_BINN_SEL），则 l_msb/l_lsb 等于物理位域
-            l_match = re.match(r"(\w+)\[(\d+):?(\d+)?]", str(field_raw).strip())
-            if l_match:
-                logic_name = l_match.group(1)
-                l_msb = int(l_match.group(2))
-                l_lsb = int(l_match.group(3)) if l_match.group(3) else l_msb
+            #    示例：WC[11:8] -> logic_name="WC", logical_msb=11, logical_lsb=8
+            #          WC[7:0]  -> logic_name="WC", logical_msb=7, logical_lsb=0
+            #    如果 field 不是多段格式（如 Rev、PXL_BINN_SEL），则 logical_msb/logical_lsb 等于物理位域
+            logical_match = re.match(r"(\w+)\[(\d+):?(\d+)?]", str(field_raw).strip())
+            if logical_match:
+                logic_name = logical_match.group(1)
+                logical_msb = int(logical_match.group(2))
+                logical_lsb = int(logical_match.group(3)) if logical_match.group(3) else logical_msb
             else:
                 logic_name = str(field_raw).strip()
                 if not logic_name:
                     raise ValueError(f"Excel 第 {row_idx} 行: 'field' 列不能为空。")
-                l_msb, l_lsb = p_msb, p_lsb
+                logical_msb, logical_lsb = physical_msb, physical_lsb
 
-            # 6. 建立 segment 并加入 logic_fields[logic_name]
-            segment = {
-                "addr": curr_addr,
-                "p_msb": p_msb, "p_lsb": p_lsb,   # 物理位域
-                "l_msb": l_msb, "l_lsb": l_lsb,     # 逻辑位权
+            # 6. 建立 bit_segment 并加入 logical_fields_map[logic_name]
+            bit_segment = {
+                "address": current_address,
+                "physical_msb": physical_msb, "physical_lsb": physical_lsb,   # 物理位域
+                "logical_msb": logical_msb, "logical_lsb": logical_lsb,     # 逻辑位权
                 "modify": str(modify).strip().lower() == "yes",
                 "analysis": str(analysis).strip().lower() == "yes"
             }
-            self.logic_fields.setdefault(logic_name, []).append(segment)
+            self.logical_fields_map.setdefault(logic_name, []).append(bit_segment)
 
-        # 7. 循环结束后拼接 addr_descriptions
+        # 7. 循环结束后拼接 address_descriptions
         #    示例结果: "WC: [11:8]：WC[11:8]； [7:0]：WC[7:0]"
-        for addr, parts in addr_temp_parts.items():
-            reg_name = self.addr_to_regname.get(addr, f"UNK_{hex(addr)}")
-            self.addr_descriptions[addr] = f"{reg_name}: {'; '.join(parts)}"
+        for address, parts in address_temp_parts.items():
+            reg_name = self.address_to_reg_name.get(address, f"UNK_{hex(address)}")
+            self.address_descriptions[address] = f"{reg_name}: {'; '.join(parts)}"
 
-    def logical_to_physical(self, ini_config, updates):
+    def logical_to_physical(self, physical_config, updates):
         """
         根据 updates 中的逻辑字段值，自动拆分并写入对应的物理地址位段。
 
         参数:
-            ini_config: {addr: 8bit_value}，当前物理配置；空字典时使用 addr_defaults
+            physical_config: {address: 8bit_value}，当前物理配置；空字典时使用 address_defaults
             updates: {逻辑字段名: 逻辑值}，例如 {"WC": 0x5AA, "VC0_FLNR": 0x1234}
 
         返回:
-            new_config: 新的 {addr: 8bit_value} 字典
+            new_config: 新的 {address: 8bit_value} 字典
 
         处理逻辑:
             对于 updates 中的每个 (name, val):
-                1. 找到 logic_fields[name] 中的所有 segment
-                2. 对每个 modify=True 的 segment：
-                   - 从 val 中提取逻辑位段 fragment = (val >> l_lsb) & ((1 << width) - 1)
-                   - 写入对应 addr 的物理位段
+                1. 找到 logical_fields_map[name] 中的所有 bit_segment
+                2. 对每个 modify=True 的 bit_segment：
+                   - 从 val 中提取逻辑位段 fragment = (val >> logical_lsb) & ((1 << width) - 1)
+                   - 写入对应 address 的物理位段
                 3. 多段字段（如 WC[11:8]、WC[7:0]）会分别写入不同地址
         """
-        new_config = ini_config.copy()
+        new_config = physical_config.copy()
         for name, val in updates.items():
-            if name not in self.logic_fields:
+            if name not in self.logical_fields_map:
                 continue
 
-            for seg in self.logic_fields[name]:
+            for seg in self.logical_fields_map[name]:
                 if not seg["modify"]:
                     continue
 
-                addr = seg["addr"]
+                address = seg["address"]
                 # 提取逻辑值的对应片段
-                l_width = seg["l_msb"] - seg["l_lsb"] + 1
-                fragment = (val >> seg["l_lsb"]) & ((1 << l_width) - 1)
+                logical_width = seg["logical_msb"] - seg["logical_lsb"] + 1
+                fragment = (val >> seg["logical_lsb"]) & ((1 << logical_width) - 1)
 
-                # 获取当前值（优先用输入配置，没有则用 addr_defaults）
-                reg_val = new_config.get(addr, self.addr_defaults.get(addr, 0))
+                # 获取当前值（优先用输入配置，没有则用 address_defaults）
+                reg_val = new_config.get(address, self.address_defaults.get(address, 0))
 
                 # 覆盖物理位段：先清零当前段，再写入 fragment
-                p_mask = ((1 << (seg["p_msb"] - seg["p_lsb"] + 1)) - 1) << seg["p_lsb"]
-                new_config[addr] = (reg_val & ~p_mask) | (fragment << seg["p_lsb"])
+                physical_mask = ((1 << (seg["physical_msb"] - seg["physical_lsb"] + 1)) - 1) << seg["physical_lsb"]
+                new_config[address] = (reg_val & ~physical_mask) | (fragment << seg["physical_lsb"])
         return new_config
 
     def physical_to_logical(self, input_config):
@@ -287,32 +287,32 @@ class GetRegArchByExcel:
         将物理地址的键值对合并为逻辑字段值（logical_to_physical 的逆操作）。
 
         参数:
-            input_config: {addr: 8bit_value}，物理地址配置
+            input_config: {address: 8bit_value}，物理地址配置
 
         返回:
             results: {逻辑字段名: 逻辑值}，只包含 analysis=True 的字段
 
         处理逻辑:
             对于每个 analysis=True 的逻辑字段：
-                1. 收集其所有 segment
-                2. 从 input_config 中取各 segment 对应地址的值（缺失则用 addr_defaults 补全）
-                3. 提取物理位段 fragment = (reg_val >> p_lsb) & ((1 << p_width) - 1)
-                4. 按逻辑位权合并到 combined_val：combined_val |= (fragment << l_lsb)
+                1. 收集其所有 bit_segment
+                2. 从 input_config 中取各 bit_segment 对应地址的值（缺失则用 address_defaults 补全）
+                3. 提取物理位段 fragment = (reg_val >> physical_lsb) & ((1 << physical_width) - 1)
+                4. 按逻辑位权合并到 combined_val：combined_val |= (fragment << logical_lsb)
         """
         results = {}
-        for name, segments in self.logic_fields.items():
-            if not any(s["analysis"] for s in segments):
+        for name, bit_segments in self.logical_fields_map.items():
+            if not any(s["analysis"] for s in bit_segments):
                 continue
 
             combined_val = 0
-            for seg in segments:
-                addr = seg["addr"]
-                # 核心效率：如果 input_config 没给该地址，直接从 addr_defaults 拿
-                reg_val = input_config.get(addr, self.addr_defaults.get(addr, 0))
+            for seg in bit_segments:
+                address = seg["address"]
+                # 核心效率：如果 input_config 没给该地址，直接从 address_defaults 拿
+                reg_val = input_config.get(address, self.address_defaults.get(address, 0))
 
-                p_width = seg["p_msb"] - seg["p_lsb"] + 1
-                fragment = (reg_val >> seg["p_lsb"]) & ((1 << p_width) - 1)
-                combined_val |= (fragment << seg["l_lsb"])
+                physical_width = seg["physical_msb"] - seg["physical_lsb"] + 1
+                fragment = (reg_val >> seg["physical_lsb"]) & ((1 << physical_width) - 1)
+                combined_val |= (fragment << seg["logical_lsb"])
 
             results[name] = combined_val
         return results
@@ -333,7 +333,7 @@ if __name__ == '__main__':
     # 0x05: WC[7:0]，0x06: WC[11:8]
     mgr = get_reg_arch("./reg.xlsx")
 
-    # 从零更新：空字典会使用 addr_defaults 补全
+    # 从零更新：空字典会使用 address_defaults 补全
     new_cfg = mgr.logical_to_physical({}, {"WC": 0x5AA})
     print(f"Updated Config: {new_cfg}")
     # 输出应包含 {5: 170, 6: 5} (170即0xAA)

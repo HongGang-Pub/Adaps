@@ -1201,10 +1201,10 @@ def GenerateSwanRegConfig_beta(swan01_config: dict):
     # MIPIPLL_LPDH/LPDL/PPD 不是 Excel 字段，update_config 会根据 NS[8]/NS[7:0]/MS/PS 自动拆分
 
     # MIPI_LANE
-    mipi_lane = 0x0F if swan01_config["MIPI_LANE_NUM"] == 3 else \
+    data_lane = 0x0F if swan01_config["MIPI_LANE_NUM"] == 3 else \
         0x07 if swan01_config["MIPI_LANE_NUM"] == 2 else \
             0x03 if swan01_config["MIPI_LANE_NUM"] == 1 else 0x01
-    updates["MIPI_LANE"] = mipi_lane
+    updates["DATA_LANE"] = data_lane
 
     # ----------------------------------------------------------------------------------------
     # Generate SCript and Save
