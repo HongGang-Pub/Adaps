@@ -186,3 +186,6 @@ def GenerateRegConfig_beta(chip_config: dict, updates: dict, roi_updates: dict =
                         fd_path=chip_config["fd_path"])
     return new_lines
 
+
+if __name__ == '__main__':
+    load_template_config(ini_path=r"D:\Git\Adaps\AdapsChip\ChipUI\.Hawk01Config\Hawk01ScriptTemplate.ini")
