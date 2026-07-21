@@ -45,7 +45,9 @@ class Hawk01MainUI:
         # self.hawk01_gui_config = self.Hawk01GuiConfig.items
         self.hawk01_zone_config = self.Hawk01ZoneConfig.items
         self.hawk01_roi_gen_config = self.Hawk01ROIGenConfig.items
-        self.soft_config = {}
+        if not hasattr(self, 'soft_config'):
+            self.soft_config = {}
+
         # self.hawk01_register_config = self.Hawk01RegisterConfig.items
 
         # All GUI signal sync

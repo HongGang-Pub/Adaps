@@ -37,7 +37,8 @@ class Swan01MainUI:
         self.Swan01Config = JsonFunction(file_path=".Swan01Config/Swan01Config.json")
         self.CraneConfig = JsonFunction(file_path=".Crane01Config/Crane01Config.json")
 
-        self.soft_config = {}
+        if not hasattr(self, 'soft_config'):
+            self.soft_config = {}
 
         # All GUI signal sync
         # ///////////////////////////////////////////////////////////////
