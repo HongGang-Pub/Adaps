@@ -33,7 +33,7 @@
     "Default_ROI_GEN_TYPE": 0,
     "ROI_SRAM_Include": true,
     "RegConfigFile": "./.Hawk01Config/Hawk01RegConfig.py",
-    "RegExcelPath": "./.Hawk01Config/Hawk01RegConfig.xlsx",
+    "RegConfigArch": "./.Hawk01Config/Hawk01RegConfig.csv",
     "ScriptTemplate": "./.Hawk01Config/Hawk01ScriptTemplate.ini",
     "instruction": "------部分配置说明-----",
     "config_instruction": {

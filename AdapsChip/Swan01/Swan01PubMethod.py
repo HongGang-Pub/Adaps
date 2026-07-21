@@ -1207,7 +1207,7 @@ def GenerateSwanRegConfig_beta(swan01_config: dict):
     updates["DATA_LANE"] = data_lane
 
     # ----------------------------------------------------------------------------------------
-    # Generate SCript and Save
+    # Generate Script and Save
     # ----------------------------------------------------------------------------------------
     roi_updates = {"ROISRAM_NAME": "roi_name"}
         

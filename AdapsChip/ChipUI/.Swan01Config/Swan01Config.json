@@ -106,7 +106,7 @@
     "Soft_Config": "I2c or SPI protocol select",
     "protocol": 0,
     "RegConfigFile": "./.Swan01Config/Swan01RegConfig.py",
-    "RegExcelPath": "./.Swan01Config/Swan01RegConfig.xlsx",
+    "RegConfigArch": "./.Swan01Config/Swan01RegConfig.csv",
     "ScriptTemplate": "./.Swan01Config/Swan01ScriptTemplate.ini",
     "instruction": "配置说明",
     "config_instruction": {

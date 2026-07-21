@@ -174,7 +174,7 @@ class GetRegArchByExcel:
             address_raw, reg_name_raw, bits_raw, field_raw, _, def_raw, modify, analysis = list(row)[:8]
 
             # 1. 物理地址向下填充（address 为空时沿用上一个地址）
-            if address_raw is not None and reg_name_raw is not None:
+            if address_raw is not None and str(address_raw).strip() != '' and reg_name_raw is not None and str(reg_name_raw).strip() != '':
                 try:
                     current_address = int(str(address_raw).strip(), 16)
                 except ValueError:
@@ -182,7 +182,7 @@ class GetRegArchByExcel:
                 current_reg_name = str(reg_name_raw).strip()
                 self.address_to_reg_name[current_address] = current_reg_name
                     
-            if field_raw is None:
+            if field_raw is None or str(field_raw).strip() == '':
                 continue
 
             # 2. 拼接描述片段，例如 "[7:5]: NB"

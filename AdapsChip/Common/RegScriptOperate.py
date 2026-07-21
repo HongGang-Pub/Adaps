@@ -12,10 +12,10 @@ class RegScriptOperate:
         初始化寄存器脚本操作引擎。
         自动加载 Excel 寄存器映射架构 (RegArch) 以及基础和 ROI 模板格式 (FileOperateClass)。
         """
-        excel_path = chip_config["RegExcelPath"]
+        RegConfigArchPath = chip_config["RegConfigArch"]
         template_config = load_template_config(chip_config["ScriptTemplate"])
         
-        self.RegArch = get_reg_arch(excel_path)
+        self.RegArch = get_reg_arch(RegConfigArchPath)
         self.RegConfigOperate = FileOperateClass(template_config["REG_CONFIG"])
         self.ROISRAMOperate = FileOperateClass(template_config["ROISRAM_CONFIG"])
 
