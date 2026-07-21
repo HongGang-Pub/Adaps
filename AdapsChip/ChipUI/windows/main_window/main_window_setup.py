@@ -26,9 +26,6 @@ from .ui_main import *
 # MAIN FUNCTIONS 
 # ///////////////////////////////////////////////////////////////
 from .ui_main import UI_MainWindow
-from AdapsChip.ChipUI.windows.Hawk01.hawk01_window_setup import Hawk01MainUI
-from AdapsChip.ChipUI.windows.Swan01.swan01_window_setup import Swan01MainUI
-from AdapsChip.ChipUI.windows.HawkToolFunction.HawkToolbox import HawkToolbox
 from AdapsChip.ChipUI.windows.SoftSettingFunction.SoftSettingUI import SoftMainUI
 
 
@@ -183,21 +180,10 @@ class SetupMainWindow:
 
         # PAGES
         # ///////////////////////////////////////////////////////////////
-        # PAGE 1 - ADD LOGO TO MAIN PAGE
-        Hawk01MainUI.setup_gui(self)
-
-        # PAGE 2 - ADD LOGO TO MAIN PAGE
-        Swan01MainUI.setup_gui(self)
-
-        # PAGE 2
-        HawkToolbox.setup_gui(self)
-
-        # PAGE 3
+        # Hawk01 / Swan01 / Toolbox 页面延迟加载，首次点击时初始化（减少启动时间）
+        # PAGE 3 - 始终加载（无重型依赖）
         SoftMainUI.setup_gui(self)
 
-        # ///////////////////////////////////////////////////////////////
-        # END - EXAMPLE CUSTOM WIDGETS
-        # ///////////////////////////////////////////////////////////////
         self.ui.left_menu.first_menus.click()
 
     # RESIZE GRIPS AND CHANGE POSITION
@@ -229,7 +215,19 @@ class SetupMainWindow:
         self.ui.LogPrintWindow.anchorClicked.connect(open_folder)
 
     def closeEvent(self):
-        Hawk01MainUI.closeEvent(self)
-        HawkToolbox.closeEvent(self)
+        try:
+            from AdapsChip.ChipUI.windows.Hawk01.hawk01_window_setup import Hawk01MainUI
+            Hawk01MainUI.closeEvent(self)
+        except Exception:
+            pass
+        try:
+            from AdapsChip.ChipUI.windows.HawkToolFunction.HawkToolbox import HawkToolbox
+            HawkToolbox.closeEvent(self)
+        except Exception:
+            pass
         SoftMainUI.closeEvent(self)
-        Swan01MainUI.closeEvent(self)
+        try:
+            from AdapsChip.ChipUI.windows.Swan01.swan01_window_setup import Swan01MainUI
+            Swan01MainUI.closeEvent(self)
+        except Exception:
+            pass

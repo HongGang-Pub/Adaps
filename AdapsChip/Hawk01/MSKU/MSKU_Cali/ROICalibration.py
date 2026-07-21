@@ -3,7 +3,7 @@ import os
 import time
 
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 import AdapsChip.Common.common
 from SelfDefinedPackge import PubMethod
@@ -735,7 +735,6 @@ class ROICalibration:
                 sub_spad_array_3D[:, :, 2] = spad_array * 0.8
                 masking_arrays.append(sub_spad_array_3D)
                 if is_save:
-                    import matplotlib.pyplot as plt
                     file_path = "{}\\Roll{}_{}.png".format(fp, vroll_cnt, hroll_cnt)
                     plt.imsave(file_path, sub_spad_array_3D)
 
@@ -763,7 +762,6 @@ class ROICalibration:
         # plt.show()
 
         if is_save:
-            import matplotlib.pyplot as plt
             # 保存图像
             # ///////////////////////////////////////////////////////////////
             f1 = "{}\\{}.png".format(fp, "fusion_imag")

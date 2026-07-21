@@ -1,10 +1,8 @@
-# import numpy as np
-# import matplotlib.pyplot as plt
-# import mplcursors
-
+import numpy as np
+import matplotlib.pyplot as plt
+import mplcursors
 
 def coor_show():
-    import mplcursors
     cursor = mplcursors.cursor(multiple=True, highlight=True)
     # @cursor.connect("add")
     # def on_add(sel):
@@ -17,13 +15,11 @@ def coor_show():
 
 
 def self_plt_show():
-    import matplotlib.pyplot as plt
     coor_show()
     plt.show()
 
 
 def fig_close():
-    import matplotlib.pyplot as plt
     for fig in plt.get_fignums():
         per_fig = plt.figure(fig, clear=True)
         plt.close()
@@ -31,7 +27,6 @@ def fig_close():
 
 
 def fig_save():
-    import matplotlib.pyplot as plt
     # print(plt.get_fignums())
     for fig in plt.get_fignums():
         per_fig = plt.figure(fig)
@@ -40,9 +35,6 @@ def fig_save():
 
 
 if __name__ == '__main__':
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import mplcursors
     arr = np.random.rand(100, 100, 3)
     cursor = mplcursors.cursor(multiple=True)
     plt.imshow(arr)

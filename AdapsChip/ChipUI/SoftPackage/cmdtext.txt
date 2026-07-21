@@ -4,6 +4,10 @@
 --show-progress
 --windows-console-mode=disable
 // --windows-console-mode=force
+--lto=yes
+--nofollow-import-to=tkinter,tkinter.messagebox
+--nofollow-import-to=test,pytest,unittest
+--nofollow-import-to=distutils,setuptools,pip
 --include-data-dir=.\AdapsChip\ChipUI\gui\themes=.\gui\themes
 --include-data-dir=.\AdapsChip\ChipUI\gui\images=.\gui\images
 --include-data-dir=.\AdapsChip\ChipUI\Input=.\Input

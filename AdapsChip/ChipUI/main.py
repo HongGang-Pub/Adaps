@@ -35,8 +35,7 @@ from gui.core.json_themes import Themes
 # from SelfDefinedPackge import MatplotExtension
 from windows.main_window.ui_main import UI_MainWindow
 # from windows.main_window.main_window_functions import MainFunctions
-from windows.main_window.main_window_setup import SetupMainWindow
-from windows.Swan01.swan01_window_setup import Swan01MainUI
+# from windows.main_window.main_window_setup import SetupMainWindow
 from PySide6.QtWidgets import QMainWindow, QApplication, QStyleFactory
 from PySide6.QtGui import QIcon, QDesktopServices
 from PySide6.QtCore import QUrl
@@ -104,39 +103,55 @@ class MainWindow(QMainWindow):
 
         # Hawk01 BTN
         if btn.objectName() == "btn_hawk01":
+            from windows.Hawk01.hawk01_window_setup import Hawk01MainUI
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
-            # Load Page 1
+            # Load Page 1（首次初始化）
+            if not hasattr(self, '_hawk01_initialized'):
+                Hawk01MainUI.setup_gui(self)
+                self._hawk01_initialized = True
             MainFunctions.set_page(self, self.ui.load_pages.Hawk01)
             self.ui.log_group.setHidden(False)
 
         # Swan01 BTN
         elif btn.objectName() == "btn_swan01":
+            from windows.Swan01.swan01_window_setup import Swan01MainUI
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
-            # Load Page 1
+            # Load Page 1（首次初始化）
+            if not hasattr(self, '_swan01_initialized'):
+                Swan01MainUI.setup_gui(self)
+                self._swan01_initialized = True
             MainFunctions.set_page(self, self.ui.load_pages.Swan01)
             Swan01MainUI.setup_chip_gui(self, gui_type="Swan01")
             self.ui.log_group.setHidden(False)
 
         # Crane01 BTN
         elif btn.objectName() == "btn_crane01":
+            from windows.Swan01.swan01_window_setup import Swan01MainUI
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
-            # Load Page 1
+            # Load Page 1（首次初始化）
+            if not hasattr(self, '_swan01_initialized'):
+                Swan01MainUI.setup_gui(self)
+                self._swan01_initialized = True
             MainFunctions.set_page(self, self.ui.load_pages.Swan01)
             Swan01MainUI.setup_chip_gui(self, gui_type="Crane01")
             self.ui.log_group.setHidden(False)
 
         # Toolbox BTN
         elif btn.objectName() == "btn_toolbox":
+            from windows.HawkToolFunction.HawkToolbox import HawkToolbox
             # Select Menu
             self.ui.left_menu.select_only_one(btn.objectName())
 
-            # Load Page 2
+            # Load Page 2（首次初始化）
+            if not hasattr(self, '_toolbox_initialized'):
+                HawkToolbox.setup_gui(self)
+                self._toolbox_initialized = True
             MainFunctions.set_page(self, self.ui.load_pages.Toolbox)
             self.ui.log_group.setHidden(False)
 

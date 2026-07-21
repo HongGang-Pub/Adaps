@@ -86,7 +86,7 @@ mgr.address_descriptions[0x05]
 - 路径使用 os.path.abspath 标准化，支持缓存去重
 """
 
-# import openpyxl
+import openpyxl
 import re
 import os
 from functools import cache
@@ -151,7 +151,6 @@ class GetRegArchByExcel:
                     for row in reader:
                         yield row
             elif ext in ('.xlsx', '.xlsm'):
-                import openpyxl
                 wb = openpyxl.load_workbook(path, data_only=True)
                 sheet = wb.active
                 for row in sheet.iter_rows(min_row=2, values_only=True):

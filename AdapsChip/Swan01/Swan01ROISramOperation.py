@@ -16,7 +16,7 @@
 """
 import math
 
-# import openpyxl as op
+import openpyxl as op
 from SelfDefinedPackge import PubMethod
 
 
@@ -64,7 +64,6 @@ def roi_config_dict_ini():
 
 
 def read_roi_from_excel(filename, sheet_sel, dec_or_hex=16):
-    import openpyxl as op
     roi_config_dict = roi_config_dict_ini()
 
     wb = op.load_workbook(filename)

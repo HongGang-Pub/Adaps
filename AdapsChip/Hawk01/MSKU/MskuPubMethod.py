@@ -2,15 +2,15 @@ import csv
 import logging
 import re
 import os
-# import openpyxl
+import openpyxl
 
 import numpy as np
-# import matplotlib.animation as animation
-# import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
 
 from SelfDefinedPackge import PubMethod
 from SelfDefinedPackge import ArrayPubMethod
-# from matplotlib.pyplot import MultipleLocator
+from matplotlib.pyplot import MultipleLocator
 
 
 def zone_config(sub_expotime, sub_idletime, expo_lasprd, expo_plswc, expo_plswf, tx_en, spad_en_in3rows, kernel):
@@ -63,7 +63,6 @@ def ZonesConfigGenerate(cfg):
 
 
 def do_mark(info, fontsize=5):
-    import matplotlib.pyplot as plt
     (x, y, text) = info
     plt.text(x + 5, y + 3, text, fontdict={
         'family': 'Times New Roman',  # 标注文本字体
@@ -167,8 +166,6 @@ def RollingArrayCollect(msku_roi_data, cfg, is_save=0, fd_path='.') -> tuple:
         2. 所有rolling masking的叠加的二维数组(支持保存);
         3. 所有rolling masking叠加的深度二维数组(支持保存);
     """
-    import matplotlib.pyplot as plt
-    from matplotlib.pyplot import MultipleLocator
     masking_array = np.zeros((576, 768), dtype=np.float32)
 
     scan_mode = cfg["SCAN_MODE"]
@@ -411,7 +408,6 @@ def DirectAccessCaliDataByExcel(hawk01_config):
             
         # Used openpyxl to read the excel file, xlrd is not support .xlsx file
         # https://openpyxl.readthedocs.io/en/stable/changes.html#xlrd-support
-        import openpyxl
         wb = openpyxl.load_workbook(file)
 
         if len(wb.sheetnames) < (sheet_sel+1):
