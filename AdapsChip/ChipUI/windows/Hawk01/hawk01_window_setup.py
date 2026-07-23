@@ -10,9 +10,9 @@ from AdapsChip.ChipUI.gui.qt_core import *
 # ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
 
-from AdapsChip.ChipUI.windows.Hawk01.roi_zone_config_setup import ROIZoneConfigWin
+# from AdapsChip.ChipUI.windows.Hawk01.roi_zone_config_setup import ROIZoneConfigWin
 # from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import MaskingWindow
-from AdapsChip.ChipUI.windows.Hawk01 import hawk01_window_functions
+# from AdapsChip.ChipUI.windows.Hawk01 import hawk01_window_functions
 from AdapsChip.Hawk01.Hawk01RegConfig import *
 from functools import partial
 from threading import Thread
@@ -412,6 +412,7 @@ class Hawk01MainUI:
         roi_data_pkg["coor_info"] = coor_info
         """
         # 获取 ROI_DATA_PKG, # 如果界面没有更新, 则无需再次执行代码
+        from AdapsChip.ChipUI.windows.Hawk01 import hawk01_window_functions
         # 如果 ROI_DATA 根据文件生成, 则有可能是文件改变, 需要再次执行代码
         # //////////////////////////////////////
         if self.roi_gen_type != self.__pre_roi_gen_type__ or self.__hawk01_config__ != self.__pre_hawk01_config__ \
@@ -505,6 +506,7 @@ class Hawk01MainUI:
         """
         此函数主要是保存 ROI 数据, 由于数据保存会占用主线程, 建议使用子进程执行
         """
+        from AdapsChip.ChipUI.windows.Hawk01 import hawk01_window_functions
         Hawk01MainUI.get_roi_data_pkg(self)
         hawk01_window_functions.ROIDataPackageSave(roi_data_pkg=self.__roi_data_pkg__,
                                                    hawk01_config=self.__hawk01_config__,
@@ -517,16 +519,17 @@ class Hawk01MainUI:
     # ZONE config window function
     # ///////////////////////////////////////////////////////////////
     def setup_zone_gui(self):
-        # Instans ROI_Zone_Config Win
-        self.ui_zone_config_win = ROIZoneConfigWin(self.hawk01_zone_config, self.qssStyle)
         self.ui.load_pages.Hawk01_ROIZoneConfig.linkActivated.connect(partial(Hawk01MainUI.open_roizone_config_win, self))
-        self.ui_zone_config_win.return_config_signal.sync_signal_0.connect(
-            partial(Hawk01MainUI.refresh_hawk_config, self))
         return
 
     def open_roizone_config_win(self, url):
-        """打开 ROI Zone config 界面"""
+        """打开 ROI Zone config 界面（对话框延迟到首次打开时构造）"""
         print("Open ROI zone config window...")
+        if not hasattr(self, 'ui_zone_config_win'):
+            from AdapsChip.ChipUI.windows.Hawk01.roi_zone_config_setup import ROIZoneConfigWin
+            self.ui_zone_config_win = ROIZoneConfigWin(self.hawk01_zone_config, self.qssStyle)
+            self.ui_zone_config_win.return_config_signal.sync_signal_0.connect(
+                partial(Hawk01MainUI.refresh_hawk_config, self))
         self.ui_zone_config_win.setModal(True)
         self.ui_zone_config_win.hawk01_SYS_CLK = self.hawk01_config["SYS_CLK"]
         self.ui_zone_config_win.hawk01_PLL1_OD = FREQ_Config[self.hawk01_config['XCLK']]["PLL1"] \
@@ -578,6 +581,7 @@ class Hawk01MainUI:
                                               filter='file(*.txt) ;')
 
         def excute():
+            from AdapsChip.ChipUI.windows.Hawk01 import hawk01_window_functions
             hawk01_window_functions.ScriptParse(self.hawk01_config, file)
         func_exec(self.DEBUG, excute)
 
@@ -625,6 +629,7 @@ class Hawk01MainUI:
             Hawk01MainUI.merge_hawk_config(self)
             if self.hawk01_config["ROI_SRAM_Include"] == 1:
                 Hawk01MainUI.roi_save(self)
+            from AdapsChip.ChipUI.windows.Hawk01 import hawk01_window_functions
             hawk01_window_functions.ScriptDataSave(self.hawk01_config)
             print("Data save complete...")
 

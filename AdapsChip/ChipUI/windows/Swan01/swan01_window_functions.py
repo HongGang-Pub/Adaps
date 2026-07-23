@@ -4,8 +4,8 @@ import math
 import os
 
 import AdapsChip.Common.common
-from AdapsChip.Swan01 import Swan01PubMethod
-from AdapsChip.Swan01 import Swan01ROISramOperation
+# from AdapsChip.Swan01 import Swan01PubMethod
+# from AdapsChip.Swan01 import Swan01ROISramOperation
 from SelfDefinedPackge import LogerPubMethod
 
 
@@ -15,6 +15,7 @@ def ScriptUICoinfigOperate(swan01_config: dict, operate: int = 0b001):
         swan01_config (dict): Swan 配置集合
         operate (int): operate[0]: slot_read_time_cal: 计算帧率; operate[1]: 保存脚本, operate[2]: 计算 ROI
     """
+    from AdapsChip.Swan01 import Swan01PubMethod
     __swan01_config__ = copy.deepcopy(swan01_config)
     __swan01_config__["ULR_EN"] = 0b11 if swan01_config["ULR_EN"] == 1 else 0b00
     # __reg_cfg__ = copy.deepcopy(reg_cfg)
@@ -76,10 +77,12 @@ def ScriptUICoinfigOperate(swan01_config: dict, operate: int = 0b001):
 
 
 def ScriptParse(swan01_config, file):
+    from AdapsChip.Swan01 import Swan01PubMethod
     Swan01PubMethod.ParseSwanRegConfig(file, swan01_config)
 
 
 def ROISramConfigOperation(swan01_config: dict):
+    from AdapsChip.Swan01 import Swan01PubMethod
     __swan01_config__ = copy.deepcopy(swan01_config)
     # ////////////////////////////////////////////////////////////////////////////
     # ROI generate by GUI
@@ -109,6 +112,7 @@ def ROISramConfigOperation(swan01_config: dict):
 
 
 def ROISramGenerate(swan01_config: dict):
+    from AdapsChip.Swan01 import Swan01ROISramOperation
     angle_grp_sw_num = swan01_config["ANGLE_GRP_SW_NUM"] + 1
     TRG_I_EN = swan01_config["TRG_I_EN"]
     excel_file = swan01_config["roi_generate_excel_file"]

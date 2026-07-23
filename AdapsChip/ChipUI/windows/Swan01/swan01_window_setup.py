@@ -10,7 +10,7 @@ from AdapsChip.ChipUI.gui.qt_core import *
 # ///////////////////////////////////////////////////////////////
 from AdapsChip.ChipUI.windows.main_window.ui_main import UI_MainWindow
 
-from AdapsChip.ChipUI.windows.Swan01 import swan01_window_functions
+# from AdapsChip.ChipUI.windows.Swan01 import swan01_window_functions
 from AdapsChip.Swan01.Swan01RegConfig import *
 from functools import partial
 from threading import Thread
@@ -578,6 +578,7 @@ class Swan01MainUI:
             # ///////////////////////////////////////////
             Swan01MainUI.get_roi_generate_file_config(self)
             self.swan01_config["roi_data_format"] = self.soft_config["roi_data_format"]
+            from AdapsChip.ChipUI.windows.Swan01 import swan01_window_functions
             swan01_window_functions.ROISramConfigOperation(self.swan01_config)
 
         self.ui.load_pages.Swan01_ROI_Save.setEnabled(False)
@@ -641,6 +642,7 @@ class Swan01MainUI:
                                               filter='file(*.txt) ;')
 
         def excute():
+            from AdapsChip.ChipUI.windows.Swan01 import swan01_window_functions
             swan01_window_functions.ScriptParse(self.swan01_config, file)
         func_exec(self.DEBUG, excute)
 
@@ -661,6 +663,7 @@ class Swan01MainUI:
             # 获取界面配置并 merge 所有配置
             # ///////////////////////////////////////////
             Swan01MainUI.get_script_file_config(self)
+            from AdapsChip.ChipUI.windows.Swan01 import swan01_window_functions
             swan01_window_functions.ScriptUICoinfigOperate(self.swan01_config, operate=0b010)
             print("Data save complete...")
 
@@ -683,6 +686,7 @@ class Swan01MainUI:
             # 获取界面配置并 merge 所有配置
             # ///////////////////////////////////////////
             Swan01MainUI.get_script_file_config(self)
+            from AdapsChip.ChipUI.windows.Swan01 import swan01_window_functions
             swan01_window_functions.ScriptUICoinfigOperate(self.swan01_config, operate=0b001)
 
         self.ui.load_pages.Swan01_slot_read_time_cal_Button.setEnabled(False)

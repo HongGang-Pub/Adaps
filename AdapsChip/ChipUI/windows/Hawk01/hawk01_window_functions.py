@@ -1,19 +1,21 @@
 import copy
 import os
-
-import AdapsChip.Common.common
-from AdapsChip.Hawk01 import Hawk01PubMethod
-from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
-from AdapsChip.Hawk01.MSKU.MSKU_GEN import ROIGenerate
-from AdapsChip.Hawk01.MSKU import MskuPubMethod
-# from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import Hawk01MaskingDynamicFig
 import gc
 import logging
+
+import AdapsChip.Common.common
+# from AdapsChip.Hawk01 import Hawk01PubMethod
+# from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
+# from AdapsChip.Hawk01.MSKU.MSKU_GEN import ROIGenerate
+# from AdapsChip.Hawk01.MSKU import MskuPubMethod
 from SelfDefinedPackge import LogerPubMethod
+# from AdapsChip.ChipUI.windows.Hawk01.masking_display_setup import Hawk01MaskingDynamicFig
 
 
 def MskuRoiGenerateByJson(hawk01_config: dict) -> dict:
     """完全通过Json文件生成 MskuRoi"""
+    from AdapsChip.Hawk01.MSKU.MSKU_GEN import ROIGenerate
+    from AdapsChip.Hawk01.MSKU import MskuPubMethod
     roi_data_pkg = {}
     msku_roi_mem = ROIGenerate.MskuRoiGenerate(hawk01_config)
     masking_arrays, pcm_array, ptm_array, masking_coor_info = MskuPubMethod.RollingArrayCollect(msku_roi_mem,
@@ -32,6 +34,8 @@ def MskuRoiGenerateByJson(hawk01_config: dict) -> dict:
 
 def MskuRoiGenerateByFile(hawk01_config: dict) -> dict:
     """通过手动的标定坐标生成ROI"""
+    from AdapsChip.Hawk01.MSKU import MskuPubMethod
+    from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
     roi_data_pkg = {}
     file = hawk01_config["cali_file"]
     file_name, file_ext = os.path.splitext(file)
@@ -58,6 +62,7 @@ def MskuRoiGenerateByFile(hawk01_config: dict) -> dict:
 
 
 def MskuRoiGenerateByROIMEM(hawk01_config: dict) -> dict:
+    from AdapsChip.Hawk01.MSKU import MskuPubMethod
     roi_file = hawk01_config["roi_file"]
     start_roll = hawk01_config["start_roll"]
     end_roll = hawk01_config["end_roll"]
@@ -84,6 +89,8 @@ def MskuRoiGenerateByROIMEM(hawk01_config: dict) -> dict:
 # @profile
 def MskuRoiGenerateByCali(hawk01_config: dict) -> dict:
     """通过直接标定PCM图片生成ROI"""
+    from AdapsChip.Hawk01.MSKU import MskuPubMethod
+    from AdapsChip.Hawk01.MSKU.MSKU_Cali.ROICalibration import ROICalibration
     roi_data_pkg = {}
     cali_run = ROICalibration()
     cali_data, light_imags = cali_run.GetCaliDataFromPCMImage(hawk01_config)
@@ -106,6 +113,7 @@ def MskuRoiGenerateByCali(hawk01_config: dict) -> dict:
 
 
 def RoiMemGenerate(msku_roi_mem, cfg):
+    from AdapsChip.Hawk01.MSKU import MskuPubMethod
     roi_data = []
     try:
         zones_config = MskuPubMethod.ZonesConfigGenerate(cfg=cfg)
@@ -167,6 +175,7 @@ def ScriptDataSave(hawk01_config):
     根据配置生成Hawk01配置脚本
         hawk01_config (dict): Hawk 配置集合
     """
+    from AdapsChip.Hawk01 import Hawk01PubMethod
     __hawk01_config__ = copy.deepcopy(hawk01_config)
     # __reg_cfg__ = copy.deepcopy(reg_cfg)
     # print(__hawk01_config__)
@@ -202,4 +211,5 @@ def ScriptDataSave(hawk01_config):
 
 
 def ScriptParse(hawk01_config, file):
+    from AdapsChip.Hawk01 import Hawk01PubMethod
     Hawk01PubMethod.ParseHawkRegConfig(file, hawk01_config)

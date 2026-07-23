@@ -92,7 +92,7 @@ class ComboCheckBox(QComboBox):
         self.vars["listViewModel"].appendRow(item)
 
     @show_text
-    def add_items(self, texts: "tuple or list"):
+    def add_items(self, texts: "tuple | list"):
         # 根据文本列表添加子项
         for text in texts:
             self.add_item(text)
@@ -107,7 +107,7 @@ class ComboCheckBox(QComboBox):
         # 根据索引查找子项
         return self.vars["listViewModel"].item(index if index < 0 else index + 1)
 
-    def find_indexs(self, indexs: "tuple or list"):
+    def find_indexs(self, indexs: "tuple | list"):
         # 根据索引列表查找子项
         return [self.find_index(index) for index in indexs]
 
@@ -117,7 +117,7 @@ class ComboCheckBox(QComboBox):
         tempList.pop(0) if tempList and tempList[0].row() == 0 else tempList
         return tempList
 
-    def find_texts(self, texts: "tuple or list"):
+    def find_texts(self, texts: "tuple | list"):
         # 根据文本列表查找子项
         return {text: self.find_text(text) for text in texts}
 
@@ -125,7 +125,7 @@ class ComboCheckBox(QComboBox):
         # 根据索引返回文本
         return self.vars["listViewModel"].item(index if index < 0 else index + 1).text()
 
-    def get_texts(self, indexs: "tuple or list"):
+    def get_texts(self, indexs: "tuple | list"):
         # 根据索引列表返回文本
         return [self.get_text(index) for index in indexs]
 
@@ -140,7 +140,7 @@ class ComboCheckBox(QComboBox):
             Qt.Checked if state else Qt.Unchecked)
 
     @show_text
-    def select_indexs(self, indexs: "tuple or list", state: "bool" = True):
+    def select_indexs(self, indexs: "tuple | list", state: "bool" = True):
         # 根据索引列表选中子项，state=False时为取消选中
         for index in indexs:
             self.select_index(index, state)
@@ -152,7 +152,7 @@ class ComboCheckBox(QComboBox):
             item.setCheckState(Qt.Checked if state else Qt.Unchecked)
 
     @show_text
-    def select_texts(self, texts: "tuple or list", state: "bool" = True):
+    def select_texts(self, texts: "tuple | list", state: "bool" = True):
         # 根据文本列表选中子项，state=False时为取消选中
         for text in texts:
             self.select_text(text, state)
@@ -190,7 +190,7 @@ class ComboCheckBox(QComboBox):
         return self.vars["listViewModel"].takeRow(index if index < 0 else index + 1)
 
     @show_text
-    def remove_indexs(self, indexs: "tuple or list"):
+    def remove_indexs(self, indexs: "tuple | list"):
         # 根据索引列表移除子项
         return [self.remove_index(index) for index in sorted(indexs, reverse=True)]
 
@@ -202,7 +202,7 @@ class ComboCheckBox(QComboBox):
         return [self.vars["listViewModel"].takeRow(index) for index in sorted(indexs, reverse=True)]
 
     @show_text
-    def remove_texts(self, texts: "tuple or list"):
+    def remove_texts(self, texts: "tuple | list"):
         # 根据文本列表移除子项
         return {text: self.remove_text(text) for text in texts}
 
